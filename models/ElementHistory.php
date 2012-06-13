@@ -25,8 +25,7 @@
  * The followings are the available model relations:
  * @property Event $event
  */
-class ElementExample extends BaseEventTypeElement
-{
+class ElementHistory extends BaseEventTypeElement {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return ElementOperation the static model class
@@ -41,7 +40,7 @@ class ElementExample extends BaseEventTypeElement
 	 */
 	public function tableName()
 	{
-		return 'example_element';
+		return 'et_ophciexamination_history';
 	}
 
 	/**

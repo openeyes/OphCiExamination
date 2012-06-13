@@ -1,6 +1,6 @@
 <?php
 
-class OphXxExaminationModule extends BaseEventTypeModule
+class OphCiExaminationModule extends BaseEventTypeModule
 {
 	public function init()
 	{
@@ -9,10 +9,10 @@ class OphXxExaminationModule extends BaseEventTypeModule
 
 		// import the module-level models and components
 		$this->setImport(array(
-			'OphXxExamination.models.*',
-			'OphXxExamination.views.*',
-			'OphXxExamination.components.*',
-			'OphXxExamination.controllers.*',
+			'OphCiExamination.models.*',
+			'OphCiExamination.views.*',
+			'OphCiExamination.components.*',
+			'OphCiExamination.controllers.*',
 		));
 		parent::init();
 	}
