@@ -1,24 +1,25 @@
 <?php
 
-class OphCiExaminationModule extends BaseEventTypeModule
-{
-	public function init()
-	{
+class OphCiExaminationModule extends BaseEventTypeModule {
+	
+	public $controllerMap = array(
+			'default' => 'OphCiExamination\controllers\DefaultController'
+	);
+
+	public function init() {
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 
 		// import the module-level models and components
 		$this->setImport(array(
-			'OphCiExamination.models.*',
-			'OphCiExamination.views.*',
-			'OphCiExamination.components.*',
-			'OphCiExamination.controllers.*',
+				'OphCiExamination.models.*',
+				'OphCiExamination.components.*',
+				'OphCiExamination.controllers.*',
 		));
 		parent::init();
 	}
 
-	public function beforeControllerAction($controller, $action)
-	{
+	public function beforeControllerAction($controller, $action) {
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			// this method is called before any module controller action is performed
@@ -28,4 +29,5 @@ class OphCiExaminationModule extends BaseEventTypeModule
 		else
 			return false;
 	}
+	
 }

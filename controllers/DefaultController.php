@@ -1,6 +1,8 @@
 <?php
 
-class DefaultController extends BaseEventTypeController {
+namespace OphCiExamination\controllers;
+
+class DefaultController extends \BaseEventTypeController {
 	public function actionCreate() {
 		parent::actionCreate();
 	}
