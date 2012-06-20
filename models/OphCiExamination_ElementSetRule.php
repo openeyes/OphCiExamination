@@ -72,8 +72,11 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 * @return OphCiExamination_ElementSet
 	 */
 	public static function findSet($site_id, $subspecialty_id, $status_id) {
-		$rule = self::model()->find('parent_id IS NULL');
-		return $rule->processClause($site_id, $subspecialty_id, $status_id);
+		if($rule = self::model()->find('parent_id IS NULL')) {
+			return $rule->processClause($site_id, $subspecialty_id, $status_id);
+		} else {
+			throw new CException('Cannot find root ExaminationSetRule');
+		}
 	}
 
 	protected function findChild($value) {

@@ -1,2 +1,2 @@
-<h5>Visual Acuity</h5>
+<h5><?php echo $element->elementType->name?></h5>
 <p>TODO</p>

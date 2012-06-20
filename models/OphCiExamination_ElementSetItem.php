@@ -24,6 +24,7 @@
  * @property string $id
  * @property OphCiExamination_ElementSet $set
  * @property ElementType $element_type
+ * @property integer $default
  */
 class OphCiExamination_ElementSetItem extends BaseActiveRecord {
 

@@ -58,6 +58,16 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	public function relations() {
 		return array(
 				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id'),
+				'optional_items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
+						'on' => 'optional_items.default = 0',
+						'with' => 'element_type',
+						'order' => 'element_type.display_order',
+				),
+				'default_items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
+						'on' => 'default_items.default = 1',
+						'with' => 'element_type',
+						'order' => 'element_type.display_order',
+				),
 		);
 	}
 

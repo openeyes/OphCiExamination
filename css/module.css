@@ -1,2 +1,18 @@
+#active_elements .element {
+	border-bottom: 1px solid #ccc;
+}
 
-/* Module-specific css can be placed here */
+#active_elements .element h5 {
+	background: #ccc;
+	padding: 2px 4px;
+}
+
+#active_elements .removeElement {
+	float: right;
+	padding: 2px 4px;
+}
+
+#inactive_elements {
+	background: #ccc;
+	padding: 10px;
+}

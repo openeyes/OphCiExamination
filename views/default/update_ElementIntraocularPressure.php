@@ -1,2 +1,5 @@
-<h5>Intraocular Pressure</h5>
-<p>TODO</p>
+<?php $this->renderPartial(
+		'_form',
+		array('element' => $element, 'data' => $data, 'form' => $form),
+		false, false
+) ?>

@@ -25,26 +25,28 @@ class m120613_185300_initial_migration_for_ophciexamination extends CDbMigration
 		->where('class_name=:class_name', array(':class_name'=>'OphCiExamination'))
 		->queryScalar();
 
-		// Insert element types
+		// Insert element types (in order of display)
 		$element_types = array(
-				'ElementAdnexalComorbidity' => 'Adnexal Comorbidity',
-				'ElementAnteriorSegment' => 'Anterior Segment',
-				'ElementCateractAssessment' => 'Cateract Assessment',
-				'ElementConclusion' => 'Conclusion',
 				'ElementHistory' => 'History',
-				'ElementIntraocularPressure' => 'Intraocular Pressure',
-				'ElementInvestigation' => 'Investigation',
-				'ElementPosteriorSegment' => 'Posterior Segment',
 				'ElementVisualAcuity' => 'Visual Acuity',
+				'ElementAdnexalComorbidity' => 'Adnexal Comorbidity',
+				'ElementCateractAssessment' => 'Cateract Assessment',
+				'ElementAnteriorSegment' => 'Anterior Segment',
+				'ElementIntraocularPressure' => 'Intraocular Pressure',
+				'ElementPosteriorSegment' => 'Posterior Segment',
+				'ElementInvestigation' => 'Investigation',
+				'ElementConclusion' => 'Conclusion',
 		);
+		$display_order = 1;
 		foreach($element_types as $element_type_class => $element_type_name) {
 			$this->insert('element_type', array(
 					'name' => $element_type_name,
 					'class_name' => $element_type_class,
 					'event_type_id' => $event_type_id,
-					'display_order' => 1,
+					'display_order' => $display_order * 10,
 					'default' => 1,
 			));
+			$display_order++;
 		}
 
 		// Create element type tables
