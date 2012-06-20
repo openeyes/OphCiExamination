@@ -17,6 +17,7 @@ $this->header();
 	?>
 
 	<div id="elements">
+		<?php $this->displayErrors($errors)?>
 		<div id="active_elements">
 			<?php $this->renderDefaultElements($this->action->id, $form); ?>
 		</div>
