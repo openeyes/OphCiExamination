@@ -57,18 +57,42 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id'),
-				'optional_items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
-						'on' => 'optional_items.default = 0',
-						'with' => 'element_type',
-						'order' => 'element_type.display_order',
-				),
-				'default_items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
-						'on' => 'default_items.default = 1',
+				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
 						'with' => 'element_type',
 						'order' => 'element_type.display_order',
 				),
 		);
+	}
+
+	/**
+	 * Get an array of ElementTypes corresponding with the items in this set
+	 * @return ElementType[]
+	 */
+	public function getDefaultElementTypes() {
+		$default_element_types = ElementType::model()->findAll(array(
+				'condition' => "ophciexamination_element_set_item.set_id = :set_id",
+				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
+				'order' => 'display_order',
+				'params' => array(':set_id' => $this->id),
+		));
+		return $default_element_types;
+	}
+
+	/**
+	 * Get an array of ElementTypes corresponding with the items NOT in this set
+	 * @return ElementType[]
+	 */
+	public function getOptionalElementTypes() {
+		$optional_element_types = ElementType::model()->findAll(array(
+				'condition' => "event_type.class_name = 'OphCiExamination' AND
+					ophciexamination_element_set_item.id IS NULL",
+				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
+					AND ophciexamination_element_set_item.set_id = :set_id)',
+				'order' => 'display_order',
+				'params' => array(':set_id' => $this->id),
+		));
+		return $optional_element_types;
 	}
 
 	/**

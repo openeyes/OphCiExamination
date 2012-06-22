@@ -75,9 +75,7 @@ class DefaultController extends BaseEventTypeController {
 				}
 			}
 		}
-
 		return $elements;
-
 	}
 
 	/**
@@ -90,22 +88,18 @@ class DefaultController extends BaseEventTypeController {
 				return $this->getElementsBySet($episode);
 			case 'update':
 				$event_type = EventType::model()->findByPk($this->event->event_type_id);
-
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_type_id',$event_type->id);
 				$criteria->compare('`default`',1);
 				$criteria->order = 'display_order asc';
-
 				$elements = array();
 				$element_classes = array();
-
 				foreach (ElementType::model()->findAll($criteria) as $element_type) {
 					$element_class = $element_type->class_name;
 					if(!$element_class::model()->find('event_id = ?',array($this->event->id))) {
 						$elements[] = new $element_class;
 					}
 				}
-
 				return $elements;
 			default:
 				return array();
@@ -123,10 +117,9 @@ class DefaultController extends BaseEventTypeController {
 		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
 		$status_id = ($episode) ? $episode->episode_status_id : 0;
 		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
-		$items = ($default) ? $set->default_items : $set->optional_items;
-		foreach($items as $set_item) {
-			$element_class = $set_item->element_type->class_name;
-			$elements[] = new $element_class;
+		$element_types = ($default) ? $set->DefaultElementTypes : $set->OptionalElementTypes;
+		foreach($element_types as $element_type) {
+			$elements[] = new $element_type->class_name;
 		}
 		return $elements;
 	}
