@@ -25,10 +25,15 @@ class DefaultController extends BaseEventTypeController {
 		}
 		$element = new $element_type->class_name;
 		$element->setDefaultOptions();
+		$form = Yii::app()->getWidgetFactory()->createWidget($this,'BaseEventTypeCActiveForm',array(
+				'id' => 'clinical-create',
+				'enableAjaxValidation' => false,
+				'htmlOptions' => array('class' => 'sliding'),
+		));
 		$this->renderPartial('create_' . $element->create_view, array(
 				'element' => $element,
 				'data' => null,
-				'form' => null,
+				'form' => $form,
 		));
 	}
 

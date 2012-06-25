@@ -10,7 +10,6 @@ class OphCiExaminationModule extends BaseEventTypeModule {
 		$this->setImport(array(
 				'OphCiExamination.models.*',
 				'OphCiExamination.components.*',
-				'OphCiExamination.controllers.*',
 		));
 		parent::init();
 	}

@@ -27,15 +27,15 @@ class m120613_185300_initial_migration_for_ophciexamination extends CDbMigration
 
 		// Insert element types (in order of display)
 		$element_types = array(
-				'ElementHistory' => 'History',
-				'ElementVisualAcuity' => 'Visual Acuity',
-				'ElementAdnexalComorbidity' => 'Adnexal Comorbidity',
-				'ElementCateractAssessment' => 'Cateract Assessment',
-				'ElementAnteriorSegment' => 'Anterior Segment',
-				'ElementIntraocularPressure' => 'Intraocular Pressure',
-				'ElementPosteriorSegment' => 'Posterior Segment',
-				'ElementInvestigation' => 'Investigation',
-				'ElementConclusion' => 'Conclusion',
+				'Element_OphCiExamination_History' => 'History',
+				'Element_OphCiExamination_VisualAcuity' => 'Visual Acuity',
+				'Element_OphCiExamination_AdnexalComorbidity' => 'Adnexal Comorbidity',
+				'Element_OphCiExamination_CataractAssessment' => 'Cataract Assessment',
+				'Element_OphCiExamination_AnteriorSegment' => 'Anterior Segment',
+				'Element_OphCiExamination_IntraocularPressure' => 'Intraocular Pressure',
+				'Element_OphCiExamination_PosteriorSegment' => 'Posterior Segment',
+				'Element_OphCiExamination_Investigation' => 'Investigation',
+				'Element_OphCiExamination_Conclusion' => 'Conclusion',
 		);
 		$display_order = 1;
 		foreach($element_types as $element_type_class => $element_type_name) {
@@ -51,21 +51,20 @@ class m120613_185300_initial_migration_for_ophciexamination extends CDbMigration
 
 		// Create element type tables
 		$element_type_tables = array(
-				'adnexal_comorbidity',
-				'anterior_segment',
-				'cateract_assessment',
+				'adnexalcomorbidity',
+				'anteriorsegment',
+				'cataractassessment',
 				'conclusion',
 				'history',
-				'intraocular_pressure',
+				'intraocularpressure',
 				'investigation',
-				'posterior_segment',
-				'visual_acuity',
+				'posteriorsegment',
+				'visualacuity',
 		);
 		foreach($element_type_tables as $element_type_table) {
 			$this->createTable('et_ophciexamination_'.$element_type_table, array(
 					'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 					'event_id' => 'int(10) unsigned NOT NULL',
-					'comments' => 'varchar(255)',
 					'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 					'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 					'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -78,24 +77,33 @@ class m120613_185300_initial_migration_for_ophciexamination extends CDbMigration
 					'CONSTRAINT `et_ophciexamination_'.$element_type_table.'_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 					'CONSTRAINT `et_ophciexamination_'.$element_type_table.'_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
-
 		}
-
+		
+		$this->addColumn('et_ophciexamination_adnexalcomorbidity', 'description', 'text');
+		$this->addColumn('et_ophciexamination_anteriorsegment', 'comments', 'text');
+		$this->addColumn('et_ophciexamination_cataractassessment', 'comments', 'text');
+		$this->addColumn('et_ophciexamination_conclusion', 'description', 'text');
+		$this->addColumn('et_ophciexamination_history', 'description', 'text');
+		$this->addColumn('et_ophciexamination_intraocularpressure', 'comments', 'text');
+		$this->addColumn('et_ophciexamination_investigation', 'description', 'text');
+		$this->addColumn('et_ophciexamination_posteriorsegment', 'comments', 'text');
+		$this->addColumn('et_ophciexamination_visualacuity', 'comments', 'text');
+		
 	}
 
 	public function down() {
 
 		// Remove element type tables
 		$element_type_tables = array(
-				'adnexal_comorbidity',
-				'anterior_segment',
-				'cateract_assessment',
+				'adnexalcomorbidity',
+				'anteriorsegment',
+				'cataractassessment',
 				'conclusion',
 				'history',
-				'intraocular_pressure',
+				'intraocularpressure',
 				'investigation',
-				'posterior_segment',
-				'visual_acuity',
+				'posteriorsegment',
+				'visualacuity',
 		);
 		foreach($element_type_tables as $element_type_table) {
 			$this->dropTable('et_ophciexamination_'.$element_type_table);
