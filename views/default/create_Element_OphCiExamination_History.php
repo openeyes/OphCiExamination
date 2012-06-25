@@ -25,5 +25,8 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
+	<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) { ?>
+	<?php echo CHtml::dropDownList('macro_'.$attribute->name, null, CHtml::listData($attribute->options, 'value', 'value'), array('empty' => $attribute->label)); ?>
+	<?php } ?>
 	<?php echo $form->textArea($element, 'description', array('rows' => 6, 'cols' => 80)); ?>
 </div>
