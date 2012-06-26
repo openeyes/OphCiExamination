@@ -23,52 +23,48 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property string $left_description
+ * @property string $right_description
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement
-{
+class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'et_ophciexamination_adnexalcomorbidity';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description, ', 'safe'),
-				array('description, ', 'required'),
+				array('event_id, left_description, right_description, ', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, description, ', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, right_description', 'safe', 'on' => 'search'),
 		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -83,12 +79,12 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'description' => 'Description',
+				'left_description' => 'Left',
+				'right_description' => 'Right',
 		);
 	}
 
@@ -96,8 +92,7 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -106,8 +101,9 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('description', $this->description);
-
+		$criteria->compare('left_description', $this->left_description);
+		$criteria->compare('right_description', $this->right_description);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -116,26 +112,19 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions()
-	{
+	public function setDefaultOptions() {
 	}
 
-
-
-	protected function beforeSave()
-	{
+	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
-	{
-
+	protected function afterSave() 	{
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
-	{
+	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+	
 }
-?>

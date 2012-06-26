@@ -25,5 +25,19 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80)); ?>
+	<div id="div_<?php echo get_class($element)?>_description"
+		class="eventDetail">
+		<div class="data">
+			<?php
+				$instruments = OphCiExamination_Instrument::model()->findAll();
+				$readings = OphCiExamination_Instrument::model()->readingOptions();
+			?>
+			<?php echo CHtml::activeDropDownList($element, 'left_instrument_id',
+					CHtml::listData($instruments, 'id', 'name')); ?>
+			<?php echo CHtml::activeDropDownList($element, 'left_reading', $readings); ?>
+			<?php echo CHtml::activeDropDownList($element, 'right_instrument_id',
+					CHtml::listData($instruments, 'id', 'name')); ?>
+			<?php echo CHtml::activeDropDownList($element, 'right_reading', $readings); ?>
+			</div>
+	</div>
 </div>

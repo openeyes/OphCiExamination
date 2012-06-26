@@ -1,6 +1,11 @@
 $(document).ready(function() {
 
 	/**
+	 * Autoadjust height of textareas
+	 */
+	$('#event_display textarea.autosize').autosize();
+
+	/**
 	 * Save event
 	 */
 	$('#event_display').delegate('#et_save', 'click', function() {
@@ -58,13 +63,13 @@ $(document).ready(function() {
 	$('#event_display').delegate('.textMacro', 'change', function() {
 		text = $(this).val();
 		$field = $('#' + $(this).attr('data-target-field'));
-		if($field.val()) {
+		if ($field.val()) {
 			text = ', ' + text;
 		}
 		$field.val($field.val() + text);
 		$(this).val('');
 	});
-	
+
 	/**
 	 * Add an optional element
 	 */
@@ -85,6 +90,7 @@ $(document).ready(function() {
 			} else {
 				$('#active_elements').append(data);
 			}
+			$('#event_display textarea.autosize').autosize();			
 		});
 		return false;
 	});

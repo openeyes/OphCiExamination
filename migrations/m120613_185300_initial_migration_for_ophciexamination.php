@@ -79,15 +79,18 @@ class m120613_185300_initial_migration_for_ophciexamination extends CDbMigration
 			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		}
 		
-		$this->addColumn('et_ophciexamination_adnexalcomorbidity', 'description', 'text');
-		$this->addColumn('et_ophciexamination_anteriorsegment', 'comments', 'text');
-		$this->addColumn('et_ophciexamination_cataractassessment', 'comments', 'text');
+		// Conclusion
 		$this->addColumn('et_ophciexamination_conclusion', 'description', 'text');
+		
+		// History
 		$this->addColumn('et_ophciexamination_history', 'description', 'text');
-		$this->addColumn('et_ophciexamination_intraocularpressure', 'comments', 'text');
+		
+		// Investigation
 		$this->addColumn('et_ophciexamination_investigation', 'description', 'text');
-		$this->addColumn('et_ophciexamination_posteriorsegment', 'comments', 'text');
-		$this->addColumn('et_ophciexamination_visualacuity', 'comments', 'text');
+		
+		// Adnexal Comorbidity
+		$this->addColumn('et_ophciexamination_adnexalcomorbidity', 'left_description', 'text');
+		$this->addColumn('et_ophciexamination_adnexalcomorbidity', 'right_description', 'text');
 		
 	}
 

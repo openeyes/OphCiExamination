@@ -44,7 +44,7 @@
 							));
 			} ?>
 			</div>
-			<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "6", 'cols' => "80")) ?>
+			<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize')) ?>
 		</div>
 	</div>
 </div>

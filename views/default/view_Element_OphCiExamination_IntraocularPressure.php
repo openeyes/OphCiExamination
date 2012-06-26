@@ -1,11 +1,21 @@
 <h4 class="elementTypeName">
 	<?php  echo $element->elementType->name ?>
 </h4>
-<table class="subtleWhite normalText">
-	<tbody>
-		<tr>
-			<td width="30%"><?php  echo CHtml::encode($element->getAttributeLabel('comments'))?>:</td>
-			<td><span class="big"><?php  echo $element->comments ?> </span></td>
-		</tr>
-	</tbody>
-</table>
+<div class="cols2 clearfix">
+	<div class="left">
+		<h4>Left</h4>
+		<p>
+			<?php echo $element->left_instrument->name ?>
+			:
+			<?php echo $element->left_reading ?>
+		</p>
+	</div>
+	<div class="right">
+		<h4>Right</h4>
+		<p>
+			<?php echo $element->right_instrument->name ?>
+			:
+			<?php echo $element->right_reading ?>
+		</p>
+	</div>
+</div>

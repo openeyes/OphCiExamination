@@ -21,7 +21,15 @@
 	margin: 0 0 10px;
 }
 
+.textMacros.inline {
+	display: inline-block;
+}
+
 .textMacros select{
 	width: 120px;
 	margin-right: 10px;
+}
+
+#event_content .cols2 {
+	padding-bottom: 0 !important;
 }
