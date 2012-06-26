@@ -53,6 +53,19 @@ $(document).ready(function() {
 	});
 
 	/**
+	 * Add a macro
+	 */
+	$('#event_display').delegate('.textMacro', 'change', function() {
+		text = $(this).val();
+		$field = $('#' + $(this).attr('data-target-field'));
+		if($field.val()) {
+			text = ', ' + text;
+		}
+		$field.val($field.val() + text);
+		$(this).val('');
+	});
+	
+	/**
 	 * Add an optional element
 	 */
 	$('#inactive_elements').delegate('.addElement', 'click', function() {

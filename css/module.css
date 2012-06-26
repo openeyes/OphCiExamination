@@ -9,10 +9,19 @@
 
 #active_elements .removeElement {
 	float: right;
-	padding: 2px 4px;
+	padding: 10px;
 }
 
 #inactive_elements {
 	background: #ccc;
 	padding: 10px;
+}
+
+.textMacros {
+	margin: 0 0 10px;
+}
+
+.textMacros select{
+	width: 120px;
+	margin-right: 10px;
 }

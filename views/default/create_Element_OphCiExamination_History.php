@@ -25,8 +25,26 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) { ?>
-	<?php echo CHtml::dropDownList('macro_'.$attribute->name, null, CHtml::listData($attribute->options, 'value', 'value'), array('empty' => $attribute->label)); ?>
-	<?php } ?>
-	<?php echo $form->textArea($element, 'description', array('rows' => 6, 'cols' => 80)); ?>
+	<div id="div_<?php echo get_class($element)?>_description"
+		class="eventDetail">
+		<div class="label">
+			<?php echo CHtml::encode($element->getAttributeLabel('description'))?>
+			:
+		</div>
+		<div class="data">
+			<div class="textMacros">
+				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+					$target_field = get_class($element) . '_description';
+					echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
+							CHtml::listData($attribute->options, 'value', 'value'),
+							array(
+									'empty' => '-- '.$attribute->label.' --',
+									'data-target-field' => $target_field,
+									'class' => 'textMacro',
+							));
+			} ?>
+			</div>
+			<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "6", 'cols' => "80")) ?>
+		</div>
+	</div>
 </div>
