@@ -23,7 +23,39 @@
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
 	<a href="#" class="removeElement">Remove</a>
 	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
+		<?php echo $element->elementType->name; ?>
 	</h4>
-	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80)); ?>
+	<div class="clearfix">
+		<?php
+		$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+				'identifier' => $element->elementType->id,
+				'side' => 'R',
+				'mode' => 'edit',
+				'size' => 300,
+				'model' => $element,
+				'attribute' => 'eyedraw',
+				'doodleToolBarArray' => array(
+						'NuclearCataract',
+						'CorticalCataract',
+						'PostSubcapCataract',
+						'PCIOL',
+						'ACIOL',
+						'Bleb',
+						'PI',
+						'Fuchs',
+						'RK',
+						'LasikFlap',
+						'CornealScar',
+				),
+				'onLoadedCommandArray' => array(
+						array('addDoodle', array('AntSeg')),
+						array('deselectDoodles', array()),
+				),
+		));
+		?>
+		<button class="ed_report">Report</button>
+		<button class="ed_clear">Clear</button>
+		<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "2", 'cols' => "30", 'class' => 'autosize ed_description')) ?>
+		<?php echo CHtml::activeTextField($element, 'diagnosis_id', array('class' => 'ed_diagnosis')) ?>
+		</div>
 </div>

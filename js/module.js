@@ -90,7 +90,7 @@ $(document).ready(function() {
 			} else {
 				$('#active_elements').append(data);
 			}
-			$('#event_display textarea.autosize').autosize();			
+			$('#event_display textarea.autosize').autosize();
 		});
 		return false;
 	});
@@ -115,4 +115,49 @@ $(document).ready(function() {
 		return false;
 	});
 
+	/**
+	 * Populate description from eyedraw
+	 */
+	$('#event_display').delegate('.ed_report', 'click', function() {
+		var element = $(this).closest('.element');
+		var eyedraw = window['ed_drawing_edit_' + element.attr('data-element-type-id')];
+
+		// First update description
+		var description = $('.ed_description', element).first();
+		var text = eyedraw.report();
+
+		// Remove trailing comma
+		text = text.replace(/, +$/, '');
+
+		if (description.val()) {
+			text = description.val() + ", " + text.toLowerCase();
+		}
+		description.val(text);
+		description.trigger('autosize');
+
+		// Then set diagnosis
+		var code = eyedraw.diagnosis();
+		var diagnosis_id = $('.ed_diagnosis', element).first();
+		diagnosis_id.val(code);
+
+		return false;
+	});
+
+	/**
+	 * Clear eyedraw
+	 */
+	$('#event_display').delegate('.ed_clear', 'click', function() {
+		var eyedraw = window['ed_drawing_edit_' + $(this).closest('.element').attr('data-element-type-id')];
+		eyedraw.deleteAllDoodles();
+		eyedraw.deselectDoodles();
+		eyedraw.drawAllDoodles();
+		return false;
+	});
+
 });
+
+function eDparameterListener(_drawing) {
+	if (_drawing.selectedDoodle != null) {
+		// handle event
+	}
+}

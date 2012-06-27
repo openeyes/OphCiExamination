@@ -22,53 +22,50 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $comments
+ * @property string $eyedraw
+ * @property string $description
+ * @property Disorder $diagnosis
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement
-{
+class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'et_ophciexamination_anteriorsegment';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments, ', 'safe'),
-				array('', 'required'),
+				array('event_id, description, diagnosis_id', 'safe'),
+				array('eyedraw', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
+				array('id, event_id, eyedraw, description, diagnosis_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -77,18 +74,20 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'diagnosis' => array(self::BELONGS_TO, 'Disorder', 'diagnosis_id'),
 		);
 	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'eyedraw' => 'Eyedraw',
+				'description' => 'Description',
+				'diagnosis_id' => 'Diagnosis',
 		);
 	}
 
@@ -96,8 +95,7 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -106,8 +104,10 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('comments', $this->comments);
-
+		$criteria->compare('eyedraw', $this->eyedraw);
+		$criteria->compare('description', $this->description);
+		$criteria->compare('diagnosis_id', $this->diagnosis_id);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -116,26 +116,18 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions()
-	{
+	public function setDefaultOptions() {
 	}
 
-
-
-	protected function beforeSave()
-	{
+	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
-	{
-
+	protected function afterSave() {
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
-	{
+	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
 }
-?>

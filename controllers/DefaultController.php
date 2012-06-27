@@ -30,11 +30,13 @@ class DefaultController extends BaseEventTypeController {
 				'enableAjaxValidation' => false,
 				'htmlOptions' => array('class' => 'sliding'),
 		));
+		// Render called with processOutput
+		// TODO: Check that scripts aren't being double loaded
 		$this->renderPartial('create_' . $element->create_view, array(
 				'element' => $element,
 				'data' => null,
 				'form' => $form,
-		));
+		), false, true);
 	}
 
 	/**
