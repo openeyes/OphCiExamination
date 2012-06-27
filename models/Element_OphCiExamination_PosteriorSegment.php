@@ -1,20 +1,21 @@
-<?php /**
-* OpenEyes
-*
-* (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
-* (C) OpenEyes Foundation, 2011-2012
-* This file is part of OpenEyes.
-* OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
-*
-* @package OpenEyes
-* @link http://www.openeyes.org.uk
-* @author OpenEyes <info@openeyes.org.uk>
-* @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
-* @copyright Copyright (c) 2011-2012, OpenEyes Foundation
-* @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
-*/
+<?php
+/**
+ * OpenEyes
+ *
+ * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
+ * (C) OpenEyes Foundation, 2011-2012
+ * This file is part of OpenEyes.
+ * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package OpenEyes
+ * @link http://www.openeyes.org.uk
+ * @author OpenEyes <info@openeyes.org.uk>
+ * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
+ * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
 
 /**
  * This is the model class for table "et_ophciexamination_posteriorsegment".
@@ -22,53 +23,53 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $comments
+ * @property string $left_eyedraw
+ * @property string $left_description
+ * @property string $left_cd_ratio
+ * @property string $right_eyedraw
+ * @property string $right_description
+ * @property string $right_cd_ratio
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement
-{
+class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'et_ophciexamination_posteriorsegment';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments, ', 'safe'),
-				array('', 'required'),
+				array('event_id, left_description, left_cd_ratio, right_description, right_cd_ratio', 'safe'),
+				array('left_eyedraw, right_eyedraw', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio, right_description, right_cd_ratio', 'safe', 'on' => 'search'),
 		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -83,12 +84,16 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'left_eyedraw' => 'Left Eyedraw',
+				'left_description' => 'Left Description',
+				'left_cd_ratio' => 'Left C/D Ratio',
+				'right_eyedraw' => 'Right Eyedraw',
+				'right_description' => 'Right Description',
+				'right_cd_ratio' => 'Right C/D Ratio',
 		);
 	}
 
@@ -96,8 +101,7 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -106,8 +110,13 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('comments', $this->comments);
-
+		$criteria->compare('left_eyedraw', $this->left_eyedraw);
+		$criteria->compare('left_description', $this->left_description);
+		$criteria->compare('left_cd_ratio', $this->left_cd_ratio);
+		$criteria->compare('right_eyedraw', $this->right_eyedraw);
+		$criteria->compare('right_description', $this->right_description);
+		$criteria->compare('right_cd_ratio', $this->right_cd_ratio);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -116,26 +125,18 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions()
-	{
+	public function setDefaultOptions() {
 	}
 
-
-
-	protected function beforeSave()
-	{
+	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
-	{
-
+	protected function afterSave() {
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
-	{
+	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
 }
-?>

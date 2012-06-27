@@ -120,24 +120,43 @@ $(document).ready(function() {
 	 */
 	$('#event_display').delegate('.ed_report', 'click', function() {
 		var element = $(this).closest('.element');
-		var eyedraw = window['ed_drawing_edit_' + element.attr('data-element-type-id')];
 
-		// First update description
-		var description = $('.ed_description', element).first();
+		// Get side (if set)
+		var side = null;
+		if ($(this).closest('[data-side]').length) {
+			side = $(this).closest('[data-side]').attr('data-side');
+		}
+
+		// Get eyedraw js object
+		var eyedraw = element.attr('data-element-type-id');
+		if (side) {
+			eyedraw = side + '_' + eyedraw;
+		}
+		eyedraw = window['ed_drawing_edit_' + eyedraw];
+
+		// Get report text and strip trailing comma
 		var text = eyedraw.report();
-
-		// Remove trailing comma
 		text = text.replace(/, +$/, '');
 
+		// Update description
+		var description = 'description';
+		if (side) {
+			description = side + '_' + description;
+		}
+		description = $('textarea[name$="[' + description + ']"]', element).first();
 		if (description.val()) {
 			text = description.val() + ", " + text.toLowerCase();
 		}
 		description.val(text);
 		description.trigger('autosize');
 
-		// Then set diagnosis
+		// Update diagnosis
 		var code = eyedraw.diagnosis();
-		var diagnosis_id = $('.ed_diagnosis', element).first();
+		var diagnosis_id = 'diagnosis_id';
+		if (side) {
+			diagnosis_id = side + '_' + diagnosis_id;
+		}
+		diagnosis_id = $('input[name$="[' + diagnosis_id + ']"]', element).first();
 		diagnosis_id.val(code);
 
 		return false;
@@ -147,10 +166,26 @@ $(document).ready(function() {
 	 * Clear eyedraw
 	 */
 	$('#event_display').delegate('.ed_clear', 'click', function() {
-		var eyedraw = window['ed_drawing_edit_' + $(this).closest('.element').attr('data-element-type-id')];
+		var element = $(this).closest('.element');
+
+		// Get side (if set)
+		var side = null;
+		if ($(this).closest('[data-side]').length) {
+			side = $(this).closest('[data-side]').attr('data-side');
+		}
+
+		// Get eyedraw js object
+		var eyedraw = element.attr('data-element-type-id');
+		if (side) {
+			eyedraw = side + '_' + eyedraw;
+		}
+		eyedraw = window['ed_drawing_edit_' + eyedraw];
+		
+		// Reset eyedraw
 		eyedraw.deleteAllDoodles();
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
+		
 		return false;
 	});
 
