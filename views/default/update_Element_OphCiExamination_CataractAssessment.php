@@ -23,7 +23,114 @@
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
 	<a href="#" class="removeElement">Remove</a>
 	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
+		<?php echo $element->elementType->name; ?>
 	</h4>
-	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80)); ?>
+	<div class="cols2 clearfix">
+		<div class="left eventDetail">
+			<div class="label">Left</div>
+			<div class="data" data-side="left">
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+						'identifier' => 'left_'.$element->elementType->id,
+						'side' => 'L',
+						'mode' => 'edit',
+						'size' => 300,
+						'model' => $element,
+						'attribute' => 'left_eyedraw',
+						'doodleToolBarArray' => array(
+								'NuclearCataract',
+								'CorticalCataract',
+								'PostSubcapCataract',
+								'PCIOL',
+								'ACIOL',
+								'Bleb',
+								'PI',
+								'Fuchs',
+								'RK',
+								'LasikFlap',
+								'CornealScar',
+						),
+						'onLoadedCommandArray' => array(
+								array('addDoodle', array('AntSeg')),
+								array('deselectDoodles', array()),
+						),
+				));
+				?>
+				<button class="ed_report">Report</button>
+				<button class="ed_clear">Clear</button>
+				<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "30", 'class' => 'autosize')) ?>
+				<?php echo $element->getAttributeLabel('left_pupil'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'left_pupil') ?>
+				<?php echo $element->getAttributeLabel('left_nuclear'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'left_nuclear') ?>
+				<?php echo $element->getAttributeLabel('left_cortical'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'left_cortical') ?>
+				<?php echo $element->getAttributeLabel('left_pxe'); ?>
+				:
+				<?php echo CHtml::activeCheckBox($element, 'left_pxe') ?>
+				<?php echo $element->getAttributeLabel('left_phako'); ?>
+				:
+				<?php echo CHtml::activeCheckBox($element, 'left_phako') ?>
+				<?php echo $element->getAttributeLabel('left_surgeon'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'left_surgeon') ?>
+			</div>
+		</div>
+		<div class="right eventDetail">
+			<div class="label">Right</div>
+			<div class="data" data-side="right">
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+						'identifier' => 'right_'.$element->elementType->id,
+						'side' => 'R',
+						'mode' => 'edit',
+						'size' => 300,
+						'model' => $element,
+						'attribute' => 'right_eyedraw',
+						'doodleToolBarArray' => array(
+								'NuclearCataract',
+								'CorticalCataract',
+								'PostSubcapCataract',
+								'PCIOL',
+								'ACIOL',
+								'Bleb',
+								'PI',
+								'Fuchs',
+								'RK',
+								'LasikFlap',
+								'CornealScar',
+						),
+						'onLoadedCommandArray' => array(
+								array('addDoodle', array('AntSeg')),
+								array('deselectDoodles', array()),
+						),
+				));
+				?>
+				<button class="ed_report">Report</button>
+				<button class="ed_clear">Clear</button>
+				<?php echo CHtml::activeTextArea($element, 'right_description', array('rows' => "2", 'cols' => "30", 'class' => 'autosize')) ?>
+				<?php echo $element->getAttributeLabel('right_pupil'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'right_pupil') ?>
+				<?php echo $element->getAttributeLabel('right_nuclear'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'right_nuclear') ?>
+				<?php echo $element->getAttributeLabel('right_cortical'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'right_cortical') ?>
+				<?php echo $element->getAttributeLabel('right_pxe'); ?>
+				:
+				<?php echo CHtml::activeCheckBox($element, 'right_pxe') ?>
+				<?php echo $element->getAttributeLabel('right_phako'); ?>
+				:
+				<?php echo CHtml::activeCheckBox($element, 'right_phako') ?>
+				<?php echo $element->getAttributeLabel('right_surgeon'); ?>
+				:
+				<?php echo CHtml::activeTextField($element, 'right_surgeon') ?>
+			</div>
+		</div>
+	</div>
 </div>

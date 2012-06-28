@@ -22,53 +22,65 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $comments
+ * @property string $left_eyedraw
+ * @property string $left_pupil
+ * @property string $left_nuclear
+ * @property string $left_cortical
+ * @property boolean $left_pxe
+ * @property boolean $left_phako
+ * @property string $left_surgeon
+ * @property string $left_description
+ * @property string $right_eyedraw
+ * @property string $right_pupil
+ * @property string $right_nuclear
+ * @property string $right_cortical
+ * @property boolean $right_pxe
+ * @property boolean $right_phako
+ * @property string $right_surgeon
+ * @property string $right_description
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement
-{
+class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'et_ophciexamination_cataractassessment';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments, ', 'safe'),
-				array('', 'required'),
+				array('event_id', 'safe'),
+				array('left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_surgeon, left_description,
+						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_surgeon, right_description', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_surgeon, left_description,
+						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_surgeon, right_description', 'safe', 'on' => 'search'),
 		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -83,12 +95,26 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'left_eyedraw' => 'Left Eyedraw',
+				'left_pupil' => 'Left Pupil Size',
+				'left_nuclear' => 'Left Nuclear Cataract',
+				'left_cortical' => 'Left Cortical Cataract',
+				'left_pxe' => 'Left PXE',
+				'left_phako' => 'Left Phakodonesis',
+				'left_surgeon' => 'Left Surgeon',
+				'left_description' => 'Left Description',
+				'right_eyedraw' => 'Right Eyedraw',
+				'right_pupil' => 'Right Pupil Size',
+				'right_nuclear' => 'Right Nuclear Cataract',
+				'right_cortical' => 'Right Cortical Cataract',
+				'right_pxe' => 'Right PXE',
+				'right_phakov' => 'Right Phakodonesis',
+				'right_surgeon' => 'Right Surgeon',
+				'right_description' => 'Right Description',
 		);
 	}
 
@@ -96,8 +122,7 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -106,8 +131,23 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('comments', $this->comments);
-
+		$criteria->compare('left_eyedraw', $this->left_eyedraw);
+		$criteria->compare('left_pupil', $this->left_pupil);
+		$criteria->compare('left_nuclear', $this->left_nuclear);
+		$criteria->compare('left_cortical', $this->left_cortical);
+		$criteria->compare('left_pxe', $this->left_pxe);
+		$criteria->compare('left_phako', $this->left_phako);
+		$criteria->compare('left_surgeon', $this->left_surgeon);
+		$criteria->compare('left_description', $this->left_description);
+		$criteria->compare('right_eyedraw', $this->right_eyedraw);
+		$criteria->compare('right_pupil', $this->right_pupil);
+		$criteria->compare('right_nuclear', $this->right_nuclear);
+		$criteria->compare('right_cortical', $this->right_cortical);
+		$criteria->compare('right_pxe', $this->right_pxe);
+		$criteria->compare('right_phako', $this->right_phako);
+		$criteria->compare('right_surgeon', $this->right_surgeon);
+		$criteria->compare('right_description', $this->right_description);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -116,26 +156,19 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions()
-	{
+	public function setDefaultOptions() {
 	}
 
-
-
-	protected function beforeSave()
-	{
+	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
-	{
-
+	protected function afterSave() {
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
-	{
+	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
 }
-?>

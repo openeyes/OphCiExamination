@@ -20,7 +20,10 @@
 </p>
 <p>
 	Diagnosis:
-	<?php echo $element->left_diagnosis->term ?>
+	<?php if($element->left_diagnosis) { 
+		echo $element->left_diagnosis->term;
+	} else { echo 'None';
+} ?>
 </p>
 <h5>Right</h5>
 <p>
@@ -41,5 +44,8 @@
 </p>
 <p>
 	Diagnosis:
-	<?php echo $element->right_diagnosis->term ?>
+	<?php if($element->right_diagnosis) { 
+		echo $element->right_diagnosis->term;
+	} else { echo 'None';
+} ?>
 </p>
