@@ -112,7 +112,7 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'right_nuclear' => 'Right Nuclear Cataract',
 				'right_cortical' => 'Right Cortical Cataract',
 				'right_pxe' => 'Right PXE',
-				'right_phakov' => 'Right Phakodonesis',
+				'right_phako' => 'Right Phakodonesis',
 				'right_surgeon' => 'Right Surgeon',
 				'right_description' => 'Right Description',
 		);

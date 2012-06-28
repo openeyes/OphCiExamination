@@ -22,42 +22,48 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $comments
+ * @property integer $left_initial_id
+ * @property integer $left_wearing_id
+ * @property integer $left_corrected_id
+ * @property integer $left_method
+ * @property string $left_comments
+ * @property integer $right_initial_id
+ * @property integer $right_wearing_id
+ * @property integer $right_corrected_id
+ * @property integer $right_method
+ * @property string $right_comments
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
-{
+class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'et_ophciexamination_visualacuity';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments, ', 'safe'),
-				array('', 'required'),
+				array('event_id, left_comments, right_comments', 'safe'),
+				array('left_initial_id, left_wearing_id, left_corrected_id, left_method,
+						right_initial_id, right_wearing_id, right_corrected_id, right_method', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
@@ -67,8 +73,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -83,12 +88,20 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'left_initial_id' => 'Left Initial',
+				'left_wearing_id' => 'Left Wearing',
+				'left_corrected_id' => 'Left Corrected',
+				'left_method' => 'Left Method',
+				'left_comments' => 'Left Comments',
+				'right_initial_id' => 'Right Initial',
+				'right_wearing_id' => 'Right Wearing',
+				'right_corrected_id' => 'Right Corrected',
+				'right_method' => 'Right Method',
+				'right_comments' => 'Right Comments',
 		);
 	}
 
@@ -96,8 +109,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -106,8 +118,17 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('comments', $this->comments);
-
+		$criteria->compare('left_initial_id', $this->left_initial_id);
+		$criteria->compare('left_wearing_id', $this->left_wearing_id);
+		$criteria->compare('left_corrected_id', $this->left_corrected_id);
+		$criteria->compare('left_method', $this->left_method);
+		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('right_initial_id', $this->right_initial_id);
+		$criteria->compare('right_wearing_id', $this->right_wearing_id);
+		$criteria->compare('right_corrected_id', $this->right_corrected_id);
+		$criteria->compare('right_method', $this->right_method);
+		$criteria->compare('right_comments', $this->right_comments);
+						
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -116,26 +137,19 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions()
-	{
+	public function setDefaultOptions() {
 	}
 
-
-
-	protected function beforeSave()
-	{
+	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
-	{
-
+	protected function afterSave() {
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
-	{
+	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
 }
-?>

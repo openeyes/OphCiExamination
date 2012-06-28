@@ -25,5 +25,50 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80)); ?>
+	<?php $values = array(
+			'0' => 'Not recorded',
+			'1' => 'NPL',
+			); ?>
+	<div class="cols2 clearfix">
+		<div class="left eventDetail">
+			<div class="label">Left</div>
+			<div class="data">
+				<?php echo $element->getAttributeLabel('left_initial_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'left_initial_id', $values) ?>
+				<?php echo $element->getAttributeLabel('left_wearing_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'left_wearing_id', $values) ?>
+				<?php echo $element->getAttributeLabel('left_corrected_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'left_corrected_id', $values); ?>
+				<?php echo $element->getAttributeLabel('left_method'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'left_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
+				<?php echo $element->getAttributeLabel('left_comments'); ?>
+				:
+				<?php echo CHtml::activeTextArea($element, 'left_comments', array('class' => 'autocomplete')) ?>
+			</div>
+		</div>
+		<div class="right eventDetail">
+			<div class="label">Right</div>
+			<div class="data">
+				<?php echo $element->getAttributeLabel('right_initial_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'right_initial_id', $values) ?>
+				<?php echo $element->getAttributeLabel('right_wearing_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'right_wearing_id', $values) ?>
+				<?php echo $element->getAttributeLabel('right_corrected_id'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'right_corrected_id', $values); ?>
+				<?php echo $element->getAttributeLabel('right_method'); ?>
+				:
+				<?php echo CHtml::activeDropDownList($element, 'right_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
+				<?php echo $element->getAttributeLabel('right_comments'); ?>
+				:
+				<?php echo CHtml::activeTextArea($element, 'right_comments', array('class' => 'autocomplete')) ?>
+			</div>
+		</div>
+	</div>
 </div>
