@@ -92,16 +92,16 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_initial_id' => 'Left Initial',
-				'left_wearing_id' => 'Left Wearing',
-				'left_corrected_id' => 'Left Corrected',
-				'left_method' => 'Left Method',
-				'left_comments' => 'Left Comments',
-				'right_initial_id' => 'Right Initial',
-				'right_wearing_id' => 'Right Wearing',
-				'right_corrected_id' => 'Right Corrected',
-				'right_method' => 'Right Method',
-				'right_comments' => 'Right Comments',
+				'left_initial_id' => 'Initial',
+				'left_wearing_id' => 'Wearing',
+				'left_corrected_id' => 'Corrected',
+				'left_method' => 'Method',
+				'left_comments' => 'Comments',
+				'right_initial_id' => 'Initial',
+				'right_wearing_id' => 'Wearing',
+				'right_corrected_id' => 'Corrected',
+				'right_method' => 'Method',
+				'right_comments' => 'Comments',
 		);
 	}
 

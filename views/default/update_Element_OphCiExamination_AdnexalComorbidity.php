@@ -17,66 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<a href="#" class="removeElement">Remove</a>
-	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
-	</h4>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail"
-			id="div_<?php echo get_class($element)?>_left_description">
-			<div class="label">
-				<?php echo CHtml::encode($element->getAttributeLabel('left_description'))?>
-				:
-			</div>
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						$target_field = get_class($element) . '_left_description';
-						echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-								CHtml::listData($attribute->options, 'value', 'value'),
-								array(
-										'empty' => '-- '.$attribute->label.' --',
-										'data-target-field' => $target_field,
-										'class' => 'textMacro',
-								));
-			} ?>
-				</div>
-				<?php echo CHtml::activeTextArea($element, 'left_description', array(
-						'rows' => "1",
-						'cols' => "24",
-						'class' => 'autosize',
-						)) ?>
-			</div>
-		</div>
-		<div class="right eventDetail"
-			id="div_<?php echo get_class($element)?>_right_description">
-			<div class="label">
-				<?php echo CHtml::encode($element->getAttributeLabel('right_description'))?>
-				:
-			</div>
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						$target_field = get_class($element) . '_right_description';
-						echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-								CHtml::listData($attribute->options, 'value', 'value'),
-								array(
-										'empty' => '-- '.$attribute->label.' --',
-										'data-target-field' => $target_field,
-										'class' => 'textMacro',
-								));
-			} ?>
-				</div>
-				<?php echo CHtml::activeTextArea($element, 'right_description', array(
-						'rows' => "1",
-						'cols' => "24",
-						'class' => 'autosize',
-						)) ?>
-			</div>
-		</div>
-	</div>
-</div>
+<?php $this->renderPartial(
+		'form_' . get_class($element),
+		array('element' => $element, 'data' => $data, 'form' => $form),
+		false, false
+) ?>

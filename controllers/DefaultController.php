@@ -66,7 +66,7 @@ class DefaultController extends BaseEventTypeController {
 					}
 				}
 			} else {
-				$elements = $this->getElementsBySet($episode, 1);
+				$elements = $this->getElementsBySet($episode);
 			}
 		} else {
 			foreach($_POST as $key => $value) {
@@ -89,28 +89,23 @@ class DefaultController extends BaseEventTypeController {
 	 * @see BaseEventTypeController::getOptionalElements()
 	 */
 	public function getOptionalElements($action) {
-		switch ($action) {
-			case 'create':
-				$episode = $this->getEpisode($this->firm, $this->patient->id);
-				return $this->getElementsBySet($episode);
-			case 'update':
-				$event_type = EventType::model()->findByPk($this->event->event_type_id);
-				$criteria = new CDbCriteria;
-				$criteria->compare('event_type_id',$event_type->id);
-				$criteria->compare('`default`',1);
-				$criteria->order = 'display_order asc';
-				$elements = array();
-				$element_classes = array();
-				foreach (ElementType::model()->findAll($criteria) as $element_type) {
-					$element_class = $element_type->class_name;
-					if(!$element_class::model()->find('event_id = ?',array($this->event->id))) {
-						$elements[] = new $element_class;
-					}
-				}
-				return $elements;
-			default:
-				return array();
+		$elements = array();
+		$default_element_types = array();
+		foreach($this->getDefaultElements($action) as $default_element) {
+			$default_element_types[] = get_class($default_element);
 		}
+		$element_types = ElementType::model()->findAll(array(
+				'condition' => 'event_type_id = :id',
+				'order' => 'display_order',
+				'params' => array(':id' => $this->event_type->id),
+		));
+		foreach($element_types as $element_type) {
+			$element_class = $element_type->class_name;
+			if(!in_array($element_class, $default_element_types)) {
+				$elements[] = new $element_class;
+			}
+		}
+		return $elements;
 	}
 
 	/**
@@ -118,13 +113,13 @@ class DefaultController extends BaseEventTypeController {
 	 * @param Episode $episode
 	 * @param integer $default
 	 */
-	protected function getElementsBySet($episode = null, $default = 0) {
+	protected function getElementsBySet($episode = null) {
 		$elements = array();
 		$site_id = Yii::app()->request->cookies['site_id']->value;
 		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
 		$status_id = ($episode) ? $episode->episode_status_id : 0;
 		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
-		$element_types = ($default) ? $set->DefaultElementTypes : $set->OptionalElementTypes;
+		$element_types = $set->DefaultElementTypes;
 		foreach($element_types as $element_type) {
 			$elements[] = new $element_type->class_name;
 		}

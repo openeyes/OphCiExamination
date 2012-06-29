@@ -17,27 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<a href="#" class="removeElement">Remove</a>
-	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
-	</h4>
-	<div id="div_<?php echo get_class($element)?>_description"
-		class="eventDetail">
-		<div class="data">
-			<?php
-				$instruments = OphCiExamination_Instrument::model()->findAll();
-				$readings = OphCiExamination_Instrument::model()->readingOptions();
-			?>
-			<?php echo CHtml::activeDropDownList($element, 'left_instrument_id',
-					CHtml::listData($instruments, 'id', 'name')); ?>
-			<?php echo CHtml::activeDropDownList($element, 'left_reading', $readings); ?>
-			<?php echo CHtml::activeDropDownList($element, 'right_instrument_id',
-					CHtml::listData($instruments, 'id', 'name')); ?>
-			<?php echo CHtml::activeDropDownList($element, 'right_reading', $readings); ?>
-			</div>
-	</div>
-</div>
+<?php $this->renderPartial(
+		'form_' . get_class($element),
+		array('element' => $element, 'data' => $data, 'form' => $form),
+		false, false
+) ?>
