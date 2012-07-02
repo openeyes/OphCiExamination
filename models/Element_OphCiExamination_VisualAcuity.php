@@ -22,14 +22,14 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property integer $left_initial_id
- * @property integer $left_wearing_id
- * @property integer $left_corrected_id
+ * @property integer $left_initial
+ * @property integer $left_wearing
+ * @property integer $left_corrected
  * @property integer $left_method
  * @property string $left_comments
- * @property integer $right_initial_id
- * @property integer $right_wearing_id
- * @property integer $right_corrected_id
+ * @property integer $right_initial
+ * @property integer $right_wearing
+ * @property integer $right_corrected
  * @property integer $right_method
  * @property string $right_comments
  *
@@ -62,8 +62,8 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, left_comments, right_comments', 'safe'),
-				array('left_initial_id, left_wearing_id, left_corrected_id, left_method,
-						right_initial_id, right_wearing_id, right_corrected_id, right_method', 'required'),
+				array('left_initial, left_wearing, left_corrected, left_method,
+						right_initial, right_wearing, right_corrected, right_method', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
@@ -92,17 +92,59 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_initial_id' => 'Initial',
-				'left_wearing_id' => 'Wearing',
-				'left_corrected_id' => 'Corrected',
+				'left_initial' => 'Initial',
+				'left_wearing' => 'Wearing',
+				'left_corrected' => 'Corrected',
 				'left_method' => 'Method',
 				'left_comments' => 'Comments',
-				'right_initial_id' => 'Initial',
-				'right_wearing_id' => 'Wearing',
-				'right_corrected_id' => 'Corrected',
+				'right_initial' => 'Initial',
+				'right_wearing' => 'Wearing',
+				'right_corrected' => 'Corrected',
 				'right_method' => 'Method',
 				'right_comments' => 'Comments',
 		);
+	}
+
+	/**
+	 * @fixme: Needs linking up to default settings system
+	 */
+	public function getUnit() {
+		return 2;
+	}
+
+	public function getUnitValues() {
+		$values = CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->findByPk($this->getUnit())->values, 'base_value', 'value');
+		return array('0' => 'Not recorded') + $values;
+	}
+	
+	/**
+	 * Convert a base_value (ETDRS + 5) to a different unit
+	 * @todo: Fuzzy matching needs checking
+	 * @param integer $base_value
+	 * @param integer $unit_id
+	 * @return string
+	 */
+	public function convertTo($base_value, $unit_id = null) {
+		if(!$unit_id) {
+			$unit_id = $this->getUnit();
+		}
+		$value = OphCiExamination_VisualAcuityUnitValue::model()->find('unit_id = ? AND base_value >= ?', array($unit_id, $base_value));
+		return $value->value;
+	}
+
+	public function getCombined($side) {
+		$combined = array();
+		$side_prefix = $side . '_';
+		if($this->{$side_prefix.'initial'}) {
+			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' unaided';
+		}
+		if($this->{$side_prefix.'wearing'}) {
+			$combined[] = $this->convertTo($this->{$side_prefix.'wearing'}) . ' with glasses';
+		}
+		if($this->{$side_prefix.'corrected'}) {
+			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'method'};
+		}
+		return implode(', ',$combined);
 	}
 
 	/**
@@ -118,17 +160,17 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('left_initial_id', $this->left_initial_id);
-		$criteria->compare('left_wearing_id', $this->left_wearing_id);
-		$criteria->compare('left_corrected_id', $this->left_corrected_id);
+		$criteria->compare('left_initial', $this->left_initial);
+		$criteria->compare('left_wearing', $this->left_wearing);
+		$criteria->compare('left_corrected', $this->left_corrected);
 		$criteria->compare('left_method', $this->left_method);
 		$criteria->compare('left_comments', $this->left_comments);
-		$criteria->compare('right_initial_id', $this->right_initial_id);
-		$criteria->compare('right_wearing_id', $this->right_wearing_id);
-		$criteria->compare('right_corrected_id', $this->right_corrected_id);
+		$criteria->compare('right_initial', $this->right_initial);
+		$criteria->compare('right_wearing', $this->right_wearing);
+		$criteria->compare('right_corrected', $this->right_corrected);
 		$criteria->compare('right_method', $this->right_method);
 		$criteria->compare('right_comments', $this->right_comments);
-						
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

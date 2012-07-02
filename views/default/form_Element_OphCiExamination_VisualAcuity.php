@@ -25,10 +25,7 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php $values = array(
-			'0' => 'Not recorded',
-			'1' => 'NPL',
-			); ?>
+	<?php $values = $element->getUnitValues(); ?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="label">Left</div>
@@ -36,11 +33,11 @@
 				<table>
 					<thead>
 						<tr>
-							<th><?php echo $element->getAttributeLabel('left_initial_id'); ?>
+							<th><?php echo $element->getAttributeLabel('left_initial'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('left_wearing_id'); ?>
+							<th><?php echo $element->getAttributeLabel('left_wearing'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('left_corrected_id'); ?>
+							<th><?php echo $element->getAttributeLabel('left_corrected'); ?>
 							</th>
 							<th><?php echo $element->getAttributeLabel('left_method'); ?>
 							</th>
@@ -48,11 +45,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_initial_id', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_wearing_id', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_wearing', $values) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected_id', $values); ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values); ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'left_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
 							</td>
@@ -70,11 +67,11 @@
 				<table>
 					<thead>
 						<tr>
-							<th><?php echo $element->getAttributeLabel('right_initial_id'); ?>
+							<th><?php echo $element->getAttributeLabel('right_initial'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('right_wearing_id'); ?>
+							<th><?php echo $element->getAttributeLabel('right_wearing'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('right_corrected_id'); ?>
+							<th><?php echo $element->getAttributeLabel('right_corrected'); ?>
 							</th>
 							<th><?php echo $element->getAttributeLabel('right_method'); ?>
 							</th>
@@ -82,11 +79,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_initial_id', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_wearing_id', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_wearing', $values) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected_id', $values); ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values); ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'right_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
 							</td>
