@@ -31,19 +31,19 @@
 	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Left</div>
-			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id',
-					CHtml::listData($instruments, 'id', 'name')); ?>
-				<?php echo CHtml::activeDropDownList($element, 'left_reading', $readings); ?>
-			</div>
-		</div>
-		<div class="right eventDetail">
 			<div class="label">Right</div>
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id',
 					CHtml::listData($instruments, 'id', 'name')); ?>
 				<?php echo CHtml::activeDropDownList($element, 'right_reading', $readings); ?>
+			</div>
+		</div>
+		<div class="right eventDetail">
+			<div class="label">Left</div>
+			<div class="data">
+				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id',
+					CHtml::listData($instruments, 'id', 'name')); ?>
+				<?php echo CHtml::activeDropDownList($element, 'left_reading', $readings); ?>
 			</div>
 		</div>
 	</div>

@@ -27,55 +27,6 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Left</div>
-			<div class="data" data-side="left">
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-						'identifier' => 'left_'.$element->elementType->id,
-						'side' => 'L',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'left_eyedraw',
-						'no_wrapper' => true,
-						'doodleToolBarArray' => array(
-								'Geographic',
-								'VitreousOpacity',
-								'DiabeticNV',
-								'CNV',
-								'Circinate',
-						),
-						'onLoadedCommandArray' => array(
-								array('addDoodle', array('PostPole')),
-								array('deselectDoodles', array()),
-						),
-				));
-				?>
-				<div class="eyedrawFields">
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_description'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cd_ratio'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_cd_ratio') ?>
-						</div>
-					</div>
-					<button class="ed_report">Report</button>
-					<button class="ed_clear">Clear</button>
-				</div>
-			</div>
-		</div>
-		<div class="right eventDetail">
 			<div class="label">Right</div>
 			<div class="data" data-side="right">
 				<?php
@@ -117,6 +68,55 @@
 						</div>
 						<div class="data">
 							<?php echo CHtml::activeTextField($element, 'right_cd_ratio') ?>
+						</div>
+					</div>
+					<button class="ed_report">Report</button>
+					<button class="ed_clear">Clear</button>
+				</div>
+			</div>
+		</div>
+		<div class="right eventDetail">
+			<div class="label">Left</div>
+			<div class="data" data-side="left">
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+						'identifier' => 'left_'.$element->elementType->id,
+						'side' => 'L',
+						'mode' => 'edit',
+						'size' => 300,
+						'model' => $element,
+						'attribute' => 'left_eyedraw',
+						'no_wrapper' => true,
+						'doodleToolBarArray' => array(
+								'Geographic',
+								'VitreousOpacity',
+								'DiabeticNV',
+								'CNV',
+								'Circinate',
+						),
+						'onLoadedCommandArray' => array(
+								array('addDoodle', array('PostPole')),
+								array('deselectDoodles', array()),
+						),
+				));
+				?>
+				<div class="eyedrawFields">
+					<div>
+						<div class="label">
+							<?php echo $element->getAttributeLabel('left_description'); ?>
+							:
+						</div>
+						<div class="data">
+							<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
+						</div>
+					</div>
+					<div>
+						<div class="label">
+							<?php echo $element->getAttributeLabel('left_cd_ratio'); ?>
+							:
+						</div>
+						<div class="data">
+							<?php echo CHtml::activeTextField($element, 'left_cd_ratio') ?>
 						</div>
 					</div>
 					<button class="ed_report">Report</button>

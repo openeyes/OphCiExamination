@@ -1,6 +1,6 @@
 <h4 class="elementTypeName">
 	<?php  echo $element->elementType->name ?>
 </h4>
-<p>
+<div class="eventDetail">
 	<?php  echo $element->description ?>
-</p>
+</div>

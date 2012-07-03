@@ -2,20 +2,16 @@
 	<?php  echo $element->elementType->name ?>
 </h4>
 <div class="cols2 clearfix">
-	<div class="left">
-		<h4>
-			<?php echo CHtml::encode($element->getAttributeLabel('left_description'))?>
-		</h4>
-		<p>
-			<?php echo $element->left_description ?>
-		</p>
-	</div>
-	<div class="right">
-		<h4>
-			<?php echo CHtml::encode($element->getAttributeLabel('right_description'))?>
-		</h4>
-		<p>
+	<div class="left eventDetail">
+		<h5>Right</h5>
+		<div class="data">
 			<?php echo $element->right_description ?>
-		</p>
+		</div>
+	</div>
+	<div class="right eventDetail">
+		<h5>Left</h5>
+		<div class="data">
+			<?php echo $element->left_description ?>
+		</div>
 	</div>
 </div>

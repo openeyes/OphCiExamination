@@ -28,47 +28,13 @@
 	<?php
 	$values = $element->getUnitValues();
 	$method_values = $element->getMethodValues();
-	
+
 	// Adjust currently element readings to match unit steps
 	$element->loadClosest();
-	
+
 	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Left</div>
-			<div class="data">
-				<table>
-					<thead>
-						<tr>
-							<th><?php echo $element->getAttributeLabel('left_initial'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('left_wearing'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('left_corrected'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('left_method'); ?>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values) ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_wearing', $values) ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values); ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_method', $method_values) ?>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="data">
-				<?php echo CHtml::activeTextArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
-			</div>
-		</div>
-		<div class="right eventDetail">
 			<div class="label">Right</div>
 			<div class="data">
 				<table>
@@ -100,6 +66,40 @@
 			</div>
 			<div class="data">
 				<?php echo CHtml::activeTextArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
+			</div>
+		</div>
+		<div class="right eventDetail">
+			<div class="label">Left</div>
+			<div class="data">
+				<table>
+					<thead>
+						<tr>
+							<th><?php echo $element->getAttributeLabel('left_initial'); ?>
+							</th>
+							<th><?php echo $element->getAttributeLabel('left_wearing'); ?>
+							</th>
+							<th><?php echo $element->getAttributeLabel('left_corrected'); ?>
+							</th>
+							<th><?php echo $element->getAttributeLabel('left_method'); ?>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values) ?>
+							</td>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_wearing', $values) ?>
+							</td>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values); ?>
+							</td>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_method', $method_values) ?>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="data">
+				<?php echo CHtml::activeTextArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
 			</div>
 		</div>
 	</div>

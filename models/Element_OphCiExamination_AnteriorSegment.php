@@ -90,12 +90,12 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_eyedraw' => 'Left Eyedraw',
-				'left_description' => 'Left Description',
-				'left_diagnosis_id' => 'Left Diagnosis',
-				'right_eyedraw' => 'Right Eyedraw',
-				'right_description' => 'Right Description',
-				'right_diagnosis_id' => 'Right Diagnosis',
+				'left_eyedraw' => 'Eyedraw',
+				'left_description' => 'Description',
+				'left_diagnosis_id' => 'Diagnosis',
+				'right_eyedraw' => 'Eyedraw',
+				'right_description' => 'Description',
+				'right_diagnosis_id' => 'Diagnosis',
 		);
 	}
 

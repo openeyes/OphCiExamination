@@ -83,8 +83,8 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_description' => 'Left',
-				'right_description' => 'Right',
+				'left_description' => 'Description',
+				'right_description' => 'Description',
 		);
 	}
 

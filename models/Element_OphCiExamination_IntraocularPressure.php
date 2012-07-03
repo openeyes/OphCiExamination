@@ -85,10 +85,10 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_instrument_id' => 'Left Instrument',
-				'left_reading' => 'Left Reading',
-				'right_instrument_id' => 'Right Instrument',
-				'right_reading' => 'Right Reading',
+				'left_instrument_id' => 'Instrument',
+				'left_reading' => 'Reading',
+				'right_instrument_id' => 'Instrument',
+				'right_reading' => 'Reading',
 		);
 	}
 

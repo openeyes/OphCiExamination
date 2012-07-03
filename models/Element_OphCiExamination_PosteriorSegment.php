@@ -88,12 +88,12 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_eyedraw' => 'Left Eyedraw',
-				'left_description' => 'Left Description',
-				'left_cd_ratio' => 'Left C/D Ratio',
-				'right_eyedraw' => 'Right Eyedraw',
-				'right_description' => 'Right Description',
-				'right_cd_ratio' => 'Right C/D Ratio',
+				'left_eyedraw' => 'Eyedraw',
+				'left_description' => 'Description',
+				'left_cd_ratio' => 'C/D Ratio',
+				'right_eyedraw' => 'Eyedraw',
+				'right_description' => 'Description',
+				'right_cd_ratio' => 'C/D Ratio',
 		);
 	}
 

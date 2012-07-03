@@ -48,7 +48,7 @@
 	margin-left: 10px;
 }
 
-#event_content canvas.edit {
+#event_content canvas {
 	float: left;
 	border: 1px solid #ccc;
 	margin: 10px 0;
@@ -58,6 +58,10 @@
 	float: left;
 	width: 180px;
 	margin: 5px 0 0 10px;
+}
+
+#event_content .eyedrawFields.view {
+	width: 280px;
 }
 
 #event_content .eyedrawFields > div {
