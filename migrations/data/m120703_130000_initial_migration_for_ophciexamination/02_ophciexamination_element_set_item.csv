@@ -1,0 +1,15 @@
+id,set_id,element_type_id => ElementType.class_name
+1,1,Element_OphCiExamination_History
+2,2,Element_OphCiExamination_History
+3,2,Element_OphCiExamination_VisualAcuity
+4,2,Element_OphCiExamination_AnteriorSegment
+5,2,Element_OphCiExamination_IntraocularPressure
+6,2,Element_OphCiExamination_Conclusion
+7,3,Element_OphCiExamination_History
+8,3,Element_OphCiExamination_VisualAcuity
+9,3,Element_OphCiExamination_AdnexalComorbidity
+10,3,Element_OphCiExamination_CataractAssessment
+11,3,Element_OphCiExamination_IntraocularPressure
+12,3,Element_OphCiExamination_PosteriorSegment
+13,3,Element_OphCiExamination_Investigation
+14,3,Element_OphCiExamination_Conclusion

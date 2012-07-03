@@ -25,7 +25,14 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php $values = $element->getUnitValues(); ?>
+	<?php
+	$values = $element->getUnitValues();
+	$method_values = $element->getMethodValues();
+	
+	// Adjust currently element readings to match unit steps
+	$element->loadClosest();
+	
+	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="label">Left</div>
@@ -51,7 +58,7 @@
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values); ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_method', $method_values) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -85,7 +92,7 @@
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values); ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_method', array('Pinhole' => 'Pinhole', 'Refraction' => 'Refraction')) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_method', $method_values) ?>
 							</td>
 						</tr>
 					</tbody>

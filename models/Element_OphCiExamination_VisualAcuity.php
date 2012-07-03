@@ -109,29 +109,87 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	 * @fixme: Needs linking up to default settings system
 	 */
 	public function getUnit() {
-		return 2;
+		return OphCiExamination_VisualAcuityUnit::model()->findByPk(2);
 	}
 
-	public function getUnitValues() {
-		$values = CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->findByPk($this->getUnit())->values, 'base_value', 'value');
+	/**
+	 * Array of method values for dropdown
+	 * @return array
+	 */
+	public function getMethodValues() {
+		return array(
+				'Pinhole' => 'Pinhole',
+				'Refraction' => 'Refraction'
+		);
+	}
+
+	/**
+	 * Array of unit values for dropdown
+	 * @param integer $unit_id
+	 * @return array
+	 */
+	public function getUnitValues($unit_id = null) {
+		if($unit_id) {
+			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
+		} else {
+			$unit = $this->getUnit();
+		}
+		$values = CHtml::listData($unit->values, 'base_value', 'value');
 		return array('0' => 'Not recorded') + $values;
 	}
-	
+
 	/**
 	 * Convert a base_value (ETDRS + 5) to a different unit
-	 * @todo: Fuzzy matching needs checking
 	 * @param integer $base_value
 	 * @param integer $unit_id
 	 * @return string
 	 */
 	public function convertTo($base_value, $unit_id = null) {
-		if(!$unit_id) {
-			$unit_id = $this->getUnit();
-		}
-		$value = OphCiExamination_VisualAcuityUnitValue::model()->find('unit_id = ? AND base_value >= ?', array($unit_id, $base_value));
+		$value = $this->getClosest($base_value, $unit_id);
 		return $value->value;
 	}
 
+	/**
+	 * Get the closest step value for a unit
+	 * @param integer $base_value
+	 * @param integer $unit_id
+	 * @return OphCiExamination_VisualAcuityUnitValue
+	 */
+	public function getClosest($base_value, $unit_id = null) {
+		if(!$unit_id) {
+			$unit_id = $this->getUnit()->id;
+		}
+		$criteria = new CDbCriteria();
+		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');
+		$criteria->condition = 'unit_id = :unit_id';
+		$criteria->params = array(':unit_id' => $unit_id, ':base_value' => $base_value);
+		$criteria->order = 'delta';
+		$value = OphCiExamination_VisualAcuityUnitValue::model()->find($criteria);
+		return $value;
+	}
+
+	/**
+	 * Load model with closest base_values for current unit. This is to allow for switching units.
+	 * @param integer $unit_id
+	 */
+	public function loadClosest($unit_id = null) {
+		foreach(array('left','right') as $side) {
+			foreach(array('initial','wearing','corrected') as $reading) {
+				$field = $side . '_' . $reading;
+				$base_value = $this->{$field};
+				if($base_value) {
+					$value = $this->getClosest($base_value, $unit_id);
+					$this->{$field} = $value->base_value;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get a combined string of the different readings
+	 * @param string $side
+	 * @return string
+	 */
 	public function getCombined($side) {
 		$combined = array();
 		$side_prefix = $side . '_';
@@ -142,7 +200,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 			$combined[] = $this->convertTo($this->{$side_prefix.'wearing'}) . ' with glasses';
 		}
 		if($this->{$side_prefix.'corrected'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'method'};
+			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'};
 		}
 		return implode(', ',$combined);
 	}

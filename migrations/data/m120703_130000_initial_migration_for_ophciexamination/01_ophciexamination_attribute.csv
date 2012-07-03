@@ -1,0 +1,9 @@
+id,name,label,element_type_id => ElementType.class_name
+1,history,History,Element_OphCiExamination_History
+2,severity,Severity,Element_OphCiExamination_History
+3,onset,Onset,Element_OphCiExamination_History
+4,site,Site,Element_OphCiExamination_History
+5,duration,Duration,Element_OphCiExamination_History
+7,todo,ToDo,Element_OphCiExamination_Investigation
+8,todo,ToDo,Element_OphCiExamination_Conclusion
+9,adnexal_comorbidity,Add,Element_OphCiExamination_AdnexalComorbidity
