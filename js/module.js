@@ -82,7 +82,7 @@ $(document).ready(function() {
 		}, function(data) {
 			var insert_before = $('#active_elements .element').first();
 			while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
-				insert_before = insert_before.next();
+				insert_before = insert_before.nextAll('div:first');
 			}
 			element.remove();
 			if (insert_before.length) {

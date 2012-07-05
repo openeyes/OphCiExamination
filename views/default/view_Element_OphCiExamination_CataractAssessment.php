@@ -58,13 +58,6 @@
 					<?php echo $element->right_phako ?>
 				</div>
 			</div>
-			<div>
-				<div class="data">
-					<?php echo $element->getAttributeLabel('right_surgeon'); ?>
-					:
-					<?php echo $element->right_surgeon ?>
-				</div>
-			</div>
 		</div>
 	</div>
 	<div class="right eventDetail">
@@ -119,13 +112,6 @@
 					<?php echo $element->getAttributeLabel('left_phako'); ?>
 					:
 					<?php echo $element->left_phako ?>
-				</div>
-			</div>
-			<div>
-				<div class="data">
-					<?php echo $element->getAttributeLabel('left_surgeon'); ?>
-					:
-					<?php echo $element->left_surgeon ?>
 				</div>
 			</div>
 		</div>

@@ -28,7 +28,6 @@
  * @property string $left_cortical
  * @property boolean $left_pxe
  * @property boolean $left_phako
- * @property string $left_surgeon
  * @property string $left_description
  * @property string $right_eyedraw
  * @property string $right_pupil
@@ -36,7 +35,6 @@
  * @property string $right_cortical
  * @property boolean $right_pxe
  * @property boolean $right_phako
- * @property string $right_surgeon
  * @property string $right_description
  *
  * The followings are the available model relations:
@@ -68,12 +66,12 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id', 'safe'),
-				array('left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_surgeon, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_surgeon, right_description', 'required'),
+				array('left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_surgeon, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_surgeon, right_description', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -105,7 +103,6 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'left_cortical' => 'Cortical Cataract',
 				'left_pxe' => 'PXE',
 				'left_phako' => 'Phakodonesis',
-				'left_surgeon' => 'Surgeon',
 				'left_description' => 'Description',
 				'right_eyedraw' => 'Eyedraw',
 				'right_pupil' => 'Pupil Size',
@@ -113,7 +110,6 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'right_cortical' => 'Cortical Cataract',
 				'right_pxe' => 'PXE',
 				'right_phako' => 'Phakodonesis',
-				'right_surgeon' => 'Surgeon',
 				'right_description' => 'Description',
 		);
 	}
@@ -137,7 +133,6 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		$criteria->compare('left_cortical', $this->left_cortical);
 		$criteria->compare('left_pxe', $this->left_pxe);
 		$criteria->compare('left_phako', $this->left_phako);
-		$criteria->compare('left_surgeon', $this->left_surgeon);
 		$criteria->compare('left_description', $this->left_description);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_pupil', $this->right_pupil);
@@ -145,7 +140,6 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		$criteria->compare('right_cortical', $this->right_cortical);
 		$criteria->compare('right_pxe', $this->right_pxe);
 		$criteria->compare('right_phako', $this->right_phako);
-		$criteria->compare('right_surgeon', $this->right_surgeon);
 		$criteria->compare('right_description', $this->right_description);
 		
 		return new CActiveDataProvider(get_class($this), array(

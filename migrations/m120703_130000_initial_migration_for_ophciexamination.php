@@ -170,7 +170,6 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_cataractassessment', 'left_cortical', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'left_pxe', 'tinyint(1)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'left_phako', 'tinyint(1)');
-		$this->addColumn('et_ophciexamination_cataractassessment', 'left_surgeon', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'left_description', 'text');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_pupil', 'varchar(40)');
@@ -178,7 +177,6 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_cortical', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_pxe', 'tinyint(1)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_phako', 'tinyint(1)');
-		$this->addColumn('et_ophciexamination_cataractassessment', 'right_surgeon', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_cataractassessment', 'right_description', 'text');
 
 		// Visual Acuity

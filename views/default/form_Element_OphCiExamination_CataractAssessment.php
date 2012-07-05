@@ -110,15 +110,6 @@
 							<?php echo $element->getAttributeLabel('right_phako'); ?>
 						</div>
 					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_surgeon'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_surgeon') ?>
-						</div>
-					</div>
 					<button class="ed_report">Report</button>
 					<button class="ed_clear">Clear</button>
 				</div>
@@ -206,15 +197,6 @@
 						</div>
 						<div class="label">
 							<?php echo $element->getAttributeLabel('left_phako'); ?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_surgeon'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_surgeon') ?>
 						</div>
 					</div>
 					<button class="ed_report">Report</button>
