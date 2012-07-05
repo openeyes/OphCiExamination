@@ -186,7 +186,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	 */
 	public function loadClosest($unit_id = null) {
 		foreach(array('left','right') as $side) {
-			foreach(array('initial','wearing','corrected') as $reading) {
+			foreach(array('initial','corrected') as $reading) {
 				$field = $side . '_' . $reading;
 				$base_value = $this->{$field};
 				if($base_value) {
