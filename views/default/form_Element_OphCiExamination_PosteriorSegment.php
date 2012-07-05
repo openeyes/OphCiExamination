@@ -54,20 +54,20 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
+							<?php echo $element->getAttributeLabel('right_cd_ratio'); ?>
+							:
+						</div>
+						<div class="data">
+							<?php echo CHtml::activeDropDownList($element, 'right_cd_ratio', $element->getCDRatioValues()); ?>
+						</div>
+					</div>
+				<div>
+						<div class="label">
 							<?php echo $element->getAttributeLabel('right_description'); ?>
 							:
 						</div>
 						<div class="data">
 							<?php echo CHtml::activeTextArea($element, 'right_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_cd_ratio'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_cd_ratio') ?>
 						</div>
 					</div>
 					<button class="ed_report">Report</button>
@@ -103,20 +103,20 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
+							<?php echo $element->getAttributeLabel('left_cd_ratio'); ?>
+							:
+						</div>
+						<div class="data">
+							<?php echo CHtml::activeDropDownList($element, 'left_cd_ratio', $element->getCDRatioValues()); ?>
+						</div>
+					</div>
+				<div>
+						<div class="label">
 							<?php echo $element->getAttributeLabel('left_description'); ?>
 							:
 						</div>
 						<div class="data">
 							<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cd_ratio'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_cd_ratio') ?>
 						</div>
 					</div>
 					<button class="ed_report">Report</button>
