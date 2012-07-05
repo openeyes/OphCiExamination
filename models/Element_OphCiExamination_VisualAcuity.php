@@ -119,7 +119,19 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public function getMethodValues() {
 		return array(
 				'Pinhole' => 'Pinhole',
-				'Refraction' => 'Refraction'
+				'Refraction' => 'Refraction',
+		);
+	}
+
+	/**
+	 * Array of wearing values for dropdown
+	 * @return array
+	 */
+	public function getWearingValues() {
+		return array(
+				'Unaided' => 'Unaided',
+				'Glasses' => 'Glasses',
+				'Contact lens' => 'Contact lens',
 		);
 	}
 
@@ -194,10 +206,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		$combined = array();
 		$side_prefix = $side . '_';
 		if($this->{$side_prefix.'initial'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' unaided';
-		}
-		if($this->{$side_prefix.'wearing'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'wearing'}) . ' with glasses';
+			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'wearing'};
 		}
 		if($this->{$side_prefix.'corrected'}) {
 			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'};

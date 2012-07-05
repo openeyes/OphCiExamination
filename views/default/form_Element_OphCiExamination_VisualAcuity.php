@@ -28,6 +28,7 @@
 	<?php
 	$values = $element->getUnitValues();
 	$method_values = $element->getMethodValues();
+	$wearing_values = $element->getWearingValues();
 
 	// Adjust currently element readings to match unit steps
 	$element->loadClosest();
@@ -42,23 +43,17 @@
 						<tr>
 							<th><?php echo $element->getAttributeLabel('right_initial'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('right_wearing'); ?>
-							</th>
 							<th><?php echo $element->getAttributeLabel('right_corrected'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('right_method'); ?>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values, array('class' => 'vaReading')) ?>
+								<?php echo CHtml::activeDropDownList($element, 'right_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_wearing', $values) ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values); ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_method', $method_values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values, array('class' => 'vaReading')); ?>
+								<?php echo CHtml::activeDropDownList($element, 'right_method', $method_values, array('class' => 'vaReadingType')) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -76,23 +71,17 @@
 						<tr>
 							<th><?php echo $element->getAttributeLabel('left_initial'); ?>
 							</th>
-							<th><?php echo $element->getAttributeLabel('left_wearing'); ?>
-							</th>
 							<th><?php echo $element->getAttributeLabel('left_corrected'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('left_method'); ?>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values, array('class' => 'vaReading')) ?>
+								<?php echo CHtml::activeDropDownList($element, 'left_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_wearing', $values) ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values); ?>
-							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_method', $method_values) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values, array('class' => 'vaReading')); ?>
+								<?php echo CHtml::activeDropDownList($element, 'left_method', $method_values, array('class' => 'vaReadingType')) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -104,3 +93,30 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#event_content .Element_OphCiExamination_VisualAcuity .vaReading").each(function() {
+		updateType(this);
+	});
+	
+	$("#event_content .Element_OphCiExamination_VisualAcuity").delegate('.vaReading', 'change', function() {
+		updateType(this);
+	});
+	
+	/**
+	 * Disable associated reading type field if reading is not recorded
+	 */
+	function updateType(field) {
+		var type = $(field).next();
+		if($(field).val() == 0) {
+			type.val('');
+			type.attr('disabled', 'disabled');
+		} else {
+			type.removeAttr('disabled');
+		}
+	}
+	
+});
+</script>

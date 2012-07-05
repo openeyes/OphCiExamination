@@ -181,12 +181,12 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 
 		// Visual Acuity
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_initial', 'int(10)');
-		$this->addColumn('et_ophciexamination_visualacuity', 'left_wearing', 'int(10)');
+		$this->addColumn('et_ophciexamination_visualacuity', 'left_wearing', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_corrected', 'int(10)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_method', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_comments', 'text');
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_initial', 'int(10)');
-		$this->addColumn('et_ophciexamination_visualacuity', 'right_wearing', 'int(10)');
+		$this->addColumn('et_ophciexamination_visualacuity', 'right_wearing', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_corrected', 'int(10)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_method', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_comments', 'text');

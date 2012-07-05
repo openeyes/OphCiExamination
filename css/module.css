@@ -41,13 +41,12 @@
 }
 
 #event_content .Element_OphCiExamination_VisualAcuity td {
-	padding: 2px 5px 2px 0;
+	padding: 2px 10px 2px 0;
 }
 
 #event_content .Element_OphCiExamination_VisualAcuity .data {
 	margin-left: 10px;
 }
-
 #event_content canvas {
 	float: left;
 	border: 1px solid #ccc;
@@ -72,3 +71,4 @@
 #event_content .eyedrawFields .data {
 	display: inline-block;
 }
+
