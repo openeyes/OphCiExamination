@@ -44,20 +44,20 @@
 					<?php echo $element->right_cortical ?>
 				</div>
 			</div>
+			<?php if($element->right_pxe) { ?>
 			<div>
 				<div class="data">
 					<?php echo $element->getAttributeLabel('right_pxe'); ?>
-					:
-					<?php echo $element->right_pxe ?>
 				</div>
 			</div>
+			<?php } ?>
+			<?php if($element->right_phako) { ?>
 			<div>
 				<div class="data">
 					<?php echo $element->getAttributeLabel('right_phako'); ?>
-					:
-					<?php echo $element->right_phako ?>
 				</div>
 			</div>
+			<?php } ?>
 		</div>
 	</div>
 	<div class="right eventDetail">
@@ -100,20 +100,20 @@
 					<?php echo $element->left_cortical ?>
 				</div>
 			</div>
+			<?php if($element->left_pxe) { ?>
 			<div>
 				<div class="data">
 					<?php echo $element->getAttributeLabel('left_pxe'); ?>
-					:
-					<?php echo $element->left_pxe ?>
 				</div>
 			</div>
+			<?php } ?>
+			<?php if($element->left_phako) { ?>
 			<div>
 				<div class="data">
 					<?php echo $element->getAttributeLabel('left_phako'); ?>
-					:
-					<?php echo $element->left_phako ?>
 				</div>
 			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>

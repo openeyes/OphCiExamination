@@ -64,7 +64,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_pupil') ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_pupil', $element->getPupilValues()); ?>
 						</div>
 					</div>
 					<div>
@@ -73,7 +73,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_nuclear') ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_nuclear', $element->getNuclearValues()); ?>
 						</div>
 					</div>
 					<div>
@@ -82,7 +82,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_cortical') ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_cortical', $element->getCorticalValues()); ?>
 						</div>
 					</div>
 					<div>
@@ -153,7 +153,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_pupil') ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_pupil', $element->getPupilValues()); ?>
 						</div>
 					</div>
 					<div>
@@ -162,7 +162,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_nuclear') ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_nuclear', $element->getNuclearValues()); ?>
 						</div>
 					</div>
 					<div>
@@ -171,7 +171,7 @@
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_cortical') ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_cortical', $element->getCorticalValues()); ?>
 						</div>
 					</div>
 					<div>

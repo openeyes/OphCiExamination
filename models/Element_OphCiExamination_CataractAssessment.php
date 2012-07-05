@@ -99,18 +99,44 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
 				'left_pupil' => 'Pupil Size',
-				'left_nuclear' => 'Nuclear Cataract',
-				'left_cortical' => 'Cortical Cataract',
+				'left_nuclear' => 'Nuclear',
+				'left_cortical' => 'Cortical',
 				'left_pxe' => 'PXE',
 				'left_phako' => 'Phakodonesis',
 				'left_description' => 'Description',
 				'right_eyedraw' => 'Eyedraw',
 				'right_pupil' => 'Pupil Size',
-				'right_nuclear' => 'Nuclear Cataract',
-				'right_cortical' => 'Cortical Cataract',
+				'right_nuclear' => 'Nuclear',
+				'right_cortical' => 'Cortical',
 				'right_pxe' => 'PXE',
 				'right_phako' => 'Phakodonesis',
 				'right_description' => 'Description',
+		);
+	}
+
+	public function getPupilValues() {
+		return array(
+				'Large' => 'Large',
+				'Medium' => 'Medium',
+				'Small' => 'Small',
+		);
+	}
+
+	public function getNuclearValues() {
+		return array(
+				'None' => 'None',
+				'Mild' => 'Mild',
+				'Moderate' => 'Moderate',
+				'Brunescent' => 'Brunescent',
+		);
+	}
+
+	public function getCorticalValues() {
+		return array(
+				'None' => 'None',
+				'Mild' => 'Mild',
+				'Moderate' => 'Moderate',
+				'White' => 'White',
 		);
 	}
 
@@ -141,7 +167,7 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		$criteria->compare('right_pxe', $this->right_pxe);
 		$criteria->compare('right_phako', $this->right_phako);
 		$criteria->compare('right_description', $this->right_description);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
