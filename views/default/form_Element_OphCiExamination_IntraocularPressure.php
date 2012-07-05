@@ -25,26 +25,47 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php
-	$instruments = OphCiExamination_Instrument::model()->findAll();
-	$readings = OphCiExamination_Instrument::model()->readingOptions();
-	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="label">Right</div>
 			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id',
-					CHtml::listData($instruments, 'id', 'name')); ?>
-				<?php echo CHtml::activeDropDownList($element, 'right_reading', $readings); ?>
-			</div>
+				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
+				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
+				</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="label">Left</div>
 			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id',
-					CHtml::listData($instruments, 'id', 'name')); ?>
-				<?php echo CHtml::activeDropDownList($element, 'left_reading', $readings); ?>
-			</div>
+				<?php echo CHtml::activeDropDownList($element, 'left_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
+				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
+				</div>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#event_content .Element_OphCiExamination_IntraocularPressure .iopReading").each(function() {
+		updateType(this);
+	});
+	
+	$("#event_content .Element_OphCiExamination_IntraocularPressure").delegate('.iopReading', 'change', function() {
+		updateType(this);
+	});
+	
+	/**
+	 * Disable associated reading type field if reading is not recorded
+	 */
+	function updateType(field) {
+		var type = $(field).next();
+		if($(field).val() == 0) {
+			type.val('');
+			type.attr('disabled', 'disabled');
+		} else {
+			type.removeAttr('disabled');
+		}
+	}
+	
+});
+</script>

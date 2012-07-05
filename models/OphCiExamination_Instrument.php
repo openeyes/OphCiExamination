@@ -57,12 +57,6 @@ class OphCiExamination_Instrument extends BaseActiveRecord {
 		return array();
 	}
 
-	public function readingOptions() {
-		$range = range(1, 80);
-		$options = array_combine($range, $range);
-		return $options;
-	}
-	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

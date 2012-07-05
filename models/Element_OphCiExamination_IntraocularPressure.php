@@ -53,8 +53,7 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id', 'safe'),
-				array('left_instrument_id, left_reading, right_instrument_id, right_reading', 'required'),
+				array('event_id, left_instrument_id, left_reading, right_instrument_id, right_reading', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_instrument_id, left_reading, right_instrument_id, right_reading', 'safe', 'on' => 'search'),
@@ -92,6 +91,15 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		);
 	}
 
+	public function getInstrumentValues() {
+		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(), 'id', 'name') ;
+	}
+	
+	public function getReadingValues() {
+		$range = range(1, 80);
+		return array(null => 'NR') + array_combine($range, $range);
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
