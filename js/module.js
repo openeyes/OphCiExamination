@@ -79,6 +79,7 @@ $(document).ready(function() {
 		var display_order = element.attr('data-element-display-order');
 		$.get("/OphCiExamination/Default/ElementForm", {
 			id : element_type_id,
+			patient_id : et_patient_id,
 		}, function(data) {
 			var insert_before = $('#active_elements .element').first();
 			while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {

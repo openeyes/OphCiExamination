@@ -18,11 +18,16 @@ class DefaultController extends BaseEventTypeController {
 		parent::actionPrint($id);
 	}
 
-	public function actionElementForm($id) {
+	public function actionElementForm($id, $patient_id) {
 		$element_type = ElementType::model()->findByPk($id);
 		if(!$element_type) {
 			throw new CHttpException(404, 'Unknown ElementType');
 		}
+		$patient = Patient::model()->findByPk($patient_id);
+		if(!$patient) {
+			throw new CHttpException(404, 'Unknown Patient');
+		}
+		$this->patient = $patient;
 		$element = new $element_type->class_name;
 		$element->setDefaultOptions();
 		$form = Yii::app()->getWidgetFactory()->createWidget($this,'BaseEventTypeCActiveForm',array(

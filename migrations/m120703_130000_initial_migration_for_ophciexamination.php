@@ -34,6 +34,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				//'Element_OphCiExamination_AnteriorSegment' => 'Anterior Segment',
 				'Element_OphCiExamination_IntraocularPressure' => 'Intraocular Pressure',
 				'Element_OphCiExamination_PosteriorSegment' => 'Posterior Segment',
+				'Element_OphCiExamination_Diagnosis' => 'Diagnosis',
 				'Element_OphCiExamination_Investigation' => 'Investigation',
 				'Element_OphCiExamination_Conclusion' => 'Conclusion',
 		);
@@ -55,6 +56,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'anteriorsegment',
 				'cataractassessment',
 				'conclusion',
+				'diagnosis',
 				'history',
 				'intraocularpressure',
 				'investigation',
@@ -253,6 +255,12 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_posteriorsegment', 'right_description', 'text');
 		$this->addColumn('et_ophciexamination_posteriorsegment', 'right_cd_ratio', 'varchar(40)');
 
+		// Diagnosis
+		$this->addColumn('et_ophciexamination_diagnosis', 'eye_id', 'int(10) unsigned');
+		$this->addColumn('et_ophciexamination_diagnosis', 'disorder_id', 'int(10) unsigned');
+		$this->addForeignKey('et_ophciexamination_diagnosis_eye_id_fk', 'et_ophciexamination_diagnosis', 'eye_id', 'eye', 'id');
+		$this->addForeignKey('et_ophciexamination_diagnosis_disorder_id_fk', 'et_ophciexamination_diagnosis', 'disorder_id', 'disorder', 'id');
+		
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
@@ -265,6 +273,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'et_ophciexamination_anteriorsegment',
 				'et_ophciexamination_cataractassessment',
 				'et_ophciexamination_conclusion',
+				'et_ophciexamination_diagnosis',
 				'et_ophciexamination_history',
 				'et_ophciexamination_intraocularpressure',
 				'et_ophciexamination_investigation',
