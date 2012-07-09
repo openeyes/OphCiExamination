@@ -48,7 +48,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values, array('class' => 'vaReading')) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values, array('class' => 'vaReading vaReadingInitial')) ?>
 								<?php echo CHtml::activeDropDownList($element, 'right_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values, array('class' => 'vaReading')); ?>
@@ -75,7 +75,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values, array('class' => 'vaReading')) ?>
+							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values, array('class' => 'vaReading vaReadingInitial')) ?>
 								<?php echo CHtml::activeDropDownList($element, 'left_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values, array('class' => 'vaReading')); ?>
@@ -100,8 +100,11 @@ $(document).ready(function() {
 	});
 	
 	$("#event_content .Element_OphCiExamination_VisualAcuity").delegate('.vaReading', 'change', function() {
+		if($(this).hasClass('vaReadingInitial')) {
+			updateReading(this);
+		}
 		updateType(this);
-	});
+});
 	
 	/**
 	 * Disable associated reading type field if reading is not recorded
@@ -109,12 +112,22 @@ $(document).ready(function() {
 	function updateType(field) {
 		var type = $(field).next();
 		if($(field).val() == 0) {
-			type.val('');
+			type.children('option:selected').removeAttr("selected");
+			type.children('option').first().attr('selected','selected');
 			type.attr('disabled', 'disabled');
 		} else {
 			type.removeAttr('disabled');
 		}
 	}
 	
+	/**
+	 * Update corrected reading field if initial is changed
+	 */
+	function updateReading(field) {
+		var corrected = $(field).parent().next().children().first();
+		corrected.val($(field).val());
+		updateType(corrected);
+}
+
 });
 </script>
