@@ -116,6 +116,13 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		$patient_id = (int) $_REQUEST['patient_id'];
+		$firm = Yii::app()->getController()->firm;
+		$episode = Episode::getCurrentEpisodeByFirm($patient_id, $firm);
+		if($episode && $episode->hasPrincipalDiagnosis()) {
+			$this->eye_id = $episode->getPrincipalEye()->id;
+			$this->disorder_id = $episode->getPrincipalDisorder()->id;
+		}
 	}
 
 	protected function beforeSave() {
