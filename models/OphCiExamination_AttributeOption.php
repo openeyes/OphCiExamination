@@ -52,6 +52,10 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 		);
 	}
 
+	public function getLabel() {
+		return ucfirst($this->value);
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

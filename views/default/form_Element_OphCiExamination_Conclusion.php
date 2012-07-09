@@ -32,7 +32,7 @@
 				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
 					$target_field = get_class($element) . '_description';
 					echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-							CHtml::listData($attribute->options, 'value', 'value'),
+							CHtml::listData($attribute->options, 'value', 'label'),
 							array(
 									'empty' => '-- '.$attribute->label.' --',
 									'data-target-field' => $target_field,

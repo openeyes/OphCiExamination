@@ -1,35 +1,32 @@
 id,attribute_id,value
-1,1,Loss of vision
-2,1,Peripheral field loss
-3,1,Distortion of vision
-4,1,Central visual disturbance
-5,1,Floaters
-6,1,Flashing lights
-7,1,Optometrist noted retinal abnormality on routine visit
-8,2,Mild
-9,2,Moderate
-10,2,Severe
-11,3,Gradual onset
-12,3,Sudden onset
-13,3,Noticed by parent
-14,3,Noticed by optometrist
-15,3,Detected by diabetic screening
-16,7,ToDo
-17,8,ToDo
-18,9,ToDo
-19,4,Right eye
-20,4,Left eye
-21,4,Both eyes
-22,5,1 day
-23,5,2-3 days
-24,5,1 week
-25,5,2 weeks
-26,5,1 month
-27,5,6 months
-28,9,Blepharitis
-29,9,Blepharospasm
-30,9,Conjunctivitis
-31,9,Difficult access
-32,9,Ectropion
-33,9,Entropion
-34,9,Squint
+1,1,loss of vision
+2,1,peripheral field loss
+3,1,distortion of vision
+4,1,central visual disturbance
+5,1,floaters
+6,1,flashing lights
+7,1,optometrist noted retinal abnormality on routine visit
+8,2,mild
+9,2,moderate
+10,2,severe
+11,3,gradual onset
+12,3,sudden onset
+13,3,noticed by parent
+14,3,noticed by optometrist
+15,3,detected by diabetic screening
+18,4,right eye
+19,4,left eye
+20,4,both eyes
+21,5,1 day
+22,5,2-3 days
+23,5,1 week
+24,5,2 weeks
+25,5,1 month
+26,5,6 months
+27,9,blepharitis
+28,9,blepharospasm
+29,9,conjunctivitis
+30,9,difficult access
+31,9,ectropion
+32,9,entropion
+33,9,squint
