@@ -3,7 +3,6 @@
 </h4>
 <div class="cols2 clearfix">
 	<div class="left eventDetail">
-		<h5>Right</h5>
 		<div>
 			<?php
 			$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
@@ -61,7 +60,6 @@
 		</div>
 	</div>
 	<div class="right eventDetail">
-		<h5>Left</h5>
 		<?php
 		$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 				'identifier' => 'left_'.$element->elementType->id,

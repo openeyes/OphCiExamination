@@ -61,9 +61,8 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments', 'safe'),
-				array('left_initial, left_wearing, left_corrected, left_method,
-						right_initial, right_wearing, right_corrected, right_method', 'required'),
+				array('event_id, left_comments, right_comments, left_wearing, left_method, right_wearing, right_method', 'safe'),
+				array('left_initial, left_corrected, right_initial, right_corrected', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, comments, ', 'safe', 'on' => 'search'),

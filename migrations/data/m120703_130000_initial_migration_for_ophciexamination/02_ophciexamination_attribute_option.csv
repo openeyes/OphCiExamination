@@ -17,3 +17,19 @@ id,attribute_id,value
 16,7,ToDo
 17,8,ToDo
 18,9,ToDo
+19,4,Right eye
+20,4,Left eye
+21,4,Both eyes
+22,5,1 day
+23,5,2-3 days
+24,5,1 week
+25,5,2 weeks
+26,5,1 month
+27,5,6 months
+28,9,Blepharitis
+29,9,Blepharospasm
+30,9,Conjunctivitis
+31,9,Difficult access
+32,9,Ectropion
+33,9,Entropion
+34,9,Squint

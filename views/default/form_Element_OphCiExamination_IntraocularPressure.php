@@ -27,14 +27,12 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Right</div>
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
 				</div>
 		</div>
 		<div class="right eventDetail">
-			<div class="label">Left</div>
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'left_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>

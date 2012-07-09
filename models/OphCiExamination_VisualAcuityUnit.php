@@ -55,7 +55,7 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id'),
+				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'order' => 'base_value DESC'),
 		);
 	}
 

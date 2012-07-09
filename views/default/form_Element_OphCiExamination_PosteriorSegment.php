@@ -27,7 +27,6 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Right</div>
 			<div class="data" data-side="right">
 				<?php
 				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
@@ -76,7 +75,6 @@
 			</div>
 		</div>
 		<div class="right eventDetail">
-			<div class="label">Left</div>
 			<div class="data" data-side="left">
 				<?php
 				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(

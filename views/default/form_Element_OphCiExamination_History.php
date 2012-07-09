@@ -27,10 +27,6 @@
 	</h4>
 	<div id="div_<?php echo get_class($element)?>_description"
 		class="eventDetail">
-		<div class="label">
-			<?php echo CHtml::encode($element->getAttributeLabel('description'))?>
-			:
-		</div>
 		<div class="data">
 			<div class="textMacros">
 				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {

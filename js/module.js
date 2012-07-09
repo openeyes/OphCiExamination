@@ -8,18 +8,18 @@ $(document).ready(function() {
 	/**
 	 * Save event
 	 */
-	$('#event_display').delegate('#et_save', 'click', function() {
+	$('#event_display').delegate('#et_save', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 			return true;
 		}
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Cancel event edit
 	 */
-	$('#event_display').delegate('#et_cancel', 'click', function() {
+	$('#event_display').delegate('#et_cancel', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 			if (m = window.location.href.match(/\/update\/[0-9]+/)) {
@@ -28,24 +28,24 @@ $(document).ready(function() {
 				window.location.href = '/patient/episodes/' + et_patient_id;
 			}
 		}
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Delete event
 	 */
-	$('#event_display').delegate('#et_deleteevent', 'click', function() {
+	$('#event_display').delegate('#et_deleteevent', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 			$('#deleteForm').submit();
 		}
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Cancel event delete
 	 */
-	$('#event_display').delegate('#et_canceldelete', 'click', function() {
+	$('#event_display').delegate('#et_canceldelete', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 			if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
@@ -54,7 +54,7 @@ $(document).ready(function() {
 				window.location.href = '/patient/episodes/' + et_patient_id;
 			}
 		}
-		return false;
+		e.preventDefault();
 	});
 
 	/**
@@ -73,33 +73,36 @@ $(document).ready(function() {
 	/**
 	 * Add an optional element
 	 */
-	$('#inactive_elements').delegate('.addElement', 'click', function() {
-		var element = $(this).closest('.element')
-		var element_type_id = element.attr('data-element-type-id');
-		var display_order = element.attr('data-element-display-order');
-		$.get("/OphCiExamination/Default/ElementForm", {
-			id : element_type_id,
-			patient_id : et_patient_id,
-		}, function(data) {
-			var insert_before = $('#active_elements .element').first();
-			while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
-				insert_before = insert_before.nextAll('div:first');
-			}
-			element.remove();
-			if (insert_before.length) {
-				insert_before.before(data);
-			} else {
-				$('#active_elements').append(data);
-			}
-			$('#event_display textarea.autosize').autosize();
-		});
-		return false;
+	$('#inactive_elements').delegate('.addElement', 'click', function(e) {
+		if(!$(this).hasClass('clicked')) {
+			$(this).addClass('clicked');
+			var element = $(this).closest('.element')
+			var element_type_id = element.attr('data-element-type-id');
+			var display_order = element.attr('data-element-display-order');
+			$.get("/OphCiExamination/Default/ElementForm", {
+				id : element_type_id,
+				patient_id : et_patient_id,
+			}, function(data) {
+				var insert_before = $('#active_elements .element').first();
+				while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
+					insert_before = insert_before.nextAll('div:first');
+				}
+				element.remove();
+				if (insert_before.length) {
+					insert_before.before(data);
+				} else {
+					$('#active_elements').append(data);
+				}
+				$('#event_display textarea.autosize').autosize();
+			});
+		}
+		e.preventDefault();
 	});
 
 	/**
 	 * Remove an optional element
 	 */
-	$('#active_elements').delegate('.removeElement', 'click', function() {
+	$('#active_elements').delegate('.removeElement', 'click', function(e) {
 		var element = $(this).closest('.element');
 		var element_type_name = element.attr('data-element-type-name');
 		var display_order = element.attr('data-element-display-order');
@@ -113,13 +116,13 @@ $(document).ready(function() {
 		} else {
 			$('#inactive_elements').append(element);
 		}
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Populate description from eyedraw
 	 */
-	$('#event_display').delegate('.ed_report', 'click', function() {
+	$('#event_display').delegate('.ed_report', 'click', function(e) {
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -160,13 +163,13 @@ $(document).ready(function() {
 		diagnosis_id = $('input[name$="[' + diagnosis_id + ']"]', element).first();
 		diagnosis_id.val(code);
 
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Clear eyedraw
 	 */
-	$('#event_display').delegate('.ed_clear', 'click', function() {
+	$('#event_display').delegate('.ed_clear', 'click', function(e) {
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -187,7 +190,7 @@ $(document).ready(function() {
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
 		
-		return false;
+		e.preventDefault();
 	});
 
 });

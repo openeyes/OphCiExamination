@@ -2,8 +2,5 @@
 	<?php  echo $element->elementType->name ?>
 </h4>
 <div class="eventDetail">
-<?php echo $element->eye->name; ?>
-</div>
-<div class="eventDetail">
-<?php echo $element->disorder->term; ?>
+<?php echo $element->eye->name; ?> <?php echo $element->disorder->term; ?>
 </div>

@@ -36,7 +36,6 @@
 	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">Right</div>
 			<div class="data">
 				<table>
 					<thead>
@@ -64,7 +63,6 @@
 			</div>
 		</div>
 		<div class="right eventDetail">
-			<div class="label">Left</div>
 			<div class="data">
 				<table>
 					<thead>

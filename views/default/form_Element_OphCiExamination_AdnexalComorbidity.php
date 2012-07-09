@@ -27,10 +27,6 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="label">
-				<?php echo CHtml::encode($element->getAttributeLabel('right_description'))?>
-				:
-			</div>
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
@@ -46,16 +42,12 @@
 				</div>
 				<?php echo CHtml::activeTextArea($element, 'right_description', array(
 						'rows' => "1",
-						'cols' => "24",
+						'cols' => "40",
 						'class' => 'autosize',
 						)) ?>
 			</div>
 		</div>
 		<div class="right eventDetail">
-			<div class="label">
-				<?php echo CHtml::encode($element->getAttributeLabel('left_description'))?>
-				:
-			</div>
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
@@ -71,7 +63,7 @@
 				</div>
 				<?php echo CHtml::activeTextArea($element, 'left_description', array(
 						'rows' => "1",
-						'cols' => "24",
+						'cols' => "40",
 						'class' => 'autosize',
 						)) ?>
 			</div>
