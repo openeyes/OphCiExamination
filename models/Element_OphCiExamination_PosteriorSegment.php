@@ -121,7 +121,7 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
 		$criteria->compare('right_cd_ratio', $this->right_cd_ratio);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

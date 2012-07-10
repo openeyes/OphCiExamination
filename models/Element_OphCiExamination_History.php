@@ -124,5 +124,5 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * OpenEyes
  *
@@ -18,30 +18,22 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_cataractassessment".
+ * This is the model class for table "et_ophciexamination_refraction".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $left_eyedraw
- * @property string $left_pupil
- * @property string $left_nuclear
- * @property string $left_cortical
- * @property boolean $left_pxe
- * @property boolean $left_phako
- * @property string $left_description
- * @property string $right_eyedraw
- * @property string $right_pupil
- * @property string $right_nuclear
- * @property string $right_cortical
- * @property boolean $right_pxe
- * @property boolean $right_phako
- * @property string $right_description
- *
- * The followings are the available model relations:
+ * @property string $left_sphere
+ * @property string $left_cylinder
+ * @property string $left_axis
+ * @property string $left_type
+ * @property string $right_sphere
+ * @property string $right_cylinder
+ * @property string $right_axis
+ * @property string $right_type
  */
 
-class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
+class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 	public $service;
 
 	/**
@@ -56,7 +48,7 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_cataractassessment';
+		return 'et_ophciexamination_refraction';
 	}
 
 	/**
@@ -66,13 +58,10 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id', 'safe'),
-				array('left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'required'),
+				array('event_id, left_sphere, left_cylinder, left_axis, left_type, right_sphere, right_cylinder, right_axis, right_type', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'safe', 'on' => 'search'),
+				array('id, event_id, left_sphere, left_cylinder, left_axis, left_type, right_sphere, right_cylinder, right_axis, right_type', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -98,49 +87,21 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_eyedraw' => 'Eyedraw',
-				'left_pupil' => 'Pupil Size',
-				'left_nuclear' => 'Nuclear',
-				'left_cortical' => 'Cortical',
-				'left_pxe' => 'PXE',
-				'left_phako' => 'Phakodonesis',
-				'left_description' => 'Description',
-				'right_eyedraw' => 'Eyedraw',
-				'right_pupil' => 'Pupil Size',
-				'right_nuclear' => 'Nuclear',
-				'right_cortical' => 'Cortical',
-				'right_pxe' => 'PXE',
-				'right_phako' => 'Phakodonesis',
-				'right_description' => 'Description',
+				'left_sphere' => 'Sphere',
+				'left_cylinder' => 'Cylinder',
+				'left_axis' => 'Axis',
+				'left_type' => 'Type',
+				'right_sphere' => 'Sphere',
+				'right_cylinder' => 'Cylinder',
+				'right_axis' => 'Axis',
+				'right_type' => 'Type',
 		);
 	}
 
-	public function getPupilValues() {
-		return array(
-				'Large' => 'Large',
-				'Medium' => 'Medium',
-				'Small' => 'Small',
-		);
+	public function getCombined($side) {
+		return "TODO";
 	}
-
-	public function getNuclearValues() {
-		return array(
-				'None' => 'None',
-				'Mild' => 'Mild',
-				'Moderate' => 'Moderate',
-				'Brunescent' => 'Brunescent',
-		);
-	}
-
-	public function getCorticalValues() {
-		return array(
-				'None' => 'None',
-				'Mild' => 'Mild',
-				'Moderate' => 'Moderate',
-				'White' => 'White',
-		);
-	}
-
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -154,21 +115,15 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('left_eyedraw', $this->left_eyedraw);
-		$criteria->compare('left_pupil', $this->left_pupil);
-		$criteria->compare('left_nuclear', $this->left_nuclear);
-		$criteria->compare('left_cortical', $this->left_cortical);
-		$criteria->compare('left_pxe', $this->left_pxe);
-		$criteria->compare('left_phako', $this->left_phako);
-		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('right_eyedraw', $this->right_eyedraw);
-		$criteria->compare('right_pupil', $this->right_pupil);
-		$criteria->compare('right_nuclear', $this->right_nuclear);
-		$criteria->compare('right_cortical', $this->right_cortical);
-		$criteria->compare('right_pxe', $this->right_pxe);
-		$criteria->compare('right_phako', $this->right_phako);
-		$criteria->compare('right_description', $this->right_description);
-
+		$criteria->compare('left_sphere', $this->left_sphere);
+		$criteria->compare('left_cylinder', $this->left_cylinder);
+		$criteria->compare('left_axis', $this->left_axis);
+		$criteria->compare('left_type', $this->left_type);
+		$criteria->compare('right_sphere', $this->right_sphere);
+		$criteria->compare('right_cylinder', $this->right_cylinder);
+		$criteria->compare('right_axis', $this->right_axis);
+		$criteria->compare('right_type', $this->right_type);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -191,5 +146,4 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
-
 }

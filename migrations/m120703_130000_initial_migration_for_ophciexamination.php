@@ -28,6 +28,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		// Insert element types (in order of display)
 		$element_types = array(
 				'Element_OphCiExamination_History' => 'History',
+				'Element_OphCiExamination_Refraction' => 'Refraction',
 				'Element_OphCiExamination_VisualAcuity' => 'Visual Acuity',
 				'Element_OphCiExamination_AdnexalComorbidity' => 'Adnexal Comorbidity',
 				'Element_OphCiExamination_CataractAssessment' => 'Cataract Assessment',
@@ -61,6 +62,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'intraocularpressure',
 				'investigation',
 				'posteriorsegment',
+				'refraction',
 				'visualacuity',
 		);
 		foreach($element_type_tables as $element_type_table) {
@@ -260,6 +262,16 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_diagnosis', 'disorder_id', 'int(10) unsigned');
 		$this->addForeignKey('et_ophciexamination_diagnosis_eye_id_fk', 'et_ophciexamination_diagnosis', 'eye_id', 'eye', 'id');
 		$this->addForeignKey('et_ophciexamination_diagnosis_disorder_id_fk', 'et_ophciexamination_diagnosis', 'disorder_id', 'disorder', 'id');
+
+		// Refraction
+		$this->addColumn('et_ophciexamination_refraction', 'left_sphere', 'decimal(5,2)');
+		$this->addColumn('et_ophciexamination_refraction', 'left_cylinder', 'decimal(5,2)');
+		$this->addColumn('et_ophciexamination_refraction', 'left_axis', 'int(3)');
+		$this->addColumn('et_ophciexamination_refraction', 'left_type', 'varchar(40)');
+		$this->addColumn('et_ophciexamination_refraction', 'right_sphere', 'decimal(5,2)');
+		$this->addColumn('et_ophciexamination_refraction', 'right_cylinder', 'decimal(5,2)');
+		$this->addColumn('et_ophciexamination_refraction', 'right_axis', 'int(3)');
+		$this->addColumn('et_ophciexamination_refraction', 'right_type', 'varchar(40)');
 		
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
@@ -278,6 +290,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'et_ophciexamination_intraocularpressure',
 				'et_ophciexamination_investigation',
 				'et_ophciexamination_posteriorsegment',
+				'et_ophciexamination_refraction',
 				'et_ophciexamination_visualacuity',
 				'ophciexamination_visual_acuity_unit_value',
 				'ophciexamination_visual_acuity_unit',
