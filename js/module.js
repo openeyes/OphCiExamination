@@ -80,7 +80,7 @@ $(document).ready(function() {
 	 * Add an optional element
 	 */
 	$('#inactive_elements').delegate('.addElement', 'click', function(e) {
-		if(!$(this).hasClass('clicked')) {
+		if (!$(this).hasClass('clicked')) {
 			$(this).addClass('clicked');
 			var element = $(this).closest('.element')
 			var element_type_id = element.attr('data-element-type-id');
@@ -190,19 +190,22 @@ $(document).ready(function() {
 			eyedraw = side + '_' + eyedraw;
 		}
 		eyedraw = window['ed_drawing_edit_' + eyedraw];
-		
+
 		// Reset eyedraw
 		eyedraw.deleteAllDoodles();
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
-		
+
 		e.preventDefault();
 	});
 
 });
 
 function eDparameterListener(_drawing) {
-	if (_drawing.selectedDoodle != null) {
-		// handle event
+	if (_drawing.selectedDoodle) {
+		if (_drawing.selectedDoodle.className == 'TrialLens') {
+			var side = (_drawing.eye == 0) ? 'right' : 'left';
+			$('#Element_OphCiExamination_Refraction_'+side+'_axis').val(_drawing.selectedDoodle.getParameter('axis'));
+		}
 	}
 }

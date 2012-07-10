@@ -42,12 +42,13 @@ $types = array_combine($types,$types);
 						'identifier' => 'right_'.$element->elementType->id,
 						'side' => 'R',
 						'mode' => 'edit',
-						'size' => 200,
+						'size' => 160,
 						'no_wrapper' => true,
 						'toolbar' => false,
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('TrialFrame')),
 								array('addDoodle', array('TrialLens')),
+								array('setParameterForDoodleOfClass', array('TrialLens', 'axis', $element->right_axis)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -77,7 +78,7 @@ $types = array_combine($types,$types);
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_axis') ?>
+							<?php echo CHtml::activeTextField($element, 'right_axis', array('class' => 'axis')) ?>
 						</div>
 					</div>
 					<div>
@@ -99,12 +100,13 @@ $types = array_combine($types,$types);
 						'identifier' => 'left_'.$element->elementType->id,
 						'side' => 'L',
 						'mode' => 'edit',
-						'size' => 200,
+						'size' => 160,
 						'no_wrapper' => true,
 						'toolbar' => false,
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('TrialFrame')),
 								array('addDoodle', array('TrialLens')),
+								array('setParameterForDoodleOfClass', array('TrialLens', 'axis', $element->left_axis)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -134,7 +136,7 @@ $types = array_combine($types,$types);
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_axis') ?>
+							<?php echo CHtml::activeTextField($element, 'left_axis', array('class' => 'axis')) ?>
 						</div>
 					</div>
 					<div>
@@ -151,3 +153,22 @@ $types = array_combine($types,$types);
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$('#event_display').delegate('.element input.axis', 'change', function() {
+		updateAxis(this);
+	});
+
+	function updateAxis(field) {
+		var axis = $(field).val();
+		axis = axis % 180;
+		$(field).val(axis);
+		var side = $(field).closest('[data-side]').attr('data-side');
+		var element_type_id = $(field).closest('.element').attr('data-element-type-id');
+		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+		eyedraw.setParameterForDoodleOfClass('TrialLens', 'axis', axis);
+	}
+	
+});
+</script>
