@@ -25,7 +25,7 @@
 	display: inline-block;
 }
 
-.textMacros select{
+.textMacros select {
 	width: 120px;
 	margin-right: 10px;
 }
@@ -47,6 +47,7 @@
 #event_content .Element_OphCiExamination_VisualAcuity .data {
 	margin-left: 10px;
 }
+
 #event_content canvas {
 	float: left;
 	border: 1px solid #ccc;
@@ -63,12 +64,15 @@
 	width: 280px;
 }
 
-#event_content .eyedrawFields > div {
+#event_content .eyedrawFields>div {
 	margin: 5px 0;
 }
 
-#event_content .eyedrawFields .label,
-#event_content .eyedrawFields .data {
+#event_content .eyedrawFields .label,#event_content .eyedrawFields .data
+	{
 	display: inline-block;
 }
 
+#event_content .Element_OphCiExamination_Refraction .eyedrawFields {
+	width: 320px;
+}

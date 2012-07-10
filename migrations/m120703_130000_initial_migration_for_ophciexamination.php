@@ -267,10 +267,12 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_refraction', 'left_sphere', 'decimal(5,2)');
 		$this->addColumn('et_ophciexamination_refraction', 'left_cylinder', 'decimal(5,2)');
 		$this->addColumn('et_ophciexamination_refraction', 'left_axis', 'int(3)');
+		$this->addColumn('et_ophciexamination_refraction', 'left_axis_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_refraction', 'left_type', 'varchar(40)');
 		$this->addColumn('et_ophciexamination_refraction', 'right_sphere', 'decimal(5,2)');
 		$this->addColumn('et_ophciexamination_refraction', 'right_cylinder', 'decimal(5,2)');
 		$this->addColumn('et_ophciexamination_refraction', 'right_axis', 'int(3)');
+		$this->addColumn('et_ophciexamination_refraction', 'right_axis_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_refraction', 'right_type', 'varchar(40)');
 		
 		$migrations_path = dirname(__FILE__);

@@ -43,12 +43,13 @@ $types = array_combine($types,$types);
 						'side' => 'R',
 						'mode' => 'edit',
 						'size' => 160,
+						'model' => $element,
+						'attribute' => 'right_axis_eyedraw',
 						'no_wrapper' => true,
 						'toolbar' => false,
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('TrialFrame')),
 								array('addDoodle', array('TrialLens')),
-								array('setParameterForDoodleOfClass', array('TrialLens', 'axis', $element->right_axis)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -59,8 +60,12 @@ $types = array_combine($types,$types);
 							<?php echo $element->getAttributeLabel('right_sphere'); ?>
 							:
 						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_sphere') ?>
+						<div class="data segmented">
+							<?php $this->renderPartial(
+									'_segmented_field',
+									array('element' => $element, 'field' => 'right_sphere'),
+									false, false
+							) ?>
 						</div>
 					</div>
 					<div>
@@ -68,8 +73,12 @@ $types = array_combine($types,$types);
 							<?php echo $element->getAttributeLabel('right_cylinder'); ?>
 							:
 						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'right_cylinder') ?>
+						<div class="data segmented">
+							<?php $this->renderPartial(
+									'_segmented_field',
+									array('element' => $element, 'field' => 'right_cylinder'),
+									false, false
+							) ?>
 						</div>
 					</div>
 					<div>
@@ -101,12 +110,13 @@ $types = array_combine($types,$types);
 						'side' => 'L',
 						'mode' => 'edit',
 						'size' => 160,
+						'model' => $element,
+						'attribute' => 'left_axis_eyedraw',
 						'no_wrapper' => true,
 						'toolbar' => false,
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('TrialFrame')),
 								array('addDoodle', array('TrialLens')),
-								array('setParameterForDoodleOfClass', array('TrialLens', 'axis', $element->left_axis)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -117,8 +127,12 @@ $types = array_combine($types,$types);
 							<?php echo $element->getAttributeLabel('left_sphere'); ?>
 							:
 						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_sphere') ?>
+						<div class="data segmented">
+							<?php $this->renderPartial(
+									'_segmented_field',
+									array('element' => $element, 'field' => 'left_sphere'),
+									false, false
+							) ?>
 						</div>
 					</div>
 					<div>
@@ -126,8 +140,12 @@ $types = array_combine($types,$types);
 							<?php echo $element->getAttributeLabel('left_cylinder'); ?>
 							:
 						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextField($element, 'left_cylinder') ?>
+						<div class="data segmented">
+							<?php $this->renderPartial(
+									'_segmented_field',
+									array('element' => $element, 'field' => 'left_cylinder'),
+									false, false
+							) ?>
 						</div>
 					</div>
 					<div>
@@ -157,18 +175,25 @@ $types = array_combine($types,$types);
 $(document).ready(function() {
 
 	$('#event_display').delegate('.element input.axis', 'change', function() {
-		updateAxis(this);
-	});
-
-	function updateAxis(field) {
-		var axis = $(field).val();
+		var axis = $(this).val();
 		axis = axis % 180;
-		$(field).val(axis);
-		var side = $(field).closest('[data-side]').attr('data-side');
-		var element_type_id = $(field).closest('.element').attr('data-element-type-id');
+		$(this).val(axis);
+		var side = $(this).closest('[data-side]').attr('data-side');
+		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
 		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
 		eyedraw.setParameterForDoodleOfClass('TrialLens', 'axis', axis);
-	}
+	});
+
+	$('#event_display').delegate('.element .segmented select', 'change', function() {
+		var field = $(this).nextAll('input');
+		updateSegmentedField(field);
+	});
 	
+	function updateSegmentedField(field) {
+		var parts = $(field).parent().children('select');
+		var value = $(parts[0]).val() * (parseFloat($(parts[1]).val()) + parseFloat($(parts[2]).val()));
+		$(field).val(value.toFixed(2));
+	}
+
 });
 </script>

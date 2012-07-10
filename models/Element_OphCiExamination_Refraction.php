@@ -23,13 +23,15 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $left_sphere
- * @property string $left_cylinder
- * @property string $left_axis
+ * @property decimal $left_sphere
+ * @property decimal $left_cylinder
+ * @property integer $left_axis
+ * @property string $left_axis_eyedraw
  * @property string $left_type
- * @property string $right_sphere
- * @property string $right_cylinder
- * @property string $right_axis
+ * @property decimal $right_sphere
+ * @property decimal $right_cylinder
+ * @property integer $right_axis
+ * @property string $right_axis_eyedraw
  * @property string $right_type
  */
 
@@ -58,10 +60,10 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_type, right_sphere, right_cylinder, right_axis, right_type', 'safe'),
+				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_sphere, left_cylinder, left_axis, left_type, right_sphere, right_cylinder, right_axis, right_type', 'safe', 'on' => 'search'),
+				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -99,7 +101,7 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 	}
 
 	public function getCombined($side) {
-		return "TODO";
+		return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '&deg;';
 	}
 	
 	/**
@@ -133,6 +135,8 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		$this->left_axis = 0;
+		$this->right_axis = 0;
 	}
 
 	protected function beforeSave() {
