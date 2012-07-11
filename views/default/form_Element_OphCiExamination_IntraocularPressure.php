@@ -22,7 +22,13 @@
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<a href="#" class="removeElement">Remove</a>
+	<div class="removeElement">
+		<button class="classy blue mini">
+			<span class="button-span icon-only"><img
+				src="/img/_elements/btns/mini-cross.png" alt="+" width="24"
+				height="22"> </span>
+		</button>
+	</div>
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
@@ -31,13 +37,13 @@
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
-				</div>
+			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'left_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
-				</div>
+			</div>
 		</div>
 	</div>
 </div>

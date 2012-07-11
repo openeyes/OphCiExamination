@@ -1,5 +1,9 @@
 #active_elements .element {
-	border-bottom: 1px solid #ccc;
+	position: relative;
+}
+
+#active_elements h4.elementTypeName {
+	border-top: 2px dotted #8C949C;
 }
 
 #active_elements .element h5 {
@@ -8,13 +12,28 @@
 }
 
 #active_elements .removeElement {
-	float: right;
-	padding: 10px;
+	position: absolute;
+	right: 5px;
+	top: 7px;
+	z-index: 1;
 }
 
-#inactive_elements {
-	background: #ccc;
-	padding: 10px;
+#inactive_elements .element {
+	background: #8C949C url(/img/_elements/icons/extra-element_view.png) top right no-repeat;
+	padding: 5px;
+	color: #fff;
+	border-bottom: 1px dotted #fafafa;
+	cursor: pointer;
+}
+
+#inactive_elements h5 {
+	margin: 0;
+	line-height: 1em;
+	padding: 0 5px;
+}
+
+#inactive_elements .element:hover {
+	background-color: #3665ff;
 }
 
 .textMacros {
