@@ -201,11 +201,12 @@ $(document).ready(function() {
 
 });
 
+// Global function to route eyedraw event to the correct element handler
 function eDparameterListener(_drawing) {
 	if (_drawing.selectedDoodle) {
-		if (_drawing.selectedDoodle.className == 'TrialLens') {
-			var side = (_drawing.eye == 0) ? 'right' : 'left';
-			$('#Element_OphCiExamination_Refraction_'+side+'_axis').val(_drawing.selectedDoodle.getParameter('axis'));
+		var element_type = $(_drawing.canvasParent).closest('.element').attr('data-element-type-class');
+		if(typeof window['update'+element_type] === 'function') {
+			window['update'+element_type](_drawing.selectedDoodle);
 		}
 	}
 }

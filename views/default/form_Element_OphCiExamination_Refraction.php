@@ -28,6 +28,7 @@ $types = array_combine($types,$types);
 ?>
 <div class="element <?php echo $element->elementType->class_name ?>"
 	data-element-type-id="<?php echo $element->elementType->id ?>"
+	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
 	<a href="#" class="removeElement">Remove</a>
@@ -172,6 +173,7 @@ $types = array_combine($types,$types);
 	</div>
 </div>
 <script type="text/javascript">
+							
 $(document).ready(function() {
 
 	$('#event_display').delegate('.element input.axis', 'change', function() {
@@ -195,5 +197,15 @@ $(document).ready(function() {
 		$(field).val(value.toFixed(2));
 	}
 
+	
 });
+
+// Global function to handle eyedraw events for this element
+function updateElement_OphCiExamination_Refraction(doodle) {
+	if (doodle.className == 'TrialLens') {
+		var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
+		$('#Element_OphCiExamination_Refraction_'+side+'_axis').val(doodle.getParameter('axis'));
+	}
+}
+
 </script>

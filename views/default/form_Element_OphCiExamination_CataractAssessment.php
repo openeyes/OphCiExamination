@@ -19,6 +19,7 @@
 ?>
 <div class="element <?php echo $element->elementType->class_name ?>"
 	data-element-type-id="<?php echo $element->elementType->id ?>"
+	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
 	<a href="#" class="removeElement">Remove</a>
@@ -52,6 +53,7 @@
 						),
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('AntSeg')),
+								array('setParameterForDoodleOfClass', array('AntSeg', 'pxe', $element->right_pxe)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -140,6 +142,7 @@
 						),
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('AntSeg')),
+								array('setParameterForDoodleOfClass', array('AntSeg', 'pxe', $element->left_pxe)),
 								array('deselectDoodles', array()),
 						),
 				));
@@ -205,3 +208,34 @@
 
 	</div>
 </div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
+		var side = $(this).closest('[data-side]').attr('data-side');
+		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
+		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
+	});
+});
+
+// Global function to handle eyedraw events for this element
+function updateElement_OphCiExamination_CataractAssessment(doodle) {
+	switch(doodle.className) {
+		case 'AntSeg':
+			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
+			$('#Element_OphCiExamination_CataractAssessment_'+side+'_pupil').val(doodle.getParameter('grade'));
+			break;
+		case 'NuclearCataract':
+			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
+			$('#Element_OphCiExamination_CataractAssessment_'+side+'_nuclear').val(doodle.getParameter('grade'));
+			break;
+		case 'CorticalCataract':
+			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
+			$('#Element_OphCiExamination_CataractAssessment_'+side+'_cortical').val(doodle.getParameter('grade'));
+			break;
+	}
+}
+
+</script>

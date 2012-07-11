@@ -131,6 +131,8 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		$this->left_cd_ratio = '0.6';
+		$this->right_cd_ratio = '0.6';
 	}
 
 	protected function beforeSave() {
