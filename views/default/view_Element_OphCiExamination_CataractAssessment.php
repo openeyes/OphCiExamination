@@ -13,6 +13,9 @@
 					'model' => $element,
 					'no_wrapper' => true,
 					'attribute' => 'right_eyedraw',
+					'onLoadedParamsArray' => array(
+							array('AntSeg', 'pxe', (bool) $element->right_pxe),
+					),
 			));
 			?>
 		</div>
@@ -69,6 +72,9 @@
 				'model' => $element,
 				'no_wrapper' => true,
 				'attribute' => 'left_eyedraw',
+				'onLoadedParamsArray' => array(
+						array('AntSeg', 'pxe', (bool) $element->left_pxe),
+				),
 		));
 		?>
 		<div class="eyedrawFields view">

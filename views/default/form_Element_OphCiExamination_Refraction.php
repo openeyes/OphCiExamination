@@ -207,9 +207,9 @@ $(document).ready(function() {
 });
 
 // Global function to handle eyedraw events for this element
-function updateElement_OphCiExamination_Refraction(doodle) {
-	if (doodle.className == 'TrialLens') {
-		var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
+function updateElement_OphCiExamination_Refraction(drawing, doodle) {
+	if (doodle && doodle.className == 'TrialLens') {
+		var side = (drawing.eye == 0) ? 'right' : 'left';
 		$('#Element_OphCiExamination_Refraction_'+side+'_axis').val(doodle.getParameter('axis'));
 	}
 }

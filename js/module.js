@@ -208,11 +208,13 @@ $(document).ready(function() {
 });
 
 // Global function to route eyedraw event to the correct element handler
-function eDparameterListener(_drawing) {
-	if (_drawing.selectedDoodle) {
-		var element_type = $(_drawing.canvasParent).closest('.element').attr('data-element-type-class');
-		if(typeof window['update'+element_type] === 'function') {
-			window['update'+element_type](_drawing.selectedDoodle);
-		}
+function eDparameterListener(drawing) {
+	var doodle = null;
+	if (drawing.selectedDoodle) {
+		doodle = drawing.selectedDoodle;
+	}
+	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
+	if(typeof window['update'+element_type] === 'function') {
+		window['update'+element_type](drawing, doodle);
 	}
 }

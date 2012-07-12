@@ -59,8 +59,10 @@
 						),
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('AntSeg')),
-								array('setParameterForDoodleOfClass', array('AntSeg', 'pxe', $element->right_pxe)),
 								array('deselectDoodles', array()),
+						),
+						'onLoadedParamsArray' => array(
+								array('AntSeg', 'pxe', (bool) $element->right_pxe),
 						),
 				));
 				?>
@@ -148,8 +150,10 @@
 						),
 						'onLoadedCommandArray' => array(
 								array('addDoodle', array('AntSeg')),
-								array('setParameterForDoodleOfClass', array('AntSeg', 'pxe', $element->left_pxe)),
 								array('deselectDoodles', array()),
+						),
+						'onLoadedParamsArray' => array(
+								array('AntSeg', 'pxe', (bool) $element->left_pxe),
 						),
 				));
 				?>
@@ -227,20 +231,20 @@ $(document).ready(function() {
 });
 
 // Global function to handle eyedraw events for this element
-function updateElement_OphCiExamination_CataractAssessment(doodle) {
-	switch(doodle.className) {
-		case 'AntSeg':
-			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
-			$('#Element_OphCiExamination_CataractAssessment_'+side+'_pupil').val(doodle.getParameter('grade'));
-			break;
-		case 'NuclearCataract':
-			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
-			$('#Element_OphCiExamination_CataractAssessment_'+side+'_nuclear').val(doodle.getParameter('grade'));
-			break;
-		case 'CorticalCataract':
-			var side = (doodle.drawing.eye == 0) ? 'right' : 'left';
-			$('#Element_OphCiExamination_CataractAssessment_'+side+'_cortical').val(doodle.getParameter('grade'));
-			break;
+function updateElement_OphCiExamination_CataractAssessment(drawing, doodle) {
+	var side = (drawing.eye == 0) ? 'right' : 'left';
+	if(doodle) {
+		switch(doodle.className) {
+			case 'AntSeg':
+				$('#Element_OphCiExamination_CataractAssessment_'+side+'_pupil').val(doodle.getParameter('grade'));
+				break;
+			case 'NuclearCataract':
+				$('#Element_OphCiExamination_CataractAssessment_'+side+'_nuclear').val(doodle.getParameter('grade'));
+				break;
+			case 'CorticalCataract':
+				$('#Element_OphCiExamination_CataractAssessment_'+side+'_cortical').val(doodle.getParameter('grade'));
+				break;
+		}
 	}
 }
 
