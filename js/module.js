@@ -102,7 +102,7 @@ $(document).ready(function() {
 				$('#event_display textarea.autosize').autosize();
 				var inserted = (insert_before.length) ? insert_before.prevAll('div:first') : $('#active_elements .element:last');
 				var offTop = inserted.offset().top - 50;
-				var speed = (Math.abs($(window).scrollTop() - offTop));
+				var speed = (Math.abs($(window).scrollTop() - offTop)) * 1.5;
 				$('body').animate({ scrollTop: offTop }, speed, null, function() {
 					$('.elementTypeName',inserted).effect('pulsate',{ times: 2 }, 600);
 				});
