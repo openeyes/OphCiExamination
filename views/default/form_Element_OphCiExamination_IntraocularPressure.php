@@ -36,13 +36,21 @@
 		<div class="left eventDetail">
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
-				<?php echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
+				<?php if($element->getSetting('show_instruments')) {
+					echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
+				} else {
+					echo CHtml::activeHiddenField($element, 'right_instrument_id');
+				} ?>
 			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
 				<?php echo CHtml::activeDropDownList($element, 'left_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
-				<?php echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument')); ?>
+				<?php if($element->getSetting('show_instruments')) {
+					echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
+				} else {
+					echo CHtml::activeHiddenField($element, 'left_instrument_id');
+				} ?>
 			</div>
 		</div>
 	</div>
@@ -59,13 +67,18 @@ $(document).ready(function() {
 		updateType(this);
 	});
 	
+	<?php if($element->getSetting('link_instruments')) { ?>
+	$("#event_content .Element_OphCiExamination_IntraocularPressure").delegate('.iopInstrument', 'change', function() {
+		$(this).closest('.element').find('.iopInstrument').val($(this).val());
+	});
+	<?php } ?>
+	
 	/**
 	 * Disable associated reading type field if reading is not recorded
 	 */
 	function updateType(field) {
 		var type = $(field).next();
 		if($(field).val() == 0) {
-			type.val('');
 			type.attr('disabled', 'disabled');
 		} else {
 			type.removeAttr('disabled');

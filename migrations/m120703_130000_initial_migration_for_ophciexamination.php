@@ -27,27 +27,36 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 
 		// Insert element types (in order of display)
 		$element_types = array(
-				'Element_OphCiExamination_History' => 'History',
-				'Element_OphCiExamination_Refraction' => 'Refraction',
-				'Element_OphCiExamination_VisualAcuity' => 'Visual Acuity',
-				'Element_OphCiExamination_AdnexalComorbidity' => 'Adnexal Comorbidity',
-				'Element_OphCiExamination_CataractAssessment' => 'Cataract Assessment',
-				//'Element_OphCiExamination_AnteriorSegment' => 'Anterior Segment',
-				'Element_OphCiExamination_IntraocularPressure' => 'Intraocular Pressure',
-				'Element_OphCiExamination_PosteriorSegment' => 'Posterior Segment',
-				'Element_OphCiExamination_Diagnosis' => 'Diagnosis',
-				'Element_OphCiExamination_Investigation' => 'Investigation',
-				'Element_OphCiExamination_Conclusion' => 'Conclusion',
+				'Element_OphCiExamination_History' => array('name' => 'History'),
+				'Element_OphCiExamination_Refraction' => array('name' => 'Refraction'),
+				'Element_OphCiExamination_VisualAcuity' => array('name' => 'Visual Acuity'),
+				'Element_OphCiExamination_AdnexalComorbidity' => array('name' => 'Adnexal Comorbidity'),
+				'Element_OphCiExamination_CataractAssessment' => array('name' => 'Cataract Assessment'),
+				//'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment'),
+				'Element_OphCiExamination_IntraocularPressure' => array('name' => 'Intraocular Pressure'),
+				'Element_OphCiExamination_PosteriorSegment' => array('name' => 'Posterior Segment'),
+				'Element_OphCiExamination_Diagnosis' => array('name' => 'Diagnosis'),
+				'Element_OphCiExamination_Investigation' => array('name' => 'Investigation'),
+				'Element_OphCiExamination_Conclusion' => array('name' => 'Conclusion'),
 		);
 		$display_order = 1;
-		foreach($element_types as $element_type_class => $element_type_name) {
+		foreach($element_types as $element_type_class => $element_type_data) {
 			$this->insert('element_type', array(
-					'name' => $element_type_name,
+					'name' => $element_type_data['name'],
 					'class_name' => $element_type_class,
 					'event_type_id' => $event_type_id,
 					'display_order' => $display_order * 10,
 					'default' => 1,
 			));
+			
+			// Insert element type id into element type array
+			$element_type_id = $this->dbConnection->createCommand()
+				->select('id')
+				->from('element_type')
+				->where('class_name=:class_name', array(':class_name'=>$element_type_class))
+				->queryScalar();
+			$element_types[$element_type_class]['id'] = $element_type_id;
+			
 			$display_order++;
 		}
 
@@ -238,7 +247,28 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 		$this->addColumn('et_ophciexamination_intraocularpressure', 'right_instrument_id', 'int(10) unsigned');
 		$this->addForeignKey('et_ophciexamination_intraocularpressure_ri_fk', 'et_ophciexamination_intraocularpressure', 'right_instrument_id', 'ophciexamination_instrument', 'id');
 		$this->addColumn('et_ophciexamination_intraocularpressure', 'right_reading', 'varchar(45)');
-
+		$this->insert('setting_metadata', array(
+				'element_type_id' => $element_types['Element_OphCiExamination_IntraocularPressure']['id'],
+				'field_type_id' => 2, // Dropdown
+				'key' => 'default_instrument_id',
+				'name' => 'Default Instrument',
+				'default_value' => 1, // Goldmann
+		));
+		$this->insert('setting_metadata', array(
+				'element_type_id' => $element_types['Element_OphCiExamination_IntraocularPressure']['id'],
+				'field_type_id' => 1, // Boolean
+				'key' => 'show_instruments',
+				'name' => 'Show instruments',
+				'default_value' => 1,
+		));
+		$this->insert('setting_metadata', array(
+				'element_type_id' => $element_types['Element_OphCiExamination_IntraocularPressure']['id'],
+				'field_type_id' => 1, // Boolean
+				'key' => 'link_instruments',
+				'name' => 'Link Instruments',
+				'default_value' => 1,
+		));
+		
 		// Anterior Segment
 		$this->addColumn('et_ophciexamination_anteriorsegment', 'left_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_anteriorsegment', 'left_description', 'text');

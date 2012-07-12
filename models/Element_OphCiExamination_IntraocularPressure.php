@@ -127,6 +127,18 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		
+		// Default instrument
+		if($default_instrument_id = $this->getSetting('default_instrument_id')) {
+			$this->left_instrument_id = $default_instrument_id;
+			$this->right_instrument_id = $default_instrument_id;
+		}
+		
+		// Show instruments
+		if(!$this->getSetting('show_instruments')) {
+			$this->left_instrument_id = null;
+			$this->right_instrument_id = null;
+		}
 	}
 
 	protected function beforeSave() {
