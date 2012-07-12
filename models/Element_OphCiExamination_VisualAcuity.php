@@ -106,10 +106,11 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	}
 
 	/**
-	 * @fixme: Needs linking up to default settings system
+	 * Get the measurement unit
 	 */
 	public function getUnit() {
-		return OphCiExamination_VisualAcuityUnit::model()->findByPk(2);
+		$unit_id = $this->getSetting('unit_id');
+		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
 	}
 
 	/**

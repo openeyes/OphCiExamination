@@ -65,9 +65,11 @@
 					</tbody>
 				</table>
 			</div>
+			<?php if($element->right_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
 				<?php echo CHtml::activeTextArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
 			</div>
+			<?php } ?>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
@@ -92,9 +94,11 @@
 					</tbody>
 				</table>
 			</div>
+			<?php if($element->left_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
 				<?php echo CHtml::activeTextArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
 			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>
