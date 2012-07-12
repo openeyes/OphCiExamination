@@ -351,12 +351,22 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 			$this->dropTable($table);
 		}
 
-		// Delete the element types
 		$event_type_id = $this->dbConnection->createCommand()
 		->select('id')
 		->from('event_type')
 		->where('class_name=:class_name', array(':class_name'=>'OphCiExamination'))
 		->queryScalar();
+		
+		// Remove settings
+		$element_type_ids = $this->dbConnection->createCommand()
+		->select('id')
+		->from('element_type')
+		->where('event_type_id = :event_type_id', array(':event_type_id'=>$event_type_id))
+		->queryColumn();
+		$element_type_ids_string = implode(',',$element_type_ids);
+		$this->delete('setting_metadata', "element_type_id IN ($element_type_ids_string)");
+				
+		// Delete the element types
 		$this->delete('element_type','event_type_id = ' . $event_type_id);
 
 		// Delete the event type
