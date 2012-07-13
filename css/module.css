@@ -37,6 +37,14 @@
 	background-color: #3665ff;
 }
 
+#inactive_elements .element.clicked {
+	background: #ddd url(/img/ajax-loader.gif) 1010px 4px no-repeat;
+}
+
+#inactive_elements .element.clicked h5 {
+	color: #333;
+}
+
 #optionals_all {
 	font-size: 12px;
 	border-bottom: 1px dotted #fafafa;
