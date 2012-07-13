@@ -77,7 +77,7 @@ $(document).ready(function() {
 	 * Disable associated reading type field if reading is not recorded
 	 */
 	function updateType(field) {
-		var type = $(field).next();
+		var type = $(field).closest('.data').find('.iopInstrument');
 		if($(field).val() == 0) {
 			type.attr('disabled', 'disabled');
 		} else {
