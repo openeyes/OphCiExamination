@@ -77,37 +77,68 @@ $(document).ready(function() {
 	}
 
 	/**
+	 * Add all optional elements
+	 */
+	$('#optionals_all').delegate('#add-all', 'click', function(e) {
+		$('#inactive_elements .element').each(function() {
+			addElement(this, false);
+		});
+		e.preventDefault();
+	});
+
+	/**
 	 * Add an optional element
 	 */
 	$('#inactive_elements').delegate('.element', 'click', function(e) {
 		if (!$(this).hasClass('clicked')) {
 			$(this).addClass('clicked');
-			var element = $(this);
-			var element_type_id = element.attr('data-element-type-id');
-			var display_order = element.attr('data-element-display-order');
-			$.get("/OphCiExamination/Default/ElementForm", {
-				id : element_type_id,
-				patient_id : et_patient_id,
-			}, function(data) {
-				var insert_before = $('#active_elements .element').first();
-				while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
-					insert_before = insert_before.nextAll('div:first');
-				}
-				element.remove();
-				if (insert_before.length) {
-					insert_before.before(data);
-				} else {
-					$('#active_elements').append(data);
-				}
-				$('#event_display textarea.autosize').autosize();
-				var inserted = (insert_before.length) ? insert_before.prevAll('div:first') : $('#active_elements .element:last');
+			addElement(this);
+		}
+		e.preventDefault();
+	});
+
+	function addElement(element, animate) {
+		if (typeof (animate) === 'undefined')
+			animate = true;
+		var element_type_id = $(element).attr('data-element-type-id');
+		var display_order = $(element).attr('data-element-display-order');
+		$.get("/OphCiExamination/Default/ElementForm", {
+			id : element_type_id,
+			patient_id : et_patient_id,
+		}, function(data) {
+			var insert_before = $('#active_elements .element').first();
+			while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
+				insert_before = insert_before.nextAll('div:first');
+			}
+			$(element).remove();
+			if (insert_before.length) {
+				insert_before.before(data);
+			} else {
+				$('#active_elements').append(data);
+			}
+			$('#event_display textarea.autosize').autosize();
+			var inserted = (insert_before.length) ? insert_before.prevAll('div:first') : $('#active_elements .element:last');
+			if (animate) {
 				var offTop = inserted.offset().top - 50;
 				var speed = (Math.abs($(window).scrollTop() - offTop)) * 1.5;
-				$('body').animate({ scrollTop: offTop }, speed, null, function() {
-					$('.elementTypeName',inserted).effect('pulsate',{ times: 2 }, 600);
+				$('body').animate({
+					scrollTop : offTop
+				}, speed, null, function() {
+					$('.elementTypeName', inserted).effect('pulsate', {
+						times : 2
+					}, 600);
 				});
-			});
-		}
+			}
+		});
+	}
+
+	/**
+	 * Remove all optional elements
+	 */
+	$('#optionals_all').delegate('#remove-all', 'click', function(e) {
+		$('#active_elements .element').each(function() {
+			removeElement(this);
+		});
 		e.preventDefault();
 	});
 
@@ -116,9 +147,14 @@ $(document).ready(function() {
 	 */
 	$('#active_elements').delegate('.removeElement button', 'click', function(e) {
 		var element = $(this).closest('.element');
-		var element_type_name = element.attr('data-element-type-name');
-		var display_order = element.attr('data-element-display-order');
-		element.html($('<h5>' + element_type_name + '</h5>'));
+		removeElement(element);
+		e.preventDefault();
+	});
+
+	function removeElement(element) {
+		var element_type_name = $(element).attr('data-element-type-name');
+		var display_order = $(element).attr('data-element-display-order');
+		$(element).html($('<h5>' + element_type_name + '</h5>'));
 		var insert_before = $('#inactive_elements .element').first();
 		while (parseInt(insert_before.attr('data-element-display-order')) < parseInt(display_order)) {
 			insert_before = insert_before.next();
@@ -128,8 +164,7 @@ $(document).ready(function() {
 		} else {
 			$('#inactive_elements').append(element);
 		}
-		e.preventDefault();
-	});
+	}
 
 	/**
 	 * Populate description from eyedraw
@@ -214,7 +249,7 @@ function eDparameterListener(drawing) {
 		doodle = drawing.selectedDoodle;
 	}
 	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
-	if(typeof window['update'+element_type] === 'function') {
-		window['update'+element_type](drawing, doodle);
+	if (typeof window['update' + element_type] === 'function') {
+		window['update' + element_type](drawing, doodle);
 	}
 }

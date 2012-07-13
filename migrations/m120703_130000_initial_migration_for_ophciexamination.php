@@ -229,7 +229,7 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'CONSTRAINT `ophciexamination_visual_acuity_unit_value_cuid_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		$this->insert('setting_metadata', array(
-				'element_type_id' => $element_types['Element_OphCiExamination_IntraocularPressure']['id'],
+				'element_type_id' => $element_types['Element_OphCiExamination_VisualAcuity']['id'],
 				'field_type_id' => 2, // Dropdown
 				'key' => 'unit_id',
 				'name' => 'Units',
