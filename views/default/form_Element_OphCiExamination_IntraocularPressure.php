@@ -35,12 +35,12 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 				<?php if($element->getSetting('show_instruments')) {
 					echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
 				} else {
 					echo CHtml::activeHiddenField($element, 'right_instrument_id');
 				} ?>
+				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
 			</div>
 		</div>
 		<div class="right eventDetail">

@@ -129,3 +129,21 @@
 #event_content .Element_OphCiExamination_Refraction .eyedrawFields {
 	width: 320px;
 }
+
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left,
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right {
+	border-width: 4px 0 0 0;
+	border-color: #000;
+	border-style: solid;
+	width: 493px;
+}
+
+
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left {
+	border-right-width: 2px;
+	text-align: right;
+}
+
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right {
+	border-left-width: 2px;
+}
