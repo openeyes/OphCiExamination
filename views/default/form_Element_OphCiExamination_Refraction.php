@@ -43,7 +43,7 @@ $types = array_combine($types,$types);
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="data" data-side="right">
+			<div data-side="right">
 				<?php
 				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 						'identifier' => 'right_'.$element->elementType->id,
@@ -110,7 +110,7 @@ $types = array_combine($types,$types);
 			</div>
 		</div>
 		<div class="right eventDetail">
-			<div class="data" data-side="left">
+			<div data-side="left">
 				<?php
 				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 						'identifier' => 'left_'.$element->elementType->id,
