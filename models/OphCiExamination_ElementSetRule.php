@@ -87,10 +87,8 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 
 		// Check to see if the current rule has a clause
 		if($this->clause) {
-			
-			// Evaluate the rule clause
-			// FIXME: This probably needs locking so that only a limited set of clauses are allowed
-			$value = eval('return '.$this->clause.';');
+
+			$value = ${$this->clause};
 
 			// and find the next rule that matches the result
 			if($rule = $this->findChild($value)) {
