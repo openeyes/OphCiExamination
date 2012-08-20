@@ -19,7 +19,7 @@
 }
 
 #inactive_elements .element {
-	background: #8C949C url(/img/_elements/icons/extra-element_view.png) top
+	background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top
 		right no-repeat;
 	padding: 5px;
 	color: #fff;
@@ -38,7 +38,7 @@
 }
 
 #inactive_elements .element.clicked {
-	background: #ddd url(/img/ajax-loader.gif) 1010px 4px no-repeat;
+	background: #ddd url(../../../img/ajax-loader.gif) 1010px 4px no-repeat;
 }
 
 #inactive_elements .element.clicked h5 {

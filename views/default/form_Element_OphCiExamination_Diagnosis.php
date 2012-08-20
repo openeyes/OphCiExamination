@@ -25,7 +25,7 @@
 	<div class="removeElement">
 		<button class="classy blue mini">
 			<span class="button-span icon-only"><img
-				src="/img/_elements/btns/mini-cross.png" alt="+" width="24"
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
 				height="22"> </span>
 		</button>
 	</div>
