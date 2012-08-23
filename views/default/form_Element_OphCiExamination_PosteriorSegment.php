@@ -60,11 +60,11 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('right_cd_ratio'); ?>
+							<?php echo $element->getAttributeLabel('right_cd_ratio_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_cd_ratio', $element->getCDRatioValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_cd_ratio_id', CHtml::listData(OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
@@ -108,11 +108,11 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cd_ratio'); ?>
+							<?php echo $element->getAttributeLabel('left_cd_ratio_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_cd_ratio', $element->getCDRatioValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_cd_ratio_id', CHtml::listData(OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>

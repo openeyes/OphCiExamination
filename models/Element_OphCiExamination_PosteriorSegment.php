@@ -25,10 +25,10 @@
  * @property integer $event_id
  * @property string $left_eyedraw
  * @property string $left_description
- * @property string $left_cd_ratio
+ * @property string $left_cd_ratio_id
  * @property string $right_eyedraw
  * @property string $right_description
- * @property string $right_cd_ratio
+ * @property string $right_cd_ratio_id
  *
  * The followings are the available model relations:
  */
@@ -58,11 +58,11 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio, right_description, right_cd_ratio', 'safe'),
+				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id', 'safe'),
 				array('left_eyedraw, right_eyedraw', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio, right_description, right_cd_ratio', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,6 +78,8 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'left_cd_ratio_id'),
+				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'right_cd_ratio_id'),
 		);
 	}
 
@@ -90,16 +92,11 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
 				'left_description' => 'Description',
-				'left_cd_ratio' => 'C/D Ratio',
+				'left_cd_ratio_id' => 'C/D Ratio',
 				'right_eyedraw' => 'Eyedraw',
 				'right_description' => 'Description',
-				'right_cd_ratio' => 'C/D Ratio',
+				'right_cd_ratio_id' => 'C/D Ratio',
 		);
-	}
-
-	public function getCDRatioValues() {
-		$range = range(1, 0.1, -0.1);
-		return array_combine($range,$range);
 	}
 
 	/**
@@ -117,22 +114,14 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
 		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('left_cd_ratio', $this->left_cd_ratio);
+		$criteria->compare('left_cd_ratio_id', $this->left_cd_ratio_id);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
-		$criteria->compare('right_cd_ratio', $this->right_cd_ratio);
+		$criteria->compare('right_cd_ratio_id', $this->right_cd_ratio_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$this->left_cd_ratio = '0.6';
-		$this->right_cd_ratio = '0.6';
 	}
 
 	protected function beforeSave() {

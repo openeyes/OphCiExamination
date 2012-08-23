@@ -23,9 +23,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('right_cd_ratio') ?>
+						<?php echo $element->getAttributeLabel('right_cd_ratio_id') ?>
 						:
-						<?php echo $element->right_cd_ratio ?>
+						<?php echo $element->right_cd_ratio->name ?>
 					</div>
 				</div>
 			</div>
@@ -50,9 +50,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('left_cd_ratio') ?>
+						<?php echo $element->getAttributeLabel('left_cd_ratio_id') ?>
 						:
-						<?php echo $element->left_cd_ratio ?>
+						<?php echo $element->left_cd_ratio->name ?>
 					</div>
 				</div>
 			</div>
