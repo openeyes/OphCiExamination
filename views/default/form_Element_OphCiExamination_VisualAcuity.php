@@ -34,7 +34,6 @@
 	</h4>
 	<?php
 	$values = $element->getUnitValues();
-	$method_values = $element->getMethodValues();
 	$wearing_values = $element->getWearingValues();
 
 	// Adjust currently element readings to match unit steps
@@ -59,7 +58,7 @@
 								<?php echo CHtml::activeDropDownList($element, 'right_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values, array('class' => 'vaReading')); ?>
-								<?php echo CHtml::activeDropDownList($element, 'right_method', $method_values, array('class' => 'vaReadingType')) ?>
+								<?php echo CHtml::activeDropDownList($element, 'right_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -88,7 +87,7 @@
 								<?php echo CHtml::activeDropDownList($element, 'left_wearing', $wearing_values, array('class' => 'vaReadingType')) ?>
 							</td>
 							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values, array('class' => 'vaReading')); ?>
-								<?php echo CHtml::activeDropDownList($element, 'left_method', $method_values, array('class' => 'vaReadingType')) ?>
+								<?php echo CHtml::activeDropDownList($element, 'left_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
 							</td>
 						</tr>
 					</tbody>

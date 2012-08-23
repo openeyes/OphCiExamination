@@ -26,12 +26,12 @@
  * @property integer $left_initial
  * @property integer $left_wearing
  * @property integer $left_corrected
- * @property integer $left_method
+ * @property integer $left_method_id
  * @property string $left_comments
  * @property integer $right_initial
  * @property integer $right_wearing
  * @property integer $right_corrected
- * @property integer $right_method
+ * @property integer $right_method_id
  * @property string $right_comments
  *
  * The followings are the available model relations:
@@ -62,7 +62,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, left_wearing, left_method, right_wearing, right_method', 'safe'),
+				array('event_id, left_comments, right_comments, left_wearing, left_method_id, right_wearing, right_method_id', 'safe'),
 				array('left_initial, left_corrected, right_initial, right_corrected', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -82,6 +82,8 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'right_method_id'),
 		);
 	}
 
@@ -95,12 +97,12 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'left_initial' => 'Initial',
 				'left_wearing' => 'Wearing',
 				'left_corrected' => 'Corrected',
-				'left_method' => 'Method',
+				'left_method_id' => 'Method',
 				'left_comments' => 'Comments',
 				'right_initial' => 'Initial',
 				'right_wearing' => 'Wearing',
 				'right_corrected' => 'Corrected',
-				'right_method' => 'Method',
+				'right_method_id' => 'Method',
 				'right_comments' => 'Comments',
 		);
 	}
@@ -111,17 +113,6 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public function getUnit() {
 		$unit_id = $this->getSetting('unit_id');
 		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
-	}
-
-	/**
-	 * Array of method values for dropdown
-	 * @return array
-	 */
-	public function getMethodValues() {
-		return array(
-				'Pinhole' => 'Pinhole',
-				'Refraction' => 'Refraction',
-		);
 	}
 
 	/**
@@ -210,7 +201,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'wearing'};
 		}
 		if($this->{$side_prefix.'corrected'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'};
+			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'}->name;
 		}
 		return implode(', ',$combined);
 	}
@@ -231,12 +222,12 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		$criteria->compare('left_initial', $this->left_initial);
 		$criteria->compare('left_wearing', $this->left_wearing);
 		$criteria->compare('left_corrected', $this->left_corrected);
-		$criteria->compare('left_method', $this->left_method);
+		$criteria->compare('left_method_id', $this->left_method_id);
 		$criteria->compare('left_comments', $this->left_comments);
 		$criteria->compare('right_initial', $this->right_initial);
 		$criteria->compare('right_wearing', $this->right_wearing);
 		$criteria->compare('right_corrected', $this->right_corrected);
-		$criteria->compare('right_method', $this->right_method);
+		$criteria->compare('right_method_id', $this->right_method_id);
 		$criteria->compare('right_comments', $this->right_comments);
 
 		return new CActiveDataProvider(get_class($this), array(
