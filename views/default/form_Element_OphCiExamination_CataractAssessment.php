@@ -87,11 +87,11 @@
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('right_cortical'); ?>
+							<?php echo $element->getAttributeLabel('right_cortical_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_cortical', $element->getCorticalValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_cortical_id', CHtml::listData(OphCiExamination_CataractAssessment_Cortical::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
@@ -178,11 +178,11 @@
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cortical'); ?>
+							<?php echo $element->getAttributeLabel('left_cortical_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_cortical', $element->getCorticalValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_cortical_id', CHtml::listData(OphCiExamination_CataractAssessment_Cortical::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>

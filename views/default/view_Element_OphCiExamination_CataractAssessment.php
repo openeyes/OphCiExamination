@@ -42,9 +42,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('right_cortical'); ?>
+						<?php echo $element->getAttributeLabel('right_cortical_id'); ?>
 						:
-						<?php echo $element->right_cortical ?>
+						<?php echo $element->right_cortical->name ?>
 					</div>
 				</div>
 				<?php if($element->right_pxe) { ?>
@@ -100,9 +100,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('left_cortical'); ?>
+						<?php echo $element->getAttributeLabel('left_cortical_id'); ?>
 						:
-						<?php echo $element->left_cortical ?>
+						<?php echo $element->left_cortical->name ?>
 					</div>
 				</div>
 				<?php if($element->left_pxe) { ?>
