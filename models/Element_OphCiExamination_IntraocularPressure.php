@@ -23,9 +23,9 @@
  * @property string $id
  * @property integer $event_id
  * @property OphCiExamination_Instrument $left_instrument
- * @property string $left_reading
+ * @property string $left_reading_id
  * @property OphCiExamination_Instrument $right_instrument
- * @property string $right_reading
+ * @property string $right_reading_id
  */
 
 class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement {
@@ -53,10 +53,10 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_instrument_id, left_reading, right_instrument_id, right_reading', 'safe'),
+				array('event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_instrument_id, left_reading, right_instrument_id, right_reading', 'safe', 'on' => 'search'),
+				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -74,6 +74,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'left_instrument_id'),
 				'right_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'right_instrument_id'),
+				'left_reading' => array(self::BELONGS_TO, 'OphCiExamination_IntraocularPressure_Reading', 'left_reading_id'),
+				'right_reading' => array(self::BELONGS_TO, 'OphCiExamination_IntraocularPressure_Reading', 'right_reading_id'),
 		);
 	}
 
@@ -85,9 +87,9 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'left_instrument_id' => 'Instrument',
-				'left_reading' => 'Reading',
+				'left_reading_id' => 'Reading',
 				'right_instrument_id' => 'Instrument',
-				'right_reading' => 'Reading',
+				'right_reading_id' => 'Reading',
 		);
 	}
 
@@ -114,9 +116,9 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('left_instrument_id', $this->left_instrument_id);
-		$criteria->compare('left_reading', $this->left_reading);
+		$criteria->compare('left_reading_id', $this->left_reading_id);
 		$criteria->compare('right_instrument_id', $this->right_instrument_id);
-		$criteria->compare('right_reading', $this->right_reading);
+		$criteria->compare('right_reading_id', $this->right_reading_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,

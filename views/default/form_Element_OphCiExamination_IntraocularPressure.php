@@ -40,12 +40,12 @@
 				} else {
 					echo CHtml::activeHiddenField($element, 'right_instrument_id');
 				} ?>
-				<?php echo CHtml::activeDropDownList($element, 'right_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
+				<?php echo CHtml::activeDropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading'))?>
 			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'left_reading', $element->getReadingValues(), array('class' => 'iopReading')); ?>
+				<?php echo CHtml::activeDropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading'))?>
 				<?php if($element->getSetting('show_instruments')) {
 					echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
 				} else {
