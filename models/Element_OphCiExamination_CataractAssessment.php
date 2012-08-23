@@ -24,14 +24,14 @@
  * @property string $id
  * @property integer $event_id
  * @property string $left_eyedraw
- * @property string $left_pupil
+ * @property string $left_pupil_id
  * @property string $left_nuclear
  * @property string $left_cortical
  * @property boolean $left_pxe
  * @property boolean $left_phako
  * @property string $left_description
  * @property string $right_eyedraw
- * @property string $right_pupil
+ * @property string $right_pupil_id
  * @property string $right_nuclear
  * @property string $right_cortical
  * @property boolean $right_pxe
@@ -67,12 +67,12 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id', 'safe'),
-				array('left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'required'),
+				array('left_eyedraw, left_pupil_id, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil_id, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, left_pupil, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, left_pupil_id, left_nuclear, left_cortical, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil_id, right_nuclear, right_cortical, right_pxe, right_phako, right_description', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -88,6 +88,8 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'right_pupil' => array(self::BELONGS_TO, 'OphCiExamination_CataractAssessment_Pupil', 'right_pupil_id'),
+				'left_pupil' => array(self::BELONGS_TO, 'OphCiExamination_CataractAssessment_Pupil', 'left_pupil_id'),
 		);
 	}
 
@@ -99,27 +101,19 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
-				'left_pupil' => 'Pupil Size',
+				'left_pupil_id' => 'Pupil Size',
 				'left_nuclear' => 'Nuclear',
 				'left_cortical' => 'Cortical',
 				'left_pxe' => 'PXE',
 				'left_phako' => 'Phakodonesis',
 				'left_description' => 'Description',
 				'right_eyedraw' => 'Eyedraw',
-				'right_pupil' => 'Pupil Size',
+				'right_pupil_id' => 'Pupil Size',
 				'right_nuclear' => 'Nuclear',
 				'right_cortical' => 'Cortical',
 				'right_pxe' => 'PXE',
 				'right_phako' => 'Phakodonesis',
 				'right_description' => 'Description',
-		);
-	}
-
-	public function getPupilValues() {
-		return array(
-				'Large' => 'Large',
-				'Medium' => 'Medium',
-				'Small' => 'Small',
 		);
 	}
 
@@ -155,14 +149,14 @@ class Element_OphCiExamination_CataractAssessment extends BaseEventTypeElement {
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
-		$criteria->compare('left_pupil', $this->left_pupil);
+		$criteria->compare('left_pupil_id', $this->left_pupil_id);
 		$criteria->compare('left_nuclear', $this->left_nuclear);
 		$criteria->compare('left_cortical', $this->left_cortical);
 		$criteria->compare('left_pxe', $this->left_pxe);
 		$criteria->compare('left_phako', $this->left_phako);
 		$criteria->compare('left_description', $this->left_description);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
-		$criteria->compare('right_pupil', $this->right_pupil);
+		$criteria->compare('right_pupil_id', $this->right_pupil_id);
 		$criteria->compare('right_nuclear', $this->right_nuclear);
 		$criteria->compare('right_cortical', $this->right_cortical);
 		$criteria->compare('right_pxe', $this->right_pxe);

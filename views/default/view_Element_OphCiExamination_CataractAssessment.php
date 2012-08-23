@@ -28,9 +28,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('right_pupil'); ?>
+						<?php echo $element->getAttributeLabel('right_pupil_id'); ?>
 						:
-						<?php echo $element->right_pupil ?>
+						<?php echo $element->right_pupil->name ?>
 					</div>
 				</div>
 				<div>
@@ -88,7 +88,7 @@
 					<div class="data">
 						<?php echo $element->getAttributeLabel('left_pupil'); ?>
 						:
-						<?php echo $element->left_pupil ?>
+						<?php echo $element->left_pupil->name ?>
 					</div>
 				</div>
 				<div>

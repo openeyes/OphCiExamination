@@ -69,11 +69,11 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('right_pupil'); ?>
+							<?php echo $element->getAttributeLabel('right_pupil_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_pupil', $element->getPupilValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_pupil_id', CHtml::listData(OphCiExamination_CataractAssessment_Pupil::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
@@ -160,11 +160,11 @@
 				<div class="eyedrawFields">
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('left_pupil'); ?>
+							<?php echo $element->getAttributeLabel('left_pupil_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_pupil', $element->getPupilValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_pupil_id', CHtml::listData(OphCiExamination_CataractAssessment_Pupil::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
