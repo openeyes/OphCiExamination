@@ -35,9 +35,9 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('right_nuclear'); ?>
+						<?php echo $element->getAttributeLabel('right_nuclear_id'); ?>
 						:
-						<?php echo $element->right_nuclear ?>
+						<?php echo $element->right_nuclear->name ?>
 					</div>
 				</div>
 				<div>
@@ -86,16 +86,16 @@
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('left_pupil'); ?>
+						<?php echo $element->getAttributeLabel('left_pupil_id'); ?>
 						:
 						<?php echo $element->left_pupil->name ?>
 					</div>
 				</div>
 				<div>
 					<div class="data">
-						<?php echo $element->getAttributeLabel('left_nuclear'); ?>
+						<?php echo $element->getAttributeLabel('left_nuclear_id'); ?>
 						:
-						<?php echo $element->left_nuclear ?>
+						<?php echo $element->left_nuclear->name ?>
 					</div>
 				</div>
 				<div>

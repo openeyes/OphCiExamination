@@ -78,11 +78,11 @@
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('right_nuclear'); ?>
+							<?php echo $element->getAttributeLabel('right_nuclear_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_nuclear', $element->getNuclearValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_nuclear_id', CHtml::listData(OphCiExamination_CataractAssessment_Nuclear::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
@@ -169,11 +169,11 @@
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('left_nuclear'); ?>
+							<?php echo $element->getAttributeLabel('left_nuclear_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_nuclear', $element->getNuclearValues()); ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_nuclear_id', CHtml::listData(OphCiExamination_CataractAssessment_Nuclear::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 						</div>
 					</div>
 					<div>
