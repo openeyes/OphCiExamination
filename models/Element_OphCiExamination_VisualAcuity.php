@@ -24,12 +24,12 @@
  * @property string $id
  * @property integer $event_id
  * @property integer $left_initial
- * @property integer $left_wearing
+ * @property integer $left_wearing_id
  * @property integer $left_corrected
  * @property integer $left_method_id
  * @property string $left_comments
  * @property integer $right_initial
- * @property integer $right_wearing
+ * @property integer $right_wearing_id
  * @property integer $right_corrected
  * @property integer $right_method_id
  * @property string $right_comments
@@ -62,7 +62,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, left_wearing, left_method_id, right_wearing, right_method_id', 'safe'),
+				array('event_id, left_comments, right_comments, left_wearing_id, left_method_id, right_wearing_id, right_method_id', 'safe'),
 				array('left_initial, left_corrected, right_initial, right_corrected', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -84,6 +84,8 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'left_method_id'),
 				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'right_method_id'),
+				'left_wearing' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Wearing', 'left_wearing_id'),
+				'right_wearing' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Wearing', 'right_wearing_id'),
 		);
 	}
 
@@ -95,12 +97,12 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'left_initial' => 'Initial',
-				'left_wearing' => 'Wearing',
+				'left_wearing_id' => 'Wearing',
 				'left_corrected' => 'Corrected',
 				'left_method_id' => 'Method',
 				'left_comments' => 'Comments',
 				'right_initial' => 'Initial',
-				'right_wearing' => 'Wearing',
+				'right_wearing_id' => 'Wearing',
 				'right_corrected' => 'Corrected',
 				'right_method_id' => 'Method',
 				'right_comments' => 'Comments',
@@ -113,18 +115,6 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public function getUnit() {
 		$unit_id = $this->getSetting('unit_id');
 		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
-	}
-
-	/**
-	 * Array of wearing values for dropdown
-	 * @return array
-	 */
-	public function getWearingValues() {
-		return array(
-				'Unaided' => 'Unaided',
-				'Glasses' => 'Glasses',
-				'Contact lens' => 'Contact lens',
-		);
 	}
 
 	/**
@@ -198,7 +188,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		$combined = array();
 		$side_prefix = $side . '_';
 		if($this->{$side_prefix.'initial'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'wearing'};
+			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'wearing'}->name;
 		}
 		if($this->{$side_prefix.'corrected'}) {
 			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'}->name;
@@ -220,12 +210,12 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('left_initial', $this->left_initial);
-		$criteria->compare('left_wearing', $this->left_wearing);
+		$criteria->compare('left_wearing_id', $this->left_wearing_id);
 		$criteria->compare('left_corrected', $this->left_corrected);
 		$criteria->compare('left_method_id', $this->left_method_id);
 		$criteria->compare('left_comments', $this->left_comments);
 		$criteria->compare('right_initial', $this->right_initial);
-		$criteria->compare('right_wearing', $this->right_wearing);
+		$criteria->compare('right_wearing_id', $this->right_wearing_id);
 		$criteria->compare('right_corrected', $this->right_corrected);
 		$criteria->compare('right_method_id', $this->right_method_id);
 		$criteria->compare('right_comments', $this->right_comments);
