@@ -1,161 +1,32 @@
-#active_elements .element {
-	position: relative;
-}
-
-#active_elements h4.elementTypeName {
-	border-top: 2px dotted #8C949C;
-}
-
-#active_elements .element h5 {
-	background: #ccc;
-	padding: 2px 4px;
-}
-
-#active_elements .removeElement {
-	position: absolute;
-	right: 5px;
-	top: 7px;
-	z-index: 1;
-}
-
-#inactive_elements .element {
-	background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top
-		right no-repeat;
-	padding: 5px;
-	color: #fff;
-	border-bottom: 1px dotted #fafafa;
-	cursor: pointer;
-}
-
-#inactive_elements h5 {
-	margin: 0;
-	line-height: 1em;
-	padding: 0 5px;
-}
-
-#inactive_elements .element:hover {
-	background-color: #3665ff;
-}
-
-#inactive_elements .element.clicked {
-	background: #ddd url(../../../img/ajax-loader.gif) 1010px 4px no-repeat;
-}
-
-#inactive_elements .element.clicked h5 {
-	color: #333;
-}
-
-#optionals_all {
-	font-size: 12px;
-	border-bottom: 1px dotted #fafafa;
-	border-top: 2px dotted #8C949C;
-	margin-top: 10px;
-	background: #dae6f1;
-}
-
-#event_content #optionals_all h4 {
-	margin: 0;
-	padding: 6px 8px;
-	float: left;
-	border: none;
-}
-
-#optionals_all div {
-	float: right;
-	height: 28px;
-}
-
-#optionals_all .allButton {
-	display: inline-block;
-	height: 20px;
-	padding: 0 0 2px 15px;
-	margin: 3px 0 0 1px;
-	cursor: pointer;
-}
-
-#optionals_all .allButton > a {
-	position: relative;
-	top: 2px;
-}
-
-.textMacros {
-	margin: 0 0 10px;
-}
-
-.textMacros.inline {
-	display: inline-block;
-}
-
-.textMacros select {
-	width: 120px;
-	margin-right: 10px;
-}
-
-#event_content .cols2 {
-	padding-bottom: 0 !important;
-}
-
-#event_content .Element_OphCiExamination_VisualAcuity th {
-	font-weight: normal;
-	text-align: left;
-	padding: 2px 5px 2px 0;
-}
-
-#event_content .Element_OphCiExamination_VisualAcuity td {
-	padding: 2px 10px 2px 0;
-}
-
-#event_content .Element_OphCiExamination_VisualAcuity .data {
-	margin-left: 10px;
-}
-
-#event_content canvas {
-	float: left;
-	border: 1px solid #ccc;
-	margin: 0;
-}
-
-#event_content div.ed_toolbar {
-	margin: 0 0 10px;
-}
-
-#event_content .eyedrawFields {
-	float: left;
-	width: 180px;
-	margin: 5px 0 0 10px;
-}
-
-#event_content .eyedrawFields.view {
-	width: 280px;
-}
-
-#event_content .eyedrawFields>div {
-	margin: 5px 0;
-}
-
-#event_content .eyedrawFields .label,#event_content .eyedrawFields .data
-	{
-	display: inline-block;
-}
-
-#event_content .Element_OphCiExamination_Refraction .eyedrawFields {
-	width: 320px;
-}
-
+#active_elements .element { position: relative; }
+#active_elements h4.elementTypeName { border-top: 2px dotted #8C949C; }
+#active_elements .element h5 { background: #ccc; padding: 2px 4px; }
+#active_elements .removeElement { position: absolute; right: 5px; top: 7px; z-index: 1; } 
+#inactive_elements .element { background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top right no-repeat; padding: 5px; color: #fff; border-bottom: 1px dotted #fafafa; cursor: pointer; } 
+#inactive_elements h5 { margin: 0; line-height: 1em; padding: 0 5px; } 
+#inactive_elements .element:hover { background-color: #3665ff; } 
+#inactive_elements .element.clicked { background: #ddd url(../../../img/ajax-loader.gif) 1010px 4px no-repeat; } 
+#inactive_elements .element.clicked h5 { color: #333; } 
+#optionals_all { font-size: 12px; border-bottom: 1px dotted #fafafa; border-top: 2px dotted #8C949C; margin-top: 10px; background: #dae6f1; }
+#event_content #optionals_all h4 { margin: 0; padding: 6px 8px; float: left; border: none; }
+#optionals_all div { float: right; height: 28px; }
+#optionals_all .allButton { display: inline-block; height: 20px; padding: 0 0 2px 15px; margin: 3px 0 0 1px; cursor: pointer; } 
+#optionals_all .allButton > a { position: relative; top: 2px; }
+.textMacro { margin: 0 0 10px; } 
+.textMacro.inline { display: inline-block; }
+.textMacro { width: 120px; }
+#event_content .cols2 { padding-bottom: 0 !important; }
+#event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .data { margin-left: 10px; }
+#event_content canvas { float: left; border: 1px solid #ccc; margin: 0; }
+#event_content div.ed_toolbar { margin: 0 0 10px; }
+#event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
+#event_content .eyedrawFields.view { width: 280px; }
+#event_content .eyedrawFields>div { margin: 5px 0; }
+#event_content .eyedrawFields .label,#event_content .eyedrawFields .data { display: inline-block; }
+#event_content .Element_OphCiExamination_Refraction .eyedrawFields { width: 320px; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left,
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right {
-	border-width: 4px 0 0 0;
-	border-color: #000;
-	border-style: solid;
-	width: 493px;
-}
-
-
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left {
-	border-right-width: 2px;
-	text-align: right;
-}
-
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right {
-	border-left-width: 2px;
-}
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-width: 4px 0 0 0; border-color: #000; border-style: solid; width: 493px; }
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left { border-right-width: 2px; text-align: right; }
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-left-width: 2px; }

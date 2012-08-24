@@ -29,25 +29,7 @@
 				height="22"> </span>
 		</button>
 	</div>
-	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
-	</h4>
-	<div id="div_<?php echo get_class($element)?>_description"
-		class="eventDetail">
-		<div class="data">
-			<div class="textMacros">
-				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-					$target_field = get_class($element) . '_description';
-					echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-							CHtml::listData($attribute->options, 'value', 'label'),
-							array(
-									'empty' => '-- '.$attribute->label.' --',
-									'data-target-field' => $target_field,
-									'class' => 'textMacro',
-							));
-			} ?>
-			</div>
-			<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize')) ?>
-		</div>
-	</div>
+	<h4 class="elementTypeName"><?php  echo $element->elementType->name; ?></h4>
+	<?php echo $form->multiDropDownTextSelection($element, 'description', $element->attribute_dropdowns, array('class' => 'textMacro','no_label' => true, 'remove_selections' => false))?>
+	<?php echo $form->textArea($element, 'description', array('rows' => 3, 'cols' => 80, 'class' => 'autosize', 'no_label' => true))?>
 </div>

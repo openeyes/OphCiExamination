@@ -125,4 +125,16 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		return parent::beforeValidate();
 	}
 
+	public function getAttribute_dropdowns() {
+		$attribute_dropdowns = array();
+
+		foreach (OphCiExamination_Attribute::model()->findAllByElement($this) as $attribute) {
+			$attribute_dropdowns[$attribute->name] = array(
+				'empty' => '-- '.ucfirst($attribute->name).' --',
+				'options' => CHtml::listData($attribute->options, 'value', 'label'),
+			);
+		}
+
+		return $attribute_dropdowns;
+	}
 }
