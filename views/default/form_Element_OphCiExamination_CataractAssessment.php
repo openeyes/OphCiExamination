@@ -218,34 +218,3 @@
 
 	</div>
 </div>
-
-<script type="text/javascript">
-
-$(document).ready(function() {
-	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
-		var side = $(this).closest('[data-side]').attr('data-side');
-		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
-	});
-});
-
-// Global function to handle eyedraw events for this element
-function updateElement_OphCiExamination_CataractAssessment(drawing, doodle) {
-	var side = (drawing.eye == 0) ? 'right' : 'left';
-	if(doodle) {
-		switch(doodle.className) {
-			case 'AntSeg':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_pupil').val(doodle.getParameter('grade'));
-				break;
-			case 'NuclearCataract':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_nuclear').val(doodle.getParameter('grade'));
-				break;
-			case 'CorticalCataract':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_cortical').val(doodle.getParameter('grade'));
-				break;
-		}
-	}
-}
-
-</script>

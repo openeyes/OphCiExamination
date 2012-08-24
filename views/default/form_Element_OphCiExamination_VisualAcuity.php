@@ -102,41 +102,7 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-	
-	$("#event_content .Element_OphCiExamination_VisualAcuity .vaReading").each(function() {
-		updateType(this);
+	$(document).ready(function() {
+		OphCiExamination_VisualAcuity_init();
 	});
-	
-	$("#event_content .Element_OphCiExamination_VisualAcuity").delegate('.vaReading', 'change', function() {
-		if($(this).hasClass('vaReadingInitial')) {
-			updateReading(this);
-		}
-		updateType(this);
-});
-	
-	/**
-	 * Disable associated reading type field if reading is not recorded
-	 */
-	function updateType(field) {
-		var type = $(field).next();
-		if($(field).val() == 0) {
-			type.children('option:selected').removeAttr("selected");
-			type.children('option').first().attr('selected','selected');
-			type.attr('disabled', 'disabled');
-		} else {
-			type.removeAttr('disabled');
-		}
-	}
-	
-	/**
-	 * Update corrected reading field if initial is changed
-	 */
-	function updateReading(field) {
-		var corrected = $(field).parent().next().children().first();
-		corrected.val($(field).val());
-		updateType(corrected);
-}
-
-});
 </script>

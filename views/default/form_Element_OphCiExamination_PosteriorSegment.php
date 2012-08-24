@@ -131,15 +131,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-
-// Global function to handle eyedraw events for this element
-function updateElement_OphCiExamination_PosteriorSegment(drawing, doodle) {
-	if(doodle && doodle.className == 'PostPole') {
-		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio').val(doodle.getParameter('cdRatio'));
-	}
-}
-
-</script>

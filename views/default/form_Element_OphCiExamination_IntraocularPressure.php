@@ -57,33 +57,9 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-	
-	$("#event_content .Element_OphCiExamination_IntraocularPressure .iopReading").each(function() {
-		updateType(this);
+	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
+
+	$(document).ready(function() {
+		OphCiExamination_IntraocularPressure_init();
 	});
-	
-	$("#event_content .Element_OphCiExamination_IntraocularPressure").delegate('.iopReading', 'change', function() {
-		updateType(this);
-	});
-	
-	<?php if($element->getSetting('link_instruments')) { ?>
-	$("#event_content .Element_OphCiExamination_IntraocularPressure").delegate('.iopInstrument', 'change', function() {
-		$(this).closest('.element').find('.iopInstrument').val($(this).val());
-	});
-	<?php } ?>
-	
-	/**
-	 * Disable associated reading type field if reading is not recorded
-	 */
-	function updateType(field) {
-		var type = $(field).closest('.data').find('.iopInstrument');
-		if($(field).val() == 0) {
-			type.attr('disabled', 'disabled');
-		} else {
-			type.removeAttr('disabled');
-		}
-	}
-	
-});
 </script>
