@@ -27,12 +27,12 @@
  * @property decimal $left_cylinder
  * @property integer $left_axis
  * @property string $left_axis_eyedraw
- * @property string $left_type
+ * @property string $left_type_id
  * @property decimal $right_sphere
  * @property decimal $right_cylinder
  * @property integer $right_axis
  * @property string $right_axis_eyedraw
- * @property string $right_type
+ * @property string $right_type_id
  */
 
 class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
@@ -60,10 +60,10 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type', 'safe'),
+				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type', 'safe', 'on' => 'search'),
+				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,11 +92,11 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 				'left_sphere' => 'Sphere',
 				'left_cylinder' => 'Cylinder',
 				'left_axis' => 'Axis',
-				'left_type' => 'Type',
+				'left_type_id' => 'Type',
 				'right_sphere' => 'Sphere',
 				'right_cylinder' => 'Cylinder',
 				'right_axis' => 'Axis',
-				'right_type' => 'Type',
+				'right_type_id' => 'Type',
 		);
 	}
 
@@ -120,11 +120,11 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 		$criteria->compare('left_sphere', $this->left_sphere);
 		$criteria->compare('left_cylinder', $this->left_cylinder);
 		$criteria->compare('left_axis', $this->left_axis);
-		$criteria->compare('left_type', $this->left_type);
+		$criteria->compare('left_type_id', $this->left_type_id);
 		$criteria->compare('right_sphere', $this->right_sphere);
 		$criteria->compare('right_cylinder', $this->right_cylinder);
 		$criteria->compare('right_axis', $this->right_axis);
-		$criteria->compare('right_type', $this->right_type);
+		$criteria->compare('right_type_id', $this->right_type_id);
 		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,

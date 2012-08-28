@@ -17,15 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-$types = array(
-		'Auto-refraction',
-		'Ophthalmologist',
-		'Optometrist',
-		'Other',
-);
-$types = array_combine($types,$types);
-?>
 <div class="element <?php echo $element->elementType->class_name ?>"
 	data-element-type-id="<?php echo $element->elementType->id ?>"
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
@@ -99,11 +90,11 @@ $types = array_combine($types,$types);
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('right_type'); ?>
+							<?php echo $element->getAttributeLabel('right_type_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_type', $types) ?>
+							<?php echo CHtml::activeDropDownList($element, 'right_type_id', CHtml::listData(OphCiExamination_Refraction_Type::model()->findAll(array('order'=>'display_order')),'id','name')) ?>
 						</div>
 					</div>
 				</div>
@@ -166,11 +157,11 @@ $types = array_combine($types,$types);
 					</div>
 					<div>
 						<div class="label">
-							<?php echo $element->getAttributeLabel('left_type'); ?>
+							<?php echo $element->getAttributeLabel('left_type_id'); ?>
 							:
 						</div>
 						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_type', $types) ?>
+							<?php echo CHtml::activeDropDownList($element, 'left_type_id', CHtml::listData(OphCiExamination_Refraction_Type::model()->findAll(array('order'=>'display_order')),'id','name')) ?>
 						</div>
 					</div>
 				</div>
