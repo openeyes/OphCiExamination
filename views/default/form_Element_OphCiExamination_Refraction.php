@@ -33,21 +33,25 @@
 		<?php  echo $element->elementType->name; ?>
 	</h4>
 	<div class="cols2 clearfix">
-		<?php
-		$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
-				'identifier' => 'right_'.$element->elementType->id,
-				'side' => 'R',
-				'mode' => 'edit',
-				'model' => $element,
-				'attribute' => 'right_axis_eyedraw',
-		));	
-		$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
-				'identifier' => 'left_'.$element->elementType->id,
-				'side' => 'L',
-				'mode' => 'edit',
-				'model' => $element,
-				'attribute' => 'left_axis_eyedraw',
-		));
-		?>
+		<div class="left eventDetail">
+			<?php
+			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
+					'identifier' => 'right_'.$element->elementType->id,
+					'side' => 'R',
+					'mode' => 'edit',
+					'model' => $element,
+					'attribute' => 'right_axis_eyedraw',
+			))?>
+		</div>
+		<div class="right eventDetail">
+			<?php
+			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
+					'identifier' => 'left_'.$element->elementType->id,
+					'side' => 'L',
+					'mode' => 'edit',
+					'model' => $element,
+					'attribute' => 'left_axis_eyedraw',
+			))?>
+		</div>
 	</div>
 </div>
