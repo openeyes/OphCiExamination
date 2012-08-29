@@ -23,8 +23,7 @@
 					'size' => 100,
 					'model' => $element,
 					'attribute' => 'left_axis_eyedraw',
-			));
-			?>
+			))?>
 		</div>
 	</div>
 </div>
