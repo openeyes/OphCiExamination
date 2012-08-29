@@ -11,10 +11,8 @@
 					'mode' => 'view',
 					'size' => 200,
 					'model' => $element,
-					'no_wrapper' => true,
 					'attribute' => 'right_eyedraw',
-			));
-			?>
+			))?>
 			<div class="eyedrawFields view">
 				<div>
 					<div class="data">

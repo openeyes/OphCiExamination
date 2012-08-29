@@ -34,99 +34,27 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="data" data-side="right">
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-						'identifier' => 'right_'.$element->elementType->id,
-						'side' => 'R',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'right_eyedraw',
-						'no_wrapper' => true,
-						'doodleToolBarArray' => array(
-								'Geographic',
-								'VitreousOpacity',
-								'DiabeticNV',
-								'CNV',
-								'Circinate',
-						),
-						'onLoadedCommandArray' => array(
-								array('addDoodle', array('PostPole')),
-								array('deselectDoodles', array()),
-						),
-				));
-				?>
-				<div class="eyedrawFields">
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_cd_ratio_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_cd_ratio_id', CHtml::listData(OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_description'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextArea($element, 'right_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<button class="ed_report">Report</button>
-					<button class="ed_clear">Clear</button>
-				</div>
-			</div>
+			<?php
+			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetPosteriorSegment', array(
+					'identifier' => 'right_'.$element->elementType->id,
+					'side' => 'R',
+					'mode' => 'edit',
+					'size' => 300,
+					'model' => $element,
+					'attribute' => 'right_eyedraw',
+			))?>
 		</div>
 		<div class="right eventDetail">
 			<div class="data" data-side="left">
 				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetPosteriorSegment', array(
 						'identifier' => 'left_'.$element->elementType->id,
 						'side' => 'L',
 						'mode' => 'edit',
 						'size' => 300,
 						'model' => $element,
 						'attribute' => 'left_eyedraw',
-						'no_wrapper' => true,
-						'doodleToolBarArray' => array(
-								'Geographic',
-								'VitreousOpacity',
-								'DiabeticNV',
-								'CNV',
-								'Circinate',
-						),
-						'onLoadedCommandArray' => array(
-								array('addDoodle', array('PostPole')),
-								array('deselectDoodles', array()),
-						),
-				));
-				?>
-				<div class="eyedrawFields">
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cd_ratio_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_cd_ratio_id', CHtml::listData(OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_description'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<button class="ed_report">Report</button>
-					<button class="ed_clear">Clear</button>
-				</div>
+				))?>
 			</div>
 		</div>
 	</div>
