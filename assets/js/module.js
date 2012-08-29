@@ -58,25 +58,6 @@ $(document).ready(function() {
 	});
 
 	/**
-	 * Add a macro
-	 */
-	$('#event_display').delegate('.textMacro', 'change', function() {
-		text = $(this).val();
-		$field = $('#' + $(this).attr('data-target-field'));
-		if ($field.val()) {
-			text = ', ' + text;
-		} else {
-			text = capitaliseFirstLetter(text);
-		}
-		$field.val($field.val() + text);
-		$(this).val('');
-	});
-
-	function capitaliseFirstLetter(string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	}
-
-	/**
 	 * Add all optional elements
 	 */
 	$('#optionals_all').delegate('#add-all', 'click', function(e) {

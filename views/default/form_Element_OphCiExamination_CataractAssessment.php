@@ -34,187 +34,26 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="data" data-side="right">
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-						'identifier' => 'right_'.$element->elementType->id,
-						'side' => 'R',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'right_eyedraw',
-						'no_wrapper' => true,
-						'doodleToolBarArray' => array(
-								'NuclearCataract',
-								'CorticalCataract',
-								'PostSubcapCataract',
-								'PCIOL',
-								'ACIOL',
-								'Bleb',
-								'PI',
-								'Fuchs',
-								'RK',
-								'LasikFlap',
-								'CornealScar',
-						),
-						'onLoadedCommandArray' => array(
-								array('addDoodle', array('AntSeg')),
-								array('deselectDoodles', array()),
-						),
-						'onLoadedParamsArray' => array(
-								array('AntSeg', 'pxe', (bool) $element->right_pxe),
-						),
-				));
-				?>
-				<div class="eyedrawFields">
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_pupil_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_pupil_id', CHtml::listData(OphCiExamination_CataractAssessment_Pupil::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_nuclear_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_nuclear_id', CHtml::listData(OphCiExamination_CataractAssessment_Nuclear::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_cortical_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'right_cortical_id', CHtml::listData(OphCiExamination_CataractAssessment_Cortical::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_description'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextArea($element, 'right_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<div>
-						<div class="data">
-							<?php echo CHtml::activeCheckBox($element, 'right_pxe') ?>
-						</div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_pxe'); ?>
-						</div>
-					</div>
-					<div>
-						<div class="data">
-							<?php echo CHtml::activeCheckBox($element, 'right_phako') ?>
-						</div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('right_phako'); ?>
-						</div>
-					</div>
-					<button class="ed_report">Report</button>
-					<button class="ed_clear">Clear</button>
-				</div>
-			</div>
+			<?php
+			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetCataractAssessment', array(
+					'identifier' => 'right_'.$element->elementType->id,
+					'side' => 'R',
+					'mode' => 'edit',
+					'size' => 300,
+					'model' => $element,
+					'attribute' => 'right_eyedraw',
+			))?>
 		</div>
 		<div class="right eventDetail">
-			<div class="data" data-side="left">
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-						'identifier' => 'left_'.$element->elementType->id,
-						'side' => 'L',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'left_eyedraw',
-						'no_wrapper' => true,
-						'doodleToolBarArray' => array(
-								'NuclearCataract',
-								'CorticalCataract',
-								'PostSubcapCataract',
-								'PCIOL',
-								'ACIOL',
-								'Bleb',
-								'PI',
-								'Fuchs',
-								'RK',
-								'LasikFlap',
-								'CornealScar',
-						),
-						'onLoadedCommandArray' => array(
-								array('addDoodle', array('AntSeg')),
-								array('deselectDoodles', array()),
-						),
-						'onLoadedParamsArray' => array(
-								array('AntSeg', 'pxe', (bool) $element->left_pxe),
-						),
-				));
-				?>
-				<div class="eyedrawFields">
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_pupil_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_pupil_id', CHtml::listData(OphCiExamination_CataractAssessment_Pupil::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_nuclear_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_nuclear_id', CHtml::listData(OphCiExamination_CataractAssessment_Nuclear::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_cortical_id'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeDropDownList($element, 'left_cortical_id', CHtml::listData(OphCiExamination_CataractAssessment_Cortical::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-						</div>
-					</div>
-					<div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_description'); ?>
-							:
-						</div>
-						<div class="data">
-							<?php echo CHtml::activeTextArea($element, 'left_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
-						</div>
-					</div>
-					<div>
-						<div class="data">
-							<?php echo CHtml::activeCheckBox($element, 'left_pxe') ?>
-						</div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_pxe'); ?>
-						</div>
-					</div>
-					<div>
-						<div class="data">
-							<?php echo CHtml::activeCheckBox($element, 'left_phako') ?>
-						</div>
-						<div class="label">
-							<?php echo $element->getAttributeLabel('left_phako'); ?>
-						</div>
-					</div>
-					<button class="ed_report">Report</button>
-					<button class="ed_clear">Clear</button>
-				</div>
-			</div>
+			<?php
+			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetCataractAssessment', array(
+					'identifier' => 'left_'.$element->elementType->id,
+					'side' => 'L',
+					'mode' => 'edit',
+					'size' => 300,
+					'model' => $element,
+					'attribute' => 'left_eyedraw',
+			))?>
 		</div>
-
 	</div>
 </div>
