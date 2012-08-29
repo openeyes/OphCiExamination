@@ -53,11 +53,13 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_initial', $values, array('class' => 'vaReading vaReadingInitial')) ?>
-								<?php echo CHtml::activeDropDownList($element, 'right_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
+							<td>
+								<?php echo $form->dropDownList($element, 'right_initial', $values, array('class' => 'vaReading vaReadingInitial','nowrapper'=>true))?>
+								<?php echo $form->dropDownList($element, 'right_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true))?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'right_corrected', $values, array('class' => 'vaReading')); ?>
-								<?php echo CHtml::activeDropDownList($element, 'right_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
+							<td>
+								<?php echo $form->dropDownList($element, 'right_corrected', $values, array('class' => 'vaReading','nowrapper'=>true)); ?>
+								<?php echo $form->dropDownList($element, 'right_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true)) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -65,7 +67,7 @@
 			</div>
 			<?php if($element->right_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
-				<?php echo CHtml::activeTextArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
+				<?php echo $form->textArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
 			</div>
 			<?php } ?>
 		</div>
@@ -82,11 +84,13 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_initial', $values, array('class' => 'vaReading vaReadingInitial')) ?>
-								<?php echo CHtml::activeDropDownList($element, 'left_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
+							<td>
+								<?php echo $form->dropDownList($element, 'left_initial', $values, array('class' => 'vaReading vaReadingInitial', 'nowrapper'=>true)) ?>
+								<?php echo $form->dropDownList($element, 'left_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType', 'nowrapper'=>true)) ?>
 							</td>
-							<td><?php echo CHtml::activeDropDownList($element, 'left_corrected', $values, array('class' => 'vaReading')); ?>
-								<?php echo CHtml::activeDropDownList($element, 'left_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType')) ?>
+							<td>
+								<?php echo $form->dropDownList($element, 'left_corrected', $values, array('class' => 'vaReading', 'nowrapper'=>true)); ?>
+								<?php echo $form->dropDownList($element, 'left_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true)) ?>
 							</td>
 						</tr>
 					</tbody>
@@ -94,7 +98,7 @@
 			</div>
 			<?php if($element->left_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
-				<?php echo CHtml::activeTextArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62)) ?>
+				<?php echo $form->textArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
 			</div>
 			<?php } ?>
 		</div>
