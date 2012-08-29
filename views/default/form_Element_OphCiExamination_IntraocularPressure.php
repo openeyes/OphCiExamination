@@ -36,20 +36,20 @@
 		<div class="left eventDetail">
 			<div class="data">
 				<?php if($element->getSetting('show_instruments')) {
-					echo CHtml::activeDropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
+					echo $form->dropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
 				} else {
-					echo CHtml::activeHiddenField($element, 'right_instrument_id');
+					echo $form->hiddenField($element, 'right_instrument_id');
 				} ?>
-				<?php echo CHtml::activeDropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading'))?>
+				<?php echo $form->dropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
 			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
-				<?php echo CHtml::activeDropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading'))?>
+				<?php echo $form->dropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
 				<?php if($element->getSetting('show_instruments')) {
-					echo CHtml::activeDropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument'));
+					echo $form->dropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
 				} else {
-					echo CHtml::activeHiddenField($element, 'left_instrument_id');
+					echo $form->hiddenField($element, 'left_instrument_id');
 				} ?>
 			</div>
 		</div>
