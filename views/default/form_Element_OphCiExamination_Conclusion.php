@@ -37,17 +37,10 @@
 		<div class="data">
 			<div class="textMacros">
 				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-					$target_field = get_class($element) . '_description';
-					echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-							CHtml::listData($attribute->options, 'value', 'label'),
-							array(
-									'empty' => '-- '.$attribute->label.' --',
-									'data-target-field' => $target_field,
-									'class' => 'textMacro',
-							));
+					echo $form->dropDownTextSelection($element, 'description', CHtml::listData($attribute->options, 'value', 'label'), array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
 			} ?>
 			</div>
-			<?php echo CHtml::activeTextArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize')) ?>
+			<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 		</div>
 	</div>
 </div>
