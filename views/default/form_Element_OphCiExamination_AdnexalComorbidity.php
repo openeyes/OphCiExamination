@@ -37,42 +37,20 @@
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						$target_field = get_class($element) . '_right_description';
-						echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-								CHtml::listData($attribute->options, 'value', 'label'),
-								array(
-										'empty' => '-- '.$attribute->label.' --',
-										'data-target-field' => $target_field,
-										'class' => 'textMacro',
-								));
-			} ?>
+						echo $form->dropDownTextSelection($element, 'right_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+					}?>
 				</div>
-				<?php echo CHtml::activeTextArea($element, 'right_description', array(
-						'rows' => "1",
-						'cols' => "40",
-						'class' => 'autosize',
-						)) ?>
+				<?php echo $form->textArea($element, 'right_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						$target_field = get_class($element) . '_left_description';
-						echo CHtml::dropDownList($target_field .'_macro_'.$attribute->name, null,
-								CHtml::listData($attribute->options, 'value', 'label'),
-								array(
-										'empty' => '-- '.$attribute->label.' --',
-										'data-target-field' => $target_field,
-										'class' => 'textMacro',
-								));
-			} ?>
+						echo $form->dropDownTextSelection($element, 'left_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+					}?>
 				</div>
-				<?php echo CHtml::activeTextArea($element, 'left_description', array(
-						'rows' => "1",
-						'cols' => "40",
-						'class' => 'autosize',
-						)) ?>
+				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 			</div>
 		</div>
 	</div>
