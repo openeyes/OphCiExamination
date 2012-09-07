@@ -345,7 +345,7 @@ function OphCiExamination_VisualAcuity_updateType(field) {
 function OphCiExamination_VisualAcuity_updateReading(field) {
 	var corrected = $(field).parent().next().children().first();
 	corrected.val($(field).val());
-	updateType(corrected);
+	OphCiExamination_VisualAcuity_updateType(corrected);
 }
 
 function OphCiExamination_VisualAcuity_init() {
