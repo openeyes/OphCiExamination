@@ -32,7 +32,6 @@ class m120703_130000_initial_migration_for_ophciexamination extends OEMigration 
 				'Element_OphCiExamination_VisualAcuity' => array('name' => 'Visual Acuity'),
 				'Element_OphCiExamination_AdnexalComorbidity' => array('name' => 'Adnexal Comorbidity'),
 				'Element_OphCiExamination_CataractAssessment' => array('name' => 'Cataract Assessment'),
-				//'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment'),
 				'Element_OphCiExamination_IntraocularPressure' => array('name' => 'Intraocular Pressure'),
 				'Element_OphCiExamination_PosteriorSegment' => array('name' => 'Posterior Segment'),
 				'Element_OphCiExamination_Diagnosis' => array('name' => 'Diagnosis'),

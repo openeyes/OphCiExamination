@@ -15,6 +15,7 @@ class m120914_111700_glaucoma extends OEMigration {
 		$element_types = array(
 				'Element_OphCiExamination_Risks' => array('name' => 'Risks', 'display_order' => 25),
 				'Element_OphCiExamination_Gonioscopy' => array('name' => 'Gonioscopy', 'display_order' => 35),
+				'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment', 'display_order' => 55),
 		);
 		foreach($element_types as $element_type_class => $element_type_data) {
 			$this->insert('element_type', array(
@@ -127,6 +128,7 @@ class m120914_111700_glaucoma extends OEMigration {
 		$element_types = array(
 				'Element_OphCiExamination_Risks',
 				'Element_OphCiExamination_Gonioscopy',
+				'Element_OphCiExamination_AnteriorSegment',
 		);
 		foreach($element_types as $element_type) {
 			$this->delete('element_type',"class_name = ?", array($element_type));

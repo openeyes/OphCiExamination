@@ -124,6 +124,10 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		));
 	}
 
+	public function getDiagnosisOptions() {
+		return array(null => 'TODO');
+	}
+	
 	/**
 	 * Set default values for forms on create
 	 */
