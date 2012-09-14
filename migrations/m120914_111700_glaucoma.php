@@ -1,6 +1,6 @@
 <?php
 
-class m120829_170900_glaucoma extends OEMigration {
+class m120914_111700_glaucoma extends OEMigration {
 
 	public function up() {
 
@@ -24,7 +24,7 @@ class m120829_170900_glaucoma extends OEMigration {
 					'display_order' => $element_type_data['display_order'],
 					'default' => 1,
 			));
-				
+
 			// Insert element type id into element type array
 			$element_type_id = $this->dbConnection->createCommand()
 			->select('id')
@@ -73,15 +73,39 @@ class m120829_170900_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_risks', 'hypotension', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
 
 		// Gonioscopy
-		$this->addColumn('et_ophciexamination_gonioscopy', 'gonio_left', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'gonio_right', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'van_herick_left', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'van_herick_right', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'description_left', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'description_right', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'image_string_left', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'image_string_right', 'text COLLATE utf8_bin');
-		
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_van_herick_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_van_herick_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_description', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_description', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_eyedraw', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_eyedraw', 'text COLLATE utf8_bin');
+		$this->createTable('ophciexamination_gonioscopy_description',array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(40) NOT NULL',
+				'display_order' => 'tinyint(3) unsigned DEFAULT \'0\'',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'CONSTRAINT `ophciexamination_gonioscopy_description_lmuid_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_gonioscopy_description_cuid_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		$this->createTable('ophciexamination_gonioscopy_van_herick',array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(40) NOT NULL',
+				'display_order' => 'tinyint(3) unsigned DEFAULT \'0\'',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'CONSTRAINT `ophciexamination_gonioscopy_van_herick_lmuid_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_gonioscopy_van_herick_cuid_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
@@ -91,6 +115,9 @@ class m120829_170900_glaucoma extends OEMigration {
 		// Remove tables
 		$tables = array(
 				'et_ophciexamination_risks',
+				'ophciexamination_gonioscopy_description',
+				'ophciexamination_gonioscopy_van_herick',
+				'et_ophciexamination_gonioscopy',
 		);
 		foreach($tables as $table) {
 			$this->dropTable($table);
@@ -99,6 +126,7 @@ class m120829_170900_glaucoma extends OEMigration {
 		// Remove types
 		$element_types = array(
 				'Element_OphCiExamination_Risks',
+				'Element_OphCiExamination_Gonioscopy',
 		);
 		foreach($element_types as $element_type) {
 			$this->delete('element_type',"class_name = ?", array($element_type));

@@ -41,7 +41,7 @@
 					'mode' => 'edit',
 					'size' => 300,
 					'model' => $element,
-					'attribute' => 'image_string_right',
+					'attribute' => 'right_eyedraw',
 			));
 			?>
 		</div>
@@ -53,7 +53,7 @@
 					'mode' => 'edit',
 					'size' => 300,
 					'model' => $element,
-					'attribute' => 'image_string_left',
+					'attribute' => 'left_eyedraw',
 			));
 			?>
 		</div>

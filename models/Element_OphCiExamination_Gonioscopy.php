@@ -17,53 +17,26 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-<?php
 
 /**
- * This is the model class for table "element_gonioscopy".
+ * This is the model class for table "et_ophciexamination_gonioscopy".
  *
- * The followings are the available columns in table 'element_gonioscopy':
- * @property string $id
- * @property string $event_id
- * @property string $description
+ * The followings are the available columns in table 'et_ophciexamination_gonioscopy':
+ * @property integer $id
+ * @property integer $event_id
+ * @property string $left_description
+ * @property string $right_description
+ * @property OphCiExamination_Gonioscopy_Description $left_gonio
+ * @property OphCiExamination_Gonioscopy_Description $right_gonio
+ * @property OphCiExamination_Gonioscopy_Van_Herick $left_van_herick
+ * @property OphCiExamination_Gonioscopy_Van_Herick $right_van_herick
+ * @property string $left_eyedraw
+ * @property string $right_eyedraw
  *
  * The followings are the available model relations:
  * @property Event $event
  */
-class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
-	/** */
-
-	const VAN_HERICK_UNSET = 0;
-	/** Represents Van Herick value at 5%. */
-	const VAN_HERICK_005 = 5;
-	/** Represents Van Herick value at 15%. */
-	const VAN_HERICK_015 = 15;
-	/** Represents Van Herick value at 25%. */
-	const VAN_HERICK_025 = 25;
-	/** Represents Van Herick value at 30%. */
-	const VAN_HERICK_030 = 30;
-	/** Represents Van Herick value at 75%. */
-	const VAN_HERICK_075 = 75;
-	/** Represents Van Herick value at 100%. */
-	const VAN_HERICK_100 = 100;
-
-	/** Option for 'open' gonioscopy. */
-	const OPTION_OPEN = 1;
-	/** Option for 'narrow(i)' gonioscopy. */
-	const OPTION_NARROW_1 = 2;
-	/** Option for 'narrow(ii)' gonioscopy. */
-	const OPTION_NARROW_2 = 3;
-	/** Option for 'closed' gonioscopy. */
-	const OPTION_CLOSED = 4;
-
-	/**
-	 *
-	 */
-	function __construct($scenario = 'insert') {
-		parent::__construct($scenario);
-		$this->setDoodleInfo(array('AngleNV', 'AntSynech', 'AngleRecession'));
-	}
+class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -87,10 +60,12 @@ class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('id, event_id, gonio_left, gonio_right, van_herick_left, van_herick_right, description_left, description_right, image_string_left, image_string_right', 'safe'),
+				array('id, event_id, left_gonio_id, right_gonio_id, left_van_herick_id, right_van_herick_id,
+						left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, description_left, description_right, image_string_left, image_string_right', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
+						'safe', 'on' => 'search'),
 		);
 	}
 
@@ -101,7 +76,15 @@ class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
+				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'left_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_id'),
+				'right_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_id'),
+				'left_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
+				'right_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
 		);
 	}
 
@@ -112,14 +95,14 @@ class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'van_herick_left' => 'Van Herick',
-				'van_herick_right' => 'Van Herick',
-				'gonio_left' => 'Gonioscopy',
-				'gonio_right' => 'Gonioscopy',
-				'description_left' => 'Description',
-				'description_right' => 'Description',
-				'image_string_left' => 'EyeDraw (left)',
-				'image_string_right' => 'EyeDraw (right)'
+				'left_van_herick_id' => 'Van Herick',
+				'right_van_herick_id' => 'Van Herick',
+				'left_gonio_id' => 'Gonioscopy',
+				'right_gonio_id' => 'Gonioscopy',
+				'left_description' => 'Description',
+				'right_description' => 'Description',
+				'left_eyedraw' => 'EyeDraw',
+				'right_eyedraw' => 'EyeDraw'
 		);
 	}
 
@@ -135,14 +118,14 @@ class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('gonio_left', $this->gonio_left, true);
-		$criteria->compare('gonio_right', $this->gonio_right, true);
-		$criteria->compare('van_herick_left', $this->van_herick_left, true);
-		$criteria->compare('van_herick_right', $this->van_herick_right, true);
-		$criteria->compare('description_left', $this->description_left, true);
-		$criteria->compare('description_right', $this->description_right, true);
-		$criteria->compare('image_string_left', $this->image_string_left, true);
-		$criteria->compare('image_string_right', $this->image_string_right, true);
+		$criteria->compare('left_gonio_id', $this->left_gonio_id, true);
+		$criteria->compare('right_gonio_id', $this->right_gonio_id, true);
+		$criteria->compare('left_van_herick_id', $this->left_van_herick_id, true);
+		$criteria->compare('right_van_herick_id', $this->right_van_herick_id, true);
+		$criteria->compare('left_description', $this->left_description, true);
+		$criteria->compare('right_description', $this->right_description, true);
+		$criteria->compare('left_eyedraw', $this->left_eyedraw, true);
+		$criteria->compare('right_eyedraw', $this->right_eyedraw, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
@@ -151,59 +134,38 @@ class Element_OphCiExamination_Gonioscopy extends OphCiExamination_EyeDrawBase {
 
 	/**
 	 *
-	 * @return type
+	 * @return array
 	 */
 	function getGonioscopyOptions() {
-		return array(
-				self::OPTION_OPEN => 'Open',
-				self::OPTION_NARROW_1 => 'Narrow (I)',
-				self::OPTION_NARROW_2 => 'Narrow (II)',
-				self::OPTION_CLOSED => 'Closed',
-		);
+		return CHtml::listData(OphCiExamination_Gonioscopy_Description::model()
+				->findAll(array('order'=>'display_order')),'id','name');
 	}
 
 	/**
 	 *
-	 * @return type
+	 * @return array
 	 */
 	function getVanHerickOptions() {
-		return array(
-				self::VAN_HERICK_UNSET => 'NR',
-				self::VAN_HERICK_005 => '5%',
-				self::VAN_HERICK_015 => '15%',
-				self::VAN_HERICK_025 => '25%',
-				self::VAN_HERICK_030 => '30%',
-				self::VAN_HERICK_075 => '75%',
-				self::VAN_HERICK_100 => '100%',
-		);
+		return array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()
+				->findAll(array('order'=>'display_order')),'id','name');
 	}
 
 	/**
-	 *
-	 * @param string $description_string
-	 * @param int $type
-	 * @param int $vanHerick
-	 * @return string
+	 * Set default values for forms on create
 	 */
-	function getVerboseDescription($description_string, $type, $vanHerick) {
-		$description = "";
-		if ($description_string) {
-			$description = $description_string;
-		}
-		$gonioOptions = $this->getGonioscopyOptions();
-		$vanHerickOptions = $this->getVanHerickOptions();
-		if ($description_string) {
-			$description .= ", ";
+	public function setDefaultOptions() {
+	}
 
-			$description .= $gonioOptions[$type];
-			if ($vanHerick) {
-				if (strlen($description)) {
-					$description .= ", ";
-				}
-				$description .= "Van Herick: " . $vanHerickOptions[$vanHerick];
-			}
-		}
-		return $description;
+	protected function beforeSave() {
+		return parent::beforeSave();
+	}
+
+	protected function afterSave() {
+		return parent::afterSave();
+	}
+
+	protected function beforeValidate() {
+		return parent::beforeValidate();
 	}
 
 }

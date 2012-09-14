@@ -32,7 +32,7 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<div>
+	<div class="clearfix">
 		<?php
 		$values = array('angina', 'asthma', 'blood_loss', 'cardiac_surgery', 'cva',
 				'foh', 'hyperopia', 'hypotension', 'myopia', 'migraine', 'raynauds',
