@@ -18,24 +18,22 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_gonioscopy".
+ * This is the model class for table "et_ophciexamination_opticdisc".
  *
- * The followings are the available columns in table 'et_ophciexamination_gonioscopy':
+ * The followings are the available columns in table 'et_ophciexamination_opticdisc':
  * @property integer $id
  * @property integer $event_id
  * @property string $left_description
  * @property string $right_description
- * @property OphCiExamination_Gonioscopy_Description $left_gonio
- * @property OphCiExamination_Gonioscopy_Description $right_gonio
- * @property OphCiExamination_Gonioscopy_Van_Herick $left_van_herick
- * @property OphCiExamination_Gonioscopy_Van_Herick $right_van_herick
+ * @property float $left_size
+ * @property float $right_size
  * @property string $left_eyedraw
  * @property string $right_eyedraw
  *
  * The followings are the available model relations:
  * @property Event $event
  */
-class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
+class Element_OphCiExamination_OpticDisc extends BaseEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -49,7 +47,7 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_gonioscopy';
+		return 'et_ophciexamination_opticdisc';
 	}
 
 	/**
@@ -59,8 +57,7 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('id, event_id, left_gonio_id, right_gonio_id, left_van_herick_id, right_van_herick_id,
-						left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('id, event_id, left_size, right_size, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
@@ -80,10 +77,6 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_id'),
-				'right_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_id'),
-				'left_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
-				'right_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
 		);
 	}
 
@@ -94,10 +87,8 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_van_herick_id' => 'Van Herick',
-				'right_van_herick_id' => 'Van Herick',
-				'left_gonio_id' => 'Gonioscopy',
-				'right_gonio_id' => 'Gonioscopy',
+				'left_size' => 'Size',
+				'right_size' => 'Size',
 				'left_description' => 'Description',
 				'right_description' => 'Description',
 				'left_eyedraw' => 'EyeDraw',
@@ -117,10 +108,8 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_gonio_id', $this->left_gonio_id, true);
-		$criteria->compare('right_gonio_id', $this->right_gonio_id, true);
-		$criteria->compare('left_van_herick_id', $this->left_van_herick_id, true);
-		$criteria->compare('right_van_herick_id', $this->right_van_herick_id, true);
+		$criteria->compare('left_size', $this->left_size, true);
+		$criteria->compare('right_size', $this->right_size, true);
 		$criteria->compare('left_description', $this->left_description, true);
 		$criteria->compare('right_description', $this->right_description, true);
 		$criteria->compare('left_eyedraw', $this->left_eyedraw, true);
@@ -131,24 +120,11 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 		));
 	}
 
-	/**
-	 *
-	 * @return array
-	 */
-	function getGonioscopyOptions() {
-		return CHtml::listData(OphCiExamination_Gonioscopy_Description::model()
-				->findAll(array('order'=>'display_order')),'id','name');
+	public function getSizeOptions() {
+		$range = range(0, 4, 0.1);
+		return array_combine($range,$range);
 	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	function getVanHerickOptions() {
-		return array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()
-				->findAll(array('order'=>'display_order')),'id','name');
-	}
-
+	
 	/**
 	 * Set default values for forms on create
 	 */

@@ -16,6 +16,7 @@ class m120914_111700_glaucoma extends OEMigration {
 				'Element_OphCiExamination_Risks' => array('name' => 'Risks', 'display_order' => 25),
 				'Element_OphCiExamination_Gonioscopy' => array('name' => 'Gonioscopy', 'display_order' => 35),
 				'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment', 'display_order' => 55),
+				'Element_OphCiExamination_OpticDisc' => array('name' => 'Optic Disc', 'display_order' => 65),
 		);
 		foreach($element_types as $element_type_class => $element_type_data) {
 			$this->insert('element_type', array(
@@ -40,6 +41,7 @@ class m120914_111700_glaucoma extends OEMigration {
 		$element_type_tables = array(
 				'risks',
 				'gonioscopy',
+				'opticdisc',
 		);
 		foreach($element_type_tables as $element_type_table) {
 			$this->createTable('et_ophciexamination_'.$element_type_table, array(
@@ -107,6 +109,14 @@ class m120914_111700_glaucoma extends OEMigration {
 				'CONSTRAINT `ophciexamination_gonioscopy_van_herick_cuid_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 
+		// Optic Disc
+		$this->addColumn('et_ophciexamination_opticdisc', 'left_description', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_opticdisc', 'right_description', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_opticdisc', 'left_size', 'float(2,1) not null');
+		$this->addColumn('et_ophciexamination_opticdisc', 'right_size', 'float(2,1) not null');
+		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text COLLATE utf8_bin');
+		
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
@@ -119,6 +129,7 @@ class m120914_111700_glaucoma extends OEMigration {
 				'ophciexamination_gonioscopy_description',
 				'ophciexamination_gonioscopy_van_herick',
 				'et_ophciexamination_gonioscopy',
+				'et_ophciexamination_opticdisc',
 		);
 		foreach($tables as $table) {
 			$this->dropTable($table);
@@ -129,6 +140,7 @@ class m120914_111700_glaucoma extends OEMigration {
 				'Element_OphCiExamination_Risks',
 				'Element_OphCiExamination_Gonioscopy',
 				'Element_OphCiExamination_AnteriorSegment',
+				'Element_OphCiExamination_OpticDisc',
 		);
 		foreach($element_types as $element_type) {
 			$this->delete('element_type',"class_name = ?", array($element_type));

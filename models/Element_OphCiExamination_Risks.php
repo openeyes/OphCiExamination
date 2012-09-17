@@ -115,4 +115,33 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		));
 	}
 
+	public function getSummary() {
+		$fields = array(
+				'myopia',
+				'migraine',
+				'cva',
+				'blood_loss',
+				'raynauds',
+				'foh',
+				'hyperopia',
+				'cardiac_surgery',
+				'angina',
+				'asthma',
+				'sob',
+				'hypotension'
+		);
+		$return = array();
+		$attribute_labels = $this->attributeLabels();
+		foreach($fields as $field) {
+			if($this->$field) {
+				$return[] = isset($attribute_labels[$field]) ? $attribute_labels[$field] : $field;
+			}
+		}
+		if($return) {
+			return implode(', ',$return);
+		} else {
+			return 'None';
+		}
+	}
+
 }
