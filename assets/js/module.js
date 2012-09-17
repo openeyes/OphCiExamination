@@ -37,9 +37,10 @@ $(document).ready(function() {
 	$('#event_display').delegate('#et_deleteevent', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
-			$('#deleteForm').submit();
+			return true;
 		}
 		e.preventDefault();
+		return false;
 	});
 
 	/**
