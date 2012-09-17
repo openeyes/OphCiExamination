@@ -80,10 +80,10 @@ class m120914_111700_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_van_herick_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'right_van_herick_id', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'left_description', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'right_description', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'left_eyedraw', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'right_eyedraw', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_description', 'text');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_description', 'text');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_eyedraw', 'text');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_eyedraw', 'text');
 		$this->createTable('ophciexamination_gonioscopy_description',array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(40) NOT NULL',
@@ -110,12 +110,12 @@ class m120914_111700_glaucoma extends OEMigration {
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 
 		// Optic Disc
-		$this->addColumn('et_ophciexamination_opticdisc', 'left_description', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_opticdisc', 'right_description', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_opticdisc', 'left_description', 'text');
+		$this->addColumn('et_ophciexamination_opticdisc', 'right_description', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_size', 'float(2,1) not null');
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_size', 'float(2,1) not null');
-		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text COLLATE utf8_bin');
-		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text COLLATE utf8_bin');
+		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text');
+		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text');
 		
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
