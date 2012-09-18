@@ -108,6 +108,13 @@ class m120914_111700_glaucoma extends OEMigration {
 				'CONSTRAINT `ophciexamination_gonioscopy_van_herick_lmuid_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_gonioscopy_van_herick_cuid_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		$this->insert('setting_metadata', array(
+				'element_type_id' => $element_types['Element_OphCiExamination_Gonioscopy']['id'],
+				'field_type_id' => 1, // Boolean
+				'key' => 'expert',
+				'name' => 'Expert Mode',
+				'default_value' => 0,
+		));
 
 		// Optic Disc
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_description', 'text');
@@ -116,12 +123,25 @@ class m120914_111700_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_size', 'float(2,1) not null');
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text');
-		
+
+		// Anterior Segment
+		$this->dropForeignKey('et_ophciexamination_anteriorsegment_ldi_fk', 'et_ophciexamination_anteriorsegment');
+		$this->dropForeignKey('et_ophciexamination_anteriorsegment_rdi_fk', 'et_ophciexamination_anteriorsegment');
+		$this->dropColumn('et_ophciexamination_anteriorsegment', 'left_diagnosis_id');
+		$this->dropColumn('et_ophciexamination_anteriorsegment', 'right_diagnosis_id');
+
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
+
 	}
 
 	public function down() {
+
+		// Re-add anterior columns
+		$this->addColumn('et_ophciexamination_anteriorsegment', 'left_diagnosis_id', 'int(10) unsigned');
+		$this->addColumn('et_ophciexamination_anteriorsegment', 'right_diagnosis_id', 'int(10) unsigned');
+		$this->addForeignKey('et_ophciexamination_anteriorsegment_ldi_fk', 'et_ophciexamination_anteriorsegment', 'left_diagnosis_id', 'disorder', 'id');
+		$this->addForeignKey('et_ophciexamination_anteriorsegment_rdi_fk', 'et_ophciexamination_anteriorsegment', 'right_diagnosis_id', 'disorder', 'id');
 
 		// Remove tables
 		$tables = array(
@@ -135,7 +155,7 @@ class m120914_111700_glaucoma extends OEMigration {
 			$this->dropTable($table);
 		}
 
-		// Remove types
+		// Remove types (and settings)
 		$element_types = array(
 				'Element_OphCiExamination_Risks',
 				'Element_OphCiExamination_Gonioscopy',
@@ -143,7 +163,13 @@ class m120914_111700_glaucoma extends OEMigration {
 				'Element_OphCiExamination_OpticDisc',
 		);
 		foreach($element_types as $element_type) {
-			$this->delete('element_type',"class_name = ?", array($element_type));
+			$element_type_id = $this->dbConnection->createCommand()
+				->select('id')
+				->from('element_type')
+				->where('class_name=:class_name', array(':class_name'=>$element_type))
+				->queryScalar();
+			$this->delete('setting_metadata', "element_type_id = ?", array($element_type_id));
+			$this->delete('element_type',"id = ?", array($element_type_id));
 		}
 
 	}

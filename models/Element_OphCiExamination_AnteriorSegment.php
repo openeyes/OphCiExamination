@@ -25,10 +25,8 @@
  * @property integer $event_id
  * @property string $left_eyedraw
  * @property string $left_description
- * @property Disorder $left_diagnosis
  * @property string $right_eyedraw
  * @property string $right_description
- * @property Disorder $right_diagnosis
  *
  * The followings are the available model relations:
  */
@@ -58,11 +56,11 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id', 'safe'),
+				array('event_id, left_description, right_description', 'safe'),
 				array('left_eyedraw, right_eyedraw', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, left_eyedraw, right_eyedraw', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,8 +76,6 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis_id'),
-				'right_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis_id'),
 		);
 	}
 
@@ -92,10 +88,8 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
 				'left_description' => 'Description',
-				'left_diagnosis_id' => 'Diagnosis',
 				'right_eyedraw' => 'Eyedraw',
 				'right_description' => 'Description',
-				'right_diagnosis_id' => 'Diagnosis',
 		);
 	}
 
@@ -114,20 +108,14 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
 		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('left_diagnosis_id', $this->left_diagnosis_id);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
-		$criteria->compare('right_diagnosis_id', $this->right_diagnosis_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
-	public function getDiagnosisOptions() {
-		return array(null => 'TODO');
-	}
-	
 	/**
 	 * Set default values for forms on create
 	 */
