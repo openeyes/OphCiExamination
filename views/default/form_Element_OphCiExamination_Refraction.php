@@ -41,7 +41,7 @@
 					'mode' => 'edit',
 					'model' => $element,
 					'attribute' => 'right_axis_eyedraw',
-					'refraction_types' => CHtml::listData(OphCiExamination_Refraction_Type::model()->findAll(array('order'=>'display_order')),'id','name'),
+					'refraction_types' => OphCiExamination_Refraction_Type::model()->getOptions(),
 			))?>
 		</div>
 		<div class="right eventDetail">
@@ -52,8 +52,14 @@
 					'mode' => 'edit',
 					'model' => $element,
 					'attribute' => 'left_axis_eyedraw',
-					'refraction_types' => CHtml::listData(OphCiExamination_Refraction_Type::model()->findAll(array('order'=>'display_order')),'id','name'),
+					'refraction_types' => OphCiExamination_Refraction_Type::model()->getOptions(),
 			))?>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		OphCiExamination_Refraction_init();
+	});
+</script>

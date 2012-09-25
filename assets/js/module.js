@@ -25,7 +25,7 @@ $(document).ready(function() {
 			if (m = window.location.href.match(/\/update\/[0-9]+/)) {
 				window.location.href = window.location.href.replace('/update/', '/view/');
 			} else {
-				window.location.href = baseUrl+'/patient/episodes/' + et_patient_id;
+				window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
 			}
 		}
 		e.preventDefault();
@@ -52,7 +52,7 @@ $(document).ready(function() {
 			if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
 				window.location.href = window.location.href.replace('/delete/', '/view/');
 			} else {
-				window.location.href = baseUrl+'/patient/episodes/' + et_patient_id;
+				window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
 			}
 		}
 		e.preventDefault();
@@ -84,7 +84,7 @@ $(document).ready(function() {
 			animate = true;
 		var element_type_id = $(element).attr('data-element-type-id');
 		var display_order = $(element).attr('data-element-display-order');
-		$.get(baseUrl+"/OphCiExamination/Default/ElementForm", {
+		$.get(baseUrl + "/OphCiExamination/Default/ElementForm", {
 			id : element_type_id,
 			patient_id : et_patient_id,
 		}, function(data) {
@@ -249,13 +249,17 @@ $(document).ready(function() {
 		eyedraw.setParameterForDoodleOfClass('TrialLens', 'axis', axis);
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
+		OphCiExamination_Refraction_updateType(this);
+	});
+
 	$('#event_display').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .vaReading', 'change', function() {
-		if($(this).hasClass('vaReadingInitial')) {
+		if ($(this).hasClass('vaReadingInitial')) {
 			OphCiExamination_VisualAcuity_updateReading(this);
 		}
 		OphCiExamination_VisualAcuity_updateType(this);
@@ -276,24 +280,24 @@ function eDparameterListener(drawing) {
 
 function updateElement_OphCiExamination_CataractAssessment(drawing, doodle) {
 	var side = (drawing.eye == 0) ? 'right' : 'left';
-	if(doodle) {
-		switch(doodle.className) {
-			case 'AntSeg':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_pupil').val(doodle.getParameter('grade'));
-				break;
-			case 'NuclearCataract':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_nuclear').val(doodle.getParameter('grade'));
-				break;
-			case 'CorticalCataract':
-				$('#Element_OphCiExamination_CataractAssessment_'+side+'_cortical').val(doodle.getParameter('grade'));
-				break;
+	if (doodle) {
+		switch (doodle.className) {
+		case 'AntSeg':
+			$('#Element_OphCiExamination_CataractAssessment_' + side + '_pupil').val(doodle.getParameter('grade'));
+			break;
+		case 'NuclearCataract':
+			$('#Element_OphCiExamination_CataractAssessment_' + side + '_nuclear').val(doodle.getParameter('grade'));
+			break;
+		case 'CorticalCataract':
+			$('#Element_OphCiExamination_CataractAssessment_' + side + '_cortical').val(doodle.getParameter('grade'));
+			break;
 		}
 	}
 }
 
 function OphCiExamination_IntraocularPressure_updateType(field) {
 	var type = $(field).closest('.data').find('.iopInstrument');
-	if($(field).val() == 1) {
+	if ($(field).val() == 1) {
 		type.attr('disabled', 'disabled');
 	} else {
 		type.removeAttr('disabled');
@@ -307,9 +311,9 @@ function OphCiExamination_IntraocularPressure_init() {
 }
 
 function updateElement_OphCiExamination_PosteriorSegment(drawing, doodle) {
-	if(doodle && doodle.className == 'PostPole') {
+	if (doodle && doodle.className == 'PostPole') {
 		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio').val(doodle.getParameter('cdRatio'));
+		$('#Element_OphCiExamination_PosteriorSegment_' + side + '_cd_ratio').val(doodle.getParameter('cdRatio'));
 	}
 }
 
@@ -322,7 +326,7 @@ function OphCiExamination_Refraction_updateSegmentedField(field) {
 function updateElement_OphCiExamination_Refraction(drawing, doodle) {
 	if (doodle && doodle.className == 'TrialLens') {
 		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_Refraction_'+side+'_axis').val(doodle.getParameter('axis'));
+		$('#Element_OphCiExamination_Refraction_' + side + '_axis').val(doodle.getParameter('axis'));
 	}
 }
 
@@ -331,13 +335,32 @@ function updateElement_OphCiExamination_Refraction(drawing, doodle) {
  */
 function OphCiExamination_VisualAcuity_updateType(field) {
 	var type = $(field).next();
-	if($(field).val() == 0) {
+	if ($(field).val() == 0) {
 		type.children('option:selected').removeAttr("selected");
-		type.children('option').first().attr('selected','selected');
+		type.children('option').first().attr('selected', 'selected');
 		type.attr('disabled', 'disabled');
 	} else {
 		type.removeAttr('disabled');
 	}
+}
+
+/**
+ * Show other type field only if type is set to "Other"
+ */
+function OphCiExamination_Refraction_updateType(field) {
+	var other = $(field).next();
+	if ($(field).val() == '') {
+		other.show();
+	} else {
+		other.val('');
+		other.hide();
+	}
+}
+
+function OphCiExamination_Refraction_init() {
+	$("#event_content .Element_OphCiExamination_Refraction .refractionType").each(function() {
+		OphCiExamination_Refraction_updateType(this);
+	});
 }
 
 /**
