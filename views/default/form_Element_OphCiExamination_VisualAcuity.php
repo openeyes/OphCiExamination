@@ -25,8 +25,8 @@
 	<div class="removeElement">
 		<button class="classy blue mini">
 			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
-				height="22"> </span>
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="24" height="22"> </span>
 		</button>
 	</div>
 	<h4 class="elementTypeName">
@@ -34,36 +34,36 @@
 	</h4>
 	<?php
 	$values = $element->getUnitValues();
-
-	// Adjust currently element readings to match unit steps
-	$element->loadClosest();
-
+	$methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name');
+	$key = 0;
 	?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<div class="data">
+			<div class="data" data-side="right">
+				<input type="hidden" name="visualacuity_readings_valid" value="1" />
 				<table>
 					<thead>
 						<tr>
-							<th><?php echo $element->getAttributeLabel('right_initial'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('right_corrected'); ?>
-							</th>
+							<th>Value</th>
+							<th>Method</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<?php echo $form->dropDownList($element, 'right_initial', $values, array('class' => 'vaReading vaReadingInitial','nowrapper'=>true))?>
-								<?php echo $form->dropDownList($element, 'right_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true))?>
-							</td>
-							<td>
-								<?php echo $form->dropDownList($element, 'right_corrected', $values, array('class' => 'vaReading','nowrapper'=>true)); ?>
-								<?php echo $form->dropDownList($element, 'right_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true)) ?>
-							</td>
-						</tr>
+						<?php foreach($element->right_readings as $reading) { 
+							// Adjust currently element readings to match unit steps
+							$reading->loadClosest();
+							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+									'key' => $key,
+									'reading' => $reading,
+									'side' => $reading->side,
+									'values' => $values,
+									'methods' => $methods
+							));
+							$key++;
+							}?>
 					</tbody>
 				</table>
+				<a class="addReading" href="#">Add</a>
 			</div>
 			<?php if($element->right_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
@@ -72,29 +72,30 @@
 			<?php } ?>
 		</div>
 		<div class="right eventDetail">
-			<div class="data">
+			<div class="data" data-side="left">
 				<table>
 					<thead>
 						<tr>
-							<th><?php echo $element->getAttributeLabel('left_initial'); ?>
-							</th>
-							<th><?php echo $element->getAttributeLabel('left_corrected'); ?>
-							</th>
+							<th>Value</th>
+							<th>Method</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<?php echo $form->dropDownList($element, 'left_initial', $values, array('class' => 'vaReading vaReadingInitial', 'nowrapper'=>true)) ?>
-								<?php echo $form->dropDownList($element, 'left_wearing_id', CHtml::listData(OphCiExamination_VisualAcuity_Wearing::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType', 'nowrapper'=>true)) ?>
-							</td>
-							<td>
-								<?php echo $form->dropDownList($element, 'left_corrected', $values, array('class' => 'vaReading', 'nowrapper'=>true)); ?>
-								<?php echo $form->dropDownList($element, 'left_method_id', CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'vaReadingType','nowrapper'=>true)) ?>
-							</td>
-						</tr>
+						<?php foreach($element->left_readings as $reading) { 
+							// Adjust currently element readings to match unit steps
+							$reading->loadClosest();
+							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+									'key' => $key,
+									'reading' => $reading,
+									'side' => $reading->side,
+									'values' => $values,
+									'methods' => $methods
+							));
+							$key++;
+							}?>
 					</tbody>
 				</table>
+				<a class="addReading" href="#">Add</a>
 			</div>
 			<?php if($element->left_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
@@ -104,6 +105,17 @@
 		</div>
 	</div>
 </div>
+
+<script id="visualacuity_reading_template" type="text/html">
+	<?php
+	$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+			'key' => '{{key}}',
+			'side' => '{{side}}',
+			'values' => $values,
+			'methods' => $methods
+	));
+	?>
+</script>
 
 <script type="text/javascript">
 	$(document).ready(function() {

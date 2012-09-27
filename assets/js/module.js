@@ -258,12 +258,17 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .vaReading', 'change', function() {
-		if ($(this).hasClass('vaReadingInitial')) {
-			OphCiExamination_VisualAcuity_updateReading(this);
-		}
-		OphCiExamination_VisualAcuity_updateType(this);
+	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
+		$(this).closest('tr').remove();
+		e.preventDefault();
 	});
+	
+	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .addReading', 'click', function(e) {
+		var side = $(this).closest('.data').attr('data-side');
+		OphCiExamination_VisualAcuity_addReading(side);
+		e.preventDefault();
+	});
+	
 });
 
 // Global function to route eyedraw event to the correct element handler
@@ -331,20 +336,6 @@ function updateElement_OphCiExamination_Refraction(drawing, doodle) {
 }
 
 /**
- * Disable associated reading type field if reading is not recorded
- */
-function OphCiExamination_VisualAcuity_updateType(field) {
-	var type = $(field).next();
-	if ($(field).val() == 0) {
-		type.children('option:selected').removeAttr("selected");
-		type.children('option').first().attr('selected', 'selected');
-		type.attr('disabled', 'disabled');
-	} else {
-		type.removeAttr('disabled');
-	}
-}
-
-/**
  * Show other type field only if type is set to "Other"
  */
 function OphCiExamination_Refraction_updateType(field) {
@@ -364,16 +355,23 @@ function OphCiExamination_Refraction_init() {
 }
 
 /**
- * Update corrected reading field if initial is changed
+ * Visual Acuity
  */
-function OphCiExamination_VisualAcuity_updateReading(field) {
-	var corrected = $(field).parent().next().children().first();
-	corrected.val($(field).val());
-	OphCiExamination_VisualAcuity_updateType(corrected);
+
+function OphCiExamination_VisualAcuity_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index,el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	return Math.max.apply(null,keys) + 1;
+}
+
+function OphCiExamination_VisualAcuity_addReading(side) {
+	var template = $('#visualacuity_reading_template').html();
+	var data = { "key": OphCiExamination_VisualAcuity_getNextKey(), "side": (side == 'right' ? 0 : 1) };
+	var form = Mustache.render(template, data);
+	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="'+side+'"] tbody').append(form);
 }
 
 function OphCiExamination_VisualAcuity_init() {
-	$("#event_content .Element_OphCiExamination_VisualAcuity .vaReading").each(function() {
-		OphCiExamination_VisualAcuity_updateType(this);
-	});
 }
+
