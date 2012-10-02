@@ -30,6 +30,6 @@
 	</td>
 	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods); ?>
 	</td>
-	<td><a class="removeReading" href="#">Remove</a>
+	<td class="readingActions"><a class="removeReading" href="#">Remove</a>
 	</td>
 </tr>

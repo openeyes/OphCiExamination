@@ -46,6 +46,10 @@ class m120925_122900_uat_changes extends OEMigration {
 				'CONSTRAINT `ophciexamination_visualacuity_reading_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_visualacuity_reading_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		$this->delete('ophciexamination_visualacuity_method');
+
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
 	}
 
 	public function down() {
@@ -53,7 +57,7 @@ class m120925_122900_uat_changes extends OEMigration {
 		$this->insert('ophciexamination_refraction_type', array('name' => 'Other', 'display_order' => 4));
 		$this->dropColumn('et_ophciexamination_refraction', 'left_type_other');
 		$this->dropColumn('et_ophciexamination_refraction', 'right_type_other');
-		
+
 		$this->dropTable('ophciexamination_visualacuity_reading');
 		$this->createTable('ophciexamination_visualacuity_wearing',array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
@@ -68,7 +72,7 @@ class m120925_122900_uat_changes extends OEMigration {
 				'KEY `ophciexamination_visualacuity_wearing_cui_fk` (`created_user_id`)',
 				'CONSTRAINT `ophciexamination_visualacuity_wearing_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_visualacuity_wearing_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)'
-			), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
+		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_initial', 'int(10) unsigned NOT NULL');
 		$this->addColumn('et_ophciexamination_visualacuity', 'left_wearing_id', 'int(10) unsigned NOT NULL');
@@ -82,6 +86,6 @@ class m120925_122900_uat_changes extends OEMigration {
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_corrected', 'int(10) unsigned NOT NULL');
 		$this->addColumn('et_ophciexamination_visualacuity', 'right_method_id', 'int(10) unsigned NOT NULL');
 		$this->addForeignKey('et_ophciexamination_visualacuity_rmi_fk','et_ophciexamination_visualacuity','right_method_id','ophciexamination_visualacuity_method','id');
-		
+
 	}
 }

@@ -110,8 +110,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		} else {
 			$unit = $this->getUnit();
 		}
-		$values = CHtml::listData($unit->values, 'base_value', 'value');
-		return array('0' => 'Not recorded') + $values;
+		return CHtml::listData($unit->values, 'base_value', 'value');
 	}
 
 	/**
@@ -153,6 +152,25 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public function setDefaultOptions() {
 	}
 
+	/**
+	 * Converts a (POSTed) form to an array of reading models.
+	 * Required when redisplaying form after validation error.
+	 * @param array $readings array POSTed array of readings
+	 * @param string $side
+	 */
+	public function convertReadings($readings, $side) {
+		$return = array();
+		$side_id = ($side == 'right') ? 0 : 1;
+		foreach($readings as $reading) {
+			if($reading['side'] == $side_id) {
+				$reading_model = new OphCiExamination_VisualAcuity_Reading();
+				$reading_model->attributes = $reading;
+				$return[] = $reading_model;
+			}
+		}
+		return $return;
+	}
+
 	protected function beforeSave() {
 		return parent::beforeSave();
 	}
@@ -165,28 +183,28 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	protected function afterSave() {
 		// Check to see if readings have been posted
 		if(isset($_POST['visualacuity_readings_valid']) && $_POST['visualacuity_readings_valid']) {
-				
+
 			// Get a list of ids so we can keep track of what's been removed
 			$existing_reading_ids = array();
 			foreach($this->readings as $reading) {
 				$existing_reading_ids[$reading->id] = $reading->id;
 			}
-				
+
 			// Process (any) posted readings
 			$new_readings = (isset($_POST['visualacuity_reading'])) ? $_POST['visualacuity_reading'] : array();
 			foreach($new_readings as $reading) {
 				if(isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
-						
+
 					// Reading is being updated
 					$reading_model = OphCiExamination_VisualAcuity_Reading::model()->findByPk($reading['id']);
 					unset($existing_reading_ids[$reading['id']]);
-						
+
 				} else {
-						
+
 					// Reading is new
 					$reading_model = new OphCiExamination_VisualAcuity_Reading();
 					$reading_model->element_id = $this->id;
-						
+
 				}
 
 				// Save reading attributes
@@ -199,7 +217,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 
 			// Delete remaining (removed) ids
 			OphCiExamination_VisualAcuity_Reading::model()->deleteByPk(array_values($existing_reading_ids));
-				
+
 		}
 
 		return parent::afterSave();

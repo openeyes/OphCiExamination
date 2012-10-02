@@ -38,18 +38,14 @@
 	$key = 0;
 	?>
 	<div class="cols2 clearfix">
+		<input type="hidden" name="visualacuity_readings_valid" value="1" />
 		<div class="left eventDetail">
 			<div class="data" data-side="right">
-				<input type="hidden" name="visualacuity_readings_valid" value="1" />
-				<table>
-					<thead>
-						<tr>
-							<th>Value</th>
-							<th>Method</th>
-						</tr>
-					</thead>
+				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->right_readings); ?>
+				<table <?php if(!$right_readings) { ?> style="display: none;"
+	<?php } ?>>
 					<tbody>
-						<?php foreach($element->right_readings as $reading) { 
+						<?php foreach($right_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
 							$reading->loadClosest();
 							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
@@ -63,7 +59,11 @@
 							}?>
 					</tbody>
 				</table>
-				<a class="addReading" href="#">Add</a>
+				<div class="data noReadings" <?php if($right_readings) { ?>
+					style="display: none;" <?php } ?>>Not recorded</div>
+				<button class="addReading classy green mini" type="button">
+					<span class="button-span button-span-green">Add</span>
+				</button>
 			</div>
 			<?php if($element->right_comments || $element->getSetting('notes')) { ?>
 			<div class="data">
@@ -73,15 +73,11 @@
 		</div>
 		<div class="right eventDetail">
 			<div class="data" data-side="left">
-				<table>
-					<thead>
-						<tr>
-							<th>Value</th>
-							<th>Method</th>
-						</tr>
-					</thead>
+				<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->left_readings); ?>
+				<table <?php if(!$left_readings) { ?> style="display: none;"
+							<?php } ?>>
 					<tbody>
-						<?php foreach($element->left_readings as $reading) { 
+						<?php foreach($left_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
 							$reading->loadClosest();
 							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
@@ -95,7 +91,11 @@
 							}?>
 					</tbody>
 				</table>
-				<a class="addReading" href="#">Add</a>
+				<div class="data noReadings" <?php if($left_readings) { ?>
+					style="display: none;" <?php } ?>>Not recorded</div>
+				<button class="addReading classy green mini" type="button">
+					<span class="button-span button-span-green">Add</span>
+				</button>
 			</div>
 			<?php if($element->left_comments || $element->getSetting('notes')) { ?>
 			<div class="data">

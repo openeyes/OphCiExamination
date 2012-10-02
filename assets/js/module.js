@@ -259,16 +259,21 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
+		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();
+		if ($('tbody', block).children('tr').length == 0) {
+			$('.noReadings', block).show();
+			$('table', block).hide();
+		}
 		e.preventDefault();
 	});
-	
+
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .addReading', 'click', function(e) {
 		var side = $(this).closest('.data').attr('data-side');
 		OphCiExamination_VisualAcuity_addReading(side);
 		e.preventDefault();
 	});
-	
+
 });
 
 // Global function to route eyedraw event to the correct element handler
@@ -359,19 +364,24 @@ function OphCiExamination_Refraction_init() {
  */
 
 function OphCiExamination_VisualAcuity_getNextKey() {
-	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index,el) {
+	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
-	return Math.max.apply(null,keys) + 1;
+	return Math.max.apply(null, keys) + 1;
 }
 
 function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
-	var data = { "key": OphCiExamination_VisualAcuity_getNextKey(), "side": (side == 'right' ? 0 : 1) };
+	var data = {
+		"key" : OphCiExamination_VisualAcuity_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1)
+	};
 	var form = Mustache.render(template, data);
-	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="'+side+'"] tbody').append(form);
+	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .noReadings').hide();
+	var table = $('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] table');
+	table.show();
+	$('tbody', table).append(form);
 }
 
 function OphCiExamination_VisualAcuity_init() {
 }
-

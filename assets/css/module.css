@@ -18,7 +18,10 @@
 #event_content .cols2 { padding-bottom: 0 !important; }
 #event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
 #event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
-#event_content .Element_OphCiExamination_VisualAcuity .data { margin-left: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity .eventDetail { padding-bottom: 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .data { margin-bottom: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity table { margin-bottom: 5px; }
+#event_content .Element_OphCiExamination_VisualAcuity .readingActions { font-size: 11px; line-height: 16px;}
 #event_content canvas { float: left; border: 1px solid #ccc; margin: 0; }
 #event_content div.ed_toolbar { margin: 0 0 10px; }
 #event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
@@ -30,3 +33,4 @@
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-width: 4px 0 0 0; border-color: #000; border-style: solid; width: 493px; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left { border-right-width: 2px; text-align: right; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-left-width: 2px; }
+
