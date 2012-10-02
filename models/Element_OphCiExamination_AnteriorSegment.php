@@ -23,6 +23,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property string $left_eyedraw
  * @property string $left_description
  * @property Disorder $left_diagnosis
@@ -58,11 +59,11 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id', 'safe'),
+				array('event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, eye_id', 'safe'),
 				array('left_eyedraw, right_eyedraw', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, left_eyedraw, right_eyedraw', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, left_eyedraw, right_eyedraw, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -76,6 +77,7 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis_id'),

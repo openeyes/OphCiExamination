@@ -23,13 +23,14 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property string $left_comments
  * @property string $right_comments
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
+class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -54,13 +55,17 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments', 'safe'),
+				array('event_id, left_comments, right_comments, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_comments, right_comments', 'safe', 'on' => 'search'),
+				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('comments');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -71,6 +76,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
@@ -193,6 +199,13 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 			// Process (any) posted readings
 			$new_readings = (isset($_POST['visualacuity_reading'])) ? $_POST['visualacuity_reading'] : array();
 			foreach($new_readings as $reading) {
+				
+				// Check to see if side is inactive
+				if($reading['side'] == 0 && $this->eye_id == 1
+						|| $reading['side'] == 1 && $this->eye_id == 2) {
+					continue;
+				}
+				
 				if(isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
 
 					// Reading is being updated

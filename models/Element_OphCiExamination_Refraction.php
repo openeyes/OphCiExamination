@@ -23,6 +23,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property decimal $left_sphere
  * @property decimal $left_cylinder
  * @property integer $left_axis
@@ -37,7 +38,7 @@
  * @property string $right_type_other
  */
 
-class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
+class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -62,13 +63,17 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other', 'safe'),
+				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -79,6 +84,7 @@ class Element_OphCiExamination_Refraction extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_type' => array(self::BELONGS_TO, 'OphCiExamination_Refraction_Type', 'left_type_id'),

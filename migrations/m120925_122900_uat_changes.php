@@ -48,11 +48,38 @@ class m120925_122900_uat_changes extends OEMigration {
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		$this->delete('ophciexamination_visualacuity_method');
 
+		// Allow left/right split elements to leave one side unused
+		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
+		$this->addColumn('et_ophciexamination_refraction', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_refraction_eye_id_fk', 'et_ophciexamination_refraction', 'eye_id', 'eye', 'id');
+		$this->addColumn('et_ophciexamination_visualacuity', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_visualacuity_eye_id_fk', 'et_ophciexamination_visualacuity', 'eye_id', 'eye', 'id');
+		$this->addColumn('et_ophciexamination_adnexalcomorbidity', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_adnexalcomorbidity_eye_id_fk', 'et_ophciexamination_adnexalcomorbidity', 'eye_id', 'eye', 'id');
+		$this->addColumn('et_ophciexamination_anteriorsegment', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_anteriorsegment_eye_id_fk', 'et_ophciexamination_anteriorsegment', 'eye_id', 'eye', 'id');
+		$this->addColumn('et_ophciexamination_posteriorsegment', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_posteriorsegment_eye_id_fk', 'et_ophciexamination_posteriorsegment', 'eye_id', 'eye', 'id');
+		$this->addColumn('et_ophciexamination_intraocularpressure', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_intraocularpressure_eye_id_fk', 'et_ophciexamination_intraocularpressure', 'eye_id', 'eye', 'id');
+		
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
 
 	public function down() {
+		$this->dropForeignKey('et_ophciexamination_refraction_eye_id_fk', 'et_ophciexamination_refraction');
+		$this->dropForeignKey('et_ophciexamination_visualacuity_eye_id_fk', 'et_ophciexamination_visualacuity');
+		$this->dropForeignKey('et_ophciexamination_adnexalcomorbidity_eye_id_fk', 'et_ophciexamination_adnexalcomorbidity');
+		$this->dropForeignKey('et_ophciexamination_anteriorsegment_eye_id_fk', 'et_ophciexamination_anteriorsegment');
+		$this->dropForeignKey('et_ophciexamination_posteriorsegment_eye_id_fk', 'et_ophciexamination_posteriorsegment');
+		$this->dropForeignKey('et_ophciexamination_intraocularpressure_eye_id_fk', 'et_ophciexamination_intraocularpressure');
+		$this->dropColumn('et_ophciexamination_refraction', 'eye_id');
+		$this->dropColumn('et_ophciexamination_visualacuity', 'eye_id');
+		$this->dropColumn('et_ophciexamination_adnexalcomorbidity', 'eye_id');
+		$this->dropColumn('et_ophciexamination_anteriorsegment', 'eye_id');
+		$this->dropColumn('et_ophciexamination_posteriorsegment', 'eye_id');
+		$this->dropColumn('et_ophciexamination_intraocularpressure', 'eye_id');
 		$this->delete('ophciexamination_refraction_type', "name = 'Own Glasses'");
 		$this->insert('ophciexamination_refraction_type', array('name' => 'Other', 'display_order' => 4));
 		$this->dropColumn('et_ophciexamination_refraction', 'left_type_other');

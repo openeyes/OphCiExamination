@@ -269,8 +269,34 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .addReading', 'click', function(e) {
-		var side = $(this).closest('.data').attr('data-side');
+		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_VisualAcuity_addReading(side);
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .side .activeForm a.removeSide', 'click', function(e) {
+		
+		// Update side field to indicate other side
+		var side = $(this).closest('.side');
+		var side_field = $(this).closest('.element').find('input.sideField');
+		if(side.attr('data-side') == 'left') {
+			side_field.val(2); // Right
+		} else {
+			side_field.val(1); // Left
+		}
+		
+		// If other side is already inactive, then activate it (can't have both sides inactive
+		$(this).closest('.element').find('.side').removeClass('inactive');
+		
+		// Make this side inactive
+		side.addClass('inactive');
+		
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .side .inactiveForm a', 'click', function(e) {
+		$(this).closest('.element').find('input.sideField').val(3); // Both eyes
+		$(this).closest('.side').removeClass('inactive');
 		e.preventDefault();
 	});
 

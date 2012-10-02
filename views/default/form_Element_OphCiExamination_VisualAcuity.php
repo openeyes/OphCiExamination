@@ -39,16 +39,21 @@
 	?>
 	<div class="cols2 clearfix">
 		<input type="hidden" name="visualacuity_readings_valid" value="1" />
-		<div class="left eventDetail">
-			<div class="data" data-side="right">
-				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->right_readings); ?>
-				<table <?php if(!$right_readings) { ?> style="display: none;"
+		<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
+		<div
+			class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+			data-side="right">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<div class="data">
+					<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->right_readings); ?>
+					<table <?php if(!$right_readings) { ?> style="display: none;"
 	<?php } ?>>
-					<tbody>
-						<?php foreach($right_readings as $reading) { 
-							// Adjust currently element readings to match unit steps
-							$reading->loadClosest();
-							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+						<tbody>
+							<?php foreach($right_readings as $reading) { 
+								// Adjust currently element readings to match unit steps
+								$reading->loadClosest();
+								$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 									'key' => $key,
 									'reading' => $reading,
 									'side' => $reading->side,
@@ -57,30 +62,38 @@
 							));
 							$key++;
 							}?>
-					</tbody>
-				</table>
-				<div class="data noReadings" <?php if($right_readings) { ?>
-					style="display: none;" <?php } ?>>Not recorded</div>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
-				</button>
+						</tbody>
+					</table>
+					<div class="data noReadings" <?php if($right_readings) { ?>
+						style="display: none;" <?php } ?>>Not recorded</div>
+					<button class="addReading classy green mini" type="button">
+						<span class="button-span button-span-green">Add</span>
+					</button>
+				</div>
+				<?php if($element->right_comments || $element->getSetting('notes')) { ?>
+				<div class="data">
+					<?php echo $form->textArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
+				</div>
+				<?php } ?>
 			</div>
-			<?php if($element->right_comments || $element->getSetting('notes')) { ?>
-			<div class="data">
-				<?php echo $form->textArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
+			<div class="inactiveForm">
+				<a href="#">Add right side</a>
 			</div>
-			<?php } ?>
 		</div>
-		<div class="right eventDetail">
-			<div class="data" data-side="left">
-				<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->left_readings); ?>
-				<table <?php if(!$left_readings) { ?> style="display: none;"
+		<div
+			class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+			data-side="left">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<div class="data">
+					<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->left_readings); ?>
+					<table <?php if(!$left_readings) { ?> style="display: none;"
 							<?php } ?>>
-					<tbody>
-						<?php foreach($left_readings as $reading) { 
-							// Adjust currently element readings to match unit steps
-							$reading->loadClosest();
-							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+						<tbody>
+							<?php foreach($left_readings as $reading) { 
+								// Adjust currently element readings to match unit steps
+								$reading->loadClosest();
+								$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 									'key' => $key,
 									'reading' => $reading,
 									'side' => $reading->side,
@@ -89,19 +102,23 @@
 							));
 							$key++;
 							}?>
-					</tbody>
-				</table>
-				<div class="data noReadings" <?php if($left_readings) { ?>
-					style="display: none;" <?php } ?>>Not recorded</div>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
-				</button>
+						</tbody>
+					</table>
+					<div class="data noReadings" <?php if($left_readings) { ?>
+						style="display: none;" <?php } ?>>Not recorded</div>
+					<button class="addReading classy green mini" type="button">
+						<span class="button-span button-span-green">Add</span>
+					</button>
+				</div>
+				<?php if($element->left_comments || $element->getSetting('notes')) { ?>
+				<div class="data">
+					<?php echo $form->textArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
+				</div>
+				<?php } ?>
 			</div>
-			<?php if($element->left_comments || $element->getSetting('notes')) { ?>
-			<div class="data">
-				<?php echo $form->textArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
+			<div class="inactiveForm">
+				<a href="#">Add left side</a>
 			</div>
-			<?php } ?>
 		</div>
 	</div>
 </div>
