@@ -142,6 +142,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					$sd->patient_id = $this->event->episode->patient_id;
 					$sd->disorder_id = $disorder_id;
 					$sd->eye_id = $_POST['eye_id_'.$i];
+					$sd->date = substr($this->event->created_date,0,10);
 					if (!$sd->save()) {
 						throw new Exception('Unable to save secondary diagnosis: '.print_r($sd->getErrors(),true));
 					}
