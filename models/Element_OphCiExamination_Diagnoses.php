@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_diagnosis".
+ * This is the model class for table "et_ophciexamination_diagnoses".
  *
  * The followings are the available columns in table:
  * @property string $id
@@ -29,7 +29,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
+class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 	public $service;
 
 	/**
@@ -44,7 +44,7 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_diagnosis';
+		return 'et_ophciexamination_diagnoses';
 	}
 
 	/**
@@ -55,10 +55,9 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id', 'safe'),
-				array('disorder_id, eye_id', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, disorder_id, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -72,8 +71,6 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
@@ -112,29 +109,66 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 		));
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$patient_id = (int) $_REQUEST['patient_id'];
-		$firm = Yii::app()->getController()->firm;
-		$episode = Episode::getCurrentEpisodeByFirm($patient_id, $firm);
-		if($episode && $episode->hasPrincipalDiagnosis()) {
-			$this->eye_id = $episode->getPrincipalEye()->id;
-			$this->disorder_id = $episode->getPrincipalDisorder()->id;
-		}
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
 	protected function afterSave() {
-		return parent::afterSave();
-	}
+		$disorder_ids = array();
+		$secondary_diagnosis_ids = array();
 
-	protected function beforeValidate() {
-		return parent::beforeValidate();
-	}
+		foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
+			if (!OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=? and eye_id=?',array($this->id,$disorder_id,$_POST['eye_id_'.$i]))) {
+				$diagnosis = new OphCiExamination_Diagnosis;
+				$diagnosis->element_diagnoses_id = $this->id;
+				$diagnosis->disorder_id = $disorder_id;
+				$diagnosis->eye_id = $_POST['eye_id_'.$i];
+				if ($_POST['principal_diagnosis'] == $disorder_id) {
+					$diagnosis->principal = true;
+				}
+				if (!$diagnosis->save()) {
+					throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
+				}
+				
+				if ($_POST['principal_diagnosis'] == $disorder_id) {
+					$episode = $this->event->episode;
+					$episode->disorder_id = $disorder_id;
+					$episode->eye_id = $_POST['eye_id_'.$i];
+					if (!$episode->save()) {
+						throw new Exception('Unable to set episode principal eye/diagnosis: '.print_r($episode->getErrors(),true));
+					}
+				}
+			}
 
+			if ($_POST['principal_diagnosis'] != $disorder_id) {
+				if (!SecondaryDiagnosis::model()->find('patient_id=? and disorder_id=? and eye_id=?',array($this->event->episode->patient_id,$disorder_id,$_POST['eye_id_'.$i]))) {
+					$sd = new SecondaryDiagnosis;
+					$sd->patient_id = $this->event->episode->patient_id;
+					$sd->disorder_id = $disorder_id;
+					$sd->eye_id = $_POST['eye_id_'.$i];
+					if (!$sd->save()) {
+						throw new Exception('Unable to save secondary diagnosis: '.print_r($sd->getErrors(),true));
+					}
+				}
+
+				$secondary_diagnosis_ids[] = $disorder_id;
+			}
+
+			$disorder_ids[] = $disorder_id;
+		}
+
+		foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=?',array($this->id)) as $diagnosis) {
+			if (!in_array($diagnosis->disorder_id,$disorder_ids)) {
+				if (!$diagnosis->delete()) {
+					throw new Exception('Unable to delete diagnosis: '.print_r($diagnosis->getErrors(),true));
+				}
+			}
+		}
+
+		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
+			if (!$sd->disorder->systemic) {
+				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
+					$sd->delete();
+				}
+			}
+		}
+
+		parent::afterSave();
+	}
 }

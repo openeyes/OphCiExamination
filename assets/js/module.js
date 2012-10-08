@@ -354,3 +354,55 @@ function OphCiExamination_VisualAcuity_init() {
 		OphCiExamination_VisualAcuity_updateType(this);
 	});
 }
+
+function OphCiExamination_AddDiagnosis(disorder_id, name) {
+	var max_id = -1;
+	var count = 0;
+
+	$('#OphCiExamination_diagnoses').children('tr').map(function() {
+		var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
+		if (id >= max_id) {
+			max_id = id;
+		}
+		count += 1;
+	});
+
+	var id = max_id + 1;
+
+	var eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
+	var eye_text = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').next('label');
+
+	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
+	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');
+	var checked_left = (eye_id == 1 ? 'checked="checked" ' : '');
+	var checked_principal = (count == 0 ? 'checked="checked" ' : '');
+
+	var row = '<tr><td>'+name+'</td><td><span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="2" '+checked_right+'/> Right</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="3" '+checked_both+'/> Both</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="1" '+checked_left+'/> Left</span></td><td><input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/></td><td><a href="#" class="small removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a></td></tr>';
+
+	$('#OphCiExamination_diagnoses').append(row);
+
+	$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" />');
+}
+
+$('a.removeDiagnosis').live('click',function() {
+	var diagnosis_id = $(this).attr('rel');
+	var new_principal = false;
+
+	if ($('input[name="principal_diagnosis"]:checked').val() == diagnosis_id) {
+		new_principal = true;
+	}
+
+	$('#selected_diagnoses').children('input').map(function() {
+		if ($(this).val() == diagnosis_id) {
+			$(this).remove();
+		}
+	});
+
+	$(this).parent().parent().remove();
+
+	if (new_principal) {
+		$('input[name="principal_diagnosis"]:first').attr('checked','checked');
+	}
+
+	return false;
+});
