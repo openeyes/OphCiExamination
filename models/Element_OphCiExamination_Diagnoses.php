@@ -151,15 +151,18 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 
 			if ($_POST['principal_diagnosis'] != $disorder_id) {
-				if (!SecondaryDiagnosis::model()->find('patient_id=? and disorder_id=? and eye_id=?',array($this->event->episode->patient_id,$disorder_id,$_POST['eye_id_'.$i]))) {
+				$sd = SecondaryDiagnosis::model()->find('patient_id=? and disorder_id=?',array($this->event->episode->patient_id,$disorder_id));
+				
+				if (!$sd) {
 					$sd = new SecondaryDiagnosis;
 					$sd->patient_id = $this->event->episode->patient_id;
 					$sd->disorder_id = $disorder_id;
-					$sd->eye_id = $_POST['eye_id_'.$i];
-					$sd->date = substr($this->event->created_date,0,10);
-					if (!$sd->save()) {
-						throw new Exception('Unable to save secondary diagnosis: '.print_r($sd->getErrors(),true));
-					}
+				}
+
+				$sd->eye_id = $_POST['eye_id_'.$i];
+				$sd->date = substr($this->event->created_date,0,10);
+				if (!$sd->save()) {
+					throw new Exception('Unable to save secondary diagnosis: '.print_r($sd->getErrors(),true));
 				}
 
 				$secondary_diagnosis_ids[] = $disorder_id;
