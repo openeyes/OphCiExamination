@@ -114,26 +114,36 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		$secondary_diagnosis_ids = array();
 
 		foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-			if (!OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=? and eye_id=?',array($this->id,$disorder_id,$_POST['eye_id_'.$i]))) {
+			if ($_POST['principal_diagnosis'] == $disorder_id) {
+				$principal_eye = $_POST['eye_id_'.$i];
+			}
+		}
+
+		$episode = $this->event->episode;
+		$episode->disorder_id = $_POST['principal_diagnosis'];
+		$episode->eye_id = $principal_eye;
+		if (!$episode->save()) {
+			throw new Exception('Unable to set episode principal eye/diagnosis: '.print_r($episode->getErrors(),true));
+		}
+
+		foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
+			$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=? and eye_id=?',array($this->id,$disorder_id,$_POST['eye_id_'.$i]));
+
+			if (!$diagnosis) {
 				$diagnosis = new OphCiExamination_Diagnosis;
 				$diagnosis->element_diagnoses_id = $this->id;
 				$diagnosis->disorder_id = $disorder_id;
 				$diagnosis->eye_id = $_POST['eye_id_'.$i];
-				if ($_POST['principal_diagnosis'] == $disorder_id) {
-					$diagnosis->principal = true;
-				}
-				if (!$diagnosis->save()) {
-					throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
-				}
-				
-				if ($_POST['principal_diagnosis'] == $disorder_id) {
-					$episode = $this->event->episode;
-					$episode->disorder_id = $disorder_id;
-					$episode->eye_id = $_POST['eye_id_'.$i];
-					if (!$episode->save()) {
-						throw new Exception('Unable to set episode principal eye/diagnosis: '.print_r($episode->getErrors(),true));
-					}
-				}
+			}
+
+			if ($_POST['principal_diagnosis'] == $disorder_id) {
+				$diagnosis->principal = true;
+			} else {
+				$diagnosis->principal = false;
+			}
+
+			if (!$diagnosis->save()) {
+				throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
 			}
 
 			if ($_POST['principal_diagnosis'] != $disorder_id) {
