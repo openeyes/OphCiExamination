@@ -130,14 +130,15 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		}
 
 		foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-			$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=? and eye_id=?',array($this->id,$disorder_id,$_POST['eye_id_'.$i]));
+			$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
 
 			if (!$diagnosis) {
 				$diagnosis = new OphCiExamination_Diagnosis;
 				$diagnosis->element_diagnoses_id = $this->id;
 				$diagnosis->disorder_id = $disorder_id;
-				$diagnosis->eye_id = $_POST['eye_id_'.$i];
 			}
+
+			$diagnosis->eye_id = $_POST['eye_id_'.$i];
 
 			if ($_POST['principal_diagnosis'] == $disorder_id) {
 				$diagnosis->principal = true;

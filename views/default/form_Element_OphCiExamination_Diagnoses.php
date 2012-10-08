@@ -58,7 +58,7 @@
 							</tr>
 						<?php }?>
 					<?php } else if ($this->event) {?>
-						<?php foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=?',array($element->id)) as $i => $diagnosis) {?>
+						<?php foreach ($element->diagnoses as $i => $diagnosis) {?>
 							<tr>
 								<td><?php echo $diagnosis->disorder->term?></td>
 								<td>
