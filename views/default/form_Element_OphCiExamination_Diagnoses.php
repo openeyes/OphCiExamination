@@ -81,19 +81,19 @@
 							<td><input type="radio" name="principal_diagnosis" value="<?php echo $this->episode->disorder_id?>" checked="checked" /></td>
 							<td><a href="#" class="small removeDiagnosis" rel="<?php echo $this->episode->disorder_id?>"><strong>Remove</strong></a></td>
 						</tr>
-					<?php }?>
-					<?php foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $i => $sd) {?>
-						<?php if (!$sd->disorder->systemic) {?>
-							<tr>
-								<td><?php echo $sd->disorder->term?></td>
-								<td>
-									<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
-										<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_<?php echo $i?>" value="<?php echo $eye->id?>" <?php if ($sd->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?></span>
-									<?php }?>
-								</td>
-								<td><input type="radio" name="principal_diagnosis" value="<?php echo $sd->disorder_id?>" /></td>
-								<td><a href="#" class="small removeDiagnosis" rel="<?php echo $sd->disorder_id?>"><strong>Remove</strong></a></td>
-							</tr>
+						<?php foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $i => $sd) {?>
+							<?php if (!$sd->disorder->systemic) {?>
+								<tr>
+									<td><?php echo $sd->disorder->term?></td>
+									<td>
+										<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
+											<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_<?php echo $i?>" value="<?php echo $eye->id?>" <?php if ($sd->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?></span>
+										<?php }?>
+									</td>
+									<td><input type="radio" name="principal_diagnosis" value="<?php echo $sd->disorder_id?>" /></td>
+									<td><a href="#" class="small removeDiagnosis" rel="<?php echo $sd->disorder_id?>"><strong>Remove</strong></a></td>
+								</tr>
+							<?php }?>
 						<?php }?>
 					<?php }?>
 				</tbody>
