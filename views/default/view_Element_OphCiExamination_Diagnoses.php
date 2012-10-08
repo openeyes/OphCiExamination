@@ -2,7 +2,7 @@
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name ?>
 	</h4>
-	<?php foreach (OphCiExamination_Diagnosis::model()->findAll() as $diagnosis) {?>
+	<?php foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=?',array($element->id)) as $diagnosis) {?>
 		<div class="eventDetail">
 			<?php if ($diagnosis->principal) {?>
 				<strong>
