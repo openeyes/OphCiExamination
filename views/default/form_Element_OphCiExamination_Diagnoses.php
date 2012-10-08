@@ -81,7 +81,7 @@
 							<td><input type="radio" name="principal_diagnosis" value="<?php echo $this->episode->disorder_id?>" checked="checked" /></td>
 							<td><a href="#" class="small removeDiagnosis" rel="<?php echo $this->episode->disorder_id?>"><strong>Remove</strong></a></td>
 						</tr>
-						<?php foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $i => $sd) {?>
+						<?php $i=1; foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $sd) {?>
 							<?php if (!$sd->disorder->systemic) {?>
 								<tr>
 									<td><?php echo $sd->disorder->term?></td>
@@ -93,7 +93,7 @@
 									<td><input type="radio" name="principal_diagnosis" value="<?php echo $sd->disorder_id?>" /></td>
 									<td><a href="#" class="small removeDiagnosis" rel="<?php echo $sd->disorder_id?>"><strong>Remove</strong></a></td>
 								</tr>
-							<?php }?>
+							<?php $i++; }?>
 						<?php }?>
 					<?php }?>
 				</tbody>
@@ -112,6 +112,11 @@
 			<?php }?>
 		<?php } else if ($this->episode && $this->episode->diagnosis) {?>
 			<input type="hidden" name="selected_diagnoses[]" value="<?php echo $this->episode->diagnosis->id?>" />
+			<?php foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $i => $sd) {?>
+				<?php if (!$sd->disorder->systemic) {?>
+					<input type="hidden" name="selected_diagnoses[]" value="<?php echo $sd->disorder_id?>" />
+				<?php }?>
+			<?php }?>
 		<?php }?>
 	</div>
 
