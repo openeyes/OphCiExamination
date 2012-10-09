@@ -122,12 +122,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 		}
 
-		$episode = $this->event->episode;
-		$episode->disorder_id = $_POST['principal_diagnosis'];
-		$episode->eye_id = $principal_eye;
-		if (!$episode->save()) {
-			throw new Exception('Unable to set episode principal eye/diagnosis: '.print_r($episode->getErrors(),true));
-		}
+		$this->event->episode->setPrincipalDiagnosis($_POST['principal_diagnosis'], $principal_eye);
 
 		foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 			$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
@@ -151,20 +146,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 
 			if ($_POST['principal_diagnosis'] != $disorder_id) {
-				$sd = SecondaryDiagnosis::model()->find('patient_id=? and disorder_id=?',array($this->event->episode->patient_id,$disorder_id));
-				
-				if (!$sd) {
-					$sd = new SecondaryDiagnosis;
-					$sd->patient_id = $this->event->episode->patient_id;
-					$sd->disorder_id = $disorder_id;
-				}
-
-				$sd->eye_id = $_POST['eye_id_'.$i];
-				$sd->date = substr($this->event->created_date,0,10);
-				if (!$sd->save()) {
-					throw new Exception('Unable to save secondary diagnosis: '.print_r($sd->getErrors(),true));
-				}
-
+				$this->event->episode->patient->addDiagnosis($disorder_id, $_POST['eye_id_'.$i], substr($this->event->created_date,0,10));
 				$secondary_diagnosis_ids[] = $disorder_id;
 			}
 
@@ -182,7 +164,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
 			if (!$sd->disorder->systemic) {
 				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
-					$sd->delete();
+					$this->event->episode->patient->removeDiagnosis($sd->id);
 				}
 			}
 		}
