@@ -166,7 +166,7 @@ class DefaultController extends BaseEventTypeController {
 	public function actionGetDisorderTableRow() {
 		if (@$_GET['disorder_id'] == '0') return;
 
-		if ($disorder = Disorder::model()->findByPk(@$_GET['disorder_id'])) {
+		if (!$disorder = Disorder::model()->findByPk(@$_GET['disorder_id'])) {
 			throw new Exception('Unable to find disorder: '.@$_GET['disorder_id']);
 		}
 
