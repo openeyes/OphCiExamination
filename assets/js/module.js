@@ -385,15 +385,15 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 }
 
 $('a.removeDiagnosis').live('click',function() {
-	var diagnosis_id = $(this).attr('rel');
+	var disorder_id = $(this).attr('rel');
 	var new_principal = false;
 
-	if ($('input[name="principal_diagnosis"]:checked').val() == diagnosis_id) {
+	if ($('input[name="principal_diagnosis"]:checked').val() == disorder_id) {
 		new_principal = true;
 	}
 
 	$('#selected_diagnoses').children('input').map(function() {
-		if ($(this).val() == diagnosis_id) {
+		if ($(this).val() == disorder_id) {
 			$(this).remove();
 		}
 	});
@@ -403,6 +403,17 @@ $('a.removeDiagnosis').live('click',function() {
 	if (new_principal) {
 		$('input[name="principal_diagnosis"]:first').attr('checked','checked');
 	}
+
+	$.ajax({
+		'type': 'GET',
+		'url': baseUrl+'/disorder/iscommonophthalmic/'+disorder_id,
+		'success': function(html) {
+			if (html.length >0) {
+				$('#DiagnosisSelection_disorder_id').append(html);
+				sort_selectbox($('#DiagnosisSelection_disorder_id'));
+			}
+		}
+	});
 
 	return false;
 });

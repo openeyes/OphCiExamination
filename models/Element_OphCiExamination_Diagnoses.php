@@ -229,4 +229,28 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		return $diagnoses;
 	}
+
+	public function getSelectedDisorderIDs() {
+		$disorder_ids = array();
+
+		foreach ($this->getFormDiagnoses() as $diagnosis) {
+			$disorder_ids[] = $diagnosis['disorder']->id;
+		}
+
+		return $disorder_ids;
+	}
+
+	public function getCommonOphthalmicDisorders($firm_id) {
+		$disorder_ids = $this->getSelectedDisorderIDs();
+
+		$disorders = array();
+
+		foreach (CommonOphthalmicDisorder::getList(Firm::model()->findByPk($firm_id)) as $id => $disorder) {
+			if (!in_array($id,$disorder_ids)) {
+				$disorders[$id] = $disorder;
+			}
+		}
+
+		return $disorders;
+	}
 }

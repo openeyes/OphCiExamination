@@ -71,7 +71,7 @@
 
 	<?php $this->widget('application.widgets.DiagnosisSelection', array(
 			'field' => 'disorder_id',
-			'options' => CommonOphthalmicDisorder::getList(Firm::model()->findByPk($this->selectedFirmId)),
+			'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),
 			'layout' => 'minimal',
 			'restrict' => 'ophthalmic',
 			'callback' => 'OphCiExamination_AddDiagnosis',
