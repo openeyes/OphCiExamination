@@ -148,6 +148,7 @@
 			'field' => 'disorder_id',
 			'options' => CommonOphthalmicDisorder::getList(Firm::model()->findByPk($this->selectedFirmId)),
 			'layout' => 'minimal',
+			'restrict' => 'ophthalmic',
 			'callback' => 'OphCiExamination_AddDiagnosis',
 	))?>
 </div>
