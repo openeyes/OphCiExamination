@@ -189,4 +189,44 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		parent::afterSave();
 	}
+
+	public function getFormDiagnoses() {
+		$diagnoses = array();
+
+		if (!empty($_POST)) {
+			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
+				$diagnoses[] = array(
+					'disorder' => Disorder::model()->findByPk($disorder_id),
+					'eye_id' => $_POST['eye_id_'.$i],
+					'principal' => (boolean)$_POST['principal_diagnosis'] == $disorder_id,
+				);
+			}
+		} else if ($this->event) {
+			foreach ($this->diagnoses as $i => $diagnosis) {
+				$diagnoses[] = array(
+					'disorder' => $diagnosis->disorder,
+					'eye_id' => $diagnosis->eye_id,
+					'principal' => $diagnosis->principal,
+				);
+			}
+		} else if ($this->episode && $this->episode->diagnosis) {
+			$diagnoses[] = array(
+				'disorder' => $this->episode->diagnosis,
+				'eye_id' => $this->episode->eye_id,
+				'principal' => true,
+			);
+
+			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $sd) {
+				if (!$sd->disorder->systemic) {
+					$diagnoses[] = array(
+						'disorder' => $sd->disorder,
+						'eye_id' => $sd->eye_id,
+						'principal' => false,
+					);
+				}
+			}
+		}
+
+		return $diagnoses;
+	}
 }
