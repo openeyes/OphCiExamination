@@ -193,6 +193,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 	public function getFormDiagnoses() {
 		$diagnoses = array();
 
+		$episode = Yii::app()->getController()->episode;
+
 		if (!empty($_POST)) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 				$diagnoses[] = array(
@@ -209,14 +211,14 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					'principal' => $diagnosis->principal,
 				);
 			}
-		} else if ($this->episode && $this->episode->diagnosis) {
+		} else if ($episode && $episode->diagnosis) {
 			$diagnoses[] = array(
-				'disorder' => $this->episode->diagnosis,
-				'eye_id' => $this->episode->eye_id,
+				'disorder' => $episode->diagnosis,
+				'eye_id' => $episode->eye_id,
 				'principal' => true,
 			);
 
-			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->episode->patient_id)) as $sd) {
+			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($episode->patient_id)) as $sd) {
 				if (!$sd->disorder->systemic) {
 					$diagnoses[] = array(
 						'disorder' => $sd->disorder,
