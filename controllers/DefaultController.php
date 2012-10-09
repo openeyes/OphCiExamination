@@ -163,5 +163,32 @@ class DefaultController extends BaseEventTypeController {
 		}
 	}
 
+	public function actionGetDisorderTableRow() {
+		if (!$disorder = Disorder::model()->findByPk(@$_GET['disorder_id'])) {
+			throw new Exception('Unable to find disorder: '.@$_GET['disorder_id']);
+		}
+
+		if (!$the_eye = Eye::model()->find('name=?',array(ucfirst(@$_GET['side'])))) {
+			throw new Exception('Unable to find eye: '.@$_GET['side']);
+		}
+
+		$id = $_GET['id'];
+
+		echo '<tr><td>'.$disorder->term.'</td><td>';
+
+		foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
+			echo '<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'.$id.'" value="'.$eye->id.'"';
+			if ($eye->id == $the_eye->id) {
+				echo 'checked="checked" ';
+			}
+			echo '/> '.$eye->name.'</span> ';
+		}
+
+		echo '</td><td><input type="radio" name="principal_diagnosis" value="'.$disorder->id.'"';
+		if ($id == 0) {
+			echo 'checked="checked" ';
+		}
+		echo '/></td><td><a href="#" class="small removeDiagnosis" rel="'.$disorder->id.'"><strong>Remove</strong></a></td></tr>';
+	}
 }
 
