@@ -7,7 +7,7 @@
 			<?php if ($diagnosis->principal) {?>
 				<strong>
 			<?php }?>
-			<?php echo $diagnosis->eye->name; ?>
+			<?php echo $diagnosis->eye->adjective; ?>
 			<?php echo $diagnosis->disorder->term; ?>
 			<?php if ($diagnosis->principal) {?>
 				</strong>
