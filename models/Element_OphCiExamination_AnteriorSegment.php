@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * OpenEyes
  *
@@ -23,13 +23,20 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property integer $eye_id
  * @property string $left_eyedraw
+ * @property string $left_pupil_id
+ * @property string $left_nuclear_id
+ * @property string $left_cortical_id
+ * @property boolean $left_pxe
+ * @property boolean $left_phako
  * @property string $left_description
- * @property Disorder $left_diagnosis
  * @property string $right_eyedraw
+ * @property string $right_pupil_id
+ * @property string $right_nuclear_id
+ * @property string $right_cortical_id
+ * @property boolean $right_pxe
+ * @property boolean $right_phako
  * @property string $right_description
- * @property Disorder $right_diagnosis
  *
  * The followings are the available model relations:
  */
@@ -59,11 +66,13 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, eye_id', 'safe'),
-				array('left_eyedraw, right_eyedraw', 'required'),
+				array('event_id', 'safe'),
+				array('left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, left_diagnosis_id, right_description, right_diagnosis_id, left_eyedraw, right_eyedraw, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -77,11 +86,14 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis_id'),
-				'right_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis_id'),
+				'right_pupil' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Pupil', 'right_pupil_id'),
+				'left_pupil' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Pupil', 'left_pupil_id'),
+				'right_nuclear' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Nuclear', 'right_nuclear_id'),
+				'left_nuclear' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Nuclear', 'left_nuclear_id'),
+				'right_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'right_cortical_id'),
+				'left_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'left_cortical_id'),
 		);
 	}
 
@@ -93,11 +105,19 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
+				'left_pupil_id' => 'Pupil Size',
+				'left_nuclear_id' => 'Nuclear',
+				'left_cortical_id' => 'Cortical',
+				'left_pxe' => 'PXE',
+				'left_phako' => 'Phakodonesis',
 				'left_description' => 'Description',
-				'left_diagnosis_id' => 'Diagnosis',
 				'right_eyedraw' => 'Eyedraw',
+				'right_pupil_id' => 'Pupil Size',
+				'right_nuclear_id' => 'Nuclear',
+				'right_cortical_id' => 'Cortical',
+				'right_pxe' => 'PXE',
+				'right_phako' => 'Phakodonesis',
 				'right_description' => 'Description',
-				'right_diagnosis_id' => 'Diagnosis',
 		);
 	}
 
@@ -115,11 +135,19 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
+		$criteria->compare('left_pupil_id', $this->left_pupil_id);
+		$criteria->compare('left_nuclear_id', $this->left_nuclear_id);
+		$criteria->compare('left_cortical_id', $this->left_cortical_id);
+		$criteria->compare('left_pxe', $this->left_pxe);
+		$criteria->compare('left_phako', $this->left_phako);
 		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('left_diagnosis_id', $this->left_diagnosis_id);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
+		$criteria->compare('right_pupil_id', $this->right_pupil_id);
+		$criteria->compare('right_nuclear_id', $this->right_nuclear_id);
+		$criteria->compare('right_cortical_id', $this->right_cortical_id);
+		$criteria->compare('right_pxe', $this->right_pxe);
+		$criteria->compare('right_phako', $this->right_phako);
 		$criteria->compare('right_description', $this->right_description);
-		$criteria->compare('right_diagnosis_id', $this->right_diagnosis_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
@@ -143,4 +171,5 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
 }

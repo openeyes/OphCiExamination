@@ -30,7 +30,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
+class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -61,7 +61,11 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 				array('id, event_id, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
+	public function sidedFields() {
+		return array('description');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

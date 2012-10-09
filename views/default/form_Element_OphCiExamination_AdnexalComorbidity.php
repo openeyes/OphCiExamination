@@ -25,32 +25,49 @@
 	<div class="removeElement">
 		<button class="classy blue mini">
 			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
-				height="22"> </span>
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="24" height="22"> </span>
 		</button>
 	</div>
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
 	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'right_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
-					}?>
+		<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
+		<div
+			class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+			data-side="right">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<div class="data">
+					<div class="textMacros inline">
+						<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+							echo $form->dropDownTextSelection($element, 'right_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+						}?>
+					</div>
+					<?php echo $form->textArea($element, 'right_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 				</div>
-				<?php echo $form->textArea($element, 'right_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add right side</a>
 			</div>
 		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'left_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+		<div
+			class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+			data-side="left">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<div class="data">
+					<div class="textMacros inline">
+						<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+							echo $form->dropDownTextSelection($element, 'left_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
 					}?>
+					</div>
+					<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 				</div>
-				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add left side</a>
 			</div>
 		</div>
 	</div>

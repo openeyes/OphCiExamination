@@ -18,6 +18,7 @@
  */
 ?>
 <tr class="visualAcuityReading" data-key="<?php echo $key ?>">
+	<td>
 	<?php if(isset($reading)) { ?>
 	<input type="hidden"
 		name="visualacuity_reading[<?php echo $key ?>][id]"
@@ -26,7 +27,7 @@
 	<input type="hidden"
 		name="visualacuity_reading[<?php echo $key ?>][side]"
 		value="<?php echo $side ?>" />
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values); ?>
+	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values); ?>
 	</td>
 	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods); ?>
 	</td>

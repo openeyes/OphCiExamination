@@ -34,7 +34,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
+class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -67,6 +67,10 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		);
 	}
 
+	public function sidedFields() {
+		return array('description', 'cd_ratio_id', 'eyedraw', 'description');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -126,6 +130,14 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		));
 	}
 
+	/**
+	 * Set default values for forms on create
+	 */
+	public function setDefaultOptions() {
+		$this->left_cd_ratio_id = 5;
+		$this->right_cd_ratio_id = 5;
+	}
+	
 	protected function beforeSave() {
 		return parent::beforeSave();
 	}

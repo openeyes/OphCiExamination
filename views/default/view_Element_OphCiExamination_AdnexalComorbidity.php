@@ -5,12 +5,20 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="data">
-				<?php echo $element->right_description ?>
+				<?php if($element->hasRight()) {
+					echo $element->right_description;
+				} else { ?>
+				Not recorded
+				<?php } ?>
 			</div>
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
-				<?php echo $element->left_description ?>
+				<?php if($element->hasLeft()) {
+					echo $element->left_description;
+				} else { ?>
+				Not recorded
+				<?php } ?>
 			</div>
 		</div>
 	</div>

@@ -355,18 +355,18 @@ function eDparameterListener(drawing) {
 	}
 }
 
-function updateElement_OphCiExamination_CataractAssessment(drawing, doodle) {
+function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 	var side = (drawing.eye == 0) ? 'right' : 'left';
 	if (doodle) {
 		switch (doodle.className) {
 		case 'AntSeg':
-			$('#Element_OphCiExamination_CataractAssessment_' + side + '_pupil').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_pupil').val(doodle.getParameter('grade'));
 			break;
 		case 'NuclearCataract':
-			$('#Element_OphCiExamination_CataractAssessment_' + side + '_nuclear').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear').val(doodle.getParameter('grade'));
 			break;
 		case 'CorticalCataract':
-			$('#Element_OphCiExamination_CataractAssessment_' + side + '_cortical').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical').val(doodle.getParameter('grade'));
 			break;
 		}
 	}

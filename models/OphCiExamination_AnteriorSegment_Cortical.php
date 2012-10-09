@@ -18,18 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_cataractassessment_pupil".
+ * This is the model class for table "ophciexamination_anteriorsegment_cortical".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
 
  */
-class OphCiExamination_CataractAssessment_Pupil extends BaseActiveRecord {
+class OphCiExamination_AnteriorSegment_Cortical extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_CataractAssessment_Pupil the static model class
+	 * @return OphCiExamination_AnteriorSegment_Cortical the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -39,7 +39,7 @@ class OphCiExamination_CataractAssessment_Pupil extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_cataractassessment_pupil';
+		return 'ophciexamination_anteriorsegment_cortical';
 	}
 
 	/**
