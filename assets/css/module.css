@@ -16,9 +16,21 @@
 .textMacro.inline { display: inline-block; }
 .textMacro { width: 120px; }
 #event_content .cols2 { padding-bottom: 0 !important; }
+#event_content .cols2 .inactive .activeForm,
+#event_content .cols2 .inactiveForm { display: none; }
+#event_content .cols2 .activeForm,
+#event_content .cols2 .inactive .inactiveForm  { display: block; }
+#event_content .cols2 .inactiveForm { margin: 10px 10px 20px; text-align: center; }
+#event_content .cols2 .inactiveForm a { padding-right: 25px; background: url(../../../img/_elements/icons/extra-element_view.png) center right no-repeat; }
+#event_content .cols2 .activeForm a.removeSide { display: block; position: absolute; top: 5px; right: 5px; width: 16px; height: 16px;
+	background: url(../../../img/_elements/icons/extra-element_remove.png) -10px -2px no-repeat; text-decoration: none; text-indent: -9999px; }
+#event_content .cols2 .activeForm a.removeSide:hover { border: none; }
 #event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
 #event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
-#event_content .Element_OphCiExamination_VisualAcuity .data { margin-left: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity .eventDetail { padding-bottom: 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .data { margin-bottom: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity table { margin-bottom: 5px; }
+#event_content .Element_OphCiExamination_VisualAcuity .readingActions { font-size: 11px; line-height: 16px;}
 #event_content canvas { float: left; border: 1px solid #ccc; margin: 0; }
 #event_content div.ed_toolbar { margin: 0 0 10px; }
 #event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
