@@ -21,19 +21,20 @@
  * This is the model class for table "et_ophciexamination_anteriorsegment".
  *
  * The followings are the available columns in table:
- * @property string $id
+ * @property integer $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property string $left_eyedraw
- * @property string $left_pupil_id
- * @property string $left_nuclear_id
- * @property string $left_cortical_id
+ * @property integer $left_pupil_id
+ * @property integer $left_nuclear_id
+ * @property integer $left_cortical_id
  * @property boolean $left_pxe
  * @property boolean $left_phako
  * @property string $left_description
  * @property string $right_eyedraw
- * @property string $right_pupil_id
- * @property string $right_nuclear_id
- * @property string $right_cortical_id
+ * @property integer $right_pupil_id
+ * @property integer $right_nuclear_id
+ * @property integer $right_cortical_id
  * @property boolean $right_pxe
  * @property boolean $right_phako
  * @property string $right_description
@@ -41,7 +42,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
+class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -66,9 +67,8 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id', 'safe'),
-				array('left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'required'),
+				array('eye_id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
+						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
@@ -76,6 +76,10 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 		);
 	}
 
+	public function sidedFields() {
+		return array('pupil_id', 'cortical_id', 'pxe', 'eyedraw', 'phako', 'description', 'nuclear_id');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -86,6 +90,7 @@ class Element_OphCiExamination_AnteriorSegment extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'right_pupil' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Pupil', 'right_pupil_id'),

@@ -66,7 +66,7 @@ class m121009_141300_more_uat_changes extends OEMigration {
 		$this->update('element_type', array(
 				'class_name' => 'Element_OphCiExamination_AnteriorSegment',
 				'name' => 'Anterior Segment'
-		), 'class_name = \'Element_OphCiExamination_AnteriorSegment\'');
+		), 'class_name = \'Element_OphCiExamination_CataractAssessment\'');
 		
 	}
 
