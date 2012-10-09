@@ -193,14 +193,16 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					'principal' => $diagnosis->principal,
 				);
 			}
-		} else if ($episode && $episode->diagnosis) {
-			$diagnoses[] = array(
-				'disorder' => $episode->diagnosis,
-				'eye_id' => $episode->eye_id,
-				'principal' => true,
-			);
+		} else {
+			if ($episode && $episode->diagnosis) {
+				$diagnoses[] = array(
+					'disorder' => $episode->diagnosis,
+					'eye_id' => $episode->eye_id,
+					'principal' => true,
+				);
+			}
 
-			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($episode->patient_id)) as $sd) {
+			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($_GET['patient_id'])) as $sd) {
 				if (!$sd->disorder->systemic) {
 					$diagnoses[] = array(
 						'disorder' => $sd->disorder,
@@ -209,6 +211,18 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					);
 				}
 			}
+		}
+
+		$principal = false;
+
+		foreach ($diagnoses as $diagnosis) {
+			if ($diagnosis['principal']) {
+				$principal = true;
+			}
+		}
+
+		if (!$principal) {
+			$diagnoses[0]['principal'] = true;
 		}
 
 		return $diagnoses;
