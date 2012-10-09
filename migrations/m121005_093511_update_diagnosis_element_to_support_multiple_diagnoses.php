@@ -31,7 +31,7 @@ class m121005_093511_update_diagnosis_element_to_support_multiple_diagnoses exte
 
 		foreach (Yii::app()->db->createCommand("select * from et_ophciexamination_diagnoses")->queryAll() as $row) {
 			$d = new OphCiExamination_Diagnosis;
-			$d->element_diagnosis_id = $row['id'];
+			$d->element_diagnoses_id = $row['id'];
 			$d->disorder_id = $row['disorder_id'];
 			$d->eye_id = $row['eye_id'];
 			$d->save();
