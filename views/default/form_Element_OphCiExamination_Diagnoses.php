@@ -32,16 +32,48 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<?php $this->widget('application.widgets.RadioButtonList', array(
-			'field' => 'eye_id',
-			'name' => get_class($element)."[eye_id]",
-			'element' => $element,
-			'data' => CHtml::listData(Eye::model()->findAll(), 'id', 'name'),
-			)); ?>
+	<div class="whiteBox forClinicians" style="width: 70em;">
+		<div class="data_row">
+			<table class="subtleWhite">
+				<thead>
+					<tr>
+						<th style="width: 400px;">Diagnosis</th>
+						<th>Eye</th>
+						<th>Principal</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody id="OphCiExamination_diagnoses">
+					<?php foreach ($element->getFormDiagnoses() as $i => $diagnosis) {?>
+						<tr>
+							<td><?php echo $diagnosis['disorder']->term?></td>
+							<td>
+								<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
+									<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_<?php echo $i?>" value="<?php echo $eye->id?>" <?php if ($diagnosis['eye_id'] == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?></span>
+								<?php }?>
+							</td>
+							<td><input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis['principal']) {?>checked="checked" <?php }?>/></td>
+							<td><a href="#" class="small removeDiagnosis" rel="<?php echo $diagnosis['disorder']->id?>"><strong>Remove</strong></a></td>
+						</tr>
+					<?php }?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div id="selected_diagnoses">
+		<?php foreach ($element->getFormDiagnoses() as $diagnosis) {?>
+			<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis['disorder']->id?>" />
+		<?php }?>
+	</div>
+
+	<?php echo $form->radioButtons($element, 'eye_id', 'eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2)?>
+
 	<?php $this->widget('application.widgets.DiagnosisSelection', array(
 			'field' => 'disorder_id',
-			'element' => $element,
-			'options' => CommonOphthalmicDisorder::getList(Firm::model()->findByPk($this->selectedFirmId))
-	));
-	?>
+			'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),
+			'layout' => 'minimal',
+			'restrict' => 'ophthalmic',
+			'callback' => 'OphCiExamination_AddDiagnosis',
+	))?>
 </div>
