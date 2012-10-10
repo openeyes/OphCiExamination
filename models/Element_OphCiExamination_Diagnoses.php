@@ -221,7 +221,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 		}
 
-		if (!$principal) {
+		if (!$principal && isset($diagnosis[0])) {
 			$diagnoses[0]['principal'] = true;
 		}
 
