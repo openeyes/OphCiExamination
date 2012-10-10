@@ -181,6 +181,15 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		return parent::beforeSave();
 	}
 
+	protected function beforeDelete() {
+		foreach ($this->readings as $reading) {
+			if (!$reading->delete()) {
+				throw new Exception('Delete reading failed: '.print_r($reading->getErrors(),true));
+			}
+		}
+		return parent::beforeDelete();
+	}
+
 	/**
 	 * Save readings
 	 * @todo This probably doesn't belong here, but there doesn't seem to be an easy way
