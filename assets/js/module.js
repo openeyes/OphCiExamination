@@ -390,7 +390,7 @@ function OphCiExamination_IntraocularPressure_init() {
 function updateElement_OphCiExamination_PosteriorSegment(drawing, doodle) {
 	if (doodle && doodle.className == 'PostPole') {
 		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_PosteriorSegment_' + side + '_cd_ratio').val(doodle.getParameter('cdRatio'));
+		$('#Element_OphCiExamination_PosteriorSegment_' + side + '_cd_ratio_id option:contains(' + doodle.getParameter('cdRatio') + ')').attr('selected',true);
 	}
 }
 
