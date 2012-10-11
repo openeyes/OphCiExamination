@@ -360,13 +360,13 @@ function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 	if (doodle) {
 		switch (doodle.className) {
 		case 'AntSeg':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_pupil').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_pupil_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
 			break;
 		case 'NuclearCataract':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
 			break;
 		case 'CorticalCataract':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical').val(doodle.getParameter('grade'));
+			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
 			break;
 		}
 	}
