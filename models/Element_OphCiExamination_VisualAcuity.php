@@ -133,6 +133,24 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 
 	/**
+	 * Get the best reading for the specified side
+	 * @param string $side
+	 * @return string
+	 */
+	public function getBest($side) {
+		$best = false;
+		foreach ($this->{$side.'_readings'} as $reading) {
+			if (!$best || $reading->value >= $best->value) {
+				$best = $reading;
+			}
+		}
+
+		if ($best) {
+			return $best->convertTo($best->value);
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
