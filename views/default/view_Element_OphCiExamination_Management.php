@@ -23,7 +23,7 @@
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('correction_discussed'))?></td>
-					<td><span class="big"><?php echo $element->fast_track ? 'Yes' : 'No'?></span></td>
+					<td><span class="big"><?php echo $element->correction_discussed ? 'Yes' : 'No'?></span></td>
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('suitable_for_surgeon_id'))?></td>
