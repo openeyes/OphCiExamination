@@ -261,4 +261,12 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		return $disorders;
 	}
+
+	protected function beforeDelete() {
+		foreach ($this->diagnoses as $diagnosis) {
+			$diagnosis->delete();
+		}
+
+		return parent::beforeDelete();
+	}
 }
