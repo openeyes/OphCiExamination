@@ -12,4 +12,9 @@ $this->header();
 	<div class="cleartall"></div>
 </div>
 
+<div class="form_button">
+	<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." />&nbsp;
+	<button type="submit" class="classy blue venti" id="et_print" name="print"><span class="button-span button-span-blue">Print</span></button>
+</div>
+
 <?php $this->footer() ?>
