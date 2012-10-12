@@ -32,8 +32,14 @@
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
-	<?php echo $form->checkbox($element, 'city_road', array('text-align' => 'right', 'no-label' => true))?>
-	<?php echo $form->checkbox($element, 'satellite', array('text-align' => 'right', 'no-label' => true))?>
+	<div id="div_Element_OphCiExamination_Management_city_road" class="eventDetail">
+		<div class="data">
+			<?php echo $form->checkbox($element, 'city_road', array('no-label' => true, 'nowrapper' => true))?>
+			<?php echo $element->getAttributeLabel('city_road')?>
+			<?php echo $form->checkbox($element, 'satellite', array('no-label' => true, 'nowrapper' => true))?>
+			<?php echo $element->getAttributeLabel('satellite')?>
+		</div>
+	</div>
 	<?php echo $form->checkbox($element, 'fast_track', array('text-align' => 'right', 'no-label' => true))?>
 	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-20,'max'=>20,'step'=>0.5))?>
 	<?php echo $form->radioBoolean($element, 'correction_discussed', array('no_default'=>true))?>
