@@ -6,8 +6,12 @@
 		<table class="subtleWhite normalText">
 			<tbody>
 				<tr>
-					<td width="30%">Location</td>
-					<td><span class="big"><?php if ($element->city_road) echo "At City Road"; else if ($element->satellite) echo "At satellite"?></span></td>
+					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('city_road'))?></td>
+					<td><span class="big"><?php echo $element->city_road ? 'Yes' : 'No'?></span></td>
+				</tr>
+				<tr>
+					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('satellite'))?></td>
+					<td><span class="big"><?php echo $element->city_road ? 'Yes' : 'No'?></span></td>
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('fast_track'))?></td>
