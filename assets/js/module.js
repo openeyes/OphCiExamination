@@ -16,6 +16,11 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#et_print').unbind('click').click(function() {
+		window.print_iframe.print();
+		return false;
+	});
+
 	/**
 	 * Cancel event edit
 	 */
@@ -463,7 +468,7 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .method_id').each(function() {
 		var method_id = $(this).val();
 		method_ids = $.grep(method_ids, function(value) {
-		  return value != method_id;
+			return value != method_id;
 		});
 	});
 	return method_ids.shift();
