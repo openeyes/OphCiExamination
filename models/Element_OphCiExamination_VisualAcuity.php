@@ -97,6 +97,25 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		);
 	}
 
+	public function getFormReadings($side) {
+		if($this->id) {
+			return $this->{$side.'_readings'};
+		} else {
+			$readings = array();
+			$methods = OphCiExamination_VisualAcuity_Method::model()->findAll(array(
+					'order' => 'id',
+					'limit' => 2,
+			));
+			foreach($methods as $method) {
+				$reading = new OphCiExamination_VisualAcuity_Reading();
+				$reading->side = ($side == 'right') ? 0 : 1;
+				$reading->method_id = $method->id;
+				$readings[] = $reading;
+			}
+			return $readings;
+		}
+	}
+	
 	/**
 	 * Get the measurement unit
 	 */

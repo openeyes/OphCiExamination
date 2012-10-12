@@ -441,13 +441,32 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1)
+		"side" : (side == 'right' ? 0 : 1),
 	};
 	var form = Mustache.render(template, data);
 	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .noReadings').hide();
 	var table = $('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] table');
 	table.show();
+	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
+	$('.method_id', table).last().val(nextMethodId);
+}
+
+/**
+ * Which method ID to preselect on newly added readings.
+ * Returns the next unused ID.
+ * @param side
+ * @returns integer
+ */
+function OphCiExamination_VisualAcuity_getNextMethodId(side) {
+	var method_ids = OphCiExamination_VisualAcuity_method_ids;
+	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .method_id').each(function() {
+		var method_id = $(this).val();
+		method_ids = $.grep(method_ids, function(value) {
+		  return value != method_id;
+		});
+	});
+	return method_ids.shift();
 }
 
 function OphCiExamination_VisualAcuity_init() {

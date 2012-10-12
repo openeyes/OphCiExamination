@@ -46,7 +46,7 @@
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
 				<div class="data">
-					<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->right_readings); ?>
+					<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right')); ?>
 					<table <?php if(!$right_readings) { ?> style="display: none;"
 	<?php } ?>>
 						<tbody>
@@ -86,7 +86,7 @@
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
 				<div class="data">
-					<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->left_readings); ?>
+					<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left')); ?>
 					<table <?php if(!$left_readings) { ?> style="display: none;"
 							<?php } ?>>
 						<tbody>
@@ -129,7 +129,7 @@
 			'key' => '{{key}}',
 			'side' => '{{side}}',
 			'values' => $values,
-			'methods' => $methods
+			'methods' => $methods,
 	));
 	?>
 </script>
@@ -137,5 +137,14 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		OphCiExamination_VisualAcuity_init();
+		OphCiExamination_VisualAcuity_method_ids = [ <?php
+		$first = true;
+		foreach($methods as $index => $method) {
+			if(!$first) {
+				echo ', ';
+			}
+			$first = false;
+			echo $index;
+		} ?> ];
 	});
 </script>
