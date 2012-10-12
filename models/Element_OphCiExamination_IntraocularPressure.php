@@ -151,4 +151,9 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
+	public function getLetter_reading($side) {
+		$reading = $this->$side{_reading}->name;
+		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
+	}
 }
