@@ -32,7 +32,7 @@
 				<br>
 				Hospital No: <strong><?php echo $this->patient->hos_num ?></strong>
 				<br>
-				NHS No: <strong><?php echo $this->patient->nhs_num ?></strong>
+				NHS No: <strong><?php echo $this->patient->nhsnum ?></strong>
 				<br>
 				DOB: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
 			</div>
