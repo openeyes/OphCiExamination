@@ -1,6 +1,6 @@
 <?php
 
-class m121012_151200_cataract_data extends OEMigration {
+class m121015_122500_cataract_data extends OEMigration {
 
 	public function up() {
 		$this->delete('ophciexamination_attribute_option');
@@ -10,6 +10,7 @@ class m121012_151200_cataract_data extends OEMigration {
 			$rule->delete();
 		}
 		$this->delete('ophciexamination_element_set');
+		$this->delete('ophciexamination_visualacuity_method');
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
