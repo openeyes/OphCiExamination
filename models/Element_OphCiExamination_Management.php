@@ -54,7 +54,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments', 'safe'),
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments', 'required'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments', 'safe', 'on' => 'search'),
