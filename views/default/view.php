@@ -12,6 +12,11 @@ $this->header();
 	<div class="cleartall"></div>
 </div>
 
+<div class="OphCiExamination_footer">
+	Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo User::model()->findByPk($this->event->created_user_id)->fullnameandtitle?><br/>
+	Last modified on <?php echo $this->event->NHSDate('last_modified_date')?> at <?php echo substr($this->event->last_modified_date,11,5)?> by <?php echo User::model()->findByPk($this->event->last_modified_user_id)->fullnameandtitle?><br/>
+</div>
+
 <div class="form_button">
 	<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." />&nbsp;
 	<button type="submit" class="classy blue venti" id="et_print" name="print"><span class="button-span button-span-blue">Print</span></button>
