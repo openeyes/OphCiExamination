@@ -24,6 +24,7 @@
  * @property integer $id
  * @property OphCiExamination_Attribute $attribute
  * @property string $value
+ * @property string $delimiter
  */
 class OphCiExamination_AttributeOption extends BaseActiveRecord {
 
@@ -47,13 +48,17 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('value', 'required'),
-				array('id, value', 'safe', 'on'=>'search'),
+				array('value, delimiter', 'required'),
+				array('id, value, delimiter', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function getLabel() {
 		return ucfirst($this->value);
+	}
+	
+	public function getSlug() {
+		return $this->value . $this->delimiter . ' ';
 	}
 	
 	/**
@@ -72,7 +77,8 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('value',$this->name,true);
+		$criteria->compare('value',$this->value,true);
+		$criteria->compare('delimiter',$this->delimiter,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
