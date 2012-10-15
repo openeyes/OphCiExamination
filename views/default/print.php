@@ -365,5 +365,9 @@
 				<?php echo $conclusion->description?>
 			</div>
 		<?php }?>
+
+		<div class="footer">
+			Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo User::model()->findByPk($this->event->created_user_id)->fullnameandtitle?> (<?php echo User::model()->findByPk($this->event->created_user_id)->role?>)<br/>
+		</div>
 	</div>
 </div>

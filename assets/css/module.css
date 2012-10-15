@@ -55,4 +55,4 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #Element_OphCiExamination_Management_target_postop_refraction { width: 400px !important; }
 #Element_OphCiExamination_Management_correction_discussed > .label { width: 286px !important; }
 #Element_OphCiExamination_Management_supervised { margin-left: 5px; }
-#OphCiExamination_footer { margin-top: 10px; margin-left: 5px; }
+.OphCiExamination_footer { margin-top: 10px; margin-left: 5px; }

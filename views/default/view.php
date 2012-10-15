@@ -13,8 +13,7 @@ $this->header();
 </div>
 
 <div class="OphCiExamination_footer">
-	Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo User::model()->findByPk($this->event->created_user_id)->fullnameandtitle?><br/>
-	Last modified on <?php echo $this->event->NHSDate('last_modified_date')?> at <?php echo substr($this->event->last_modified_date,11,5)?> by <?php echo User::model()->findByPk($this->event->last_modified_user_id)->fullnameandtitle?><br/>
+	Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo User::model()->findByPk($this->event->created_user_id)->fullnameandtitle?> (<?php echo User::model()->findByPk($this->event->created_user_id)->role?>)<br/>
 </div>
 
 <div class="form_button">
