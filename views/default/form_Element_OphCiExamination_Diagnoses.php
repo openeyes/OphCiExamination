@@ -49,7 +49,7 @@
 							<td><?php echo $diagnosis['disorder']->term?></td>
 							<td>
 								<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
-									<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_<?php echo $i?>" value="<?php echo $eye->id?>" <?php if ($diagnosis['eye_id'] == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?></span>
+									<span class="OphCiExamination_eye_radio"><input type="radio" name="<?php echo get_class($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis['eye_id'] == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?></span>
 								<?php }?>
 							</td>
 							<td><input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis['principal']) {?>checked="checked" <?php }?>/></td>
@@ -67,7 +67,7 @@
 		<?php }?>
 	</div>
 
-	<?php echo $form->radioButtons($element, 'eye_id', 'eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2)?>
+	<?php echo $form->radioButtons($element, 'eye_id', 'eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, array('no_element'=>true))?>
 
 	<?php $this->widget('application.widgets.DiagnosisSelection', array(
 			'field' => 'disorder_id',

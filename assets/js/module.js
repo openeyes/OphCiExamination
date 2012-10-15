@@ -212,7 +212,7 @@ $(document).ready(function() {
 
 			if ($(this).children('td:nth-child(4)').children('a:first').attr('rel') == code) {
 				already_in_list = true;
-				list_eye_id = $('input[name="eye_id_'+id+'"]:checked').val();
+				list_eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']"]:checked').val();
 				existing_id = id;
 			}
 		});
@@ -221,7 +221,7 @@ $(document).ready(function() {
 			var side_n = side == 'right' ? 2 : 1;
 
 			if ((side_n == 1 && list_eye_id == 2) || (side_n == 2 && list_eye_id == 1)) {
-				$('input[name="eye_id_'+existing_id+'"][value="3"]').attr('checked','checked');
+				$('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
 			}
 
 		} else {
@@ -491,15 +491,15 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 
 	var id = max_id + 1;
 
-	var eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
-	var eye_text = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').next('label');
+	var eye_id = $('input[name="eye_id"]:checked').val();
+	var eye_text = $('input[name="eye_id"]:checked').next('label');
 
 	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
 	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');
 	var checked_left = (eye_id == 1 ? 'checked="checked" ' : '');
 	var checked_principal = (count == 0 ? 'checked="checked" ' : '');
 
-	var row = '<tr><td>'+name+'</td><td><span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="2" '+checked_right+'/> Right</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="3" '+checked_both+'/> Both</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'+id+'" value="1" '+checked_left+'/> Left</span></td><td><input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/></td><td><a href="#" class="small removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a></td></tr>';
+	var row = '<tr><td>'+name+'</td><td><span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left</span></td><td><input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/></td><td><a href="#" class="small removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a></td></tr>';
 
 	$('#OphCiExamination_diagnoses').append(row);
 

@@ -116,10 +116,12 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		$disorder_ids = array();
 		$secondary_diagnosis_ids = array();
 
+		$eyes = isset($_POST['Element_OphCiExamination_Diagnoses']) ? array_values($_POST['Element_OphCiExamination_Diagnoses']) : array();
+
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 				if ($_POST['principal_diagnosis'] == $disorder_id) {
-					$principal_eye = $_POST['eye_id_'.$i];
+					$principal_eye = $eyes[$i];
 				}
 			}
 		}
@@ -138,7 +140,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					$diagnosis->disorder_id = $disorder_id;
 				}
 
-				$diagnosis->eye_id = $_POST['eye_id_'.$i];
+				$diagnosis->eye_id = $eyes[$i];
 
 				if ($_POST['principal_diagnosis'] == $disorder_id) {
 					$diagnosis->principal = true;
@@ -151,7 +153,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 				}
 
 				if ($_POST['principal_diagnosis'] != $disorder_id) {
-					$this->event->episode->patient->addDiagnosis($disorder_id, $_POST['eye_id_'.$i], substr($this->event->created_date,0,10));
+					$this->event->episode->patient->addDiagnosis($disorder_id, $eyes[$i], substr($this->event->created_date,0,10));
 					$secondary_diagnosis_ids[] = $disorder_id;
 				}
 
@@ -175,10 +177,6 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 		}
 
-		if (empty($disorder_ids)) {
-			$this->delete();
-		}
-
 		parent::afterSave();
 	}
 
@@ -187,13 +185,17 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		$episode = Yii::app()->getController()->episode;
 
+		$eyes = isset($_POST['Element_OphCiExamination_Diagnoses']) ? array_values($_POST['Element_OphCiExamination_Diagnoses']) : array();
+
 		if (!empty($_POST)) {
-			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnoses[] = array(
-					'disorder' => Disorder::model()->findByPk($disorder_id),
-					'eye_id' => $_POST['eye_id_'.$i],
-					'principal' => (boolean)$_POST['principal_diagnosis'] == $disorder_id,
-				);
+			if (isset($_POST['selected_diagnoses'])) {
+				foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
+					$diagnoses[] = array(
+						'disorder' => Disorder::model()->findByPk($disorder_id),
+						'eye_id' => $eyes[$i],
+						'principal' => (boolean)$_POST['principal_diagnosis'] == $disorder_id,
+					);
+				}
 			}
 		} else if ($this->event) {
 			foreach ($this->diagnoses as $i => $diagnosis) {
