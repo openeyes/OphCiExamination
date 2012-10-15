@@ -86,7 +86,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'city_road' => 'At City Road',
 				'satellite' => 'At Satellite',
-				'fast_track' => 'Suitable for fast-track',
+				'fast_track' => 'Straightforward cataract',
 				'target_postop_refraction' => 'Target post-op refraction in Dioptres',
 				'correction_discussed' => 'The post-op refractive correction has been discussed with the patient',
 				'suitable_for_surgeon_id' => 'Suitable for surgeon',

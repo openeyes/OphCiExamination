@@ -265,6 +265,22 @@ $(document).ready(function() {
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
 
+		if (element.attr('data-element-type-name') == 'Anterior Segment') {
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pupil_id').val('');
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_nuclear_id').val('');
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_cortical_id').val('');
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_description').val('');
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pxe').attr('checked',false);
+			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_phako').attr('checked',false);
+
+			eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', false);
+		}
+
+		if (element.attr('data-element-type-name') == 'Posterior Segment') {
+			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio_id').val(5);
+			$('#Element_OphCiExamination_PosteriorSegment_right_description').val('');
+		}
+
 		e.preventDefault();
 	});
 
