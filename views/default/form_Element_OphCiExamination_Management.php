@@ -32,7 +32,8 @@
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
-	<div id="div_Element_OphCiExamination_Management_city_road" class="eventDetail">
+	<div id="div_Element_OphCiExamination_Management_city_road"
+		class="eventDetail">
 		<div class="data">
 			<?php echo $form->checkbox($element, 'city_road', array('no-label' => true, 'nowrapper' => true))?>
 			<?php echo $element->getAttributeLabel('city_road')?>
@@ -43,22 +44,27 @@
 	<?php echo $form->checkbox($element, 'fast_track', array('text-align' => 'right', 'no-label' => true))?>
 	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-20,'max'=>20,'step'=>0.5))?>
 	<?php echo $form->radioBoolean($element, 'correction_discussed', array('no_default'=>true))?>
-	<div id="div_<?php echo get_class($element)?>_suitable_for_surgeon_id" class="eventDetail">
-		<div class="label"><?php echo $element->getAttributeLabel('suitable_for_surgeon_id')?>:</div>
+	<div id="div_<?php echo get_class($element)?>_suitable_for_surgeon_id"
+		class="eventDetail">
+		<div class="label">
+			<?php echo $element->getAttributeLabel('suitable_for_surgeon_id')?>
+			:
+		</div>
 		<div class="data">
 			<?php echo CHtml::activeDropDownList($element,'suitable_for_surgeon_id', CHtml::listData(OphCiExamination_SuitableForSurgeon::model()->findAll(array('order'=>'display_order')),'id','name'),array('empty'=>'- Please select -'))?>
 			<?php echo $form->checkbox($element, 'supervised', array('nowrapper' => true))?>
 			<?php echo $element->getAttributeLabel('supervised')?>
-	</div>
-	<div id="div_<?php echo get_class($element)?>_comments"
-		class="eventDetail">
-		<div class="data">
-			<div class="textMacros">
-				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-					echo $form->dropDownTextSelection($element, 'comments', CHtml::listData($attribute->options, 'value', 'label'), array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
+		</div>
+		<div id="div_<?php echo get_class($element)?>_comments"
+			class="eventDetail">
+			<div class="data">
+				<div class="textMacros">
+					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+						echo $form->dropDownTextSelection($element, 'comments', CHtml::listData($attribute->options, 'value', 'label'), array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
 			} ?>
+				</div>
+				<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 			</div>
-			<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 		</div>
 	</div>
 </div>
