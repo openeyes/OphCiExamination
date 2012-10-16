@@ -137,4 +137,8 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 
 		return $attribute_dropdowns;
 	}
+
+	public function getLetter_string() {
+		return $this->description;
+	}
 }

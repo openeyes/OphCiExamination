@@ -271,4 +271,18 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		return parent::beforeDelete();
 	}
+
+	public function getLetter_string() {
+		$text = "";
+
+		if ($principal = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1',array($this->id))) {
+			$text .= "Principal diagnosis: ".$principal->eye->adjective." ".$principal->disorder->term."\n";
+		}
+
+		foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0',array($this->id)) as $diagnosis) {
+			$text .= "Secondary diagnosis: ".$diagnosis->eye->adjective." ".$diagnosis->disorder->term."\n";
+		}
+
+		return $text;
+	}
 }

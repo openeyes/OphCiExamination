@@ -286,4 +286,24 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		return parent::beforeValidate();
 	}
 
+	public function getLetter_string() {
+		$text = '';
+
+		if ($this->hasLeft()) {
+			$text .= "left: ".$this->getCombined('left');
+			if (trim($this->left_comments)) {
+				$text .= ", ".$this->left_comments;
+			}
+		}
+
+		if ($this->hasRight()) {
+			if ($text) $text .= ", ";
+			$text .= "right: ".$this->getCombined('right');
+			if (trim($this->right_comments)) {
+				$text .= ", ".$this->right_comments;
+			}
+		}
+
+		return $text;
+	}
 }
