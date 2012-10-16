@@ -132,5 +132,8 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement 
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
-	
+
+	public function getLetter_string() {
+		return $this->left_description." on the left and ".$this->right_description." on the right";
+	}
 }

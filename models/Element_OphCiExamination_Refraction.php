@@ -174,4 +174,8 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
+	public function getLetter_string() {
+		return '';
+	}
 }

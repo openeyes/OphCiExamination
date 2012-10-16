@@ -114,4 +114,31 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 				'criteria' => $criteria,
 		));
 	}
+
+	public function getLetter_string() {
+		$text = array();
+
+		if ($this->city_road) {
+			$text[]= "at City Road";
+		}
+		if ($this->satellite) {
+			$text[] = "at satellite";
+		}
+		if ($this->fast_track) {
+			$text[] = "straightforward cataract";
+		}
+		$text[] = "target post-op refraction: ".$this->target_postop_refraction;
+
+		if ($this->correction_discussed) {
+			$text[] = "refractive correction discussed with patient";
+		}
+
+		$text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
+
+		if ($this->comments) {
+			$text[] = strtolower($this->comments);
+		}
+
+		return implode(', ',$text);
+	}
 }

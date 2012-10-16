@@ -153,7 +153,12 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	}
 
 	public function getLetter_reading($side) {
-		$reading = $this->$side{_reading}->name;
+		$segment = $side.'_reading';
+		$reading = $this->$segment->name;
 		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
+	}
+
+	public function getLetter_string() {
+		return $this->getLetter_reading('right')." on the right, and ".$this->getLetter_reading('left')." on the left";
 	}
 }
