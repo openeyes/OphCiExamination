@@ -391,6 +391,14 @@ function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 			break;
 		}
 	}
+
+	if (drawing.deletedDoodle) {
+		switch (drawing.deletedDoodle) {
+			case 'CorticalCataract':
+				$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical_id').val('');
+				break;
+		}
+	}
 }
 
 function OphCiExamination_IntraocularPressure_updateType(field) {
