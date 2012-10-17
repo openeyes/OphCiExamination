@@ -563,3 +563,15 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
+	eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
+	eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
