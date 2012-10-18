@@ -515,8 +515,8 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 
 	var id = max_id + 1;
 
-	var eye_id = $('input[name="eye_id"]:checked').val();
-	var eye_text = $('input[name="eye_id"]:checked').next('label');
+	var eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
+	var eye_text = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').next('label');
 
 	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
 	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');

@@ -67,7 +67,7 @@
 		<?php }?>
 	</div>
 
-	<?php echo $form->radioButtons($element, 'eye_id', 'eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, array('no_element'=>true))?>
+	<?php echo $form->radioButtons($element, 'eye_id', 'eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2)?>
 
 	<?php $this->widget('application.widgets.DiagnosisSelection', array(
 			'field' => 'disorder_id',
