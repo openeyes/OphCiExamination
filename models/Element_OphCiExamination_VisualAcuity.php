@@ -204,11 +204,13 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	public function convertReadings($readings, $side) {
 		$return = array();
 		$side_id = ($side == 'right') ? 0 : 1;
-		foreach($readings as $reading) {
-			if($reading['side'] == $side_id) {
-				$reading_model = new OphCiExamination_VisualAcuity_Reading();
-				$reading_model->attributes = $reading;
-				$return[] = $reading_model;
+		if (is_array($readings)) {
+			foreach($readings as $reading) {
+				if($reading['side'] == $side_id) {
+					$reading_model = new OphCiExamination_VisualAcuity_Reading();
+					$reading_model->attributes = $reading;
+					$return[] = $reading_model;
+				}
 			}
 		}
 		return $return;
@@ -283,6 +285,10 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 
 	protected function beforeValidate() {
+		if (!isset($_POST['visualacuity_reading'])) {
+			$this->addError('visualacuity_reading','Please enter at least one reading');
+		}
+
 		return parent::beforeValidate();
 	}
 
