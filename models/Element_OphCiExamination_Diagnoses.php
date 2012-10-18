@@ -120,7 +120,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-				if ($_POST['principal_diagnosis'] == $disorder_id) {
+				if (@$_POST['principal_diagnosis'] == $disorder_id) {
 					$principal_eye = $eyes[$i];
 				}
 			}
@@ -142,7 +142,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 				$diagnosis->eye_id = $eyes[$i];
 
-				if ($_POST['principal_diagnosis'] == $disorder_id) {
+				if (@$_POST['principal_diagnosis'] == $disorder_id) {
 					$diagnosis->principal = true;
 				} else {
 					$diagnosis->principal = false;
@@ -152,7 +152,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
 				}
 
-				if ($_POST['principal_diagnosis'] != $disorder_id) {
+				if (@$_POST['principal_diagnosis'] != $disorder_id) {
 					$this->event->episode->patient->addDiagnosis($disorder_id, $eyes[$i], substr($this->event->created_date,0,10));
 					$secondary_diagnosis_ids[] = $disorder_id;
 				}
