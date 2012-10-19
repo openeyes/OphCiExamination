@@ -367,7 +367,10 @@
 		<?php }?>
 
 		<div class="footer">
-			Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo User::model()->findByPk($this->event->created_user_id)->fullnameandtitle?> (<?php echo User::model()->findByPk($this->event->created_user_id)->role?>)<br/>
+			<?php
+			$created_user = User::model()->findByPk($this->event->created_user_id);
+			?>
+			Created on <?php echo $this->event->NHSDate('created_date')?> at <?php echo substr($this->event->created_date,11,5)?> by <?php echo $created_user->fullnameandtitle.($created_user->role ? ' ('.$created_user->role.')' : '')?><br/>
 		</div>
 	</div>
 </div>
