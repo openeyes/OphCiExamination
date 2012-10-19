@@ -86,7 +86,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'city_road' => 'At City Road',
 				'satellite' => 'At Satellite',
-				'fast_track' => 'Straightforward cataract',
+				'fast_track' => 'Straightforward case',
 				'target_postop_refraction' => 'Post operative refractive target in dioptres',
 				'correction_discussed' => 'The post operative refractive target has been discussed with the patient',
 				'suitable_for_surgeon_id' => 'Suitable for surgeon',
@@ -126,7 +126,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 			$text[] = "at satellite";
 		}
 		if ($this->fast_track) {
-			$text[] = "straightforward cataract";
+			$text[] = "straightforward case";
 		}
 		$text[] = "target post-op refraction: ".$this->target_postop_refraction;
 
