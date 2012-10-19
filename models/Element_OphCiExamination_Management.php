@@ -53,11 +53,11 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments', 'safe'),
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised', 'required'),
+				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments, previous_refractive_surgery', 'safe'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments', 'safe', 'on' => 'search'),
+				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments, previous_refractive_surgery', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,6 +92,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 				'suitable_for_surgeon_id' => 'Suitable for surgeon',
 				'supervised' => 'Supervised',
 				'comments' => 'Comments',
+				'previous_refractive_surgery' => 'Previous refractive surgery',
 		);
 	}
 

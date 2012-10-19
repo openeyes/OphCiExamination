@@ -48,7 +48,6 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #div_Element_OphCiExamination_Management_city_road { padding: 5px !important; }
 #div_Element_OphCiExamination_Management_satellite { padding: 5px !important; }
 #div_Element_OphCiExamination_Management_fast_track { padding: 5px !important; }
-#div_Element_OphCiExamination_Management_comments { padding: 0px !important; margin-top: 15px; }
 #Element_OphCiExamination_Management_city_road { margin-left: 5px !important; margin-top: 7px; }
 #Element_OphCiExamination_Management_satellite { margin-left: 5px !important; }
 #Element_OphCiExamination_Management_fast_track { margin-left: 5px !important; }
@@ -57,3 +56,5 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #Element_OphCiExamination_Management_correction_discussed > .label { width: 286px !important; }
 #Element_OphCiExamination_Management_supervised { margin-left: 5px; }
 .OphCiExamination_footer { margin-top: 10px; margin-left: 5px; }
+#Element_OphCiExamination_Management_previous_refractive_surgery > .label { width: 288px !important; }
+#div_Element_OphCiExamination_Management_suitable_for_surgeon_id > .label { width: 288px !important; }

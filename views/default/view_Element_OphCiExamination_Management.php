@@ -34,6 +34,10 @@
 					<td><span class="big"><?php echo $element->supervised ? 'Yes' : 'No'?></span></td>
 				</tr>
 				<tr>
+					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('previous_refractive_surgery'))?></td>
+					<td><span class="big"><?php echo $element->previous_refractive_surgery ? 'Yes' : 'No'?></span></td>
+				</tr>
+				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('comments'))?></td>
 					<td colspan="2"><span class="big"><?php echo $element->comments?></span></td>
 				</tr>
