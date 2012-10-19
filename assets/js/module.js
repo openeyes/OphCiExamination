@@ -278,7 +278,7 @@ $(document).ready(function() {
 
 		if (element.attr('data-element-type-name') == 'Posterior Segment') {
 			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio_id').val(5);
-			$('#Element_OphCiExamination_PosteriorSegment_right_description').val('');
+			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_description').val('');
 		}
 
 		e.preventDefault();
