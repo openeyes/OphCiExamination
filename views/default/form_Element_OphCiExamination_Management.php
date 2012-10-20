@@ -43,7 +43,7 @@
 	</div>
 	<?php echo $form->checkbox($element, 'fast_track', array('text-align' => 'right', 'no-label' => true))?>
 	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-20,'max'=>20,'step'=>0.5))?>
-	<?php echo $form->radioBoolean($element, 'correction_discussed', array('no_default'=>true))?>
+	<?php echo $form->radioBoolean($element, 'correction_discussed')?>
 	<div id="div_<?php echo get_class($element)?>_suitable_for_surgeon_id"
 		class="eventDetail">
 		<div class="label">
@@ -56,7 +56,7 @@
 			<?php echo $element->getAttributeLabel('supervised')?>
 		</div>
 	</div>
-	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery', array('no_default'=>true))?>
+	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
 	<div id="div_<?php echo get_class($element)?>_comments"
 		class="eventDetail">
 		<div class="data">
