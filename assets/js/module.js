@@ -591,3 +591,15 @@ $('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',funct
 	eyedraw.repaint();
 	return false;
 });
+
+$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
