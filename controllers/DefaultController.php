@@ -125,7 +125,7 @@ class DefaultController extends BaseEventTypeController {
 		$elements = array();
 		$site_id = Yii::app()->request->cookies['site_id']->value;
 		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
-		$status_id = ($episode) ? $episode->episode_status_id : 0;
+		$status_id = ($episode) ? $episode->episode_status_id : 1;
 		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
 		$element_types = $set->DefaultElementTypes;
 		foreach($element_types as $element_type) {
