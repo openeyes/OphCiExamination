@@ -188,21 +188,13 @@ $(document).ready(function() {
 		description.val(text);
 		description.trigger('autosize');
 
-		// Update diagnosis
+		// Update diagnoses
 		var code = eyedraw.diagnosis();
-		var diagnosis_id = 'diagnosis_id';
-		if (side) {
-			diagnosis_id = side + '_' + diagnosis_id;
-		}
-		diagnosis_id = $('input[name$="[' + diagnosis_id + ']"]', element).first();
-		diagnosis_id.val(code);
-
 		var max_id = -1;
 		var count = 0;
 		var already_in_list = false;
 		var list_eye_id = null;
 		var existing_id = null;
-
 		$('#OphCiExamination_diagnoses').children('tr').map(function() {
 			var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
 			if (id >= max_id) {
@@ -236,6 +228,8 @@ $(document).ready(function() {
 					}
 				}
 			});
+			
+			$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
 		}
 
 		e.preventDefault();
