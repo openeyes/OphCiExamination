@@ -25,6 +25,7 @@
 #event_content .cols2 .activeForm a.removeSide { display: block; position: absolute; top: 5px; right: 5px; width: 16px; height: 16px;
 	background: url(../../../img/_elements/icons/extra-element_remove.png) -10px -2px no-repeat; text-decoration: none; text-indent: -9999px; }
 #event_content .cols2 .activeForm a.removeSide:hover { border: none; }
+#event_content .metaData { margin-top: 20px; }
 #event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
 #event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
 #event_content .Element_OphCiExamination_VisualAcuity .eventDetail { padding-bottom: 0; }
@@ -55,6 +56,6 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #Element_OphCiExamination_Management_target_postop_refraction { width: 400px !important; }
 #Element_OphCiExamination_Management_correction_discussed > .label { width: 286px !important; }
 #Element_OphCiExamination_Management_supervised { margin-left: 5px; }
-.OphCiExamination_footer { margin-top: 10px; margin-left: 5px; }
 #Element_OphCiExamination_Management_previous_refractive_surgery > .label { width: 288px !important; }
 #div_Element_OphCiExamination_Management_suitable_for_surgeon_id > .label { width: 288px !important; }
+
