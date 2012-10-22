@@ -223,13 +223,13 @@ $(document).ready(function() {
 				'type': 'GET',
 				'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code+'&side='+side+'&id='+id,
 				'success': function(html) {
-					if (html.length >0) {
+					if (html.length > 0) {
 						$('#OphCiExamination_diagnoses').append(html);
+						$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
 					}
 				}
 			});
 			
-			$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
 		}
 
 		e.preventDefault();
