@@ -151,6 +151,6 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		return "Posterior segment: right: ".$this->right_description."\nleft: ".$this->left_description."\n";
+		return "Posterior segment:\nright: ".$this->right_description."\nleft: ".$this->left_description."\n";
 	}
 }

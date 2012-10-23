@@ -293,7 +293,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		$text = 'Visual acuity: ';
+		$text = "Visual acuity:\n";
 
 		if ($this->hasLeft()) {
 			$text .= "left: ".$this->getCombined('left');
