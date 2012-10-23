@@ -50,27 +50,6 @@
 	</div>
 	
 	<div class="body">
-		<div class="operationMeta">
-			<?php if ($diagnoses = Element_OphCiExamination_Diagnoses::model()->find('event_id=?',array($this->event->id))) {?>
-				<div class="detailRow leftAlign">
-					<div class="label">
-						Diagnoses:
-					</div>
-					<div class="value pronounced">
-						<?php
-						if ($principal_diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1',array($diagnoses->id))) {?>
-							<strong><?php echo $principal_diagnosis->disorder->term?> (<?php echo $principal_diagnosis->eye->adjective?>)</strong><?php }
-
-						foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0',array($diagnoses->id)) as $i => $diagnosis) {
-							if ($i || $principal_diagnosis) echo ', '?>
-							<?php echo $diagnosis->disorder->term?> (<?php echo $diagnosis->eye->adjective?>)
-						<?php }
-						?>
-					</div>
-				</div>
-			<?php }?>
-		</div>
-
 		<h2>History</h2>
 		<div class="details">
 			<?php

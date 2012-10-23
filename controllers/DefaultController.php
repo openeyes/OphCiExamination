@@ -179,7 +179,7 @@ class DefaultController extends BaseEventTypeController {
 		echo '<tr><td>'.$disorder->term.'</td><td>';
 
 		foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
-			echo '<span class="OphCiExamination_eye_radio"><input type="radio" name="eye_id_'.$id.'" value="'.$eye->id.'"';
+			echo '<span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'.$id.']" value="'.$eye->id.'"';
 			if ($eye->id == $the_eye->id) {
 				echo 'checked="checked" ';
 			}
