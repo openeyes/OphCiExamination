@@ -178,6 +178,6 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		return "Anterior segment right:\n\n".$this->right_description."\n\nAnterior segment left:\n\n".$this->left_description;
+		return "Anterior segment: right: $this->right_description\nleft: $this->left_description\n";
 	}
 }

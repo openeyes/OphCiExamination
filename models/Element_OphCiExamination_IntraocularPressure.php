@@ -159,6 +159,6 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	}
 
 	public function getLetter_string() {
-		return $this->getLetter_reading('right')." on the right, and ".$this->getLetter_reading('left')." on the left";
+		return "Intra-ocular pressure: right: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
 	}
 }

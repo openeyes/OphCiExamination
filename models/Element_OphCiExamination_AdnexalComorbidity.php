@@ -134,6 +134,6 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement 
 	}
 
 	public function getLetter_string() {
-		return $this->left_description." on the left and ".$this->right_description." on the right";
+		return "Adnexal comorbidity: left: ".$this->left_description."\nright: ".$this->right_description."\n";
 	}
 }

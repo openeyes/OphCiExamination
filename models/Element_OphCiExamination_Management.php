@@ -140,6 +140,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 			$text[] = strtolower($this->comments);
 		}
 
-		return implode(', ',$text);
+		return "Management: ".implode(', ',$text)."\n";
 	}
 }

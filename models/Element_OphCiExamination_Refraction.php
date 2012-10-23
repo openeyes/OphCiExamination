@@ -176,6 +176,6 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		return '';
+		return "Refraction: right: ".$this->getCombined('right')."\nleft: ".$this->getCombined('right')."\n";
 	}
 }

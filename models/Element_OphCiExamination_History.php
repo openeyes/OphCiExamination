@@ -139,6 +139,6 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		return $this->description;
+		return "History: $this->description\n";
 	}
 }

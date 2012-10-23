@@ -293,7 +293,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		$text = '';
+		$text = 'Visual acuity: ';
 
 		if ($this->hasLeft()) {
 			$text .= "left: ".$this->getCombined('left');
@@ -303,13 +303,13 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		}
 
 		if ($this->hasRight()) {
-			if ($text) $text .= ", ";
+			if ($text) $text .= "\n";
 			$text .= "right: ".$this->getCombined('right');
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
 		}
 
-		return $text;
+		return $text."\n";
 	}
 }

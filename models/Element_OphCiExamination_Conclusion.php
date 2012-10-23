@@ -126,6 +126,6 @@ class Element_OphCiExamination_Conclusion extends BaseEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		return $this->description;
+		return "Conclusion: $this->description\n";
 	}
 }
