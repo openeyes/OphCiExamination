@@ -113,7 +113,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	}
 
 	public function getCombined($side) {
-		return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '&deg; ' . $this->getType($side);
+		return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '° ' . $this->getType($side);
 	}
 
 	public function getType($side) {
