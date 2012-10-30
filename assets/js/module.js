@@ -567,7 +567,9 @@ $('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',f
 		eyedraw.deleteDoodlesOfClass('CorticalCataract');
 	} else {
 		var doodle = eyedraw.firstDoodleOfClass('CorticalCataract');
-		if (doodle) {
+		if (!doodle) {
+			eyedraw.addDoodle('CorticalCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').children('option:selected').text());
+		} else {
 			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').children('option:selected').text());
 			eyedraw.repaint();
 		}
@@ -582,7 +584,9 @@ $('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',fu
 		eyedraw.deleteDoodlesOfClass('CorticalCataract');
 	} else {
 		var doodle = eyedraw.firstDoodleOfClass('CorticalCataract');
-		if (doodle) {
+		if (!doodle) {
+			eyedraw.addDoodle('CorticalCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').children('option:selected').text());
+		} else {
 			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').children('option:selected').text());
 			eyedraw.repaint();
 		}
@@ -613,7 +617,9 @@ $('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',fu
 		eyedraw.deleteDoodlesOfClass('NuclearCataract');
 	} else {
 		var doodle = eyedraw.firstDoodleOfClass('NuclearCataract');
-		if (doodle) {
+		if (!doodle) {
+			eyedraw.addDoodle('NuclearCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').children('option:selected').text());
+		} else {
 			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').children('option:selected').text());
 			eyedraw.repaint();
 		}
@@ -628,7 +634,9 @@ $('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',fun
 		eyedraw.deleteDoodlesOfClass('NuclearCataract');
 	} else {
 		var doodle = eyedraw.firstDoodleOfClass('NuclearCataract');
-		if (doodle) {
+		if (!doodle) {
+			eyedraw.addDoodle('NuclearCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').children('option:selected').text());
+		} else {
 			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').children('option:selected').text());
 			eyedraw.repaint();
 		}
