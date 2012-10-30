@@ -390,6 +390,9 @@ function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 			case 'CorticalCataract':
 				$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical_id').val('');
 				break;
+			case 'NuclearCataract':
+				$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear_id').val('');
+				break;
 		}
 	}
 }
