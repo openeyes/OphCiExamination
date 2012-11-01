@@ -69,6 +69,8 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 		return array(
 				array('eye_id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
 						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'safe'),
+				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,

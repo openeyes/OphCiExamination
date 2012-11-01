@@ -64,6 +64,8 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
+				array('left_axis', 'requiredIfSide', 'side' => 'left'),
+				array('right_axis', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
