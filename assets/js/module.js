@@ -296,6 +296,9 @@ $(document).ready(function() {
 
 	$('#event_display').delegate('.element input.axis', 'change', function() {
 		var axis = $(this).val();
+		if (!axis.match(/^[0-9]+$/)) {
+			axis = 0;
+		}
 		axis = axis % 180;
 		$(this).val(axis);
 		var side = $(this).closest('[data-side]').attr('data-side');
