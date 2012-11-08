@@ -59,3 +59,4 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #Element_OphCiExamination_Management_previous_refractive_surgery > .label { width: 288px !important; }
 #div_Element_OphCiExamination_Management_suitable_for_surgeon_id > .label { width: 288px !important; }
 
+#Element_OphCiExamination_History_previous_refractive_surgery > .label { width: 208px !important; margin-top: 5px; }

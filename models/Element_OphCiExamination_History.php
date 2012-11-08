@@ -53,8 +53,8 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description, ', 'safe'),
-				array('description, ', 'required'),
+				array('event_id, description, previous_refractive_surgery', 'safe'),
+				array('description, previous_refractive_surgery', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, description, ', 'safe', 'on' => 'search'),
@@ -84,6 +84,7 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'description' => 'Description',
+				'previous_refractive_surgery' => 'Previous refractive surgery?',
 		);
 	}
 
