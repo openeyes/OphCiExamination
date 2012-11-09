@@ -54,7 +54,6 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, description, ', 'safe'),
-				array('description, ', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, description, ', 'safe', 'on' => 'search'),

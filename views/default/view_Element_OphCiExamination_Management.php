@@ -27,7 +27,7 @@
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('suitable_for_surgeon_id'))?></td>
-					<td><span class="big"><?php echo $element->suitable_for_surgeon->name?></span></td>
+					<td><span class="big"><?php echo $element->suitable_for_surgeon ? $element->suitable_for_surgeon->name : 'None'?></span></td>
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('supervised'))?></td>

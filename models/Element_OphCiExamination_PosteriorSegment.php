@@ -60,8 +60,6 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe'),
-				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
-				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe', 'on' => 'search'),

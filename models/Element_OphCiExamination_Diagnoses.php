@@ -285,10 +285,4 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 		return $text;
 	}
-
-	public function afterValidate() {
-		if (empty($_POST['selected_diagnoses'])) {
-			$this->addError('selected_diagnoses','Please select some diagnoses');
-		}
-	}
 }

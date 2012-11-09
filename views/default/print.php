@@ -330,7 +330,11 @@
 					<div>Post-op refractive correction has not been discussed with the patient</div>
 				<?php }?>
 				<div>
-					Suitable for <?php echo $management->suitable_for_surgeon->name?> surgeon (<?php echo $management->supervised ? 'supervised' : 'unsupervised'?>)
+					<?php if ($management->suitable_for_surgeon) {?>
+						Suitable for <?php echo $management->suitable_for_surgeon->name?> surgeon (<?php echo $management->supervised ? 'supervised' : 'unsupervised'?>)
+					<?php }else{?>
+						No suitable surgeon selected
+					<?php }?>
 				</div>
 				<div>
 					<?php echo $management->comments?>
