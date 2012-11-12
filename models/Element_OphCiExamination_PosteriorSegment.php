@@ -59,7 +59,7 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe'),
+				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
 				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
