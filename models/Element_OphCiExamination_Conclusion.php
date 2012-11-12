@@ -124,4 +124,8 @@ class Element_OphCiExamination_Conclusion extends BaseEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
+
+	public function getLetter_string() {
+		return "Conclusion: $this->description\n";
+	}
 }

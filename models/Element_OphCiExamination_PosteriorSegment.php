@@ -23,6 +23,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property string $left_eyedraw
  * @property string $left_description
  * @property string $left_cd_ratio_id
@@ -33,7 +34,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
+class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -58,14 +59,19 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id', 'safe'),
-				array('left_eyedraw, right_eyedraw', 'required'),
+				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
+				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('description', 'cd_ratio_id', 'eyedraw', 'description');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -76,6 +82,7 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'left_cd_ratio_id'),
@@ -124,6 +131,14 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 		));
 	}
 
+	/**
+	 * Set default values for forms on create
+	 */
+	public function setDefaultOptions() {
+		$this->left_cd_ratio_id = 5;
+		$this->right_cd_ratio_id = 5;
+	}
+	
 	protected function beforeSave() {
 		return parent::beforeSave();
 	}
@@ -134,5 +149,9 @@ class Element_OphCiExamination_PosteriorSegment extends BaseEventTypeElement {
 
 	protected function beforeValidate() {
 		return parent::beforeValidate();
+	}
+
+	public function getLetter_string() {
+		return "Posterior segment:\nright: ".$this->right_description."\nleft: ".$this->left_description."\n";
 	}
 }

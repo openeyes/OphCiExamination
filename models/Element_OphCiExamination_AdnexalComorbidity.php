@@ -23,13 +23,14 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property string $left_description
  * @property string $right_description
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
+class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -54,13 +55,19 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, right_description, ', 'safe'),
+				array('event_id, left_description, right_description, eye_id', 'safe'),
+				array('left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, right_description', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
+	public function sidedFields() {
+		return array('description');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -73,6 +80,7 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 
@@ -126,5 +134,8 @@ class Element_OphCiExamination_AdnexalComorbidity extends BaseEventTypeElement {
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}
-	
+
+	public function getLetter_string() {
+		return "Adnexal comorbidity:\nleft: ".$this->left_description."\nright: ".$this->right_description."\n";
+	}
 }

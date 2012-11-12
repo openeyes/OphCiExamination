@@ -18,20 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_visualacuity_wearing".
+ * This is the model class for table "ophciexamination_anteriorsegment_cortical".
  *
  * @property integer $id
  * @property string $name
- * @property string $label
- * @property OphCiExamination_VisualAcuity_WearingOption[] $options
- * @property integer $element_type_id
+ * @property integer $display_order
 
  */
-class OphCiExamination_VisualAcuity_Wearing extends BaseActiveRecord {
+class OphCiExamination_AnteriorSegment_Cortical extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_VisualAcuity_Wearing the static model class
+	 * @return OphCiExamination_AnteriorSegment_Cortical the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -41,11 +39,11 @@ class OphCiExamination_VisualAcuity_Wearing extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_visualacuity_wearing';
+		return 'ophciexamination_anteriorsegment_cortical';
 	}
 
 	/**
-	 * @return array validation rules for model visualacuity_wearings.
+	 * @return array validation rules for model attributes.
 	 */
 	public function rules() {
 		return array(

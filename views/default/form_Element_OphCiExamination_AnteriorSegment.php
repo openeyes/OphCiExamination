@@ -25,17 +25,22 @@
 	<div class="removeElement">
 		<button class="classy blue mini">
 			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
-				height="22"> </span>
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="24" height="22"> </span>
 		</button>
 	</div>
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
 	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetAnteriorSegment', array(
+		<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
+		<div
+			class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+			data-side="right">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetAnteriorSegment', array(
 					'identifier' => 'right_'.$element->elementType->id,
 					'side' => 'R',
 					'mode' => 'edit',
@@ -43,10 +48,18 @@
 					'model' => $element,
 					'attribute' => 'right_eyedraw',
 			))?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add right side</a>
+			</div>
 		</div>
-		<div class="right eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetAnteriorSegment', array(
+		<div
+			class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+			data-side="left">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetAnteriorSegment', array(
 					'identifier' => 'left_'.$element->elementType->id,
 					'side' => 'L',
 					'mode' => 'edit',
@@ -54,6 +67,10 @@
 					'model' => $element,
 					'attribute' => 'left_eyedraw',
 			))?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add left side</a>
+			</div>
 		</div>
 	</div>
 </div>

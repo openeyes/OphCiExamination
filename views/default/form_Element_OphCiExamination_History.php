@@ -25,11 +25,24 @@
 	<div class="removeElement">
 		<button class="classy blue mini">
 			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
-				height="22"> </span>
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="24" height="22"> </span>
 		</button>
 	</div>
-	<h4 class="elementTypeName"><?php  echo $element->elementType->name; ?></h4>
-	<?php echo $form->multiDropDownTextSelection($element, 'description', $element->attribute_dropdowns, array('class' => 'textMacro','no_label' => true, 'remove_selections' => false))?>
-	<?php echo $form->textArea($element, 'description', array('rows' => 3, 'cols' => 80, 'class' => 'autosize', 'no_label' => true))?>
+	<h4 class="elementTypeName">
+		<?php  echo $element->elementType->name; ?>
+	</h4>
+	<div id="div_<?php echo get_class($element)?>_description"
+		class="eventDetail">
+		<div class="data">
+			<div class="textMacros">
+				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+					echo $form->dropDownTextSelection($element, 'description', CHtml::listData($attribute->options, 'slug', 'label'),
+						array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'delimited' => true, 'nowrapper'=>true));
+		} ?>
+			</div>
+			<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+		</div>
+	</div>
+	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
 </div>

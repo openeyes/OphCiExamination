@@ -70,4 +70,9 @@ class OphCiExamination_Refraction_Type extends BaseActiveRecord {
 		));
 	}
 
+	public function getOptions() {
+		$options = $this->findAll(array('order'=>'display_order'));
+		return CHtml::listData($options, 'id', 'name') + array('' => 'Other');
+	}
+	
 }

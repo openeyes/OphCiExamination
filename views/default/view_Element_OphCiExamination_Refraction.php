@@ -4,6 +4,7 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
+			<?php if($element->hasRight()) { ?>
 			<?php
 			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
 					'identifier' => 'right_'.$element->elementType->id,
@@ -13,8 +14,12 @@
 					'model' => $element,
 					'attribute' => 'right_axis_eyedraw',
 			))?>
+			<?php } else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 		<div class="right eventDetail">
+			<?php if($element->hasLeft()) { ?>
 			<?php
 			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
 					'identifier' => 'left_'.$element->elementType->id,
@@ -24,6 +29,9 @@
 					'model' => $element,
 					'attribute' => 'left_axis_eyedraw',
 			))?>
+			<?php } else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 	</div>
 </div>

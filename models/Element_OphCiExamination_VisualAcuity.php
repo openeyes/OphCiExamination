@@ -23,21 +23,14 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property integer $left_initial
- * @property integer $left_wearing_id
- * @property integer $left_corrected
- * @property integer $left_method_id
+ * @property integer $eye_id
  * @property string $left_comments
- * @property integer $right_initial
- * @property integer $right_wearing_id
- * @property integer $right_corrected
- * @property integer $right_method_id
  * @property string $right_comments
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
+class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -62,14 +55,17 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, left_wearing_id, left_method_id, right_wearing_id, right_method_id', 'safe'),
-				array('left_initial, left_corrected, right_initial, right_corrected', 'required'),
+				array('event_id, left_comments, right_comments, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
+				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('comments');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -80,12 +76,12 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'right_method_id'),
-				'left_wearing' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Wearing', 'left_wearing_id'),
-				'right_wearing' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Wearing', 'right_wearing_id'),
+				'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
+				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
+				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
 		);
 	}
 
@@ -96,19 +92,30 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_initial' => 'Initial',
-				'left_wearing_id' => 'Wearing',
-				'left_corrected' => 'Corrected',
-				'left_method_id' => 'Method',
 				'left_comments' => 'Comments',
-				'right_initial' => 'Initial',
-				'right_wearing_id' => 'Wearing',
-				'right_corrected' => 'Corrected',
-				'right_method_id' => 'Method',
 				'right_comments' => 'Comments',
 		);
 	}
 
+	public function getFormReadings($side) {
+		if($this->id) {
+			return $this->{$side.'_readings'};
+		} else {
+			$readings = array();
+			$methods = OphCiExamination_VisualAcuity_Method::model()->findAll(array(
+					'order' => 'id',
+					'limit' => 2,
+			));
+			foreach($methods as $method) {
+				$reading = new OphCiExamination_VisualAcuity_Reading();
+				$reading->side = ($side == 'right') ? 0 : 1;
+				$reading->method_id = $method->id;
+				$readings[] = $reading;
+			}
+			return $readings;
+		}
+	}
+	
 	/**
 	 * Get the measurement unit
 	 */
@@ -128,55 +135,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 		} else {
 			$unit = $this->getUnit();
 		}
-		$values = CHtml::listData($unit->values, 'base_value', 'value');
-		return array('0' => 'Not recorded') + $values;
-	}
-
-	/**
-	 * Convert a base_value (ETDRS + 5) to a different unit
-	 * @param integer $base_value
-	 * @param integer $unit_id
-	 * @return string
-	 */
-	public function convertTo($base_value, $unit_id = null) {
-		$value = $this->getClosest($base_value, $unit_id);
-		return $value->value;
-	}
-
-	/**
-	 * Get the closest step value for a unit
-	 * @param integer $base_value
-	 * @param integer $unit_id
-	 * @return OphCiExamination_VisualAcuityUnitValue
-	 */
-	public function getClosest($base_value, $unit_id = null) {
-		if(!$unit_id) {
-			$unit_id = $this->getUnit()->id;
-		}
-		$criteria = new CDbCriteria();
-		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');
-		$criteria->condition = 'unit_id = :unit_id';
-		$criteria->params = array(':unit_id' => $unit_id, ':base_value' => $base_value);
-		$criteria->order = 'delta';
-		$value = OphCiExamination_VisualAcuityUnitValue::model()->find($criteria);
-		return $value;
-	}
-
-	/**
-	 * Load model with closest base_values for current unit. This is to allow for switching units.
-	 * @param integer $unit_id
-	 */
-	public function loadClosest($unit_id = null) {
-		foreach(array('left','right') as $side) {
-			foreach(array('initial','corrected') as $reading) {
-				$field = $side . '_' . $reading;
-				$base_value = $this->{$field};
-				if($base_value) {
-					$value = $this->getClosest($base_value, $unit_id);
-					$this->{$field} = $value->base_value;
-				}
-			}
-		}
+		return CHtml::listData($unit->values, 'base_value', 'value');
 	}
 
 	/**
@@ -186,14 +145,28 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	 */
 	public function getCombined($side) {
 		$combined = array();
-		$side_prefix = $side . '_';
-		if($this->{$side_prefix.'initial'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'initial'}) . ' ' . $this->{$side_prefix.'wearing'}->name;
-		}
-		if($this->{$side_prefix.'corrected'}) {
-			$combined[] = $this->convertTo($this->{$side_prefix.'corrected'}) . ' ' . $this->{$side_prefix.'method'}->name;
+		foreach($this->{$side.'_readings'} as $reading) {
+			$combined[] = $reading->convertTo($reading->value) . ' ' . $reading->method->name;
 		}
 		return implode(', ',$combined);
+	}
+
+	/**
+	 * Get the best reading for the specified side
+	 * @param string $side
+	 * @return string
+	 */
+	public function getBest($side) {
+		$best = false;
+		foreach ($this->{$side.'_readings'} as $reading) {
+			if (!$best || $reading->value >= $best->value) {
+				$best = $reading;
+			}
+		}
+
+		if ($best) {
+			return $best->convertTo($best->value);
+		}
 	}
 
 	/**
@@ -208,16 +181,7 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-
-		$criteria->compare('left_initial', $this->left_initial);
-		$criteria->compare('left_wearing_id', $this->left_wearing_id);
-		$criteria->compare('left_corrected', $this->left_corrected);
-		$criteria->compare('left_method_id', $this->left_method_id);
 		$criteria->compare('left_comments', $this->left_comments);
-		$criteria->compare('right_initial', $this->right_initial);
-		$criteria->compare('right_wearing_id', $this->right_wearing_id);
-		$criteria->compare('right_corrected', $this->right_corrected);
-		$criteria->compare('right_method_id', $this->right_method_id);
 		$criteria->compare('right_comments', $this->right_comments);
 
 		return new CActiveDataProvider(get_class($this), array(
@@ -231,16 +195,121 @@ class Element_OphCiExamination_VisualAcuity extends BaseEventTypeElement {
 	public function setDefaultOptions() {
 	}
 
+	/**
+	 * Converts a (POSTed) form to an array of reading models.
+	 * Required when redisplaying form after validation error.
+	 * @param array $readings array POSTed array of readings
+	 * @param string $side
+	 */
+	public function convertReadings($readings, $side) {
+		$return = array();
+		$side_id = ($side == 'right') ? 0 : 1;
+		if (is_array($readings)) {
+			foreach($readings as $reading) {
+				if($reading['side'] == $side_id) {
+					$reading_model = new OphCiExamination_VisualAcuity_Reading();
+					$reading_model->attributes = $reading;
+					$return[] = $reading_model;
+				}
+			}
+		}
+		return $return;
+	}
+
 	protected function beforeSave() {
 		return parent::beforeSave();
 	}
 
+	protected function beforeDelete() {
+		foreach ($this->readings as $reading) {
+			if (!$reading->delete()) {
+				throw new Exception('Delete reading failed: '.print_r($reading->getErrors(),true));
+			}
+		}
+		return parent::beforeDelete();
+	}
+
+	/**
+	 * Save readings
+	 * @todo This probably doesn't belong here, but there doesn't seem to be an easy way
+	 * of doing it through the controller at the moment
+	 */
 	protected function afterSave() {
+		// Check to see if readings have been posted
+		if(isset($_POST['visualacuity_readings_valid']) && $_POST['visualacuity_readings_valid']) {
+
+			// Get a list of ids so we can keep track of what's been removed
+			$existing_reading_ids = array();
+			foreach($this->readings as $reading) {
+				$existing_reading_ids[$reading->id] = $reading->id;
+			}
+
+			// Process (any) posted readings
+			$new_readings = (isset($_POST['visualacuity_reading'])) ? $_POST['visualacuity_reading'] : array();
+			foreach($new_readings as $reading) {
+				
+				// Check to see if side is inactive
+				if($reading['side'] == 0 && $this->eye_id == 1
+						|| $reading['side'] == 1 && $this->eye_id == 2) {
+					continue;
+				}
+				
+				if(isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
+
+					// Reading is being updated
+					$reading_model = OphCiExamination_VisualAcuity_Reading::model()->findByPk($reading['id']);
+					unset($existing_reading_ids[$reading['id']]);
+
+				} else {
+
+					// Reading is new
+					$reading_model = new OphCiExamination_VisualAcuity_Reading();
+					$reading_model->element_id = $this->id;
+
+				}
+
+				// Save reading attributes
+				$reading_model->value = $reading['value'];
+				$reading_model->method_id = $reading['method_id'];
+				$reading_model->side = $reading['side'];
+				$reading_model->save();
+
+			}
+
+			// Delete remaining (removed) ids
+			OphCiExamination_VisualAcuity_Reading::model()->deleteByPk(array_values($existing_reading_ids));
+
+		}
+
 		return parent::afterSave();
 	}
 
 	protected function beforeValidate() {
+		if (!isset($_POST['visualacuity_reading'])) {
+			$this->addError('visualacuity_reading','Please enter at least one reading');
+		}
+
 		return parent::beforeValidate();
 	}
 
+	public function getLetter_string() {
+		$text = "Visual acuity:\n";
+
+		if ($this->hasLeft()) {
+			$text .= "left: ".$this->getCombined('left');
+			if (trim($this->left_comments)) {
+				$text .= ", ".$this->left_comments;
+			}
+		}
+
+		if ($this->hasRight()) {
+			if ($text) $text .= "\n";
+			$text .= "right: ".$this->getCombined('right');
+			if (trim($this->right_comments)) {
+				$text .= ", ".$this->right_comments;
+			}
+		}
+
+		return $text."\n";
+	}
 }

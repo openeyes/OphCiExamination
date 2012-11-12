@@ -18,18 +18,17 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_diagnosis".
+ * This is the model class for table "et_ophciexamination_management".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property Disorder $disorder
- * @property Eye $eye
+ * @property string $description
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
+class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	public $service;
 
 	/**
@@ -44,7 +43,7 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_diagnosis';
+		return 'et_ophciexamination_management';
 	}
 
 	/**
@@ -54,11 +53,11 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id', 'safe'),
-				array('disorder_id, eye_id', 'required'),
+				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments, previous_refractive_surgery', 'safe'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, disorder_id, eye_id', 'safe', 'on' => 'search'),
+				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, comments, previous_refractive_surgery', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -72,10 +71,9 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_SuitableForSurgeon', 'suitable_for_surgeon_id'),
 		);
 	}
 
@@ -86,8 +84,15 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'eye_id' => 'Eye',
-				'disorder_id' => 'Disorder',
+				'city_road' => 'At City Road',
+				'satellite' => 'At Satellite',
+				'fast_track' => 'Straightforward case',
+				'target_postop_refraction' => 'Post operative refractive target in dioptres',
+				'correction_discussed' => 'The post operative refractive target has been discussed with the patient',
+				'suitable_for_surgeon_id' => 'Suitable for surgeon',
+				'supervised' => 'Supervised',
+				'comments' => 'Comments',
+				'previous_refractive_surgery' => 'Previous refractive surgery',
 		);
 	}
 
@@ -104,37 +109,37 @@ class Element_OphCiExamination_Diagnosis extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('eye_id', $this->eye_id);
-		$criteria->compare('disorder_id', $this->disorder_id);
+		$criteria->compare('description', $this->description);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$patient_id = (int) $_REQUEST['patient_id'];
-		$firm = Yii::app()->getController()->firm;
-		$episode = Episode::getCurrentEpisodeByFirm($patient_id, $firm);
-		if($episode && $episode->hasPrincipalDiagnosis()) {
-			$this->eye_id = $episode->getPrincipalEye()->id;
-			$this->disorder_id = $episode->getPrincipalDisorder()->id;
+	public function getLetter_string() {
+		$text = array();
+
+		if ($this->city_road) {
+			$text[]= "at City Road";
 		}
-	}
+		if ($this->satellite) {
+			$text[] = "at satellite";
+		}
+		if ($this->fast_track) {
+			$text[] = "straightforward case";
+		}
+		$text[] = "target post-op refraction: ".$this->target_postop_refraction;
 
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
+		if ($this->correction_discussed) {
+			$text[] = "refractive correction discussed with patient";
+		}
 
-	protected function afterSave() {
-		return parent::afterSave();
-	}
+		$text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
 
-	protected function beforeValidate() {
-		return parent::beforeValidate();
-	}
+		if ($this->comments) {
+			$text[] = strtolower($this->comments);
+		}
 
+		return "Management: ".implode(', ',$text)."\n";
+	}
 }

@@ -18,18 +18,16 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_cataractassessment_cortical".
+ * This is the model class for table "ophciexamination_attribute".
  *
  * @property integer $id
  * @property string $name
- * @property integer $display_order
-
  */
-class OphCiExamination_CataractAssessment_Cortical extends BaseActiveRecord {
+class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_CataractAssessment_Cortical the static model class
+	 * @return OphCiExamination_SuitableForSurgeon the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -39,7 +37,7 @@ class OphCiExamination_CataractAssessment_Cortical extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_cataractassessment_cortical';
+		return 'ophciexamination_management_suitable_for_surgeon';
 	}
 
 	/**
@@ -48,7 +46,7 @@ class OphCiExamination_CataractAssessment_Cortical extends BaseActiveRecord {
 	public function rules() {
 		return array(
 				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +54,7 @@ class OphCiExamination_CataractAssessment_Cortical extends BaseActiveRecord {
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -72,4 +69,5 @@ class OphCiExamination_CataractAssessment_Cortical extends BaseActiveRecord {
 				'criteria'=>$criteria,
 		));
 	}
+
 }

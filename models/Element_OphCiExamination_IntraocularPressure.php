@@ -22,6 +22,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
  * @property OphCiExamination_Instrument $left_instrument
  * @property string $left_reading_id
  * @property OphCiExamination_Instrument $right_instrument
@@ -53,10 +54,10 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id', 'safe'),
+				array('event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'left_instrument_id'),
@@ -148,5 +150,15 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 
 	protected function beforeValidate() {
 		return parent::beforeValidate();
+	}
+
+	public function getLetter_reading($side) {
+		$segment = $side.'_reading';
+		$reading = $this->$segment->name;
+		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
+	}
+
+	public function getLetter_string() {
+		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
 	}
 }

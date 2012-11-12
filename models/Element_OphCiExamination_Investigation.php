@@ -125,4 +125,7 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement {
 		return parent::beforeValidate();
 	}
 
+	public function getLetter_string() {
+		return "Investigation: $this->description\n";
+	}
 }
