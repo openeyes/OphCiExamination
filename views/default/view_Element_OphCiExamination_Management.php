@@ -11,7 +11,7 @@
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('satellite'))?></td>
-					<td><span class="big"><?php echo $element->city_road ? 'Yes' : 'No'?></span></td>
+					<td><span class="big"><?php echo $element->satellite ? 'Yes' : 'No'?></span></td>
 				</tr>
 				<tr>
 					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('fast_track'))?></td>

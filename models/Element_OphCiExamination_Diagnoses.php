@@ -193,7 +193,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					$diagnoses[] = array(
 						'disorder' => Disorder::model()->findByPk($disorder_id),
 						'eye_id' => $eyes[$i],
-						'principal' => (boolean)$_POST['principal_diagnosis'] == $disorder_id,
+						'principal' => (boolean)@$_POST['principal_diagnosis'] == $disorder_id,
 					);
 				}
 			}
