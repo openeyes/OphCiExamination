@@ -1,6 +1,6 @@
 <?php
 
-class m120914_111700_glaucoma extends OEMigration {
+class m121111_155600_glaucoma extends OEMigration {
 
 	public function up() {
 
@@ -15,7 +15,6 @@ class m120914_111700_glaucoma extends OEMigration {
 		$element_types = array(
 				'Element_OphCiExamination_Risks' => array('name' => 'Risks', 'display_order' => 25),
 				'Element_OphCiExamination_Gonioscopy' => array('name' => 'Gonioscopy', 'display_order' => 35),
-				'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment', 'display_order' => 55),
 				'Element_OphCiExamination_OpticDisc' => array('name' => 'Optic Disc', 'display_order' => 65),
 		);
 		foreach($element_types as $element_type_class => $element_type_data) {
@@ -124,24 +123,12 @@ class m120914_111700_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text');
 
-		// Anterior Segment
-		$this->dropForeignKey('et_ophciexamination_anteriorsegment_ldi_fk', 'et_ophciexamination_anteriorsegment');
-		$this->dropForeignKey('et_ophciexamination_anteriorsegment_rdi_fk', 'et_ophciexamination_anteriorsegment');
-		$this->dropColumn('et_ophciexamination_anteriorsegment', 'left_diagnosis_id');
-		$this->dropColumn('et_ophciexamination_anteriorsegment', 'right_diagnosis_id');
-
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 
 	}
 
 	public function down() {
-
-		// Re-add anterior columns
-		$this->addColumn('et_ophciexamination_anteriorsegment', 'left_diagnosis_id', 'int(10) unsigned');
-		$this->addColumn('et_ophciexamination_anteriorsegment', 'right_diagnosis_id', 'int(10) unsigned');
-		$this->addForeignKey('et_ophciexamination_anteriorsegment_ldi_fk', 'et_ophciexamination_anteriorsegment', 'left_diagnosis_id', 'disorder', 'id');
-		$this->addForeignKey('et_ophciexamination_anteriorsegment_rdi_fk', 'et_ophciexamination_anteriorsegment', 'right_diagnosis_id', 'disorder', 'id');
 
 		// Remove tables
 		$tables = array(
@@ -159,7 +146,6 @@ class m120914_111700_glaucoma extends OEMigration {
 		$element_types = array(
 				'Element_OphCiExamination_Risks',
 				'Element_OphCiExamination_Gonioscopy',
-				'Element_OphCiExamination_AnteriorSegment',
 				'Element_OphCiExamination_OpticDisc',
 		);
 		foreach($element_types as $element_type) {
