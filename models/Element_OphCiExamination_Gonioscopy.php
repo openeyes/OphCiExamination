@@ -25,8 +25,14 @@
  * @property integer $event_id
  * @property string $left_description
  * @property string $right_description
- * @property OphCiExamination_Gonioscopy_Description $left_gonio
- * @property OphCiExamination_Gonioscopy_Description $right_gonio
+ * @property OphCiExamination_Gonioscopy_Description $left_gonio_sup
+ * @property OphCiExamination_Gonioscopy_Description $left_gonio_tem
+ * @property OphCiExamination_Gonioscopy_Description $left_gonio_nas
+ * @property OphCiExamination_Gonioscopy_Description $left_gonio_inf
+ * @property OphCiExamination_Gonioscopy_Description $right_gonio_sup
+ * @property OphCiExamination_Gonioscopy_Description $right_gonio_tem
+ * @property OphCiExamination_Gonioscopy_Description $right_gonio_nas
+ * @property OphCiExamination_Gonioscopy_Description $right_gonio_inf
  * @property OphCiExamination_Gonioscopy_Van_Herick $left_van_herick
  * @property OphCiExamination_Gonioscopy_Van_Herick $right_van_herick
  * @property string $left_eyedraw
@@ -59,8 +65,9 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('id, event_id, left_gonio_id, right_gonio_id, left_van_herick_id, right_van_herick_id,
-						left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
+						right_gonio_sup_id, right_gonio_tem_id, right_gonio_nas_id, right_gonio_inf_id, left_van_herick_id,
+						right_van_herick_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
@@ -80,13 +87,19 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_id'),
-				'right_gonio' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_id'),
+				'left_gonio_sup' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_sup_id'),
+				'left_gonio_tem' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_tem_id'),
+				'left_gonio_nas' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_nas_id'),
+				'left_gonio_inf' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_inf_id'),
+				'right_gonio_sup' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_sup_id'),
+				'right_gonio_tem' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_tem_id'),
+				'right_gonio_nas' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_nas_id'),
+				'right_gonio_inf' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_inf_id'),
 				'left_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
 				'right_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
 		);
 	}
-
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -96,8 +109,14 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'left_van_herick_id' => 'Van Herick',
 				'right_van_herick_id' => 'Van Herick',
-				'left_gonio_id' => 'Gonioscopy',
-				'right_gonio_id' => 'Gonioscopy',
+				'left_gonio_sup_id' => 'Gonioscopy',
+				'left_gonio_tem_id' => 'Gonioscopy',
+				'left_gonio_nas_id' => 'Gonioscopy',
+				'left_gonio_inf_id' => 'Gonioscopy',
+				'right_gonio_sup_id' => 'Gonioscopy',
+				'right_gonio_tem_id' => 'Gonioscopy',
+				'right_gonio_nas_id' => 'Gonioscopy',
+				'right_gonio_inf_id' => 'Gonioscopy',
 				'left_description' => 'Description',
 				'right_description' => 'Description',
 				'left_eyedraw' => 'EyeDraw',
@@ -117,8 +136,14 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_gonio_id', $this->left_gonio_id, true);
-		$criteria->compare('right_gonio_id', $this->right_gonio_id, true);
+		$criteria->compare('left_gonio_sup_id', $this->left_gonio_sup_id, true);
+		$criteria->compare('left_gonio_tem_id', $this->left_gonio_tem_id, true);
+		$criteria->compare('left_gonio_nas_id', $this->left_gonio_nas_id, true);
+		$criteria->compare('left_gonio_inf_id', $this->left_gonio_inf_id, true);
+		$criteria->compare('right_gonio_sup_id', $this->right_gonio_sup_id, true);
+		$criteria->compare('right_gonio_tem_id', $this->right_gonio_tem_id, true);
+		$criteria->compare('right_gonio_nas_id', $this->right_gonio_nas_id, true);
+		$criteria->compare('right_gonio_inf_id', $this->right_gonio_inf_id, true);
 		$criteria->compare('left_van_herick_id', $this->left_van_herick_id, true);
 		$criteria->compare('right_van_herick_id', $this->right_van_herick_id, true);
 		$criteria->compare('left_description', $this->left_description, true);
@@ -153,6 +178,11 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		foreach(array('left','right') as $side) {
+			foreach(array('sup','tem','nas','inf') as $position) {
+				$this->{$side.'_gonio_'.$position.'_id'} = 1;
+			}
+		}
 	}
 
 	protected function beforeSave() {

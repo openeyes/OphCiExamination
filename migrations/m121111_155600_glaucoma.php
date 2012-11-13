@@ -75,8 +75,14 @@ class m121111_155600_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_risks', 'hypotension', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
 
 		// Gonioscopy
-		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_id', 'int(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_sup_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_tem_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_nas_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_inf_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_sup_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_tem_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_nas_id', 'int(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_gonioscopy', 'right_gonio_inf_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_van_herick_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'right_van_herick_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_description', 'text');
@@ -113,6 +119,13 @@ class m121111_155600_glaucoma extends OEMigration {
 				'key' => 'expert',
 				'name' => 'Expert Mode',
 				'default_value' => 0,
+		));
+		$glaucoma_ss = Subspecialty::model()->find('ref_spec = \'GL\'');
+		$this->insert('setting_subspecialty', array(
+				'subspecialty_id' => $glaucoma_ss->id,
+				'element_type_id' => $element_types['Element_OphCiExamination_Gonioscopy']['id'],
+				'key' => 'expert',
+				'value' => 1
 		));
 
 		// Optic Disc
@@ -154,6 +167,7 @@ class m121111_155600_glaucoma extends OEMigration {
 				->from('element_type')
 				->where('class_name=:class_name', array(':class_name'=>$element_type))
 				->queryScalar();
+			$this->delete('setting_subspecialty', "element_type_id = ?", array($element_type_id));
 			$this->delete('setting_metadata', "element_type_id = ?", array($element_type_id));
 			$this->delete('element_type',"id = ?", array($element_type_id));
 		}

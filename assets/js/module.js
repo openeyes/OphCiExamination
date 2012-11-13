@@ -400,6 +400,37 @@ function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 	}
 }
 
+function updateElement_OphCiExamination_Gonioscopy(drawing, doodle) {
+	var side = (drawing.eye == 0) ? 'right' : 'left';
+	if (doodle) {
+		if (doodle.className == 'AngleGrade') {
+			var position;
+			switch(doodle.id) {
+			case 1:
+				position = 'sup';
+				break;
+			case 2:
+				position = 'nas';
+				break;
+			case 3:
+				position = 'tem';
+				break;
+			case 4:
+				position = 'inf';
+				break;
+			}
+			if (position) {
+				var grade = doodle.getParameter('grade');
+				var expert_options = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option');
+				expert_options.attr('selected', function () {
+					return ($(this).text() == grade);
+				});
+				OphCiExamination_Gonioscopy_updateBasic(side, position);
+			}
+		}
+	}
+}
+
 function OphCiExamination_IntraocularPressure_updateType(field) {
 	var type = $(field).closest('.data').find('.iopInstrument');
 	if ($(field).val() == 1) {
@@ -529,6 +560,24 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" />');
 }
 
+function OphCiExamination_Gonioscopy_init() {
+	$('.gonioBasic').each(function () {
+		var side = $(this).closest('div[data-side]').attr('data-side');
+		var position = $(this).attr('data-position');
+		OphCiExamination_Gonioscopy_updateBasic(side, position);
+	});
+}
+
+function OphCiExamination_Gonioscopy_updateBasic(side, position) {
+	var basic = $('#' + side + '_gonio_' + position + '_basic');
+	var grade = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option:selected').text();
+	if (grade == 'III' || grade == 'IV') {
+		basic.val(0);
+	} else {
+		basic.val(1);
+	}	
+}
+
 $('a.removeDiagnosis').live('click',function() {
 	var disorder_id = $(this).attr('rel');
 	var new_principal = false;
@@ -644,5 +693,43 @@ $('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',fun
 			eyedraw.repaint();
 		}
 	}
+	return false;
+});
+
+$('.Element_OphCiExamination_Gonioscopy .gonioGrade').live('change',function() {
+	var side = $(this).closest('div[data-side]').attr('data-side');
+	var element_type_id = $(this).closest('.element').attr('data-element-type-id');
+	var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+	var position = $(this).attr('data-position');
+	switch(position) {
+		case 'sup':
+			doodle = eyedraw.doodleArray[1];
+			break;
+		case 'nas':
+			doodle = eyedraw.doodleArray[2];
+			break;
+		case 'tem':
+			doodle = eyedraw.doodleArray[3];
+			break;
+		case 'inf':
+			doodle = eyedraw.doodleArray[4];
+			break;
+	}
+	if($(this).hasClass('gonioBasic')) {
+		var expert_options = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option');
+		if($(this).val() == 0) {
+			var grade = 'III';
+		} else {
+			var grade = 'O';
+		}
+		expert_options.attr('selected', function () {
+			return ($(this).text() == grade);
+		});		
+	} else {
+		var grade = $('option:selected', this).text();
+		OphCiExamination_Gonioscopy_updateBasic(side, position);
+	}
+	doodle.setParameter('grade', grade);
+	eyedraw.repaint();
 	return false;
 });
