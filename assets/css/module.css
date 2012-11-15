@@ -60,3 +60,15 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #div_Element_OphCiExamination_Management_suitable_for_surgeon_id > .label { width: 288px !important; }
 
 #Element_OphCiExamination_History_previous_refractive_surgery > .label { width: 208px !important; margin-top: 5px; }
+
+.gonioCross { width: 160px; height: 110px; background: url(../img/cross.gif) no-repeat center center; position: relative; margin-top: 5px;}
+.gonioCross div { position: absolute; text-align: center; }
+.gonioCross .gonioSup { top: 5px; width: 100%; }
+.gonioCross .gonioTem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
+.gonioCross .gonioNas { right: 5px; top: 50%; height: 20px; margin-top: -10px; }
+.gonioCross .gonioInf { bottom: 5px; width: 100%; }
+.eyedrawFields.view .gonioCross { width: 120px; height: 80px; }
+.eyedrawFields.view .gonioCross .gonioSup { top: 5px; }
+.eyedrawFields.view .gonioCross .gonioTem { left: 15px; }
+.eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
+.eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }

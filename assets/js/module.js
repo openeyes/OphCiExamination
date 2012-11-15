@@ -357,6 +357,20 @@ $(document).ready(function() {
 		$(this).closest('.side').removeClass('inactive');
 		e.preventDefault();
 	});
+	
+	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function() {
+		var side = $(this).closest('[data-side]').attr('data-side');
+		$('.foster_images_dialog[data-side="'+side+'"]').dialog('open');
+		return false;
+	});
+	$('body').delegate('.foster_images_dialog area', 'click', function() {
+		var value = $(this).attr('data-vh');
+		var side = $(this).closest('[data-side]').attr('data-side');
+		$(this).closest('.foster_images_dialog').dialog('close');
+		$('#Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
+			return ($(this).text() == value + '%');
+		});		
+	});
 
 });
 
@@ -565,6 +579,12 @@ function OphCiExamination_Gonioscopy_init() {
 		var side = $(this).closest('div[data-side]').attr('data-side');
 		var position = $(this).attr('data-position');
 		OphCiExamination_Gonioscopy_updateBasic(side, position);
+	});
+	$(".foster_images_dialog").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 480
 	});
 }
 
