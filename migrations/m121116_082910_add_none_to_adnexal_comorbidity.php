@@ -1,6 +1,6 @@
 <?php
 
-class m121116_082910_add_none_to_adnexal_comorbidity extends CDbMigration
+class m121116_082910_add_none_to_adnexal_comorbidity extends OEMigration
 {
 	public function up()
 	{
