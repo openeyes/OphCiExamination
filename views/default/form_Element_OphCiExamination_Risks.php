@@ -34,18 +34,18 @@
 	</h4>
 	<div class="clearfix">
 		<?php
-		$values = array('angina', 'asthma', 'blood_loss', 'cardiac_surgery', 'cva',
-				'foh', 'hyperopia', 'hypotension', 'myopia', 'migraine', 'raynauds',
-				'sob');
-		foreach ($values as $value) {
-			?>
-		<div style="width: 25%; float: left;">
-			<?php
-			echo $form->checkBox($element, $value, array('value' => '0', 'uncheckValue' => '1'));
-			?>
-		</div>
-		<?php
+		if(isset($_POST[get_class($element)]['risks_valid']) && $_POST[get_class($element)]['risks_valid']) {
+			$risk_ids = @$_POST['risks_risks'];
+		} else {
+			$risk_ids = $element->getRiskIds();
 		}
 		?>
+		<?php echo CHtml::hiddenField(get_class($element)."[risks_valid]", 1, array('id' => get_class($element).'_risks_valid'))?>
+		<?php echo CHtml::listBox('risks_risks', $risk_ids, $element->getRiskOptions(), array('multiple' => 'multiple')) ?>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		OphCiExamination_Risks_init();
+	});
+</script>

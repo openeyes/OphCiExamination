@@ -20,7 +20,7 @@
 <?php
 
 /**
- * The followings are the available columns in table '':
+ * The followings are the available columns in table 'et_ophciexamination_risks':
  * @property string $id
  * @property integer $event_id
  *
@@ -31,7 +31,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return ElementOperation the static model class
+	 * @return Element_OphCiExamination_Risks the static model class
 	 */
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -51,13 +51,10 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, myopia, migraine, cva, blood_loss, raynauds,
-						foh, hyperopia, cardiac_surgery, angina, asthma, sob, hypotension',
-						'safe'),
+				array('event_id, risks_valid', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, myopia, migraine, cva, blood_loss, raynauds,
-						foh, hyperopia, cardiac_surgery, angina, asthma, sob, hypotension', 'safe', 'on' => 'search'),
+				array('id, event_id, risks_valid', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -73,6 +70,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'risks' => array(self::MANY_MANY, 'OphCiExamination_Risks_Risk', 'ophciexamination_risks_assignment(element_id, risk_id)', 'order' => 'display_order, name'),
 		);
 	}
 
@@ -82,18 +80,6 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	public function attributeLabels() {
 
 		return array(
-				'myopia' => 'Myopia',
-				'migraine' => 'Migraine',
-				'cva' => 'CVA',
-				'blood_loss' => 'Blood Loss',
-				'raynauds' => 'Raynaud\'s',
-				'foh' => 'FOH',
-				'hyperopia' => 'Hyperopia',
-				'cardiac_surgery' => 'Cardiac Surgery',
-				'angina' => 'Angina',
-				'asthma' => 'Asthma',
-				'sob' => 'SOB',
-				'hypotension' => 'Hypotension',
 		);
 	}
 
@@ -115,27 +101,26 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		));
 	}
 
+	public function getRisks_Valid() {
+		return null;
+	}
+	
+	public function setRisks_Valid() {
+	}
+	
+	public function getRiskOptions() {
+		$risks = OphCiExamination_Risks_Risk::model()->findAll();
+		return CHtml::encodeArray(CHtml::listData($risks, 'id', 'name'));
+	}
+	
+	public function getRiskIds() {
+		return CHtml::listData($this->risks, 'id', 'id');
+	}
+	
 	public function getSummary() {
-		$fields = array(
-				'myopia',
-				'migraine',
-				'cva',
-				'blood_loss',
-				'raynauds',
-				'foh',
-				'hyperopia',
-				'cardiac_surgery',
-				'angina',
-				'asthma',
-				'sob',
-				'hypotension'
-		);
 		$return = array();
-		$attribute_labels = $this->attributeLabels();
-		foreach($fields as $field) {
-			if($this->$field) {
-				$return[] = isset($attribute_labels[$field]) ? $attribute_labels[$field] : $field;
-			}
+		foreach($this->risks as $risk) {
+			$return[] = $risk->name;
 		}
 		if($return) {
 			return implode(', ',$return);
@@ -144,4 +129,46 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		}
 	}
 
+	public function afterSave() {
+		
+		// Check to see if risks have been posted
+		if(isset($_POST['Element_OphCiExamination_Risks']['risks_valid']) && $_POST['Element_OphCiExamination_Risks']['risks_valid']) {
+
+			// Get a list of ids so we can keep track of what's been removed
+			$existing_risk_ids = array();
+			foreach($this->risks as $risk) {
+				$existing_risk_ids[$risk->id] = $risk->id;
+			}
+
+			// Process (any) posted risks
+			$new_risks = (isset($_POST['risks_risks'])) ? $_POST['risks_risks'] : array();
+			foreach($new_risks as $risk_id) {
+				
+				if($risk_id && isset($existing_risk_ids[$risk_id])) {
+
+					// Risk is being updated
+					$risk_assignment = OphCiExamination_Risks_Assignment::model()->findByAttributes(array('element_id' => $this->id, 'risk_id' => $risk_id));
+					unset($existing_risk_ids[$risk_id]);
+
+				} else {
+
+					// Risk is new
+					$risk_assignment = new OphCiExamination_Risks_Assignment();
+					$risk_assignment->element_id = $this->id;
+					$risk_assignment->risk_id = $risk_id;
+
+				}
+				
+				$risk_assignment->save();
+				
+			}
+
+			// Delete remaining (removed) ids
+			OphCiExamination_Risks_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id, 'risk_id' =>array_values($existing_risk_ids)));
+
+		}
+
+		return parent::afterSave();
+	}
+	
 }

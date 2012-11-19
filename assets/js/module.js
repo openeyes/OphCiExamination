@@ -358,10 +358,10 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
-	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function() {
+	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		$('.foster_images_dialog[data-side="'+side+'"]').dialog('open');
-		return false;
+		e.preventDefault();
 	});
 	$('body').delegate('.foster_images_dialog area', 'click', function() {
 		var value = $(this).attr('data-vh');
@@ -370,6 +370,39 @@ $(document).ready(function() {
 		$('#Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
 			return ($(this).text() == value + '%');
 		});		
+	});
+
+	$('#event_OphCiExamination').delegate('#event_content .opticCupToggle', 'click', function(e) {
+		var side = $(this).closest('[data-side]').attr('data-side');
+		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
+		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+		var doodle = eyedraw.firstDoodleOfClass('OpticCup');
+		doodle.toggleMode();
+		//doodle.setHandleProperties();
+		eyedraw.repaint();
+		e.preventDefault();
+	});
+
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected a', 'click', function(e) {
+		$(this).html('-');
+		var id = $(this).parent().attr('data-id');
+		$('#risks_risks :not(:selected)').attr('selected', function () {
+			return ($(this).val() == id);
+		});
+		$(this).parent().appendTo('#risks_selected');
+		OphCiExamination_Risks_sort();
+		e.preventDefault();
+	});
+	
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_selected a', 'click', function(e) {
+		$(this).html('+');
+		var id = $(this).parent().attr('data-id');
+		$('#risks_risks :selected').attr('selected', function () {
+			return ($(this).val() != id);
+		});
+		$(this).parent().appendTo('#risks_unselected');
+		OphCiExamination_Risks_sort();
+		e.preventDefault();
 	});
 
 });
@@ -598,6 +631,22 @@ function OphCiExamination_Gonioscopy_updateBasic(side, position) {
 	}	
 }
 
+function OphCiExamination_Risks_init() {
+	$('#risks_risks').hide();
+	$('#risks_risks').parent().append($('<ul id="risks_selected"></ul>'));
+	$('#risks_risks option:selected').each(function() {
+		$('#risks_selected').append('<li data-id="' + $(this).val() + '">' + $(this).text() + ' <a href="#">-</a></li>');
+	});
+	$('#risks_risks').parent().append($('<ul id="risks_unselected"></ul>'));
+	$('#risks_risks option:not(:selected)').each(function() {
+		$('#risks_unselected').append('<li data-id="' + $(this).val() + '">' + $(this).text() + ' <a href="#">+</a></li>');
+	});
+}
+
+function OphCiExamination_Risks_sort() {
+	// TODO
+}
+	
 $('a.removeDiagnosis').live('click',function() {
 	var disorder_id = $(this).attr('rel');
 	var new_principal = false;

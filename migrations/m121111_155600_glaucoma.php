@@ -61,19 +61,39 @@ class m121111_155600_glaucoma extends OEMigration {
 		}
 
 		// Risks
-		$this->addColumn('et_ophciexamination_risks', 'myopia', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'migraine', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'cva', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'blood_loss', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'raynauds', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'foh', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'hyperopia', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'cardiac_surgery', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'angina', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'asthma', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'sob', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-		$this->addColumn('et_ophciexamination_risks', 'hypotension', 'tinyint(1) unsigned NOT NULL DEFAULT 0');
-
+		$this->createTable('ophciexamination_risks_risk', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(64) NOT NULL',
+				'display_order' => 'int(10) unsigned NOT NULL',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `ophciexamination_risks_risk_c_u_id_fk` (`created_user_id`)',
+				'KEY `ophciexamination_risks_risk_l_m_u_id_fk` (`last_modified_user_id`)',
+				'CONSTRAINT `ophciexamination_risks_risk_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_risks_risk_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		$this->createTable('ophciexamination_risks_assignment', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'element_id' => 'int(10) unsigned NOT NULL',
+				'risk_id' => 'int(10) unsigned NOT NULL',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `ophciexamination_risks_assign_e_id_fk` (`element_id`)',
+				'KEY `ophciexamination_risks_assign_r_id_fk` (`risk_id`)',
+				'KEY `ophciexamination_risks_assign_c_u_id_fk` (`created_user_id`)',
+				'KEY `ophciexamination_risks_assign_l_m_u_id_fk` (`last_modified_user_id`)',
+				'CONSTRAINT `ophciexamination_risks_assign_e_id_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_risks` (`id`)',
+				'CONSTRAINT `ophciexamination_risks_assign_r_id_fk` FOREIGN KEY (`risk_id`) REFERENCES `ophciexamination_risks_risk` (`id`)',
+				'CONSTRAINT `ophciexamination_risks_assign_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_risks_assign_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
 		// Gonioscopy
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_sup_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_tem_id', 'int(1) unsigned not null');
@@ -145,6 +165,8 @@ class m121111_155600_glaucoma extends OEMigration {
 
 		// Remove tables
 		$tables = array(
+				'ophciexamination_risks_assignment',
+				'ophciexamination_risks_risk',
 				'et_ophciexamination_risks',
 				'ophciexamination_gonioscopy_description',
 				'ophciexamination_gonioscopy_van_herick',
