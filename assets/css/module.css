@@ -72,3 +72,32 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 .eyedrawFields.view .gonioCross .gonioTem { left: 15px; }
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
+
+#risks_selected { padding: 0; margin: 0 0 10px; }
+#risks_selected:before, #risks_selected:after { content: ""; display: table; }
+#risks_selected:after { clear: both; }
+#risks_selected { zoom: 1; }
+#risks_selected li {
+	float: left;
+	margin-right: 5px;
+	list-style: none;
+	padding: 4px 6px;
+	border-radius: 4px;
+	background: #fff;
+}
+#risks_selected li span {
+	float: left;
+}
+#risks_selected li a {
+	float: right;
+	width: 14px;
+	margin-left: 4px;
+	text-indent: -9999px;
+	background: url(../../../img/_elements/icons/extra-element_remove.png) no-repeat -10px -2px;
+	opacity: 0.5;
+}
+#risks_selected li a:hover {
+	opacity: 1;
+	border: none;
+}
+#risks_unselected { clear: both; margin: 10px 0 0; }

@@ -383,29 +383,37 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected a', 'click', function(e) {
-		$(this).html('-');
-		var id = $(this).parent().attr('data-id');
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected select', 'change', function(e) {
+		var id = $(this).val();
+		var text = $('option:selected', this).text();
 		$('#risks_risks :not(:selected)').attr('selected', function () {
 			return ($(this).val() == id);
 		});
-		$(this).parent().appendTo('#risks_selected');
-		OphCiExamination_Risks_sort();
+		$('option:selected', this).remove();
+		$('#risks_selected').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Risk">-</a></li>');
+		sort_ul($('#risks_selected'));
 		e.preventDefault();
 	});
 	
 	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_selected a', 'click', function(e) {
-		$(this).html('+');
-		var id = $(this).parent().attr('data-id');
+		var li = $(this).parent();
+		var id = li.attr('data-id');
+		var text = $('span',li).text();
 		$('#risks_risks :selected').attr('selected', function () {
 			return ($(this).val() != id);
 		});
-		$(this).parent().appendTo('#risks_unselected');
-		OphCiExamination_Risks_sort();
+		li.remove();
+		$('#risks_unselected select').append('<option value="'+id+'">'+text+'</option>');
+		sort_selectbox($('#risks_unselected select'));
 		e.preventDefault();
 	});
 
 });
+
+function sort_ul(element) {
+rootItem = element.children('li:first').text();
+element.append(element.children('li').sort(selectSort));
+}
 
 // Global function to route eyedraw event to the correct element handler
 function eDparameterListener(drawing) {
@@ -635,11 +643,11 @@ function OphCiExamination_Risks_init() {
 	$('#risks_risks').hide();
 	$('#risks_risks').parent().append($('<ul id="risks_selected"></ul>'));
 	$('#risks_risks option:selected').each(function() {
-		$('#risks_selected').append('<li data-id="' + $(this).val() + '">' + $(this).text() + ' <a href="#">-</a></li>');
+		$('#risks_selected').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Risk">-</a></li>');
 	});
-	$('#risks_risks').parent().append($('<ul id="risks_unselected"></ul>'));
+	$('#risks_risks').parent().append($('<div id="risks_unselected"><select><option value="">-- Add Risk --</option></select></div>'));
 	$('#risks_risks option:not(:selected)').each(function() {
-		$('#risks_unselected').append('<li data-id="' + $(this).val() + '">' + $(this).text() + ' <a href="#">+</a></li>');
+		$('#risks_unselected select').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
 	});
 }
 

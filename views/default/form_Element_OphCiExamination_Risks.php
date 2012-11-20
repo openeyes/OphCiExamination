@@ -32,7 +32,7 @@
 	<h4 class="elementTypeName">
 		<?php  echo $element->elementType->name; ?>
 	</h4>
-	<div class="clearfix">
+	<div class="clearfix eventDetail">
 		<?php
 		if(isset($_POST[get_class($element)]['risks_valid']) && $_POST[get_class($element)]['risks_valid']) {
 			$risk_ids = @$_POST['risks_risks'];
