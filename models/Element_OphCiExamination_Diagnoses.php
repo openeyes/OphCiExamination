@@ -170,7 +170,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		}
 
 		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
-			if (!$sd->disorder->systemic) {
+			if ($sd->disorder->specialty && $sd->disorder->specialty->code = 'OPH') {
 				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
 					$this->event->episode->patient->removeDiagnosis($sd->id);
 				}
@@ -215,7 +215,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			}
 
 			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($_GET['patient_id'])) as $sd) {
-				if (!$sd->disorder->systemic) {
+				if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
 					$diagnoses[] = array(
 						'disorder' => $sd->disorder,
 						'eye_id' => $sd->eye_id,
