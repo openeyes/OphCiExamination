@@ -94,7 +94,11 @@ class m121111_155600_glaucoma extends OEMigration {
 				'CONSTRAINT `ophciexamination_risks_assign_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
+		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
+		
 		// Gonioscopy
+		$this->addColumn('et_ophciexamination_gonioscopy', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_gonioscopy_eye_id_fk', 'et_ophciexamination_gonioscopy', 'eye_id', 'eye', 'id');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_sup_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_tem_id', 'int(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_gonioscopy', 'left_gonio_nas_id', 'int(1) unsigned not null');
@@ -149,6 +153,8 @@ class m121111_155600_glaucoma extends OEMigration {
 		));
 
 		// Optic Disc
+		$this->addColumn('et_ophciexamination_opticdisc', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->addForeignKey('et_ophciexamination_opticdisc_eye_id_fk', 'et_ophciexamination_opticdisc', 'eye_id', 'eye', 'id');
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_description', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_description', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_size', 'float(2,1) not null');

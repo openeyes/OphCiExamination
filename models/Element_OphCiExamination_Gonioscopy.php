@@ -22,6 +22,7 @@
  *
  * The followings are the available columns in table 'et_ophciexamination_gonioscopy':
  * @property integer $id
+ * @property integer $eye_id
  * @property integer $event_id
  * @property string $left_description
  * @property string $right_description
@@ -41,7 +42,7 @@
  * The followings are the available model relations:
  * @property Event $event
  */
-class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
+class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -65,16 +66,20 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
+				array('eye_id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
 						right_gonio_sup_id, right_gonio_tem_id, right_gonio_nas_id, right_gonio_inf_id, left_van_herick_id,
 						right_van_herick_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
 						'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('gonio_sup_id', 'gonio_tem_id', 'gonio_nas_id', 'gonio_inf_id', 'van_herick_id', 'description', 'eyedraw');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -97,6 +102,7 @@ class Element_OphCiExamination_Gonioscopy extends BaseEventTypeElement {
 				'right_gonio_inf' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_inf_id'),
 				'left_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
 				'right_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 	

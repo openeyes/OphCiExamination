@@ -22,6 +22,7 @@
  *
  * The followings are the available columns in table 'et_ophciexamination_opticdisc':
  * @property integer $id
+ * @property integer $eye_id
  * @property integer $event_id
  * @property string $left_description
  * @property string $right_description
@@ -33,7 +34,7 @@
  * The followings are the available model relations:
  * @property Event $event
  */
-class Element_OphCiExamination_OpticDisc extends BaseEventTypeElement {
+class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -57,14 +58,18 @@ class Element_OphCiExamination_OpticDisc extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('id, event_id, left_size, right_size, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('eye_id, event_id, left_size, right_size, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
 						'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('size', 'description', 'eyedraw');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -77,6 +82,7 @@ class Element_OphCiExamination_OpticDisc extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 

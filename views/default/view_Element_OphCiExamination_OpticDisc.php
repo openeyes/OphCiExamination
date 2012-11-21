@@ -4,26 +4,32 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
+			<?php if($element->hasRight()) {
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
 					'identifier' => 'right_'.$element->elementType->id,
 					'side' => 'R',
 					'mode' => 'view',
 					'size' => 200,
 					'model' => $element,
 					'attribute' => 'right_eyedraw',
-			))?>
+				));
+			} else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 		<div class="right eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
+			<?php if($element->hasLeft()) {
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
 					'identifier' => 'left_'.$element->elementType->id,
 					'side' => 'L',
 					'mode' => 'view',
 					'size' => 200,
 					'model' => $element,
 					'attribute' => 'left_eyedraw',
-			))?>
+				));
+			} else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 	</div>
 </div>

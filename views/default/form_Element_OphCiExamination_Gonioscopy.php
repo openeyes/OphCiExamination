@@ -33,29 +33,46 @@
 		<?php echo $element->elementType->name; ?>
 	</h4>
 	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetGonioscopy', array(
-					'identifier' => 'right_'.$element->elementType->id,
-					'side' => 'R',
-					'mode' => 'edit',
-					'size' => 300,
-					'model' => $element,
-					'attribute' => 'right_eyedraw',
-			));
-			?>
+		<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
+		<div
+			class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+			data-side="right">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+				<?php
+				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetGonioscopy', array(
+						'identifier' => 'right_'.$element->elementType->id,
+						'side' => 'R',
+						'mode' => 'edit',
+						'size' => 300,
+						'model' => $element,
+						'attribute' => 'right_eyedraw',
+				));
+				?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add right side</a>
+			</div>
 		</div>
-		<div class="right eventDetail">
-			<?php
-			$this->widget('application.modules.eyedraw.OEEyeDrawWidgetGonioscopy', array(
-					'identifier' => 'left_'.$element->elementType->id,
-					'side' => 'L',
-					'mode' => 'edit',
-					'size' => 300,
-					'model' => $element,
-					'attribute' => 'left_eyedraw',
-			));
-			?>
+		<div
+			class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+			data-side="left">
+			<div class="activeForm">
+				<a href="#" class="removeSide">-</a>
+					<?php
+					$this->widget('application.modules.eyedraw.OEEyeDrawWidgetGonioscopy', array(
+							'identifier' => 'left_'.$element->elementType->id,
+							'side' => 'L',
+							'mode' => 'edit',
+							'size' => 300,
+							'model' => $element,
+							'attribute' => 'left_eyedraw',
+					));
+					?>
+			</div>
+			<div class="inactiveForm">
+				<a href="#">Add left side</a>
+			</div>
 		</div>
 	</div>
 </div>

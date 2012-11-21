@@ -6,12 +6,12 @@
 		<div class="left eventDetail">
 			<?php if($element->hasRight()) {
 				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetAnteriorSegment', array(
-						'identifier' => 'right_'.$element->elementType->id,
-						'side' => 'R',
-						'mode' => 'view',
-						'size' => 200,
-						'model' => $element,
-						'attribute' => 'right_eyedraw',
+					'identifier' => 'right_'.$element->elementType->id,
+					'side' => 'R',
+					'mode' => 'view',
+					'size' => 200,
+					'model' => $element,
+					'attribute' => 'right_eyedraw',
 				));
 			} else { ?>
 			Not recorded
@@ -26,7 +26,7 @@
 					'size' => 200,
 					'model' => $element,
 					'attribute' => 'left_eyedraw',
-			));
+				));
 			} else { ?>
 			Not recorded
 			<?php } ?>
