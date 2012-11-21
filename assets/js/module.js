@@ -390,20 +390,39 @@ $(document).ready(function() {
 			return ($(this).val() == id);
 		});
 		$('option:selected', this).remove();
-		$('#risks_selected').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Risk">-</a></li>');
-		sort_ul($('#risks_selected'));
+		if($('#risks_selected ul').length == 0) {
+			$('#risks_unselected').append(' <a href="#">Remove All</a>');
+			$('#risks_selected').html('<ul></ul>');
+		}
+		$('#risks_selected ul').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Risk">-</a></li>');
+		sort_ul($('#risks_selected ul'));
 		e.preventDefault();
 	});
 	
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_selected a', 'click', function(e) {
-		var li = $(this).parent();
+	function removeRisk(li) {
 		var id = li.attr('data-id');
 		var text = $('span',li).text();
 		$('#risks_risks :selected').attr('selected', function () {
 			return ($(this).val() != id);
 		});
 		li.remove();
+		if($('#risks_selected ul li').length == 0) {
+			$('#risks_selected').html('<p>No risks</p>');
+			$('#risks_unselected a').remove();
+		}
 		$('#risks_unselected select').append('<option value="'+id+'">'+text+'</option>');
+	}
+	
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_selected a', 'click', function(e) {
+		removeRisk($(this).parent());
+		sort_selectbox($('#risks_unselected select'));
+		e.preventDefault();
+	});
+
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected a', 'click', function(e) {
+		$('#risks_selected li').each(function() {
+			removeRisk($(this).parent());
+		});
 		sort_selectbox($('#risks_unselected select'));
 		e.preventDefault();
 	});
@@ -641,20 +660,23 @@ function OphCiExamination_Gonioscopy_updateBasic(side, position) {
 
 function OphCiExamination_Risks_init() {
 	$('#risks_risks').hide();
-	$('#risks_risks').parent().append($('<ul id="risks_selected"></ul>'));
-	$('#risks_risks option:selected').each(function() {
-		$('#risks_selected').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Risk">-</a></li>');
-	});
-	$('#risks_risks').parent().append($('<div id="risks_unselected"><select><option value="">-- Add Risk --</option></select></div>'));
+	$('#risks_risks').parent().append($('<div id="risks_unselected"><select><option value="">-- Add --</option></select></div>'));
 	$('#risks_risks option:not(:selected)').each(function() {
 		$('#risks_unselected select').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
 	});
+	var selected = $('#risks_risks option:selected');
+	$('#risks_risks').parent().append($('<div id="risks_selected"></div>'));
+	if(selected.length > 0) {
+		$('#risks_unselected').append(' <a href="#">Remove All</a>');
+		$('#risks_selected').html($('<ul></ul>'));
+		$('#risks_risks option:selected').each(function() {
+			$('#risks_selected ul').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Risk">-</a></li>');
+		});		
+	} else {
+		$('#risks_selected').html('<p>No risks</p>');
+	}
 }
 
-function OphCiExamination_Risks_sort() {
-	// TODO
-}
-	
 $('a.removeDiagnosis').live('click',function() {
 	var disorder_id = $(this).attr('rel');
 	var new_principal = false;
