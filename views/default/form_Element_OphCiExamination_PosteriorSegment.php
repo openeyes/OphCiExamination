@@ -39,43 +39,8 @@
 			data-side="right">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-				<?php
-				/*
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetPosteriorSegment', array(
-						'identifier' => 'right_'.$element->elementType->id,
-						'side' => 'R',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'right_eyedraw',
-				));
-				*/
-				
-				$this->beginWidget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-					'doodleToolBarArray' => array('Geographic','VitreousOpacity','DiabeticNV','CNV','Circinate','CystoidMacularOedema','EpiretinalMembrane','HardDrusen','PRPPostPole','MacularHole'),
-					'onReadyCommandArray' => array(
-						array('addDoodle', array('PostPole')),
-						array('deselectDoodles', array()),
-					),
-					'bindingArray' => array(
-						'PostPole' => array(
-							'cdRatio' => array('Element_OphCiExamination_PosteriorSegment_right_cd_ratio_id', 'ed_val'),
-						),
-					),
-					'scriptArray' => array('ED_MedicalRetina.js'),
-					'idSuffix' => 'right_'.$element->elementType->id,
-					'side' => 'R',
-					'mode' => 'edit',
-					'width' => 300,
-					'height' => 300,
-					'model' => $element,
-					'attribute' => 'right_eyedraw',
-				));
-				$this->renderPartial('form_' . get_class($element) . '_OEEyeDraw', 
-					array('side' => 'right', 'element' => $element)); 
-				$this->endWidget();
-				?>
-			 
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'right', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add right side</a>
@@ -86,30 +51,8 @@
 			data-side="left">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-					<?php
-					$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-							'doodleToolBarArray' => array('Geographic','VitreousOpacity','DiabeticNV','CNV','Circinate','CystoidMacularOedema','EpiretinalMembrane','HardDrusen','PRPPostPole','MacularHole'),
-							'onReadyCommandArray' => array(
-									array('addDoodle', array('PostPole')),
-									array('deselectDoodles', array()),
-							),
-							'bindingArray' => array(
-								'PostPole' => array(
-									'cdRatio' => array('Element_OphCiExamination_PosteriorSegment_left_cd_ratio_id', 'ed_val'),
-								),
-							),
-							'scriptArray' => array('ED_MedicalRetina.js'),
-							'idSuffix' => 'left_'.$element->elementType->id,
-							'side' => 'L',
-							'mode' => 'edit',
-							'width' => 300,
-							'height' => 300,
-							'model' => $element,
-							'attribute' => 'left_eyedraw',
-					));
-					$this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
-						array('side' => 'left', 'element' => $element));
-					?>
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'left', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add left side</a>
