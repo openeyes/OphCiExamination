@@ -162,6 +162,36 @@ class m121111_155600_glaucoma extends OEMigration {
 		$this->addColumn('et_ophciexamination_opticdisc', 'left_eyedraw', 'text');
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_eyedraw', 'text');
 
+		// Add rule for glaucoma
+		$this->insert('ophciexamination_element_set', array(
+				'name' => 'Glaucoma Default'
+		));
+		$set_id = OphCiExamination_ElementSet::model()->find("name = 'Glaucoma Default'")->id;
+		foreach(array(
+				'History',
+				'VisualAcuity',
+				'AnteriorSegment',
+				'Gonioscopy',
+				'IntraocularPressure',
+				'PosteriorSegment',
+				'OpticDisc',
+				'Conclusion',
+				'Risks',
+		) as $element_name) {
+			$element_type_id = ElementType::model()->find("class_name = :class_name", array(':class_name' => 'Element_OphCiExamination_'.$element_name))->id;
+			$this->insert('ophciexamination_element_set_item',array(
+					'set_id' => $set_id,
+					'element_type_id' => $element_type_id
+			));
+		}
+		$glaucoma_id = Subspecialty::model()->find("ref_spec = 'GL'")->id;
+		$parent_id = OphCiExamination_ElementSetRule::model()->find("clause = 'subspecialty_id'")->id;
+		$this->insert('ophciexamination_element_set_rule',array(
+				'set_id' => $set_id,
+				'parent_id' => $parent_id,
+				'value' => $glaucoma_id
+		));
+				
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 
@@ -169,6 +199,17 @@ class m121111_155600_glaucoma extends OEMigration {
 
 	public function down() {
 
+		$set_id = OphCiExamination_ElementSet::model()->find("name = 'Glaucoma Default'")->id;
+		$this->delete('ophciexamination_element_set_rule', 'set_id = :set_id', array(
+			':set_id' => $set_id,
+		));
+		$this->delete('ophciexamination_element_set_item', 'set_id = :set_id', array(
+			'set_id' => $set_id,
+		));
+		$this->delete('ophciexamination_element_set', 'id = :set_id', array(
+			'set_id' => $set_id,
+		));
+		
 		// Remove tables
 		$tables = array(
 				'ophciexamination_risks_assignment',
