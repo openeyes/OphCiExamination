@@ -421,7 +421,7 @@ $(document).ready(function() {
 
 	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected a', 'click', function(e) {
 		$('#risks_selected li').each(function() {
-			removeRisk($(this).parent());
+			removeRisk($(this));
 		});
 		sort_selectbox($('#risks_unselected select'));
 		e.preventDefault();
