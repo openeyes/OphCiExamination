@@ -7,7 +7,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		),
 		'bindingArray' => array(
 				'PostPole' => array(
-						'cdRatio' => array('Element_OphCiExamination_PosteriorSegment_'.$side.'_cd_ratio_id', 'ed_val'),
+						'cdRatio' => array('Element_OphCiExamination_PosteriorSegment_'.$side.'_cd_ratio_id', 'data-val'),
 				),
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
@@ -25,7 +25,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			<?php 
 			$cd_ratio_html_options = array('options' => array());
 			foreach (OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')) as $ratio) {
-				$cd_ratio_html_options['options'][(string)$ratio->id] = array('ed_val'=> number_format((float)$ratio->name, 1, '.', ''));
+				$cd_ratio_html_options['options'][(string)$ratio->id] = array('data-val'=> number_format((float)$ratio->name, 1, '.', ''));
 			}
 			?>
 			<?php echo CHtml::activeDropDownList($element, $side . '_cd_ratio_id', CHtml::listData(OphCiExamination_PosteriorSegment_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'), $cd_ratio_html_options) ?>
