@@ -10,7 +10,6 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 						'cdRatio' => array('Element_OphCiExamination_PosteriorSegment_'.$side.'_cd_ratio_id', 'ed_val'),
 				),
 		),
-		'scriptArray' => array('ED_MedicalRetina.js'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
