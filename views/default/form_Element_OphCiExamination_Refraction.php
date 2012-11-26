@@ -30,7 +30,7 @@
 		</button>
 	</div>
 	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
+		<?php echo $element->elementType->name; ?>
 	</h4>
 	<div class="cols2 clearfix">
 		<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
@@ -39,15 +39,8 @@
 			data-side="right">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
-					'identifier' => 'right_'.$element->elementType->id,
-					'side' => 'R',
-					'mode' => 'edit',
-					'model' => $element,
-					'attribute' => 'right_axis_eyedraw',
-					'refraction_types' => OphCiExamination_Refraction_Type::model()->getOptions(),
-			))?>
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'right', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add right side</a>
@@ -58,15 +51,8 @@
 			data-side="left">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetRefraction', array(
-					'identifier' => 'left_'.$element->elementType->id,
-					'side' => 'L',
-					'mode' => 'edit',
-					'model' => $element,
-					'attribute' => 'left_axis_eyedraw',
-					'refraction_types' => OphCiExamination_Refraction_Type::model()->getOptions(),
-			))?>
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'left', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add left side</a>
@@ -74,7 +60,6 @@
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		OphCiExamination_Refraction_init();

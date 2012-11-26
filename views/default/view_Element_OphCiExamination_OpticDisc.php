@@ -5,28 +5,16 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if($element->hasRight()) {
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
-					'identifier' => 'right_'.$element->elementType->id,
-					'side' => 'R',
-					'mode' => 'view',
-					'size' => 200,
-					'model' => $element,
-					'attribute' => 'right_eyedraw',
-				));
+				$this->renderPartial('view_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'right', 'element' => $element));
 			} else { ?>
 			Not recorded
 			<?php } ?>
 		</div>
 		<div class="right eventDetail">
 			<?php if($element->hasLeft()) {
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
-					'identifier' => 'left_'.$element->elementType->id,
-					'side' => 'L',
-					'mode' => 'view',
-					'size' => 200,
-					'model' => $element,
-					'attribute' => 'left_eyedraw',
-				));
+				$this->renderPartial('view_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'left', 'element' => $element));
 			} else { ?>
 			Not recorded
 			<?php } ?>

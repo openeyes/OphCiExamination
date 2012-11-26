@@ -1,6 +1,5 @@
 <?php 
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'scriptArray' => array('ED_MedicalRetina.js', 'ED_VitreoRetinal.js'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'view',
