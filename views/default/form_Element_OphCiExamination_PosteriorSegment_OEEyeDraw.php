@@ -13,8 +13,6 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
-		'width' => 300,
-		'height' => 300,
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
 ));

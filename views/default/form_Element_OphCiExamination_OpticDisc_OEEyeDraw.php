@@ -17,64 +17,42 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php 
+<?php
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
+		'doodleToolBarArray' => array('DiscHaemorrhage', 'NerveFibreDefect', 'Papilloedema', 'OpticDiscPit'),
+		'onReadyCommandArray' => array(
+				array('addDoodle', array('OpticDisc')),
+				array('addDoodle', array('OpticCup')),
+				array('deselectDoodles', array()),
+		),
+		'bindingArray' => array(
+		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'view',
-		'width' => 200,
-		'height' => 200,
+		'mode' => 'edit',
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
-));
-?>
-<div class="eyedrawFields view">
-	<?php if($description = $element->{$side.'_description'}) { ?>
+))?>
+<div class="eyedrawFields">
 	<div>
-		<div class="data">
-			<?php echo $description ?>
-		</div>
-	</div>
-	<?php } ?>
-	<div class="aligned">
 		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_pupil_id') ?>
+			<?php echo $element->getAttributeLabel($side.'_size'); ?>
 			:
 		</div>
 		<div class="data">
-			<?php echo $element->{$side.'_pupil'}->name ?>
+			<?php echo CHtml::activeDropDownList($element, $side.'_size', $element->getSizeOptions())?>
 		</div>
 	</div>
-	<div class="aligned">
+	<div>
 		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_nuclear_id') ?>
+			<?php echo $element->getAttributeLabel($side.'_description'); ?>
 			:
 		</div>
 		<div class="data">
-			<?php echo $element->{$side.'_nuclear'}->name ?>
+			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
 		</div>
 	</div>
-	<div class="aligned">
-		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_cortical_id') ?>
-			:
-		</div>
-		<div class="data">
-			<?php echo $element->{$side.'_cortical'}->name ?>
-		</div>
-	</div>
-	<?php if($element->{$side.'_pxe'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_pxe') ?>
-		</div>
-	</div>
-	<?php } ?>
-	<?php if($element->{$side.'_phako'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_phako') ?>
-		</div>
-	</div>
-	<?php } ?>
+	<button class="opticCupToggle">Toggle</button>
+	<button class="ed_report">Report</button>
+	<button class="ed_clear">Clear</button>
 </div>

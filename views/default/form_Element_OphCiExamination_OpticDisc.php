@@ -39,15 +39,8 @@
 			data-side="right">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-				<?php
-				$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
-						'identifier' => 'right_'.$element->elementType->id,
-						'side' => 'R',
-						'mode' => 'edit',
-						'size' => 300,
-						'model' => $element,
-						'attribute' => 'right_eyedraw',
-				))?>
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'right', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add right side</a>
@@ -58,15 +51,8 @@
 			data-side="left">
 			<div class="activeForm">
 				<a href="#" class="removeSide">-</a>
-					<?php
-					$this->widget('application.modules.eyedraw.OEEyeDrawWidgetOpticDisc', array(
-							'identifier' => 'left_'.$element->elementType->id,
-							'side' => 'L',
-							'mode' => 'edit',
-							'size' => 300,
-							'model' => $element,
-							'attribute' => 'left_eyedraw',
-					))?>
+				<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+					array('side' => 'left', 'element' => $element)); ?>
 			</div>
 			<div class="inactiveForm">
 				<a href="#">Add left side</a>
