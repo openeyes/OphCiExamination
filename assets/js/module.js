@@ -446,34 +446,6 @@ function eDparameterListener(drawing) {
 	}
 }
 
-function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
-	var side = (drawing.eye == 0) ? 'right' : 'left';
-	if (doodle) {
-		switch (doodle.className) {
-		case 'AntSeg':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_pupil_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
-			break;
-		case 'NuclearCataract':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
-			break;
-		case 'CorticalCataract':
-			$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical_id option:contains(' + doodle.getParameter('grade') + ')').attr('selected',true);
-			break;
-		}
-	}
-
-	if (drawing.deletedDoodle) {
-		switch (drawing.deletedDoodle) {
-			case 'CorticalCataract':
-				$('#Element_OphCiExamination_AnteriorSegment_' + side + '_cortical_id').val('');
-				break;
-			case 'NuclearCataract':
-				$('#Element_OphCiExamination_AnteriorSegment_' + side + '_nuclear_id').val('');
-				break;
-		}
-	}
-}
-
 function updateElement_OphCiExamination_Gonioscopy(drawing, doodle) {
 	var side = (drawing.eye == 0) ? 'right' : 'left';
 	if (doodle) {
@@ -701,90 +673,6 @@ $('a.removeDiagnosis').live('click',function() {
 		}
 	});
 
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-
-	if ($(this).val() == 1) {
-		eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	} else {
-		var doodle = eyedraw.firstDoodleOfClass('CorticalCataract');
-		if (!doodle) {
-			eyedraw.addDoodle('CorticalCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').children('option:selected').text());
-		} else {
-			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').children('option:selected').text());
-			eyedraw.repaint();
-		}
-	}
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-
-	if ($(this).val() == 1) {
-		eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	} else {
-		var doodle = eyedraw.firstDoodleOfClass('CorticalCataract');
-		if (!doodle) {
-			eyedraw.addDoodle('CorticalCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').children('option:selected').text());
-		} else {
-			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').children('option:selected').text());
-			eyedraw.repaint();
-		}
-	}
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
-	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').children('option:selected').text());
-	eyedraw.repaint();
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
-	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
-	eyedraw.repaint();
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-
-	if ($(this).val() == 1) {
-		eyedraw.deleteDoodlesOfClass('NuclearCataract');
-	} else {
-		var doodle = eyedraw.firstDoodleOfClass('NuclearCataract');
-		if (!doodle) {
-			eyedraw.addDoodle('NuclearCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').children('option:selected').text());
-		} else {
-			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').children('option:selected').text());
-			eyedraw.repaint();
-		}
-	}
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-
-	if ($(this).val() == 1) {
-		eyedraw.deleteDoodlesOfClass('NuclearCataract');
-	} else {
-		var doodle = eyedraw.firstDoodleOfClass('NuclearCataract');
-		if (!doodle) {
-			eyedraw.addDoodle('NuclearCataract',"0",$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').children('option:selected').text());
-		} else {
-			doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').children('option:selected').text());
-			eyedraw.repaint();
-		}
-	}
 	return false;
 });
 
