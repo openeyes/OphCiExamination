@@ -1,5 +1,102 @@
-$(document).ready(function() {
+function gradeCalculator(_drawing) {
+    var doodleArray = _drawing.doodleArray;
+    
+    // Array to store counts of doodles of relevant classes
+    var countArray = new Array();
+    countArray['Microaneurysm'] = 0;
+    countArray['HardExudate'] = 0;
+    countArray['Circinate'] = 0;
+    countArray['BlotHaemorrhage'] = 0;
+    countArray['PreRetinalHaemorrhage'] = 0;
+    countArray['CottonWoolSpot'] = 0;
+    countArray['DiabeticNV'] = 0;
+    countArray['FibrousProliferation'] = 0;            
+    countArray['PRPPostPole'] = 0;
+    
+    var retinopathy = "R0"
+    var maculopathy = "M0";
+    
+    // Get reference to PostPole doodle
+    var postPole = _drawing.lastDoodleOfClass('PostPole');
+    
+    if (postPole)
+    {
+        // Iterate through doodles counting, and checking location
+        for (var i = 0; i < doodleArray.length; i++)
+        {
+            var doodle = doodleArray[i];
+            countArray[doodle.className]++;
+            
+            // Exudates within one disk diameter of fovea
+            if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
+            {
+                if (postPole.isWithinDiskDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
+            }
+        }
+        
+        // R1 (Background)
+        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
+        {
+            retinopathy = "R1";
+        }
+        
+        // R2
+        if (countArray['BlotHaemorrhage'] > 2)
+        {
+            retinopathy = "R2";                        
+        }
+        
+        // R3
+        if (countArray['PRPPostPole'] > 0)
+        {
+            retinopathy = "R3S";
+        }
+        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0)
+        {
+            retinopathy = "R3A";
+        }
+        
+        // Report it
+        // change select option
+        var retSel = $('#' + _drawing.canvas.id).parent().next().find('select[id$=retinopathy_id]');
+        retSel.find('option').each(function() {
+        	if ($(this).attr('data-val') == retinopathy) {
+        		retSel.val($(this).val());
+        	}
+        });
+        
+        // display description
+        $('.' + _drawing.IDSuffix + '_ret_desc').hide();
+        $('#' + _drawing.IDSuffix + '_ret_desc_' + retinopathy).show();
+        
+        var macSel = $('#' + _drawing.canvas.id).parent().next().find('select[id$=maculopathy_id]');
+        macSel.find('option').each(function() {
+        	if ($(this).attr('data-val') == maculopathy) {
+        		macSel.val($(this).val());
+        	}
+        });
+        
+        // display description
+        $('.' + _drawing.IDSuffix + '_mac_desc').hide();
+        $('#' + _drawing.IDSuffix + '_mac_desc_' + maculopathy).show();
+        
+        //console.log('macul:' + maculopathy);
+        
+    }
+}
 
+function posteriorController(_drawing) {
+	this.drawing = _drawing;
+	
+	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded', 'doodleDeleted', 'parameterChanged']);
+	
+	this.callBack = function (_messageArray) {
+		gradeCalculator(this.drawing);
+	}
+}
+
+
+$(document).ready(function() {
 	/**
 	 * Autoadjust height of textareas
 	 */
@@ -713,3 +810,8 @@ $('.Element_OphCiExamination_Gonioscopy .gonioGrade').live('change',function() {
 	eyedraw.repaint();
 	return false;
 });
+
+$('#Element_OphCiExamination_PosteriorSegment_right_cd_ratio_id').live('change',function() {
+	console.log('changed');
+});
+
