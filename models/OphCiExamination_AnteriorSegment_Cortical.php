@@ -22,6 +22,7 @@
  *
  * @property integer $id
  * @property string $name
+ * @property string $value
  * @property integer $display_order
 
  */
