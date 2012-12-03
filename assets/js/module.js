@@ -498,13 +498,6 @@ function OphCiExamination_Refraction_updateSegmentedField(field) {
 	$(field).val(value.toFixed(2));
 }
 
-function updateElement_OphCiExamination_Refraction(drawing, doodle) {
-	if (doodle && doodle.className == 'TrialLens') {
-		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_Refraction_' + side + '_axis').val(doodle.getParameter('axis'));
-	}
-}
-
 /**
  * Show other type field only if type is set to "Other"
  */
