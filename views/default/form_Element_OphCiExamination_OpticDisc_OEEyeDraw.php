@@ -22,7 +22,6 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => array('DiscHaemorrhage', 'NerveFibreDefect', 'Papilloedema', 'OpticDiscPit'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('OpticDisc')),
-				array('addDoodle', array('OpticCup')),
 				array('deselectDoodles', array()),
 		),
 		'bindingArray' => array(
