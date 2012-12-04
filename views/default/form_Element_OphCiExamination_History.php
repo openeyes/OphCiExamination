@@ -17,32 +17,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="removeElement">
-		<button class="classy blue mini">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
-				alt="+" width="24" height="22"> </span>
-		</button>
-	</div>
-	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
-	</h4>
-	<div id="div_<?php echo get_class($element)?>_description"
-		class="eventDetail">
-		<div class="data">
-			<div class="textMacros">
-				<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-					echo $form->dropDownTextSelection($element, 'description', CHtml::listData($attribute->options, 'slug', 'label'),
-						array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'delimited' => true, 'nowrapper'=>true));
-		} ?>
-			</div>
-			<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+<div id="div_<?php echo get_class($element)?>_description"
+	class="eventDetail">
+	<div class="data">
+		<div class="textMacros">
+			<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
+				echo $form->dropDownTextSelection($element, 'description', CHtml::listData($attribute->options, 'slug', 'label'),
+					array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'delimited' => true, 'nowrapper'=>true));
+	} ?>
 		</div>
+		<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
-	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
 </div>
+<?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>

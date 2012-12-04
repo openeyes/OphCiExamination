@@ -8,6 +8,9 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 				array('deselectDoodles', array()),
 		),
 		'bindingArray' => array(
+			'TrialLens' => array(
+					'axis' => array('id' => 'Element_OphCiExamination_Refraction_'.$side.'_axis'),
+			),
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
@@ -53,9 +56,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		</div>
 		<div class="data">
 			<?php echo CHtml::activeDropDownList($element, $side.'_type_id', OphCiExamination_Refraction_Type::model()->getOptions(), array('class' => 'refractionType'))?>
-			<?php if ($element->hasProperty($side.'_type_other')) {?>
 			<?php echo CHtml::activeTextField($element, $side.'_type_other')?>
-			<?php }?>
 		</div>
 	</div>
 </div>

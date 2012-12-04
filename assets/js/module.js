@@ -469,6 +469,34 @@ $(document).ready(function() {
 		});		
 	});
 
+	$('body').delegate('.gonioBasic', 'change', function(e) {
+		var side = $(this).closest('div[data-side]').attr('data-side');
+		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
+		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+		var position = $(this).attr('data-position');
+		switch(position) {
+			case 'sup':
+				doodle = eyedraw.firstDoodleOfClass('AngleGradeNorth');
+				break;
+			case 'nas':
+				doodle = eyedraw.firstDoodleOfClass('AngleGradeEast');
+				break;
+			case 'tem':
+				doodle = eyedraw.firstDoodleOfClass('AngleGradeWest');
+				break;
+			case 'inf':
+				doodle = eyedraw.firstDoodleOfClass('AngleGradeSouth');
+				break;
+		}
+		if($(this).val() == 0) {
+			var grade = 'III';
+		} else {
+			var grade = 'O';
+		}
+		doodle.setParameterWithAnimation('grade', grade);
+		e.preventDefault();
+	});
+
 	$('#event_OphCiExamination').delegate('#event_content .opticCupToggle', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -543,31 +571,29 @@ function eDparameterListener(drawing) {
 	}
 }
 
-function updateElement_OphCiExamination_Gonioscopy(drawing, doodle) {
-	var side = (drawing.eye == 0) ? 'right' : 'left';
-	if (doodle) {
-		if (doodle.className == 'AngleGrade') {
+function gonioscopyListener(_drawing) {
+	this.drawing = _drawing;
+	this.drawing.registerForNotifications(this, 'callBack', ['parameterChanged']);
+	this.callBack = function(_messageArray) {
+		if(_messageArray.selectedDoodle) {
+			_doodle = _messageArray.selectedDoodle;
+			var side = (_drawing.eye == 0) ? 'right' : 'left';
 			var position;
-			switch(doodle.id) {
-			case 1:
-				position = 'sup';
-				break;
-			case 2:
-				position = 'nas';
-				break;
-			case 3:
-				position = 'tem';
-				break;
-			case 4:
-				position = 'inf';
-				break;
+			switch(_doodle.className) {
+				case 'AngleGradeNorth':
+					position = 'sup';
+					break;
+				case 'AngleGradeEast':
+					position = 'nas';
+					break;
+				case 'AngleGradeWest':
+					position = 'tem';
+					break;
+				case 'AngleGradeSouth':
+					position = 'inf';
+					break;
 			}
 			if (position) {
-				var grade = doodle.getParameter('grade');
-				var expert_options = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option');
-				expert_options.attr('selected', function () {
-					return ($(this).text() == grade);
-				});
 				OphCiExamination_Gonioscopy_updateBasic(side, position);
 			}
 		}
@@ -593,13 +619,6 @@ function OphCiExamination_Refraction_updateSegmentedField(field) {
 	var parts = $(field).parent().children('select');
 	var value = $(parts[0]).val() * (parseFloat($(parts[1]).val()) + parseFloat($(parts[2]).val()));
 	$(field).val(value.toFixed(2));
-}
-
-function updateElement_OphCiExamination_Refraction(drawing, doodle) {
-	if (doodle && doodle.className == 'TrialLens') {
-		var side = (drawing.eye == 0) ? 'right' : 'left';
-		$('#Element_OphCiExamination_Refraction_' + side + '_axis').val(doodle.getParameter('axis'));
-	}
 }
 
 /**
@@ -772,46 +791,3 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
-
-$('.Element_OphCiExamination_Gonioscopy .gonioGrade').live('change',function() {
-	var side = $(this).closest('div[data-side]').attr('data-side');
-	var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-	var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-	var position = $(this).attr('data-position');
-	switch(position) {
-		case 'sup':
-			doodle = eyedraw.doodleArray[1];
-			break;
-		case 'nas':
-			doodle = eyedraw.doodleArray[2];
-			break;
-		case 'tem':
-			doodle = eyedraw.doodleArray[3];
-			break;
-		case 'inf':
-			doodle = eyedraw.doodleArray[4];
-			break;
-	}
-	if($(this).hasClass('gonioBasic')) {
-		var expert_options = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option');
-		if($(this).val() == 0) {
-			var grade = 'III';
-		} else {
-			var grade = 'O';
-		}
-		expert_options.attr('selected', function () {
-			return ($(this).text() == grade);
-		});		
-	} else {
-		var grade = $('option:selected', this).text();
-		OphCiExamination_Gonioscopy_updateBasic(side, position);
-	}
-	doodle.setParameter('grade', grade);
-	eyedraw.repaint();
-	return false;
-});
-
-$('#Element_OphCiExamination_PosteriorSegment_right_cd_ratio_id').live('change',function() {
-	console.log('changed');
-});
-

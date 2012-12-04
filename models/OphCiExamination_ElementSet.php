@@ -84,7 +84,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	 */
 	public function getOptionalElementTypes() {
 		$optional_element_types = ElementType::model()->findAll(array(
-				'condition' => "event_type.class_name = 'OphCiExamination' AND
+				'condition' => "event_type.class_name = 'OphCiExamination' AND 
 					ophciexamination_element_set_item.id IS NULL",
 				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
@@ -94,7 +94,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 		));
 		return $optional_element_types;
 	}
-
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

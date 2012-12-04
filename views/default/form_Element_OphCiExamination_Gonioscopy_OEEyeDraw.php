@@ -27,14 +27,27 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => $doodleToolBarArray,
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('Gonioscopy')),
-				array('addDoodle', array('AngleGrade', 0)),
-				array('addDoodle', array('AngleGrade', 1.575)),
-				array('addDoodle', array('AngleGrade', -1.575)),
-				array('addDoodle', array('AngleGrade', 3.1415926535898)),
+				array('addDoodle', array('AngleGradeNorth')),
+				array('addDoodle', array('AngleGradeEast')),
+				array('addDoodle', array('AngleGradeSouth')),
+				array('addDoodle', array('AngleGradeWest')),
 				array('deselectDoodles', array()),
 		),
 		'bindingArray' => array(
+			'AngleGradeNorth' => array(
+					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_sup_id', 'attribute' => 'data-value'),
+			),
+			'AngleGradeEast' => array(
+					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_nas_id', 'attribute' => 'data-value'),
+			),
+			'AngleGradeSouth' => array(
+					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_inf_id', 'attribute' => 'data-value'),
+			),
+			'AngleGradeWest' => array(
+					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_tem_id', 'attribute' => 'data-value'),
+			),
 		),
+		'listenerArray' => array('gonioscopyListener'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
@@ -47,17 +60,23 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		style="display: none;" <?php } ?>>
 		<div class="label">Scheie grade:</div>
 		<div class="data gonioCross">
+			<?php
+			$html_options = array();
+			foreach(OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
+				$html_options[(string)$option->id] = array('data-value'=> $option->name);
+			}
+			?>
 			<div class="gonioSup">
-				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_sup_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'sup'))?>
+				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_sup_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'sup', 'options' => $html_options))?>
 			</div>
 			<div class="gonioTem">
-				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_tem_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'tem'))?>
+				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_tem_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'tem', 'options' => $html_options))?>
 			</div>
 			<div class="gonioNas">
-				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_nas_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'nas'))?>
+				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_nas_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'nas', 'options' => $html_options))?>
 			</div>
 			<div class="gonioInf">
-				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_inf_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'inf'))?>
+				<?php echo CHtml::activeDropDownList($element, $side.'_gonio_inf_id', $element->getGonioscopyOptions(), array('class' => 'gonioGrade gonioExpert', 'data-position' => 'inf', 'options' => $html_options))?>
 			</div>
 		</div>
 	</div>
@@ -74,7 +93,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			<div data-side="<?php echo $side?>" class="foster_images_dialog"
 				title="Foster Images">
 				<img usemap="#<?php echo $side ?>_foster_images_map"
-					src="<?php echo $imgPath ?>gonioscopy.png">
+					src="<?php echo $this->assetPath ?>/img/gonioscopy.png">
 				<map name="<?php echo $side ?>_foster_images_map">
 					<area data-vh="5" shape="rect" coords="0,0,225,225" />
 					<area data-vh="15" shape="rect" coords="0,225,225,450" />
