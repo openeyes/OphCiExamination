@@ -76,7 +76,7 @@ class DefaultController extends BaseEventTypeController {
 		if(empty($_POST)) {
 			if(isset($event->event_type_id)) {
 				$element_types = ElementType::model()->findAll(array(
-						'condition' => 'event_type_id = :id AND parent_element_id is NULL',
+						'condition' => 'event_type_id = :id AND parent_element_type_id is NULL',
 						'order' => 'display_order',
 						'params' => array(':id' => $event->eventType->id),
 				));
@@ -132,7 +132,7 @@ class DefaultController extends BaseEventTypeController {
 		if (empty($_POST)) {
 			if (isset($event->event_type_id)) {
 				$element_types = ElementType::model()->findAll(array(
-						'condition' => 'parent_element_id = :id',
+						'condition' => 'parent_element_type_id = :id',
 						'order'     => 'display_order',
 						'params'    => array(':id' => $parent->id),
 				));
@@ -148,7 +148,7 @@ class DefaultController extends BaseEventTypeController {
 		} else {
 			foreach($_POST as $key => $value) {
 				if(preg_match('/^Element|^OEElement/', $key)) {
-					if($element_type = ElementType::model()->find('class_name = ? AND parent_element_id = ? ',array($key, $parent->id))) {
+					if($element_type = ElementType::model()->find('class_name = ? AND parent_element_type_id = ? ',array($key, $parent->id))) {
 						$element_class = $element_type->class_name;
 						if(!isset($event->event_type_id) || !($element = $element_class::model()->find('event_id = ?',array($event->id)))) {
 							$element= new $element_class;
@@ -193,7 +193,7 @@ class DefaultController extends BaseEventTypeController {
 			$default_element_types[] = get_class($default_element);
 		}
 		$element_types = ElementType::model()->findAll(array(
-				'condition' => 'event_type_id = :id AND parent_element_id is NULL',
+				'condition' => 'event_type_id = :id AND parent_element_type_id is NULL',
 				'order' => 'display_order',
 				'params' => array(':id' => $this->event_type->id),
 		));
@@ -223,7 +223,7 @@ class DefaultController extends BaseEventTypeController {
 		}
 	
 		$element_types = ElementType::model()->findAll(array(
-				'condition' => 'parent_element_id = :id',
+				'condition' => 'parent_element_type_id = :id',
 				'order' => 'display_order',
 				'params' => array(':id' => $parent->id),
 		));
