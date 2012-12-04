@@ -174,7 +174,7 @@ class DefaultController extends BaseEventTypeController {
 		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
 		$element_types = $set->DefaultElementTypes;
 		foreach($element_types as $element_type) {
-			if ($element_type->parent_element_id == $parent->id) {
+			if ($element_type->parent_element_type_id == $parent->id) {
 				$elements[] = new $element_type->class_name;
 			}
 		}
@@ -249,7 +249,9 @@ class DefaultController extends BaseEventTypeController {
 		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
 		$element_types = $set->DefaultElementTypes;
 		foreach($element_types as $element_type) {
-			$elements[] = new $element_type->class_name;
+			if (!$element_type->parent_element_type_id) {
+				$elements[] = new $element_type->class_name;
+			}
 		}
 		return $elements;
 	}

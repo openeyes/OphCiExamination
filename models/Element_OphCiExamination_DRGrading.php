@@ -18,23 +18,26 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_posteriorsegment".
+ * This is the model class for table "et_ophciexamination_drgrading".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property string $left_eyedraw
- * @property string $left_description
- * @property string $left_cd_ratio_id
- * @property string $right_eyedraw
- * @property string $right_description
- * @property string $right_cd_ratio_id
+ * @property string $left_nscretinopathy_id
+ * @property string $left_nscmaculopathy_id
+ * @property string $right_nscretionopathy_id
+ * @property string $right_nscmaculopathy_id
  *
  * The followings are the available model relations:
+ * @property OphCiExamination_NSCRetinopathy $left_nscretionpathy
+ * @property OphCiExamination_NSCRetinopathy $right_nscretionpathy
+ * @property OphCiExamination_NSCMaculopathy $left_nscmaculopathy
+ * @property OphCiExamination_NSCMaculopathy $right_nscmaculopathy
+ * 
  */
 
-class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
+class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -49,7 +52,7 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_posteriorsegment';
+		return 'et_ophciexamination_drgrading';
 	}
 
 	/**
@@ -59,17 +62,17 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description, left_retinopathy_id, right_retinopathy_id, left_maculopathy_id, right_maculopathy_id', 'safe'),
-				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
-				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, right_nscretinopathy_id, right_nscmaculopathy_id, eye_id', 'safe'),
+				array('left_nscretinopathy_id, left_nscmaculopathy_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_nscretinopathy_id, right_nscmaculopathy_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_retinopathy_id, right_retinopathy_id, left_maculopathy_id, right_maculopathy_id', 'safe', 'on' => 'search'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, right_nscretinopathy_id, right_nscmaculopathy_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('description', 'cd_ratio_id', 'eyedraw', 'description', 'retinopathy_id', 'maculopathy_id');
+		return array('nscretinopathy_id', 'nscmaculopathy_id');
 	}
 	
 	/**
@@ -85,8 +88,10 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'left_cd_ratio_id'),
-				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'right_cd_ratio_id'),
+				'left_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
+				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
+				'right_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
+				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
 		);
 	}
 
@@ -97,12 +102,10 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_eyedraw' => 'Eyedraw',
-				'left_description' => 'Description',
-				'left_cd_ratio_id' => 'C/D Ratio',
-				'right_eyedraw' => 'Eyedraw',
-				'right_description' => 'Description',
-				'right_cd_ratio_id' => 'C/D Ratio',
+				'left_nscretinopathy_id' => 'Retinopathy',
+				'left_nscmaculopathy_id' => 'Maculopathy',
+				'right_nscretinopathy_id' => 'Retinopathy',
+				'right_nscmaculopathy_id' => 'Maculopathy',
 		);
 	}
 
@@ -119,14 +122,8 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('left_eyedraw', $this->left_eyedraw);
-		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('left_cd_ratio_id', $this->left_cd_ratio_id);
 		$criteria->compare('left_retinopathy_id', $this->left_retinopathy_id);
 		$criteria->compare('left_maculopathy_id', $this->left_maculopathy_id);
-		$criteria->compare('right_eyedraw', $this->right_eyedraw);
-		$criteria->compare('right_description', $this->right_description);
-		$criteria->compare('right_cd_ratio_id', $this->right_cd_ratio_id);
 		$criteria->compare('right_retinopathy_id', $this->right_retinopathy_id);
 		$criteria->compare('right_maculopathy_id', $this->right_maculopathy_id);
 
@@ -139,8 +136,7 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
-		$this->left_cd_ratio_id = 5;
-		$this->right_cd_ratio_id = 5;
+		return parent::setDefaultOptions();
 	}
 	
 	protected function beforeSave() {
@@ -153,9 +149,5 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 
 	protected function beforeValidate() {
 		return parent::beforeValidate();
-	}
-
-	public function getLetter_string() {
-		return "Posterior segment:\nright: ".$this->right_description."\nleft: ".$this->left_description."\n";
 	}
 }

@@ -85,7 +85,7 @@ function gradeCalculator(_drawing) {
     }
 }
 
-function posteriorController(_drawing) {
+function posteriorListener(_drawing) {
 	this.drawing = _drawing;
 	
 	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded', 'doodleDeleted', 'parameterChanged']);
