@@ -17,41 +17,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="removeElement">
-		<button class="classy blue mini">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>" alt="+" width="24"
-				height="22"> </span>
-		</button>
-	</div>
-	<h4 class="elementTypeName">
-		<?php  echo $element->elementType->name; ?>
-	</h4>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<div class="data">
-				<?php if($element->getSetting('show_instruments')) {
-					echo $form->dropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
-				} else {
-					echo $form->hiddenField($element, 'right_instrument_id');
-				} ?>
-				<?php echo $form->dropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
-			</div>
+<div class="cols2 clearfix">
+	<div class="left eventDetail">
+		<div class="data">
+			<?php if($element->getSetting('show_instruments')) {
+				echo $form->dropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
+			} else {
+				echo $form->hiddenField($element, 'right_instrument_id');
+			} ?>
+			<?php echo $form->dropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
 		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<?php echo $form->dropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
-				<?php if($element->getSetting('show_instruments')) {
-					echo $form->dropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
-				} else {
-					echo $form->hiddenField($element, 'left_instrument_id');
-				} ?>
-			</div>
+	</div>
+	<div class="right eventDetail">
+		<div class="data">
+			<?php echo $form->dropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
+			<?php if($element->getSetting('show_instruments')) {
+				echo $form->dropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
+			} else {
+				echo $form->hiddenField($element, 'left_instrument_id');
+			} ?>
 		</div>
 	</div>
 </div>

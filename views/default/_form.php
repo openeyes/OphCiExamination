@@ -17,8 +17,32 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php $this->renderPartial(
+
+<div class="element <?php echo $element->elementType->class_name ?>"
+	data-element-type-id="<?php echo $element->elementType->id ?>"
+	data-element-type-class="<?php echo $element->elementType->class_name ?>"
+	data-element-type-name="<?php echo $element->elementType->name ?>"
+	data-element-display-order="<?php echo $element->elementType->display_order ?>">
+	<div class="removeElement">
+		<button class="classy blue mini">
+			<span class="button-span icon-only"><img
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="24" height="22"> </span>
+		</button>
+	</div>
+	<h4 class="elementTypeName">
+		<?php echo $element->elementType->name; ?>
+	</h4>
+	
+	<?php 
+	$this->renderPartial(
 		'form_' . get_class($element),
 		array('element' => $element, 'data' => $data, 'form' => $form),
 		false, false
-) ?>
+	); 
+
+	$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
+	?>
+	
+</div>
+	

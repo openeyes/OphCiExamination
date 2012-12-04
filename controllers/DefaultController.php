@@ -40,14 +40,27 @@ class DefaultController extends BaseEventTypeController {
 		));
 		// Render called with processOutput
 		// TODO: Check that scripts aren't being double loaded
-		$this->renderPartial('create_' . $element->create_view, array(
-				'element' => $element,
-				'data' => null,
-				'form' => $form,
-		), false, true);
+		try {
+			// look for element specific view file
+			$this->renderPartial('create_' . $element->create_view, array(
+					'element' => $element,
+					'data' => null,
+					'form' => $form,
+			), false, true);			
+		}
+		catch (Exception $e) {
+			// use the default view file
+			$this->renderPartial('_form', array(
+					'element' => $element,
+					'data' => null,
+					'form' => $form,
+			), false, true);
+		}
 	}
 
 	/**
+	 * returns the default elements to be displayed - ignoring elements which have parents (child elements)
+	 * 
 	 * @see BaseEventTypeController::getDefaultElements()
 	 */
 	public function getDefaultElements($action, $event_type_id = false, $event = false) {
@@ -63,7 +76,7 @@ class DefaultController extends BaseEventTypeController {
 		if(empty($_POST)) {
 			if(isset($event->event_type_id)) {
 				$element_types = ElementType::model()->findAll(array(
-						'condition' => 'event_type_id = :id',
+						'condition' => 'event_type_id = :id AND parent_element_id is NULL',
 						'order' => 'display_order',
 						'params' => array(':id' => $event->eventType->id),
 				));
@@ -92,8 +105,85 @@ class DefaultController extends BaseEventTypeController {
 		}
 		return $elements;
 	}
+	
+	/*
+	 * gets the child elements to be displayed in full for the provided parent element class
+	 * 
+	 */
+	public function getChildDefaultElements($parent_class, $action, $event_type_id = false, $event = false) {
+	
+		if (!$event && isset($this->event)) {
+			$event = $this->event;
+		}
+		if ($event) {
+			$episode = $event->episode;
+		}
+		else {
+			$episode = $this->getEpisode($this->firm, $this->patient->id);
+		}
+	
+		if ($event) {
+			$parent = ElementType::model()->find( array('condition' => 'class_name = :name and event_type_id = :eid', 'params' => array(':name'=>$parent_class, ':eid' => $event->event_type_id)) );
+		} else {
+			$parent = ElementType::model()->find( array('condition' => 'class_name = :name', 'params' => array(':name'=>$parent_class)) );
+		}
+	
+		$elements = array();
+		if (empty($_POST)) {
+			if (isset($event->event_type_id)) {
+				$element_types = ElementType::model()->findAll(array(
+						'condition' => 'parent_element_id = :id',
+						'order'     => 'display_order',
+						'params'    => array(':id' => $parent->id),
+				));
+				foreach($element_types as $element_type) {
+					$element_class = $element_type->class_name;
+					if ($element = $element_class::model()->find('event_id = ?', array($event->id))) {
+						$elements[] = $element;
+					}
+				}
+			} else {
+				$elements = $this->getChildElementsBySet($parent, $episode);
+			}
+		} else {
+			foreach($_POST as $key => $value) {
+				if(preg_match('/^Element|^OEElement/', $key)) {
+					if($element_type = ElementType::model()->find('class_name = ? AND parent_element_id = ? ',array($key, $parent->id))) {
+						$element_class = $element_type->class_name;
+						if(!isset($event->event_type_id) || !($element = $element_class::model()->find('event_id = ?',array($event->id)))) {
+							$element= new $element_class;
+							$element->attributes = $_POST[$key];
+						}
+						$elements[] = $element;
+					}
+				}
+			}
+		}
+		return $elements;
+	}
+	
+	/*
+	 * returns the child elements of the provided parent element that are in the set for the current subspecialty etc
+	 * 
+	 */
+	protected function getChildElementsBySet($parent, $episode = null) {
+		$elements = array();
+		$site_id = Yii::app()->request->cookies['site_id']->value;
+		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+		$status_id = ($episode) ? $episode->episode_status_id : 1;
+		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
+		$element_types = $set->DefaultElementTypes;
+		foreach($element_types as $element_type) {
+			if ($element_type->parent_element_id == $parent->id) {
+				$elements[] = new $element_type->class_name;
+			}
+		}
+		return $elements;
+	}
 
 	/**
+	 * returns the elements that are optional that are not child elements
+	 * 
 	 * @see BaseEventTypeController::getOptionalElements()
 	 */
 	public function getOptionalElements($action) {
@@ -103,7 +193,7 @@ class DefaultController extends BaseEventTypeController {
 			$default_element_types[] = get_class($default_element);
 		}
 		$element_types = ElementType::model()->findAll(array(
-				'condition' => 'event_type_id = :id',
+				'condition' => 'event_type_id = :id AND parent_element_id is NULL',
 				'order' => 'display_order',
 				'params' => array(':id' => $this->event_type->id),
 		));
@@ -115,7 +205,37 @@ class DefaultController extends BaseEventTypeController {
 		}
 		return $elements;
 	}
-
+	
+	/*
+	 * returns the optional child elements
+	 * 
+	 */
+	public function getChildOptionalElements($parent_class, $action) {
+		$elements = array();
+		$default_element_types = array();
+		foreach($this->getChildDefaultElements($parent, $action) as $default_element) {
+			$default_element_types[] = get_class($default_element);
+		}
+		if ($event = $this->event) {
+			$parent = ElementType::model()->find( array('condition' => 'class_name = :name and event_type_id = :eid', 'params' => array(':name'=>$parent_class, ':eid' => $event->event_type_id)) );
+		} else {
+			$parent = ElementType::model()->find( array('condition' => 'class_name = :name', 'params' => array(':name'=>$parent_class)) );
+		}
+	
+		$element_types = ElementType::model()->findAll(array(
+				'condition' => 'parent_element_id = :id',
+				'order' => 'display_order',
+				'params' => array(':id' => $parent->id),
+		));
+		foreach($element_types as $element_type) {
+			$element_class = $element_type->class_name;
+			if(!in_array($element_class, $default_element_types)) {
+				$elements[] = new $element_class;
+			}
+		}
+		return $elements;
+	}
+	
 	/**
 	 * Get the array of elements for the current site, subspecialty and episode status
 	 * @param Episode $episode
@@ -142,11 +262,50 @@ class DefaultController extends BaseEventTypeController {
 			if ($action == 'create' && empty($_POST)) {
 				$element->setDefaultOptions();
 			}
-			$this->renderPartial(
-					$action . '_' . $element->{$action.'_view'},
-					array('element' => $element, 'data' => $data, 'form' => $form),
-					false, false
-					);
+			try {
+				// look for an action/element specific view file 
+				$this->renderPartial(
+						$action . '_' . $element->{$action.'_view'},
+						array('element' => $element, 'data' => $data, 'form' => $form),
+						false, false
+				);
+			}
+			catch (Exception $e) {
+				// otherwise use the default layout
+				$this->renderPartial(
+						'_form',
+						array('element' => $element, 'data' => $data, 'form' => $form),
+						false, false
+				);
+			}
+			
+		}
+	}
+	
+	/*
+	 * render the default child elements for the given parent element
+	 */
+	public function renderChildDefaultElements($parent, $action, $form = false, $data = false ) {
+		foreach ($this->getChildDefaultElements(get_class($parent), $action) as $child ) {
+			if ($action == 'create' && empty($_POST)) {
+				$child->setDefaultOptions();
+			}
+			try {
+				$this->renderPartial(
+						// look for elemenet specific view file
+						$action . '_' . $child->{$action.'_view'},
+						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true),
+						false, false
+				);
+			}
+			catch (Exception $e) {
+				// otherwise use the default view
+				$this->renderPartial(
+						'_form',
+						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true),
+						false, false
+				);
+			}
 		}
 	}
 
