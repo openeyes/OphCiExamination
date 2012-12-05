@@ -1,5 +1,6 @@
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 
+
 function gradeCalculator(_drawing) {
     var doodleArray = _drawing.doodleArray;
     
@@ -32,7 +33,7 @@ function gradeCalculator(_drawing) {
             // Exudates within one disk diameter of fovea
             if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
             {
-                if (postPole.isWithinDiskDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
+                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
             }
         }
         
@@ -231,6 +232,13 @@ $(document).ready(function() {
 						times : 2
 					}, 600);
 				});
+			}
+			
+			try {
+				var el_class = $(element).attr('data-element-type-class');
+				window[el_class + '_init']();
+			} catch (err) {
+				// nothing to do here
 			}
 		});
 	}
