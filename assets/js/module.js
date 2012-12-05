@@ -126,6 +126,13 @@ $(document).ready(function() {
 					}, 600);
 				});
 			}
+			
+			try {
+				var el_class = $(element).attr('data-element-type-class');
+				window[el_class + '_init']();
+			} catch (err) {
+				// nothing to do here
+			}
 		});
 	}
 
