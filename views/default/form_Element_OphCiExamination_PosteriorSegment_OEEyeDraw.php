@@ -1,6 +1,8 @@
 <?php
 $widget = $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array('Geographic','VitreousOpacity','DiabeticNV','CNV','Circinate','CystoidMacularOedema','EpiretinalMembrane','HardDrusen','PRPPostPole','MacularHole'),
+		'doodleToolBarArray' => array('Geographic','VitreousOpacity','DiabeticNV','CNV','Circinate','CystoidMacularOedema',
+				'EpiretinalMembrane','HardDrusen','PRPPostPole','MacularHole', 'Microaneurysm', 'HardExudate', 'BlotHaemorrhage',
+				'PreRetinalHaemorrhage', 'CottonWoolSpot', 'FibrousProliferation', 'TractionRetinalDetachment', 'IRMA', 'MacularThickening'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('PostPole')),
 				array('deselectDoodles', array()),

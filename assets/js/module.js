@@ -1,5 +1,12 @@
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 
+function OphCiExamination_DRGrading_init() {
+	$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
+		var drawingName = $(this).attr('data-drawing-name');
+		gradeCalculator(window[drawingName]);
+	});
+}
+
 function gradeCalculator(_drawing) {
     var doodleArray = _drawing.doodleArray;
     
