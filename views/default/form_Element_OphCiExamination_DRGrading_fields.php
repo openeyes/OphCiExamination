@@ -16,10 +16,13 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+	
+	$element_class = get_class($element);
+
 ?>
 <div class="aligned">
 	<div class="label">
-		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>
+		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>:
 	</div>
 	<div class="data">
 		<?php 
@@ -29,17 +32,19 @@
 			}
 			echo CHtml::activeDropDownList($element, $side . '_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
 		?>
+		
 	</div>
-	
-	<div>
+
+	<div class="whiteBox">
 	<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-		echo '<div style="display: none;" class="' . $side.'_'.$element->elementType->id . '_ret_desc" id="' . $side.'_'.$element->elementType->id . '_ret_desc_' . $retin->name . '">' . $retin->description . '</div>';
+		echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscret_desc" id="' . $element_class . '_' . $side . '_nscret_desc_' . $retin->name . '">' . $retin->description . '</div>';
 	}	
 	?>
 	</div>
-	
+</div>
+<div class="aligned">	
 	<div class="label">
-		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>
+		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>:
 	</div>
 	<div class="data">
 		<?php 
@@ -50,9 +55,10 @@
 			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscmaculopathy_html_options);
 		?>
 	</div>
-	<div>
+	
+	<div class="whiteBox">
 	<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) {
-		echo '<div style="display: none;" class="' . $side.'_'.$element->elementType->id . '_mac_desc" id="' . $side.'_'.$element->elementType->id . '_mac_desc_' . $macu->name . '">' . $macu->description . '</div>';
+		echo '<div style="display: none;" class="' . $element_class . '_' . $side . '_nscmac_desc" id="' . $element_class . '_' . $side . '_nscmac_desc_' . $macu->name . '">' . $macu->description . '</div>';
 	}	
 	?>
 	</div>
