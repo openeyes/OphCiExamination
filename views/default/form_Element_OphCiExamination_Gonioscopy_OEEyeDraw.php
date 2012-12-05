@@ -36,18 +36,21 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'bindingArray' => array(
 			'AngleGradeNorth' => array(
 					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_sup_id', 'attribute' => 'data-value'),
+					'seen' => array('id' => $side.'_gonio_sup_basic', 'attribute' => 'data-value'),
 			),
 			'AngleGradeEast' => array(
 					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_nas_id', 'attribute' => 'data-value'),
+					'seen' => array('id' => $side.'_gonio_nas_basic', 'attribute' => 'data-value'),
 			),
 			'AngleGradeSouth' => array(
 					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_inf_id', 'attribute' => 'data-value'),
+					'seen' => array('id' => $side.'_gonio_inf_basic', 'attribute' => 'data-value'),
 			),
 			'AngleGradeWest' => array(
 					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_tem_id', 'attribute' => 'data-value'),
+					'seen' => array('id' => $side.'_gonio_tem_basic', 'attribute' => 'data-value'),
 			),
 		),
-		'listenerArray' => array('gonioscopyListener'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
@@ -108,19 +111,22 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	<?php } else { ?>
 	<div>
 		<div class="label">Pigmented meshwork seen:</div>
-		<?php $basic_options = array('0' => 'No', '1' => 'Yes'); ?>
+		<?php
+			$basic_options = array('0' => 'No', '1' => 'Yes');
+			$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
+		?>
 		<div class="data gonioCross">
 			<div class="gonioSup">
-				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', $element->{$side.'_gonio_sup'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
 			</div>
 			<div class="gonioTem">
-				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', $element->{$side.'_gonio_tem'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
 			</div>
 			<div class="gonioNas">
-				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', $element->{$side.'_gonio_nas'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
 			</div>
 			<div class="gonioInf">
-				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', $element->{$side.'_gonio_inf'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
 			</div>
 		</div>
 	</div>

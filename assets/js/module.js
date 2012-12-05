@@ -372,31 +372,21 @@ $(document).ready(function() {
 		});		
 	});
 
+	/**
+	 * Update gonioExpert when gonioBasic is changed (gonioBasic controls are not stored in DB)
+	 */
 	$('body').delegate('.gonioBasic', 'change', function(e) {
-		var side = $(this).closest('div[data-side]').attr('data-side');
-		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
 		var position = $(this).attr('data-position');
-		switch(position) {
-			case 'sup':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeNorth');
-				break;
-			case 'nas':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeEast');
-				break;
-			case 'tem':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeWest');
-				break;
-			case 'inf':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeSouth');
-				break;
-		}
+		var expert = $(this).closest('.side').find('.gonioExpert[data-position="'+position+'"]');
 		if($(this).val() == 0) {
-			var grade = 'III';
+			$('option',expert).attr('selected', function () {
+				return ($(this).attr('data-value') == 'III');
+			});
 		} else {
-			var grade = 'O';
+			$('option',expert).attr('selected', function () {
+				return ($(this).attr('data-value') == 'I');
+			});			
 		}
-		doodle.setParameterWithAnimation('grade', grade);
 		e.preventDefault();
 	});
 
@@ -471,35 +461,6 @@ function eDparameterListener(drawing) {
 	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
 	if (typeof window['update' + element_type] === 'function') {
 		window['update' + element_type](drawing, doodle);
-	}
-}
-
-function gonioscopyListener(_drawing) {
-	this.drawing = _drawing;
-	this.drawing.registerForNotifications(this, 'callBack', ['parameterChanged']);
-	this.callBack = function(_messageArray) {
-		if(_messageArray.selectedDoodle) {
-			_doodle = _messageArray.selectedDoodle;
-			var side = (_drawing.eye == 0) ? 'right' : 'left';
-			var position;
-			switch(_doodle.className) {
-				case 'AngleGradeNorth':
-					position = 'sup';
-					break;
-				case 'AngleGradeEast':
-					position = 'nas';
-					break;
-				case 'AngleGradeWest':
-					position = 'tem';
-					break;
-				case 'AngleGradeSouth':
-					position = 'inf';
-					break;
-			}
-			if (position) {
-				OphCiExamination_Gonioscopy_updateBasic(side, position);
-			}
-		}
 	}
 }
 
@@ -619,27 +580,12 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 }
 
 function OphCiExamination_Gonioscopy_init() {
-	$('.gonioBasic').each(function () {
-		var side = $(this).closest('div[data-side]').attr('data-side');
-		var position = $(this).attr('data-position');
-		OphCiExamination_Gonioscopy_updateBasic(side, position);
-	});
 	$(".foster_images_dialog").dialog({
 		autoOpen: false,
 		modal: true,
 		resizable: false,
 		width: 480
 	});
-}
-
-function OphCiExamination_Gonioscopy_updateBasic(side, position) {
-	var basic = $('#' + side + '_gonio_' + position + '_basic');
-	var grade = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option:selected').text();
-	if (grade == 'III' || grade == 'IV') {
-		basic.val(0);
-	} else {
-		basic.val(1);
-	}	
 }
 
 function OphCiExamination_Risks_init() {

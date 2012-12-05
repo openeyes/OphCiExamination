@@ -27,7 +27,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'bindingArray' => array(
 			'AntSeg' => array(
 					'pupilSize' => array('id' => 'Element_OphCiExamination_AnteriorSegment_'.$side.'_pupil_id', 'attribute' => 'data-value'),
-					'pxe' => array('id' => 'Element_OphCiExamination_AnteriorSegment_'.$side.'_pxe', 'attribute' => 'value'),
+					'pxe' => array('id' => 'Element_OphCiExamination_AnteriorSegment_'.$side.'_pxe'),
 			),
 			'NuclearCataract' => array(
 					'grade' => array('id' => 'Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id', 'attribute' => 'data-value'),
