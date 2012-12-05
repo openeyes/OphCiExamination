@@ -129,7 +129,9 @@ $(document).ready(function() {
 			
 			try {
 				var el_class = $(element).attr('data-element-type-class');
-				window[el_class + '_init']();
+				// work around to match the function name inits
+				
+				window[el_class.replace('Element_','') + '_init']();
 			} catch (err) {
 				// nothing to do here
 			}
@@ -161,7 +163,6 @@ $(document).ready(function() {
 	 * Remove a child element
 	 */
 	$('#active_elements').delegate('.active_child_elements .removeElement button', 'click', function(e) {
-		console.log('child remove');
 		var element = $(this).closest('.element');
 		removeElement(element, true);
 		e.preventDefault();
