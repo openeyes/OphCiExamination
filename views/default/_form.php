@@ -41,8 +41,16 @@
 		false, false
 	); 
 
-	$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
 	?>
-	
+	<div class="active_child_elements">
+		<?php 
+		$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
+		?>
+	</div>
+	<div class="inactive_child_elements">
+		<?php
+		$this->renderChildOptionalElements($element, $this->action->id, $form, $data);
+		?>
+	</div>	
 </div>
 	

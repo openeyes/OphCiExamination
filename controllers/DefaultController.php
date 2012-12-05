@@ -213,7 +213,7 @@ class DefaultController extends BaseEventTypeController {
 	public function getChildOptionalElements($parent_class, $action) {
 		$elements = array();
 		$default_element_types = array();
-		foreach($this->getChildDefaultElements($parent, $action) as $default_element) {
+		foreach($this->getChildDefaultElements($parent_class, $action) as $default_element) {
 			$default_element_types[] = get_class($default_element);
 		}
 		if ($event = $this->event) {
@@ -321,6 +321,21 @@ class DefaultController extends BaseEventTypeController {
 					array('element' => $element, 'data' => $data, 'form' => $form),
 					false, false
 			);
+		}
+	}
+	
+	/**
+	 * render the optional child elements for the given parent
+	 * 
+	 */
+	public function renderChildOptionalElements($parent, $action, $form = false, $data = false) {
+		foreach ($this->getChildOptionalElements(get_class($parent), $action) as $element) {
+			$this->renderPartial(
+				'_optional_element',
+				array('element' => $element, 'data' => $data, 'form' => $form),
+				false, false
+			);
+					
 		}
 	}
 
