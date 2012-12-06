@@ -20,6 +20,7 @@
 <div class="clearfix">
 <div style="margin-top:-30px; margin-left:120px;">
 	<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+	<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
 </div>
 <div class="drgrading_images_dialog"
 	title="DR Grading Images">

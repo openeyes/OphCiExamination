@@ -98,7 +98,9 @@ function posteriorListener(_drawing) {
 	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded', 'doodleDeleted', 'parameterChanged']);
 	
 	this.callBack = function (_messageArray) {
-		gradeCalculator(this.drawing);
+		if (!$('#drgrading_dirty').is(":visible")) {
+			gradeCalculator(this.drawing);
+		}
 	}
 }
 
@@ -446,13 +448,6 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
-	/*
-	 '#Element_OphCiExamination_DRGrading_left_nscretinopathy_id ' + 
-			'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id ' +
-			'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
-	  
-	 */
-	
 	$('.Element_OphCiExamination_DRGrading').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id,' +
 		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
 		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
@@ -473,7 +468,24 @@ $(document).ready(function() {
 		var desc = id.substr(0,id.length-2) + 'desc';
 		dr_grade.find('.'+desc).hide();
 		dr_grade.find('#'+desc + '_' + grade).show();
+		$('#drgrading_dirty').show();
 	})
+	
+	$('#event_OphCiExamination').delegate('a#drgrading_dirty', 'click', function(e) {
+		$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
+			var drawingName = $(this).attr('data-drawing-name');
+			if (window[drawingName]) {
+				// the posterior segment drawing is available to sync values with
+				// TODO: this should only occur if the values are synced
+				gradeCalculator(window[drawingName]);
+			}
+		});
+		$(this).hide();
+		e.preventDefault();
+	})
+	
+	
+	
 	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
