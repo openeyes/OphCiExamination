@@ -120,7 +120,6 @@ $key = 0;
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		OphCiExamination_VisualAcuity_init();
 		OphCiExamination_VisualAcuity_method_ids = [ <?php
 		$first = true;
 		foreach($methods as $index => $method) {
