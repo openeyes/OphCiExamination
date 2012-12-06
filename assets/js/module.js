@@ -127,14 +127,23 @@ $(document).ready(function() {
 				});
 			}
 			
+			var el_class = $(element).attr('data-element-type-class');
 			try {
-				var el_class = $(element).attr('data-element-type-class');
 				// work around to match the function name inits
-				
 				window[el_class.replace('Element_','') + '_init']();
 			} catch (err) {
 				// nothing to do here
 			}
+			// now init any children
+			$(".element." + el_class).find('.active_child_elements').find('.element').each(function() {
+				try {
+					var el_class = $(this).attr('data-element-type-class');
+					// work around to match the function name inits
+					window[el_class.replace('Element_','') + '_init']();
+				} catch (err) {
+					// nothing to do here
+				}
+			});
 		});
 	}
 
