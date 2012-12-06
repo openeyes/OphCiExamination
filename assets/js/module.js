@@ -76,8 +76,8 @@ function gradeCalculator(_drawing) {
         	}
         });
         // display description
-        dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscret_desc').hide();
-        dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscret_desc_' + retinopathy).show();
+        dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc').hide();
+        dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc_' + retinopathy).show();
        
         // Maculopathy
         var macSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id');
@@ -87,10 +87,8 @@ function gradeCalculator(_drawing) {
         	}
         });
         // display description
-        dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmac_desc').hide();
-        dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmac_desc_' + maculopathy).show();
-        //console.log('macul:' + maculopathy);
-        
+        dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
+        dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
     }
 }
 
@@ -106,8 +104,6 @@ function posteriorListener(_drawing) {
 
 
 $(document).ready(function() {
-	console.log('ready or not!');
-	console.log($.isFunction(jQuery.dialog));
 	/**
 	 * Autoadjust height of textareas
 	 */
@@ -450,6 +446,35 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
+	/*
+	 '#Element_OphCiExamination_DRGrading_left_nscretinopathy_id ' + 
+			'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id ' +
+			'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
+	  
+	 */
+	
+	$('.Element_OphCiExamination_DRGrading').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id,' +
+		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
+		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
+		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
+			, 'change', function(e) {
+		var gradePK = $(this).val();
+		var grade = null;
+		
+		$(this).find('option').each(function() {
+        	if ($(this).attr('value') == gradePK) {
+        		grade = $(this).attr('data-val');
+        		return false;
+        	}
+        });
+		
+		var id = $(this).attr('id');
+		var dr_grade = $(this).parents('.element');
+		var desc = id.substr(0,id.length-2) + 'desc';
+		dr_grade.find('.'+desc).hide();
+		dr_grade.find('#'+desc + '_' + grade).show();
+	})
+	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -632,12 +657,10 @@ $(document).ready(function() {
 	$('#active_elements .element').each(function() {
 		try {
 			var el_class = $(this).attr('data-element-type-class');
-			console.log(el_class);
 			// work around to match the function name inits
 			window[el_class.replace('Element_','') + '_init']();
 		} catch (err) {
 			// nothing to do here
-			console.log(err);
 		}
 	});
 });
@@ -776,8 +799,6 @@ function OphCiExamination_VisualAcuity_init() {
 
 
 function OphCiExamination_DRGrading_init() {
-	console.log('DRGrading init ...');
-	
 	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
 		autoOpen: false,
 		modal: true,

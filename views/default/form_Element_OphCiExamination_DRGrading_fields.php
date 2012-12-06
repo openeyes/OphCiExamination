@@ -37,7 +37,7 @@
 
 	<div class="whiteBox">
 	<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-		echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscret_desc" id="' . $element_class . '_' . $side . '_nscret_desc_' . $retin->name . '">' . $retin->description . '</div>';
+		echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscretinopathy_desc" id="' . $element_class . '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
 	}	
 	?>
 	</div>
@@ -58,7 +58,7 @@
 	
 	<div class="whiteBox">
 	<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) {
-		echo '<div style="display: none;" class="' . $element_class . '_' . $side . '_nscmac_desc" id="' . $element_class . '_' . $side . '_nscmac_desc_' . $macu->name . '">' . $macu->description . '</div>';
+		echo '<div style="display: none;" class="' . $element_class . '_' . $side . '_nscmaculopathy_desc" id="' . $element_class . '_' . $side . '_nscmaculopathy_desc_' . $macu->name . '">' . $macu->description . '</div>';
 	}	
 	?>
 	</div>
