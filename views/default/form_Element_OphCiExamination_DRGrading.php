@@ -17,6 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<div class="clearfix">
+<div style="margin-top:-30px; margin-left:120px;">
+	<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+</div>
+<div class="drgrading_images_dialog"
+	title="DR Grading Images">
+	<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
+</div>
+</div>
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
 	<div

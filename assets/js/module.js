@@ -1,12 +1,5 @@
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 
-function OphCiExamination_DRGrading_init() {
-	$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
-		var drawingName = $(this).attr('data-drawing-name');
-		gradeCalculator(window[drawingName]);
-	});
-}
-
 function gradeCalculator(_drawing) {
     var doodleArray = _drawing.doodleArray;
     
@@ -113,6 +106,8 @@ function posteriorListener(_drawing) {
 
 
 $(document).ready(function() {
+	console.log('ready or not!');
+	console.log($.isFunction(jQuery.dialog));
 	/**
 	 * Autoadjust height of textareas
 	 */
@@ -239,15 +234,24 @@ $(document).ready(function() {
 					}, 600);
 				});
 			}
-			
+
+			var el_class = $(element).attr('data-element-type-class');
 			try {
-				var el_class = $(element).attr('data-element-type-class');
 				// work around to match the function name inits
-				
 				window[el_class.replace('Element_','') + '_init']();
 			} catch (err) {
 				// nothing to do here
 			}
+			// now init any children
+			$(".element." + el_class).find('.active_child_elements').find('.element').each(function() {
+				try {
+					var el_class = $(this).attr('data-element-type-class');
+					// work around to match the function name inits
+					window[el_class.replace('Element_','') + '_init']();
+				} catch (err) {
+					// nothing to do here
+				}
+			});
 		});
 	}
 
@@ -440,6 +444,12 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// dr grading
+	$('#event_OphCiExamination').delegate('a.drgrading_images_link', 'click', function(e) {
+		$('.drgrading_images_dialog').dialog('open');
+		e.preventDefault();
+	});
+	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -618,6 +628,18 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// perform the inits for the elements
+	$('#active_elements .element').each(function() {
+		try {
+			var el_class = $(this).attr('data-element-type-class');
+			console.log(el_class);
+			// work around to match the function name inits
+			window[el_class.replace('Element_','') + '_init']();
+		} catch (err) {
+			// nothing to do here
+			console.log(err);
+		}
+	});
 });
 
 function sort_ul(element) {
@@ -750,6 +772,28 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 }
 
 function OphCiExamination_VisualAcuity_init() {
+}
+
+
+function OphCiExamination_DRGrading_init() {
+	console.log('DRGrading init ...');
+	
+	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 480
+	});
+	
+	$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
+		var drawingName = $(this).attr('data-drawing-name');
+		if (window[drawingName]) {
+			// the posterior segment drawing is available to sync values with
+			// TODO: this should only occur if the values are synced
+			gradeCalculator(window[drawingName]);
+		}
+	});
+	
 }
 
 function OphCiExamination_AddDiagnosis(disorder_id, name) {
