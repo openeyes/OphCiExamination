@@ -522,18 +522,6 @@ rootItem = element.children('li:first').text();
 element.append(element.children('li').sort(selectSort));
 }
 
-// Global function to route eyedraw event to the correct element handler
-function eDparameterListener(drawing) {
-	var doodle = null;
-	if (drawing.selectedDoodle) {
-		doodle = drawing.selectedDoodle;
-	}
-	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
-	if (typeof window['update' + element_type] === 'function') {
-		window['update' + element_type](drawing, doodle);
-	}
-}
-
 function OphCiExamination_IntraocularPressure_updateType(field) {
 	var type = $(field).closest('.data').find('.iopInstrument');
 	if ($(field).val() == 1) {
