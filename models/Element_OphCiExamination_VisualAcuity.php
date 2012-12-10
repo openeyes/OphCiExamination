@@ -286,7 +286,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 
 	protected function beforeValidate() {
 		if (!isset($_POST['visualacuity_reading'])) {
-			$this->addError('visualacuity_reading','Please enter at least one reading');
+			$this->addError('visualacuity_reading','Please enter at least one reading, or remove the element');
 		}
 
 		return parent::beforeValidate();
