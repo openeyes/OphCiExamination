@@ -99,12 +99,12 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			<?php echo $element->getAttributeLabel($side.'_description'); ?>:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
+			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 		</div>
 	</div>
 	<div>
 		<div class="data">
-			<?php echo CHtml::activeCheckBox($element, $side.'_pxe') ?>
+			<?php echo CHtml::activeCheckBox($element, $side.'_pxe', array('class' => 'clearWithEyedraw')) ?>
 		</div>
 		<div class="label">
 			<?php echo $element->getAttributeLabel($side.'_pxe'); ?>
@@ -112,7 +112,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	</div>
 	<div>
 		<div class="data">
-			<?php echo CHtml::activeCheckBox($element, $side.'_phako') ?>
+			<?php echo CHtml::activeCheckBox($element, $side.'_phako', array('class' => 'clearWithEyedraw')) ?>
 		</div>
 		<div class="label">
 			<?php echo $element->getAttributeLabel($side.'_phako'); ?>

@@ -22,6 +22,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => array('DiscHaemorrhage', 'NerveFibreDefect', 'Papilloedema', 'OpticDiscPit'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('OpticDisc')),
+				array('addDoodle', array('PeripapillaryAtrophy')),
 				array('deselectDoodles', array()),
 		),
 		'bindingArray' => array(
@@ -32,6 +33,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
 ))?>
+
 <div class="eyedrawFields">
 	<div>
 		<div class="label">
@@ -48,10 +50,10 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
+			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 		</div>
 	</div>
-	<button class="opticCupToggle">Toggle</button>
+	<button class="opticDiscToggle">Toggle</button>
 	<button class="ed_report">Report</button>
 	<button class="ed_clear">Clear</button>
 </div>

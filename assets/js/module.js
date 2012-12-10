@@ -317,22 +317,21 @@ $(document).ready(function() {
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
 
-		if (element.attr('data-element-type-name') == 'Anterior Segment') {
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pupil_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_nuclear_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_cortical_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_description').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pxe').attr('checked',false);
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_phako').attr('checked',false);
-
-			eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', false);
+		// Clear inputs marked as clearWithEyedraw
+		if(side) {
+			var element_or_side = $(this).closest('.side');			
+		} else {
+			var element_or_side = element;
 		}
-
-		if (element.attr('data-element-type-name') == 'Posterior Segment') {
-			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio_id').val(5);
-			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_description').val('');
-		}
-
+		$('.clearWithEyedraw',element_or_side).each(function() {
+			if($(this).is(':checkbox')) {
+				$(this).attr('checked', false);
+			} else {
+				$(this).val('');
+			}
+			$(this).trigger('change');
+		})
+		
 		e.preventDefault();
 	});
 
@@ -425,7 +424,7 @@ $(document).ready(function() {
 	$('body').delegate('.foster_images_dialog area', 'click', function() {
 		var value = $(this).attr('data-vh');
 		var side = $(this).closest('[data-side]').attr('data-side');
-		$(this).closest('.foster_images_dialog').dialog('close');
+		$('.foster_images_dialog[data-side="'+side+'"]').dialog('close');
 		$('#Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
 			return ($(this).text() == value + '%');
 		});		
@@ -449,13 +448,17 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('#event_content .opticCupToggle', 'click', function(e) {
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_OpticDisc .opticDiscToggle', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
 		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-		var doodle = eyedraw.firstDoodleOfClass('OpticCup');
-		doodle.toggleMode();
-		//doodle.setHandleProperties();
+		var doodle = eyedraw.firstDoodleOfClass('OpticDisc');
+		if(doodle.mode == 'Basic') {
+			doodle.mode = 'Expert'
+		} else {
+			doodle.mode = 'Basic';
+		}
+		doodle.setHandleProperties();
 		eyedraw.repaint();
 		e.preventDefault();
 	});

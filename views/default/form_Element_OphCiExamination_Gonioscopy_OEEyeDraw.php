@@ -92,7 +92,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			):
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', $element->getVanHerickOptions()); ?>
+			<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', $element->getVanHerickOptions(), array('class' => 'clearWithEyedraw')); ?>
 			<div data-side="<?php echo $side?>" class="foster_images_dialog"
 				title="Foster Images">
 				<img usemap="#<?php echo $side ?>_foster_images_map"
@@ -137,7 +137,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
+			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 		</div>
 	</div>
 	<button class="ed_report">Report</button>
