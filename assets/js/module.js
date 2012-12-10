@@ -448,7 +448,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
-	$('.Element_OphCiExamination_DRGrading').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id,' +
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
 		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
