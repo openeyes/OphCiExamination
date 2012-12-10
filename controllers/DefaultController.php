@@ -46,7 +46,7 @@ class DefaultController extends BaseEventTypeController {
 					'element' => $element,
 					'data' => null,
 					'form' => $form,
-			), false, true);			
+			), false, true);
 		}
 		catch (Exception $e) {
 			if (strpos($e->getMessage(), "cannot find the requested view") === false) {
