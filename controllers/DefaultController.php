@@ -192,5 +192,15 @@ class DefaultController extends BaseEventTypeController {
 		}
 		echo '/></td><td><a href="#" class="small removeDiagnosis" rel="'.$disorder->id.'"><strong>Remove</strong></a></td></tr>';
 	}
+
+	public function actionDilationDrops() {
+		if (!$drug = OphCiExamination_Dilation_Drugs::model()->findByPk(@$_GET['drug_id'])) {
+			throw new Exception('Dilation drug not found: '.@$_GET['drug_id']);
+		}
+		if (!in_array(@$_GET['side'],array('left','right'))) {
+			throw new Exception('Unknown side: '.@$_GET['side']);
+		}
+		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug,'side'=>$_GET['side']));
+	}
 }
 
