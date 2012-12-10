@@ -18,39 +18,28 @@
  */
 ?>
 <?php
-if($element->getSetting('expert')) {
+$expert = $element->getSetting('expert'); 
+if($expert) {
 	$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 } else {
 	$doodleToolBarArray = array('AngleNV');
 }
+$bindingArray = array();
+$onReadyCommandArray = array(
+	array('addDoodle', array('Gonioscopy'))
+);
+foreach(array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
+	$bindingArray[$doodleClass]['grade'] = array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
+	if(!$expert) {
+		$bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
+	}
+	$onReadyCommandArray[] = array('addDoodle', array($doodleClass));
+}
+$onReadyCommandArray[] = array('deselectDoodles', array());
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => $doodleToolBarArray,
-		'onReadyCommandArray' => array(
-				array('addDoodle', array('Gonioscopy')),
-				array('addDoodle', array('AngleGradeNorth')),
-				array('addDoodle', array('AngleGradeEast')),
-				array('addDoodle', array('AngleGradeSouth')),
-				array('addDoodle', array('AngleGradeWest')),
-				array('deselectDoodles', array()),
-		),
-		'bindingArray' => array(
-			'AngleGradeNorth' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_sup_id', 'attribute' => 'data-value'),
-					'seen' => array('id' => $side.'_gonio_sup_basic', 'attribute' => 'data-value'),
-			),
-			'AngleGradeEast' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_nas_id', 'attribute' => 'data-value'),
-					'seen' => array('id' => $side.'_gonio_nas_basic', 'attribute' => 'data-value'),
-			),
-			'AngleGradeSouth' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_inf_id', 'attribute' => 'data-value'),
-					'seen' => array('id' => $side.'_gonio_inf_basic', 'attribute' => 'data-value'),
-			),
-			'AngleGradeWest' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_tem_id', 'attribute' => 'data-value'),
-					'seen' => array('id' => $side.'_gonio_tem_basic', 'attribute' => 'data-value'),
-			),
-		),
+		'onReadyCommandArray' => $onReadyCommandArray,
+		'bindingArray' => $bindingArray,
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
@@ -59,7 +48,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields">
-	<div <?php if(!$element->getSetting('expert')) { ?>
+	<div<?php if(!$expert) { ?>
 		style="display: none;" <?php } ?>>
 		<div class="label">Scheie grade:</div>
 		<div class="data gonioCross">
@@ -83,7 +72,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			</div>
 		</div>
 	</div>
-	<?php if($element->getSetting('expert')) { ?>
+	<?php if($expert) { ?>
 	<div>
 		<div class="label">
 			<?php echo $element->getAttributeLabel($side.'_van_herick_id'); ?>
