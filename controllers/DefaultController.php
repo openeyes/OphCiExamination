@@ -268,16 +268,14 @@ class DefaultController extends BaseEventTypeController {
 				// look for an action/element specific view file 
 				$this->renderPartial(
 						$action . '_' . $element->{$action.'_view'},
-						array('element' => $element, 'data' => $data, 'form' => $form),
-						false, false
+						array('element' => $element, 'data' => $data, 'form' => $form)
 				);
 			}
 			catch (Exception $e) {
 				// otherwise use the default layout
 				$this->renderPartial(
 						'_form',
-						array('element' => $element, 'data' => $data, 'form' => $form),
-						false, false
+						array('element' => $element, 'data' => $data, 'form' => $form)
 				);
 			}
 			
@@ -296,16 +294,14 @@ class DefaultController extends BaseEventTypeController {
 				$this->renderPartial(
 						// look for elemenet specific view file
 						$action . '_' . $child->{$action.'_view'},
-						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true),
-						false, false
+						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true)
 				);
 			}
 			catch (Exception $e) {
 				// otherwise use the default view
 				$this->renderPartial(
 						'_form',
-						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true),
-						false, false
+						array('element' => $child, 'data' => $data, 'form' => $form, 'child' => true)
 				);
 			}
 		}
@@ -318,8 +314,7 @@ class DefaultController extends BaseEventTypeController {
 		foreach ($this->getOptionalElements($action) as $element) {
 			$this->renderPartial(
 					'_optional_element',
-					array('element' => $element, 'data' => $data, 'form' => $form),
-					false, false
+					array('element' => $element, 'data' => $data, 'form' => $form)
 			);
 		}
 	}
@@ -332,8 +327,7 @@ class DefaultController extends BaseEventTypeController {
 		foreach ($this->getChildOptionalElements(get_class($parent), $action) as $element) {
 			$this->renderPartial(
 				'_optional_element',
-				array('element' => $element, 'data' => $data, 'form' => $form),
-				false, false
+				array('element' => $element, 'data' => $data, 'form' => $form)
 			);
 					
 		}

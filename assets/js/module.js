@@ -504,6 +504,14 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// perform the inits for the elements
+	$('#active_elements .element').each(function() {
+		var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
+		if(typeof(window[initFunctionName]) == 'function') {
+			window[initFunctionName]();
+		}
+	});
+
 });
 
 function sort_ul(element) {
