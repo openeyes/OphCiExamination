@@ -49,6 +49,9 @@ class DefaultController extends BaseEventTypeController {
 			), false, true);			
 		}
 		catch (Exception $e) {
+			if (strpos($e->getMessage(), "cannot find the requested view") === false) {
+				throw $e;
+			}
 			// use the default view file
 			$this->renderPartial('_form', array(
 					'element' => $element,
@@ -272,6 +275,9 @@ class DefaultController extends BaseEventTypeController {
 				);
 			}
 			catch (Exception $e) {
+				if (strpos($e->getMessage(), "cannot find the requested view") === false) {
+					throw $e;
+				}
 				// otherwise use the default layout
 				$this->renderPartial(
 						'_form',
@@ -298,6 +304,9 @@ class DefaultController extends BaseEventTypeController {
 				);
 			}
 			catch (Exception $e) {
+				if (strpos($e->getMessage(), "cannot find the requested view") === false) {
+					throw $e;
+				}
 				// otherwise use the default view
 				$this->renderPartial(
 						'_form',
