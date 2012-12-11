@@ -20,7 +20,7 @@
 	$element_class = get_class($element);
 
 ?>
-<div class="aligned">
+<div class="eventDetail aligned">
 	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>:
 	</div>
@@ -32,17 +32,18 @@
 			}
 			echo CHtml::activeDropDownList($element, $side . '_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
 		?>
-		
+		<span class="grade-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
+		<div class="quicklook grade-info" style="display: none;">
+			<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
+				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscretinopathy_desc" id="' . $element_class . '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
+			}	
+			?>
+		</div>
 	</div>
 
-	<div class="whiteBox">
-	<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-		echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscretinopathy_desc" id="' . $element_class . '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
-	}	
-	?>
-	</div>
+	
 </div>
-<div class="aligned">	
+<div class="eventDetail aligned">	
 	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>:
 	</div>
@@ -54,12 +55,15 @@
 			}
 			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscmaculopathy_html_options);
 		?>
+		<span class="grade-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
+		<div class="quicklook grade-info" style="display: none;">
+			<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) {
+				echo '<div style="display: none;" class="' . $element_class . '_' . $side . '_nscmaculopathy_desc desc" id="' . $element_class . '_' . $side . '_nscmaculopathy_desc_' . $macu->name . '">' . $macu->description . '</div>';
+			}	
+			?>
+		</div>
+		
 	</div>
 	
-	<div class="whiteBox">
-	<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) {
-		echo '<div style="display: none;" class="' . $element_class . '_' . $side . '_nscmaculopathy_desc" id="' . $element_class . '_' . $side . '_nscmaculopathy_desc_' . $macu->name . '">' . $macu->description . '</div>';
-	}	
-	?>
-	</div>
+	
 </div>

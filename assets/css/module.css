@@ -5,6 +5,9 @@
 #active_elements .active_child_elements h4.elementTypeName {border-top: 2px dotted #56A7F1; }
 #active_elements .inactive_child_elements .element {background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top right no-repeat; padding: 5px; color: #fff; border-bottom: 1px dotted #fafafa; cursor: pointer;}
 #active_elements .inactive_child_elements .element h5 {margin: 0; line-height: 1em; padding: 0 5px; background: none;}
+
+#active_elements .quicklook { display:none; position: absolute; float: left; width:280px; left:80px; top:0px; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
+
 #inactive_elements .element { background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top right no-repeat; padding: 5px; color: #fff; border-bottom: 1px dotted #fafafa; cursor: pointer; } 
 #inactive_elements h5 { margin: 0; line-height: 1em; padding: 0 5px; } 
 #inactive_elements .element:hover { background-color: #3665ff; } 
@@ -31,7 +34,7 @@
 	background: url(../../../img/_elements/icons/extra-element_remove.png) -10px -2px no-repeat; text-decoration: none; text-indent: -9999px; }
 #event_content .cols2 .activeForm a.removeSide:hover { border: none; }
 #event_content .cols2 .activeForm { width: 100% }
-#event_content .cols2 div.label { width: 80px; display: inline; }
+#event_content .cols2 div.label { width: 110px; display: inline; }
 #event_content .cols2 .data { display: inline; }
 div.activeForm div.aligned { clear: both;}
 div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { display: inline-block; }

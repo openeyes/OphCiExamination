@@ -505,9 +505,6 @@ $(document).ready(function() {
 		e.preventDefault();
 	})
 	
-	
-	
-	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -855,6 +852,16 @@ function OphCiExamination_DRGrading_init() {
 				updateDRGrades(_drawing, grades[0], grades[1] );
 			}
 		}
+	});
+	
+	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
+		var quick = $(this);
+		var iconHover = $(this).parent().find('.grade-info-icon');
+		iconHover.hover(function(e){
+			quick.fadeIn('fast');
+		},function(e){
+			quick.fadeOut('fast');
+		});	
 	});
 	
 }
