@@ -30,7 +30,7 @@
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
 	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } if ($element->id) { ?> uninitialised<?php } ?>"
+		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } if ($element->id) { ?> uninitialised<?php } ?>"
+		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
