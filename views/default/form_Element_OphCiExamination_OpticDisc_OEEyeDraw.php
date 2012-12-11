@@ -19,13 +19,16 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array('DiscHaemorrhage', 'NerveFibreDefect', 'Papilloedema', 'OpticDiscPit'),
+		'doodleToolBarArray' => array('PeripapillaryAtrophy', 'DiscPallor', 'DiscHaemorrhage', 'NerveFibreDefect', 'OpticDiscPit', 'Papilloedema'),
 		'onReadyCommandArray' => array(
-				array('addDoodle', array('OpticDisc')),
-				array('addDoodle', array('PeripapillaryAtrophy')),
+				array('addDoodle', array('OpticDisc', array('mode' => 'Basic'))),
 				array('deselectDoodles', array()),
 		),
 		'bindingArray' => array(
+			'OpticDisc' => array(
+					'cdRatio' => array('id' => 'Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
+					'mode' => array('id' => $side.'_opticdisc_mode'),
+			),
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
@@ -36,12 +39,33 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 
 <div class="eyedrawFields">
 	<div>
+		<div class="label">Mode:</div>
+		<div class="data">
+			<?php echo CHtml::dropDownList($side.'_opticdisc_mode', 'Basic', array('Basic' => 'Basic', 'Expert' => 'Expert')) ?>
+		</div>
+	</div>
+	<div>
 		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_size'); ?>
+			<?php echo $element->getAttributeLabel($side.'_cd_ratio_id'); ?>
 			:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeDropDownList($element, $side.'_size', $element->getSizeOptions())?>
+			<?php 
+			$cd_ratio_html_options = array('options' => array());
+			foreach (OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')) as $ratio) {
+				$cd_ratio_html_options['options'][(string)$ratio->id] = array('data-value'=> $ratio->name);
+			}
+			?>
+			<?php echo CHtml::activeDropDownList($element, $side . '_cd_ratio_id', CHtml::listData(OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'), $cd_ratio_html_options) ?>
+		</div>
+	</div>
+	<div>
+		<div class="label">
+			<?php echo $element->getAttributeLabel($side.'_diameter'); ?>
+			:
+		</div>
+		<div class="data">
+			<?php echo CHtml::activeDropDownList($element, $side.'_diameter', $element->getDiameterOptions())?>
 		</div>
 	</div>
 	<div>
@@ -53,7 +77,6 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 		</div>
 	</div>
-	<button class="opticDiscToggle">Toggle</button>
 	<button class="ed_report">Report</button>
 	<button class="ed_clear">Clear</button>
 </div>
