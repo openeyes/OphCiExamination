@@ -34,12 +34,15 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="side left eventDetail" data-side="right">
-			<?php echo $form->textField($element,'time_right',array('label'=>'Time'))?>
-			<?php echo $form->dropDownListNoPost('dilation_drug_right',CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll(array('order'=>'display_order')),'id','name'),'',array('empty'=>'--- Please select ---'))?>
+			<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'',array('empty'=>'--- Please select ---'))?>
 			<button class="clearDilationRight classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
-			<div class="grid-view dilation_table_right" style="display: none;">
+			<div class="timeDiv right"<?php if (!$element->getDilationDrugs('right')) {?> style="display: none;"<?php }?>>
+				<span class="label">Time:</span>
+				<?php echo $form->textField($element,'time_right',array('nowrapper'=>'true'))?>
+			</div>
+			<div class="grid-view dilation_table_right"<?php if (!$element->getDilationDrugs('right')) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
@@ -49,17 +52,25 @@
 						</tr>
 					</thead>
 					<tbody id="dilation_right">
+						<?php if ($element->getDilationDrugs('right')) {
+							foreach ($element->getDilationDrugs('right') as $drug) {
+								$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
+							}
+						}?>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="side right eventDetail" data-side="left">
-			<?php echo $form->textField($element,'time_left',array('label'=>'Time'))?>
-			<?php echo $form->dropDownListNoPost('dilation_drug_left',CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll(array('order'=>'display_order')),'id','name'),'',array('empty'=>'--- Please select ---'))?>
+			<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'',array('empty'=>'--- Please select ---'))?>
 			<button class="clearDilationLeft classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
-			<div class="grid-view dilation_table_left" style="display: none;">
+			<div class="timeDiv left"<?php if (!$element->getDilationDrugs('left')) {?> style="display: none;"<?php }?>>
+				<span class="label">Time:</span>
+				<?php echo $form->textField($element,'time_left',array('nowrapper'=>'true'))?>
+			</div>
+			<div class="grid-view dilation_table_left"<?php if (!$element->getDilationDrugs('left')) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
@@ -68,7 +79,12 @@
 							<th></th>
 						</tr>
 					</thead>
-					<tbody id="dilation_right">
+					<tbody id="dilation_left">
+						<?php if ($element->getDilationDrugs('left')) {
+							foreach ($element->getDilationDrugs('left') as $drug) {
+								$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
+							}
+						}?>
 					</tbody>
 				</table>
 			</div>
@@ -87,16 +103,26 @@ $('#dilation_drug_left').change(function() {
 });
 
 $('.removeDilationDrug').die('click').live('click',function() {
-	var body = $(this).parent().parent().parent();
+	var side = $(this).parent().parent().parent().attr('id').match(/right/) ? 'right' : 'left';
 	var id = $(this).parent().parent().children('td:first').children('input').val();
 	var name = $(this).parent().parent().children('td:first').children('span').text();
-	var select = body.parent().parent().parent().children('div').children('div').children('select');
 	$(this).parent().parent().remove();
-	select.append('<option value="'+id+'">'+name+'</option>');
-	sort_selectbox(select);
-	if (body.children('tr').length == 0) {
-		body.parent().parent().hide();
+	$('#dilation_drug_'+side).append('<option value="'+id+'">'+name+'</option>');
+	sort_selectbox($('#dilation_drug_'+side));
+	if ($('#dilation_'+side).children('tr').length == 0) {
+		$('#dilation_'+side).parent().parent().hide();
+		$('div.timeDiv.'+side).hide();
 	}
+	return false;
+});
+
+$('.clearDilationRight').die('click').live('click',function() {
+	$('#dilation_right').children('tr').children('td:nth-child(3)').children('a').click();
+	return false;
+});
+
+$('.clearDilationLeft').die('click').live('click',function() {
+	$('#dilation_left').children('tr').children('td:nth-child(3)').children('a').click();
 	return false;
 });
 
@@ -108,6 +134,7 @@ function getDilationDrug(element, side) {
 			'success': function(html) {
 				$('#dilation_'+side).append(html);
 				$('div.dilation_table_'+side).show();
+				$('div.timeDiv.'+side).show();
 				element.children('option[value="'+element.val()+'"]').remove();
 			}
 		});

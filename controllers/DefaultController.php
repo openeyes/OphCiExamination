@@ -3,6 +3,7 @@
 class DefaultController extends BaseEventTypeController {
 
 	public function actionCreate() {
+		file_put_contents("/tmp/debug",print_r($_POST,true));
 		parent::actionCreate();
 	}
 
@@ -200,7 +201,12 @@ class DefaultController extends BaseEventTypeController {
 		if (!in_array(@$_GET['side'],array('left','right'))) {
 			throw new Exception('Unknown side: '.@$_GET['side']);
 		}
-		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug,'side'=>$_GET['side']));
+		$drug = new OphCiExamination_Dilation_Drug;
+		$drug->side_id = $_GET['side'] == 'left' ? 1 : 2;
+		$drug->drug_id = $_GET['drug_id'];
+		$drug->drops = 1;
+
+		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
 }
 

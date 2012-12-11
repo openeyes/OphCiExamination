@@ -28,6 +28,9 @@
  */
 
 class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
+	public $time_right;
+	public $time_left;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -50,7 +53,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, time', 'safe'),
+				array('event_id, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
@@ -70,6 +73,8 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+			'left' => array(self::HAS_ONE, 'OphCiExamination_Dilation_Side', 'element_id', 'on' => "eye_id = 1"),
+			'right' => array(self::HAS_ONE, 'OphCiExamination_Dilation_Side', 'element_id', 'on' => "eye_id = 2"),
 		);
 	}
 
@@ -102,5 +107,120 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
+	}
+
+	public function afterFind() {
+		$this->time_right = $this->right ? $this->right->getTime() : date('H:i');
+		$this->time_left = $this->left ? $this->left->getTime() : date('H:i');
+	}
+
+	public function setDefaultOptions() {
+		if (Yii::app()->getController()->getAction()->id == 'create' || Yii::app()->getController()->getAction()->id == 'ElementForm') {
+			if (empty($_POST)) {
+				$this->time_right = $this->time_left = date('H:i');
+			}
+		}
+	}
+
+	public function getDilationDrugs($side) {
+		if (empty($_POST)) {
+			return $this->{'dilationDrugs'.ucfirst($side)};
+		}
+
+		if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
+			$drugs = array();
+
+			foreach ($_POST['DilationDrugs'.ucfirst($side)] as $drug_id) {
+				$drug = new OphCiExamination_Dilation_Drug;
+				$drug->side_id = ($side == 'left' ? 1 : 2);
+				$drug->drug_id = $drug_id;
+				$drug->drops = $_POST['DilationDrugDrops'.ucfirst($side).$drug_id];
+
+				$drugs[] = $drug;
+			}
+
+			return $drugs;
+		}
+
+		return false;
+	}
+
+	public function getDilationDrugsLeft() {
+		return $this->left ? $this->left->drugs : false;
+	}
+
+	public function getDilationDrugsRight() {
+		return $this->right ? $this->right->drugs : false;
+	}
+
+	public function getUnselectedDilationDrugs($side) {
+		$criteria = new CDbCriteria;
+
+		if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
+			$criteria->addNotInCondition('id',$_POST['DilationDrugs'.ucfirst($side)]);
+		}
+
+		$criteria->order = 'display_order asc';
+
+		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
+	}
+
+	public function afterValidate() {
+		if (!empty($_POST['DilationDrugsRight']) && !preg_match('/^[0-9]+:[0-9]+$/',$_POST['Element_OphCiExamination_Dilation']['time_right'])) {
+			$this->addError('time_right','Please enter a valid time in the format hh:mm');
+		}
+		if (!empty($_POST['DilationDrugsLeft']) && !preg_match('/^[0-9]+:[0-9]+$/',$_POST['Element_OphCiExamination_Dilation']['time_left'])) {
+			$this->addError('time_left','Please enter a valid time in the format hh:mm');
+		}
+	}
+
+	public function beforeSave() {
+		if (!empty($_POST['DilationDrugsRight']) && !empty($_POST['DilationDrugsLeft'])) {
+			$this->eye_id = 3;
+		} else if (!empty($_POST['DilationDrugsRight'])) {
+			$this->eye_id = 2;
+		} else if (!empty($_POST['DilationDrugsLeft'])) {
+			$this->eye_id = 1;
+		}
+
+		return parent::beforeSave();
+	}
+
+	public function afterSave() {
+		foreach (array('left'=>1,'right'=>2) as $side => $eye_id) {
+			if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
+				if (!$dilation_side = OphCiExamination_Dilation_Side::model()->find('element_id=? and eye_id=?',array($this->id,$eye_id))) {
+					$dilation_side = new OphCiExamination_Dilation_Side;
+					$dilation_side->element_id = $this->id;
+					$dilation_side->eye_id = $eye_id;
+				}
+				$dilation_side->time = $_POST['Element_OphCiExamination_Dilation']['time_'.$side];
+				if (!$dilation_side->save()) {
+					throw new Exception('Unable to save '.$side.' side: '.print_r($dilation_side->getErrors(),true));
+				}
+
+				foreach ($_POST['DilationDrugs'.ucfirst($side)] as $drug_id) {
+					if (!$drug = OphCiExamination_Dilation_Drug::model()->find('side_id=? and drug_id=?',array($dilation_side->id,$drug_id))) {
+						$drug = new OphCiExamination_Dilation_Drug;
+						$drug->side_id = $dilation_side->id;
+						$drug->drug_id = $drug_id;
+					}
+					$drug->drops = $_POST['DilationDrugDrops'.ucfirst($side).$drug_id];
+					if (!$drug->save()) {
+						throw new Exception('Unable to save drug: '.print_r($drug->getErrors(),true));
+					}
+				}
+
+				foreach ($dilation_side->drugs as $drug) {
+					if (!in_array($drug->drug_id, $_POST['DilationDrugs'.ucfirst($side)])) {
+						if (!$drug->delete()) {
+							throw new Exception('Unable to delete drug: '.print_r($drug->getErrors(),true));
+						}
+					}
+				}
+			}
+		}
+
+		return parent::afterSave();
 	}
 }

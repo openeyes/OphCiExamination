@@ -20,16 +20,8 @@
 <tr>
 	<td>
 		<span><?php echo $drug->drug->name?></span>
-		<input type="hidden" name="DilationDrugs<?php echo $drug->eye->name?>[]" value="<?php echo $drug->drug_id?>" />
 	</td>
 	<td>
-		<select name="DilationDrugDrops<?php echo $drug->eye->name.$drug->drug_id?>">
-			<?php for ($i=1;$i<=10;$i++) {?>
-				<option value="<?php echo $i?>"<?php if ($i == $drug->drops) {?> selected="selected"<?php }?>><?php echo $i?></option>
-			<?php }?>
-		</select>
-	</td>
-	<td class="readingActions">
-		<a href="#" class="removeDilationDrug">Remove</a>
+		<?php echo $drug->drops?> drop<?php if ($drug->drops != 1) {?>s<?php }?>
 	</td>
 </tr>

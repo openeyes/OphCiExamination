@@ -70,3 +70,4 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #Element_OphCiExamination_Dilation_time_left { width: 48px; }
 div.dilation_table_right { margin-top: 10px; }
 div.dilation_table_left { margin-top: 10px; }
+div.timeDiv { display: inline; margin-left: 12px; }
