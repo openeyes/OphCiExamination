@@ -44,8 +44,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		OphCiExamination_Refraction_init();
-	});
-</script>

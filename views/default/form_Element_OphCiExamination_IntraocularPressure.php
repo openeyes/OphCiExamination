@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<script type="text/javascript">
+	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
+</script>
 <div class="cols2 clearfix">
 	<div class="left eventDetail">
 		<div class="data">
@@ -40,10 +43,3 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
-
-	$(document).ready(function() {
-		OphCiExamination_IntraocularPressure_init();
-	});
-</script>

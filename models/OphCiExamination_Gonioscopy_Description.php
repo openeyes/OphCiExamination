@@ -57,6 +57,10 @@ class OphCiExamination_Gonioscopy_Description extends BaseActiveRecord {
 		return array();
 	}
 
+	public function getSeen() {
+		return in_array($this->name, array('O','I','II'));
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

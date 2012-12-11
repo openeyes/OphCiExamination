@@ -28,8 +28,3 @@
 	<?php echo CHtml::hiddenField(get_class($element)."[risks_valid]", 1, array('id' => get_class($element).'_risks_valid'))?>
 	<?php echo CHtml::listBox('risks_risks', $risk_ids, $element->getRiskOptions(), array('multiple' => 'multiple')) ?>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		OphCiExamination_Risks_init();
-	});
-</script>

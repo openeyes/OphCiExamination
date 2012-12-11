@@ -18,36 +18,28 @@
  */
 ?>
 <?php
-if($element->getSetting('expert')) {
+$expert = $element->getSetting('expert'); 
+if($expert) {
 	$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 } else {
 	$doodleToolBarArray = array('AngleNV');
 }
+$bindingArray = array();
+$onReadyCommandArray = array(
+	array('addDoodle', array('Gonioscopy'))
+);
+foreach(array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
+	$bindingArray[$doodleClass]['grade'] = array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
+	if(!$expert) {
+		$bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
+	}
+	$onReadyCommandArray[] = array('addDoodle', array($doodleClass));
+}
+$onReadyCommandArray[] = array('deselectDoodles', array());
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => $doodleToolBarArray,
-		'onReadyCommandArray' => array(
-				array('addDoodle', array('Gonioscopy')),
-				array('addDoodle', array('AngleGradeNorth')),
-				array('addDoodle', array('AngleGradeEast')),
-				array('addDoodle', array('AngleGradeSouth')),
-				array('addDoodle', array('AngleGradeWest')),
-				array('deselectDoodles', array()),
-		),
-		'bindingArray' => array(
-			'AngleGradeNorth' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_sup_id', 'attribute' => 'data-value'),
-			),
-			'AngleGradeEast' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_nas_id', 'attribute' => 'data-value'),
-			),
-			'AngleGradeSouth' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_inf_id', 'attribute' => 'data-value'),
-			),
-			'AngleGradeWest' => array(
-					'grade' => array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_tem_id', 'attribute' => 'data-value'),
-			),
-		),
-		'listenerArray' => array('gonioscopyListener'),
+		'onReadyCommandArray' => $onReadyCommandArray,
+		'bindingArray' => $bindingArray,
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',
@@ -56,7 +48,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields">
-	<div <?php if(!$element->getSetting('expert')) { ?>
+	<div<?php if(!$expert) { ?>
 		style="display: none;" <?php } ?>>
 		<div class="label">Scheie grade:</div>
 		<div class="data gonioCross">
@@ -80,7 +72,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			</div>
 		</div>
 	</div>
-	<?php if($element->getSetting('expert')) { ?>
+	<?php if($expert) { ?>
 	<div>
 		<div class="label">
 			<?php echo $element->getAttributeLabel($side.'_van_herick_id'); ?>
@@ -89,7 +81,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			):
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', $element->getVanHerickOptions()); ?>
+			<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', $element->getVanHerickOptions(), array('class' => 'clearWithEyedraw')); ?>
 			<div data-side="<?php echo $side?>" class="foster_images_dialog"
 				title="Foster Images">
 				<img usemap="#<?php echo $side ?>_foster_images_map"
@@ -108,19 +100,22 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	<?php } else { ?>
 	<div>
 		<div class="label">Pigmented meshwork seen:</div>
-		<?php $basic_options = array('0' => 'No', '1' => 'Yes'); ?>
+		<?php
+			$basic_options = array('0' => 'No', '1' => 'Yes');
+			$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
+		?>
 		<div class="data gonioCross">
 			<div class="gonioSup">
-				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', $element->{$side.'_gonio_sup'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
 			</div>
 			<div class="gonioTem">
-				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', $element->{$side.'_gonio_tem'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
 			</div>
 			<div class="gonioNas">
-				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', $element->{$side.'_gonio_nas'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
 			</div>
 			<div class="gonioInf">
-				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', null, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf'))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', $element->{$side.'_gonio_inf'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
 			</div>
 		</div>
 	</div>
@@ -131,7 +126,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize')) ?>
+			<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 		</div>
 	</div>
 	<button class="ed_report">Report</button>

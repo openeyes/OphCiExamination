@@ -258,23 +258,17 @@ $(document).ready(function() {
 			}
 
 			var el_class = $(element).attr('data-element-type-class');
-			try {
-				// work around to match the function name inits
-				window[el_class.replace('Element_','') + '_init']();
-			} catch (err) {
-				// nothing to do here
+			var initFunctionName = el_class.replace('Element_', '') + '_init';
+			if(typeof(window[initFunctionName]) == 'function') {
+				window[initFunctionName]();
 			}
-			
+
 			// now init any children
 			$(".element." + el_class).find('.active_child_elements').find('.element').each(function() {
-				try {
-					var el_class = $(this).attr('data-element-type-class');
-					// work around to match the function name inits
-					window[el_class.replace('Element_','') + '_init']();
-				} catch (err) {
-					// nothing to do here
+				var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
+				if(typeof(window[initFunctionName]) == 'function') {
+					window[initFunctionName]();
 				}
-				$(this).removeClass('uninitialised');
 			});
 		});
 	}
@@ -449,22 +443,21 @@ $(document).ready(function() {
 		eyedraw.deselectDoodles();
 		eyedraw.drawAllDoodles();
 
-		if (element.attr('data-element-type-name') == 'Anterior Segment') {
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pupil_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_nuclear_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_cortical_id').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_description').val('');
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_pxe').attr('checked',false);
-			$('#Element_OphCiExamination_AnteriorSegment_'+side+'_phako').attr('checked',false);
-
-			eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', false);
+		// Clear inputs marked as clearWithEyedraw
+		if(side) {
+			var element_or_side = $(this).closest('.side');			
+		} else {
+			var element_or_side = element;
 		}
-
-		if (element.attr('data-element-type-name') == 'Posterior Segment') {
-			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio_id').val(5);
-			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_description').val('');
-		}
-
+		$('.clearWithEyedraw',element_or_side).each(function() {
+			if($(this).is(':checkbox')) {
+				$(this).attr('checked', false);
+			} else {
+				$(this).val('');
+			}
+			$(this).trigger('change');
+		})
+		
 		e.preventDefault();
 	});
 
@@ -604,47 +597,41 @@ $(document).ready(function() {
 	$('body').delegate('.foster_images_dialog area', 'click', function() {
 		var value = $(this).attr('data-vh');
 		var side = $(this).closest('[data-side]').attr('data-side');
-		$(this).closest('.foster_images_dialog').dialog('close');
+		$('.foster_images_dialog[data-side="'+side+'"]').dialog('close');
 		$('#Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
 			return ($(this).text() == value + '%');
 		});		
 	});
 
+	/**
+	 * Update gonioExpert when gonioBasic is changed (gonioBasic controls are not stored in DB)
+	 */
 	$('body').delegate('.gonioBasic', 'change', function(e) {
-		var side = $(this).closest('div[data-side]').attr('data-side');
-		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
 		var position = $(this).attr('data-position');
-		switch(position) {
-			case 'sup':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeNorth');
-				break;
-			case 'nas':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeEast');
-				break;
-			case 'tem':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeWest');
-				break;
-			case 'inf':
-				doodle = eyedraw.firstDoodleOfClass('AngleGradeSouth');
-				break;
-		}
+		var expert = $(this).closest('.side').find('.gonioExpert[data-position="'+position+'"]');
 		if($(this).val() == 0) {
-			var grade = 'III';
+			$('option',expert).attr('selected', function () {
+				return ($(this).attr('data-value') == 'III');
+			});
 		} else {
-			var grade = 'O';
+			$('option',expert).attr('selected', function () {
+				return ($(this).attr('data-value') == 'I');
+			});			
 		}
-		doodle.setParameterWithAnimation('grade', grade);
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('#event_content .opticCupToggle', 'click', function(e) {
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_OpticDisc .opticDiscToggle', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
 		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-		var doodle = eyedraw.firstDoodleOfClass('OpticCup');
-		doodle.toggleMode();
-		//doodle.setHandleProperties();
+		var doodle = eyedraw.firstDoodleOfClass('OpticDisc');
+		if(doodle.mode == 'Basic') {
+			doodle.mode = 'Expert'
+		} else {
+			doodle.mode = 'Basic';
+		}
+		doodle.setHandleProperties();
 		eyedraw.repaint();
 		e.preventDefault();
 	});
@@ -695,12 +682,9 @@ $(document).ready(function() {
 
 	// perform the inits for the elements
 	$('#active_elements .element').each(function() {
-		try {
-			var el_class = $(this).attr('data-element-type-class');
-			// work around to match the function name inits
-			window[el_class.replace('Element_','') + '_init']();
-		} catch (err) {
-			// nothing to do here
+		var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
+		if(typeof(window[initFunctionName]) == 'function') {
+			window[initFunctionName]();
 		}
 	});
 });
@@ -708,47 +692,6 @@ $(document).ready(function() {
 function sort_ul(element) {
 rootItem = element.children('li:first').text();
 element.append(element.children('li').sort(selectSort));
-}
-
-// Global function to route eyedraw event to the correct element handler
-function eDparameterListener(drawing) {
-	var doodle = null;
-	if (drawing.selectedDoodle) {
-		doodle = drawing.selectedDoodle;
-	}
-	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
-	if (typeof window['update' + element_type] === 'function') {
-		window['update' + element_type](drawing, doodle);
-	}
-}
-
-function gonioscopyListener(_drawing) {
-	this.drawing = _drawing;
-	this.drawing.registerForNotifications(this, 'callBack', ['parameterChanged']);
-	this.callBack = function(_messageArray) {
-		if(_messageArray.selectedDoodle) {
-			_doodle = _messageArray.selectedDoodle;
-			var side = (_drawing.eye == 0) ? 'right' : 'left';
-			var position;
-			switch(_doodle.className) {
-				case 'AngleGradeNorth':
-					position = 'sup';
-					break;
-				case 'AngleGradeEast':
-					position = 'nas';
-					break;
-				case 'AngleGradeWest':
-					position = 'tem';
-					break;
-				case 'AngleGradeSouth':
-					position = 'inf';
-					break;
-			}
-			if (position) {
-				OphCiExamination_Gonioscopy_updateBasic(side, position);
-			}
-		}
-	}
 }
 
 function OphCiExamination_IntraocularPressure_updateType(field) {
@@ -946,27 +889,12 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 }
 
 function OphCiExamination_Gonioscopy_init() {
-	$('.gonioBasic').each(function () {
-		var side = $(this).closest('div[data-side]').attr('data-side');
-		var position = $(this).attr('data-position');
-		OphCiExamination_Gonioscopy_updateBasic(side, position);
-	});
 	$(".foster_images_dialog").dialog({
 		autoOpen: false,
 		modal: true,
 		resizable: false,
 		width: 480
 	});
-}
-
-function OphCiExamination_Gonioscopy_updateBasic(side, position) {
-	var basic = $('#' + side + '_gonio_' + position + '_basic');
-	var grade = $('#Element_OphCiExamination_Gonioscopy_' + side + '_gonio_' + position + '_id option:selected').text();
-	if (grade == 'III' || grade == 'IV') {
-		basic.val(0);
-	} else {
-		basic.val(1);
-	}	
 }
 
 function OphCiExamination_Risks_init() {
