@@ -95,7 +95,7 @@ class DefaultController extends BaseEventTypeController {
 		} else {
 			foreach($_POST as $key => $value) {
 				if(preg_match('/^Element|^OEElement/', $key)) {
-					if($element_type = ElementType::model()->find('class_name = ?',array($key))) {
+					if($element_type = ElementType::model()->find('class_name = ? AND parent_element_type_id is NULL',array($key))) {
 						$element_class = $element_type->class_name;
 						if(!isset($event->event_type_id) || !($element = $element_class::model()->find('event_id = ?',array($event->id)))) {
 							$element= new $element_class;
