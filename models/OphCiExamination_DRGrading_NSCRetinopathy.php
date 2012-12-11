@@ -36,6 +36,10 @@ class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecord {
 		return parent::model($className);
 	}
 
+	public function __toString() {
+		return $this->name;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */
