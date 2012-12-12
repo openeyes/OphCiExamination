@@ -394,25 +394,38 @@ $(document).ready(function() {
 		
 		// Update side field to indicate other side
 		var side = $(this).closest('.side');
-		var side_field = $(this).closest('.element').find('input.sideField');
-		if(side.attr('data-side') == 'left') {
-			side_field.val(2); // Right
-		} else {
-			side_field.val(1); // Left
-		}
 		
-		// If other side is already inactive, then activate it (can't have both sides inactive
-		$(this).closest('.element').find('.side').removeClass('inactive');
+		var remove_physical_side = 'left';
+		var show_physical_side = 'right';
+		
+		var eye_side = 1;
+		if(side.attr('data-side') == 'left') {
+			eye_side = 2; // Right
+			remove_physical_side = 'right';
+			show_physical_side = 'left';
+		} 
+		
+		$(this).closest('.element').find('input.sideField').each(function() {
+			$(this).val(eye_side);
+		});
+		
+		// If other side is already inactive, then activate it (can't have both sides inactive)
+		$(this).closest('.element').find('.side.'+show_physical_side).removeClass('inactive');
 		
 		// Make this side inactive
-		side.addClass('inactive');
+		$(this).closest('.element').find('.side.'+remove_physical_side).addClass('inactive');
 		
 		e.preventDefault();
 	});
 
 	$(this).delegate('#event_content .side .inactiveForm a', 'click', function(e) {
-		$(this).closest('.element').find('input.sideField').val(3); // Both eyes
-		$(this).closest('.side').removeClass('inactive');
+		var element = $(this).closest('.element'); 
+		element.find('input.sideField').each(function() {
+			$(this).val(3); // Both eyes
+		});
+		
+		element.find('.side').removeClass('inactive');
+		
 		e.preventDefault();
 	});
 	
