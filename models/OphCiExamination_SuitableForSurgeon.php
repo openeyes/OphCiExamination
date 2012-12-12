@@ -37,7 +37,7 @@ class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_management_suitable_for_surgeon';
+		return 'ophciexamination_cataractmanagement_suitable_for_surgeon';
 	}
 
 	/**
