@@ -3,7 +3,6 @@
 class DefaultController extends BaseEventTypeController {
 
 	public function actionCreate() {
-		file_put_contents("/tmp/debug",print_r($_POST,true));
 		parent::actionCreate();
 	}
 
