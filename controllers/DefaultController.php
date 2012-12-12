@@ -296,6 +296,10 @@ class DefaultController extends BaseEventTypeController {
 			if ($action == 'create' && empty($_POST)) {
 				$child->setDefaultOptions();
 			}
+			else if ($action == 'ElementForm') {
+				// ensure we use a property that the child element can recognise
+				$action = 'create';
+			}
 			try {
 				$this->renderPartial(
 						// look for elemenet specific view file
