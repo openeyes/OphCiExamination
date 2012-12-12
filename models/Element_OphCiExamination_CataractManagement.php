@@ -28,7 +28,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Management extends BaseEventTypeElement {
+class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 	public $service;
 
 	/**
@@ -43,7 +43,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_management';
+		return 'et_ophciexamination_cataractmanagement';
 	}
 
 	/**
