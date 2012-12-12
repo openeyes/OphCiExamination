@@ -59,17 +59,17 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description, left_retinopathy_id, right_retinopathy_id, left_maculopathy_id, right_maculopathy_id', 'safe'),
+				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
 				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_retinopathy_id, right_retinopathy_id, left_maculopathy_id, right_maculopathy_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('description', 'cd_ratio_id', 'eyedraw', 'description', 'retinopathy_id', 'maculopathy_id');
+		return array('description', 'cd_ratio_id', 'eyedraw', 'description');
 	}
 	
 	/**
@@ -122,13 +122,9 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
 		$criteria->compare('left_description', $this->left_description);
 		$criteria->compare('left_cd_ratio_id', $this->left_cd_ratio_id);
-		$criteria->compare('left_retinopathy_id', $this->left_retinopathy_id);
-		$criteria->compare('left_maculopathy_id', $this->left_maculopathy_id);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
 		$criteria->compare('right_cd_ratio_id', $this->right_cd_ratio_id);
-		$criteria->compare('right_retinopathy_id', $this->right_retinopathy_id);
-		$criteria->compare('right_maculopathy_id', $this->right_maculopathy_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
