@@ -505,6 +505,56 @@ $(document).ready(function() {
 		e.preventDefault();
 	})
 	
+	// end of DR
+	
+	// management
+	// show/hide the laser deferral fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_id', 'change', function(e) {
+		var laserPK = $(this).val();
+		var deferred = false;
+		
+		$(this).find('option').each(function() {
+			if ($(this).attr('value') == laserPK) {
+				if ($(this).attr('data-deferred') == "1") {
+					deferred = true;
+					return false;
+				}
+			}
+		});
+		
+		if (deferred) {
+			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideDown();
+		}
+		else {
+			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideUp();
+		}
+	});
+	
+	// show/hide the deferral reason option
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laserdeferral_reason_id', 'change', function(e) {
+		var reasonPK = $(this).val();
+		var other = false;
+		
+		$(this).find('option').each(function() {
+			if ($(this).attr('value') == reasonPK) {
+				if ($(this).attr('data-other') == "1") {
+					other = true;
+					return false;
+				}
+			}
+		});
+		
+		if (other) {
+			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideDown();
+		}
+		else {
+			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideUp();
+		}
+	});
+	
+	
+	// end of management
+	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
