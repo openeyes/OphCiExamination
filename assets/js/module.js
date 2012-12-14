@@ -226,6 +226,9 @@ $(document).ready(function() {
 					if (html.length > 0) {
 						$('#OphCiExamination_diagnoses').append(html);
 						$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
+
+						var m = html.match(/removeDiagnosis" rel="([0-9]+)"/);
+						eyedraw_added_diagnoses.push(m[1]);
 					}
 				}
 			});
@@ -273,6 +276,12 @@ $(document).ready(function() {
 			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_cd_ratio_id').val(5);
 			$('#Element_OphCiExamination_PosteriorSegment_'+side+'_description').val('');
 		}
+
+		for (var i in eyedraw_added_diagnoses) {
+			$('a.removeDiagnosis[rel="'+eyedraw_added_diagnoses[i]+'"]').click();
+		}
+
+		eyedraw_added_diagnoses = [];
 
 		e.preventDefault();
 	});
@@ -599,3 +608,5 @@ $('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',fun
 	eyedraw.deleteDoodlesOfClass('NuclearCataract');
 	return false;
 });
+
+var eyedraw_added_diagnoses = [];
