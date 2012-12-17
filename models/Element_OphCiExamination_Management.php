@@ -163,6 +163,9 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		
 		if ($this->laser) {
 			$text[] = $this->laser;
+			if ($this->laser->deferred) {
+				$text[] = $this->getLaserDeferralReason();
+			}
 		}
 
 		return implode(', ',$text)."\n";
