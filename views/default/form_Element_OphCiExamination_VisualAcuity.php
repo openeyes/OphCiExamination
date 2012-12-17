@@ -24,7 +24,7 @@ $key = 0;
 ?>
 <div class="cols2 clearfix">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
-	<?php echo $form->hiddenInput($element, 'eye_id', array('class' => 'sideField')); ?>
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
 		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
