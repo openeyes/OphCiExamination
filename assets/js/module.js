@@ -133,7 +133,7 @@ $(document).ready(function() {
 	/**
 	 * Autoadjust height of textareas
 	 */
-	$('#event_display textarea.autosize').autosize();
+	$('#event_display textarea.autosize:visible').autosize();
 
 	/**
 	 * Save event
@@ -243,7 +243,8 @@ $(document).ready(function() {
 			} else {
 				$(container).append(data);
 			}
-			$('#event_display textarea.autosize').autosize();
+			$('#event_display textarea.autosize:visible').autosize();
+				
 			var inserted = (insert_before.length) ? insert_before.prevAll('div:first') : container.find('.element:last');
 			if (animate) {
 				var offTop = inserted.offset().top - 50;
@@ -508,6 +509,44 @@ $(document).ready(function() {
 	// end of DR
 	
 	// management
+	function isLaserDeferralOther() {
+		var reasonPK = $('#Element_OphCiExamination_Management_laserdeferral_reason_id').val();
+		var other = false;
+		
+		$('#Element_OphCiExamination_Management_laserdeferral_reason_id').find('option').each(function() {
+			if ($(this).attr('value') == reasonPK) {
+				if ($(this).attr('data-other') == "1") {
+					other = true;
+					return false;
+				}
+			}
+		});
+		
+		return other;
+	}
+	
+	function showLaserDeferralOther() {
+		$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideDown().find('textarea').each(function(e) {
+			if ($(this).data('stored-value')) {
+				// must've changed their mind, restore the value
+				$(this).val($(this).data('stored-value'));
+			}
+			$(this).autosize();
+			
+		});
+	}
+	
+	function hideLaserDeferralOther() {
+		if ($('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').is(':visible')) {	
+			// because of the value storage, only want to do this if its showing
+			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideUp().find('textarea').each(function(e) {
+				// clear text value to prevent submission, but store to make available if user changes their mind
+				$(this).data('stored-value', $(this).val());
+				$(this).val('');
+			});
+		}
+	}
+	
 	// show/hide the laser deferral fields
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_id', 'change', function(e) {
 		var laserPK = $(this).val();
@@ -524,31 +563,36 @@ $(document).ready(function() {
 		
 		if (deferred) {
 			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideDown();
+			if ($('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value')) {
+				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').val(
+					$('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value')
+				);
+				if (isLaserDeferralOther()) {
+					showLaserDeferralOther();
+				}
+			}
 		}
 		else {
+			
 			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideUp();
+			if ($('#Element_OphCiExamination_Management_laserdeferral_reason_id').val()) {
+				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value', $('#Element_OphCiExamination_Management_laserdeferral_reason_id').val());
+				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').val('');
+				// call the hide on other in case it's currently showing
+				hideLaserDeferralOther();
+			}
 		}
 	});
 	
 	// show/hide the deferral reason option
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laserdeferral_reason_id', 'change', function(e) {
-		var reasonPK = $(this).val();
-		var other = false;
-		
-		$(this).find('option').each(function() {
-			if ($(this).attr('value') == reasonPK) {
-				if ($(this).attr('data-other') == "1") {
-					other = true;
-					return false;
-				}
-			}
-		});
+		var other = isLaserDeferralOther();
 		
 		if (other) {
-			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideDown();
+			showLaserDeferralOther();
 		}
 		else {
-			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideUp();
+			hideLaserDeferralOther();
 		}
 	});
 	

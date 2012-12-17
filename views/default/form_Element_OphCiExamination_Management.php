@@ -59,7 +59,7 @@
 			&nbsp;
 		</div>
 		<div class="data">
-			<?php echo $form->textArea($element, 'laserdeferral_reason_other', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
+			<?php echo $form->textArea($element, 'laserdeferral_reason_other', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
 		</div>
 	</div>
 <div id="div_<?php echo get_class($element)?>_comments"
@@ -68,6 +68,6 @@
 		<?php echo $element->getAttributeLabel('comments')?>:
 	</div>
 	<div class="data">
-		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+		<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
 </div>

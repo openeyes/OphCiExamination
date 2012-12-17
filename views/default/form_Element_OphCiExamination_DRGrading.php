@@ -37,7 +37,7 @@
 				array('side' => 'right', 'element' => $element)); ?>
 		</div>
 		<div class="inactiveForm">
-			<a href="#">Add right side</a>
+			Add right posterior segment.
 		</div>
 	</div>
 	<div
@@ -48,7 +48,7 @@
 				array('side' => 'left', 'element' => $element)); ?>
 		</div>
 		<div class="inactiveForm">
-			<a href="#">Add left side</a>
+			Add left posterior segment.
 		</div>
 	</div>
 </div>
