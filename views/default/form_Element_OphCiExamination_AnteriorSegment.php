@@ -19,7 +19,7 @@
 ?>
 
 <div class="cols2 clearfix">
-	<?php echo $form->hiddenInput($element, 'eye_id', $element->eye_id, array('class' => 'sideField')); ?>
+	<?php echo $form->hiddenInput($element, 'eye_id', $element->eye_id, false, array('class' => 'sideField')); ?>
 	<div
 		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
