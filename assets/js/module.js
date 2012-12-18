@@ -599,6 +599,58 @@ $(document).ready(function() {
 	
 	// end of management
 	
+	// outcome functions
+	function isOutcomeLaserFollowup() {
+		var laserPK = $('#Element_OphCiExamination_Outcome_laser_id').val();
+		var followup = false;
+		
+		$('#Element_OphCiExamination_Outcome_laser_id').find('option').each(function() {
+			if ($(this).attr('value') == laserPK) {
+				if ($(this).attr('data-followup') == "1") {
+					followup = true;
+					return false;
+				}
+			}
+		});
+		
+		return followup;
+	}
+	
+	function showOutcomeLaserFollowup() {
+		if ($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value')) {
+			$('#Element_OphCiExamination_Outcome_followup_quantity').val($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value'));
+		}
+		if ($('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value')) {
+			$('#Element_OphCiExamination_Outcome_followup_period_id').val($('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value'));
+		}
+		$('#div_Element_OphCiExamination_Outcome_followup').slideDown();
+		
+	}
+	
+	function hideOutcomeLaserFollowup() {
+		console.log('trying to hide');
+		if ($('#div_Element_OphCiExamination_Outcome_followup').is(':visible')) {
+			// only do hiding and storing if currently showing something.
+			$('#div_Element_OphCiExamination_Outcome_followup').slideUp();
+			$('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_Outcome_followup_quantity').val());
+			$('#Element_OphCiExamination_Outcome_followup_quantity').val('');
+			$('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_Outcome_followup_period_id').val());
+			$('#Element_OphCiExamination_Outcome_followup_period_id').val('');
+		}
+	}
+	
+	// show/hide the followup period fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Outcome_laser_id', 'change', function(e) {
+		var followup = isOutcomeLaserFollowup();
+		if (followup) {
+			showOutcomeLaserFollowup();
+		}
+		else {
+			hideOutcomeLaserFollowup();
+		}
+	});
+	// end of outcome
+	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
