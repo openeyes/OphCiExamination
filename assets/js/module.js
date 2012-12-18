@@ -3,7 +3,7 @@ $(document).ready(function() {
 	/**
 	 * Autoadjust height of textareas
 	 */
-	$('#event_display textarea.autosize').autosize();
+	$('#event_display textarea.autosize:visible').autosize();
 
 	/**
 	 * Save event
@@ -113,7 +113,8 @@ $(document).ready(function() {
 			} else {
 				$(container).append(data);
 			}
-			$('#event_display textarea.autosize').autosize();
+			$('#event_display textarea.autosize:visible').autosize();
+				
 			var inserted = (insert_before.length) ? insert_before.prevAll('div:first') : container.find('.element:last');
 			if (animate) {
 				var offTop = inserted.offset().top - 50;
@@ -128,20 +129,15 @@ $(document).ready(function() {
 			}
 			
 			var el_class = $(element).attr('data-element-type-class');
-			try {
-				// work around to match the function name inits
-				window[el_class.replace('Element_','') + '_init']();
-			} catch (err) {
-				// nothing to do here
+			var initFunctionName = el_class.replace('Element_', '') + '_init';
+			if(typeof(window[initFunctionName]) == 'function') {
+				window[initFunctionName]();
 			}
 			// now init any children
 			$(".element." + el_class).find('.active_child_elements').find('.element').each(function() {
-				try {
-					var el_class = $(this).attr('data-element-type-class');
-					// work around to match the function name inits
-					window[el_class.replace('Element_','') + '_init']();
-				} catch (err) {
-					// nothing to do here
+				var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
+				if(typeof(window[initFunctionName]) == 'function') {
+					window[initFunctionName]();
 				}
 			});
 		});
