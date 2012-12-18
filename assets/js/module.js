@@ -358,6 +358,19 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#Element_OphCiExamination_Dilation_time_right').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
+
+	$('#Element_OphCiExamination_Dilation_time_left').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
 });
 
 // Global function to route eyedraw event to the correct element handler
