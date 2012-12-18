@@ -202,7 +202,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 				foreach ($_POST['DilationDrugs'.ucfirst($side)] as $drug_id) {
 					if (!$drug = OphCiExamination_Dilation_Drug::model()->find('side_id=? and drug_id=?',array($dilation_side->id,$drug_id))) {
 						$drug = new OphCiExamination_Dilation_Drug;
-						$drug->side_id = $dilation_side->id;
+						$drug->side_id = $dilation_side->eye_id;
 						$drug->drug_id = $drug_id;
 					}
 					$drug->drops = $_POST['DilationDrugDrops'.ucfirst($side).$drug_id];
