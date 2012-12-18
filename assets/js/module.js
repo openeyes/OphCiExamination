@@ -348,19 +348,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#event_display').delegate('.element input.axis', 'change', function() {
-		var axis = $(this).val();
-		if (!axis.match(/^[0-9]+$/)) {
-			axis = 0;
-		}
-		axis = axis % 180;
-		$(this).val(axis);
-		var side = $(this).closest('[data-side]').attr('data-side');
-		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-		eyedraw.setParameterForDoodleOfClass('TrialLens', 'axis', axis);
-	});
-
 	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
