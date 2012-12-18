@@ -28,10 +28,14 @@
  * @property string $left_nscmaculopathy_id
  * @property string $right_nscretionopathy_id
  * @property string $right_nscmaculopathy_id
+ * @property boolean $left_nscretinopathy_photocoagulation
+ * @property boolean $left_nscmaculopathy_photocoagulation
+ * @property boolean $right_nscretinopathy_photocoagulation
+ * @property boolean $right_nscmaculopathy_photocoagulation
  *
  * The followings are the available model relations:
- * @property OphCiExamination_NSCRetinopathy $left_nscretionpathy
- * @property OphCiExamination_NSCRetinopathy $right_nscretionpathy
+ * @property OphCiExamination_NSCRetinopathy $left_nscretinopathy
+ * @property OphCiExamination_NSCRetinopathy $right_nscretinopathy
  * @property OphCiExamination_NSCMaculopathy $left_nscmaculopathy
  * @property OphCiExamination_NSCMaculopathy $right_nscmaculopathy
  * 
@@ -62,12 +66,11 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, right_nscretinopathy_id, right_nscmaculopathy_id, eye_id', 'safe'),
-				array('left_nscretinopathy_id, left_nscmaculopathy_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_nscretinopathy_id, right_nscmaculopathy_id', 'requiredIfSide', 'side' => 'right'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, eye_id', 'safe'),
+				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, left_nscmaculopathy_photocoagulation', 'requiredIfSide', 'side' => 'left'),
+				array('right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, right_nscretinopathy_id, right_nscmaculopathy_id, eye_id', 'safe', 'on' => 'search'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretionopathy_photocoagulation, left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -102,10 +105,14 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_nscretinopathy_id' => 'Retinopathy',
-				'left_nscmaculopathy_id' => 'Maculopathy',
-				'right_nscretinopathy_id' => 'Retinopathy',
-				'right_nscmaculopathy_id' => 'Maculopathy',
+				'left_nscretinopathy_id' => 'NSC Retinopathy',
+				'left_nscmaculopathy_id' => 'NSC Maculopathy',
+				'right_nscretinopathy_id' => 'NSC Retinopathy',
+				'right_nscmaculopathy_id' => 'NSC Maculopathy',
+				'left_nscretinopathy_photocoagulation' => 'Retinopathy Photocoagulation',
+				'left_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
+				'right_nscretinopathy_photocoagulation' => 'Retinopathy Photocoagulation',
+				'right_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
 		);
 	}
 
@@ -127,6 +134,11 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 		$criteria->compare('right_retinopathy_id', $this->right_retinopathy_id);
 		$criteria->compare('right_maculopathy_id', $this->right_maculopathy_id);
 
+		$criteria->compare('left_nscretinopathy_photocoagulation', $this->left_nscretinopathy_photocoagulation);
+		$criteria->compare('left_nscmaculopathy_photocoagulation', $this->left_nscmaculopathy_photocoagulation);
+		$criteria->compare('right_nscretinopathy_photocoagulation', $this->right_nscretinopathy_photocoagulation);
+		$criteria->compare('right_nscmaculopathy_photocoagulation', $this->right_nscmaculopathy_photocoagulation);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

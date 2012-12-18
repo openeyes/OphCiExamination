@@ -20,6 +20,11 @@ class m121217_152021_create_outcome_element extends CDbMigration
 				'display_order' => 92,
 		));
 		
+		$out_id = $this->dbConnection->lastInsertID;
+		
+		$mr_set_id = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryScalar();
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $out_id));
+		
 		$this->createTable('ophciexamination_outcome_laser', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -66,6 +71,15 @@ class m121217_152021_create_outcome_element extends CDbMigration
 
 	public function down()
 	{
+		$out_id = $this->dbConnection->createCommand()
+		->select('id')
+		->from('element_type')
+		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_Management'))
+		->queryScalar();
+		
+		$mr_set_id = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryScalar();
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set_id, ':element_type_id' => $out_id));
+		
 		$this->delete('element_type', 'class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_Outcome'));
 		
 		$this->dropTable('et_ophciexamination_outcome');

@@ -13,10 +13,16 @@ function gradeCalculator(_drawing) {
     countArray['CottonWoolSpot'] = 0;
     countArray['DiabeticNV'] = 0;
     countArray['FibrousProliferation'] = 0;            
+    countArray['LaserSpot'] = 0;
+    countArray['FocalLaser'] = 0;
+    countArray['MacularGrid'] = 0;
+    countArray['SectorPRP'] = 0;
     countArray['PRPPostPole'] = 0;
     
     var retinopathy = "R0"
     var maculopathy = "M0";
+    var retinopathy_photocoagulation = false;
+    var maculopathy_photocoagulation = false;
     
     // Get reference to PostPole doodle
     var postPole = _drawing.lastDoodleOfClass('PostPole');
@@ -52,20 +58,78 @@ function gradeCalculator(_drawing) {
         if (countArray['PRPPostPole'] > 0)
         {
             retinopathy = "R3S";
+            retinopathy_photocoagulation = true;
         }
         if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0)
         {
             retinopathy = "R3A";
         }
         
+        if (countArray['SectorPRP'] > 0) {
+        	retinopathy_photocoagulation = true;
+        	maculopathy_photocoagulation = true;
+        }
         
-        return [retinopathy, maculopathy];
+        if (countArray['MacularGrid'] > 0) {
+        	maculopathy_photocoagulation = true;
+        }
+        
+        if (countArray['LaserSpot']  > 0 || countArray['FocalLaser'] > 0) {
+        	// TODO: need to verify location of these items to determine whether this is the right update
+        	maculopathy_photocoagulation = true;
+        }
+        
+        return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation];
         
     }
     return false;
 }
 
-function updateDRGrades(_drawing, retinopathy, maculopathy) {
+//returns the number of weeks booking recommendation from the DR grades
+function getDRBookingVal() {
+	var dr_grade = $('.' + dr_grade_et_class);
+	var sides = Array("left", "right");
+	var booking = null;
+	
+	for (var i = 0; i < sides.length; i++) {
+		var side = sides[i],
+			val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').val();
+		$('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').find('option').each(function() {
+			if ($(this).val() == val) {
+				var b = parseInt($(this).attr("data-booking"));
+				if (b && (booking == null || b < booking)) {
+					booking = b;
+					return false;
+				}
+			}
+		});
+		val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').val();
+		$('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').find('option').each(function() {
+			if ($(this).val() == val) {
+				var b = parseInt($(this).attr("data-booking"));
+				if (b && (booking == null || b < booking)) {
+					booking = b;
+					return false;
+				}
+			}
+		});
+	}
+	return booking;	
+}
+
+// sets the booking hint text based on the DR grade
+function updateBookingWeeks() {
+	var weeks = getDRBookingVal();
+	
+	if (weeks){
+		$('.Element_OphCiExamination_Management').find('#laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
+	}
+	else {
+		$('.Element_OphCiExamination_Management').find('#laser_booking_hint').text('');
+	}
+}
+
+function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo) {
     if (_drawing.eye) {
     	var side = 'left';
     }
@@ -81,6 +145,15 @@ function updateDRGrades(_drawing, retinopathy, maculopathy) {
     		retSel.val($(this).val());
     	}
     });
+    
+    ret_photo_id = dr_grade_et_class+'_'+side+'_nscretinopathy_photocoagulation_';
+    if (ret_photo) {
+    	dr_grade.find('input#' + ret_photo_id + '1').attr('checked', 'checked');
+    }
+    else {
+    	dr_grade.find('input#' + ret_photo_id + '0').attr('checked', 'checked');
+    }
+    
     // display description
     dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc').hide();
     dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc_' + retinopathy).show();
@@ -92,10 +165,21 @@ function updateDRGrades(_drawing, retinopathy, maculopathy) {
     		macSel.val($(this).val());
     	}
     });
+    
+    mac_photo_id = dr_grade_et_class+'_'+side+'_nscmaculopathy_photocoagulation_';
+    if (mac_photo) {
+    	dr_grade.find('input#' + mac_photo_id + '1').attr('checked', 'checked');
+    }
+    else {
+    	dr_grade.find('input#' + mac_photo_id + '0').attr('checked', 'checked');
+    }
+    
     // display description
     dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
     dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
 	
+    updateBookingWeeks();
+    
 }
 
 function posteriorListener(_drawing) {
@@ -122,7 +206,7 @@ function posteriorListener(_drawing) {
 		else if (!$('#drgrading_dirty').is(":visible")) {
 			var grades = gradeCalculator(this.drawing);
 			if (grades) {
-				updateDRGrades(this.drawing, grades[0], grades[1] );
+				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3]);
 			}
 		}
 	}
@@ -468,6 +552,10 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
+	
+	// Note. a manual change to DR grade will mark the grade as unsynced, regardless of whether the user
+	// manually syncs or not, as we are using the manual change as an indicator that we should no longer automatically
+	// update the values. Although this will not apply between saves
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
 		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
@@ -489,7 +577,17 @@ $(document).ready(function() {
 		dr_grade.find('.'+desc).hide();
 		dr_grade.find('#'+desc + '_' + grade).show();
 		$('#drgrading_dirty').show();
+		
+		updateBookingWeeks();
 	})
+	
+	$('#event_OphCiExamination').delegate('input[name="Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[left_nscretinopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
+			, 'change', function(e) {
+		$('#drgrading_dirty').show();
+	});
 	
 	$('#event_OphCiExamination').delegate('a#drgrading_dirty', 'click', function(e) {
 		$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
@@ -499,7 +597,7 @@ $(document).ready(function() {
 				// TODO: this should only occur if the values are synced
 				var grades = gradeCalculator(window[drawingName]);
 				
-				updateDRGrades(window[drawingName], grades[0], grades[1]);
+				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3]);
 			}
 		});
 		$(this).hide();
@@ -550,17 +648,29 @@ $(document).ready(function() {
 	// show/hide the laser deferral fields
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_id', 'change', function(e) {
 		var laserPK = $(this).val();
+		// flag for deferred fields
 		var deferred = false;
+		// flag for booking hint
+		var book = false;
 		
 		$(this).find('option').each(function() {
 			if ($(this).attr('value') == laserPK) {
 				if ($(this).attr('data-deferred') == "1") {
 					deferred = true;
-					return false;
 				}
+				if ($(this).attr('data-book') == "1") {
+					book = true;
+				}
+				return false;
 			}
 		});
 		
+		if (book) {
+			$('.Element_OphCiExamination_Management').find('#laser_booking_hint').slideDown();
+		}
+		else {
+			$('.Element_OphCiExamination_Management').find('#laser_booking_hint').slideUp();
+		}
 		if (deferred) {
 			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideDown();
 			if ($('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value')) {
@@ -1008,7 +1118,7 @@ function OphCiExamination_DRGrading_init() {
 			var is_saved = $(this).attr('data-element-saved');
 			var grades = gradeCalculator(_drawing);
 			if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
-				updateDRGrades(_drawing, grades[0], grades[1] );
+				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3]);
 			}
 		}
 	});

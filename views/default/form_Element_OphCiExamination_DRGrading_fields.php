@@ -28,7 +28,7 @@
 		<?php 
 			$nscretinopathy_html_options = array('options' => array()); 
 			foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-				$nscretinopathy_html_options['options'][(string)$retin->id] = array('data-val' => $retin->name);
+				$nscretinopathy_html_options['options'][(string)$retin->id] = array('data-val' => $retin->name, 'data-booking' => $retin->booking_weeks);
 			}
 			echo CHtml::activeDropDownList($element, $side . '_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
 		?>
@@ -40,10 +40,9 @@
 			?>
 		</div>
 	</div>
-
-	
 </div>
-<div class="eventDetail aligned">	
+<?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation'); ?>
+<div class="eventDetail aligned">
 	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>:
 	</div>
@@ -51,7 +50,7 @@
 		<?php 
 			$nscmacuopathy_html_options = array('options' => array()); 
 			foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) {
-				$nscmaculopathy_html_options['options'][(string)$macu->id] = array('data-val' => $macu->name);
+				$nscmaculopathy_html_options['options'][(string)$macu->id] = array('data-val' => $macu->name, 'data-booking' => $macu->booking_weeks);
 			}
 			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscmaculopathy_html_options);
 		?>
@@ -62,8 +61,6 @@
 			}	
 			?>
 		</div>
-		
 	</div>
-	
-	
 </div>
+<?php echo $form->radioBoolean($element,$side.'_nscmaculopathy_photocoagulation'); ?>

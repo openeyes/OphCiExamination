@@ -26,9 +26,10 @@
 		<?php 
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		foreach (OphCiExamination_Management_Laser::model()->findAll(array('order'=>'display_order')) as $opt) {
-			$html_options['options'][(string)$opt->id] = array('data-deferred' => $opt->deferred);
+			$html_options['options'][(string)$opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
 		}
 		echo CHtml::activeDropDownList($element,'laser_id', CHtml::listData(OphCiExamination_Management_Laser::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+	<span id="laser_booking_hint" class="hint" style="display:none;"></span>
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_laserdeferral_reason"

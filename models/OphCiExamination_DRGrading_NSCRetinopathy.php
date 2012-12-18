@@ -24,6 +24,7 @@
  * @property string $name
  * @property string $description
  * @property integer $display_order
+ * @property integer $booking_weeks
 
  */
 class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecord {
@@ -53,7 +54,7 @@ class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecord {
 	public function rules() {
 		return array(
 				array('name', 'required'),
-				array('id, name, description', 'safe', 'on'=>'search'),
+				array('id, name, description, booking_weeks', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,8 @@ class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecord {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('booking_weeks',$this->booking_weeks,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

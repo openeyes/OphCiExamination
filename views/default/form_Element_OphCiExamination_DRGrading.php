@@ -28,13 +28,13 @@
 </div>
 </div>
 <div class="cols2 clearfix">
-	<?php echo $form->hiddenInput($element, 'eye_id', array('class' => 'sideField')); ?>
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
 		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
-				array('side' => 'right', 'element' => $element)); ?>
+				array('side' => 'right', 'element' => $element, 'form' => $form)); ?>
 		</div>
 		<div class="inactiveForm">
 			Add right posterior segment.
@@ -45,7 +45,7 @@
 		data-side="left">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
-				array('side' => 'left', 'element' => $element)); ?>
+				array('side' => 'left', 'element' => $element, 'form' => $form)); ?>
 		</div>
 		<div class="inactiveForm">
 			Add left posterior segment.

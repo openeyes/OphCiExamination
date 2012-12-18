@@ -14,7 +14,7 @@ class m121204_135042_dr_function extends CDbMigration
 		
 		$mr_id = $subspecialty['id'];
 		
-		$this->insert('ophciexamination_element_set', array('name'=>'DR Default'));
+		$this->insert('ophciexamination_element_set', array('name'=>'MR Default'));
 		$set_id = $this->dbConnection->lastInsertID;
 		
 		$subspecialty_rule = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set_rule')->where('clause=:clause', array(':clause'=>"subspecialty_id"))->queryRow();
@@ -24,8 +24,12 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->insert('ophciexamination_element_set_rule', array('set_id'=>$set_id, 'parent_id'=> $parent_rule_id, 'value'=>$mr_id));
 		// MR set items
 		$posterior = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_PosteriorSegment"))->queryRow();
+		$history = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_History"))->queryRow();
+		$va = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_VisualAcuity"))->queryRow();
 		
 		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $posterior['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $history['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $va['id']));
 		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $dr_grading_id));
 		
 		// additional fields for posterior segment
@@ -34,6 +38,7 @@ class m121204_135042_dr_function extends CDbMigration
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'booking_weeks' => 'int(2) unsigned',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -49,7 +54,7 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R1', 'display_order' => '2', 'description' => 'Background retinopathy<ul><li>Microaneurysms</li><li>Retinal haemorrhages</li><li>Venous loop</li><li>Any exudate in the presence of other non-referable features of DR</li><li>Any number of cotton wool spots (CWS) in the presence of other non-referable features of DR</li></ul>'));
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R2', 'display_order' => '3', 'description' => 'Pre-proliferative retinopathy<ul><li>Venous beading</li><li>Venous reduplication</li><li>Multiple blot haemorrhages</li><li>Intraretinal microvascular abnormality (IRMA)</li></ul>'));
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3S', 'display_order' => '4', 'description' => 'Evidence of Peripheral Retinal Laser Treatment AND stable retina from photograph taken at or shortly after discharge from the Hospital Eye service (HES)'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3A', 'display_order' => '5', 'description' => 'Active Proliferative Retinopathy<ul><li>New vessels on disc (NVD)</li><li>New vessels elsewhere (NVE)</li><li>Pre-retinal or vitreous haemorrhage</li><li>Pre-retinal fibrosis +/- tractional retinal detachment</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3A', 'display_order' => '5', 'booking_weeks' => 2, 'description' => 'Active Proliferative Retinopathy<ul><li>New vessels on disc (NVD)</li><li>New vessels elsewhere (NVE)</li><li>Pre-retinal or vitreous haemorrhage</li><li>Pre-retinal fibrosis +/- tractional retinal detachment</li></ul>'));
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'U', 'display_order' => '6', 'description' => 'Ungradable'));
 		
 		$this->createTable('ophciexamination_drgrading_nscmaculopathy', array(
@@ -57,6 +62,7 @@ class m121204_135042_dr_function extends CDbMigration
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'booking_weeks' => 'int(2) unsigned',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -69,7 +75,7 @@ class m121204_135042_dr_function extends CDbMigration
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
 		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M0', 'display_order' => '1', 'description' => 'No maculopathy'));
-		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'booking_weeks' => 13, 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
 		
 		// create the DR Grading table
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
@@ -81,6 +87,10 @@ class m121204_135042_dr_function extends CDbMigration
 				'right_nscretinopathy_id' => 'int(10) unsigned',
 				'left_nscmaculopathy_id' => 'int(10) unsigned',
 				'right_nscmaculopathy_id' => 'int(10) unsigned',
+				'left_nscretinopathy_photocoagulation' => 'boolean',
+				'right_nscretinopathy_photocoagulation' => 'boolean',
+				'left_nscmaculopathy_photocoagulation' => 'boolean',
+				'right_nscmaculopathy_photocoagulation' => 'boolean',
 				'eye_id' => 'int(10) unsigned DEFAULT ' . $both_eyes_id,
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
@@ -112,11 +122,11 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->dropTable('ophciexamination_drgrading_nscmaculopathy');
 		$this->dropTable('ophciexamination_drgrading_nscretinopathy');
 		
-		$dr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"DR Default"))->queryRow();
+		$mr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryRow();
 		
-		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$dr_set['id']));
-		$this->delete('ophciexamination_element_set_rule', "set_id=:set_id", array(':set_id'=>$dr_set['id']));
-		$this->delete('ophciexamination_element_set', "id=:id", array(':id'=>$dr_set['id']));
+		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$mr_set['id']));
+		$this->delete('ophciexamination_element_set_rule', "set_id=:set_id", array(':set_id'=>$mr_set['id']));
+		$this->delete('ophciexamination_element_set', "id=:id", array(':id'=>$mr_set['id']));
 		
 		// remove DR Grading class
 		$this->delete('element_type', "class_name=:name", array(":name"=>"Element_OphCiExamination_DRGrading"));

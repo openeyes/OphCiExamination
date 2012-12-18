@@ -18,11 +18,18 @@ class m121212_173423_new_management extends CDbMigration
 				'default' => 1,
 		));
 		
+		$mgmt_id = $this->dbConnection->lastInsertID;
+		
+		$mr_set_id = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryScalar();
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $mgmt_id));
+		
 		$this->createTable('ophciexamination_management_laser', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'deferred' => 'boolean NOT NULL DEFAULT false',
+				'book' => 'boolean NOT NULL DEFAULT false',
+				'event' => 'boolean NOT NULL DEFAULT false',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -36,8 +43,8 @@ class m121212_173423_new_management extends CDbMigration
 		
 		$this->insert('ophciexamination_management_laser', array('name'=>'Not Required', 'display_order' => '1'));
 		$this->insert('ophciexamination_management_laser', array('name'=>'Deferred', 'display_order' => '2', 'deferred' => true));
-		$this->insert('ophciexamination_management_laser', array('name'=>'Booked for a future date', 'display_order' => '3'));
-		$this->insert('ophciexamination_management_laser', array('name'=>'Performed today', 'display_order' => '4'));
+		$this->insert('ophciexamination_management_laser', array('name'=>'Booked for a future date', 'display_order' => '3', 'book' => true));
+		$this->insert('ophciexamination_management_laser', array('name'=>'Performed today', 'display_order' => '4', 'event' => true));
 		
 		$this->createTable('ophciexamination_management_laserdeferral', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
@@ -86,6 +93,14 @@ class m121212_173423_new_management extends CDbMigration
 
 	public function down()
 	{
+		$mgmt_id = $this->dbConnection->createCommand()
+		->select('id')
+		->from('element_type')
+		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_Management'))
+		->queryScalar();
+		
+		$mr_set_id = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryScalar();
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set_id, ':element_type_id' => $mgmt_id));
 		$this->delete('element_type', 'class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_Management'));
 		
 		$this->dropTable('et_ophciexamination_management');
