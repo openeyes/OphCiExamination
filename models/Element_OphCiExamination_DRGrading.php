@@ -32,12 +32,15 @@
  * @property boolean $left_nscmaculopathy_photocoagulation
  * @property boolean $right_nscretinopathy_photocoagulation
  * @property boolean $right_nscmaculopathy_photocoagulation
- *
+ * @property integer $left_clinical_id
+ * @property integer $right_clinical_id
  * The followings are the available model relations:
  * @property OphCiExamination_NSCRetinopathy $left_nscretinopathy
  * @property OphCiExamination_NSCRetinopathy $right_nscretinopathy
  * @property OphCiExamination_NSCMaculopathy $left_nscmaculopathy
  * @property OphCiExamination_NSCMaculopathy $right_nscmaculopathy
+ * @property OphCiExamination_Clinical $left_clinical
+ * @property OphCiExamination_Clinical $right_clinical
  * 
  */
 
@@ -66,16 +69,24 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, eye_id', 'safe'),
-				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, left_nscmaculopathy_photocoagulation', 'requiredIfSide', 'side' => 'left'),
-				array('right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation', 'requiredIfSide', 'side' => 'right'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, 
+						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, 
+						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id, 
+						right_clinical_id, eye_id', 'safe'),
+				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, 
+						left_nscmaculopathy_photocoagulation, left_clinical_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, 
+						right_nscmaculopathy_photocoagulation, right_clinical_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretionopathy_photocoagulation, left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, eye_id', 'safe', 'on' => 'search'),
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretionopathy_photocoagulation, 
+						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, 
+						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id, 
+						right_clinical_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('nscretinopathy_id', 'nscmaculopathy_id');
+		return array('nscretinopathy_id', 'nscmaculopathy_id','nscretinopathy_photocoagulation','nscmaculopathy_photocoagulation','clinical_id');
 	}
 	
 	/**
@@ -93,8 +104,10 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
 				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
+				'left_clinical' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_Clinical', 'left_clinical_id'),
 				'right_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
 				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
+				'right_clinical' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_Clinical', 'right_clinical_id'),
 		);
 	}
 
@@ -113,6 +126,8 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 				'left_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
 				'right_nscretinopathy_photocoagulation' => 'Retinopathy Photocoagulation',
 				'right_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
+				'left_clinical_id' => 'Clinical Grading',
+				'right_clinical_id' => 'Clinical Grading'
 		);
 	}
 
@@ -131,9 +146,11 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 
 		$criteria->compare('left_retinopathy_id', $this->left_retinopathy_id);
 		$criteria->compare('left_maculopathy_id', $this->left_maculopathy_id);
+		$criteria->compare('left_clinical_id', $this->left_clinical_id);
 		$criteria->compare('right_retinopathy_id', $this->right_retinopathy_id);
 		$criteria->compare('right_maculopathy_id', $this->right_maculopathy_id);
-
+		$criteria->compare('right_clinical_id', $this->right_clinical_id);
+		
 		$criteria->compare('left_nscretinopathy_photocoagulation', $this->left_nscretinopathy_photocoagulation);
 		$criteria->compare('left_nscmaculopathy_photocoagulation', $this->left_nscmaculopathy_photocoagulation);
 		$criteria->compare('right_nscretinopathy_photocoagulation', $this->right_nscretinopathy_photocoagulation);

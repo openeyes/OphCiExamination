@@ -18,11 +18,14 @@ function gradeCalculator(_drawing) {
     countArray['MacularGrid'] = 0;
     countArray['SectorPRP'] = 0;
     countArray['PRPPostPole'] = 0;
+    countArray['IRMA'] = 0;
     
-    var retinopathy = "R0"
+    var retinopathy = "R0";
     var maculopathy = "M0";
     var retinopathy_photocoagulation = false;
     var maculopathy_photocoagulation = false;
+    var clinical = "None";
+    var dnv_within = false;
     
     // Get reference to PostPole doodle
     var postPole = _drawing.lastDoodleOfClass('PostPole');
@@ -40,6 +43,29 @@ function gradeCalculator(_drawing) {
             {
                 if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
             }
+            if (doodle.className == 'DiabeticNV') {
+            	if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
+            }
+        }
+        
+        if (countArray['Microaneurysm'] > 0) {
+        	clinical = 'Mild nonproliferative retinopathy';
+        }
+        
+        if (countArray['BlotHaemorrhage'] > 0 || countArray['IRMA'] > 0 || countArray['PreRetinalHaemorrhage']) {
+        	clinical = 'Moderate nonproliferative retinopathy';
+        }
+        
+        if ((countArray['PreRetinalHaemorrhage'] || countArray['BlotHaemorrhage'] > 0) && countArray['IRMA'] > 0) {
+        	clinical = 'Severe nonproliferative retinopathy';
+        }
+        
+        if (countArray['DiabeticNV'] > 0) {
+        	clinical = 'Early proliferative retinopathy';
+        	if (dnv_within || countArray['PreRetinalHaemorrhage']) {
+        		clinical = 'High-risk proliferative retinopathy';
+        	}
+        	
         }
         
         // R1 (Background)
@@ -79,7 +105,7 @@ function gradeCalculator(_drawing) {
         	maculopathy_photocoagulation = true;
         }
         
-        return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation];
+        return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation, clinical];
         
     }
     return false;
@@ -129,7 +155,7 @@ function updateBookingWeeks() {
 	}
 }
 
-function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo) {
+function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo, clinical) {
     if (_drawing.eye) {
     	var side = 'left';
     }
@@ -138,6 +164,18 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
     }
     
     var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+    // clinical
+    var cSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinical_id');
+    cSel.find('option').each(function() {
+    	if ($(this).attr('data-val') == clinical) {
+    		cSel.val($(this).val());
+    		return false;
+    	}
+    });
+    // description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinical_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinical_desc_' + clinical.replace(/\s+/g, '')).show();
+    
     // Retinopathy
     var retSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id');
     retSel.find('option').each(function() {
@@ -206,7 +244,7 @@ function posteriorListener(_drawing) {
 		else if (!$('#drgrading_dirty').is(":visible")) {
 			var grades = gradeCalculator(this.drawing);
 			if (grades) {
-				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3]);
+				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
 			}
 		}
 	}
@@ -597,7 +635,7 @@ $(document).ready(function() {
 				// TODO: this should only occur if the values are synced
 				var grades = gradeCalculator(window[drawingName]);
 				
-				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3]);
+				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3], grades[4]);
 			}
 		});
 		$(this).hide();
@@ -1118,7 +1156,7 @@ function OphCiExamination_DRGrading_init() {
 			var is_saved = $(this).attr('data-element-saved');
 			var grades = gradeCalculator(_drawing);
 			if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
-				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3]);
+				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
 			}
 		}
 	});

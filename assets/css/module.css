@@ -122,3 +122,5 @@ span.hint {font-style: italic;}
 }
 #risks_unselected { clear: both; margin: 0 0 5px; }
 #risks_unselected a { margin-left: 10px; }
+
+#event_content .cols2 .eventDetail { clear: left; }

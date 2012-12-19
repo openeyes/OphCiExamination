@@ -22,6 +22,27 @@
 ?>
 <div class="eventDetail aligned">
 	<div class="label">
+		<?php echo $element->getAttributeLabel($side.'_clinical_id'); ?>
+	</div>
+	<div class="data">
+		<?php 
+			$html_options = array('options' => array()); 
+			foreach (OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')) as $clinical) {
+				$html_options['options'][(string)$clinical->id] = array('data-val' => $clinical->name);
+			}
+			echo CHtml::activeDropDownList($element, $side . '_clinical_id', CHtml::listData(OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options);
+		?>
+		<span class="grade-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
+		<div class="quicklook grade-info" style="display: none;">
+			<?php foreach (OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')) as $clinical) {
+				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_clinical_desc" id="' . $element_class . '_' . $side . '_clinical_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
+			}	
+			?>
+		</div>
+	</div>
+</div>
+<div class="eventDetail aligned">
+	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>:
 	</div>
 	<div class="data">

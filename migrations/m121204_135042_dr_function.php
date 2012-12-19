@@ -4,6 +4,7 @@ class m121204_135042_dr_function extends CDbMigration
 {
 	public function up()
 	{
+		
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$parent_el  = ElementType::model()->find('class_name=? and event_type_id=?', array('Element_OphCiExamination_PosteriorSegment', $event_type->id));
 
@@ -77,6 +78,31 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M0', 'display_order' => '1', 'description' => 'No maculopathy'));
 		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'booking_weeks' => 13, 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
 		
+		// clinical grading
+		$this->createTable('ophciexamination_drgrading_clinical', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'description' => 'text',
+				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'booking_weeks' => 'int(2) unsigned',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `ophciexamination_drgrading_clinical_lmui_fk` (`last_modified_user_id`)',
+				'KEY `ophciexamination_drgrading_clinical_cui_fk` (`created_user_id`)',
+				'CONSTRAINT `ophciexamination_drgrading_clinical_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_drgrading_clinical_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'None', 'display_order' => '1', 'description' => 'No retinopathy'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Mild nonproliferative retinopathy', 'display_order' => '2', 'description' => 'At least one microaneurysm'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Moderate nonproliferative retinopathy', 'display_order' => '3', 'description' => 'Hemorrhages and/or microaneurysms &ge; standard photograph 2A*; and/or:<ul><li>soft exudates</li><li>venous beading</li><li>intraretinal microvascular abnormalities definitely present ( IRMA )</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Severe nonproliferative retinopathy', 'display_order' => '4', 'description' => '<ul><li>Soft exudates, venous beading, and intraretinal microvascular abnormalities all definitely present in at least two of fields four through seven</li><li>or two of the preceding three lesions present in at least two of fields four through seven and hemorrhages and microaneurysms present in these four fields, equaling or exceeding standard photo 2A in at least one of them</li><li>or intraretinal microvascular abnormalities present in each of fields four through seven and equaling or exceeding standard photograph 8A in at least two of them</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Early proliferative retinopathy', 'display_order' => '5', 'description' => 'Proliferative retinopathy without Diabetic Retinopathy Study high-risk characteristic:<ul><li>New vessels</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'High-risk proliferative retinopathy', 'display_order' => '6', 'description' => 'Proliferative retinopathy with Diabetic Retinopathy Study high-risk characteristics:<ul><li>New vessels on or within one disc diameter of the optic disc (NVD) &ge; standard photograph 10A* (about one-quarter to one-third disc area), with or without vitreous or preretinal hemorrhage</li><li>vitreous and/or preretinal hemorrhage accompanied by new vessels, either NVD &lt; standard photograph 10A or new vessels elsewhere (NVE) &ge; one-quarter disc area</li></ul>'));
+		
 		// create the DR Grading table
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
 		
@@ -91,6 +117,8 @@ class m121204_135042_dr_function extends CDbMigration
 				'right_nscretinopathy_photocoagulation' => 'boolean',
 				'left_nscmaculopathy_photocoagulation' => 'boolean',
 				'right_nscmaculopathy_photocoagulation' => 'boolean',
+				'left_clinical_id' => 'int(10) unsigned',
+				'right_clinical_id' => 'int(10) unsigned',
 				'eye_id' => 'int(10) unsigned DEFAULT ' . $both_eyes_id,
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
@@ -104,6 +132,8 @@ class m121204_135042_dr_function extends CDbMigration
 				'KEY `et_ophciexamination_drgrading_r_nret_fk` (`right_nscretinopathy_id`)',
 				'KEY `et_ophciexamination_drgrading_l_nmac_fk` (`left_nscmaculopathy_id`)',
 				'KEY `et_ophciexamination_drgrading_r_nmac_fk` (`right_nscmaculopathy_id`)',
+				'KEY `et_ophciexamination_drgrading_l_clinical_fk` (`left_clinical_id`)',
+				'KEY `et_ophciexamination_drgrading_r_clinical_fk` (`right_clinical_id`)',
 				'KEY `et_ophciexamination_drgrading_eye_id_fk` (`eye_id`)', 
 				'CONSTRAINT `et_ophciexamination_drgrading_e_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 				'CONSTRAINT `et_ophciexamination_drgrading_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
@@ -112,6 +142,8 @@ class m121204_135042_dr_function extends CDbMigration
 				'CONSTRAINT `et_ophciexamination_drgrading_r_nret_fk` FOREIGN KEY (`right_nscretinopathy_id`) REFERENCES `ophciexamination_drgrading_nscretinopathy` (`id`)',
 				'CONSTRAINT `et_ophciexamination_drgrading_l_nmac_fk` FOREIGN KEY (`left_nscmaculopathy_id`) REFERENCES `ophciexamination_drgrading_nscmaculopathy` (`id`)',
 				'CONSTRAINT `et_ophciexamination_drgrading_r_nmac_fk` FOREIGN KEY (`right_nscmaculopathy_id`) REFERENCES `ophciexamination_drgrading_nscmaculopathy` (`id`)',
+				'CONSTRAINT `et_ophciexamination_drgrading_l_clinical_fk` FOREIGN KEY (`left_clinical_id`) REFERENCES `ophciexamination_drgrading_clinical` (`id`)',
+				'CONSTRAINT `et_ophciexamination_drgrading_r_clinical_fk` FOREIGN KEY (`right_clinical_id`) REFERENCES `ophciexamination_drgrading_clinical` (`id`)',
 				'CONSTRAINT `et_ophciexamination_drgrading_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 	}
@@ -121,6 +153,7 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->dropTable('et_ophciexamination_drgrading');
 		$this->dropTable('ophciexamination_drgrading_nscmaculopathy');
 		$this->dropTable('ophciexamination_drgrading_nscretinopathy');
+		$this->dropTable('ophciexamination_drgrading_clinical');
 		
 		$mr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryRow();
 		
