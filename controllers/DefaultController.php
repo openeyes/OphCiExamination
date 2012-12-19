@@ -99,8 +99,8 @@ class DefaultController extends BaseEventTypeController {
 						$element_class = $element_type->class_name;
 						if(!isset($event->event_type_id) || !($element = $element_class::model()->find('event_id = ?',array($event->id)))) {
 							$element= new $element_class;
-							$element->attributes = $_POST[$key];
 						}
+						$element->attributes = $_POST[$key];
 						$elements[] = $element;
 					}
 				}
@@ -264,8 +264,12 @@ class DefaultController extends BaseEventTypeController {
 	 */
 	public function renderDefaultElements($action, $form = false, $data = false) {
 		foreach ($this->getDefaultElements($action) as $element) {
-			if ($action == 'create' && empty($_POST)) {
-				$element->setDefaultOptions();
+			if(empty($_POST)) {
+				if ($action == 'create') {
+					$element->setDefaultOptions();
+				} else if($action == 'update') {
+					$element->setUpdateOptions();
+				}
 			}
 			try {
 				// look for an action/element specific view file 
