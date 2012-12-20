@@ -43,9 +43,12 @@ function gradeCalculator(_drawing) {
             {
                 if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
             }
+            //TODO: needs to check against optic disc, not Fovea
+            /*
             if (doodle.className == 'DiabeticNV') {
             	if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
             }
+            */
         }
         
         if (countArray['Microaneurysm'] > 0) {
@@ -75,7 +78,7 @@ function gradeCalculator(_drawing) {
         }
         
         // R2
-        if (countArray['BlotHaemorrhage'] > 2)
+        if (countArray['BlotHaemorrhage'] >= 2 || countArray['IRMA'] > 0)
         {
             retinopathy = "R2";                        
         }
