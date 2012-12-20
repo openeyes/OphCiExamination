@@ -218,9 +218,9 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	public function getLetter_lmp() {
 		$text = array();
 		
-		if ($this->laser) {
-			$text[] = $this->laser;
-			if ($this->laser->deferred) {
+		if ($this->laser_status) {
+			$text[] = $this->laser_status;
+			if ($this->laser_status->deferred) {
 				$text[] = $this->getLaserDeferralReason();
 			}
 		}
