@@ -146,7 +146,6 @@ function getDRBookingVal() {
 // sets the booking hint text based on the DR grade
 function updateBookingWeeks() {
 	var weeks = getDRBookingVal();
-	
 	if (weeks){
 		$('.Element_OphCiExamination_Management').find('#laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
 	}
@@ -645,11 +644,11 @@ $(document).ready(function() {
 	// end of DR
 	
 	// management
-	function isLaserDeferralOther() {
-		var reasonPK = $('#Element_OphCiExamination_Management_laserdeferral_reason_id').val();
+	function isDeferralOther(name) {
+		var reasonPK = $('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val();
 		var other = false;
 		
-		$('#Element_OphCiExamination_Management_laserdeferral_reason_id').find('option').each(function() {
+		$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').find('option').each(function() {
 			if ($(this).attr('value') == reasonPK) {
 				if ($(this).attr('data-other') == "1") {
 					other = true;
@@ -661,8 +660,8 @@ $(document).ready(function() {
 		return other;
 	}
 	
-	function showLaserDeferralOther() {
-		$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideDown().find('textarea').each(function(e) {
+	function showDeferralOther(name) {
+		$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').slideDown().find('textarea').each(function(e) {
 			if ($(this).data('stored-value')) {
 				// must've changed their mind, restore the value
 				$(this).val($(this).data('stored-value'));
@@ -672,10 +671,10 @@ $(document).ready(function() {
 		});
 	}
 	
-	function hideLaserDeferralOther() {
-		if ($('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').is(':visible')) {	
+	function hideDeferralOther(name) {
+		if ($('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').is(':visible')) {	
 			// because of the value storage, only want to do this if its showing
-			$('#div_Element_OphCiExamination_Management_laserdeferral_reason_other').slideUp().find('textarea').each(function(e) {
+			$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').slideUp().find('textarea').each(function(e) {
 				// clear text value to prevent submission, but store to make available if user changes their mind
 				$(this).data('stored-value', $(this).val());
 				$(this).val('');
@@ -683,16 +682,16 @@ $(document).ready(function() {
 		}
 	}
 	
-	// show/hide the laser deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_id', 'change', function(e) {
-		var laserPK = $(this).val();
+	// abstracted to manage the deferral fields for laser/injection
+	function deferralFields(name) {
+		var thePK = $('#Element_OphCiExamination_Management_'+name+'_status_id').val();
 		// flag for deferred fields
 		var deferred = false;
 		// flag for booking hint
 		var book = false;
 		
-		$(this).find('option').each(function() {
-			if ($(this).attr('value') == laserPK) {
+		$('#Element_OphCiExamination_Management_'+name+'_status_id').find('option').each(function() {
+			if ($(this).attr('value') == thePK) {
 				if ($(this).attr('data-deferred') == "1") {
 					deferred = true;
 				}
@@ -704,56 +703,81 @@ $(document).ready(function() {
 		});
 		
 		if (book) {
-			$('.Element_OphCiExamination_Management').find('#laser_booking_hint').slideDown();
+			$('.Element_OphCiExamination_Management').find('#'+name+'_booking_hint').slideDown();
 		}
 		else {
-			$('.Element_OphCiExamination_Management').find('#laser_booking_hint').slideUp();
+			$('.Element_OphCiExamination_Management').find('#'+name+'_booking_hint').slideUp();
 		}
+		
 		if (deferred) {
-			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideDown();
-			if ($('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value')) {
-				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').val(
-					$('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value')
+			$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason').slideDown();
+			if ($('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').data('stored-value')) {
+				$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val(
+					$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').data('stored-value')
 				);
-				if (isLaserDeferralOther()) {
-					showLaserDeferralOther();
+				if (isDeferralOther(name)) {
+					showDeferralOther(name);
 				}
 			}
 		}
 		else {
 			
-			$('#div_Element_OphCiExamination_Management_laserdeferral_reason').slideUp();
-			if ($('#Element_OphCiExamination_Management_laserdeferral_reason_id').val()) {
-				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').data('stored-value', $('#Element_OphCiExamination_Management_laserdeferral_reason_id').val());
-				$('#Element_OphCiExamination_Management_laserdeferral_reason_id').val('');
+			$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason').slideUp();
+			if ($('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val()) {
+				$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').data('stored-value', $('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val());
+				$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val('');
 				// call the hide on other in case it's currently showing
-				hideLaserDeferralOther();
+				hideDeferralOther(name);
 			}
+		}
+	}
+	
+	// show/hide the laser deferral fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_status_id', 'change', function(e) {
+		deferralFields('laser');
+		
+	});
+	
+	// show/hide the injection deferral fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_injection_status_id', 'change', function(e) {
+		deferralFields('injection');
+		
+	});
+	
+	// show/hide the deferral reason option
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('laser');
+		
+		if (other) {
+			showDeferralOther('laser');
+		}
+		else {
+			hideDeferralOther('laser');
 		}
 	});
 	
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laserdeferral_reason_id', 'change', function(e) {
-		var other = isLaserDeferralOther();
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_injection_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('injection');
 		
 		if (other) {
-			showLaserDeferralOther();
+			showDeferralOther('injection');
 		}
 		else {
-			hideLaserDeferralOther();
+			hideDeferralOther('injection');
 		}
 	});
-	
+
 	
 	// end of management
 	
 	// outcome functions
-	function isOutcomeLaserFollowup() {
-		var laserPK = $('#Element_OphCiExamination_Outcome_laser_id').val();
+	function isOutcomeStatusFollowup() {
+		var statusPK = $('#Element_OphCiExamination_Outcome_status_id').val();
 		var followup = false;
 		
-		$('#Element_OphCiExamination_Outcome_laser_id').find('option').each(function() {
-			if ($(this).attr('value') == laserPK) {
+		$('#Element_OphCiExamination_Outcome_status_id').find('option').each(function() {
+			if ($(this).attr('value') == statusPK) {
 				if ($(this).attr('data-followup') == "1") {
 					followup = true;
 					return false;
@@ -764,7 +788,7 @@ $(document).ready(function() {
 		return followup;
 	}
 	
-	function showOutcomeLaserFollowup() {
+	function showOutcomeStatusFollowup() {
 		if ($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value')) {
 			$('#Element_OphCiExamination_Outcome_followup_quantity').val($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value'));
 		}
@@ -775,8 +799,7 @@ $(document).ready(function() {
 		
 	}
 	
-	function hideOutcomeLaserFollowup() {
-		console.log('trying to hide');
+	function hideOutcomeStatusFollowup() {
 		if ($('#div_Element_OphCiExamination_Outcome_followup').is(':visible')) {
 			// only do hiding and storing if currently showing something.
 			$('#div_Element_OphCiExamination_Outcome_followup').slideUp();
@@ -788,13 +811,13 @@ $(document).ready(function() {
 	}
 	
 	// show/hide the followup period fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Outcome_laser_id', 'change', function(e) {
-		var followup = isOutcomeLaserFollowup();
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Outcome_status_id', 'change', function(e) {
+		var followup = isOutcomeStatusFollowup();
 		if (followup) {
-			showOutcomeLaserFollowup();
+			showOutcomeStatusFollowup();
 		}
 		else {
-			hideOutcomeLaserFollowup();
+			hideOutcomeStatusFollowup();
 		}
 	});
 	// end of outcome
@@ -1171,6 +1194,10 @@ function OphCiExamination_DRGrading_init() {
 		});	
 	});
 	
+}
+
+function OphCiExamination_Management_init() {
+	updateBookingWeeks();
 }
 
 function OphCiExamination_AddDiagnosis(disorder_id, name) {

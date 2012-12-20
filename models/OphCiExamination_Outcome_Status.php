@@ -18,14 +18,17 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_management_laser".
+ * This is the model class for table "ophciexamination_management_status".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
+ * @property integer $episode_status_id
+ * 
+ * @property EpisodeStatus $episode_status
  
  */
-class OphCiExamination_Management_Laser extends BaseActiveRecord {
+class OphCiExamination_Outcome_Status extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -43,7 +46,7 @@ class OphCiExamination_Management_Laser extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_management_laser';
+		return 'ophciexamination_outcome_status';
 	}
 
 	/**
@@ -51,8 +54,8 @@ class OphCiExamination_Management_Laser extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order, deferred', 'required'),
-				array('id, name, display_order, deferred', 'safe', 'on'=>'search'),
+				array('name, display_order, episode_status', 'required'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +64,7 @@ class OphCiExamination_Management_Laser extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
+				'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id')
 		);
 	}
 
@@ -73,7 +77,6 @@ class OphCiExamination_Management_Laser extends BaseActiveRecord {
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
-		$criteria->compare('deferred',$this->deferred,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

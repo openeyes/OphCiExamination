@@ -18,14 +18,14 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_management_laser".
+ * This is the model class for table "ophciexamination_management_status".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
  
  */
-class OphCiExamination_Management_LaserDeferral extends BaseActiveRecord {
+class OphCiExamination_Management_Status extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -35,24 +35,24 @@ class OphCiExamination_Management_LaserDeferral extends BaseActiveRecord {
 		return parent::model($className);
 	}
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName() {
-		return 'ophciexamination_management_laserdeferral';
-	}
-
 	public function __toString() {
 		return $this->name;
 	}
 	
 	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName() {
+		return 'ophciexamination_management_status';
+	}
+
+	/**
 	 * @return array validation rules for model OphCiExamination_Risks_Assignment.
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order', 'required'),
-				array('id, name, display_order', 'safe', 'on'=>'search'),
+				array('name, display_order, deferred', 'required'),
+				array('id, name, display_order, deferred', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +73,7 @@ class OphCiExamination_Management_LaserDeferral extends BaseActiveRecord {
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
+		$criteria->compare('deferred',$this->deferred,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

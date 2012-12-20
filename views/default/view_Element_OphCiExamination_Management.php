@@ -6,13 +6,23 @@
 		<table class="subtleWhite normalText">
 			<tbody>
 				<tr>
-					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laser_id'))?></td>
-					<td><span class="big"><?php echo $element->laser ?></span></td>
+					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laser_status_id'))?></td>
+					<td><span class="big"><?php echo $element->laser_status ?></span></td>
 				</tr>
-				<?php if ($element->laser && $element->laser->deferred) { ?>
+				<?php if ($element->laser_status && $element->laser_status->deferred) { ?>
 					<tr>
-						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laserdeferral_reason_id'))?></td>
+						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laser_deferralreason_id'))?></td>
 						<td><span class="big"><?php echo $element->getLaserDeferralReason() ?></span></td>
+					</tr>
+				<?php }?>
+				<tr>
+					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_status_id'))?></td>
+					<td><span class="big"><?php echo $element->injection_status ?></span></td>
+				</tr>
+				<?php if ($element->injection_status && $element->injection_status->deferred) { ?>
+					<tr>
+						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_deferralreason_id'))?></td>
+						<td><span class="big"><?php echo $element->getInjectionDeferralReason() ?></span></td>
 					</tr>
 				<?php }?>
 				<?php if ($element->comments) {?>

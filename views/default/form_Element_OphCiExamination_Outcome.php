@@ -17,23 +17,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_laser"
+<div id="div_<?php echo get_class($element)?>_status"
 	class="eventDetail">
 	<div class="label">
-		<?php echo $element->getAttributeLabel('laser_id') ?>:
+		<?php echo $element->getAttributeLabel('status_id') ?>:
 	</div>
 	<div class="data">
 		<?php 
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
-		foreach (OphCiExamination_Outcome_Laser::model()->findAll(array('order'=>'display_order')) as $opt) {
+		foreach (OphCiExamination_Outcome_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
 			$html_options['options'][(string)$opt->id] = array('data-followup' => $opt->followup);
 		}
-		echo CHtml::activeDropDownList($element,'laser_id', CHtml::listData(OphCiExamination_Outcome_Laser::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+		echo CHtml::activeDropDownList($element,'status_id', CHtml::listData(OphCiExamination_Outcome_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_followup"
 	class="eventDetail" 
-	<?php if (!($element->laser && $element->laser->followup)) { ?>
+	<?php if (!($element->status && $element->status->followup)) { ?>
 	style="display: none;"
 	<?php }?>
 	>

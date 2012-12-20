@@ -18,17 +18,14 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_management_laser".
+ * This is the model class for table "ophciexamination_management_deferralreason".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
- * @property integer $episode_status_id
- * 
- * @property EpisodeStatus $episode_status
  
  */
-class OphCiExamination_Outcome_Laser extends BaseActiveRecord {
+class OphCiExamination_Management_DeferralReason extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -38,23 +35,23 @@ class OphCiExamination_Outcome_Laser extends BaseActiveRecord {
 		return parent::model($className);
 	}
 
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName() {
+		return 'ophciexamination_management_deferralreason';
+	}
+
 	public function __toString() {
 		return $this->name;
 	}
 	
 	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName() {
-		return 'ophciexamination_outcome_laser';
-	}
-
-	/**
 	 * @return array validation rules for model OphCiExamination_Risks_Assignment.
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order, episode_status', 'required'),
+				array('name, display_order', 'required'),
 				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
@@ -64,7 +61,6 @@ class OphCiExamination_Outcome_Laser extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id')
 		);
 	}
 

@@ -23,10 +23,10 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $laser_id
+ * @property string $status_id
  *
  * The followings are the available model relations:
- * @property OphCiExamination_Outcome_Laser $laser
+ * @property OphCiExamination_Outcome_Laser $status
  * 
  */
 
@@ -57,13 +57,13 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, laser_id, followup_quantity, followup_period_id', 'safe'),
-				array('laser_id', 'required'),
-				array('laser_id', 'laserDependencyValidation'),
+				array('event_id, status_id, followup_quantity, followup_period_id', 'safe'),
+				array('status_id', 'required'),
+				array('status_id', 'statusDependencyValidation'),
 				array('followup_quantity', 'numerical', 'integerOnly' => true, 'min' => self::FOLLOWUP_Q_MIN, 'max' => self::FOLLOWUP_Q_MAX),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, laser_id, laserdeferral_reason_id, laserdeferral_reason_other, comments', 'safe', 'on' => 'search'),
+				array('id, status_id, statusdeferral_reason_id, statusdeferral_reason_other, comments', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,7 +78,7 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'laser' => array(self::BELONGS_TO, 'OphCiExamination_Outcome_Laser', 'laser_id'),
+				'status' => array(self::BELONGS_TO, 'OphCiExamination_Outcome_Status', 'status_id'),
 				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
 		);
 	}
@@ -90,7 +90,7 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'laser_id' => "Laser",
+				'status_id' => "Status",
 				'followup_quantity' => 'Follow-up',
 		);
 	}
@@ -106,7 +106,7 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('laser_id', $this->laser_id);
+		$criteria->compare('status_id', $this->status_id);
 		$criteria->compare('followup_quanityt', $this->followup_quantity);
 		
 		return new CActiveDataProvider(get_class($this), array(
@@ -115,10 +115,10 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 	}
 	
 	/*
-	 * deferral reason is only required for laser status that are flagged deferred
+	 * follow up data is only required for status status that are flagged for follow up
 	 */
-	public function laserDependencyValidation($attribute) {
-		if ($this->laser_id && $this->laser->followup) {
+	public function statusDependencyValidation($attribute) {
+		if ($this->status_id && $this->status->followup) {
 			$v = CValidator::createValidator('required', $this, array('followup_quantity','followup_period_id'));
 			$v->validate($this);
 		}
@@ -133,7 +133,7 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 	}
 	
 	public function getFollowUp() {
-		if ($this->laser->followup) {
+		if ($this->status->followup) {
 			return $this->followup_quantity . ' ' . $this->followup_period;
 		}
 	}
@@ -151,9 +151,9 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 	
 	public function afterSave() {
 		// if the outcome is set
-		if ($this->laser) {
+		if ($this->status) {
 			if ($this->event->isLatestOfTypeInEpisode()) {
-				$this->event->episode->episode_status_id = $this->laser->episode_status_id;
+				$this->event->episode->episode_status_id = $this->status->episode_status_id;
 				if (!$this->event->episode->save()) {
 					throw new Exception('Unable to save episode status: '.print_r($this->event->episode->getErrors(),true));
 				}

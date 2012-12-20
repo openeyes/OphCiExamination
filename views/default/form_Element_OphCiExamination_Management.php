@@ -20,49 +20,94 @@
 <div id="div_<?php echo get_class($element)?>_laser"
 	class="eventDetail">
 	<div class="label">
-		<?php echo $element->getAttributeLabel('laser_id') ?>:
+		<?php echo $element->getAttributeLabel('laser_status_id') ?>:
 	</div>
 	<div class="data">
 		<?php 
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
-		foreach (OphCiExamination_Management_Laser::model()->findAll(array('order'=>'display_order')) as $opt) {
+		foreach (OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
 			$html_options['options'][(string)$opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
 		}
-		echo CHtml::activeDropDownList($element,'laser_id', CHtml::listData(OphCiExamination_Management_Laser::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+		echo CHtml::activeDropDownList($element,'laser_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
 	<span id="laser_booking_hint" class="hint" style="display:none;"></span>
 	</div>
 </div>
-<div id="div_<?php echo get_class($element)?>_laserdeferral_reason"
+<div id="div_<?php echo get_class($element)?>_laser_deferralreason"
 	class="eventDetail" 
-	<?php if (!($element->laser && $element->laser->deferred)) { ?>
+	<?php if (!($element->laser_status && $element->laser_status->deferred)) { ?>
 	style="display: none;"
 	<?php }?>
 	>
 	<div class="label">
-		<?php echo $element->getAttributeLabel('laserdeferral_reason_id')?>:
+		<?php echo $element->getAttributeLabel('laser_deferralreason_id')?>:
 	</div>
 	<div class="data">
 		<?php 
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
-		foreach (OphCiExamination_Management_LaserDeferral::model()->findAll(array('order'=>'display_order')) as $opt) {
+		foreach (OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')) as $opt) {
 			$html_options['options'][(string)$opt->id] = array('data-other' => $opt->other);
 		}
-		echo CHtml::activeDropDownList($element,'laserdeferral_reason_id', CHtml::listData(OphCiExamination_Management_LaserDeferral::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+		echo CHtml::activeDropDownList($element,'laser_deferralreason_id', CHtml::listData(OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
 </div>
-<div id="div_<?php echo get_class($element)?>_laserdeferral_reason_other"
+<div id="div_<?php echo get_class($element)?>_laser_deferralreason_other"
 	class="eventDetail"
-	<?php if (!($element->laserdeferral_reason && $element->laserdeferral_reason->other)) { ?>
+	<?php if (!($element->laser_deferralreason && $element->laser_deferralreason->other)) { ?>
 		style="display: none;"
 	<?php } ?>
 	>
-		<div class="label">
-			&nbsp;
-		</div>
-		<div class="data">
-			<?php echo $form->textArea($element, 'laserdeferral_reason_other', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
-		</div>
+	<div class="label">
+		&nbsp;
 	</div>
+	<div class="data">
+		<?php echo $form->textArea($element, 'laser_deferralreason_other', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
+	</div>
+</div>
+<div id="div_<?php echo get_class($element)?>_injection"
+	class="eventDetail">
+	<div class="label">
+		<?php echo $element->getAttributeLabel('injection_status_id') ?>:
+	</div>
+	<div class="data">
+		<?php 
+		$html_options = array('empty'=>'- Please select -', 'options' => array());
+		foreach (OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
+			$html_options['options'][(string)$opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
+		}
+		echo CHtml::activeDropDownList($element,'injection_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+	</div>
+</div>
+<div id="div_<?php echo get_class($element)?>_injection_deferralreason"
+	class="eventDetail" 
+	<?php if (!($element->injection_status && $element->injection_status->deferred)) { ?>
+	style="display: none;"
+	<?php }?>
+	>
+	<div class="label">
+		<?php echo $element->getAttributeLabel('injection_deferralreason_id')?>:
+	</div>
+	<div class="data">
+		<?php 
+		$html_options = array('empty'=>'- Please select -', 'options' => array());
+		foreach (OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')) as $opt) {
+			$html_options['options'][(string)$opt->id] = array('data-other' => $opt->other);
+		}
+		echo CHtml::activeDropDownList($element,'injection_deferralreason_id', CHtml::listData(OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+	</div>
+</div>
+<div id="div_<?php echo get_class($element)?>_injection_deferralreason_other"
+	class="eventDetail"
+	<?php if (!($element->injection_deferralreason && $element->injection_deferralreason->other)) { ?>
+		style="display: none;"
+	<?php } ?>
+	>
+	<div class="label">
+		&nbsp;
+	</div>
+	<div class="data">
+		<?php echo $form->textArea($element, 'injection_deferralreason_other', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
+	</div>
+</div>
 <div id="div_<?php echo get_class($element)?>_comments"
 	class="eventDetail">
 	<div class="label">
