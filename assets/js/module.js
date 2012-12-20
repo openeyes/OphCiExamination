@@ -357,6 +357,22 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .removeReading', 'click', function(e) {
+		var block = $(this).closest('.data');
+		$(this).closest('tr').remove();
+		if ($('tbody', block).children('tr').length == 0) {
+			$('.noReadings', block).show();
+			$('table', block).hide();
+		}
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .addReading', 'click', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_IntraocularPressure_addReading(side);
+		e.preventDefault();
+	});
+
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();
@@ -556,6 +572,30 @@ function OphCiExamination_Refraction_init() {
 	$("#event_content .Element_OphCiExamination_Refraction .refractionType").each(function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
+}
+
+/**
+ * Intraocular Pressure
+ */
+
+function OphCiExamination_IntraocularPressure_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_IntraocularPressure .intraocularPressureReading').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	return Math.max.apply(null, keys) + 1;
+}
+
+function OphCiExamination_IntraocularPressure_addReading(side) {
+	var template = $('#intraocularpressure_reading_template').html();
+	var data = {
+		"key" : OphCiExamination_IntraocularPressure_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1),
+	};
+	var form = Mustache.render(template, data);
+	$('#event_content .Element_OphCiExamination_IntraocularPressure .[data-side="' + side + '"] .noReadings').hide();
+	var table = $('#event_content .Element_OphCiExamination_IntraocularPressure .[data-side="' + side + '"] table');
+	table.show();
+	$('tbody', table).append(form);
 }
 
 /**

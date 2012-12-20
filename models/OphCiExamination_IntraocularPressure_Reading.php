@@ -21,8 +21,13 @@
  * This is the model class for table "ophciexamination_intraocularpressure_reading".
  *
  * @property integer $id
- * @property string $name
- * @property integer $display_order
+ * @property integer $element_id
+ * @property integer $side
+ * @property integer $reading
+ * @property integer $instrument_id
+ * @property string $reading_datetime
+ * @property boolean $dilated
+ * @property string $comments
 
  */
 class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
@@ -47,8 +52,9 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('element_id, side, reading, instrument_id, dilated', 'required'),
+				array('reading_datetime, comments', 'safe'),
+				array('id, element_id, side, reading, instrument_id, dilated, reading_datetime, comments', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +63,8 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
+				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_IntraocularPressure', 'element_id'),
+				'instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'instrument_id'),
 		);
 	}
 
@@ -67,7 +75,6 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

@@ -23,13 +23,11 @@
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property OphCiExamination_Instrument $left_instrument
- * @property string $left_reading_id
- * @property OphCiExamination_Instrument $right_instrument
- * @property string $right_reading_id
+ * @property string $left_comments
+ * @property string $right_comments
  */
 
-class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement {
+class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -54,13 +52,17 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe'),
+				array('event_id, eye_id, left_comments, right_comments', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id, eye_id, left_comments, right_comments', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
+	public function sidedFields() {
+		return array('comments');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -74,10 +76,9 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'left_instrument_id'),
-				'right_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'right_instrument_id'),
-				'left_reading' => array(self::BELONGS_TO, 'OphCiExamination_IntraocularPressure_Reading', 'left_reading_id'),
-				'right_reading' => array(self::BELONGS_TO, 'OphCiExamination_IntraocularPressure_Reading', 'right_reading_id'),
+				'readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id'),
+				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
+				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
 		);
 	}
 
@@ -88,10 +89,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_instrument_id' => 'Instrument',
-				'left_reading_id' => 'Reading',
-				'right_instrument_id' => 'Instrument',
-				'right_reading_id' => 'Reading',
+				'left_comments' => 'Comments',
+				'right_comments' => 'Comments',
 		);
 	}
 
@@ -112,11 +111,6 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('left_instrument_id', $this->left_instrument_id);
-		$criteria->compare('left_reading_id', $this->left_reading_id);
-		$criteria->compare('right_instrument_id', $this->right_instrument_id);
-		$criteria->compare('right_reading_id', $this->right_reading_id);
-
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -127,6 +121,7 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	 */
 	public function setDefaultOptions() {
 		
+		/* FIXME
 		// Default instrument
 		if($default_instrument_id = $this->getSetting('default_instrument_id')) {
 			$this->left_instrument_id = $default_instrument_id;
@@ -138,6 +133,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 			$this->left_instrument_id = null;
 			$this->right_instrument_id = null;
 		}
+		*/
+		
 	}
 
 	protected function beforeSave() {
@@ -153,6 +150,7 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	}
 
 	public function getLetter_reading($side) {
+		// FIXME
 		$segment = $side.'_reading';
 		$reading = $this->$segment->name;
 		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
