@@ -78,6 +78,10 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
 	}
 	
+	public function sidedDefaults() {
+		return array('axis' => 0, 'type_id' => 1);
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -155,16 +159,6 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$this->left_axis = 0;
-		$this->right_axis = 0;
-		$this->left_type_id = 1;
-		$this->right_type_id = 1;
 	}
 
 	protected function beforeSave() {

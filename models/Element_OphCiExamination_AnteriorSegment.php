@@ -82,6 +82,9 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 		return array('pupil_id', 'cortical_id', 'pxe', 'eyedraw', 'phako', 'description', 'nuclear_id');
 	}
 	
+	public function sidedDefaults() {
+		return array();
+	}
 	/**
 	 * @return array relational rules.
 	 */
@@ -159,12 +162,6 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
 	}
 
 	protected function beforeSave() {

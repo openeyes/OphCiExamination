@@ -106,16 +106,16 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		?>
 		<div class="data gonioCross">
 			<div class="gonioSup">
-				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', $element->{$side.'_gonio_sup'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', ($element->{$side.'_gonio_sup'}) ? $element->{$side.'_gonio_sup'}->seen : true, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
 			</div>
 			<div class="gonioTem">
-				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', $element->{$side.'_gonio_tem'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', ($element->{$side.'_gonio_tem'}) ? $element->{$side.'_gonio_tem'}->seen : true, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
 			</div>
 			<div class="gonioNas">
-				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', $element->{$side.'_gonio_nas'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', ($element->{$side.'_gonio_nas'}) ? $element->{$side.'_gonio_nas'}->seen : true, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
 			</div>
 			<div class="gonioInf">
-				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', $element->{$side.'_gonio_inf'}->seen, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
+				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', ($element->{$side.'_gonio_inf'}) ? $element->{$side.'_gonio_inf'}->seen : true, $basic_options, array('class' => 'gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
 			</div>
 		</div>
 	</div>

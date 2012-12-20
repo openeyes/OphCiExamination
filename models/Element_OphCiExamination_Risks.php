@@ -128,8 +128,13 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 			return 'None';
 		}
 	}
-
-	public function afterSave() {
+	
+	protected function beforeDelete() {
+		OphCiExamination_Risks_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
+		return parent::beforeDelete();
+	}
+	
+	protected function afterSave() {
 		
 		// Check to see if risks have been posted
 		if(isset($_POST['Element_OphCiExamination_Risks']['risks_valid']) && $_POST['Element_OphCiExamination_Risks']['risks_valid']) {

@@ -38,9 +38,16 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	<?php } ?>
 	<div>
 		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_size') ?>
+			<?php echo $element->getAttributeLabel($side.'_cd_ratio_id') ?>
 			:
-			<?php echo $element->{$side.'_size'} ?>
+			<?php echo $element->{$side.'_cd_ratio'}->name ?>
+		</div>
+	</div>
+	<div>
+		<div class="data">
+			<?php echo $element->getAttributeLabel($side.'_diameter') ?>
+			:
+			<?php echo $element->{$side.'_diameter'} ?>
 		</div>
 	</div>
 </div>

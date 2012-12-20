@@ -27,16 +27,29 @@ class SplitEventTypeElement extends BaseEventTypeElement {
 		return $this->eye->name != 'Left';
 	}
 
+	/**
+	 * An array of field suffixes that we should treat as "sided".
+	 * e.g. 'example' would indicate 'left_example' and 'right_example'
+	 * @return array:
+	 */
 	public function sidedFields() {
 		return array();
 	}
 
+	/**
+	 * An associative array of field suffixes and their default values.
+	 * Used for initialising sided fields
+	 * @return array 
+	 */
+	public function sidedDefaults() {
+		return array();
+	}
 	protected function beforeSave() {
 
 		// Need to clear any "sided" fields if that side isn't active to prevent
-		if($this->eye_id != 3) {
+		if($this->eye->name != 'Both') {
 			foreach($this->sidedFields() as $field_suffix) {
-				if($this->eye_id == 1) { // Left
+				if($this->eye->name == 'Left') {
 						$clear_field = 'right_'.$field_suffix;
 				} else { // Right
 						$clear_field = 'left_'.$field_suffix;
@@ -48,4 +61,30 @@ class SplitEventTypeElement extends BaseEventTypeElement {
 		return parent::beforeSave();
 	}
 
+	/**
+	 * Sided fields have the same defaults on left and right
+	 */
+	public function setDefaultOptions() {
+		$this->setSideDefaultOptions('left');
+		$this->setSideDefaultOptions('right');
+	}
+	
+	protected function setSideDefaultOptions($side) {
+		foreach($this->sidedDefaults() as $field => $default) {
+			$this->{$side.'_'.$field} = $default;
+		}
+	}
+	
+	/**
+	 * Used to initialise the missing side in an update form.
+	 */
+	public function setUpdateOptions() {
+		if($this->eye->name == 'Left') {
+			$this->setSideDefaultOptions('right');
+		} else if($this->eye->name == 'Right') {
+			$this->setSideDefaultOptions('left');
+		}
+	}
+	
 }
+

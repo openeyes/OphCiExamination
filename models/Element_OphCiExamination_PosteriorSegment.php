@@ -72,6 +72,10 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		return array('description', 'cd_ratio_id', 'eyedraw', 'description');
 	}
 	
+	public function sidedDefaults() {
+		return array('cd_ratio_id' => 5);
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -131,14 +135,6 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		));
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$this->left_cd_ratio_id = 5;
-		$this->right_cd_ratio_id = 5;
-	}
-	
 	protected function beforeSave() {
 		return parent::beforeSave();
 	}
