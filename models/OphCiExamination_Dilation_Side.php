@@ -56,6 +56,7 @@ class OphCiExamination_Dilation_Side extends BaseActiveRecord {
 	public function relations() {
 		return array(
 			'drugs' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Drug', 'side_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 

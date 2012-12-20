@@ -20,10 +20,10 @@
 <tr>
 	<td>
 		<span><?php echo $drug->drug->name?></span>
-		<input type="hidden" name="DilationDrugs<?php echo $drug->eye->name?>[]" value="<?php echo $drug->drug_id?>" />
+		<input type="hidden" name="DilationDrugs<?php echo $drug->side->eye->name?>[]" value="<?php echo $drug->drug_id?>" />
 	</td>
 	<td>
-		<select name="DilationDrugDrops<?php echo $drug->eye->name.$drug->drug_id?>">
+		<select name="DilationDrugDrops<?php echo $drug->side->eye->name.$drug->drug_id?>">
 			<?php for ($i=1;$i<=10;$i++) {?>
 				<option value="<?php echo $i?>"<?php if ($i == $drug->drops) {?> selected="selected"<?php }?>><?php echo $i?></option>
 			<?php }?>
