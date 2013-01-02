@@ -92,6 +92,7 @@ class Element_OphCiExamination_Outcome extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'status_id' => "Status",
 				'followup_quantity' => 'Follow-up',
+				'followup_period_id' => 'Follow-up period'
 		);
 	}
 

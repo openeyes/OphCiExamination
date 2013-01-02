@@ -134,7 +134,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * deferral reason is only required for laser status that are flagged deferred
 	 */
 	public function laserDependencyValidation($attribute) {
-		if ($this->laser_status->deferred) {
+		if ($this->laser_status && $this->laser_status->deferred) {
 			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_id'));
 			$v->validate($this);
 		}
@@ -154,7 +154,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * deferral reason is only required for injection status that are flagged deferred
 	*/
 	public function injectionDependencyValidation($attribute) {
-		if ($this->injection_status->deferred) {
+		if ($this->injection_status && $this->injection_status->deferred) {
 			$v = CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
 			$v->validate($this);
 		}

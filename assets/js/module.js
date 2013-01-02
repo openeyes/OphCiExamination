@@ -16,7 +16,7 @@ function gradeCalculator(_drawing) {
     countArray['LaserSpot'] = 0;
     countArray['FocalLaser'] = 0;
     countArray['MacularGrid'] = 0;
-    countArray['SectorPRP'] = 0;
+    countArray['SectorPRPPostPole'] = 0;
     countArray['PRPPostPole'] = 0;
     countArray['IRMA'] = 0;
     
@@ -49,6 +49,14 @@ function gradeCalculator(_drawing) {
             	if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
             }
             */
+            if (doodle.className == 'LaserSpot' || doodle.className == 'FocalLaser') {
+            	if (postPole.isWithinArcades(doodle)) {
+            		retinopathy_photocoagulation = true;
+            	} 
+            	else {
+            		maculopathy_photocoagulation = true;
+            	}
+            }
         }
         
         if (countArray['Microaneurysm'] > 0) {
@@ -94,17 +102,7 @@ function gradeCalculator(_drawing) {
             retinopathy = "R3A";
         }
         
-        if (countArray['SectorPRP'] > 0) {
-        	retinopathy_photocoagulation = true;
-        	maculopathy_photocoagulation = true;
-        }
-        
-        if (countArray['MacularGrid'] > 0) {
-        	maculopathy_photocoagulation = true;
-        }
-        
-        if (countArray['LaserSpot']  > 0 || countArray['FocalLaser'] > 0) {
-        	// TODO: need to verify location of these items to determine whether this is the right update
+        if (countArray['SectorPRPPostPole'] > 0 || countArray['MacularGrid'] > 0) {
         	maculopathy_photocoagulation = true;
         }
         

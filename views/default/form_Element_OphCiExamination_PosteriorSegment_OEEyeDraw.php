@@ -5,7 +5,7 @@ $widget = $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 				'EpiretinalMembrane','HardDrusen'),
 				array('MacularHole', 'Microaneurysm', 'HardExudate', 'BlotHaemorrhage',
 				'PreRetinalHaemorrhage', 'CottonWoolSpot', 'FibrousProliferation', 'TractionRetinalDetachment', 'IRMA', 'MacularThickening'),
-				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRP', 'PRPPostPole'),
+				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
 				),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('PostPole')),
