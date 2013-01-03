@@ -23,6 +23,8 @@
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
+ * @property integer $left_instrument_id
+ * @property integer $right_instrument_id
  * @property string $left_comments
  * @property string $right_comments
  */
@@ -52,10 +54,10 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, left_comments, right_comments', 'safe'),
+				array('event_id, eye_id, left_comments, right_comments, left_instrument_id, right_instrument_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, eye_id, left_comments, right_comments', 'safe', 'on' => 'search'),
+				array('id, event_id, eye_id, left_comments, right_comments, left_instrument_id, right_instrument_id', 'safe', 'on' => 'search'),
 		);
 	}
 	
@@ -79,6 +81,8 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 				'readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id'),
 				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
 				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_IntraocularPressure_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
+				'right_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'right_instrument_id'),
+				'left_instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'left_instrument_id'),
 		);
 	}
 
@@ -91,13 +95,20 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 				'event_id' => 'Event',
 				'left_comments' => 'Comments',
 				'right_comments' => 'Comments',
+				'left_instrument_id' => 'Instrument',
+				'right_instrument_id' => 'Instrument'
 		);
 	}
 
-	public function getInstrumentValues() {
+	public function getInstrumentOptions() {
 		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(), 'id', 'name') ;
 	}
 
+	public function getValueOptions() {
+		$options = array_combine(range(1,80),range(1,80));
+		return $options;
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -121,7 +132,6 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 	 */
 	public function setDefaultOptions() {
 		
-		/* FIXME
 		// Default instrument
 		if($default_instrument_id = $this->getSetting('default_instrument_id')) {
 			$this->left_instrument_id = $default_instrument_id;
@@ -133,7 +143,6 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 			$this->left_instrument_id = null;
 			$this->right_instrument_id = null;
 		}
-		*/
 		
 	}
 
@@ -141,10 +150,61 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 		return parent::beforeSave();
 	}
 
+	/**
+	 * Save readings
+	 * @todo This probably doesn't belong here, but there doesn't seem to be an easy way
+	 * of doing it through the controller at the moment
+	 */
 	protected function afterSave() {
+		// Check to see if readings have been posted
+		if(isset($_POST['intraocularpressure_readings_valid']) && $_POST['intraocularpressure_readings_valid']) {
+
+			// Get a list of ids so we can keep track of what's been removed
+			$existing_reading_ids = array();
+			foreach($this->readings as $reading) {
+				$existing_reading_ids[$reading->id] = $reading->id;
+			}
+
+			// Process (any) posted readings
+			$new_readings = (isset($_POST['intraocularpressure_reading'])) ? $_POST['intraocularpressure_reading'] : array();
+			foreach($new_readings as $reading) {
+				
+				// Check to see if side is inactive
+				if($reading['side'] == 0 && $this->eye_id == 1
+						|| $reading['side'] == 1 && $this->eye_id == 2) {
+					continue;
+				}
+				
+				if(isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
+
+					// Reading is being updated
+					$reading_model = OphCiExamination_IntraocularPressure_Reading::model()->findByPk($reading['id']);
+					unset($existing_reading_ids[$reading['id']]);
+
+				} else {
+
+					// Reading is new
+					$reading_model = new OphCiExamination_IntraocularPressure_Reading();
+					$reading_model->element_id = $this->id;
+
+				}
+
+				// Save reading attributes
+				$reading_model->value = $reading['value'];
+				$reading_model->measurement_timestamp = $reading['measurement_timestamp'];
+				$reading_model->side = $reading['side'];
+				$reading_model->save();
+
+			}
+
+			// Delete remaining (removed) ids
+			OphCiExamination_IntraocularPressure_Reading::model()->deleteByPk(array_values($existing_reading_ids));
+
+		}
+
 		return parent::afterSave();
 	}
-
+	
 	protected function beforeValidate() {
 		return parent::beforeValidate();
 	}

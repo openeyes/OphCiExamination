@@ -23,11 +23,8 @@
  * @property integer $id
  * @property integer $element_id
  * @property integer $side
- * @property integer $reading
- * @property integer $instrument_id
- * @property string $reading_datetime
- * @property boolean $dilated
- * @property string $comments
+ * @property integer $value
+ * @property string $measurement_timestamp
 
  */
 class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
@@ -52,9 +49,8 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('element_id, side, reading, instrument_id, dilated', 'required'),
-				array('reading_datetime, comments', 'safe'),
-				array('id, element_id, side, reading, instrument_id, dilated, reading_datetime, comments', 'safe', 'on'=>'search'),
+				array('element_id, side, value, measurement_timestamp', 'required'),
+				array('id, element_id, side, value, measurement_timestamp', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +60,6 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	public function relations() {
 		return array(
 				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_IntraocularPressure', 'element_id'),
-				'instrument' => array(self::BELONGS_TO, 'OphCiExamination_Instrument', 'instrument_id'),
 		);
 	}
 

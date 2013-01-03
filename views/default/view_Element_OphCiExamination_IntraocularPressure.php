@@ -6,7 +6,11 @@
 		<div class="left eventDetail">
 			<div class="data">
 				<?php if($element->hasRight()) { ?>
-				FIXME
+				<?php foreach($element->right_readings as $reading) { ?>
+				<div>
+				<?php echo $reading->value ?>
+				</div>
+				<?php } ?>
 				<?php if($element->right_comments) { ?>
 				(
 				<?php echo $element->right_comments ?>
@@ -20,7 +24,11 @@
 		<div class="right eventDetail">
 			<div class="data">
 				<?php if($element->hasLeft()) { ?>
-				FIXME
+				<?php foreach($element->left_readings as $reading) { ?>
+				<div>
+				<?php echo $reading->value ?>
+				</div>
+				<?php } ?>
 				<?php if($element->left_comments) { ?>
 				(
 				<?php echo $element->left_comments ?>

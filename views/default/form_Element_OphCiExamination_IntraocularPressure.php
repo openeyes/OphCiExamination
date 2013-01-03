@@ -18,7 +18,8 @@
  */
 ?>
 <?php
-$instruments = CHtml::listData(OphCiExamination_Instrument::model()->findAll(),'id','name');
+$instruments = $element->getInstrumentOptions();
+$values = $element->getValueOptions();
 $key = 0;
 ?>
 <div class="cols2 clearfix">
@@ -30,6 +31,9 @@ $key = 0;
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<div class="data">
+				<?php echo CHtml::dropDownList('right_instrument_id', $element->right_instrument_id, $instruments); ?>
+			</div>
+			<div class="data">
 				<?php $right_readings = $element->right_readings ?>
 				<table <?php if(!$right_readings) { ?> style="display: none;"
 <?php } ?>>
@@ -39,7 +43,7 @@ $key = 0;
 								'key' => $key,
 								'reading' => $reading,
 								'side' => $reading->side,
-								'instruments' => $instruments
+								'values' => $values
 						));
 						$key++;
 						}?>
@@ -67,6 +71,9 @@ $key = 0;
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<div class="data">
+				<?php echo CHtml::dropDownList('left_instrument_id', $element->left_instrument_id, $instruments); ?>
+			</div>
+			<div class="data">
 				<?php $left_readings = $element->left_readings ?>
 				<table <?php if(!$left_readings) { ?> style="display: none;"
 						<?php } ?>>
@@ -76,7 +83,7 @@ $key = 0;
 								'key' => $key,
 								'reading' => $reading,
 								'side' => $reading->side,
-								'instruments' => $instruments
+								'values' => $values
 						));
 						$key++;
 						}?>
@@ -105,7 +112,7 @@ $key = 0;
 	$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
 			'key' => '{{key}}',
 			'side' => '{{side}}',
-			'instruments' => $instruments
+			'values' => $values
 	));
 	?>
 </script>
