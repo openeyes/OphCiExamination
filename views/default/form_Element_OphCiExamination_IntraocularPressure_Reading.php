@@ -27,11 +27,12 @@
 	<input type="hidden"
 		name="intraocularpressure_reading[<?php echo $key ?>][side]"
 		value="<?php echo $side ?>" />
-	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][measurement_timestamp]', @$reading->measurement_timestamp) ?>
+	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][measurement_timestamp]', isset($reading) ? date('H:i',strtotime($reading->measurement_timestamp)) : date('H:i')) ?>
 	</td>
 	<td>
-	<?php echo CHtml::dropDownList('intraocularpressure_reading['.$key.'][value]', @$reading->value, $values); ?>
+	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][value]', @$reading->value); ?>
 	</td>
-	<td class="readingActions"><a class="removeReading" href="#">Remove</a>
-	</td>
+	<?php if(!isset($no_remove) || !$no_remove) { ?>
+	<td class="readingActions"><a class="removeReading" href="#">Remove</a></td>
+	<?php } ?>
 </tr>

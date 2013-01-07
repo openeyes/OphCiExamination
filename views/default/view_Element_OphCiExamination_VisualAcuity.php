@@ -4,32 +4,60 @@
 	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
+			<?php if($element->hasRight()) { ?>
 			<div class="data">
-				<?php if($element->hasRight()) { ?>
-				<?php echo $element->getCombined('right') ?>
-				<?php if($element->right_comments) { ?>
-				(
-				<?php echo $element->right_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
+				<?php echo $element->unit->name ?>
 			</div>
+			<div class="data">
+				<table>
+					<tbody>
+						<?php foreach($element->right_readings as $reading) { ?>
+						<tr>
+							<td><?php echo $reading->convertTo($reading->value) ?>
+							</td>
+							<td><?php echo $reading->method->name ?>
+							</td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+			</div>
+			<?php if($element->right_comments) { ?>
+			<div class="data">
+				(<?php echo $element->right_comments ?>)
+			</div>
+			<?php } ?>
+			<?php } else { ?>
+			<div class="data">Not recorded</div>
+			<?php } ?>
 		</div>
 		<div class="right eventDetail">
+			<?php if($element->hasLeft()) { ?>
 			<div class="data">
-				<?php if($element->hasLeft()) { ?>
-				<?php echo $element->getCombined('left') ?>
-				<?php if($element->left_comments) { ?>
-				(
-				<?php echo $element->left_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
+				<?php echo $element->unit->name ?>
 			</div>
+			<div class="data">
+				<table>
+					<tbody>
+						<?php foreach($element->left_readings as $reading) { ?>
+						<tr>
+							<td><?php echo $reading->convertTo($reading->value) ?>
+							</td>
+							<td><?php echo $reading->method->name ?>
+							</td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+			</div>
+			<?php if($element->left_comments) { ?>
+			<div class="data">
+				(<?php echo $element->left_comments ?>)
+			</div>
+			<?php } ?>
+			<?php } else { ?>
+			<div class="data">Not recorded</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>

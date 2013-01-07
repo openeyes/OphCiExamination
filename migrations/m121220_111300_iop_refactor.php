@@ -14,7 +14,7 @@ class m121220_111300_iop_refactor extends OEMigration {
 		$this->delete('ophciexamination_intraocularpressure_reading');
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'side', 'TINYINT(1) UNSIGNED NOT NULL');
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'element_id', 'INT(10) UNSIGNED NOT NULL');
-		$this->addColumn('ophciexamination_intraocularpressure_reading', 'measurement_timestamp', 'DATETIME');
+		$this->addColumn('ophciexamination_intraocularpressure_reading', 'measurement_timestamp', 'TIME');
 		$this->addForeignKey('ophciexamination_intraocularpressure_reading_eid_fk', 'ophciexamination_intraocularpressure_reading', 'element_id', 'et_ophciexamination_intraocularpressure', 'id');
 		
 		// Remap
