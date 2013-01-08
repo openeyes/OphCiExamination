@@ -17,6 +17,7 @@ class m121220_111300_iop_refactor extends OEMigration {
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'measurement_timestamp', 'TIME');
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'dilated', 'TINYINT(1) UNSIGNED NOT NULL');
 		$this->addForeignKey('ophciexamination_intraocularpressure_reading_eid_fk', 'ophciexamination_intraocularpressure_reading', 'element_id', 'et_ophciexamination_intraocularpressure', 'id');
+		Yii::app()->db->schema->refresh();
 		
 		// Remap
 		$elements = $this->getDbConnection()->createCommand()
@@ -28,8 +29,9 @@ class m121220_111300_iop_refactor extends OEMigration {
 			if($element['left_reading_id']) {
 				$left_reading = new OphCiExamination_IntraocularPressure_Reading();
 				$left_reading->value = $element['left_reading_id'];
-				$left_reading->element_id = $element->id;
+				$left_reading->element_id = $element['id'];
 				$left_reading->side = 1;
+				$left_reading->measurement_timestamp = date('H:i',strtotime($element['created_date']));
 				$left_reading->dilated = 0;
 				$left_reading->save();
 				$eyes = 2;
@@ -37,8 +39,9 @@ class m121220_111300_iop_refactor extends OEMigration {
 			if($element['right_reading_id']) {
 				$right_reading = new OphCiExamination_IntraocularPressure_Reading();
 				$right_reading->value = $element['right_reading_id'];
-				$right_reading->element_id = $element->id;
+				$right_reading->element_id = $element['id'];
 				$right_reading->side = 0;
+				$right_reading->measurement_timestamp = date('H:i',strtotime($element['created_date']));
 				$right_reading->dilated = 0;
 				$right_reading->save();
 				$eyes += 1;
@@ -58,7 +61,40 @@ class m121220_111300_iop_refactor extends OEMigration {
 	}
 
 	public function down() {
-		// TODO: implement
+		$this->addColumn('ophciexamination_intraocularpressure_reading', 'display_order', 'tinyint(3) unsigned DEFAULT \'0\'');
+		$this->addColumn('ophciexamination_intraocularpressure_reading', 'name', 'varchar(3) COLLATE utf8_bin DEFAULT NULL');
+		$this->addColumn('et_ophciexamination_intraocularpressure', 'left_reading_id', 'int(10) unsigned NOT NULL');
+		$this->addColumn('et_ophciexamination_intraocularpressure', 'right_reading_id', 'int(10) unsigned NOT NULL');
+		Yii::app()->db->schema->refresh();
+		$elements = Element_OphCiExamination_IntraocularPressure::model()->findAll();
+		foreach($elements as $element) {
+			foreach($element->left_readings as $reading) {
+				$this->update('et_ophciexamination_intraocularpressure', array('left_reading_id' => $reading->value));
+				break; // Can only handle one reading
+			}
+			foreach($element->right_readings as $reading) {
+				$this->update('et_ophciexamination_intraocularpressure', array('right_reading_id' => $reading->value));
+				break; // Can only handle one reading
+			}
+			$this->update('et_ophciexamination_intraocularpressure', array('eye_id' => 2));
+		}
+		$this->dropForeignKey('ophciexamination_intraocularpressure_reading_eid_fk', 'ophciexamination_intraocularpressure_reading');
+		$this->delete('ophciexamination_intraocularpressure_reading');
+		$this->dropColumn('ophciexamination_intraocularpressure_reading', 'side');
+		$this->dropColumn('ophciexamination_intraocularpressure_reading', 'element_id');
+		$this->dropColumn('ophciexamination_intraocularpressure_reading', 'measurement_timestamp');
+		$this->dropColumn('ophciexamination_intraocularpressure_reading', 'dilated');
+		Yii::app()->db->schema->refresh();
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
+		
+		$this->dropColumn('et_ophciexamination_intraocularpressure', 'left_comments');
+		$this->dropColumn('et_ophciexamination_intraocularpressure', 'right_comments');
+		$this->createIndex('et_ophciexamination_intraocularpressure_lri_fk','et_ophciexamination_intraocularpressure','left_reading_id');
+		$this->addForeignKey('et_ophciexamination_intraocularpressure_lri_fk','et_ophciexamination_intraocularpressure','left_reading_id','ophciexamination_intraocularpressure_reading','id');
+		$this->createIndex('et_ophciexamination_intraocularpressure_rri_fk','et_ophciexamination_intraocularpressure','right_reading_id');
+		$this->addForeignKey('et_ophciexamination_intraocularpressure_rri_fk','et_ophciexamination_intraocularpressure','right_reading_id','ophciexamination_intraocularpressure_reading','id');
+		
 	}
 
 }
