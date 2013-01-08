@@ -193,6 +193,68 @@ class DefaultController extends BaseEventTypeController {
 		echo '/></td><td><a href="#" class="small removeDiagnosis" rel="'.$disorder->id.'"><strong>Remove</strong></a></td></tr>';
 	}
 
+	public function actionCalculatePCRRisk() {
+		if(!$pupil = OphCiExamination_AnteriorSegment_Pupil::model()->findByPk(@$_GET['pupil_id'])) {
+			throw new Exception('Pupil not found');
+		}
+		if(!$nuclear = OphCiExamination_AnteriorSegment_Nuclear::model()->findByPk(@$_GET['nuclear_id'])) {
+			throw new Exception('Nuclear not found');
+		}
+		if(!$cortical = OphCiExamination_AnteriorSegment_Cortical::model()->findByPk(@$_GET['cortical_id'])) {
+			throw new Exception('Cortical not found');
+		}
+		
+		$combined_risk = 1;
+		
+		// Pupil
+		switch ($pupil->name) {
+			case 'Medium':
+				$combined_risk *= 1.14;
+				break;
+			case 'Small':
+				$combined_risk *= 1.15;
+				break;
+		}
+		
+		// Nuclear
+		switch ($nuclear->name) {
+			case 'Brunescent':
+				$combined_risk *= 2.99;
+				break;
+		}
+		
+		// Cortical
+		switch ($cortical->name) {
+			case 'White':
+				$combined_risk *= 2.99;
+				break;
+		}
+		
+		// PXE
+		switch (@$_GET['pxe']) {
+			case '1':
+				$combined_risk *= 2.92;
+				break;
+		}
+		
+		// Phako
+		switch (@$_GET['phako']) {
+			case '1':
+				$combined_risk *= 2.92;
+				break;
+		}
+		
+		// Surgeon
+		// TODO
+		
+		// Calculate risk
+		$base_risk = 0.00736;
+		$p = $combined_risk * ($base_risk/(1-$base_risk));
+		$risk_percentage = 100 * $p/(1 + $p);
+		
+		echo round($risk_percentage, 2);
+	}
+	
 	public function actionDilationDrops() {
 		if (!$drug = OphCiExamination_Dilation_Drugs::model()->findByPk(@$_GET['drug_id'])) {
 			throw new Exception('Dilation drug not found: '.@$_GET['drug_id']);

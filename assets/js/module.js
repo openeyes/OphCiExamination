@@ -284,6 +284,25 @@ $(document).ready(function() {
 		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_AnteriorSegment .calculate_risk', 'click', function(e) {
+		
+		// Get metrics
+		var container = $(this).closest('.eyedrawFields');
+		var risk_data = {
+				pupil_id: container.find('.pupil').val(),
+				nuclear_id: container.find('.nuclear').val(),
+				cortical_id: container.find('.cortical').val(),
+				pxe: (container.find('.pxe').attr('checked')) ? 1 : 0,
+				phako: (container.find('.phako').attr('checked')) ? 1 : 0
+		};
+		
+		// Call calculator
+		var risk_field = $(this).parent().find('.risk');
+		OphCiExamination_AnteriorSegment_updateRisk(risk_field, risk_data);
+		
+		e.preventDefault();
+	});
+
 	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopReading', 'change', function() {
 		OphCiExamination_IntraocularPressure_updateType(this);
 	});
@@ -411,6 +430,18 @@ function updateElement_OphCiExamination_AnteriorSegment(drawing, doodle) {
 				break;
 		}
 	}
+}
+
+function OphCiExamination_AnteriorSegment_updateRisk(risk_field, risk_data) {
+	$.ajax({
+		'type': 'GET',
+		'url': baseUrl+'/OphCiExamination/default/calculatepcrrisk',
+		'data': risk_data,
+		'context': risk_field,
+		'success': function(risk_percentage) {
+			$(this).val(risk_percentage);
+		}
+	});
 }
 
 function OphCiExamination_IntraocularPressure_updateType(field) {

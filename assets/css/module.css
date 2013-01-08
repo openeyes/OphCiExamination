@@ -71,3 +71,6 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 div.dilation_table_right { margin-top: 10px; }
 div.dilation_table_left { margin-top: 10px; }
 div.timeDiv { display: inline; margin-left: 12px; }
+
+#event_content .Element_OphCiExamination_AnteriorSegment input.risk { font-size: 13px; width: 33px; }
+#event_content .Element_OphCiExamination_AnteriorSegment .calculate_risk { font-size: 13px; line-height: 14px; }
