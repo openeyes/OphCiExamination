@@ -172,6 +172,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
     		return false;
     	}
     });
+    
     // description
     dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinical_desc').hide();
     dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinical_desc_' + clinical.replace(/\s+/g, '')).show();
@@ -590,15 +591,18 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
-	
 	// Note. a manual change to DR grade will mark the grade as unsynced, regardless of whether the user
 	// manually syncs or not, as we are using the manual change as an indicator that we should no longer automatically
 	// update the values. Although this will not apply between saves
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
+	$('#event_OphCiExamination').delegate(
+		'#Element_OphCiExamination_DRGrading_right_clinical_id, ' +
+		'#Element_OphCiExamination_DRGrading_left_clinical_id, ' +
+		'#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
 		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
 			, 'change', function(e) {
+		
 		var gradePK = $(this).val();
 		var grade = null;
 		
@@ -613,7 +617,7 @@ $(document).ready(function() {
 		var dr_grade = $(this).parents('.element');
 		var desc = id.substr(0,id.length-2) + 'desc';
 		dr_grade.find('.'+desc).hide();
-		dr_grade.find('#'+desc + '_' + grade).show();
+		dr_grade.find('#'+desc + '_' + grade.replace(/\s+/g, '')).show();
 		$('#drgrading_dirty').show();
 		
 		updateBookingWeeks();
@@ -632,7 +636,6 @@ $(document).ready(function() {
 			var drawingName = $(this).attr('data-drawing-name');
 			if (window[drawingName]) {
 				// the posterior segment drawing is available to sync values with
-				// TODO: this should only occur if the values are synced
 				var grades = gradeCalculator(window[drawingName]);
 				
 				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3], grades[4]);
@@ -1095,30 +1098,65 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 function OphCiExamination_VisualAcuity_init() {
 }
 
+// setup the dr grading fields (called once the Posterior Segment is fully loaded)
+// will verify whether the form values match that of the loaded eyedraws, and if not, mark as dirty
 function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
 	var dr_grade = $('.' + dr_grade_et_class);
 		
 	var grades = gradeCalculator(_drawing);
 	var retinopathy = grades[0],
-		maculopathy = grades[1]
-		side = 'right';
+		maculopathy = grades[1],
+		ret_photo   = grades[2],
+		mac_photo   = grades[3],
+		clinical    = grades[4],
+		dirty 	    = false,	
+		side        = 'right';
 
 	if (_drawing.eye) {
     	side = 'left';
     }
+	
+	// clinical
+	var cSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinical_id');
+	var cSelVal = cSel.val();
+	
+    cSel.find('option').each(function() {
+    	if ($(this).attr('value') == cSelVal) {
+        	if ($(this).attr('data-val') != clinical) {
+        		dirty = true;
+        		clinical = $(this).attr('data-val');
+        	}
+    		return false;
+    	}
+    });
+    
+    // display clinical description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinical_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinical_desc_' + clinical.replace(/\s+/g, '')).show();
+    
+    //retinopathy
     var retSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id');
     var retSelVal = retSel.val();
-    var dirty = false;
     
     retSel.find('option').each(function() {
     	if ($(this).attr('value') == retSelVal) {
     		if ($(this).attr('data-val') != retinopathy) {
     			dirty = true;
     			retinopathy = $(this).attr('data-val');
-    			return false;
     		}
+    		return false;
     	}
     });
+    
+    // retinopathy photocogaulation
+    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscretinopathy_photocoagulation\]]:checked').val() != ret_photo) {
+    	dirty = true;
+    }
+    
+    // maculopathy photocoagulation
+    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscmaculopathy_photocoagulation\]]:checked').val() != mac_photo) {
+    	dirty = true;
+    }
     
     // Maculopathy
     var macSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id');
@@ -1129,8 +1167,8 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
     		if ($(this).attr('data-val') != maculopathy) {
     			dirty = true;
     			maculopathy = $(this).attr('data-val');
-    			return false;
     		}
+    		return false;
     	}
     });
 
@@ -1157,7 +1195,6 @@ function OphCiExamination_DRGrading_init() {
 		width: 480
 	});
 	
-	
 	$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
 		
 		var drawingName = $(this).attr('data-drawing-name');
@@ -1166,6 +1203,7 @@ function OphCiExamination_DRGrading_init() {
 			var _drawing = window[drawingName];
 			var is_saved = $(this).attr('data-element-saved');
 			var grades = gradeCalculator(_drawing);
+			
 			if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
 				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
 			}
@@ -1175,10 +1213,23 @@ function OphCiExamination_DRGrading_init() {
 	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
 		var quick = $(this);
 		var iconHover = $(this).parent().find('.grade-info-icon');
+		
 		iconHover.hover(function(e){
-			quick.fadeIn('fast');
+			var infoWrap = $('<div class="quicklook"></div>');
+			infoWrap.appendTo('body');
+			infoWrap.html(quick.html());
+			
+			var offsetPos = $(this).offset();
+			var top = offsetPos.top;
+			var left = offsetPos.left + 25;
+			
+			top = top - (infoWrap.height()/2) + 8;
+			
+			if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
+			infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+			infoWrap.fadeIn('fast');
 		},function(e){
-			quick.fadeOut('fast');
+			$('body > div:last').remove();
 		});	
 	});
 	
