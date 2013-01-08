@@ -9,18 +9,7 @@
 				<?php echo $element->unit->name ?>
 			</div>
 			<div class="data">
-				<table>
-					<tbody>
-						<?php foreach($element->right_readings as $reading) { ?>
-						<tr>
-							<td><?php echo $reading->convertTo($reading->value) ?>
-							</td>
-							<td><?php echo $reading->method->name ?>
-							</td>
-						</tr>
-						<?php } ?>
-					</tbody>
-				</table>
+				<?php echo $element->getCombined('right') ?>
 			</div>
 			<?php if($element->right_comments) { ?>
 			<div class="data">
@@ -37,18 +26,7 @@
 				<?php echo $element->unit->name ?>
 			</div>
 			<div class="data">
-				<table>
-					<tbody>
-						<?php foreach($element->left_readings as $reading) { ?>
-						<tr>
-							<td><?php echo $reading->convertTo($reading->value) ?>
-							</td>
-							<td><?php echo $reading->method->name ?>
-							</td>
-						</tr>
-						<?php } ?>
-					</tbody>
-				</table>
+				<?php echo $element->getCombined('left') ?>
 			</div>
 			<?php if($element->left_comments) { ?>
 			<div class="data">
