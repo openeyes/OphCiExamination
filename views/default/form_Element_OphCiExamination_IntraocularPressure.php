@@ -58,11 +58,12 @@ $key = 0;
 								}
 							} else { 
 								$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-									'key' => 1,
+									'key' => $key,
 									'side' => 0,
 									'values' => $values,
 									'no_remove' => true
 								));
+								$key++;
 							}
 						?>
 					</tbody>
@@ -112,11 +113,12 @@ $key = 0;
 								}
 							} else { 
 								$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-									'key' => 1,
+									'key' => $key,
 									'side' => 1,
 									'values' => $values,
 									'no_remove' => true
 								));
+								$key++;
 							}
 						?>
 					</tbody>

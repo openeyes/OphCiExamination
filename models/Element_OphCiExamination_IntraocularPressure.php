@@ -249,33 +249,33 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 			// Empty side not allowed
 			if(!isset($_POST['intraocularpressure_reading']) || !$_POST['intraocularpressure_reading']) {
 				$this->addError(null,'At least one reading is required');
-				return parent::beforeValidate();
-			}
-			foreach(array('Left' => 0, 'Right' => 1) as $not_side => $side_id) {
-				if($this->eye->name != $not_side) {
-					$has_reading = false;
-					foreach($_POST['intraocularpressure_reading'] as $reading) {
-						if($reading['side'] == $side_id) {
-							$has_reading = true;
+			} else {
+				foreach(array('Left' => 0, 'Right' => 1) as $not_side => $side_id) {
+					if($this->eye->name != $not_side) {
+						$has_reading = false;
+						foreach($_POST['intraocularpressure_reading'] as $reading) {
+							if($reading['side'] == $side_id) {
+								$has_reading = true;
+							}
+						}
+						if(!$has_reading) {
+							$this->addError(null,'At least one reading is required');
+							return parent::beforeValidate();
 						}
 					}
-					if(!$has_reading) {
-						$this->addError(null,'At least one reading is required');
-						return parent::beforeValidate();
-					}
 				}
-			}
-			
-			// Check that readings validate
-			foreach($_POST['intraocularpressure_reading'] as $key => $item) {
-				if(($item['side'] == 0 && $this->eye->name != 'Left') || ($item['side'] == 1 && $this->eye->name != 'Right')) {
-					$item_model = new OphCiExamination_IntraocularPressure_Reading();
-					$item_model->measurement_timestamp = $item['measurement_timestamp'];
-					$item_model->side = $item['side'];
-					$item_model->value = $item['value'];
-					$validate_attributes = array_keys($item_model->getAttributes(false));
-					if(!$item_model->validate($validate_attributes)) {
-						$this->addErrors($item_model->getErrors());
+				
+				// Check that readings validate
+				foreach($_POST['intraocularpressure_reading'] as $key => $item) {
+					if(($item['side'] == 0 && $this->eye->name != 'Left') || ($item['side'] == 1 && $this->eye->name != 'Right')) {
+						$item_model = new OphCiExamination_IntraocularPressure_Reading();
+						$item_model->measurement_timestamp = $item['measurement_timestamp'];
+						$item_model->side = $item['side'];
+						$item_model->value = $item['value'];
+						$validate_attributes = array_keys($item_model->getAttributes(false));
+						if(!$item_model->validate($validate_attributes)) {
+							$this->addErrors($item_model->getErrors());
+						}
 					}
 				}
 			}
