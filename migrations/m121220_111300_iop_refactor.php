@@ -15,6 +15,7 @@ class m121220_111300_iop_refactor extends OEMigration {
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'side', 'TINYINT(1) UNSIGNED NOT NULL');
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'element_id', 'INT(10) UNSIGNED NOT NULL');
 		$this->addColumn('ophciexamination_intraocularpressure_reading', 'measurement_timestamp', 'TIME');
+		$this->addColumn('ophciexamination_intraocularpressure_reading', 'dilated', 'TINYINT(1) UNSIGNED NOT NULL');
 		$this->addForeignKey('ophciexamination_intraocularpressure_reading_eid_fk', 'ophciexamination_intraocularpressure_reading', 'element_id', 'et_ophciexamination_intraocularpressure', 'id');
 		
 		// Remap
@@ -29,6 +30,7 @@ class m121220_111300_iop_refactor extends OEMigration {
 				$left_reading->value = $element['left_reading_id'];
 				$left_reading->element_id = $element->id;
 				$left_reading->side = 1;
+				$left_reading->dilated = 0;
 				$left_reading->save();
 				$eyes = 2;
 			}
@@ -37,6 +39,7 @@ class m121220_111300_iop_refactor extends OEMigration {
 				$right_reading->value = $element['right_reading_id'];
 				$right_reading->element_id = $element->id;
 				$right_reading->side = 0;
+				$right_reading->dilated = 0;
 				$right_reading->save();
 				$eyes += 1;
 			}

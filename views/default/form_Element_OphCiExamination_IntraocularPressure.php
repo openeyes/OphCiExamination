@@ -40,6 +40,7 @@ $key = 0;
 						<tr>
 							<th>Time (HH:MM)</th>
 							<th>mm Hg</th>
+							<th>Dilated?</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -95,6 +96,7 @@ $key = 0;
 						<tr>
 							<th>Time (HH:MM)</th>
 							<th>mm Hg</th>
+							<th>Dilated?</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -138,6 +140,7 @@ $key = 0;
 </div>
 
 <script id="intraocularpressure_reading_template" type="text/html">
+	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
 	<?php
 	$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
 			'key' => '{{key}}',

@@ -338,16 +338,6 @@ $(document).ready(function() {
 		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopReading', 'change', function() {
-		OphCiExamination_IntraocularPressure_updateType(this);
-	});
-
-	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
-		if (Element_OphCiExamination_IntraocularPressure_link_instruments) {
-			$(this).closest('.element').find('.iopInstrument').val($(this).val());
-		}
-	});
-
 	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
@@ -357,13 +347,15 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
+		if (Element_OphCiExamination_IntraocularPressure_link_instruments) {
+			$(this).closest('.element').find('.iopInstrument').val($(this).val());
+		}
+	});
+
 	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();
-		if ($('tbody', block).children('tr').length == 0) {
-			$('.noReadings', block).show();
-			$('table', block).hide();
-		}
 		e.preventDefault();
 	});
 
@@ -534,21 +526,6 @@ rootItem = element.children('li:first').text();
 element.append(element.children('li').sort(selectSort));
 }
 
-function OphCiExamination_IntraocularPressure_updateType(field) {
-	var type = $(field).closest('.data').find('.iopInstrument');
-	if ($(field).val() == 1) {
-		type.attr('disabled', 'disabled');
-	} else {
-		type.removeAttr('disabled');
-	}
-}
-
-function OphCiExamination_IntraocularPressure_init() {
-	$("#event_content .Element_OphCiExamination_IntraocularPressure .iopReading").each(function() {
-		OphCiExamination_IntraocularPressure_updateType(this);
-	});
-}
-
 function OphCiExamination_Refraction_updateSegmentedField(field) {
 	var parts = $(field).parent().children('select');
 	var value = $(parts[0]).val() * (parseFloat($(parts[1]).val()) + parseFloat($(parts[2]).val()));
@@ -592,10 +569,12 @@ function OphCiExamination_IntraocularPressure_addReading(side) {
 		"side" : (side == 'right' ? 0 : 1),
 	};
 	var form = Mustache.render(template, data);
-	$('#event_content .Element_OphCiExamination_IntraocularPressure .[data-side="' + side + '"] .noReadings').hide();
 	var table = $('#event_content .Element_OphCiExamination_IntraocularPressure .[data-side="' + side + '"] table');
-	table.show();
+	var dilated = $('.intraocularPressureReading .dilated', table).last().attr('checked');
 	$('tbody', table).append(form);
+	if(dilated) {
+		$('.intraocularPressureReading .dilated', table).last().attr('checked','checked');
+	}
 }
 
 /**

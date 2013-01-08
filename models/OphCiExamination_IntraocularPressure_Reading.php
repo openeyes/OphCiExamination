@@ -25,6 +25,7 @@
  * @property integer $side
  * @property integer $value
  * @property string $measurement_timestamp
+ * @property boolean $dilated
 
  */
 class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
@@ -49,8 +50,8 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('element_id, side, value, measurement_timestamp', 'required'),
-				array('id, element_id, side, value, measurement_timestamp', 'safe', 'on'=>'search'),
+				array('element_id, side, value, measurement_timestamp, dilated', 'required'),
+				array('id, element_id, side, value, measurement_timestamp, dilated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,7 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 				'value' => 'Reading',
 				'measurement_timestamp' => 'Time',
 				'side' => 'Side',
+				'dilated' => 'Dilated'
 		);
 	}
 	

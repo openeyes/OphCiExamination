@@ -32,6 +32,10 @@
 	<td>
 	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][value]', @$reading->value); ?>
 	</td>
+	<td>
+	<?php echo CHtml::hiddenField('intraocularpressure_reading['.$key.'][dilated]', 0); ?>
+	<?php echo CHtml::checkBox('intraocularpressure_reading['.$key.'][dilated]', @$reading->dilated, array('class' => 'dilated')); ?>
+	</td>
 	<?php if(!isset($no_remove) || !$no_remove) { ?>
 	<td class="readingActions"><a class="removeReading" href="#">Remove</a></td>
 	<?php } ?>

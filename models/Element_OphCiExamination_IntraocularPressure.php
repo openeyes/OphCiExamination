@@ -226,6 +226,7 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 				$reading_model->value = $reading['value'];
 				$reading_model->measurement_timestamp = $reading['measurement_timestamp'];
 				$reading_model->side = $reading['side'];
+				$reading_model->dilated = $reading['dilated'];
 				$reading_model->save();
 
 			}
@@ -272,6 +273,7 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 						$item_model->measurement_timestamp = $item['measurement_timestamp'];
 						$item_model->side = $item['side'];
 						$item_model->value = $item['value'];
+						$item_model->dilated = $item['dilated'];
 						$validate_attributes = array_keys($item_model->getAttributes(false));
 						if(!$item_model->validate($validate_attributes)) {
 							$this->addErrors($item_model->getErrors());

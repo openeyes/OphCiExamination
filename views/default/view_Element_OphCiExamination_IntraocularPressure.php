@@ -15,6 +15,7 @@
 						<tr>
 							<td><?php echo date('g:ia',strtotime($reading->measurement_timestamp)) ?> - </td>
 							<td><?php echo $reading->value ?> mm Hg</td>
+							<td><?php if($reading->dilated) { ?>(dilated)<?php } ?></td>
 						</tr>
 						<?php } ?>
 					</tbody>
@@ -43,6 +44,7 @@
 						<tr>
 							<td><?php echo date('g:ia',strtotime($reading->measurement_timestamp)) ?> - </td>
 							<td><?php echo $reading->value ?> mm Hg</td>
+							<td><?php if($reading->dilated) { ?>(dilated)<?php } ?></td>
 						</tr>
 						<?php } ?>
 					</tbody>
