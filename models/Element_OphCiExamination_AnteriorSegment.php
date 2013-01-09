@@ -31,7 +31,8 @@
  * @property boolean $left_pxe
  * @property boolean $left_phako
  * @property string $left_description
- * @propery string $left_pcr_risk
+ * @property string $left_pcr_risk
+ * @property integer $left_surgeon_id
  * @property string $right_eyedraw
  * @property integer $right_pupil_id
  * @property integer $right_nuclear_id
@@ -39,7 +40,8 @@
  * @property boolean $right_pxe
  * @property boolean $right_phako
  * @property string $right_description
- * @propery string $right_pcr_risk
+ * @property string $right_pcr_risk
+ * @property integer $right_surgeon_id
  *
  * The followings are the available model relations:
  */
@@ -71,17 +73,18 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 		return array(
 				array('eye_id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
 						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description, left_pcr_risk, right_pcr_risk', 'safe'),
-				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
-				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
+				array('left_eyedraw, left_description, left_surgeon_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_eyedraw, right_description, right_surgeon_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
-						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description, left_pcr_risk, right_pcr_risk', 'safe', 'on' => 'search'),
+						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description, left_pcr_risk,
+						right_pcr_risk, left_surgeon_id, right_surgeon_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('pupil_id', 'cortical_id', 'pxe', 'eyedraw', 'phako', 'description', 'nuclear_id', 'pcr_risk');
+		return array('pupil_id', 'cortical_id', 'pxe', 'eyedraw', 'phako', 'description', 'nuclear_id', 'pcr_risk', 'surgeon');
 	}
 	
 	/**
@@ -103,6 +106,8 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 				'left_nuclear' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Nuclear', 'left_nuclear_id'),
 				'right_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'right_cortical_id'),
 				'left_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'left_cortical_id'),
+				'right_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Surgeon', 'right_surgeon_id'),
+				'left_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Surgeon', 'left_surgeon_id'),
 		);
 	}
 
@@ -121,6 +126,7 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 				'left_phako' => 'Phakodonesis',
 				'left_description' => 'Description',
 				'left_pcr_risk' => 'PCR Risk',
+				'left_surgeon_id' => 'Surgeon',
 				'right_eyedraw' => 'Eyedraw',
 				'right_pupil_id' => 'Pupil Size',
 				'right_nuclear_id' => 'Nuclear',
@@ -129,6 +135,7 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 				'right_phako' => 'Phakodonesis',
 				'right_description' => 'Description',
 				'right_pcr_risk' => 'PCR Risk',
+				'right_surgeon_id' => 'Surgeon',
 		);
 	}
 

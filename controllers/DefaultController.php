@@ -203,6 +203,9 @@ class DefaultController extends BaseEventTypeController {
 		if(!$cortical = OphCiExamination_AnteriorSegment_Cortical::model()->findByPk(@$_GET['cortical_id'])) {
 			throw new Exception('Cortical not found');
 		}
+		if(!$surgeon = OphCiExamination_AnteriorSegment_Surgeon::model()->findByPk(@$_GET['surgeon_id'])) {
+			throw new Exception('Surgeon not found');
+		}
 		
 		$combined_risk = 1;
 		
@@ -230,6 +233,9 @@ class DefaultController extends BaseEventTypeController {
 				break;
 		}
 		
+		// Surgeon
+		$combined_risk *= $surgeon->risk;
+		
 		// PXE
 		switch (@$_GET['pxe']) {
 			case '1':
@@ -243,9 +249,6 @@ class DefaultController extends BaseEventTypeController {
 				$combined_risk *= 2.92;
 				break;
 		}
-		
-		// Surgeon
-		// TODO
 		
 		// Calculate risk
 		$base_risk = 0.00736;

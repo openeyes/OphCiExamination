@@ -292,6 +292,7 @@ $(document).ready(function() {
 				pupil_id: container.find('.pupil').val(),
 				nuclear_id: container.find('.nuclear').val(),
 				cortical_id: container.find('.cortical').val(),
+				surgeon_id: container.find('.surgeon').val(),
 				pxe: (container.find('.pxe').attr('checked')) ? 1 : 0,
 				phako: (container.find('.phako').attr('checked')) ? 1 : 0
 		};
