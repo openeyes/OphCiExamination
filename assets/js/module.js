@@ -452,6 +452,20 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#Element_OphCiExamination_Dilation_time_right').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
+
+	$('#Element_OphCiExamination_Dilation_time_left').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
+
 	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_OpticDisc .opticDiscToggle', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');

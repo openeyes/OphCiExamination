@@ -130,3 +130,16 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 }
 #risks_unselected { clear: both; margin: 0 0 5px; }
 #risks_unselected a { margin-left: 10px; }
+
+#div_dilation_drug_right { margin-left: -10px; display: inline; }
+#div_dilation_drug_left { margin-left: -10px; display: inline; }
+#div_Element_OphCiExamination_Dilation_time_right { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_left { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_right .label { width: 55px !important; margin-top: 3px; }
+#div_Element_OphCiExamination_Dilation_time_left .label { width: 55px !important; margin-top: 3px; }
+#Element_OphCiExamination_Dilation_time_right { width: 48px; }
+#Element_OphCiExamination_Dilation_time_left { width: 48px; }
+div.dilation_table_right { margin-top: 10px; }
+div.dilation_table_left { margin-top: 10px; }
+div.timeDiv { display: inline; margin-left: 12px; }
+
