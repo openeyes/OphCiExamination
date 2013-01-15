@@ -68,6 +68,5 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #div_Element_OphCiExamination_Dilation_time_left .label { width: 55px !important; margin-top: 3px; }
 #Element_OphCiExamination_Dilation_time_right { width: 48px; }
 #Element_OphCiExamination_Dilation_time_left { width: 48px; }
-div.dilation_table_right { margin-top: 10px; }
-div.dilation_table_left { margin-top: 10px; }
+div.dilation_table { margin-top: 10px; }
 div.timeDiv { display: inline; margin-left: 12px; }

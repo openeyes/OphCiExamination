@@ -371,7 +371,67 @@ $(document).ready(function() {
 		}
 		return true;
 	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'change', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_Dilation_addTreatment(this, side);
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .removeTreatment', 'click', function(e) {
+		var wrapper = $(this).closest('.side');
+		var side = wrapper.attr('data-side');
+		var row = $(this).closest('tr');
+		var id = $('td:first input', row).val();
+		var name = $('td:first span', row).text();
+		row.remove();
+		var dilation_drug = wrapper.find('.dilation_drug');
+		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
+		sort_selectbox(dilation_drug);
+		if ($('.dilation_table tbody tr', wrapper).length == 0) {
+			$('.dilation_table', wrapper).hide();
+			$('.timeDiv', wrapper).hide();
+		}
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .clearDilation', 'click', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		$(this).closest('.side').find('tr.dilationTreatment a.removeTreatment').click();
+		e.preventDefault();
+	});
+
 });
+
+function OphCiExamination_Dilation_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;		
+	} else {
+		return 0;
+	}
+}
+
+function OphCiExamination_Dilation_addTreatment(element, side) {
+	var drug_id = $('option:selected', element).val();
+	var drug_name = $('option:selected', element).text();
+	$('option:selected', element).remove();
+	// TODO: All readding of element on removal from treatment list
+	var template = $('#dilation_treatment_template').html();
+	var data = {
+		"key" : OphCiExamination_Dilation_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1),
+		"drug_name" : drug_name,
+		"drug_id" : drug_id,
+	};
+	var form = Mustache.render(template, data);
+	var table = $('#event_content .Element_OphCiExamination_Dilation .[data-side="' + side + '"] .dilation_table');
+	table.show();
+	$(element).closest('.side').find('.timeDiv').show();
+	$('tbody', table).append(form);
+}
 
 // Global function to route eyedraw event to the correct element handler
 function eDparameterListener(drawing) {
@@ -475,7 +535,11 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
-	return Math.max.apply(null, keys) + 1;
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;		
+	} else {
+		return 0;
+	}
 }
 
 function OphCiExamination_VisualAcuity_addReading(side) {

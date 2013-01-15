@@ -17,11 +17,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr>
+<tr class="dilationTreatment" data-key="<?php echo $key ?>">
 	<td>
-		<span><?php echo $drug->drug->name?></span>
+		<?php if(isset($treatment) && $treatment->id) { ?>
+		<input type="hidden"
+			name="dilation_treatment[<?php echo $key ?>][id]"
+			value="<?php echo $treatment->id?>" />
+		<?php } ?>
+		<input type="hidden"
+			name="dilation_treatment[<?php echo $key ?>][side]"
+			value="<?php echo $side ?>" />
+		<span><?php echo $drug_name ?></span>
+		<input type="hidden" name="dilation_treatment[<?php echo $key ?>][drug_id]" value="<?php echo @$drug_id ?>" />
 	</td>
 	<td>
-		<?php echo $drug->drops?> drop<?php if ($drug->drops != 1) {?>s<?php }?>
+		<select name="dilation_treatment[<?php echo $key ?>][drops]">
+			<?php for ($i=1;$i<=10;$i++) {?>
+				<option value="<?php echo $i?>"<?php if ($i == @$treatment->drops) {?> selected="selected"<?php }?>><?php echo $i?></option>
+			<?php }?>
+		</select>
+	</td>
+	<td class="treatmentActions">
+		<a href="#" class="removeTreatment">Remove</a>
 	</td>
 </tr>
