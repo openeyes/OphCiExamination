@@ -7,7 +7,7 @@ class m130115_122300_dilation_changes extends OEMigration {
 		$this->addColumn('et_ophciexamination_dilation', 'left_time', 'time NOT NULL');
 		$this->addColumn('et_ophciexamination_dilation', 'right_time', 'time NOT NULL');
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
-		$this->alterColumn("et_ophciexamination_dilation','eye_id','int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
+		$this->alterColumn('et_ophciexamination_dilation','eye_id','int(10) unsigned NOT NULL DEFAULT '.$both_eyes_id);
 
 		$this->createTable('ophciexamination_dilation_treatment', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
