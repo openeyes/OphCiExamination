@@ -17,21 +17,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<?php $key = 0; ?>
 <div class="cols2 clearfix">
-	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+	<input type="hidden" name="dilation_treatments_valid" value="1" />
+	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
+	<div
+		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'',array('empty'=>'--- Please select ---'))?>
-			<button class="clearDilationRight classy green mini" type="button">
+			<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---'))?>
+			<button class="clearDilation classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
-			<div class="timeDiv right"<?php if (!$element->getDilationDrugs('right')) {?> style="display: none;"<?php }?>>
+			<?php $right_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'right') : $element->right_treatments); ?>
+			<div class="timeDiv right"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
 				<span class="label">Time:</span>
-				<?php echo $form->textField($element,'time_right',array('nowrapper'=>'true'))?>
+				<?php echo $form->textField($element,'right_time',array('nowrapper'=>'true'))?>
 			</div>
-			<div class="grid-view dilation_table_right"<?php if (!$element->getDilationDrugs('right')) {?> style="display: none;"<?php }?>>
+			<div class="grid-view dilation_table"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
@@ -41,11 +45,16 @@
 						</tr>
 					</thead>
 					<tbody id="dilation_right">
-						<?php if ($element->getDilationDrugs('right')) {
-							foreach ($element->getDilationDrugs('right') as $drug) {
-								$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
-							}
-						}?>
+						<?php foreach ($right_treatments as $treatment) {
+								$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment',array(
+									'treatment' => $treatment,
+									'key' => $key,
+									'side' => $treatment->side,
+									'drug_name' => $treatment->drug->name,
+									'drug_id' => $treatment->drug_id,
+								));
+							$key++;
+						} ?>
 					</tbody>
 				</table>
 			</div>
@@ -54,19 +63,21 @@
 			<a href="#">Add right side</a>
 		</div>
 	</div>
-	<div class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+	<div
+		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'',array('empty'=>'--- Please select ---'))?>
-			<button class="clearDilationLeft classy green mini" type="button">
+			<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---'))?>
+			<button class="clearDilation classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
-			<div class="timeDiv left"<?php if (!$element->getDilationDrugs('left')) {?> style="display: none;"<?php }?>>
+			<?php $left_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'left') : $element->left_treatments); ?>
+			<div class="timeDiv left"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
 				<span class="label">Time:</span>
-				<?php echo $form->textField($element,'time_left',array('nowrapper'=>'true'))?>
+				<?php echo $form->textField($element,'left_time',array('nowrapper'=>'true'))?>
 			</div>
-			<div class="grid-view dilation_table_left"<?php if (!$element->getDilationDrugs('left')) {?> style="display: none;"<?php }?>>
+			<div class="grid-view dilation_table"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
@@ -76,11 +87,16 @@
 						</tr>
 					</thead>
 					<tbody id="dilation_left">
-						<?php if ($element->getDilationDrugs('left')) {
-							foreach ($element->getDilationDrugs('left') as $drug) {
-								$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
-							}
-						}?>
+						<?php foreach ($left_treatments as $treatment) {
+								$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment',array(
+									'treatment' => $treatment,
+									'key' => $key,
+									'side' => $treatment->side,
+									'drug_name' => $treatment->drug->name,
+									'drug_id' => $treatment->drug_id,
+								));
+							$key++;
+						} ?>
 					</tbody>
 				</table>
 			</div>
@@ -89,54 +105,18 @@
 			<a href="#">Add left side</a>
 		</div>
 	</div>
+	<div class="inactiveForm">
+		<a href="#">Add left side</a>
+	</div>
 </div>
-<script type="text/javascript">
-$('#dilation_drug_right').change(function() {
-	getDilationDrug($(this),'right');
-	return false;
-});
 
-$('#dilation_drug_left').change(function() {
-	getDilationDrug($(this),'left');
-	return false;
-});
-
-$('.removeDilationDrug').die('click').live('click',function() {
-	var side = $(this).parent().parent().parent().attr('id').match(/right/) ? 'right' : 'left';
-	var id = $(this).parent().parent().children('td:first').children('input').val();
-	var name = $(this).parent().parent().children('td:first').children('span').text();
-	$(this).parent().parent().remove();
-	$('#dilation_drug_'+side).append('<option value="'+id+'">'+name+'</option>');
-	sort_selectbox($('#dilation_drug_'+side));
-	if ($('#dilation_'+side).children('tr').length == 0) {
-		$('#dilation_'+side).parent().parent().hide();
-		$('div.timeDiv.'+side).hide();
-	}
-	return false;
-});
-
-$('.clearDilationRight').die('click').live('click',function() {
-	$('#dilation_right').children('tr').children('td:nth-child(3)').children('a').click();
-	return false;
-});
-
-$('.clearDilationLeft').die('click').live('click',function() {
-	$('#dilation_left').children('tr').children('td:nth-child(3)').children('a').click();
-	return false;
-});
-
-function getDilationDrug(element, side) {
-	if (element.val() != '') {
-		$.ajax({
-			'type': 'GET',
-			'url': baseUrl+'/OphCiExamination/default/dilationDrops?drug_id='+element.val()+'&side='+side,
-			'success': function(html) {
-				$('#dilation_'+side).append(html);
-				$('div.dilation_table_'+side).show();
-				$('div.timeDiv.'+side).show();
-				element.children('option[value="'+element.val()+'"]').remove();
-			}
-		});
-	}
-}
+<script id="dilation_treatment_template" type="text/html">
+	<?php
+	$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment', array(
+			'key' => '{{key}}',
+			'side' => '{{side}}',
+			'drug_name' => '{{drug_name}}',
+			'drug_id' => '{{drug_id}}',
+	));
+	?>
 </script>
