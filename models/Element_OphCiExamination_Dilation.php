@@ -230,5 +230,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 
 		return parent::afterSave();
 	}
-	
+
+	public function wrap() {
+		return parent::wrap(array(
+			'ophciexamination_dilation_treatment' => 'element_id',
+		));
+	}
 }

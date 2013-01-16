@@ -291,4 +291,10 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			$this->addError('selected_diagnoses','Please select some diagnoses');
 		}
 	}
+
+	public function wrap() {
+		return parent::wrap(array(
+			'ophciexamination_diagnosis' => 'element_diagnoses_id',
+		));
+	}
 }
