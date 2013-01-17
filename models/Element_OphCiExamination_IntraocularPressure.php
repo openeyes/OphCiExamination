@@ -104,7 +104,7 @@ class Element_OphCiExamination_IntraocularPressure extends SplitEventTypeElement
 	}
 
 	public function getInstrumentOptions() {
-		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(), 'id', 'name') ;
+		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
 	}
 
 	public function getValueOptions() {
