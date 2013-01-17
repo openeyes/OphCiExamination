@@ -27,7 +27,9 @@
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'right_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+						echo $form->dropDownTextSelection($element, 'right_description',
+							CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
+							array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
 					}?>
 				</div>
 				<?php echo $form->textArea($element, 'right_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
@@ -45,7 +47,9 @@
 			<div class="data">
 				<div class="textMacros inline">
 					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'left_description', CHtml::listData($attribute->options, 'value', 'label'), array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
+						echo $form->dropDownTextSelection($element, 'left_description',
+							CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
+							array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
 				}?>
 				</div>
 				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>

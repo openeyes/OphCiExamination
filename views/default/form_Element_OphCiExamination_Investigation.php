@@ -22,7 +22,9 @@
 	<div class="data">
 		<div class="textMacros">
 			<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-				echo $form->dropDownTextSelection($element, 'description', CHtml::listData($attribute->options, 'value', 'label'), array('empty' => '-- '.$attribute->label.' --','class' => 'textMacro','nowrapper'=>true));
+				echo $form->dropDownTextSelection($element, 'description',
+					CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
+					array('empty' => '-- '.$attribute->label.' --','class' => 'textMacro','nowrapper'=>true));
 			}?>
 		</div>
 		<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
