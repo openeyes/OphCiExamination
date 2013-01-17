@@ -18,22 +18,24 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_diagnoses".
+ * This is the model class for table "et_ophciexamination_dilation".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
+ * @property integer $eye_id
+ * @property string $left_time
+ * @property string $right_time
+ * 
  *
  * The followings are the available model relations:
  */
 
 class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
-	public $time_right;
-	public $time_left;
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return the static model class
+	 * @return Element_OphCiExamination_Dilation
 	 */
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -54,9 +56,9 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, eye_id', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id', 'safe', 'on' => 'search'),
+				array('left_time', 'requiredIfSide', 'side' => 'left'),
+				array('right_time', 'requiredIfSide', 'side' => 'right'),
+				array('id, event_id, eye_id, left_time, right_time', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -73,11 +75,16 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'left' => array(self::HAS_ONE, 'OphCiExamination_Dilation_Side', 'element_id', 'on' => "eye_id = 1"),
-			'right' => array(self::HAS_ONE, 'OphCiExamination_Dilation_Side', 'element_id', 'on' => "eye_id = 2"),
+			'treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id'),
+			'right_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = 0'),
+			'left_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = 1'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('time');
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -86,7 +93,6 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 				'id' => 'ID',
 				'event_id' => 'Event',
 				'eye_id' => 'Eye',
-				'disorder_id' => 'Disorder',
 		);
 	}
 
@@ -102,125 +108,132 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('time', $this->time);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
-	public function afterFind() {
-		$this->time_right = $this->right ? $this->right->getTime() : date('H:i');
-		$this->time_left = $this->left ? $this->left->getTime() : date('H:i');
-	}
-
 	public function setDefaultOptions() {
-		if (Yii::app()->getController()->getAction()->id == 'create' || Yii::app()->getController()->getAction()->id == 'ElementForm') {
-			if (empty($_POST)) {
-				$this->time_right = $this->time_left = date('H:i');
+		$this->left_time = date('H:i');
+		$this->right_time = date('H:i');
+	}
+
+	/**
+	 * Converts a (POSTed) form to an array of treatment models.
+	 * Required when redisplaying form after validation error.
+	 * @param array $treatments array POSTed array of treatments
+	 * @param string $side
+	 */
+	public function convertTreatments($treatments, $side) {
+		$return = array();
+		$side_id = ($side == 'right') ? 0 : 1;
+		if (is_array($treatments)) {
+			foreach($treatments as $treatment) {
+				if($treatment['side'] == $side_id) {
+					$treatment_model = new OphCiExamination_Dilation_Treatment();
+					$treatment_model->attributes = $treatment;
+					$return[] = $treatment_model;
+				}
 			}
 		}
-	}
-
-	public function getDilationDrugs($side) {
-		if (empty($_POST)) {
-			return $this->{'dilationDrugs'.ucfirst($side)};
-		}
-
-		if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
-			$drugs = array();
-
-			foreach ($_POST['DilationDrugs'.ucfirst($side)] as $drug_id) {
-				$drug = new OphCiExamination_Dilation_Drug;
-				$drug->side_id = ($side == 'left' ? 1 : 2);
-				$drug->drug_id = $drug_id;
-				$drug->drops = $_POST['DilationDrugDrops'.ucfirst($side).$drug_id];
-
-				$drugs[] = $drug;
-			}
-
-			return $drugs;
-		}
-
-		return false;
-	}
-
-	public function getDilationDrugsLeft() {
-		return $this->left ? $this->left->drugs : false;
-	}
-
-	public function getDilationDrugsRight() {
-		return $this->right ? $this->right->drugs : false;
+		return $return;
 	}
 
 	public function getUnselectedDilationDrugs($side) {
 		$criteria = new CDbCriteria;
-
-		if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
-			$criteria->addNotInCondition('id',$_POST['DilationDrugs'.ucfirst($side)]);
+		if (!empty($_POST['dilation_treatment'])) {
+			$treatments = $this->convertTreatments($_POST['dilation_treatment'], $side);
+		} else {
+			$treatments = $this->{$side.'_treatments'};
 		}
-
+		$drug_ids = CHtml::listData($treatments, 'id', 'drug_id');
+		$criteria->addNotInCondition('id',$drug_ids);
 		$criteria->order = 'display_order asc';
-
 		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
 	}
 
-	public function afterValidate() {
-		if (!empty($_POST['DilationDrugsRight']) && !preg_match('/^[0-9]+:[0-9]+$/',$_POST['Element_OphCiExamination_Dilation']['time_right'])) {
-			$this->addError('time_right','Please enter a valid time in the format hh:mm');
-		}
-		if (!empty($_POST['DilationDrugsLeft']) && !preg_match('/^[0-9]+:[0-9]+$/',$_POST['Element_OphCiExamination_Dilation']['time_left'])) {
-			$this->addError('time_left','Please enter a valid time in the format hh:mm');
-		}
-	}
-
-	public function beforeSave() {
-		if (!empty($_POST['DilationDrugsRight']) && !empty($_POST['DilationDrugsLeft'])) {
-			$this->eye_id = 3;
-		} else if (!empty($_POST['DilationDrugsRight'])) {
-			$this->eye_id = 2;
-		} else if (!empty($_POST['DilationDrugsLeft'])) {
-			$this->eye_id = 1;
-		}
-
-		return parent::beforeSave();
-	}
-
-	public function afterSave() {
-		foreach (array('left'=>1,'right'=>2) as $side => $eye_id) {
-			if (!empty($_POST['DilationDrugs'.ucfirst($side)])) {
-				if (!$dilation_side = OphCiExamination_Dilation_Side::model()->find('element_id=? and eye_id=?',array($this->id,$eye_id))) {
-					$dilation_side = new OphCiExamination_Dilation_Side;
-					$dilation_side->element_id = $this->id;
-					$dilation_side->eye_id = $eye_id;
-				}
-				$dilation_side->time = $_POST['Element_OphCiExamination_Dilation']['time_'.$side];
-				if (!$dilation_side->save()) {
-					throw new Exception('Unable to save '.$side.' side: '.print_r($dilation_side->getErrors(),true));
-				}
-
-				foreach ($_POST['DilationDrugs'.ucfirst($side)] as $drug_id) {
-					if (!$drug = OphCiExamination_Dilation_Drug::model()->find('side_id=? and drug_id=?',array($dilation_side->id,$drug_id))) {
-						$drug = new OphCiExamination_Dilation_Drug;
-						$drug->side_id = $dilation_side->id;
-						$drug->drug_id = $drug_id;
-					}
-					$drug->drops = $_POST['DilationDrugDrops'.ucfirst($side).$drug_id];
-					if (!$drug->save()) {
-						throw new Exception('Unable to save drug: '.print_r($drug->getErrors(),true));
-					}
-				}
-
-				foreach ($dilation_side->drugs as $drug) {
-					if (!in_array($drug->drug_id, $_POST['DilationDrugs'.ucfirst($side)])) {
-						if (!$drug->delete()) {
-							throw new Exception('Unable to delete drug: '.print_r($drug->getErrors(),true));
-						}
-					}
-				}
+	protected function beforeValidate() {
+		if (!isset($_POST['dilation_treatment'])) {
+			$this->addError('dilation_treatment','Please select at least one treatment, or remove the element');
+		} else {
+			$sides = array(0 => false, 1 => false);
+			foreach($_POST['dilation_treatment'] as $dilation_treatment) {
+				$sides[$dilation_treatment['side']] = true;
+			}
+			if($this->hasLeft() && !$sides[1]) {
+				$this->addError('dilation_treatment','Please select at least one treatment, or remove the left side');
+			}
+			if($this->hasRight() && !$sides[0]) {
+				$this->addError('dilation_treatment','Please select at least one treatment, or remove the right side');
 			}
 		}
 
+		return parent::beforeValidate();
+	}
+
+	protected function beforeDelete() {
+		foreach ($this->treatments as $treatment) {
+			if (!$treatment->delete()) {
+				throw new Exception('Delete treatment failed: '.print_r($treatment->getErrors(),true));
+			}
+		}
+		return parent::beforeDelete();
+	}
+	
+	protected function afterSave() {
+		// Check to see if treatments have been posted
+		if(isset($_POST['dilation_treatments_valid']) && $_POST['dilation_treatments_valid']) {
+
+			// Get a list of ids so we can keep track of what's been removed
+			$existing_treatment_ids = array();
+			foreach($this->treatments as $treatment) {
+				$existing_treatment_ids[$treatment->id] = $treatment->id;
+			}
+
+			// Process (any) posted treatments
+			$new_treatments = (isset($_POST['dilation_treatment'])) ? $_POST['dilation_treatment'] : array();
+			foreach($new_treatments as $treatment) {
+				
+				// Check to see if side is inactive
+				if($treatment['side'] == 0 && $this->eye_id == 1
+						|| $treatment['side'] == 1 && $this->eye_id == 2) {
+					continue;
+				}
+				
+				if(isset($treatment['id']) && isset($existing_treatment_ids[$treatment['id']])) {
+
+					// Treatment is being updated
+					$treatment_model = OphCiExamination_Dilation_Treatment::model()->findByPk($treatment['id']);
+					unset($existing_treatment_ids[$treatment['id']]);
+
+				} else {
+
+					// Treatment is new
+					$treatment_model = new OphCiExamination_Dilation_Treatment();
+					$treatment_model->element_id = $this->id;
+
+				}
+
+				// Save treatment attributes
+				$treatment_model->drops = $treatment['drops'];
+				$treatment_model->drug_id = $treatment['drug_id'];
+				$treatment_model->side = $treatment['side'];
+				$treatment_model->save();
+
+			}
+
+			// Delete remaining (removed) ids
+			OphCiExamination_Dilation_Treatment::model()->deleteByPk(array_values($existing_treatment_ids));
+
+		}
+
 		return parent::afterSave();
+	}
+
+	public function wrap() {
+		return parent::wrap(array(
+			'OphCiExamination_Dilation_Treatment' => 'element_id',
+		));
 	}
 }

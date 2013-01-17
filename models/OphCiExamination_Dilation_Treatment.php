@@ -18,16 +18,20 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_dilation_drug".
+ * This is the model class for table "ophciexamination_dilation_treatment".
  *
  * @property integer $id
- * @property string $name
+ * @property integer $element_id
+ * @property integer $side
+ * @property integer $drug_id
+ * @property integer $drops
+ * 
  */
-class OphCiExamination_Dilation_Drug extends BaseActiveRecord {
+class OphCiExamination_Dilation_Treatment extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Dilation_Drug the static model class
+	 * @return OphCiExamination_Dilation_Treatment the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -37,7 +41,7 @@ class OphCiExamination_Dilation_Drug extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_dilation_drug';
+		return 'ophciexamination_dilation_treatment';
 	}
 
 	/**
@@ -45,8 +49,8 @@ class OphCiExamination_Dilation_Drug extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('side_id, drug_id, drops, display_order', 'safe'),
-				array('id, name, display_order', 'safe', 'on'=>'search'),
+				array('side, drug_id, drops, element_id', 'safe'),
+				array('id, side, drug_id, drops, element_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +59,8 @@ class OphCiExamination_Dilation_Drug extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
+			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Dilation', 'element_id'),
 			'drug' => array(self::BELONGS_TO, 'OphCiExamination_Dilation_Drugs', 'drug_id'),
-			'side' => array(self::BELONGS_TO, 'OphCiExamination_Dilation_Side', 'side_id'),
 		);
 	}
 
@@ -67,7 +71,6 @@ class OphCiExamination_Dilation_Drug extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
