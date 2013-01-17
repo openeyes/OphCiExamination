@@ -313,7 +313,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		return $text."\n";
 	}
 
-	public function wrap() {
+	public function wrap($params=array()) {
 		return parent::wrap(array(
 			'OphCiExamination_VisualAcuity_Reading' => 'element_id',
 		));

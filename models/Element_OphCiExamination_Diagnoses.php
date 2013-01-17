@@ -292,7 +292,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		}
 	}
 
-	public function wrap() {
+	public function wrap($params=array()) {
 		return parent::wrap(array(
 			'OphCiExamination_Diagnosis' => 'element_diagnoses_id',
 		));
