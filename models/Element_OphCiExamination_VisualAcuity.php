@@ -315,7 +315,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 
 	public function wrap() {
 		return parent::wrap(array(
-			'ophciexamination_visualacuity_reading' => 'element_id',
+			'OphCiExamination_VisualAcuity_Reading' => 'element_id',
 		));
 	}
 }
