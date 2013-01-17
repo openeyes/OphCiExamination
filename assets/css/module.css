@@ -39,12 +39,21 @@
 div.activeForm div.aligned { clear: both;}
 div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { display: inline-block; }
 #event_content .metaData { margin-top: 20px; }
-#event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
-#event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
-#event_content .Element_OphCiExamination_VisualAcuity .eventDetail { padding-bottom: 0; }
-#event_content .Element_OphCiExamination_VisualAcuity .data { display: block; margin-bottom: 10px; }
-#event_content .Element_OphCiExamination_VisualAcuity table { margin-bottom: 5px; }
-#event_content .Element_OphCiExamination_VisualAcuity .readingActions { font-size: 11px; line-height: 16px;}
+#event_content .Element_OphCiExamination_IntraocularPressure label { font-size: 13px; }
+#event_content .Element_OphCiExamination_VisualAcuity th,
+#event_content .Element_OphCiExamination_IntraocularPressure th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity td,
+#event_content .Element_OphCiExamination_IntraocularPressure td { padding: 2px 10px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .eventDetail,
+#event_content .Element_OphCiExamination_IntraocularPressure .eventDetail { padding-bottom: 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .data,
+#event_content .Element_OphCiExamination_IntraocularPressure .data { display: block; margin-bottom: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity .data input,
+#event_content .Element_OphCiExamination_IntraocularPressure .data input { font-size: 13px; }
+#event_content .Element_OphCiExamination_VisualAcuity table,
+#event_content .Element_OphCiExamination_IntraocularPressure table { margin-bottom: 5px; }
+#event_content .Element_OphCiExamination_VisualAcuity .readingActions,
+#event_content .Element_OphCiExamination_IntraocularPressure .readingActions { font-size: 12px; line-height: 19px;}
 #event_content canvas { float: left; border: 1px solid #ccc; margin: 0; }
 #event_content div.ed_toolbar { margin: 0 0 10px; }
 #event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
@@ -53,10 +62,15 @@ div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { disp
 #event_content .eyedrawFields .label,#event_content .eyedrawFields .data { display: inline-block; }
 #event_content .eyedrawFields .aligned .label { width: 75px; }
 #event_content .Element_OphCiExamination_Refraction .eyedrawFields { width: 320px; }
+/*
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left,
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-width: 4px 0 0 0; border-color: #000; border-style: solid; width: 493px; }
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left { border-right-width: 2px; text-align: right; }
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left {
+	border-right-width: 2px;
+	text-align: right;
+}
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-left-width: 2px; }
+*/
 span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 span.hint {font-style: italic;}
 
@@ -123,4 +137,14 @@ span.hint {font-style: italic;}
 #risks_unselected { clear: both; margin: 0 0 5px; }
 #risks_unselected a { margin-left: 10px; }
 
-#event_content .cols2 .eventDetail { clear: left; }
+
+#div_dilation_drug_right { margin-left: -10px; display: inline; }
+#div_dilation_drug_left { margin-left: -10px; display: inline; }
+#div_Element_OphCiExamination_Dilation_time_right { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_left { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_right .label { width: 55px !important; margin-top: 3px; }
+#div_Element_OphCiExamination_Dilation_time_left .label { width: 55px !important; margin-top: 3px; }
+#Element_OphCiExamination_Dilation_time_right { width: 48px; }
+#Element_OphCiExamination_Dilation_time_left { width: 48px; }
+div.dilation_table { margin-top: 10px; }
+div.timeDiv { display: inline; margin-left: 12px; }

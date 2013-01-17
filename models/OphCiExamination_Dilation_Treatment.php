@@ -18,21 +18,20 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_intraocularpressure_reading".
+ * This is the model class for table "ophciexamination_dilation_treatment".
  *
  * @property integer $id
  * @property integer $element_id
  * @property integer $side
- * @property integer $value
- * @property string $measurement_timestamp
- * @property boolean $dilated
-
+ * @property integer $drug_id
+ * @property integer $drops
+ * 
  */
-class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
+class OphCiExamination_Dilation_Treatment extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_IntraocularPressure_Reading the static model class
+	 * @return OphCiExamination_Dilation_Treatment the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -42,7 +41,7 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_intraocularpressure_reading';
+		return 'ophciexamination_dilation_treatment';
 	}
 
 	/**
@@ -50,8 +49,8 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('element_id, side, value, measurement_timestamp, dilated', 'required'),
-				array('id, element_id, side, value, measurement_timestamp, dilated', 'safe', 'on'=>'search'),
+				array('side, drug_id, drops, element_id', 'safe'),
+				array('id, side, drug_id, drops, element_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,24 +59,11 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_IntraocularPressure', 'element_id'),
+			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Dilation', 'element_id'),
+			'drug' => array(self::BELONGS_TO, 'OphCiExamination_Dilation_Drugs', 'drug_id'),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels() {
-		return array(
-				'id' => 'ID',
-				'element_id' => 'Element',
-				'value' => 'Reading',
-				'measurement_timestamp' => 'Time',
-				'side' => 'Side',
-				'dilated' => 'Dilated'
-		);
-	}
-	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

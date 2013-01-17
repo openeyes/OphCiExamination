@@ -833,8 +833,13 @@ $(document).ready(function() {
 		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopReading', 'change', function() {
-		OphCiExamination_IntraocularPressure_updateType(this);
+	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
+		OphCiExamination_Refraction_updateType(this);
+	});
+
+	$('#event_display').delegate('.element .segmented select', 'change', function() {
+		var field = $(this).nextAll('input');
+		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
@@ -843,13 +848,16 @@ $(document).ready(function() {
 		}
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
-		OphCiExamination_Refraction_updateType(this);
+	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .removeReading', 'click', function(e) {
+		var block = $(this).closest('.data');
+		$(this).closest('tr').remove();
+		e.preventDefault();
 	});
 
-	$('#event_display').delegate('.element .segmented select', 'change', function() {
-		var field = $(this).nextAll('input');
-		OphCiExamination_Refraction_updateSegmentedField(field);
+	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .addReading', 'click', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_IntraocularPressure_addReading(side);
+		e.preventDefault();
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
@@ -939,6 +947,20 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#Element_OphCiExamination_Dilation_time_right').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
+
+	$('#Element_OphCiExamination_Dilation_time_left').die('keypress').live('keypress',function(e) {
+		if (e.keyCode == 13) {
+			return false;
+		}
+		return true;
+	});
+
 	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_OpticDisc .opticDiscToggle', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -951,6 +973,36 @@ $(document).ready(function() {
 		}
 		doodle.setHandleProperties();
 		eyedraw.repaint();
+		e.preventDefault();
+	});
+
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'change', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_Dilation_addTreatment(this, side);
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .removeTreatment', 'click', function(e) {
+		var wrapper = $(this).closest('.side');
+		var side = wrapper.attr('data-side');
+		var row = $(this).closest('tr');
+		var id = $('td:first input', row).val();
+		var name = $('td:first span', row).text();
+		row.remove();
+		var dilation_drug = wrapper.find('.dilation_drug');
+		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
+		sort_selectbox(dilation_drug);
+		if ($('.dilation_table tbody tr', wrapper).length == 0) {
+			$('.dilation_table', wrapper).hide();
+			$('.timeDiv', wrapper).hide();
+		}
+		e.preventDefault();
+	});
+
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .clearDilation', 'click', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		$(this).closest('.side').find('tr.dilationTreatment a.removeTreatment').click();
 		e.preventDefault();
 	});
 
@@ -1007,24 +1059,51 @@ $(document).ready(function() {
 	});
 });
 
-function sort_ul(element) {
-rootItem = element.children('li:first').text();
-element.append(element.children('li').sort(selectSort));
-}
-
-function OphCiExamination_IntraocularPressure_updateType(field) {
-	var type = $(field).closest('.data').find('.iopInstrument');
-	if ($(field).val() == 1) {
-		type.attr('disabled', 'disabled');
+function OphCiExamination_Dilation_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;		
 	} else {
-		type.removeAttr('disabled');
+		return 0;
 	}
 }
 
-function OphCiExamination_IntraocularPressure_init() {
-	$("#event_content .Element_OphCiExamination_IntraocularPressure .iopReading").each(function() {
-		OphCiExamination_IntraocularPressure_updateType(this);
-	});
+function OphCiExamination_Dilation_addTreatment(element, side) {
+	var drug_id = $('option:selected', element).val();
+	var drug_name = $('option:selected', element).text();
+	$('option:selected', element).remove();
+	// TODO: All readding of element on removal from treatment list
+	var template = $('#dilation_treatment_template').html();
+	var data = {
+		"key" : OphCiExamination_Dilation_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1),
+		"drug_name" : drug_name,
+		"drug_id" : drug_id,
+	};
+	var form = Mustache.render(template, data);
+	var table = $('#event_content .Element_OphCiExamination_Dilation .[data-side="' + side + '"] .dilation_table');
+	table.show();
+	$(element).closest('.side').find('.timeDiv').show();
+	$('tbody', table).append(form);
+}
+
+// Global function to route eyedraw event to the correct element handler
+function eDparameterListener(drawing) {
+	var doodle = null;
+	if (drawing.selectedDoodle) {
+		doodle = drawing.selectedDoodle;
+	}
+	var element_type = $(drawing.canvasParent).closest('.element').attr('data-element-type-class');
+	if (typeof window['update' + element_type] === 'function') {
+		window['update' + element_type](drawing, doodle);
+	}
+}
+
+function sort_ul(element) {
+rootItem = element.children('li:first').text();
+element.append(element.children('li').sort(selectSort));
 }
 
 function OphCiExamination_Refraction_updateSegmentedField(field) {
@@ -1053,6 +1132,32 @@ function OphCiExamination_Refraction_init() {
 }
 
 /**
+ * Intraocular Pressure
+ */
+
+function OphCiExamination_IntraocularPressure_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_IntraocularPressure .intraocularPressureReading').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	return Math.max.apply(null, keys) + 1;
+}
+
+function OphCiExamination_IntraocularPressure_addReading(side) {
+	var template = $('#intraocularpressure_reading_template').html();
+	var data = {
+		"key" : OphCiExamination_IntraocularPressure_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1),
+	};
+	var form = Mustache.render(template, data);
+	var table = $('#event_content .Element_OphCiExamination_IntraocularPressure .[data-side="' + side + '"] table');
+	var dilated = $('.intraocularPressureReading .dilated', table).last().attr('checked');
+	$('tbody', table).append(form);
+	if(dilated) {
+		$('.intraocularPressureReading .dilated', table).last().attr('checked','checked');
+	}
+}
+
+/**
  * Visual Acuity
  */
 
@@ -1060,7 +1165,11 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
-	return Math.max.apply(null, keys) + 1;
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;		
+	} else {
+		return 0;
+	}
 }
 
 function OphCiExamination_VisualAcuity_addReading(side) {

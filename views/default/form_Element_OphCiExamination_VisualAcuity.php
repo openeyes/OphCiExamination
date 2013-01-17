@@ -34,6 +34,11 @@ $key = 0;
 				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right')); ?>
 				<table <?php if(!$right_readings) { ?> style="display: none;"
 <?php } ?>>
+					<thead>
+						<tr>
+							<th><?php echo $element->unit->name ?></th>
+						</tr>
+					</thead>
 					<tbody>
 						<?php foreach($right_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
@@ -74,6 +79,11 @@ $key = 0;
 				<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left')); ?>
 				<table <?php if(!$left_readings) { ?> style="display: none;"
 						<?php } ?>>
+					<thead>
+						<tr>
+							<th><?php echo $element->unit->name ?></th>
+						</tr>
+					</thead>
 					<tbody>
 						<?php foreach($left_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
