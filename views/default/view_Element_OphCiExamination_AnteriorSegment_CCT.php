@@ -5,20 +5,17 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if($element->hasRight()) {
-				$this->renderPartial('view_' . get_class($element) . '_OEEyeDraw',
-					array('side' => 'right', 'element' => $element));
+				echo $element->right_value;
 			} else { ?>
 			Not recorded
 			<?php } ?>
 		</div>
 		<div class="right eventDetail">
 			<?php if($element->hasLeft()) {
-				$this->renderPartial('view_' . get_class($element) . '_OEEyeDraw',
-					array('side' => 'left', 'element' => $element));
+				echo $element->left_value;
 			} else { ?>
 			Not recorded
 			<?php } ?>
 		</div>
 	</div>
-	<?php $this->renderChildDefaultElements($element, $this->action->id, $form, $data); ?>
 </div>

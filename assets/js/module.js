@@ -580,7 +580,6 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 	var drug_id = $('option:selected', element).val();
 	var drug_name = $('option:selected', element).text();
 	$('option:selected', element).remove();
-	// TODO: All readding of element on removal from treatment list
 	var template = $('#dilation_treatment_template').html();
 	var data = {
 		"key" : OphCiExamination_Dilation_getNextKey(),
