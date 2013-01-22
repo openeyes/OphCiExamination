@@ -3,6 +3,9 @@
 		<?php  echo $element->elementType->name ?>
 	</h4>
 	<div class="eventDetail">
-		<?php  echo $element->summary ?>
+		<?php echo $element->summary ?>
+		<?php if($comments = trim($element->comments)) { ?>
+		(<?php echo $comments ?>)
+		<?php } ?>
 	</div>
 </div>

@@ -88,6 +88,7 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
 
+#risks_selected { margin: 0 0 10px; }
 #risks_selected ul { padding: 0; margin: 0; }
 #risks_selected ul:before, #risks_selected ul:after { content: ""; display: table; }
 #risks_selected ul:after { clear: both; }
