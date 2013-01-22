@@ -134,3 +134,4 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 div.dilation_table { margin-top: 10px; }
 div.timeDiv { display: inline; margin-left: 12px; }
 
+#event_content .Element_OphCiExamination_AnteriorSegment_CCT .cct_value { width: 50px; }

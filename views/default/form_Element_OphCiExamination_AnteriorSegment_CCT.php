@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
+<?php $methods = CHtml::listData(OphCiExamination_AnteriorSegment_CCT_Method::model()->findAll(array('order' => 'display_order')),'id','name') ?>
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
@@ -25,7 +25,8 @@
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->textField($element, 'right_value', array('nowrapper' => true)) ?>
+			<?php echo $form->textField($element, 'right_value', array('nowrapper' => true, 'class' => 'cct_value')) ?> &micro;m,
+			using <?php echo $form->dropDownList($element, 'right_method_id', $methods, array('nowrapper' => true)) ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add right side</a>
@@ -36,7 +37,8 @@
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->textField($element, 'left_value', array('nowrapper' => true)) ?>
+			<?php echo $form->textField($element, 'left_value', array('nowrapper' => true, 'class' => 'cct_value')) ?> &micro;m,
+			using <?php echo $form->dropDownList($element, 'left_method_id', $methods, array('nowrapper' => true)) ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add left side</a>
