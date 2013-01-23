@@ -16,19 +16,18 @@ $this->header();
 	));
 	?>
 
-	<?php $this->displayErrors($errors)?>
-
 	<div id="elements">
+		<?php $this->displayErrors($errors)?>
 		<div id="active_elements">
 			<?php $this->renderDefaultElements($this->action->id, $form); ?>
 		</div>
-		<div id="optionals_all" class="clearfix">
+		<div class="optionals-header clearfix">
 			<h4>Optional Elements</h4>
 			<div>
-				<span class="allButton"><a id="add-all" href="#">Add all</a><img
+				<span class="allButton"><a class="add-all" href="#">Add all</a><img
 					src="<?php echo Yii::app()->createUrl('img/_elements/icons/extra-element_added.png')?>"
-					alt="extra-element_added" width="30" height="20" /></span> <span
-					class="allButton"><a id="remove-all" href="#">Remove all</a><img
+					alt="extra-element_added" width="30" height="20" /></span>
+				<span class="allButton"><a class="remove-all" href="#">Remove all</a><img
 					src="<?php echo Yii::app()->createUrl('img/_elements/icons/extra-element_remove.png')?>"
 					alt="extra-element_remove" width="30" height="20" /></span>
 			</div>
@@ -57,4 +56,3 @@ $this->header();
 </div>
 
 <?php $this->footer() ?>
-
