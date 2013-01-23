@@ -82,6 +82,10 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return array('axis' => 0, 'type_id' => 1);
 	}
 	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
