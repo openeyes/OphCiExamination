@@ -76,6 +76,10 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 		return array('cd_ratio_id' => 5);
 	}
 	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
