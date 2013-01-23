@@ -47,8 +47,11 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		<div class="data">
 			<?php echo $element->getAttributeLabel($side.'_diameter') ?>
 			:
-			<?php echo $element->{$side.'_diameter'} ?>
-		</div>
+			<?php echo $element->{$side.'_diameter'} ?> mm
+			<?php if($element->{$side.'_lens_id'}) { ?>
+			(lens <?php echo $element->{$side.'_lens'}->name ?>)
+			<?php } ?>
+			</div>
 	</div>
 </div>
 

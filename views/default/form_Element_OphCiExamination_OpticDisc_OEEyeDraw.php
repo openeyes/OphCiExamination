@@ -61,11 +61,11 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	</div>
 	<div>
 		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_diameter'); ?>
-			:
+			<?php echo $element->getAttributeLabel($side.'_diameter'); ?>:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeDropDownList($element, $side.'_diameter', $element->getDiameterOptions())?>
+			<?php echo CHtml::activeDropDownList($element, $side.'_diameter', $element->getDiameterOptions()) ?> mm
+			(lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', $element->getLensOptions(), array('empty' => '--')) ?>)
 		</div>
 	</div>
 	<div>
