@@ -22,6 +22,7 @@
  *
  * @property integer $id
  * @property string $name
+ * @property integer $display_order
  */
 class OphCiExamination_Instrument extends BaseActiveRecord {
 

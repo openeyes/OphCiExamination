@@ -17,6 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<?php $methods = CHtml::listData(OphCiExamination_AnteriorSegment_CCT_Method::model()->findAll(array('order' => 'display_order')),'id','name') ?>
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
@@ -24,16 +25,8 @@
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'right_description',
-							CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
-							array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
-					}?>
-				</div>
-				<?php echo $form->textArea($element, 'right_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
-			</div>
+			<?php echo $form->textField($element, 'right_value', array('nowrapper' => true, 'class' => 'cct_value')) ?> &micro;m,
+			using <?php echo $form->dropDownList($element, 'right_method_id', $methods, array('nowrapper' => true)) ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add right side</a>
@@ -44,16 +37,8 @@
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<div class="textMacros inline">
-					<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-						echo $form->dropDownTextSelection($element, 'left_description',
-							CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
-							array('nowrapper'=>true, 'empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro'));
-				}?>
-				</div>
-				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
-			</div>
+			<?php echo $form->textField($element, 'left_value', array('nowrapper' => true, 'class' => 'cct_value')) ?> &micro;m,
+			using <?php echo $form->dropDownList($element, 'left_method_id', $methods, array('nowrapper' => true)) ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add left side</a>

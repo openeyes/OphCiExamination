@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * OpenEyes
  *
@@ -18,32 +18,25 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_refraction".
+ * This is the model class for table "et_ophciexamination_anteriorsegment_cct".
  *
  * The followings are the available columns in table:
- * @property string $id
+ * @property integer $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property decimal $left_sphere
- * @property decimal $left_cylinder
- * @property integer $left_axis
- * @property string $left_axis_eyedraw
- * @property string $left_type_id
- * @property string $left_type_other
- * @property decimal $right_sphere
- * @property decimal $right_cylinder
- * @property integer $right_axis
- * @property string $right_axis_eyedraw
- * @property string $right_type_id
- * @property string $right_type_other
+ * @property string $left_value
+ * @property string $right_value
+ * @property OphCiExamination_AnteriorSegment_CCT_Method $left_method
+ * @property OphCiExamination_AnteriorSegment_CCT_Method $right_method
+ *
+ * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
-	public $service;
+class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return the static model class
+	 * @return Element_OphCiExamination_AnteriorSegment_CCT
 	 */
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -53,7 +46,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_refraction';
+		return 'et_ophciexamination_anteriorsegment_cct';
 	}
 
 	/**
@@ -63,35 +56,26 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
-				array('left_axis', 'requiredIfSide', 'side' => 'left'),
-				array('left_axis', 'numerical', 'integerOnly'=>true),
-				array('right_axis', 'requiredIfSide', 'side' => 'right'),
-				array('right_axis', 'numerical', 'integerOnly'=>true),
+				array('eye_id, event_id', 'safe'),
+				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
+				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_method_id, right_method_id, left_value, right_value', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
+		return array('value', 'method_id');
 	}
 	
 	public function sidedDefaults() {
-		return array('axis' => 0, 'type_id' => 1);
+		return array();
 	}
-	
-	public function canCopy() {
-		return true;
-	}
-	
 	/**
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
@@ -99,8 +83,8 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_type' => array(self::BELONGS_TO, 'OphCiExamination_Refraction_Type', 'left_type_id'),
-				'right_type' => array(self::BELONGS_TO, 'OphCiExamination_Refraction_Type', 'right_type_id'),
+				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'right_method_id'),
 		);
 	}
 
@@ -111,29 +95,11 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_sphere' => 'Sphere',
-				'left_cylinder' => 'Cylinder',
-				'left_axis' => 'Axis',
-				'left_type_id' => 'Type',
-				'left_type_other' => 'Other Type',
-				'right_sphere' => 'Sphere',
-				'right_cylinder' => 'Cylinder',
-				'right_axis' => 'Axis',
-				'right_type_id' => 'Type',
-				'right_type_other' => 'Other Type',
+				'left_value' => 'Value',
+				'right_value' => 'Value',
+				'left_method' => 'Method',
+				'right_method' => 'Method',
 		);
-	}
-
-	public function getCombined($side) {
-		return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '° ' . $this->getType($side);
-	}
-
-	public function getType($side) {
-		if($this->{$side.'_type_id'}) {
-			return $this->{$side.'_type'}->name;
-		} else {
-			return $this->{$side.'_type_other'};
-		}
 	}
 
 	/**
@@ -148,18 +114,11 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-
-		$criteria->compare('left_sphere', $this->left_sphere);
-		$criteria->compare('left_cylinder', $this->left_cylinder);
-		$criteria->compare('left_axis', $this->left_axis);
-		$criteria->compare('left_type_id', $this->left_type_id);
-		$criteria->compare('left_type_other', $this->left_type_other);
-		$criteria->compare('right_sphere', $this->right_sphere);
-		$criteria->compare('right_cylinder', $this->right_cylinder);
-		$criteria->compare('right_axis', $this->right_axis);
-		$criteria->compare('right_type_id', $this->right_type_id);
-		$criteria->compare('right_type_other', $this->right_type_other);
-
+		$criteria->compare('left_value', $this->left_value);
+		$criteria->compare('right_value', $this->right_value);
+		$criteria->compare('left_method_id', $this->left_method_id);
+		$criteria->compare('right_method_id', $this->right_method_id);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -177,7 +136,4 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return parent::beforeValidate();
 	}
 
-	public function getLetter_string() {
-		return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('right')."\n";
-	}
 }

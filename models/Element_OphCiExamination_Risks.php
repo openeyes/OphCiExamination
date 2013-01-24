@@ -21,11 +21,13 @@
 
 /**
  * The followings are the available columns in table 'et_ophciexamination_risks':
- * @property string $id
+ * @property integer $id
  * @property integer $event_id
+ * @property string $comments
  *
  * The followings are the available model relations:
  * @property Event $event
+ * @property OphCiExamination_Risks_Risk[] $risks
  */
 class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 
@@ -51,10 +53,10 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, risks_valid', 'safe'),
+				array('event_id, comments', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, risks_valid', 'safe', 'on' => 'search'),
+				array('id, event_id, comments', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,7 +80,6 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels() {
-
 		return array(
 		);
 	}
@@ -101,13 +102,6 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		));
 	}
 
-	public function getRisks_Valid() {
-		return null;
-	}
-	
-	public function setRisks_Valid() {
-	}
-	
 	public function getRiskOptions() {
 		$risks = OphCiExamination_Risks_Risk::model()->findAll();
 		return CHtml::encodeArray(CHtml::listData($risks, 'id', 'name'));
@@ -137,7 +131,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	protected function afterSave() {
 		
 		// Check to see if risks have been posted
-		if(isset($_POST['Element_OphCiExamination_Risks']['risks_valid']) && $_POST['Element_OphCiExamination_Risks']['risks_valid']) {
+		if(isset($_POST['risks_risks_valid']) && $_POST['risks_risks_valid']) {
 
 			// Get a list of ids so we can keep track of what's been removed
 			$existing_risk_ids = array();

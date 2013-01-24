@@ -22,6 +22,7 @@
  * This is the model class for table "ophciexamination_attribute_option".
  *
  * @property integer $id
+ * @property Subspecialty $subspecialty
  * @property OphCiExamination_Attribute $attribute
  * @property string $value
  * @property string $delimiter
@@ -67,6 +68,7 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 	public function relations() {
 		return array(
 				'attribute' => array(self::BELONGS_TO, 'OphCiExamination_Attribute', 'attribute_id'),
+				'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
 		);
 	}
 

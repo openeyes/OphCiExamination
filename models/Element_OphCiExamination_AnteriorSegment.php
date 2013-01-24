@@ -85,6 +85,11 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement {
 	public function sidedDefaults() {
 		return array();
 	}
+	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

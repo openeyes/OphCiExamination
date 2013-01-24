@@ -1,25 +1,6 @@
-#active_elements .element { position: relative; }
-#active_elements h4.elementTypeName { border-top: 2px dotted #8C949C; }
-#active_elements .element h5 { background: #ccc; padding: 2px 4px; }
-#active_elements .removeElement { position: absolute; right: 5px; top: 7px; z-index: 1; }
-#active_elements .active_child_elements h4.elementTypeName {border-top: 2px dotted #56A7F1; }
-#active_elements .inactive_child_elements .element {background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top right no-repeat; padding: 5px; color: #fff; border-bottom: 1px dotted #fafafa; cursor: pointer;}
-#active_elements .inactive_child_elements .element h5 {margin: 0; line-height: 1em; padding: 0 5px; background: none;}
 
 .quicklook { width:280px;  top:0px; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
 
-#inactive_elements .element { background: #8C949C url(../../../img/_elements/icons/extra-element_view.png) top right no-repeat; padding: 5px; color: #fff; border-bottom: 1px dotted #fafafa; cursor: pointer; } 
-#inactive_elements h5 { margin: 0; line-height: 1em; padding: 0 5px; } 
-#inactive_elements .element:hover { background-color: #3665ff; } 
-#inactive_elements .element.clicked { background: #ddd url(../../../img/ajax-loader.gif) 1010px 4px no-repeat; } 
-#inactive_elements .element.clicked h5 { color: #333; } 
-#active_elements .inactive_child_elements .element.clicked { background: #ddd url(../../../img/ajax-loader.gif) 1010px 4px no-repeat; } 
-#active_elements .inactive_child_elements .element.clicked h5 { color: #333; } 
-#optionals_all { font-size: 12px; border-bottom: 1px dotted #fafafa; border-top: 2px dotted #8C949C; margin-top: 10px; background: #dae6f1; }
-#event_content #optionals_all h4 { margin: 0; padding: 6px 8px; float: left; border: none; }
-#optionals_all div { float: right; height: 28px; }
-#optionals_all .allButton { display: inline-block; height: 20px; padding: 0 0 2px 15px; margin: 3px 0 0 1px; cursor: pointer; } 
-#optionals_all .allButton > a { position: relative; top: 2px; }
 .textMacro { margin: 0 0 10px; } 
 .textMacro.inline { display: inline-block; }
 .textMacro { width: 120px; }
@@ -36,6 +17,7 @@
 #event_content .cols2 .activeForm { width: 100% }
 #event_content .cols2 div.label { width: 140px; display: inline; }
 #event_content .cols2 .data { display: inline; }
+#event_content .eventDetail .eventDetail { background: none; margin-right: 10px; }
 div.activeForm div.aligned { clear: both;}
 div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { display: inline-block; }
 #event_content .metaData { margin-top: 20px; }
@@ -62,15 +44,6 @@ div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { disp
 #event_content .eyedrawFields .label,#event_content .eyedrawFields .data { display: inline-block; }
 #event_content .eyedrawFields .aligned .label { width: 75px; }
 #event_content .Element_OphCiExamination_Refraction .eyedrawFields { width: 320px; }
-/*
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left,
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-width: 4px 0 0 0; border-color: #000; border-style: solid; width: 493px; }
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .left {
-	border-right-width: 2px;
-	text-align: right;
-}
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .right { border-left-width: 2px; }
-*/
 span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 span.hint {font-style: italic;}
 
@@ -102,6 +75,7 @@ span.hint {font-style: italic;}
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
 
+#risks_selected { margin: 0 0 10px; }
 #risks_selected ul { padding: 0; margin: 0; }
 #risks_selected ul:before, #risks_selected ul:after { content: ""; display: table; }
 #risks_selected ul:after { clear: both; }
@@ -148,3 +122,5 @@ span.hint {font-style: italic;}
 #Element_OphCiExamination_Dilation_time_left { width: 48px; }
 div.dilation_table { margin-top: 10px; }
 div.timeDiv { display: inline; margin-left: 12px; }
+
+#event_content .Element_OphCiExamination_AnteriorSegment_CCT .cct_value { width: 50px; }

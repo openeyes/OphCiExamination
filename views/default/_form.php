@@ -23,12 +23,23 @@
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="removeElement">
-		<button class="classy blue mini">
+	<div class="elementActions">
+		<?php if(@$child) { ?>
+		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue nano">
+			<span class="button-span icon-only"><img
+				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
+				alt="+" width="21" height="19"> </span>
+		</button>
+		<?php } else {
+			if($this->canCopy($element->elementType->class_name)) { ?>
+		<a href="#" title="Import Previous" class="importPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
+		<?php } ?>
+		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue mini">
 			<span class="button-span icon-only"><img
 				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
 				alt="+" width="24" height="22"> </span>
 		</button>
+		<?php } ?>
 	</div>
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
@@ -40,8 +51,9 @@
 		array('element' => $element, 'data' => $data, 'form' => $form),
 		false, false
 	); 
-
 	?>
+	
+	<?php if(!@$child) { ?>
 	<div class="active_child_elements">
 		<?php 
 		$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
@@ -51,6 +63,8 @@
 		<?php
 		$this->renderChildOptionalElements($element, $this->action->id, $form, $data);
 		?>
-	</div>	
+	</div>
+	<?php } ?>
+	
 </div>
 	

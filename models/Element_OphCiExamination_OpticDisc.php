@@ -72,6 +72,10 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id');
 	}
 	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

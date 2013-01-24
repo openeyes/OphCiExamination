@@ -18,20 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_attribute".
+ * This is the model class for table "ophciexamination_anteriorsegment_cct_method".
  *
  * @property integer $id
  * @property string $name
- * @property string $label
- * @property OphCiExamination_AttributeOption[] $options
- * @property integer $element_type_id
+ * @property integer $display_order
 
  */
-class OphCiExamination_Attribute extends BaseActiveRecord {
+class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Attribute the static model class
+	 * @return OphCiExamination_AnteriorSegment_CCT_Method
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -41,16 +39,16 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_attribute';
+		return 'ophciexamination_anteriorsegment_cct_method';
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model visualacuity_methods.
 	 */
 	public function rules() {
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('name, display_order', 'required'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,35 +57,9 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'options' => array(self::HAS_MANY, 'OphCiExamination_AttributeOption', 'attribute_id'),
 		);
 	}
 
-	/**
-	 *
-	 * @param integer $subspecialty_id
-	 */
-	public function findAllOptionsForSubspecialty($subspecialty_id = null) {
-		$condition = 'attribute_id = :attribute_id AND ';
-		$params = array(':attribute_id' => $this->id);
-		if($subspecialty_id) {
-			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
-			$params[':subspecialty_id'] = $subspecialty_id;
-		} else {
-			$condition .=  'subspecialty_id IS NULL';
-		}
-		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
-	}
-	
-	/**
-	 * 
-	 * @param BaseEventTypeElement $element
-	 */
-	public function findAllByElement($element) {
-		$element_type = $element->getElementType();
-		return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
-	}
-	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -96,9 +68,9 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('display_order',$this->display_order,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}
-
 }
