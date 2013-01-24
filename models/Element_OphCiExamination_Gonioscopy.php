@@ -80,6 +80,10 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 		return array('gonio_sup_id', 'gonio_tem_id', 'gonio_nas_id', 'gonio_inf_id', 'van_herick_id', 'description', 'eyedraw');
 	}
 	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

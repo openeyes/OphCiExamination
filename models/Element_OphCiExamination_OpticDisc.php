@@ -28,13 +28,15 @@
  * @property string $right_description
  * @property float $left_diameter
  * @property float $right_diameter
- * @property integer $left_cd_ratio_id
- * @property integer $right_cd_ratio_id
  * @property string $left_eyedraw
  * @property string $right_eyedraw
  *
  * The followings are the available model relations:
  * @property Event $event
+ * @property OphCiExamination_OpticDisc_Lens $left_lens
+ * @property OphCiExamination_OpticDisc_Lens $right_lens
+ * @property OphCiExamination_OpticDisc_CDRatio $left_cd_ratio
+ * @property OphCiExamination_OpticDisc_CDRatio $right_cd_ratio
  */
 class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 
@@ -60,16 +62,21 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_diameter, right_diameter, left_description, right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id, right_cd_ratio_id', 'safe'),
+				array('eye_id, event_id, left_diameter, right_diameter, left_description,
+						right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id,
+						right_cd_ratio_id, left_lens_id, right_lens_id',
+						'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id, right_cd_ratio_id',
+				array('eye_id, event_id, left_description, right_description, left_eyedraw,
+						right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id,
+						right_cd_ratio_id, left_lens_id, right_lens_id',
 						'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id');
+		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
 	}
 	
 	public function canCopy() {
@@ -91,6 +98,8 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_CDRatio', 'left_cd_ratio_id'),
 				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_CDRatio', 'right_cd_ratio_id'),
+				'left_lens' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_Lens', 'left_lens_id'),
+				'right_lens' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_Lens', 'right_lens_id'),
 		);
 	}
 
@@ -101,14 +110,16 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_diameter' => 'Diameter',
-				'right_diameter' => 'Diameter',
+				'left_diameter' => 'Vertical Diameter',
+				'right_diameter' => 'Vertical Diameter',
 				'left_description' => 'Description',
 				'right_description' => 'Description',
 				'left_eyedraw' => 'EyeDraw',
 				'right_eyedraw' => 'EyeDraw',
 				'left_cd_ratio_id' => 'C/D Ratio',
 				'right_cd_ratio_id' => 'C/D Ratio',
+				'left_lens_id' => 'Lens',
+				'right_lens_id' => 'Lens',
 		);
 	}
 
@@ -142,6 +153,10 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 			$range[$key] = sprintf('%01.1f',$value);
 		}
 		return array_combine($range,$range);
+	}
+	public function getLensOptions() {
+		$options = OphCiExamination_OpticDisc_Lens::model()->findAll(array('order' => 'display_order'));
+		return CHtml::listData($options, 'id', 'name');
 	}
 	
 	/**
