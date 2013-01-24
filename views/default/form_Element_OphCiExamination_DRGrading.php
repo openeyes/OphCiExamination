@@ -18,14 +18,18 @@
  */
 ?>
 <div class="clearfix">
-<div style="margin-top:-30px; margin-left:120px;">
-	<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
-	<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
-</div>
-<div class="drgrading_images_dialog"
-	title="DR Grading Images">
-	<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
-</div>
+
+<!--  only provide image popup if provided to the webserver -->
+<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg") ) { ?>
+	<div style="margin-top:-30px; margin-left:120px;">
+		<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+		<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+	</div>
+	<div class="drgrading_images_dialog"
+		title="DR Grading Images">
+		<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
+	</div>
+<?php } ?>
 </div>
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
