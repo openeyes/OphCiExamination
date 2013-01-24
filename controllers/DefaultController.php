@@ -18,6 +18,53 @@ class DefaultController extends NestedElementsEventTypeController {
 		parent::actionPrint($id);
 	}
 
+	protected function getCleanDefaultElements($event_type_id) {
+		return $this->getElementsBySet($this->episode);
+	}
+
+	protected function getCleanChildDefaultElements($parent, $event_type_id) {
+		return $this->getChildElementsBySet($parent, $this->episode);
+	}
+	
+	/**
+	 * Get the array of elements for the current site, subspecialty and episode status
+	 * @param Episode $episode
+	 * @param integer $default
+	 */
+	protected function getElementsBySet($episode = null) {
+		$elements = array();
+		$site_id = Yii::app()->request->cookies['site_id']->value;
+		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+		$status_id = ($episode) ? $episode->episode_status_id : 1;
+		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
+		$element_types = $set->DefaultElementTypes;
+		foreach($element_types as $element_type) {
+			if (!$element_type->parent_element_type_id) {
+				$elements[] = new $element_type->class_name;
+			}
+		}
+		return $elements;
+	}
+	
+	/*
+	 * returns the child elements of the provided parent element that are in the set for the current subspecialty etc
+	 * 
+	 */
+	protected function getChildElementsBySet($parent, $episode = null) {
+		$elements = array();
+		$site_id = Yii::app()->request->cookies['site_id']->value;
+		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+		$status_id = ($episode) ? $episode->episode_status_id : 1;
+		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
+		$element_types = $set->DefaultElementTypes;
+		foreach($element_types as $element_type) {
+			if ($element_type->parent_element_type_id == $parent->id) {
+				$elements[] = new $element_type->class_name;
+			}
+		}
+		return $elements;
+	}
+
 	public function actionGetDisorderTableRow() {
 		if (@$_GET['disorder_id'] == '0') return;
 
