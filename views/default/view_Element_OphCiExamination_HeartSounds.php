@@ -6,6 +6,5 @@
 		S1+S2: <?php echo $element->s1s2; ?>
 		<br/>Systolic Murmur: <?php echo $element->systolic_murmur; ?>
 		<br/>Diastolic Murmur: <?php echo $element->diastolic_murmur; ?>
-		</div>
 	</div>
 </div>

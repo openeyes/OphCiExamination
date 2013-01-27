@@ -5,10 +5,11 @@ class m130127_101500_hackday_elements extends CDbMigration
 	public function up() {
 		$event_type = Yii::app()->db->createCommand("select * from event_type where class_name = 'OphCiExamination'")->queryRow();
 
-		$position = 11;
+		$this->update('element_type', array('display_order' => 11), "class_name = 'Element_OphCiExamination_Smoking'");
+		$position = 13;
 		foreach(array(
-				'Lungs' => 'Lungs',
 				'HeartSounds' => 'Heart Sounds',
+				'Lungs' => 'Lungs',
 				'PeripheralOedema' => 'Peripheral Oedema',
 				'Groin' => 'Groin',
 				) as $class => $name)
@@ -20,7 +21,7 @@ class m130127_101500_hackday_elements extends CDbMigration
 					'display_order' => $position,
 					'default' => 1,
 			));
-			$position = $position + 2;
+			$position++;
 			$table_name = 'et_ophciexamination_'.strtolower($class);
 			$this->createTable($table_name, array(
 					'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
