@@ -10,7 +10,7 @@ class m130126_171739_observations_element extends CDbMigration
 				'name' => 'Observations',
 				'class_name' => 'Element_OphCiExamination_Observations',
 				'event_type_id' => $event_type['id'],
-				'display_order' => 65,
+				'display_order' => 12,
 				'default' => 1,
 		));
 
