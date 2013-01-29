@@ -20,5 +20,7 @@
 			<?php } ?>
 		</div>
 	</div>
-	<?php $this->renderChildDefaultElements($element, $this->action->id, $form, $data); ?>
+	<div class="child_elements">
+		<?php $this->renderChildDefaultElements($element, $this->action->id, $form, $data); ?>
+	</div>
 </div>

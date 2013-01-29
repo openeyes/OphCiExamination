@@ -7,9 +7,10 @@ $this->header();
 	<?php echo $this->event_type->name ?>
 </h3>
 
-<div>
-	<?php $this->renderDefaultElements($this->action->id); ?>
-	<div class="cleartall"></div>
+<div id="event_<?php echo $this->module->name?>">
+	<div id="elements" class="view">
+		<?php $this->renderDefaultElements($this->action->id); ?>
+	</div>
 </div>
 
 <div class="metaData">
@@ -21,6 +22,7 @@ $this->header();
 		at <?php echo date('H:i', strtotime($this->event->last_modified_date)) ?></span>
 </div>
 
+<div class="cleartall"></div>
 <div class="form_button">
 	<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." />&nbsp;
 	<button type="submit" class="classy blue venti" id="et_print" name="print"><span class="button-span button-span-blue">Print</span></button>
