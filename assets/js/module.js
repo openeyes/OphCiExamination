@@ -1,34 +1,28 @@
 $(document).ready(function() {
 
 	/**
+	 * Tab hover
+	 */
+	$('.event_tabs li').hover(function() {
+		$(this).addClass('hover');
+	}, function() {
+		$(this).removeClass('hover');
+	});
+	
+	/**
 	 * Save event
 	 */
 	$('#event_display').delegate('#et_save', 'click', function(e) {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
-			return true;
+		} else {
+			e.preventDefault();
 		}
-		e.preventDefault();
 	});
 
 	$('#et_print').unbind('click').click(function() {
 		window.print_iframe.print();
 		return false;
-	});
-
-	/**
-	 * Cancel event edit
-	 */
-	$('#event_display').delegate('#et_cancel', 'click', function(e) {
-		if (!$(this).hasClass('inactive')) {
-			disableButtons();
-			if (m = window.location.href.match(/\/update\/[0-9]+/)) {
-				window.location.href = window.location.href.replace('/update/', '/view/');
-			} else {
-				window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
-			}
-		}
-		e.preventDefault();
 	});
 
 	/**

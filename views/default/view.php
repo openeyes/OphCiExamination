@@ -1,11 +1,24 @@
 <?php
-$this->breadcrumbs=array($this->module->id);
+// Event tabs
+$this->event_tabs = array(
+		array(
+				'label' => 'View',
+				'active' => true,
+		),
+		array(
+				'label' => 'Edit',
+				'href' => Yii::app()->createUrl($this->event->eventType->class_name.'/default/update/'.$this->event->id),
+		),
+);
+
+// Page wrapper
 $this->header();
 ?>
 
-<h3 class="withEventIcon" style="background:transparent url(<?php echo $this->assetPath?>/img/medium.png) center left no-repeat;">
+<h3 class="withEventIcon">
 	<?php echo $this->event_type->name ?>
 </h3>
+<!-- START EVENT CONTENT -->
 
 <div id="event_<?php echo $this->module->name?>">
 	<div id="elements" class="view">
@@ -23,10 +36,11 @@ $this->header();
 </div>
 
 <div class="cleartall"></div>
-<div class="form_button">
-	<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." />&nbsp;
-	<button type="submit" class="classy blue venti" id="et_print" name="print"><span class="button-span button-span-blue">Print</span></button>
-</div>
+<?php
+	// Event actions
+	$this->event_actions[] = EventAction::button('Print', 'print');
+	$this->renderPartial('//patient/event_actions');
+?>
 
 <iframe id="print_iframe" name="print_iframe" style="display: none;" src="<?php echo Yii::app()->createUrl('OphCiExamination/Default/print/'.$this->event->id)?>"></iframe>
 
