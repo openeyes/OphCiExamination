@@ -1,15 +1,4 @@
-<?php
-// Event tabs
-$this->event_tabs = array(
-		array(
-				'label' => 'Create',
-				'active' => true,
-		),
-);
-
-// Page wrapper
-$this->header();
-?>
+<?php $this->header() ?>
 
 <h3 class="withEventIcon">
 	<?php echo $this->event_type->name ?>

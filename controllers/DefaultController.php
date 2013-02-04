@@ -2,9 +2,6 @@
 
 class DefaultController extends NestedElementsEventTypeController {
 	
-	public $event_tabs = array();
-	public $event_actions = array();
-
 	public function actionCreate() {
 		parent::actionCreate();
 	}

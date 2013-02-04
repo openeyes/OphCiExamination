@@ -1,19 +1,4 @@
-<?php
-// Event tabs
-$this->event_tabs = array(
-		array(
-				'label' => 'View',
-				'href' => Yii::app()->createUrl($this->event->eventType->class_name.'/default/view/'.$this->event->id),
-		),
-		array(
-				'label' => 'Edit',
-				'active' => true,
-		),
-);
-
-// Page wrapper
-$this->header();
-?>
+<?php $this->header() ?>
 
 <h3 class="withEventIcon">
 	<?php echo $this->event_type->name ?>
