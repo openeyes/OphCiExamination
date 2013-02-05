@@ -22,7 +22,7 @@ $expert = $element->getSetting('expert');
 if($expert) {
 	$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 } else {
-	$doodleToolBarArray = array('AngleNV');
+	$doodleToolBarArray = array('AngleNV', 'AntSynech');
 }
 $bindingArray = array();
 $onReadyCommandArray = array(
