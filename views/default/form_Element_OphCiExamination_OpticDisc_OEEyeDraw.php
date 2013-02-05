@@ -64,7 +64,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 			<?php echo $element->getAttributeLabel($side.'_diameter'); ?>:
 		</div>
 		<div class="data">
-			<?php echo CHtml::activeDropDownList($element, $side.'_diameter', $element->getDiameterOptions()) ?> mm
+			<?php echo CHtml::activeTextField($element, $side.'_diameter', array('class' => 'diameter')) ?> mm
 			(lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', $element->getLensOptions(), array('empty' => '--')) ?>)
 		</div>
 	</div>
