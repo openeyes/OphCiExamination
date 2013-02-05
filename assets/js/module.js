@@ -1,15 +1,6 @@
 $(document).ready(function() {
 
 	/**
-	 * Tab hover
-	 */
-	$('.event_tabs li').hover(function() {
-		$(this).addClass('hover');
-	}, function() {
-		$(this).removeClass('hover');
-	});
-	
-	/**
 	 * Save event
 	 */
 	$('#event_display').delegate('#et_save', 'click', function(e) {

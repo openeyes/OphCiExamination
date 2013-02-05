@@ -39,7 +39,7 @@
 	<div class="cleartall"></div>
 	<?php
 		// Event actions
-		$this->event_actions[] = EventAction::button('Save', 'save', array('class' => 'green'));
+		$this->event_actions[] = EventAction::button('Save', 'save', array('colour' => 'green'));
 		$this->renderPartial('//patient/event_actions');
 	?>
 	<?php $this->endWidget(); ?>
