@@ -31,8 +31,8 @@
 				alt="+" width="21" height="19"> </span>
 		</button>
 		<?php } else {
-			if($this->canCopy($element->elementType->class_name)) { ?>
-		<a href="#" title="Import Previous" class="importPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
+			if($this->hasPrevious($element->elementType->class_name)) { ?>
+		<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
 		<?php } ?>
 		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue mini">
 			<span class="button-span icon-only"><img

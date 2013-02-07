@@ -17,8 +17,9 @@
 #event_content .cols2 div.label { width: 80px; display: inline; }
 #event_content .cols2 .data { display: inline; }
 #event_content .eventDetail .eventDetail { background: none; margin-right: 10px; }
-div.activeForm div.aligned { clear: both;}
-div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { display: inline-block; }
+#event_content div.activeForm div.aligned { clear: both;}
+#event_contentdiv.activeForm div.aligned div.label,
+#event_content div.activeForm div.aligned div.data { display: inline-block; }
 #event_content .metaData { margin-top: 20px; }
 #event_content .Element_OphCiExamination_IntraocularPressure label { font-size: 13px; }
 #event_content .Element_OphCiExamination_VisualAcuity th,
@@ -39,8 +40,9 @@ div.activeForm div.aligned div.label, div.activeForm div.aligned div.data { disp
 #event_content div.ed_toolbar { margin: 0 0 10px; }
 #event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
 #event_content .eyedrawFields.view { width: 280px; }
-#event_content .eyedrawFields>div { margin: 5px 0; }
-#event_content .eyedrawFields .label,#event_content .eyedrawFields .data { display: inline-block; }
+#event_content .eyedrawFields > div { margin: 5px 0; }
+#event_content .eyedrawFields div.label,
+#event_content .eyedrawFields div.data { display: inline-block; }
 #event_content .eyedrawFields .aligned .label { width: 75px; }
 #event_content .Element_OphCiExamination_Refraction .eyedrawFields { width: 320px; }
 span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
@@ -123,3 +125,19 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #event_content .Element_OphCiExamination_AnteriorSegment_CCT .cct_value { width: 50px; }
 
 #event_content .Element_OphCiExamination_OpticDisc .diameter { width: 30px; }
+
+#previous_elements .element_wrapper { margin: 10px 0; padding-bottom: 3px; border-bottom: 2px dotted #ccc; font-size: 13px; font-family: Helvetica, Arial, sans-serif; }
+#previous_elements .data { display: inline; }
+#previous_elements .eyedrawFields { width: 280px; margin: 5px 0 0 10px; float: left; }
+#previous_elements .eyedrawFields div.label,
+#previous_elements .eyedrawFields div.data { display: inline-block; }
+#previous_elements h4 { display: none; }
+#previous_elements .cols2 .left { clear: left; float: left; width: 48%; }
+#previous_elements .cols2 .right { clear: right; float: right; width: 48%; }
+#previous_elements .eventDetail { padding: 10px; background: #dae6f1; position: relative; }
+#previous_elements canvas { float: left; border: 1px solid #ccc; margin: 0; }
+#previous_elements .actions { margin: 10px; }
+#previous_elements .actions button { float: right; }
+#previous_elements .metaData { float: left; font-size:12px; font-style: italic; margin: 10px; color:#888; }
+#previous_elements .metaData .info { margin-right: 15px; }
+#previous_elements .metaData .user { color:#333; }

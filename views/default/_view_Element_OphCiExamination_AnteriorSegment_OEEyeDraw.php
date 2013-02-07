@@ -17,9 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
+<?php 
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'idSuffix' => $side.'_'.$element->elementType->id,
+		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'view',
 		'width' => 200,
@@ -29,41 +29,51 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields view">
-	<?php if($element->{$side.'_description'}) { ?>
+	<?php if($description = $element->{$side.'_description'}) { ?>
 	<div>
 		<div class="data">
-			<?php echo $element->{$side.'_description'} ?>
+			<?php echo $description ?>
 		</div>
 	</div>
 	<?php } ?>
-	<div>
+	<div class="aligned">
+		<div class="label">
+			<?php echo $element->getAttributeLabel($side.'_pupil_id') ?>
+			:
+		</div>
 		<div class="data">
-			<div class="data gonioCross">
-				<div class="gonioSup">
-					<?php echo $element->{$side.'_gonio_sup'}->name; ?>
-				</div>
-				<div class="gonioTem">
-					<?php echo $element->{$side.'_gonio_tem'}->name; ?>
-				</div>
-				<div class="gonioNas">
-					<?php echo $element->{$side.'_gonio_nas'}->name; ?>
-				</div>
-				<div class="gonioInf">
-					<?php echo $element->{$side.'_gonio_inf'}->name; ?>
-				</div>
-			</div>
+			<?php echo $element->{$side.'_pupil'}->name ?>
 		</div>
 	</div>
-	<?php if($element->{$side.'_van_herick_id'} || $element->getSetting('expert')) { ?>
+	<div class="aligned">
+		<div class="label">
+			<?php echo $element->getAttributeLabel($side.'_nuclear_id') ?>
+			:
+		</div>
+		<div class="data">
+			<?php echo $element->{$side.'_nuclear'}->name ?>
+		</div>
+	</div>
+	<div class="aligned">
+		<div class="label">
+			<?php echo $element->getAttributeLabel($side.'_cortical_id') ?>
+			:
+		</div>
+		<div class="data">
+			<?php echo $element->{$side.'_cortical'}->name ?>
+		</div>
+	</div>
+	<?php if($element->{$side.'_pxe'}) { ?>
 	<div>
 		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>
-			:
-			<?php if($van_herick = $element->{$side.'_van_herick'}) { 
-				echo $van_herick->name;
-			} else {
-					echo 'NR';
-				} ?>
+			<?php echo $element->getAttributeLabel($side.'_pxe') ?>
+		</div>
+	</div>
+	<?php } ?>
+	<?php if($element->{$side.'_phako'}) { ?>
+	<div>
+		<div class="data">
+			<?php echo $element->getAttributeLabel($side.'_phako') ?>
 		</div>
 	</div>
 	<?php } ?>

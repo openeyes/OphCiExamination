@@ -1,7 +1,3 @@
-<div class="element <?php echo $element->elementType->class_name ?>">
-	<h4 class="elementTypeName">
-		<?php echo $element->elementType->name ?>
-	</h4>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if ($element->hasRight()) {?>
@@ -16,7 +12,7 @@
 						</thead>
 						<tbody>
 							<?php foreach ($element->right_treatments as $treatment) {
-								$this->renderPartial('view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
+								$this->renderPartial('_view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
 							}?>
 						</tbody>
 					</table>
@@ -38,7 +34,7 @@
 						</thead>
 						<tbody>
 							<?php foreach ($element->left_treatments as $treatment) {
-								$this->renderPartial('view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
+								$this->renderPartial('_view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
 							}?>
 						</tbody>
 					</table>
@@ -48,4 +44,3 @@
 			<?php }?>
 		</div>
 	</div>
-</div>

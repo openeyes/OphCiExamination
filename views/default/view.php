@@ -7,7 +7,7 @@
 
 <div id="event_<?php echo $this->module->name?>">
 	<div id="elements" class="view">
-		<?php $this->renderDefaultElements($this->action->id); ?>
+		<?php $this->renderDefaultElements('view'); ?>
 	</div>
 </div>
 
