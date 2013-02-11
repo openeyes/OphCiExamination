@@ -497,11 +497,11 @@ $(document).ready(function() {
 	// end of DR
 	
 	// management
-	function isDeferralOther(name) {
-		var reasonPK = $('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val();
+	function isDeferralOther(element, name) {
+		var reasonPK = $('#'+element+'_'+name+'_deferralreason_id').val();
 		var other = false;
 		
-		$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').find('option').each(function() {
+		$('#'+element+'_'+name+'_deferralreason_id').find('option').each(function() {
 			if ($(this).attr('value') == reasonPK) {
 				if ($(this).attr('data-other') == "1") {
 					other = true;
@@ -513,8 +513,8 @@ $(document).ready(function() {
 		return other;
 	}
 	
-	function showDeferralOther(name) {
-		$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').slideDown().find('textarea').each(function(e) {
+	function showDeferralOther(element, name) {
+		$('#div_'+element+'_'+name+'_deferralreason_other').slideDown().find('textarea').each(function(e) {
 			if ($(this).data('stored-value')) {
 				// must've changed their mind, restore the value
 				$(this).val($(this).data('stored-value'));
@@ -524,10 +524,10 @@ $(document).ready(function() {
 		});
 	}
 	
-	function hideDeferralOther(name) {
-		if ($('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').is(':visible')) {	
+	function hideDeferralOther(element, name) {
+		if ($('#div_'+element+'_'+name+'_deferralreason_other').is(':visible')) {	
 			// because of the value storage, only want to do this if its showing
-			$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason_other').slideUp().find('textarea').each(function(e) {
+			$('#div_'+element+'_'+name+'_deferralreason_other').slideUp().find('textarea').each(function(e) {
 				// clear text value to prevent submission, but store to make available if user changes their mind
 				$(this).data('stored-value', $(this).val());
 				$(this).val('');
@@ -536,14 +536,14 @@ $(document).ready(function() {
 	}
 	
 	// abstracted to manage the deferral fields for laser/injection
-	function deferralFields(name) {
-		var thePK = $('#Element_OphCiExamination_Management_'+name+'_status_id').val();
+	function deferralFields(element, name) {
+		var thePK = $('#'+element+'_'+name+'_status_id').val();
 		// flag for deferred fields
 		var deferred = false;
 		// flag for booking hint
 		var book = false;
 		
-		$('#Element_OphCiExamination_Management_'+name+'_status_id').find('option').each(function() {
+		$('#'+element+'_'+name+'_status_id').find('option').each(function() {
 			if ($(this).attr('value') == thePK) {
 				if ($(this).attr('data-deferred') == "1") {
 					deferred = true;
@@ -556,17 +556,17 @@ $(document).ready(function() {
 		});
 		
 		if (book) {
-			$('.Element_OphCiExamination_Management').find('#'+name+'_booking_hint').slideDown();
+			$('.'+element).find('#'+name+'_booking_hint').slideDown();
 		}
 		else {
-			$('.Element_OphCiExamination_Management').find('#'+name+'_booking_hint').slideUp();
+			$('.'+element).find('#'+name+'_booking_hint').slideUp();
 		}
 		
 		if (deferred) {
-			$('#div_Element_OphCiExamination_Management_'+name+'_deferralreason').slideDown();
-			if ($('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').data('stored-value')) {
-				$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').val(
-					$('#Element_OphCiExamination_Management_'+name+'_deferralreason_id').data('stored-value')
+			$('#div_'+element+'_'+name+'_deferralreason').slideDown();
+			if ($('#'+element+'_'+name+'_deferralreason_id').data('stored-value')) {
+				$('#'+element+'_'+name+'_deferralreason_id').val(
+					$('#'+element+'_'+name+'_deferralreason_id').data('stored-value')
 				);
 				if (isDeferralOther(name)) {
 					showDeferralOther(name);
@@ -586,38 +586,38 @@ $(document).ready(function() {
 	}
 	
 	// show/hide the laser deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_status_id', 'change', function(e) {
-		deferralFields('laser');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
+		deferralFields('Element_OphCiExamination_LaserManagement_laser', 'laser');
 		
 	});
 	
 	// show/hide the injection deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_injection_status_id', 'change', function(e) {
-		deferralFields('injection');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_status_id', 'change', function(e) {
+		deferralFields('Element_OphCiExamination_InjectionManagement_injection', 'injection');
 		
 	});
 	
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_laser_deferralreason_id', 'change', function(e) {
-		var other = isDeferralOther('laser');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('Element_OphCiExamination_LaserManagement_laser', 'laser');
 		
 		if (other) {
-			showDeferralOther('laser');
+			showDeferralOther('Element_OphCiExamination_LaserManagement_laser', 'laser');
 		}
 		else {
-			hideDeferralOther('laser');
+			hideDeferralOther('Element_OphCiExamination_LaserManagement_laser', 'laser');
 		}
 	});
 	
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Management_injection_deferralreason_id', 'change', function(e) {
-		var other = isDeferralOther('injection');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('Element_OphCiExamination_InjectionManagement_injection', 'injection');
 		
 		if (other) {
-			showDeferralOther('injection');
+			showDeferralOther('Element_OphCiExamination_InjectionManagement_injection', 'injection');
 		}
 		else {
-			hideDeferralOther('injection');
+			hideDeferralOther('Element_OphCiExamination_InjectionManagement_injection', 'injection');
 		}
 	});
 

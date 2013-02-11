@@ -15,16 +15,6 @@
 						<td><span class="big"><?php echo $element->getLaserDeferralReason() ?></span></td>
 					</tr>
 				<?php }?>
-				<tr>
-					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_status_id'))?></td>
-					<td><span class="big"><?php echo $element->injection_status ?></span></td>
-				</tr>
-				<?php if ($element->injection_status && $element->injection_status->deferred) { ?>
-					<tr>
-						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_deferralreason_id'))?></td>
-						<td><span class="big"><?php echo $element->getInjectionDeferralReason() ?></span></td>
-					</tr>
-				<?php }?>
 				<?php if ($element->comments) {?>
 					<tr>
 						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('comments'))?></td>

@@ -31,7 +31,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Management extends BaseEventTypeElement {
+class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement {
 	public $service;
 
 	/**
@@ -46,7 +46,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_management';
+		return 'et_ophciexamination_injectionmanagement';
 	}
 
 	/**
@@ -56,17 +56,13 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, injection_status_id,
-					injection_deferralreason_id, injection_deferralreason_other, comments', 'safe'),
-				array('laser_status_id, injection_status_id', 'required'),
-				array('laser_status_id', 'laserDependencyValidation'),
-				array('laser_deferralreason_id', 'laserDeferralReasonDependencyValidation'),
+				array('event_id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other, comments', 'safe'),
+				array('injection_status_id', 'required'),
 				array('injection_status_id', 'injectionDependencyValidation'),
 				array('injection_deferralreason_id', 'injectionDeferralReasonDependencyValidation'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, injection_status_id,
-					injection_deferralreason_id, injection_deferralreason_other, comments', 'safe', 'on' => 'search'),
+				array('id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other, comments', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -81,8 +77,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'laser_status_id'),
-				'laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'laser_deferralreason_id'),
 				'injection_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'injection_status_id'),
 				'injection_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'injection_deferralreason_id'),
 		);
@@ -95,9 +89,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'laser_status_id' => "Laser",
-				'laser_deferralreason_id' => 'Laser deferral reason',
-				'laser_deferralreason_other' => 'Laser deferral reason',
 				'injection_status_id' => "Injection",
 				'injection_deferralreason_id' => 'Injection deferral reason',
 				'injection_deferralreason_other' => 'Injection deferral reason',
@@ -116,9 +107,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('laser_status_id', $this->laser_status_id);
-		$criteria->compare('laser_deferralreason_id', $this->laser_deferral_reason_id);
-		$criteria->compare('laser_deferralreason_other', $this->laser_deferralreason_other);
 		$criteria->compare('injection_status_id', $this->injection_status_id);
 		$criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
 		$criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
@@ -128,26 +116,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-	
-	/*
-	 * deferral reason is only required for laser status that are flagged deferred
-	 */
-	public function laserDependencyValidation($attribute) {
-		if ($this->laser_status && $this->laser_status->deferred) {
-			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_id'));
-			$v->validate($this);
-		}
-	}
-	
-	/*
-	 * only need a text "other" reason for reasons that are flagged "other"
-	 */	
-	public function laserDeferralReasonDependencyValidation($attribute) {
-		if ($this->laser_deferralreason && $this->laser_deferralreason->other) {
-			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->laser_deferralreason));
-			$v->validate($this);
-		}
 	}
 	
 	/*
@@ -172,26 +140,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	
 	/*
 	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
-	*
-	* @returns string
-	*/
-	public function getLaserDeferralReason() {
-		if ($this->laser_deferralreason) {
-			if ($this->laser_deferralreason->other) {
-				return $this->laser_deferralreason_other;
-			}
-			else {
-				return $this->laser_deferralreason->name;
-			}
-		}
-		else {
-			// shouldn't get to this point really
-			return "N/A";
-		}
-	}
-
-	/*
-	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
 	 * 
 	 * @returns string
 	 */
@@ -210,21 +158,4 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		}
 	}
 	
-	/**
-	 * Returns the laser management plan section  for use in correspondance
-	 * 
-	 * @return string
-	 */
-	public function getLetter_lmp() {
-		$text = array();
-		
-		if ($this->laser_status) {
-			$text[] = $this->laser_status;
-			if ($this->laser_status->deferred) {
-				$text[] = $this->getLaserDeferralReason();
-			}
-		}
-
-		return implode(', ',$text)."\n";
-	}
 }
