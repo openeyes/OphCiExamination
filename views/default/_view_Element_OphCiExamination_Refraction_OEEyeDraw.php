@@ -1,6 +1,6 @@
 <?php 
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'idSuffix' => $side.'_'.$element->elementType->id,
+		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'view',
 		'width' => 100,

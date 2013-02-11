@@ -22,7 +22,7 @@
  */
 
 class DefaultController extends NestedElementsEventTypeController {
-
+	
 	public function actionCreate() {
 		parent::actionCreate();
 	}

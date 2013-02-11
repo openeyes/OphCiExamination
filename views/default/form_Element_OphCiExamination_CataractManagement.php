@@ -42,14 +42,3 @@
 	</div>
 </div>
 <?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
-<div id="div_<?php echo get_class($element)?>_comments"
-	class="eventDetail">
-	<div class="data">
-		<div class="textMacros">
-			<?php foreach(OphCiExamination_Attribute::model()->findAllByElement($element) as $attribute) {
-				echo $form->dropDownTextSelection($element, 'comments', CHtml::listData($attribute->options, 'value', 'label'), array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
-	} ?>
-		</div>
-		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
-	</div>
-</div>

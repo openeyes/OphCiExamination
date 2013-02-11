@@ -19,49 +19,26 @@
 ?>
 
 <div class="element <?php echo $element->elementType->class_name ?>"
+	data-element-id="<?php echo $element->id ?>"
 	data-element-type-id="<?php echo $element->elementType->id ?>"
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="elementActions">
-		<?php if(@$child) { ?>
-		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue nano">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
-				alt="+" width="21" height="19"> </span>
-		</button>
-		<?php } else {
-			if($this->hasPrevious($element->elementType->class_name)) { ?>
-		<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
-		<?php } ?>
-		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue mini">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
-				alt="+" width="24" height="22"> </span>
-		</button>
-		<?php } ?>
-	</div>
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
 	
 	<?php 
 	$this->renderPartial(
-		'form_' . get_class($element),
-		array('element' => $element, 'data' => $data, 'form' => $form),
-		false, false
+		'_view_' . $element->view_view,
+		array('element' => $element, 'data' => $data, 'form' => $form)
 	); 
 	?>
 	
 	<?php if(!@$child) { ?>
-	<div class="active_child_elements">
+	<div class="child_elements">
 		<?php 
-		$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
-		?>
-	</div>
-	<div class="inactive_child_elements">
-		<?php
-		$this->renderChildOptionalElements($element, $this->action->id, $form, $data);
+		$this->renderChildDefaultElements($element, 'view', $form, $data);
 		?>
 	</div>
 	<?php } ?>

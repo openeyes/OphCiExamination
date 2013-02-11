@@ -1,9 +1,6 @@
-<?php
-$this->breadcrumbs=array($this->module->id);
-$this->header();
-?>
+<?php $this->header() ?>
 
-<h3 class="withEventIcon" style="background:transparent url(<?php echo $this->assetPath?>/img/medium.png) center left no-repeat;">
+<h3 class="withEventIcon">
 	<?php echo $this->event_type->name ?>
 </h3>
 
@@ -40,18 +37,11 @@ $this->header();
 	<?php $this->displayErrors($errors)?>
 
 	<div class="cleartall"></div>
-	<div class="form_button">
-		<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>"
-			alt="loading..." />&nbsp;
-		<button type="submit" class="classy green venti" id="et_save"
-			name="save">
-			<span class="button-span button-span-green">Save</span>
-		</button>
-		<button type="submit" class="classy red venti" id="et_cancel"
-			name="cancel">
-			<span class="button-span button-span-red">Cancel</span>
-		</button>
-	</div>
+	<?php
+		// Event actions
+		$this->event_actions[] = EventAction::button('Save', 'save', array('colour' => 'green'));
+		$this->renderPartial('//patient/event_actions');
+	?>
 	<?php $this->endWidget(); ?>
 </div>
 

@@ -5,6 +5,7 @@ class m130211_173423_laser_injection_management extends CDbMigration
 	public function up()
 	{
 		// additional management lookup tables
+		
 		$this->createTable('ophciexamination_management_status', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -62,6 +63,38 @@ class m130211_173423_laser_injection_management extends CDbMigration
 		// medical retinal default elements set
 		$mr_set_id = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryScalar();
 		
+		if (!$mr_set_id) {
+			// need to restore the Medical Retina set (earlier migration will have clobbered due to asynchronous development of DR and Glaucoma:
+			$subspecialty = $this->dbConnection->createCommand()->select('id')->from('subspecialty')->where('ref_spec=:spec',array(':spec'=>"MR"))->queryRow();
+			
+			$mr_id = $subspecialty['id'];
+			
+			$this->insert('ophciexamination_element_set', array('name'=>'MR Default'));
+			$mr_set_id = $this->dbConnection->lastInsertID;
+			
+			$subspecialty_rule = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set_rule')->where('clause=:clause', array(':clause'=>"subspecialty_id"))->queryRow();
+			$parent_rule_id = $subspecialty_rule["id"];
+			
+			// MR set rules (not worried about status, so don't need another clause)
+			$this->insert('ophciexamination_element_set_rule', array('set_id'=>$mr_set_id, 'parent_id'=> $parent_rule_id, 'value'=>$mr_id));
+			// MR set items
+			$posterior = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_PosteriorSegment"))->queryRow();
+			$history = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_History"))->queryRow();
+			$va = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_VisualAcuity"))->queryRow();
+			$dr = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_DRGrading"))->queryRow();
+			
+			$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $posterior['id']));
+			$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $history['id']));
+			$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $va['id']));
+			$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $dr['id']));
+				
+		}
+		
+		// management element type
+		$mgmt_element_type = ElementType::model()->find('class_name=?',array('Element_OphCiExamination_Management'));
+		
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$mr_set_id, 'element_type_id' => $mgmt_element_type->id));
+		
 		// laser management element type
 		$this->createTable('et_ophciexamination_lasermanagement', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
@@ -86,11 +119,12 @@ class m130211_173423_laser_injection_management extends CDbMigration
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
 		$this->insert('element_type', array(
-				'name' => 'Management',
+				'name' => 'Laser Management',
 				'class_name' => 'Element_OphCiExamination_LaserManagement',
 				'event_type_id' => $event_type_id,
 				'display_order' => 91,
 				'default' => 1,
+				'parent_element_type_id' => $mgmt_element_type->id
 		));
 		
 		$lmgmt_id = $this->dbConnection->lastInsertID;
@@ -123,11 +157,12 @@ class m130211_173423_laser_injection_management extends CDbMigration
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
 		$this->insert('element_type', array(
-				'name' => 'Management',
+				'name' => 'Injection Management',
 				'class_name' => 'Element_OphCiExamination_InjectionManagement',
 				'event_type_id' => $event_type_id,
 				'display_order' => 92,
 				'default' => 1,
+				'parent_element_type_id' => $mgmt_element_type->id
 		));
 		
 		$imgmt_id = $this->dbConnection->lastInsertID;
@@ -165,6 +200,10 @@ class m130211_173423_laser_injection_management extends CDbMigration
 		
 		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set_id, ':element_type_id' => $imgmt_id));
 		$this->delete('element_type', 'id=:id', array(':id'=>$imgmt_id));
+		
+		// management element type
+		$mgmt_element_type = ElementType::model()->find('class_name=?',array('Element_OphCiExamination_Management'));
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set_id, ':element_type_id' => $mgmt_element_type->id));
 		
 		// lookups
 		$this->dropTable('ophciexamination_management_status');

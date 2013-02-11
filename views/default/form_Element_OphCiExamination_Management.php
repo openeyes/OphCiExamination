@@ -17,41 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'idSuffix' => $side.'_'.$element->elementType->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'view',
-		'width' => 200,
-		'height' => 200,
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
-));
-?>
-<div class="eyedrawFields view">
-	<?php if($element->{$side.'_description'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->{$side.'_description'} ?>
+<div id="div_<?php echo get_class($element)?>_comments" class="eventDetail">
+	<div class="data">
+		<div class="textMacros">
+			<?php foreach($element->getChildAttributes() as $attribute) {
+				echo $form->dropDownTextSelection($element, 'comments',
+					CHtml::listData($attribute->findAllOptionsForSubspecialty($this->firm->serviceSubspecialtyAssignment->subspecialty_id), 'value', 'label'),
+					array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
+			} ?>
 		</div>
-	</div>
-	<?php } ?>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_cd_ratio_id') ?>
-			:
-			<?php echo $element->{$side.'_cd_ratio'}->name ?>
-		</div>
-	</div>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_diameter') ?>
-			:
-			<?php echo $element->{$side.'_diameter'} ?> mm
-			<?php if($element->{$side.'_lens_id'}) { ?>
-			(lens <?php echo $element->{$side.'_lens'}->name ?>)
-			<?php } ?>
-			</div>
+		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
 </div>
-

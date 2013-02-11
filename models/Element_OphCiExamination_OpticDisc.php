@@ -66,6 +66,8 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 						right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id,
 						right_cd_ratio_id, left_lens_id, right_lens_id',
 						'safe'),
+				array('left_diameter, left_lens_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_diameter, right_lens_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('eye_id, event_id, left_description, right_description, left_eyedraw,
