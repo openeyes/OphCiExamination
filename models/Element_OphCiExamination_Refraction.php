@@ -180,4 +180,30 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 	public function getLetter_string() {
 		return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('right')."\n";
 	}
+	
+	public function setDefaultOptions() {
+		if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+			if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+				if ($cataract_referral = EventType::model()->find('class_name=?',array('OphCoCataractReferral'))) {
+					Yii::import('application.modules.OphCoCataractReferral.models.*');
+
+					$criteria = new CDbCriteria;
+					$criteria->compare('episode_id',$episode->id);
+					$criteria->compare('event_type_id',$cataract_referral->id);
+					$criteria->limit = 1;
+					$criteria->order = 'datetime desc';
+
+					if ($event = Event::model()->find($criteria)) {
+						if ($refraction = Element_OphCoCataractReferral_CurrentRefraction::model()->find('event_id=?',array($event->id))) {
+							foreach ($refraction as $key => $value) {
+								if (preg_match('/^left_/',$key) || preg_match('/^right_/',$key)) {
+									$this->{$key} = $value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
