@@ -100,7 +100,6 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-
 		$criteria->compare('description', $this->description);
 
 		return new CActiveDataProvider(get_class($this), array(
@@ -112,6 +111,33 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+			if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+				if ($cataract_referral = EventType::model()->find('class_name=?',array('OphCoCataractReferral'))) {
+					Yii::import('application.modules.OphCoCataractReferral.models.*');
+
+					$criteria = new CDbCriteria;
+					$criteria->compare('episode_id',$episode->id);
+					$criteria->compare('event_type_id',$cataract_referral->id);
+					$criteria->limit = 1;
+					$criteria->order = 'datetime desc';
+
+					if ($event = Event::model()->find($criteria)) {
+						if ($hpc = Element_OphCoCataractReferral_Hpc::model()->find('event_id=?',array($event->id))) {
+							$history = array();
+
+							$hpc->history && $history[] = $hpc->history;
+							$hpc->impact && $history[] = $hpc->impact;
+							$history[] = $hpc->eye->name.' eye'.($hpc->eye_id == 3 ? 's' : '');
+							$history[] = $hpc->onset->name;
+							$history[] = $hpc->first_second_eye->name;
+
+							$this->description = implode(', ',$history);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	protected function beforeSave() {
