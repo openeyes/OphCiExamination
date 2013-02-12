@@ -101,6 +101,27 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		if($this->id) {
 			return $this->{$side.'_readings'};
 		} else {
+			// if there is a previous cataract referral in the current episode, use it's visual acuity values as the default
+			if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+				if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+					if ($cataract_referral = EventType::model()->find('class_name=?',array('OphCoCataractReferral'))) {
+						Yii::import('application.modules.OphCoCataractReferral.models.*');
+
+						$criteria = new CDbCriteria;
+						$criteria->compare('episode_id',$episode->id);
+						$criteria->compare('event_type_id',$cataract_referral->id);
+						$criteria->limit = 1;
+						$criteria->order = 'datetime desc';
+
+						if ($event = Event::model()->find($criteria)) {
+							if ($va = Element_OphCoCataractReferral_VisualAcuity::model()->find('event_id=?',array($event->id))) {
+								return $va->{$side.'_readings'};
+							}
+						}
+					}
+				}
+			}
+
 			$readings = array();
 			$methods = OphCiExamination_VisualAcuity_Method::model()->findAll(array(
 					'order' => 'id',
