@@ -1,9 +1,6 @@
-<?php
-$this->breadcrumbs=array($this->module->id);
-$this->header();
-?>
+<?php $this->header() ?>
 
-<h3 class="withEventIcon" style="background:transparent url(<?php echo $this->assetPath?>/img/medium.png) center left no-repeat;">
+<h3 class="withEventIcon">
 	<?php echo $this->event_type->name ?>
 </h3>
 

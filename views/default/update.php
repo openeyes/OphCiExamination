@@ -6,13 +6,17 @@
 
 <div id="event_<?php echo $this->module->name?>">
 	<?php
-	$form = $this->beginWidget('BaseEventTypeCActiveForm', array(
-			'id' => 'clinical-create',
-			'enableAjaxValidation' => false,
-			'htmlOptions' => array('class' => 'sliding'),
-	));
+		$form = $this->beginWidget('BaseEventTypeCActiveForm', array(
+				'id' => 'clinical-create',
+				'enableAjaxValidation' => false,
+				'htmlOptions' => array('class' => 'sliding'),
+		));
+		
+		// Event actions
+		$this->event_actions[] = EventAction::button('Save', 'save', array('colour' => 'green'));
+		$this->renderPartial('//patient/event_actions');
 	?>
-
+	
 	<div id="elements">
 		<?php $this->displayErrors($errors)?>
 		<div id="active_elements">
@@ -37,11 +41,6 @@
 	<?php $this->displayErrors($errors)?>
 
 	<div class="cleartall"></div>
-	<?php
-		// Event actions
-		$this->event_actions[] = EventAction::button('Save', 'save', array('colour' => 'green'));
-		$this->renderPartial('//patient/event_actions');
-	?>
 	<?php $this->endWidget(); ?>
 </div>
 
