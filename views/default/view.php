@@ -16,17 +16,6 @@
 	</div>
 </div>
 
-<div class="metaData">
-	<span class="info">Examination created by <span class="user"><?php echo $this->event->user->fullname ?></span>
-		on <?php echo $this->event->NHSDate('created_date') ?>
-		at <?php echo date('H:i', strtotime($this->event->created_date)) ?></span>
-	<span class="info">Examination last modified by <span class="user"><?php echo $this->event->usermodified->fullname ?></span>
-		on <?php echo $this->event->NHSDate('last_modified_date') ?>
-		at <?php echo date('H:i', strtotime($this->event->last_modified_date)) ?></span>
-</div>
-
-<div class="cleartall"></div>
-
 <iframe id="print_iframe" name="print_iframe" style="display: none;" src="<?php echo Yii::app()->createUrl('OphCiExamination/Default/print/'.$this->event->id)?>"></iframe>
 
 <?php $this->footer() ?>
