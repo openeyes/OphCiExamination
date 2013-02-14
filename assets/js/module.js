@@ -1,3 +1,5 @@
+var examination_print_url, module_css_path;
+
 $(document).ready(function() {
 
 	/**
@@ -12,7 +14,7 @@ $(document).ready(function() {
 	});
 
 	$('#et_print').unbind('click').click(function() {
-		window.print_iframe.print();
+		OphCiExamination_do_print();
 		return false;
 	});
 
@@ -637,3 +639,7 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+function OphCiExamination_do_print() {
+	printUrl(examination_print_url, null, module_css_path);
+}

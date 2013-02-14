@@ -16,6 +16,4 @@
 	</div>
 </div>
 
-<iframe id="print_iframe" name="print_iframe" style="display: none;" src="<?php echo Yii::app()->createUrl('OphCiExamination/Default/print/'.$this->event->id)?>"></iframe>
-
 <?php $this->footer() ?>
