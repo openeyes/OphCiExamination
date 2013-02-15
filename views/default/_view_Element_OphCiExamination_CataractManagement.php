@@ -33,6 +33,10 @@
 					<th><?php echo CHtml::encode($element->getAttributeLabel('previous_refractive_surgery'))?></th>
 					<td><?php echo $element->previous_refractive_surgery ? 'Yes' : 'No'?></td>
 				</tr>
+				<tr>
+					<th><?php echo CHtml::encode($element->getAttributeLabel('vitrectomised_eye'))?></th>
+					<td><?php echo $element->vitrectomised_eye ? 'Yes' : 'No'?></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
