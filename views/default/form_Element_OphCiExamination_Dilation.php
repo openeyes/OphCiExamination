@@ -33,7 +33,7 @@
 			<?php $right_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'right') : $element->right_treatments); ?>
 			<div class="timeDiv right"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
 				<span class="label">Time:</span>
-				<?php echo CHtml::textField(get_class($element)."[right_time]",isset($_POST[get_class($element)]['right_time']) ? $_POST[get_class($element)]['right_time'] : substr($element->right_time,0,5))?>
+				<?php echo CHtml::textField(get_class($element)."[right_time]",isset($_POST[get_class($element)]['right_time']) ? $_POST[get_class($element)]['right_time'] : $element->hasRight() ? substr($element->right_time,0,5) : date('H:i'))?>
 			</div>
 			<div class="grid-view dilation_table"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
 				<table>
@@ -75,7 +75,7 @@
 			<?php $left_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'left') : $element->left_treatments); ?>
 			<div class="timeDiv left"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
 				<span class="label">Time:</span>
-				<?php echo CHtml::textField(get_class($element)."[left_time]",isset($_POST[get_class($element)]['left_time']) ? $_POST[get_class($element)]['left_time'] : substr($element->left_time,0,5))?>
+				<?php echo CHtml::textField(get_class($element)."[left_time]",isset($_POST[get_class($element)]['left_time']) ? $_POST[get_class($element)]['left_time'] : $element->hasLeft() ? substr($element->left_time,0,5) : date('H:i'))?>
 			</div>
 			<div class="grid-view dilation_table"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
 				<table>
