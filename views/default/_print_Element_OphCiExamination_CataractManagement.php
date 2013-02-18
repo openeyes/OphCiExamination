@@ -17,31 +17,29 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-id="<?php echo $element->id ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<h4 class="elementTypeName">
-		<?php echo $element->elementType->name; ?>
-	</h4>
-	
-	<?php 
-	$this->renderPartial(
-		'_view_' . $element->view_view,
-		array('element' => $element, 'data' => $data, 'form' => $form)
-	); 
-	?>
-	
-	<?php if(!@$child) { ?>
-	<div class="child_elements">
-		<?php 
-		$this->renderChildDefaultElements($element, 'view', $form, $data);
-		?>
+<h2>Cataract management</h2>
+<div class="details">
+	<?php if ($element->city_road) {?>
+		<div>At City Road</div>
+	<?php }?>
+	<?php if ($element->satellite) {?>
+		<div>At satellite</div>
+	<?php }?>
+	<?php if ($element->fast_track) {?>
+		<div>Suitable for fast-track</div>
+	<?php }?>
+	<div>
+		Target post-op refractive correction is <?php echo $element->target_postop_refraction?> Dioptres
 	</div>
-	<?php } ?>
-	
+	<?php if ($element->correction_discussed) {?>
+		<div>Post-op refractive correction has been discussed with the patient</div>
+	<?php }else{?>
+		<div>Post-op refractive correction has not been discussed with the patient</div>
+	<?php }?>
+	<div>
+		Suitable for <?php echo $element->suitable_for_surgeon->name?> surgeon (<?php echo $element->supervised ? 'supervised' : 'unsupervised'?>)
+	</div>
+	<div>
+		<?php echo $element->vitrectomised_eye ? 'Vitrectomised eye' : 'Non-vitrectomised eye'?>
+	</div>
 </div>
-	
