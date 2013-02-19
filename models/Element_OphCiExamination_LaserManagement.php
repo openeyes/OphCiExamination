@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_management".
+ * This is the model class for table "et_ophciexamination_lasermanagement".
  *
  * The followings are the available columns in table:
  * @property string $id
@@ -26,7 +26,6 @@
  * @property string $laser_status_id
  * @property string $laser_deferralreason_id
  * @property string $laser_deferralreason_other
- * @property string $comments
  *
  * The followings are the available model relations:
  */
@@ -56,13 +55,13 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, comments', 'safe'),
+				array('event_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other', 'safe'),
 				array('laser_status_id', 'required'),
 				array('laser_status_id', 'laserDependencyValidation'),
 				array('laser_deferralreason_id', 'laserDeferralReasonDependencyValidation'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, comments', 'safe', 'on' => 'search'),
+				array('id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,7 +91,6 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 				'laser_status_id' => "Laser",
 				'laser_deferralreason_id' => 'Laser deferral reason',
 				'laser_deferralreason_other' => 'Laser deferral reason',
-				'comments' => 'Comments',
 		);
 	}
 
@@ -111,8 +109,6 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 		$criteria->compare('laser_deferralreason_id', $this->laser_deferral_reason_id);
 		$criteria->compare('laser_deferralreason_other', $this->laser_deferralreason_other);
 		
-		$criteria->compare('comments', $this->comments);
-
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

@@ -18,15 +18,14 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_management".
+ * This is the model class for table "et_ophciexamination_injectionmanagement".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $laser_status_id
- * @property string $laser_deferralreason_id
- * @property string $laser_deferralreason_other
- * @property string $comments
+ * @property string $injection_status_id
+ * @property string $injection_deferralreason_id
+ * @property string $injection_deferralreason_other
  *
  * The followings are the available model relations:
  */
@@ -56,13 +55,13 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other, comments', 'safe'),
+				array('event_id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe'),
 				array('injection_status_id', 'required'),
 				array('injection_status_id', 'injectionDependencyValidation'),
 				array('injection_deferralreason_id', 'injectionDeferralReasonDependencyValidation'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other, comments', 'safe', 'on' => 'search'),
+				array('id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,7 +91,6 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 				'injection_status_id' => "Injection",
 				'injection_deferralreason_id' => 'Injection deferral reason',
 				'injection_deferralreason_other' => 'Injection deferral reason',
-				'comments' => 'Comments',
 		);
 	}
 
@@ -111,8 +109,6 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 		$criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
 		$criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
 		
-		$criteria->compare('comments', $this->comments);
-
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

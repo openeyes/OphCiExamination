@@ -102,7 +102,6 @@ class m130211_173423_laser_injection_management extends CDbMigration
 				'laser_status_id' => 'int(10) unsigned NOT NULL',
 				'laser_deferralreason_id' => 'int(10) unsigned',
 				'laser_deferralreason_other' => 'text',
-				'comments' => 'text',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -139,7 +138,6 @@ class m130211_173423_laser_injection_management extends CDbMigration
 				'injection_status_id' => 'int(10) unsigned NOT NULL',
 				'injection_deferralreason_id' => 'int(10) unsigned',
 				'injection_deferralreason_other' => 'text',
-				'comments' => 'text',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -147,7 +145,6 @@ class m130211_173423_laser_injection_management extends CDbMigration
 				'PRIMARY KEY (`id`)',
 				'KEY `et_ophciexamination_injectionmanagement_lmui_fk` (`last_modified_user_id`)',
 				'KEY `et_ophciexamination_injectionmanagement_cui_fk` (`created_user_id`)',
-		
 				'KEY `et_ophciexamination_injectionmanagement_injection_fk` (`injection_status_id`)',
 				'KEY `et_ophciexamination_injectionmanagement_ideferral_fk` (`injection_deferralreason_id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagement_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
