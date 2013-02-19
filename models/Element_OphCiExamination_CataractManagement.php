@@ -91,6 +91,7 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 				'suitable_for_surgeon_id' => 'Suitable for surgeon',
 				'supervised' => 'Supervised',
 				'previous_refractive_surgery' => 'Previous refractive surgery',
+				'vitrectomised_eye' => 'Vitrectomised eye',
 		);
 	}
 

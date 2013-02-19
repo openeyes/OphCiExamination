@@ -17,31 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-id="<?php echo $element->id ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<h4 class="elementTypeName">
-		<?php echo $element->elementType->name; ?>
-	</h4>
-	
-	<?php 
-	$this->renderPartial(
-		'_view_' . $element->view_view,
-		array('element' => $element, 'data' => $data, 'form' => $form)
-	); 
-	?>
-	
-	<?php if(!@$child) { ?>
-	<div class="child_elements">
-		<?php 
-		$this->renderChildDefaultElements($element, 'view', $form, $data);
-		?>
-	</div>
-	<?php } ?>
-	
+<h2>Conclusion</h2>
+<div class="details">
+	<?php echo $element->description?>
 </div>
-	

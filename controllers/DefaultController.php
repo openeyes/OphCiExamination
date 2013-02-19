@@ -32,6 +32,8 @@ class DefaultController extends NestedElementsEventTypeController {
 	}
 
 	public function actionView($id) {
+		$cs = Yii::app()->getClientScript();
+		$cs->registerScript('scr_examination_view', "examination_print_url = '" . Yii::app()->createUrl('OphCiExamination/Default/print/'.$id) . "';\nmodule_css_path = '" . $this->assetPath . "/css';", CClientScript::POS_READY);
 		parent::actionView($id);
 	}
 

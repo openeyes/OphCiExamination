@@ -1,4 +1,5 @@
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
+var examination_print_url, module_css_path;
 
 function gradeCalculator(_drawing) {
     var doodleArray = _drawing.doodleArray;
@@ -251,7 +252,6 @@ function posteriorListener(_drawing) {
 	}
 }
 
-
 $(document).ready(function() {
 	/**
 	 * Save event
@@ -265,7 +265,7 @@ $(document).ready(function() {
 	});
 
 	$('#et_print').unbind('click').click(function() {
-		window.print_iframe.print();
+		OphCiExamination_do_print();
 		return false;
 	});
 
@@ -1269,3 +1269,7 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+function OphCiExamination_do_print() {
+	printUrl(examination_print_url, null, module_css_path);
+}

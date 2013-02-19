@@ -74,7 +74,7 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 	</div>
 	<?php if(!$expert) { ?>
 	<div>
-		<div class="label">Pigmented meshwork seen:</div>
+		<div class="label">Angle Open?:</div>
 		<?php
 			$basic_options = array('0' => 'No', '1' => 'Yes');
 			$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));

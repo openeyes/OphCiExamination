@@ -42,3 +42,4 @@
 	</div>
 </div>
 <?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
+<?php echo $form->radioBoolean($element, 'vitrectomised_eye')?>
