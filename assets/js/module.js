@@ -603,5 +603,5 @@ $('a.removeDiagnosis').live('click',function() {
 });
 
 function OphCiExamination_do_print() {
-	printUrl(examination_print_url, null, module_css_path);
+	printIFrameUrl(examination_print_url, null);
 }
