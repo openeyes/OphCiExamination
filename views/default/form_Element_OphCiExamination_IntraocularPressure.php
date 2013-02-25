@@ -17,135 +17,33 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-$instruments = $element->getInstrumentOptions();
-$values = $element->getValueOptions();
-$key = 0;
-?>
 <div class="cols2 clearfix">
-	<input type="hidden" name="intraocularpressure_readings_valid" value="1" />
-	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
-		data-side="right">
-		<div class="activeForm">
-			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<label for="Element_OphCiExamination_IntraocularPressure_right_instrument_id">Instrument:</label>
-				<?php echo CHtml::dropDownList('Element_OphCiExamination_IntraocularPressure[right_instrument_id]', $element->right_instrument_id, $instruments); ?>
-			</div>
-			<div class="data">
-				<table>
-					<thead>
-						<tr>
-							<th>Time (HH:MM)</th>
-							<th>mm Hg</th>
-							<th>Dilated?</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						$right_readings = (isset($_POST['intraocularpressure_readings_valid']) ? $element->convertReadings(@$_POST['intraocularpressure_reading'], 'right') : $element->right_readings);
-							if($right_readings) {
-								foreach($right_readings as $index => $reading) { 
-									$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-										'key' => $key,
-										'reading' => $reading,
-										'side' => $reading->side,
-										'values' => $values,
-										'no_remove' => ($index == 0)
-									));
-									$key++;
-								}
-							} else { 
-								$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-									'key' => $key,
-									'side' => 0,
-									'values' => $values,
-									'no_remove' => true
-								));
-								$key++;
-							}
-						?>
-					</tbody>
-				</table>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
-				</button>
-			</div>
-			<div class="data">
-				<?php echo $form->textArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
-			</div>
-		</div>
-		<div class="inactiveForm">
-			<a href="#">Add right side</a>
+	<div class="left eventDetail">
+		<div class="data">
+			<?php if($element->getSetting('show_instruments')) {
+				echo $form->dropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
+			} else {
+				echo $form->hiddenField($element, 'right_instrument_id');
+			} ?>
+			<?php echo $form->dropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
 		</div>
 	</div>
-	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
-		data-side="left">
-		<div class="activeForm">
-			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<label for="Element_OphCiExamination_IntraocularPressure_left_instrument_id">Instrument:</label>
-				<?php echo CHtml::dropDownList('Element_OphCiExamination_IntraocularPressure[left_instrument_id]', $element->left_instrument_id, $instruments); ?>
-			</div>
-			<div class="data">
-				<table>
-					<thead>
-						<tr>
-							<th>Time (HH:MM)</th>
-							<th>mm Hg</th>
-							<th>Dilated?</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-							$left_readings = (isset($_POST['intraocularpressure_readings_valid']) ? $element->convertReadings(@$_POST['intraocularpressure_reading'], 'left') : $element->left_readings);
-							if($left_readings) {
-								foreach($left_readings as $index => $reading) {
-									$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-										'key' => $key,
-										'reading' => $reading,
-										'side' => $reading->side,
-										'values' => $values,
-										'no_remove' => ($index == 0)
-									));
-									$key++;
-								}
-							} else { 
-								$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-									'key' => $key,
-									'side' => 1,
-									'values' => $values,
-									'no_remove' => true
-								));
-								$key++;
-							}
-						?>
-					</tbody>
-				</table>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
-				</button>
-			</div>
-			<div class="data">
-				<?php echo $form->textArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
-			</div>
-		</div>
-		<div class="inactiveForm">
-			<a href="#">Add left side</a>
+	<div class="right eventDetail">
+		<div class="data">
+			<?php echo $form->dropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
+			<?php if($element->getSetting('show_instruments')) {
+				echo $form->dropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
+			} else {
+				echo $form->hiddenField($element, 'left_instrument_id');
+			} ?>
 		</div>
 	</div>
 </div>
 
-<script id="intraocularpressure_reading_template" type="text/html">
+<script type="text/javascript">
 	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
-	<?php
-	$this->renderPartial('form_Element_OphCiExamination_IntraocularPressure_Reading', array(
-			'key' => '{{key}}',
-			'side' => '{{side}}',
-			'values' => $values
-	));
-	?>
+
+	$(document).ready(function() {
+		OphCiExamination_IntraocularPressure_init();
+	});
 </script>
