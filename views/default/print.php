@@ -52,19 +52,10 @@
 	</div>
 	
 	<div class="body">
-		<h2>History</h2>
-		<div class="details">
-			<?php
-			foreach ($elements as $i => $element) {
-				if (get_class($element) == 'Element_OphCiExamination_History') {
-					echo $element->description;
-					unset($elements[$i]);
-					echo "<br/><br/>".($element->previous_refractive_surgery ? 'Has' : 'Has not')." had previous refractive surgery";
-				}
-			}?>
-		</div>
-
-		<?php foreach ($elements as $element) {
+		
+		<?php foreach ($elements as $element) { ?>
+			<div>
+			<?php 
 			echo $this->renderPartial('_print_'.get_class($element),array('element'=>$element));
 
 			foreach ($element->elementType->child_element_types as $child_element_type) {
@@ -73,9 +64,11 @@
 					echo $this->renderPartial('_print_'.get_class($element_object),array('element'=>$element_object));
 				}
 			}
-		}?>
+			?>
+			</div>
+		<?php }?>
 
-		<div class="metaData">
+		<div class="metaData clear">
 			<span class="info">Examination created by <span class="user"><?php echo $this->event->user->fullname ?></span>
 				on <?php echo $this->event->NHSDate('created_date') ?>
 				at <?php echo date('H:i', strtotime($this->event->created_date)) ?></span>
@@ -85,3 +78,8 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		window.print();
+	}); 
+</script>

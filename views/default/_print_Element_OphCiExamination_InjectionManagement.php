@@ -1,21 +1,13 @@
-<div class="element <?php echo $element->elementType->class_name ?>">
-	<h4 class="elementTypeName">
-		<?php echo $element->elementType->name ?>
-	</h4>
-	<div class="left">
-		<table class="subtleWhite normalText">
-			<tbody>
-				<tr>
-					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_status_id'))?></td>
-					<td><span class="big"><?php echo $element->injection_status ?></span></td>
-				</tr>
-				<?php if ($element->injection_status && $element->injection_status->deferred) { ?>
-					<tr>
-						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_deferralreason_id'))?></td>
-						<td><span class="big"><?php echo $element->getInjectionDeferralReason() ?></span></td>
-					</tr>
-				<?php }?>
-			</tbody>
-		</table>
+<h2><?php echo $element->elementType->name ?></h2>
+<div class="details">
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('injection_status_id'))?>:</div>
+		<div class="data"><?php echo $element->injection_status ?></div>
 	</div>
+	<?php if ($element->injection_status && $element->injection_status->deferred) { ?>
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('injection_deferralreason_id'))?>:</div>
+		<div class="data"><?php echo $element->getInjectionDeferralReason() ?></div>
+	</div>
+	<?php } ?>
 </div>

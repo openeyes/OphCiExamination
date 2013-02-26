@@ -1,16 +1,13 @@
-	<div class="left">
-		<table class="subtleWhite normalText">
-			<tbody>
-				<tr>
-					<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laser_status_id'))?></td>
-					<td><span class="big"><?php echo $element->laser_status ?></span></td>
-				</tr>
-				<?php if ($element->laser_status && $element->laser_status->deferred) { ?>
-					<tr>
-						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('laser_deferralreason_id'))?></td>
-						<td><span class="big"><?php echo $element->getLaserDeferralReason() ?></span></td>
-					</tr>
-				<?php }?>
-			</tbody>
-		</table>
+<h2><?php echo $element->elementType->name ?></h2>
+<div class="details">
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('laser_status_id'))?>:</div>
+		<div class="data"><?php echo $element->laser_status ?></div>
 	</div>
+	<?php if ($element->laser_status && $element->laser_status->deferred) { ?>
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('laser_deferralreason_id'))?>:</div>
+		<div class="data"><?php echo $element->getLaserDeferralReason() ?></div>
+	</div>
+	<?php } ?>
+</div>

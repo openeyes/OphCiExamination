@@ -17,26 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="intraocularPressureReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="intraocularpressure_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="intraocularpressure_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][measurement_timestamp]', isset($reading) ? date('H:i',strtotime($reading->measurement_timestamp)) : date('H:i')) ?>
-	</td>
-	<td>
-	<?php echo CHtml::textField('intraocularpressure_reading['.$key.'][value]', @$reading->value); ?>
-	</td>
-	<td>
-	<?php echo CHtml::hiddenField('intraocularpressure_reading['.$key.'][dilated]', 0); ?>
-	<?php echo CHtml::checkBox('intraocularpressure_reading['.$key.'][dilated]', @$reading->dilated, array('class' => 'dilated')); ?>
-	</td>
-	<?php if(!isset($no_remove) || !$no_remove) { ?>
-	<td class="readingActions"><a class="removeReading" href="#">Remove</a></td>
-	<?php } ?>
-</tr>
+
+<h2>History</h2>
+<div class="details">
+	<?php echo $element->description; ?><br /><br />
+	<?php echo ($element->previous_refractive_surgery ? 'Has' : 'Has not')." had previous refractive surgery"; ?>
+</div>
