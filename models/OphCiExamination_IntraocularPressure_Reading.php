@@ -21,11 +21,8 @@
  * This is the model class for table "ophciexamination_intraocularpressure_reading".
  *
  * @property integer $id
- * @property integer $element_id
- * @property integer $side
- * @property integer $value
- * @property string $measurement_timestamp
- * @property boolean $dilated
+ * @property string $name
+ * @property integer $display_order
 
  */
 class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
@@ -50,8 +47,8 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('element_id, side, value, measurement_timestamp, dilated', 'required'),
-				array('id, element_id, side, value, measurement_timestamp, dilated', 'safe', 'on'=>'search'),
+				array('name', 'required'),
+				array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,24 +57,9 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_IntraocularPressure', 'element_id'),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels() {
-		return array(
-				'id' => 'ID',
-				'element_id' => 'Element',
-				'value' => 'Reading',
-				'measurement_timestamp' => 'Time',
-				'side' => 'Side',
-				'dilated' => 'Dilated'
-		);
-	}
-	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -85,6 +67,7 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
