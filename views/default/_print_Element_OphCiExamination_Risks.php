@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Conclusion</h2>
+<h2><?php echo $element->elementType->name; ?></h2>
 <div class="details">
 	<?php echo $element->summary ?>
 	<?php if ($comments = trim($element->comments)) {?>

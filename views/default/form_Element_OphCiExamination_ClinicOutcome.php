@@ -17,32 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2><?php echo $element->elementType->name; ?></h2>
-<div class="details">
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<div class="data">
-				<?php if($element->right_reading->name != 'NR') { ?>
-				<?php echo $element->right_reading->name ?>
-				<?php if($element->right_instrument) { 
-						echo '('.$element->right_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-				Not Recorded
-				<?php }?>
-			</div>
-		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<?php if($element->left_reading->name != 'NR') { ?>
-				<?php echo $element->left_reading->name ?>
-				<?php if($element->left_instrument) { 
-						echo '('.$element->left_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-				Not Recorded
-				<?php }?>
-			</div>
-		</div>
+<div id="div_<?php echo get_class($element)?>_comments" class="eventDetail">
+	<div class="data">
+		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
 </div>

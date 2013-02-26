@@ -137,3 +137,10 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #previous_elements .metaData { float: left; font-size:12px; font-style: italic; margin: 10px; color:#888; }
 #previous_elements .metaData .info { margin-right: 15px; }
 #previous_elements .metaData .user { color:#333; }
+
+#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail { padding: 12px 10px; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .high_risk span { background: #f00; color: #fff; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #fc0; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .stable span { background: #36f; color: #fff; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .normal span { background: #9c0; }

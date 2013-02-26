@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Refraction</h2>
+<h2><?php echo $element->elementType->name; ?></h2>
 <div class="details">
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
