@@ -17,8 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2><?php echo $element->elementType->name; ?></h2>
-<div class="details">
 	<div class="cols2 clearfix">
 		<div class="left">
 			<?php if ($principal = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (2,3)',array($element->id))) {?>
@@ -53,4 +51,3 @@
 			<?php }?>
 		</div>
 	</div>
-</div>
