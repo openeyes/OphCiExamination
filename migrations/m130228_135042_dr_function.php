@@ -1,20 +1,22 @@
 <?php
 
-class m121204_135042_dr_function extends CDbMigration
+class m130228_135042_dr_function extends CDbMigration
 {
 	public function up()
 	{
 		
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
-		$parent_el  = ElementType::model()->find('class_name=? and event_type_id=?', array('Element_OphCiExamination_PosteriorSegment', $event_type->id));
-
-		$this->insert('element_type',array('name'=>'DR Grading','class_name'=>'Element_OphCiExamination_DRGrading','event_type_id'=>$event_type->id, 'parent_element_type_id'=>$parent_el->id, 'display_order'=>$parent_el->display_order+1));
-		$dr_grading_id = $this->dbConnection->lastInsertID;
+		// Posterior Segment Element type
+		$posterior_et  = ElementType::model()->find('class_name=? and event_type_id=?', array('Element_OphCiExamination_PosteriorSegment', $event_type->id));
+		// Management element type
+		$mgmt_et = ElementType::model()->find('class_name=?',array('Element_OphCiExamination_Management'));
 		
+		// MR subspecialty
 		$subspecialty = $this->dbConnection->createCommand()->select('id')->from('subspecialty')->where('ref_spec=:spec',array(':spec'=>"MR"))->queryRow();
 		
 		$mr_id = $subspecialty['id'];
 		
+		// create the MR default examination set
 		$this->insert('ophciexamination_element_set', array('name'=>'MR Default'));
 		$set_id = $this->dbConnection->lastInsertID;
 		
@@ -24,16 +26,19 @@ class m121204_135042_dr_function extends CDbMigration
 		// MR set rules (not worried about status, so don't need another clause)
 		$this->insert('ophciexamination_element_set_rule', array('set_id'=>$set_id, 'parent_id'=> $parent_rule_id, 'value'=>$mr_id));
 		// MR set items
-		$posterior = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_PosteriorSegment"))->queryRow();
 		$history = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_History"))->queryRow();
 		$va = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_VisualAcuity"))->queryRow();
-		
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $posterior['id']));
+		$outcome = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_ClinicOutcome"))->queryRow();
+
+		// actual base elements for MR (more to follow as they are defined below)
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $posterior_et->id));
 		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $history['id']));
 		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $va['id']));
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $dr_grading_id));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $outcome['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $mgmt_et->id));
 		
-		// additional fields for posterior segment
+		
+		// NSC Retinopathy lookup
 		$this->createTable('ophciexamination_drgrading_nscretinopathy', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -58,6 +63,8 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3A', 'display_order' => '5', 'booking_weeks' => 2, 'description' => 'Active Proliferative Retinopathy<ul><li>New vessels on disc (NVD)</li><li>New vessels elsewhere (NVE)</li><li>Pre-retinal or vitreous haemorrhage</li><li>Pre-retinal fibrosis +/- tractional retinal detachment</li></ul>'));
 		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'U', 'display_order' => '6', 'description' => 'Ungradable'));
 		
+		
+		// NSC Maculopathy lookup
 		$this->createTable('ophciexamination_drgrading_nscmaculopathy', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -78,7 +85,7 @@ class m121204_135042_dr_function extends CDbMigration
 		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M0', 'display_order' => '1', 'description' => 'No maculopathy'));
 		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'booking_weeks' => 13, 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
 		
-		// clinical grading
+		// clinical grading lookup
 		$this->createTable('ophciexamination_drgrading_clinical', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -146,16 +153,176 @@ class m121204_135042_dr_function extends CDbMigration
 				'CONSTRAINT `et_ophciexamination_drgrading_r_clinical_fk` FOREIGN KEY (`right_clinical_id`) REFERENCES `ophciexamination_drgrading_clinical` (`id`)',
 				'CONSTRAINT `et_ophciexamination_drgrading_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('element_type',array('name'=>'DR Grading','class_name'=>'Element_OphCiExamination_DRGrading','event_type_id'=>$event_type->id, 'parent_element_type_id'=>$posterior_et->id, 'display_order'=>$posterior_et->display_order+1));
+		$dr_grading_id = $this->dbConnection->lastInsertID;
+		
+		// add DR Grading element to default set for MR
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $dr_grading_id));
+		
+		// end of DR Grading setup
+		
+		// management lookup for laser and injection management
+		$this->createTable('ophciexamination_management_status', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'deferred' => 'boolean NOT NULL DEFAULT false',
+				'book' => 'boolean NOT NULL DEFAULT false',
+				'event' => 'boolean NOT NULL DEFAULT false',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `ophciexamination_management_laser_lmui_fk` (`last_modified_user_id`)',
+				'KEY `ophciexamination_management_laser_cui_fk` (`created_user_id`)',
+				'CONSTRAINT `ophciexamination_management_laser_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_management_laser_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('ophciexamination_management_status', array('name'=>'Not Required', 'display_order' => '1'));
+		$this->insert('ophciexamination_management_status', array('name'=>'Deferred', 'display_order' => '2', 'deferred' => true));
+		$this->insert('ophciexamination_management_status', array('name'=>'Booked for a future date', 'display_order' => '3', 'book' => true));
+		$this->insert('ophciexamination_management_status', array('name'=>'Performed today', 'display_order' => '4', 'event' => true));
+		
+		// deferral reason lookup for laser and injection management
+		$this->createTable('ophciexamination_management_deferralreason', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'other' => 'boolean NOT NULL DEFAULT false',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `ophciexamination_management_ldeferral_lmui_fk` (`last_modified_user_id`)',
+				'KEY `ophciexamination_management_ldeferral_cui_fk` (`created_user_id`)',
+				'CONSTRAINT `ophciexamination_management_ldeferral_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `ophciexamination_management_ldeferral_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('ophciexamination_management_deferralreason', array('name'=>'Cataract', 'display_order' => '1'));
+		$this->insert('ophciexamination_management_deferralreason', array('name'=>'Retinal detachment', 'display_order' => '2'));
+		$this->insert('ophciexamination_management_deferralreason', array('name'=>'Vitreous haemorrhage', 'display_order' => '3'));
+		$this->insert('ophciexamination_management_deferralreason', array('name'=>'Patient choice', 'display_order' => '4'));
+		$this->insert('ophciexamination_management_deferralreason', array('name'=>'Other', 'display_order' => '5', 'other' => true));
+		
+		// laser management element (child of management)
+		$this->createTable('et_ophciexamination_lasermanagement', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'event_id' => 'int(10) unsigned NOT NULL',
+				'laser_status_id' => 'int(10) unsigned NOT NULL',
+				'laser_deferralreason_id' => 'int(10) unsigned',
+				'laser_deferralreason_other' => 'text',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `et_ophciexamination_lasermanagement_lmui_fk` (`last_modified_user_id`)',
+				'KEY `et_ophciexamination_lasermanagement_cui_fk` (`created_user_id`)',
+				'KEY `et_ophciexamination_lasermanagement_laser_fk` (`laser_status_id`)',
+				'KEY `et_ophciexamination_lasermanagement_ldeferral_fk` (`laser_deferralreason_id`)',
+				'CONSTRAINT `et_ophciexamination_lasermanagement_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `et_ophciexamination_lasermanagement_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `et_ophciexamination_lasermanagement_laser_fk` FOREIGN KEY (`laser_status_id`) REFERENCES `ophciexamination_management_status` (`id`)',
+				'CONSTRAINT `et_ophciexamination_lasermanagement_ldeferral_fk` FOREIGN KEY (`laser_deferralreason_id`) REFERENCES `ophciexamination_management_deferralreason` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('element_type', array(
+				'name' => 'Laser Management',
+				'class_name' => 'Element_OphCiExamination_LaserManagement',
+				'event_type_id' => $event_type->id,
+				'display_order' => 91,
+				'default' => 1,
+				'parent_element_type_id' => $mgmt_et->id
+		));
+		
+		$lmgmt_id = $this->dbConnection->lastInsertID;
+		
+		// add to the MR default set
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $lmgmt_id));
+		
+		// end laser management
+		
+		// injection management element (child of management)
+		$this->createTable('et_ophciexamination_injectionmanagement', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'event_id' => 'int(10) unsigned NOT NULL',
+				'injection_status_id' => 'int(10) unsigned NOT NULL',
+				'injection_deferralreason_id' => 'int(10) unsigned',
+				'injection_deferralreason_other' => 'text',
+				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'created_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
+				'PRIMARY KEY (`id`)',
+				'KEY `et_ophciexamination_injectionmanagement_lmui_fk` (`last_modified_user_id`)',
+				'KEY `et_ophciexamination_injectionmanagement_cui_fk` (`created_user_id`)',
+				'KEY `et_ophciexamination_injectionmanagement_injection_fk` (`injection_status_id`)',
+				'KEY `et_ophciexamination_injectionmanagement_ideferral_fk` (`injection_deferralreason_id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagement_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagement_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagement_injection_fk` FOREIGN KEY (`injection_status_id`) REFERENCES `ophciexamination_management_status` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagement_ideferral_fk` FOREIGN KEY (`injection_deferralreason_id`) REFERENCES `ophciexamination_management_deferralreason` (`id`)',
+		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('element_type', array(
+				'name' => 'Injection Management',
+				'class_name' => 'Element_OphCiExamination_InjectionManagement',
+				'event_type_id' => $event_type->id,
+				'display_order' => 92,
+				'default' => 1,
+				'parent_element_type_id' => $mgmt_et->id
+		));
+		
+		$imgmt_id = $this->dbConnection->lastInsertID;
+		
+		// add to the MR default set
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $imgmt_id));
+		
+		//end injection management
 	}
 
 	public function down()
 	{
+		$mr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryRow();
+		
+		// laser
+		$this->dropTable('et_ophciexamination_lasermanagement');
+		
+		$lmgmt_id = $this->dbConnection->createCommand()
+		->select('id')
+		->from('element_type')
+		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_LaserManagement'))
+		->queryScalar();
+		
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set['id'], ':element_type_id' => $lmgmt_id));
+		$this->delete('element_type', 'id=:id', array(':id'=>$lmgmt_id));
+		
+		// injection
+		$this->dropTable('et_ophciexamination_injectionmanagement');
+		
+		$imgmt_id = $this->dbConnection->createCommand()
+		->select('id')
+		->from('element_type')
+		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_InjectionManagement'))
+		->queryScalar();
+		
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set['id'], ':element_type_id' => $imgmt_id));
+		$this->delete('element_type', 'id=:id', array(':id'=>$imgmt_id));
+		
+		// mgmt lookups
+		$this->dropTable('ophciexamination_management_status');
+		$this->dropTable('ophciexamination_management_deferralreason');
+		
+		// DR Grading tables
 		$this->dropTable('et_ophciexamination_drgrading');
 		$this->dropTable('ophciexamination_drgrading_nscmaculopathy');
 		$this->dropTable('ophciexamination_drgrading_nscretinopathy');
 		$this->dropTable('ophciexamination_drgrading_clinical');
-		
-		$mr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryRow();
 		
 		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$mr_set['id']));
 		$this->delete('ophciexamination_element_set_rule', "set_id=:set_id", array(':set_id'=>$mr_set['id']));

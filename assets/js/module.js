@@ -591,57 +591,6 @@ $(document).ready(function() {
 	
 	// end of management
 	
-	// outcome functions
-	function isOutcomeStatusFollowup() {
-		var statusPK = $('#Element_OphCiExamination_Outcome_status_id').val();
-		var followup = false;
-		
-		$('#Element_OphCiExamination_Outcome_status_id').find('option').each(function() {
-			if ($(this).attr('value') == statusPK) {
-				if ($(this).attr('data-followup') == "1") {
-					followup = true;
-					return false;
-				}
-			}
-		});
-		
-		return followup;
-	}
-	
-	function showOutcomeStatusFollowup() {
-		if ($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value')) {
-			$('#Element_OphCiExamination_Outcome_followup_quantity').val($('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value'));
-		}
-		if ($('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value')) {
-			$('#Element_OphCiExamination_Outcome_followup_period_id').val($('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value'));
-		}
-		$('#div_Element_OphCiExamination_Outcome_followup').slideDown();
-		
-	}
-	
-	function hideOutcomeStatusFollowup() {
-		if ($('#div_Element_OphCiExamination_Outcome_followup').is(':visible')) {
-			// only do hiding and storing if currently showing something.
-			$('#div_Element_OphCiExamination_Outcome_followup').slideUp();
-			$('#Element_OphCiExamination_Outcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_Outcome_followup_quantity').val());
-			$('#Element_OphCiExamination_Outcome_followup_quantity').val('');
-			$('#Element_OphCiExamination_Outcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_Outcome_followup_period_id').val());
-			$('#Element_OphCiExamination_Outcome_followup_period_id').val('');
-		}
-	}
-	
-	// show/hide the followup period fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_Outcome_status_id', 'change', function(e) {
-		var followup = isOutcomeStatusFollowup();
-		if (followup) {
-			showOutcomeStatusFollowup();
-		}
-		else {
-			hideOutcomeStatusFollowup();
-		}
-	});
-	// end of outcome
-	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
