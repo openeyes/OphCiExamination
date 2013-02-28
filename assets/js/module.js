@@ -320,47 +320,47 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected select', 'change', function(e) {
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_unselected select', 'change', function(e) {
 		var id = $(this).val();
 		var text = $('option:selected', this).text();
-		$('#risks_risks :not(:selected)').attr('selected', function () {
+		$('#comorbidities_items :not(:selected)').attr('selected', function () {
 			return ($(this).val() == id);
 		});
 		$('option:selected', this).remove();
-		if($('#risks_selected ul').length == 0) {
-			$('#risks_unselected').append(' <a href="#">Remove All</a>');
-			$('#risks_selected').html('<ul></ul>');
+		if($('#comorbidities_selected ul').length == 0) {
+			$('#comorbidities_unselected').append(' <a href="#">Remove All</a>');
+			$('#comorbidities_selected').html('<ul></ul>');
 		}
-		$('#risks_selected ul').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Risk">-</a></li>');
-		sort_ul($('#risks_selected ul'));
+		$('#comorbidities_selected ul').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Comorbidity">-</a></li>');
+		sort_ul($('#comorbidities_selected ul'));
 		e.preventDefault();
 	});
 	
-	function removeRisk(li) {
+	function removeComorbidity(li) {
 		var id = li.attr('data-id');
 		var text = $('span',li).text();
-		$('#risks_risks :selected').attr('selected', function () {
+		$('#comorbidities_items :selected').attr('selected', function () {
 			return ($(this).val() != id);
 		});
 		li.remove();
-		if($('#risks_selected ul li').length == 0) {
-			$('#risks_selected').html('<p>No risks</p>');
-			$('#risks_unselected a').remove();
+		if($('#comorbidities_selected ul li').length == 0) {
+			$('#comorbidities_selected').html('<p>No comorbidities</p>');
+			$('#comorbidities_unselected a').remove();
 		}
-		$('#risks_unselected select').append('<option value="'+id+'">'+text+'</option>');
+		$('#comorbidities_unselected select').append('<option value="'+id+'">'+text+'</option>');
 	}
 	
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_selected a', 'click', function(e) {
-		removeRisk($(this).parent());
-		sort_selectbox($('#risks_unselected select'));
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_selected a', 'click', function(e) {
+		removeComorbidity($(this).parent());
+		sort_selectbox($('#comorbidities_unselected select'));
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Risks #risks_unselected a', 'click', function(e) {
-		$('#risks_selected li').each(function() {
-			removeRisk($(this));
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_unselected a', 'click', function(e) {
+		$('#comorbidities_selected li').each(function() {
+			removeComorbidity($(this));
 		});
-		sort_selectbox($('#risks_unselected select'));
+		sort_selectbox($('#comorbidities_unselected select'));
 		e.preventDefault();
 	});
 
@@ -533,22 +533,22 @@ function OphCiExamination_Gonioscopy_init() {
 	});
 }
 
-function OphCiExamination_Risks_init() {
-	$('#risks_risks').hide();
-	$('#risks_risks').after($('<div id="risks_unselected"><select><option value="">-- Add --</option></select></div>'));
-	$('#risks_risks option:not(:selected)').each(function() {
-		$('#risks_unselected select').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
+function OphCiExamination_Comorbidities_init() {
+	$('#comorbidities_items').hide();
+	$('#comorbidities_items').after($('<div id="comorbidities_unselected"><select><option value="">-- Add --</option></select></div>'));
+	$('#comorbidities_items option:not(:selected)').each(function() {
+		$('#comorbidities_unselected select').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
 	});
-	var selected = $('#risks_risks option:selected');
-	$('#risks_unselected').after($('<div id="risks_selected"></div>'));
+	var selected = $('#comorbidities_items option:selected');
+	$('#comorbidities_unselected').after($('<div id="comorbidities_selected"></div>'));
 	if(selected.length > 0) {
-		$('#risks_unselected').append(' <a href="#">Remove All</a>');
-		$('#risks_selected').html($('<ul></ul>'));
-		$('#risks_risks option:selected').each(function() {
-			$('#risks_selected ul').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Risk">-</a></li>');
+		$('#comorbidities_unselected').append(' <a href="#">Remove All</a>');
+		$('#comorbidities_selected').html($('<ul></ul>'));
+		$('#comorbidities_items option:selected').each(function() {
+			$('#comorbidities_selected ul').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Comorbidity">-</a></li>');
 		});		
 	} else {
-		$('#risks_selected').html('<p>No risks</p>');
+		$('#comorbidities_selected').html('<p>No comorbidities</p>');
 	}
 }
 

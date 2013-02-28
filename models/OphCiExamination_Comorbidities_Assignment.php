@@ -18,18 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_risk".
+ * This is the model class for table "ophciexamination_comorbidities_assignment".
  *
  * @property integer $id
- * @property string $name
- * @property integer $display_order
+ * @property integer $element_id
+ * @property integer $item_id
  
  */
-class OphCiExamination_Risks_Risk extends BaseActiveRecord {
+class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Risks_Risk the static model class
+	 * @return OphCiExamination_Comorbidities_Assignment the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -39,16 +39,16 @@ class OphCiExamination_Risks_Risk extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_risks_risk';
+		return 'ophciexamination_comorbidities_assignment';
 	}
 
 	/**
-	 * @return array validation rules for model OphCiExamination_Risks_Risk.
+	 * @return array validation rules for model OphCiExamination_Comorbidities_Assignment.
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order', 'required'),
-				array('id, name, display_order', 'safe', 'on'=>'search'),
+				array('element_id, item_id', 'required'),
+				array('id, element_id, item_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,8 +67,8 @@ class OphCiExamination_Risks_Risk extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('display_order',$this->display_order,true);
+		$criteria->compare('element_id',$this->element_id,true);
+		$criteria->compare('item_id',$this->item_id,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

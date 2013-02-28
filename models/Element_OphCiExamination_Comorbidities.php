@@ -16,24 +16,21 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-<?php
 
 /**
- * The followings are the available columns in table 'et_ophciexamination_risks':
+ * The followings are the available columns in table 'et_ophciexamination_comorbidities':
  * @property integer $id
  * @property integer $event_id
- * @property string $comments
  *
  * The followings are the available model relations:
  * @property Event $event
- * @property OphCiExamination_Risks_Risk[] $risks
+ * @property OphCiExamination_Comorbidities_Item[] $items
  */
-class Element_OphCiExamination_Risks extends BaseEventTypeElement {
+class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_Risks the static model class
+	 * @return Element_OphCiExamination_Comorbidities the static model class
 	 */
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -43,7 +40,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_risks';
+		return 'et_ophciexamination_comorbidities';
 	}
 
 	/**
@@ -53,10 +50,10 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
+				array('event_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments', 'safe', 'on' => 'search'),
+				array('id, event_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -72,7 +69,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'risks' => array(self::MANY_MANY, 'OphCiExamination_Risks_Risk', 'ophciexamination_risks_assignment(element_id, risk_id)', 'order' => 'display_order, name'),
+				'items' => array(self::MANY_MANY, 'OphCiExamination_Comorbidities_Item', 'ophciexamination_comorbidities_assignment(element_id, item_id)', 'order' => 'display_order, name'),
 		);
 	}
 
@@ -102,19 +99,19 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 		));
 	}
 
-	public function getRiskOptions() {
-		$risks = OphCiExamination_Risks_Risk::model()->findAll();
-		return CHtml::encodeArray(CHtml::listData($risks, 'id', 'name'));
+	public function getItemOptions() {
+		$items = OphCiExamination_Comorbidities_Item::model()->findAll();
+		return CHtml::encodeArray(CHtml::listData($items, 'id', 'name'));
 	}
 	
-	public function getRiskIds() {
-		return CHtml::listData($this->risks, 'id', 'id');
+	public function getItemIds() {
+		return CHtml::listData($this->items, 'id', 'id');
 	}
 	
 	public function getSummary() {
 		$return = array();
-		foreach($this->risks as $risk) {
-			$return[] = $risk->name;
+		foreach($this->items as $item) {
+			$return[] = $item->name;
 		}
 		if($return) {
 			return implode(', ',$return);
@@ -124,46 +121,46 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	}
 	
 	protected function beforeDelete() {
-		OphCiExamination_Risks_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
+		OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
 		return parent::beforeDelete();
 	}
 	
 	protected function afterSave() {
 		
-		// Check to see if risks have been posted
-		if(isset($_POST['risks_risks_valid']) && $_POST['risks_risks_valid']) {
+		// Check to see if items have been posted
+		if(isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
 
 			// Get a list of ids so we can keep track of what's been removed
-			$existing_risk_ids = array();
-			foreach($this->risks as $risk) {
-				$existing_risk_ids[$risk->id] = $risk->id;
+			$existing_item_ids = array();
+			foreach($this->items as $item) {
+				$existing_item_ids[$item->id] = $item->id;
 			}
 
-			// Process (any) posted risks
-			$new_risks = (isset($_POST['risks_risks'])) ? $_POST['risks_risks'] : array();
-			foreach($new_risks as $risk_id) {
+			// Process (any) posted items
+			$new_items = (isset($_POST['comorbidities_items'])) ? $_POST['comorbidities_items'] : array();
+			foreach($new_items as $item_id) {
 				
-				if($risk_id && isset($existing_risk_ids[$risk_id])) {
+				if($item_id && isset($existing_item_ids[$item_id])) {
 
-					// Risk is being updated
-					$risk_assignment = OphCiExamination_Risks_Assignment::model()->findByAttributes(array('element_id' => $this->id, 'risk_id' => $risk_id));
-					unset($existing_risk_ids[$risk_id]);
+					// Item is being updated
+					$item_assignment = OphCiExamination_Comorbidities_Assignment::model()->findByAttributes(array('element_id' => $this->id, 'item_id' => $item_id));
+					unset($existing_item_ids[$item_id]);
 
 				} else {
 
-					// Risk is new
-					$risk_assignment = new OphCiExamination_Risks_Assignment();
-					$risk_assignment->element_id = $this->id;
-					$risk_assignment->risk_id = $risk_id;
+					// Item is new
+					$item_assignment = new OphCiExamination_Comorbidities_Assignment();
+					$item_assignment->element_id = $this->id;
+					$item_assignment->item_id = $item_id;
 
 				}
 				
-				$risk_assignment->save();
+				$item_assignment->save();
 				
 			}
 
 			// Delete remaining (removed) ids
-			OphCiExamination_Risks_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id, 'risk_id' =>array_values($existing_risk_ids)));
+			OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id, 'item_id' =>array_values($existing_item_ids)));
 
 		}
 
