@@ -66,8 +66,8 @@ class m130226_141700_clinic_outcome_element extends CDbMigration {
 	}
 
 	public function down() {
-		$this->delete('element_type', 'class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_Outcome'));
-		$this->dropTable('et_ophciexamination_outcome');
-		$this->dropTable('ophciexamination_outcome_status');
+		$this->delete('element_type', 'class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_ClinicOutcome'));
+		$this->dropTable('et_ophciexamination_clinicoutcome');
+		$this->dropTable('ophciexamination_clinicoutcome_status');
 	}
 }

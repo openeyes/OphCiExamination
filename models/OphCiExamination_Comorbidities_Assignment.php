@@ -57,6 +57,7 @@ class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
+			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Comorbidities', 'element_id'),
 		);
 	}
 
