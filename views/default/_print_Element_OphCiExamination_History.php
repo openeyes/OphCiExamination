@@ -18,5 +18,4 @@
  */
 ?>
 
-	<?php echo $element->description; ?><br /><br />
-	<?php echo ($element->previous_refractive_surgery ? 'Has' : 'Has not')." had previous refractive surgery"; ?>
+	<?php echo $element->description; ?>

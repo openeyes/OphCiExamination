@@ -30,4 +30,3 @@
 		<?php echo $form->textArea($element, 'description', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
 </div>
-<?php echo $form->radioBoolean($element, 'previous_refractive_surgery')?>
