@@ -5,42 +5,26 @@ $(document).ready(function() {
 	/**
 	 * Save event
 	 */
-	$('#event_display').delegate('#et_save', 'click', function(e) {
-		if (!$(this).hasClass('inactive')) {
-			disableButtons();
-		} else {
-			e.preventDefault();
-		}
-	});
+	handleButton($('#et_save'));
 
-	$('#et_print').unbind('click').click(function() {
+	handleButton($('#et_print'),function(e) {
 		OphCiExamination_do_print();
-		return false;
+		e.preventDefault();
 	});
 
 	/**
 	 * Delete event
 	 */
-	$('#event_display').delegate('#et_deleteevent', 'click', function(e) {
-		if (!$(this).hasClass('inactive')) {
-			disableButtons();
-			return true;
-		}
-		e.preventDefault();
-		return false;
-	});
+	handleButton($('#et_deleteevent'));
 
 	/**
 	 * Cancel event delete
 	 */
-	$('#event_display').delegate('#et_canceldelete', 'click', function(e) {
-		if (!$(this).hasClass('inactive')) {
-			disableButtons();
-			if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
-				window.location.href = window.location.href.replace('/delete/', '/view/');
-			} else {
-				window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
-			}
+	handleButton($('#et_canceldelete'),function(e) {
+		if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
+			window.location.href = window.location.href.replace('/delete/', '/view/');
+		} else {
+			window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
 		}
 		e.preventDefault();
 	});
