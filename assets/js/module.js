@@ -364,6 +364,58 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// clinic outcome functions
+	function isClinicOutcomeStatusFollowup() {
+		var statusPK = $('#Element_OphCiExamination_ClinicOutcome_status_id').val();
+		var followup = false;
+		
+		$('#Element_OphCiExamination_ClinicOutcome_status_id').find('option').each(function() {
+			if ($(this).attr('value') == statusPK) {
+				if ($(this).attr('data-followup') == "1") {
+					followup = true;
+					return false;
+				}
+			}
+		});
+		
+		return followup;
+	}
+
+	function showOutcomeStatusFollowup() {
+		if ($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value'));
+		}
+		if ($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value'));
+		}
+		$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideDown();
+		
+	}
+
+	function hideOutcomeStatusFollowup() {
+		if ($('#div_Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
+			// only do hiding and storing if currently showing something.
+			$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideUp();
+			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val());
+			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val('');
+			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val());
+			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val('');
+		}
+	}
+
+	// show/hide the followup period fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
+		var followup = isClinicOutcomeStatusFollowup();
+		if (followup) {
+			showOutcomeStatusFollowup();
+		}
+		else {
+			hideOutcomeStatusFollowup();
+		}
+	});
+	// end of clinic outcome functions
+
+	
 	// perform the inits for the elements
 	$('#active_elements .element').each(function() {
 		var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
