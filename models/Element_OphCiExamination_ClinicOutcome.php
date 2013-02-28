@@ -23,13 +23,19 @@
  * The followings are the available columns in table:
  * @property integer $id
  * @property integer $event_id
- * @property string $comments
- *
+ * @property string $status_id
+ * @property OphCiExamination_ClinicOutcome_status $status
+ * @property integer $followup_quantity
+ * @property string $followup_period_id
+ * @property Period $followup_period
+
  * The followings are the available model relations:
  */
 
 class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
-
+	const FOLLOWUP_Q_MIN = 1;
+	const FOLLOWUP_Q_MAX = 12;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_ClinicOutcome the static model class
@@ -52,10 +58,13 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
+				array('event_id, status_id, followup_quantity, followup_period_id', 'safe'),
+				array('status_id', 'required'),
+				array('status_id', 'statusDependencyValidation'),
+				array('followup_quantity', 'numerical', 'integerOnly' => true, 'min' => self::FOLLOWUP_Q_MIN, 'max' => self::FOLLOWUP_Q_MAX),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments', 'safe', 'on' => 'search'),
+				array('id, status_id, statusdeferral_reason_id, statusdeferral_reason_other, comments', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -67,10 +76,11 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		// class name for the relations automatically generated below.
 		return array(
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'status_id'),
+				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
 		);
 	}
 
@@ -81,7 +91,9 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'status_id' => "Status",
+				'followup_quantity' => 'Follow-up',
+				'followup_period_id' => 'Follow-up period'
 		);
 	}
 
@@ -90,18 +102,66 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search() {
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
 
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('comments', $this->comments);
 
+		$criteria->compare('status_id', $this->status_id);
+		$criteria->compare('followup_quanityt', $this->followup_quantity);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
+	}
+	
+	/*
+	 * follow up data is only required for status status that are flagged for follow up
+	 */
+	public function statusDependencyValidation($attribute) {
+		if ($this->status_id && $this->status->followup) {
+			$v = CValidator::createValidator('required', $this, array('followup_quantity','followup_period_id'));
+			$v->validate($this);
+		}
+	}
+	
+	public function getFollowUpQuantityOptions() {
+		$opts = array();
+		for ($i = self::FOLLOWUP_Q_MIN; $i <= self::FOLLOWUP_Q_MAX; $i++) {
+			$opts[(string)$i] = $i;
+		}
+		return $opts;
+	}
+	
+	public function getFollowUp() {
+		if ($this->status->followup) {
+			return $this->followup_quantity . ' ' . $this->followup_period;
+		}
+	}
+	
+	/**
+	 * Returns the follow up period information
+	 * 
+	 * @return string
+	 */
+	public function getLetter_fup() {
+		$text = array();
+		
+		return $this->getFollowUp();
+	}
+	
+	public function afterSave() {
+		// if the outcome is set
+		if ($this->status) {
+			if ($this->event->isLatestOfTypeInEpisode()) {
+				$this->event->episode->episode_status_id = $this->status->episode_status_id;
+				if (!$this->event->episode->save()) {
+					throw new Exception('Unable to save episode status: '.print_r($this->event->episode->getErrors(),true));
+				}
+			}
+		}
+		parent::afterSave();
 	}
 
 }

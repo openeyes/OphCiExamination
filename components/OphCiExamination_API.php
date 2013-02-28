@@ -116,61 +116,6 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 
-	public function getLetterDRRetinopathy($patient, $side) {
-		/*
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_DRGrading')) {
-			$res = $dr->{$side."_nscretinopathy"};
-			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
-				$res .= " and evidence of photocoagulation";
-			}
-			return $res;
-		}
-		*/
-	}
-
-	public function getLetterDRMaculopathy($patient, $side) {
-		/*
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_DRGrading')) {
-			$res = $dr->{$side."_nscmaculopathy"};
-			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
-				$res .= " and evidence of photocoagulation";
-			}
-			return $res;
-		}*/
-	}
-
-	public function getLetterDRClinical($patient, $side) {
-		/*
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_DRGrading')) {
-			return $dr->{$side."_clinical"};
-		}
-		*/
-	}
-
-	public function getLetterLaserManagementPlan($patient) {
-		/*
-		if ($m = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_Management')) {
-			return $m->getLetter_lmp();
-		}
-		*/
-	}
-
-	public function getLetterLaserManagementComments($patient) {
-		if ($m = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_Management')) {
-			return $m->comments;
-		}
-	}
-
-	public function getLetterOutcomeFollowUpPeriod($patient) {
-		/*
-		if ($o = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_ClinicOutcome')) {
-			if ($o->followup_quantity) {
-				return $o->followup_quantity . " " . $o->followup_period;
-			}
-		}
-		*/
-	}
-
 	public function getLetterStringForModel($patient, $element_type_id) {
 		if (!$element_type = ElementType::model()->findByPk($element_type_id)) {
 			throw new Exception("Unknown element type: $element_type_id");

@@ -17,8 +17,38 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_comments" class="eventDetail">
-	<div class="data">
-		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+<div id="div_<?php echo get_class($element)?>_status"
+	class="eventDetail">
+	<div class="label">
+		<?php echo $element->getAttributeLabel('status_id') ?>:
 	</div>
+	<div class="data">
+		<?php 
+		$html_options = array('empty'=>'- Please select -', 'options' => array());
+		foreach (OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
+			$html_options['options'][(string)$opt->id] = array('data-followup' => $opt->followup);
+		}
+		echo CHtml::activeDropDownList($element,'status_id', CHtml::listData(OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+	</div>
+</div>
+<div id="div_<?php echo get_class($element)?>_followup"
+	class="eventDetail" 
+	<?php if (!($element->status && $element->status->followup)) { ?>
+	style="display: none;"
+	<?php }?>
+	>
+	<div class="label">
+		<?php echo $element->getAttributeLabel('followup_quantity')?>:
+	</div>
+	<div class="data">
+		<?php 
+		$html_options = array('empty'=>'- Please select -', 'options' => array());
+		echo CHtml::activeDropDownList($element,'followup_quantity', $element->getFollowUpQuantityOptions(), $html_options)?>
+	</div>
+	<div class="data">
+		<?php 
+		$html_options = array('empty'=>'- Please select -', 'options' => array());
+		echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+	</div>
+	
 </div>
