@@ -26,6 +26,6 @@
 					array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'nowrapper'=>true));
 			} ?>
 		</div>
-		<?php echo $form->textArea($element, 'comments', array('rows' => "3", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+		<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 	</div>
 </div>
