@@ -17,10 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Conclusion</h2>
-<div class="details">
-	<?php echo $element->summary ?>
-	<?php if ($comments = trim($element->comments)) {?>
-	(<?php echo $comments ?>)
-	<?php }?>
-</div>
+	<div>
+		<?php echo $element->status ?>
+	</div>
+	<?php if ($element->status && $element->status->followup) { ?>
+		<div><?php echo $element->getFollowUp() ?></div>
+	<?php } ?>

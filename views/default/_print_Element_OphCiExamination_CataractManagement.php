@@ -17,8 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Cataract management</h2>
-<div class="details">
 	<?php if ($element->city_road) {?>
 		<div>At City Road</div>
 	<?php }?>
@@ -42,4 +40,3 @@
 	<div>
 		<?php echo $element->vitrectomised_eye ? 'Vitrectomised eye' : 'Non-vitrectomised eye'?>
 	</div>
-</div>

@@ -44,8 +44,4 @@
 
 <script type="text/javascript">
 	var Element_OphCiExamination_IntraocularPressure_link_instruments = <?php echo $element->getSetting('link_instruments') ? 'true' : 'false'?>;
-
-	$(document).ready(function() {
-		OphCiExamination_IntraocularPressure_init();
-	});
 </script>

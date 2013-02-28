@@ -52,22 +52,7 @@
 	</div>
 	
 	<div class="body">
-		
-		<?php foreach ($elements as $element) { ?>
-			<div>
-			<?php 
-			echo $this->renderPartial('_print_'.get_class($element),array('element'=>$element));
-
-			foreach ($element->elementType->child_element_types as $child_element_type) {
-				$model = $child_element_type->class_name;
-				if ($element_object = $model::model()->find('event_id=?',array($element->event_id))) {
-					echo $this->renderPartial('_print_'.get_class($element_object),array('element'=>$element_object));
-				}
-			}
-			?>
-			</div>
-		<?php }?>
-
+		<?php $this->renderDefaultElements('print'); ?>
 		<div class="metaData clear">
 			<span class="info">Examination created by <span class="user"><?php echo $this->event->user->fullname ?></span>
 				on <?php echo $this->event->NHSDate('created_date') ?>

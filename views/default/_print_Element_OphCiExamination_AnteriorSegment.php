@@ -17,8 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Anterior Segment</h2>
-<div class="details">
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if($element->hasRight()) {
@@ -37,4 +35,3 @@
 			<?php } ?>
 		</div>
 	</div>
-</div>

@@ -18,8 +18,5 @@
  */
 ?>
 
-<h2>History</h2>
-<div class="details">
 	<?php echo $element->description; ?><br /><br />
 	<?php echo ($element->previous_refractive_surgery ? 'Has' : 'Has not')." had previous refractive surgery"; ?>
-</div>

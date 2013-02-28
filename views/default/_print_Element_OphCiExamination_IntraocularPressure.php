@@ -17,8 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h2>Intraocular Pressure</h2>
-<div class="details">
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="data">
@@ -45,4 +43,3 @@
 			</div>
 		</div>
 	</div>
-</div>

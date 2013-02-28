@@ -17,33 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="cols2 clearfix">
-		<div class="left">
-			<div class="data">
-				<?php if($element->hasRight()) { ?>
-				<?php echo $element->getCombined('right') ?>
-				<?php if($element->right_comments) { ?>
-				(
-				<?php echo $element->right_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
-			</div>
-		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<?php if($element->hasLeft()) { ?>
-				<?php echo $element->getCombined('left') ?>
-				<?php if($element->left_comments) { ?>
-				(
-				<?php echo $element->left_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
-			</div>
-		</div>
-	</div>
+<div class="eventDetail">
+	<?php echo $form->dropdownList($element, 'risk_id', CHtml::listData(OphCiExamination_GlaucomaRisk_Risk::model()->findAll(), 'id', 'name'), array('nowrapper' => true)) ?>
+</div>
