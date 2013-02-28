@@ -71,17 +71,17 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
 
-#risks_selected { margin: 0 0 10px; }
-#risks_selected ul { padding: 0; margin: 0; }
-#risks_selected ul:before, #risks_selected ul:after { content: ""; display: table; }
-#risks_selected ul:after { clear: both; }
-#risks_selected ul { zoom: 1; }
-#content #risks_selected p {
+#comorbidities_selected { margin: 0 0 10px; }
+#comorbidities_selected ul { padding: 0; margin: 0; }
+#comorbidities_selected ul:before, #comorbidities_selected ul:after { content: ""; display: table; }
+#comorbidities_selected ul:after { clear: both; }
+#comorbidities_selected ul { zoom: 1; }
+#content #comorbidities_selected p {
 	margin: 10px 0 0 0;
 	padding: 4px 6px;
 	background: #efe;
 }
-#risks_selected li {
+#comorbidities_selected li {
 	float: left;
 	margin: 5px 5px 0 0;
 	list-style: none;
@@ -89,10 +89,10 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 	border-radius: 4px;
 	background: #ffe;
 }
-#risks_selected li span {
+#comorbidities_selected li span {
 	float: left;
 }
-#risks_selected li a {
+#comorbidities_selected li a {
 	float: right;
 	width: 14px;
 	margin-left: 4px;
@@ -100,12 +100,12 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 	background: url(../../../img/_elements/icons/extra-element_remove.png) no-repeat -10px -2px;
 	opacity: 0.5;
 }
-#risks_selected li a:hover {
+#comorbidities_selected li a:hover {
 	opacity: 1;
 	border: none;
 }
-#risks_unselected { clear: both; margin: 0 0 5px; }
-#risks_unselected a { margin-left: 10px; }
+#comorbidities_unselected { clear: both; margin: 0 0 5px; }
+#comorbidities_unselected a { margin-left: 10px; }
 
 #div_dilation_drug_right { margin-left: -10px; display: inline; }
 #div_dilation_drug_left { margin-left: -10px; display: inline; }

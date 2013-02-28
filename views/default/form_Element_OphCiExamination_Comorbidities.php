@@ -19,13 +19,13 @@
 ?>
 <div class="clearfix eventDetail">
 	<?php
-	if(isset($_POST['risks_risks_valid']) && $_POST['risks_risks_valid']) {
-		$risk_ids = @$_POST['risks_risks'];
+	if(isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
+		$item_ids = @$_POST['comorbidities_items'];
 	} else {
-		$risk_ids = $element->getRiskIds();
+		$item_ids = $element->getItemIds();
 	}
 	?>
-	<?php echo CHtml::hiddenField("risks_risks_valid", 1, array('id' => 'risks_risks_valid'))?>
-	<?php echo CHtml::listBox('risks_risks', $risk_ids, $element->getRiskOptions(), array('multiple' => 'multiple')) ?>
+	<?php echo CHtml::hiddenField("comorbidities_items_valid", 1, array('id' => 'comorbidities_items_valid'))?>
+	<?php echo CHtml::listBox('comorbidities_items', $item_ids, $element->getItemOptions(), array('multiple' => 'multiple')) ?>
 	<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
 </div>
