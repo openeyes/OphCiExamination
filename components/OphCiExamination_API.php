@@ -115,14 +115,4 @@ class OphCiExamination_API extends BaseAPI {
 			return $ac->{$side.'_description'};
 		}
 	}
-
-	public function getLetterStringForModel($patient, $element_type_id) {
-		if (!$element_type = ElementType::model()->findByPk($element_type_id)) {
-			throw new Exception("Unknown element type: $element_type_id");
-		}
-
-		if ($element = $this->getElementForLatestEventInEpisode($patient, $element_type->class_name)) {
-			return $element->letter_string;
-		}
-	}
 }
