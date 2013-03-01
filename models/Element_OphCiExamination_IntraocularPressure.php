@@ -138,7 +138,6 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 			$this->left_instrument_id = null;
 			$this->right_instrument_id = null;
 		}
-		
 	}
 
 	protected function beforeSave() {

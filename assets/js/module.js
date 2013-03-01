@@ -1,5 +1,3 @@
-var examination_print_url, module_css_path;
-
 $(document).ready(function() {
 
 	/**
@@ -24,7 +22,7 @@ $(document).ready(function() {
 		if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
 			window.location.href = window.location.href.replace('/delete/', '/view/');
 		} else {
-			window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
+			window.location.href = baseUrl + '/patient/episodes/' + OE_patient_id;
 		}
 		e.preventDefault();
 	});
@@ -639,5 +637,5 @@ $('a.removeDiagnosis').live('click',function() {
 });
 
 function OphCiExamination_do_print() {
-	printIFrameUrl(examination_print_url, null);
+	printIFrameUrl(OE_print_url, null);
 }

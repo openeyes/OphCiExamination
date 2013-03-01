@@ -3,16 +3,18 @@
 class DefaultController extends NestedElementsEventTypeController {
 	
 	public function actionCreate() {
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+
 		parent::actionCreate();
 	}
 
 	public function actionUpdate($id) {
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+
 		parent::actionUpdate($id);
 	}
 
 	public function actionView($id) {
-		$cs = Yii::app()->getClientScript();
-		$cs->registerScript('scr_examination_view', "examination_print_url = '" . Yii::app()->createUrl('OphCiExamination/Default/print/'.$id) . "';\nmodule_css_path = '" . $this->assetPath . "/css';", CClientScript::POS_READY);
 		parent::actionView($id);
 	}
 
