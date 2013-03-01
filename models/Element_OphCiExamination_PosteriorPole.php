@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_posteriorsegment".
+ * This is the model class for table "et_ophciexamination_posteriorpole".
  *
  * The followings are the available columns in table:
  * @property string $id
@@ -34,7 +34,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
+class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -49,7 +49,7 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_posteriorsegment';
+		return 'et_ophciexamination_posteriorpole';
 	}
 
 	/**
@@ -93,8 +93,8 @@ class Element_OphCiExamination_PosteriorSegment extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'left_cd_ratio_id'),
-				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorSegment_CDRatio', 'right_cd_ratio_id'),
+				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorPole_CDRatio', 'left_cd_ratio_id'),
+				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorPole_CDRatio', 'right_cd_ratio_id'),
 		);
 	}
 
