@@ -59,6 +59,8 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 				array('eye_id, event_id', 'safe'),
 				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
+				array('left_value', 'numerical', 'integerOnly' => false, 'numberPattern' => '/^[0-9]{1,3}(\.[0-9])?$/', 'message' => 'Left Value must be 0.0 - 999.9'),
+				array('right_value', 'numerical', 'integerOnly' => false, 'numberPattern' => '/^[0-9]{1,3}(\.[0-9])?$/', 'message' => 'Right Value must be 0.0 - 999.9'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_method_id, right_method_id, left_value, right_value', 'safe', 'on' => 'search'),
