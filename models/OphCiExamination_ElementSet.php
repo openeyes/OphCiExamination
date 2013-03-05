@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  * @property OphCiExamination_Workflow $workflow
- * @property integer $order
+ * @property integer $position
  * @property OphCiExamination_ElementSetItem[] $items
 
  */
@@ -69,9 +69,9 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 
 	public function getNextStep() {
 		$criteria = new CDbCriteria(array(
-			'condition' => 'workflow_id = :workflow_id AND order >= :order AND id != :id',
-			'order' => 'order, id',
-			'params' => array(':order' => $this->order, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
+			'condition' => 'workflow_id = :workflow_id AND position >= :position AND id <> :id',
+			'order' => 'position, id',
+			'params' => array(':position' => $this->position, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
 		));
 		return $this->find($criteria);
 	}

@@ -1,7 +1,8 @@
 <?php $this->header() ?>
 
 <h3 class="withEventIcon">
-	<?php echo $this->event_type->name ?> (FIXME STEP)
+	<?php echo $this->event_type->name ?>
+	(<?php echo $this->getNextStep()->name; ?>)
 </h3>
 
 <div id="event_<?php echo $this->module->name?>">

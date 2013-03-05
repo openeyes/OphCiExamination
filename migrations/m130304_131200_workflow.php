@@ -40,7 +40,7 @@ class m130304_131200_workflow extends OEMigration {
 			),
 			'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
-		$this->addColumn('ophciexamination_element_set', 'order', 'int(10) unsigned NOT NULL DEFAULT 1');
+		$this->addColumn('ophciexamination_element_set', 'position', 'int(10) unsigned NOT NULL DEFAULT 1');
 		$this->addColumn('ophciexamination_element_set', 'workflow_id', 'int(10) unsigned');
 		$this->addForeignKey('ophciexamination_element_set_workflow_id_fk', 'ophciexamination_element_set', 'workflow_id', 'ophciexamination_workflow', 'id');
 		foreach(OphCiExamination_ElementSet::model()->findAll() as $set) {
@@ -80,7 +80,7 @@ class m130304_131200_workflow extends OEMigration {
 		$this->addForeignKey('ophciexamination_element_set_rule_set_id_fk', 'ophciexamination_element_set_rule', 'set_id', 'ophciexamination_element_set', 'id');
 		$this->dropForeignKey('ophciexamination_element_set_workflow_id_fk', 'ophciexamination_element_set');
 		$this->dropColumn('ophciexamination_element_set', 'workflow_id');
-		$this->dropColumn('ophciexamination_element_set', 'order');
+		$this->dropColumn('ophciexamination_element_set', 'position');
 		$this->dropTable('ophciexamination_workflow');
 		$this->dropTable('ophciexamination_event_elementset_assignment');
 	}

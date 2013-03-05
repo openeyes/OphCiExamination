@@ -59,7 +59,7 @@ class OphCiExamination_Workflow extends BaseActiveRecord {
 		return array(
 				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id'),
 				'first_step' => array(self::HAS_ONE, 'OphCiExamination_ElementSet', 'workflow_id',
-						'order' => 'first_step.order, first_step.id',
+						'order' => 'first_step.position, first_step.id',
 				),
 		);
 	}
@@ -74,6 +74,10 @@ class OphCiExamination_Workflow extends BaseActiveRecord {
 		);
 	}
 
+	/**
+	 * First step (set) in this workflow
+	 * @return OphCiExamination_ElementSet
+	 */
 	public function getFirstStep() {
 		return $this->first_step;
 	}
