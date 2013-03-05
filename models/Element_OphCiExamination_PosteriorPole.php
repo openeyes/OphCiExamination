@@ -26,10 +26,8 @@
  * @property integer $eye_id
  * @property string $left_eyedraw
  * @property string $left_description
- * @property string $left_cd_ratio_id
  * @property string $right_eyedraw
  * @property string $right_description
- * @property string $right_cd_ratio_id
  *
  * The followings are the available model relations:
  */
@@ -59,21 +57,17 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
+				array('event_id, left_description, right_description, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
 				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_eyedraw, right_eyedraw, left_description, left_cd_ratio_id, right_description, right_cd_ratio_id, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id, left_eyedraw, right_eyedraw, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('description', 'cd_ratio_id', 'eyedraw', 'description');
-	}
-	
-	public function sidedDefaults() {
-		return array('cd_ratio_id' => 5);
+		return array('description', 'eyedraw', 'description');
 	}
 	
 	public function canCopy() {
@@ -92,8 +86,6 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorPole_CDRatio', 'left_cd_ratio_id'),
-				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_PosteriorPole_CDRatio', 'right_cd_ratio_id'),
 		);
 	}
 
@@ -106,10 +98,8 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement {
 				'event_id' => 'Event',
 				'left_eyedraw' => 'Eyedraw',
 				'left_description' => 'Description',
-				'left_cd_ratio_id' => 'C/D Ratio',
 				'right_eyedraw' => 'Eyedraw',
 				'right_description' => 'Description',
-				'right_cd_ratio_id' => 'C/D Ratio',
 		);
 	}
 
@@ -128,10 +118,8 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement {
 
 		$criteria->compare('left_eyedraw', $this->left_eyedraw);
 		$criteria->compare('left_description', $this->left_description);
-		$criteria->compare('left_cd_ratio_id', $this->left_cd_ratio_id);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
-		$criteria->compare('right_cd_ratio_id', $this->right_cd_ratio_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,

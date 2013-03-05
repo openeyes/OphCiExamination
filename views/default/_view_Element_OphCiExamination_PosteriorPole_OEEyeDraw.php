@@ -18,10 +18,4 @@ $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
 		</div>
 	</div>
 	<?php } ?>
-	<div>
-		<div class="label aligned">
-			<?php echo $element->getAttributeLabel($side . '_cd_ratio_id') ?>:
-			<?php echo $element[$side . '_cd_ratio']->name ?>
-		</div>
-	</div>
 </div>
