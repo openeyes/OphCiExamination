@@ -8,9 +8,12 @@ class m130305_165800_remove_cd_ratio extends OEMigration {
 					'left' => $element->left_description,
 					'right' => $element->right_description,
 			);
+			$command = $this->getDbConnection()->createCommand('select name from ophciexamination_posteriorpole_cd_ratio where id = :id');
 			foreach(array('left', 'right') as $side) {
-				if($element->{$side.'_cd_ratio'}) {
-					$description[$side] .= ' C/D Ratio = ' . $element->{$side.'_cd_ratio'}->name;
+				if($element->{$side.'_cd_ratio_id'}) {
+					$command->bindParam(':id', $element->{$side.'_cd_ratio_id'});
+					$ratio = $command->queryScalar();
+					$description[$side] .= ' C/D Ratio = ' . $ratio;
 				}
 			}
 			$this->update('et_ophciexamination_posteriorpole', array(
