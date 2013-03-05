@@ -20,53 +20,76 @@ class DefaultController extends NestedElementsEventTypeController {
 		parent::actionPrint($id);
 	}
 
+	public function actionStep($id) {
+		// This is the same as update, but with a few extras, so we call the update code and then pick up on the action later
+		parent::actionUpdate($id);
+	}
+	
+	protected function afterUpdateElements($event) {
+		// Advance the workflow
+	}
+	
+	protected function afterCreateElements($event) {
+		// Initialise workflow for the element
+		$assignment = new OphCiExamination_Event_ElementSet_Assignment();
+		$assignment->event_id = $event->id;
+		$site_id = Yii::app()->request->cookies['site_id']->value;
+		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+		$status_id = $this->episode->episode_status_id;
+		$step = OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
+		$assignment->step_id = $step->id;
+		if(!$assignment->save()) {
+			throw new CException('Cannot save assignment');
+		}
+	}
+	
 	protected function getCleanDefaultElements($event_type_id) {
-		return $this->getElementsBySet($this->episode);
+		return $this->getElementsByWorkflow(null, $this->episode);
 	}
 
 	protected function getCleanChildDefaultElements($parent, $event_type_id) {
-		return $this->getChildElementsBySet($parent, $this->episode);
+		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
+	}
+	
+	protected function getSavedElements($action, $event, $parent = null) {
+		$elements = parent::getSavedElements($action, $event, $parent);
+		if($action == 'step') {
+			if(!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+				throw new CException('Cannot find OphCiExamination_Event_ElementSet_Assignment');
+			}
+			if(!$next_step = $assignment->step) {
+				throw new CException('Cannot find next step');
+			}
+			$parent_id = ($parent) ? $parent->id : null;
+			$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
+			return $extra_elements;
+		}
+		return $elements;
 	}
 	
 	/**
-	 * Get the array of elements for the current site, subspecialty and episode status
+	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
+	 * @param OphCiExamination_ElementSet $set
 	 * @param Episode $episode
-	 * @param integer $default
+	 * @param integer $parent_id
 	 */
-	protected function getElementsBySet($episode = null) {
+	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null) {
 		$elements = array();
-		$site_id = Yii::app()->request->cookies['site_id']->value;
-		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
-		$status_id = ($episode) ? $episode->episode_status_id : 1;
-		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
+		if(!$set) {
+			$site_id = Yii::app()->request->cookies['site_id']->value;
+			$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+			$status_id = ($episode) ? $episode->episode_status_id : 1;
+			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
+		}
 		$element_types = $set->DefaultElementTypes;
 		foreach($element_types as $element_type) {
-			if (!$element_type->parent_element_type_id) {
+			if ((!$parent_id && !$element_type->parent_element_type_id) || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
 				$elements[] = new $element_type->class_name;
 			}
 		}
 		return $elements;
 	}
 	
-	/*
-	 * returns the child elements of the provided parent element that are in the set for the current subspecialty etc
-	 * 
-	 */
-	protected function getChildElementsBySet($parent, $episode = null) {
-		$elements = array();
-		$site_id = Yii::app()->request->cookies['site_id']->value;
-		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
-		$status_id = ($episode) ? $episode->episode_status_id : 1;
-		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
-		$element_types = $set->DefaultElementTypes;
-		foreach($element_types as $element_type) {
-			if ($element_type->parent_element_type_id == $parent->id) {
-				$elements[] = new $element_type->class_name;
-			}
-		}
-		return $elements;
-	}
-
 	public function actionGetDisorderTableRow() {
 		if (@$_GET['disorder_id'] == '0') return;
 

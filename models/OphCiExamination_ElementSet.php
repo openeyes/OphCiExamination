@@ -20,8 +20,10 @@
 /**
  * This is the model class for table "ophciexamination_element_set".
  *
- * @property string $id
+ * @property integer $id
  * @property string $name
+ * @property OphCiExamination_Workflow $workflow
+ * @property integer $order
  * @property OphCiExamination_ElementSetItem[] $items
 
  */
@@ -57,6 +59,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
+				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
 				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
 						'with' => 'element_type',
 						'order' => 'element_type.display_order',
@@ -64,6 +67,15 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 		);
 	}
 
+	public function getNextStep() {
+		$criteria = new CDbCriteria(array(
+			'condition' => 'workflow_id = :workflow_id AND order >= :order AND id != :id',
+			'order' => 'order, id',
+			'params' => array(':order' => $this->order, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
+		));
+		return $this->find($criteria);
+	}
+	
 	/**
 	 * Get an array of ElementTypes corresponding with the items in this set
 	 * @return ElementType[]

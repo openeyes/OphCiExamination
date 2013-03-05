@@ -18,20 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_element_set_rule".
+ * This is the model class for table "ophciexamination_workflow".
  *
  * @property integer $id
- * @property integer $parent_id
- * @property string $clause
- * @property string $value
- * @property OphCiExamination_Workflow $workflow
+ * @property string $name
+ * @property OphCiExamination_Workflow_Step[] $steps
 
  */
-class OphCiExamination_ElementSetRule extends BaseActiveRecord {
+class OphCiExamination_Workflow extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_ElementSetRule the static model class
+	 * @return OphCiExamination_Workflow the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -41,7 +39,7 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_element_set_rule';
+		return 'ophciexamination_workflow';
 	}
 
 	/**
@@ -49,7 +47,8 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('id', 'safe', 'on'=>'search'),
+				array('name', 'required'),
+				array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,56 +57,11 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
-				'children' => array(self::HAS_MANY, 'OphCiExamination_ElementSetRule', 'parent_id'),
+				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id'),
+				'first_step' => array(self::HAS_ONE, 'OphCiExamination_ElementSet', 'workflow_id',
+						'order' => 'first_step.order, first_step.id',
+				),
 		);
-	}
-
-	/**
-	 * Finds the best matching workflow
-	 * @param integer $site_id
-	 * @param integer $subspecialty_id
-	 * @param integer $status_id
-	 * @return OphCiExamination_Workflow
-	 */
-	public static function findWorkflow($site_id, $subspecialty_id, $status_id) {
-		if($rule = self::model()->find('parent_id IS NULL')) {
-			return $rule->processClause($site_id, $subspecialty_id, $status_id);
-		} else {
-			throw new CException('Cannot find root ExaminationSetRule');
-		}
-	}
-
-	protected function findChild($value) {
-		return $this->find('parent_id = :id AND value = :value', array(':id' => $this->id, ':value' => $value));
-	}
-
-	protected function processClause($site_id, $subspecialty_id, $status_id) {
-
-		// Check to see if the current rule has a clause
-		if($this->clause) {
-
-			$value = ${$this->clause};
-
-			// and find the next rule that matches the result
-			if($rule = $this->findChild($value)) {
-				
-				// Process next rule
-				return $rule->processClause($site_id, $subspecialty_id, $status_id);
-				
-			} else {
-				
-				// No matching rule, so we return the current rule's workflow
-				return $this->workflow;
-				
-			}
-		} else {
-			
-			// No clause, so we return the current rule's workflow
-			return $this->workflow;
-			
-		}
-
 	}
 
 	/**
@@ -116,9 +70,14 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	public function attributeLabels() {
 		return array(
 				'id' => 'ID',
+				'name' => 'Name',
 		);
 	}
 
+	public function getFirstStep() {
+		return $this->first_step;
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -126,6 +85,7 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

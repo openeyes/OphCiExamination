@@ -18,20 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_element_set_rule".
+ * This is the model class for table "ophciexamination_event_elementset_assignment".
  *
  * @property integer $id
- * @property integer $parent_id
- * @property string $clause
- * @property string $value
- * @property OphCiExamination_Workflow $workflow
+ * @property Event $event
+ * @property OphCiExamination_ElementSet $step
 
  */
-class OphCiExamination_ElementSetRule extends BaseActiveRecord {
+class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_ElementSetRule the static model class
+	 * @return OphCiExamination_Event_ElementSet_Assignment the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -41,7 +39,7 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_element_set_rule';
+		return 'ophciexamination_event_elementset_assignment';
 	}
 
 	/**
@@ -49,7 +47,9 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('id', 'safe', 'on'=>'search'),
+				array('step_id', 'required'),
+				array('event_id', 'unique'),
+				array('id, event_id, step_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,56 +58,9 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
-				'children' => array(self::HAS_MANY, 'OphCiExamination_ElementSetRule', 'parent_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'step' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'step_id'),
 		);
-	}
-
-	/**
-	 * Finds the best matching workflow
-	 * @param integer $site_id
-	 * @param integer $subspecialty_id
-	 * @param integer $status_id
-	 * @return OphCiExamination_Workflow
-	 */
-	public static function findWorkflow($site_id, $subspecialty_id, $status_id) {
-		if($rule = self::model()->find('parent_id IS NULL')) {
-			return $rule->processClause($site_id, $subspecialty_id, $status_id);
-		} else {
-			throw new CException('Cannot find root ExaminationSetRule');
-		}
-	}
-
-	protected function findChild($value) {
-		return $this->find('parent_id = :id AND value = :value', array(':id' => $this->id, ':value' => $value));
-	}
-
-	protected function processClause($site_id, $subspecialty_id, $status_id) {
-
-		// Check to see if the current rule has a clause
-		if($this->clause) {
-
-			$value = ${$this->clause};
-
-			// and find the next rule that matches the result
-			if($rule = $this->findChild($value)) {
-				
-				// Process next rule
-				return $rule->processClause($site_id, $subspecialty_id, $status_id);
-				
-			} else {
-				
-				// No matching rule, so we return the current rule's workflow
-				return $this->workflow;
-				
-			}
-		} else {
-			
-			// No clause, so we return the current rule's workflow
-			return $this->workflow;
-			
-		}
-
 	}
 
 	/**
