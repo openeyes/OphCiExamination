@@ -7,11 +7,13 @@ class m130306_093800_posteriorpole_api_change extends OEMigration {
 			foreach(array('right','left') as $side) {
 				$drawing[$side] = json_decode($element->{$side.'_eyedraw'}, true);
 				// Iterate object looking for PostPole doodles
-				foreach($drawing[$side] as $index => $doodle) {
-					// Adjust parameters for PostPole doodles
-					if($doodle["subclass"] == "PostPole") {
-						$drawing[$side][$index]["originX"] = 0;
-						$drawing[$side][$index]["apexX"] = 300;
+				if($drawing[$side]) {
+					foreach($drawing[$side] as $index => $doodle) {
+						// Adjust parameters for PostPole doodles
+						if($doodle["subclass"] == "PostPole") {
+							$drawing[$side][$index]["originX"] = 0;
+							$drawing[$side][$index]["apexX"] = 300;
+						}
 					}
 				}
 			}
