@@ -3,7 +3,8 @@
 class m130304_131200_workflow extends OEMigration {
 	
 	public function up() {
-		$this->createTable('ophciexamination_workflow', array(
+		
+		 $this->createTable('ophciexamination_workflow', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(64) NOT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
@@ -43,6 +44,10 @@ class m130304_131200_workflow extends OEMigration {
 		$this->addColumn('ophciexamination_element_set', 'position', 'int(10) unsigned NOT NULL DEFAULT 1');
 		$this->addColumn('ophciexamination_element_set', 'workflow_id', 'int(10) unsigned');
 		$this->addForeignKey('ophciexamination_element_set_workflow_id_fk', 'ophciexamination_element_set', 'workflow_id', 'ophciexamination_workflow', 'id');
+		
+		// reset the schema to ensure it's picked up latest table changes.
+		Yii::app()->cache->flush();
+		
 		foreach(OphCiExamination_ElementSet::model()->findAll() as $set) {
 			$workflow = new OphCiExamination_Workflow();
 			$workflow->name = $set->name;
