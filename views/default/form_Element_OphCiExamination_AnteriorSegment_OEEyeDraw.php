@@ -19,7 +19,6 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
-		'template' => 'OEEyeDrawWidgetHelp',
 		'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI','Fuchs','RK','LasikFlap','CornealScar'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('AntSeg')),
