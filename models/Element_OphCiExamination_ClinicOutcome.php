@@ -22,14 +22,10 @@
  *
  * The followings are the available columns in table:
  * @property integer $id
- * @property integer $event_id
- * @property string $status_id
+ * @property Event $event
  * @property OphCiExamination_ClinicOutcome_status $status
  * @property integer $followup_quantity
- * @property string $followup_period_id
  * @property Period $followup_period
-
- * The followings are the available model relations:
  */
 
 class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
@@ -151,7 +147,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	}
 	
 	public function afterSave() {
-		// if the outcome is set
+		// Update Episode status when outcome is saved
 		if ($this->status) {
 			if ($this->event->isLatestOfTypeInEpisode()) {
 				$this->event->episode->episode_status_id = $this->status->episode_status_id;

@@ -29,6 +29,14 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#event_display').delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+		var clinic_outcome_element = $('#active_elements .Element_OphCiExamination_ClinicOutcome');
+		if(clinic_outcome_element.length) {
+			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
+			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
+		}
+	});
+	
 	/**
 	 * Populate description from eyedraw
 	 */
@@ -583,6 +591,19 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
+}
+
+function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
+	if(Element_OphCiExamination_ClinicOutcome_templates[template_id]) {
+		$('#Element_OphCiExamination_ClinicOutcome_status_id')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['clinic_outcome_status_id'])
+			.trigger('change');
+		$('#Element_OphCiExamination_ClinicOutcome_followup_quantity')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_quantity']);
+		$('#Element_OphCiExamination_ClinicOutcome_followup_period_id')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_period_id']);
+		
+	}
 }
 
 function OphCiExamination_Comorbidities_init() {

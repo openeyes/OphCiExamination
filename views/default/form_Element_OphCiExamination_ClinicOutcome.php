@@ -50,5 +50,15 @@
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
-	
 </div>
+<script type="text/javascript">
+		var Element_OphCiExamination_ClinicOutcome_templates = {
+		<?php foreach(OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
+		"<?php echo $template->id?>": {
+			"clinic_outcome_status_id": <?php echo $template->clinic_outcome_status_id ?>,
+			"followup_quantity": "<?php echo $template->followup_quantity ?>",
+			"followup_period_id": "<?php echo $template->followup_period_id ?>"
+		},
+		<?php } ?>
+		};
+</script>

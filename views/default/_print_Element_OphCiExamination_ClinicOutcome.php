@@ -17,9 +17,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div>
-		<?php echo $element->status ?>
-	</div>
+<div class="eventDetail">
+	<?php echo $element->status ?>
 	<?php if ($element->status && $element->status->followup) { ?>
-		<div><?php echo $element->getFollowUp() ?></div>
-	<?php } ?>
+	in
+	<?php echo $element->getFollowUp();
+	} ?>
+</div>

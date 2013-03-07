@@ -18,14 +18,14 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_clinicoutcome_status".
+ * This is the model class for table "ophciexamination_clinicoutcome_template".
  *
  * @property integer $id
- * @property string $name
- * @property integer $display_order
- * @property EpisodeStatus $episode_status
+ * @property OphCiExamination_ClinicOutcome_Status $clinic_outcome_status
+ * @property integer $followup_quantity
+ * @property Period $followup_period 
  */
-class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
+class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -35,15 +35,11 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 		return parent::model($className);
 	}
 
-	public function __toString() {
-		return $this->name;
-	}
-	
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_clinicoutcome_status';
+		return 'ophciexamination_clinicoutcome_template';
 	}
 
 	/**
@@ -51,8 +47,13 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order, episode_status_id', 'required'),
-				array('id, name, display_order', 'safe', 'on'=>'search'),
+				array('clinic_outcome_status_id', 'required'),
+				array('followup_quantity, followup_period_id', 'safe'),
+				array('followup_quantity', 'numerical', 'integerOnly' => true,
+						'min' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MIN,
+						'max' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MAX
+				),
+				array('id, clinic_outcome_status_id, followup_quantity, followup_period_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,7 +62,8 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id')
+				'clinic_outcome_status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
+				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
 		);
 	}
 
@@ -72,8 +74,6 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 	public function search() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('display_order',$this->display_order,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

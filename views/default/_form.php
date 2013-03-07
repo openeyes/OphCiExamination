@@ -55,7 +55,7 @@
 	?>
 	
 	<?php if(!@$child) { ?>
-	<div class="active_child_elements">
+	<div class="active_child_elements clearfix">
 		<?php 
 		$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
 		?>
