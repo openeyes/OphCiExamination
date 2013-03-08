@@ -390,20 +390,36 @@ $(document).ready(function() {
 	}
 
 	function showOutcomeStatusFollowup() {
+		// Retrieve any previously stashed values
 		if ($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value'));
 		}
 		if ($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value')) {
 			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value'));
 		}
+		if ($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').val($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value'));
+		}
+		if ($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value'));
+		}
+		
 		$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideDown();
+		$('#div_Element_OphCiExamination_ClinicOutcome_role').slideDown();
 		
 	}
 
 	function hideOutcomeStatusFollowup() {
 		if ($('#div_Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
 			// only do hiding and storing if currently showing something.
+			$('#div_Element_OphCiExamination_ClinicOutcome_role').slideUp();
 			$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideUp();
+			
+			// Stash current values as data in case we need them again and to avoid saving them
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_id').val());
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').val('');
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_comments').val());
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val('');
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val());
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val('');
 			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val());

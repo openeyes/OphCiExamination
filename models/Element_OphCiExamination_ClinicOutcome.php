@@ -23,9 +23,11 @@
  * The followings are the available columns in table:
  * @property integer $id
  * @property Event $event
- * @property OphCiExamination_ClinicOutcome_status $status
+ * @property OphCiExamination_ClinicOutcome_Status $status
  * @property integer $followup_quantity
  * @property Period $followup_period
+ * @property OphCiExamination_ClinicOutcome_Role $role
+ * @property string $role_comments
  */
 
 class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
@@ -54,13 +56,12 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, status_id, followup_quantity, followup_period_id', 'safe'),
+				array('event_id, followup_quantity, followup_period_id, role_id, role_comments', 'safe'),
 				array('status_id', 'required'),
 				array('status_id', 'statusDependencyValidation'),
+				array('role_id', 'roleDependencyValidation'),
 				array('followup_quantity', 'numerical', 'integerOnly' => true, 'min' => self::FOLLOWUP_Q_MIN, 'max' => self::FOLLOWUP_Q_MAX),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, status_id, statusdeferral_reason_id, statusdeferral_reason_other, comments', 'safe', 'on' => 'search'),
+				array('id, event_id, status_id, followup_quantity, followup_period_id, role_id, role_comments', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -76,6 +77,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'status_id'),
 				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
+				'role' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Role', 'role_id'),
 		);
 	}
 
@@ -88,7 +90,9 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 				'event_id' => 'Event',
 				'status_id' => "Status",
 				'followup_quantity' => 'Follow-up',
-				'followup_period_id' => 'Follow-up period'
+				'followup_period_id' => 'Follow-up period',
+				'role_id' => 'Role',
+				'role_comments' => 'Role comment',
 		);
 	}
 
@@ -105,19 +109,35 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 
 		$criteria->compare('status_id', $this->status_id);
 		$criteria->compare('followup_quanityt', $this->followup_quantity);
+		$criteria->compare('followup_quantity', $this->followup_quantity);
+		$criteria->compare('followup_period_id', $this->followup_period_id);
+		$criteria->compare('role_id', $this->role_id);
+		$criteria->compare('role_comments', $this->role_comments);
 		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 	
-	/*
-	 * follow up data is only required for status status that are flagged for follow up
+	/**
+	 * Follow up data is only required for status status that are flagged for follow up
+	 * @property string $attribute
 	 */
 	public function statusDependencyValidation($attribute) {
 		if ($this->status_id && $this->status->followup) {
-			$v = CValidator::createValidator('required', $this, array('followup_quantity','followup_period_id'));
+			$v = CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
 			$v->validate($this);
+		}
+	}
+	
+	/**
+	 * Role comments are only required if role flags it
+	 * @property string $attribute
+	 */
+	public function roleDependencyValidation($attribute) {
+		if ($this->role && $this->role->requires_comment
+				&& !trim($this->role_comments)) {
+			$this->addError($attribute, 'Role requires a comment');
 		}
 	}
 	
@@ -143,7 +163,12 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	public function getLetter_fup() {
 		$text = array();
 		
-		return $this->getFollowUp();
+		$text[] = $this->getFollowUp();
+		$text[] = $this->role->name;
+		if($this->role_comments) {
+			$text[] = '(' . $this->role_comments . ')';
+		}
+		return implode(' ', $text);
 	}
 	
 	public function afterSave() {

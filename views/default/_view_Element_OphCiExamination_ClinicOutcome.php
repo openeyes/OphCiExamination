@@ -21,6 +21,11 @@
 	<?php echo $element->status ?>
 	<?php if ($element->status && $element->status->followup) { ?>
 	in
-	<?php echo $element->getFollowUp();
-	} ?>
+	<?php echo $element->getFollowUp(); ?>
+	with
+	<?php echo $element->role->name; ?>
+	<?php if($element->role_comments)  { ?>
+	(<?php echo $element->role_comments; ?>)
+	<?php } ?>
+	<?php } ?>
 </div>
