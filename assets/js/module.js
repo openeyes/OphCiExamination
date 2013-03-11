@@ -48,6 +48,7 @@ $(document).ready(function() {
 		var value = $(this).attr('data-risk-id');
 		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
 		$('#Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
+		e.preventDefault();
 	});
 	
 	/**
