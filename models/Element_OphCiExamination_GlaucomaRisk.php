@@ -52,7 +52,8 @@ class Element_OphCiExamination_GlaucomaRisk extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, risk_id', 'safe'),
+				array('event_id', 'safe'),
+				array('risk_id', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, risk_id', 'safe', 'on' => 'search'),

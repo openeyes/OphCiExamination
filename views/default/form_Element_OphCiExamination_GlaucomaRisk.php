@@ -20,7 +20,7 @@
 <div class="eventDetail">
 	<div class="risk_wrapper <?php if($element->risk) { echo $element->risk->class; } ?>">
 		<?php
-			$html_options = array('nowrapper' => true);
+			$html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
 			$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
 			foreach($risks as $option) {
 				$html_options['options'][(string)$option->id] = array(
