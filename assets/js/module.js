@@ -27,6 +27,14 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('#event_display').delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+		var clinic_outcome_element = $('#active_elements .Element_OphCiExamination_ClinicOutcome');
+		if(clinic_outcome_element.length) {
+			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
+			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
+		}
+	});
+	
 	/**
 	 * Populate description from eyedraw
 	 */
@@ -380,20 +388,36 @@ $(document).ready(function() {
 	}
 
 	function showOutcomeStatusFollowup() {
+		// Retrieve any previously stashed values
 		if ($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value'));
 		}
 		if ($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value')) {
 			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value'));
 		}
+		if ($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').val($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value'));
+		}
+		if ($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value')) {
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value'));
+		}
+		
 		$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideDown();
+		$('#div_Element_OphCiExamination_ClinicOutcome_role').slideDown();
 		
 	}
 
 	function hideOutcomeStatusFollowup() {
 		if ($('#div_Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
 			// only do hiding and storing if currently showing something.
+			$('#div_Element_OphCiExamination_ClinicOutcome_role').slideUp();
 			$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideUp();
+			
+			// Stash current values as data in case we need them again and to avoid saving them
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_id').val());
+			$('#Element_OphCiExamination_ClinicOutcome_role_id').val('');
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_comments').val());
+			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val('');
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val());
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val('');
 			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val());
@@ -539,7 +563,7 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 			return value != method_id;
 		});
 	});
-	return method_ids.shift();
+	return method_ids[0];
 }
 
 function OphCiExamination_VisualAcuity_init() {
@@ -581,6 +605,19 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
+}
+
+function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
+	if(Element_OphCiExamination_ClinicOutcome_templates[template_id]) {
+		$('#Element_OphCiExamination_ClinicOutcome_status_id')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['clinic_outcome_status_id'])
+			.trigger('change');
+		$('#Element_OphCiExamination_ClinicOutcome_followup_quantity')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_quantity']);
+		$('#Element_OphCiExamination_ClinicOutcome_followup_period_id')
+			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_period_id']);
+		
+	}
 }
 
 function OphCiExamination_Comorbidities_init() {

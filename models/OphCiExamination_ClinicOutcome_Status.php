@@ -18,21 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_management_status".
+ * This is the model class for table "ophciexamination_clinicoutcome_status".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
- * @property integer $episode_status_id
- * 
  * @property EpisodeStatus $episode_status
- 
  */
 class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Risks_Assignment the static model class
+	 * @return OphCiExamination_ClinicOutcome_Status the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -50,11 +47,11 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord {
 	}
 
 	/**
-	 * @return array validation rules for model OphCiExamination_Risks_Assignment.
+	 * @return array validation rules for model
 	 */
 	public function rules() {
 		return array(
-				array('name, display_order, episode_status', 'required'),
+				array('name, display_order, episode_status_id', 'required'),
 				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}

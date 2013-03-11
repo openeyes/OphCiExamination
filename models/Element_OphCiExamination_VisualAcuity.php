@@ -73,7 +73,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
@@ -273,12 +272,26 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate() {
-		if (!isset($_POST['visualacuity_reading'])) {
-			$this->addError('visualacuity_reading','Please enter at least one reading, or remove the element');
+	protected function afterValidate() {
+		$reading_count = array(
+				'left' => 0,
+				'right' => 0,
+		);
+		if(isset($_POST['visualacuity_reading'])) {
+			foreach($_POST['visualacuity_reading'] as $reading) {
+				if($reading['side'] == 0) {
+					$reading_count['right']++;
+				} else {
+					$reading_count['left']++;
+				}
+			}
 		}
-
-		return parent::beforeValidate();
+		foreach(array('left', 'right') as $side) {
+			if($reading_count[$side] == 0 && !$this->{$side.'_comments'}) {
+				$this->addError('visualacuity_reading',"Please enter at least one reading or comment for $side side");
+			}
+		}
+		return parent::afterValidate();
 	}
 
 	public function getLetter_string() {

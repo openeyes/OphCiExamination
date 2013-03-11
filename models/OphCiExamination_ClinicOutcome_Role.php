@@ -18,45 +18,41 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_risks".
+ * This is the model class for table "ophciexamination_clinicoutcome_role".
  *
- * The followings are the available columns in table:
- * @property string $id
- * @property integer $event_id
- * @property string $comments
- *
- * The followings are the available model relations:
+ * @property integer $id
+ * @property string $name
+ * @property integer $display_order
+ * @property boolean $requires_comment
  */
-
-class Element_OphCiExamination_Risks extends BaseEventTypeElement {
-	public $service;
+class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return the static model class
+	 * @return OphCiExamination_ClinicOutcome_Role the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
+	public function __toString() {
+		return $this->name;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_risks';
+		return 'ophciexamination_clinicoutcome_role';
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model
 	 */
 	public function rules() {
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments, ', 'safe', 'on' => 'search'),
+				array('name, display_order, requires_comment', 'required'),
+				array('id, name, display_order, requires_comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,24 +60,7 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels() {
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'comments' => 'Comments',
 		);
 	}
 
@@ -90,17 +69,13 @@ class Element_OphCiExamination_Risks extends BaseEventTypeElement {
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search() {
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('comments', $this->comments);
-
+		$criteria=new CDbCriteria;
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('display_order',$this->display_order,true);
+		$criteria->compare('requires_comment',$this->requires_comment,true);
 		return new CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
+				'criteria'=>$criteria,
 		));
 	}
 

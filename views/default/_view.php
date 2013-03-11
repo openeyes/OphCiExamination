@@ -36,7 +36,7 @@
 	?>
 	
 	<?php if(!@$child) { ?>
-	<div class="child_elements">
+	<div class="child_elements clearfix">
 		<?php 
 		$this->renderChildDefaultElements($element, 'view', $form, $data);
 		?>
