@@ -565,7 +565,7 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 			return value != method_id;
 		});
 	});
-	return method_ids.shift();
+	return method_ids[0];
 }
 
 function OphCiExamination_VisualAcuity_init() {
