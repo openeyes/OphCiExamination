@@ -6,7 +6,7 @@ class m130226_142600_glaucoma_risk_element extends OEMigration {
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$clinic_outcome_element_type_id = ElementType::model()->find('class_name = ?', array('Element_OphCiExamination_ClinicOutcome'))->id;
 		$this->insert('element_type',array(
-				'name' => 'Glaucoma Risk',
+				'name' => 'Glaucoma Risk Stratification',
 				'class_name' => 'Element_OphCiExamination_GlaucomaRisk',
 				'event_type_id' => $event_type->id,
 				'display_order' => 10,

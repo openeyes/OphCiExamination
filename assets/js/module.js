@@ -30,11 +30,24 @@ $(document).ready(function() {
 	});
 
 	$('#event_display').delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+		// Update Clinic Outcome follow up
 		var clinic_outcome_element = $('#active_elements .Element_OphCiExamination_ClinicOutcome');
 		if(clinic_outcome_element.length) {
 			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
 			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
 		}
+		
+		// Change colour of dropdown background
+		$('.Element_OphCiExamination_GlaucomaRisk .risk_wrapper').attr('class', 'risk_wrapper ' + $('option:selected', this).attr('class'));
+	});
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
+		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
+		e.preventDefault();
+	});
+	$('body').delegate('#Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function() {
+		var value = $(this).attr('data-risk-id');
+		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
+		$('#Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
 	});
 	
 	/**
@@ -606,6 +619,16 @@ function OphCiExamination_Gonioscopy_init() {
 		modal: true,
 		resizable: false,
 		width: 480
+	});
+}
+
+function OphCiExamination_GlaucomaRisk_init() {
+	$("#Element_OphCiExamination_GlaucomaRisk_descriptions").dialog({
+		title: 'Glaucoma Risk Stratifications',
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 800
 	});
 }
 
