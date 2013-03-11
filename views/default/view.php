@@ -7,6 +7,10 @@
 <?php
 	// Event actions
 	$this->event_actions[] = EventAction::button('Print', 'print');
+	if($next_step = $this->getNextStep()) {
+		$this->event_actions[] = EventAction::link($next_step->name,
+				Yii::app()->createUrl($this->event->eventType->class_name.'/default/step/'.$this->event->id));
+	}
 	$this->renderPartial('//patient/event_actions');
 ?>
 

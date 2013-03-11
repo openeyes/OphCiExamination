@@ -65,8 +65,8 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 
-	public function getLetterPosteriorSegment($patient, $side) {
-		if ($ps = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_PosteriorSegment')) {
+	public function getLetterPosteriorPole($patient, $side) {
+		if ($ps = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_PosteriorPole')) {
 			switch ($side) {
 				case 'left':
 					return $ps->left_description;

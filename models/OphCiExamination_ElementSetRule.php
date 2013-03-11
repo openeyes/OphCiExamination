@@ -24,7 +24,7 @@
  * @property integer $parent_id
  * @property string $clause
  * @property string $value
- * @property OphCiExamination_ElementSet $set
+ * @property OphCiExamination_Workflow $workflow
 
  */
 class OphCiExamination_ElementSetRule extends BaseActiveRecord {
@@ -58,20 +58,19 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'set' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'set_id'),
+				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
 				'children' => array(self::HAS_MANY, 'OphCiExamination_ElementSetRule', 'parent_id'),
 		);
 	}
 
 	/**
-	 * Finds the best matching element set
-	 *
+	 * Finds the best matching workflow
 	 * @param integer $site_id
 	 * @param integer $subspecialty_id
 	 * @param integer $status_id
-	 * @return OphCiExamination_ElementSet
+	 * @return OphCiExamination_Workflow
 	 */
-	public static function findSet($site_id, $subspecialty_id, $status_id) {
+	public static function findWorkflow($site_id, $subspecialty_id, $status_id) {
 		if($rule = self::model()->find('parent_id IS NULL')) {
 			return $rule->processClause($site_id, $subspecialty_id, $status_id);
 		} else {
@@ -98,14 +97,14 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 				
 			} else {
 				
-				// No matching rule, so we return the current rule's element set
-				return $this->set;
+				// No matching rule, so we return the current rule's workflow
+				return $this->workflow;
 				
 			}
 		} else {
 			
-			// No clause, so we return the current rule's element set
-			return $this->set;
+			// No clause, so we return the current rule's workflow
+			return $this->workflow;
 			
 		}
 

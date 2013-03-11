@@ -17,33 +17,43 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="cols2 clearfix">
-		<div class="left">
-			<div class="data">
-				<?php if($element->hasRight()) { ?>
-				<?php echo $element->getCombined('right') ?>
-				<?php if($element->right_comments) { ?>
-				(
-				<?php echo $element->right_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
-			</div>
+<div class="cols2 clearfix">
+	<div class="left">
+		<?php if($element->hasRight()) { ?>
+		<?php if($element->getCombined('right')) { ?>
+		<div class="data">
+			<?php echo $element->unit->name ?>
 		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<?php if($element->hasLeft()) { ?>
-				<?php echo $element->getCombined('left') ?>
-				<?php if($element->left_comments) { ?>
-				(
-				<?php echo $element->left_comments ?>
-				)
-				<?php } ?>
-				<?php } else { ?>
-				Not recorded
-				<?php } ?>
-			</div>
+		<div class="data">
+			<?php echo $element->getCombined('right') ?>
 		</div>
+		<?php } ?>
+		<?php if($element->right_comments) { ?>
+		<div class="data">
+			<?php echo $element->right_comments ?>
+		</div>
+		<?php } ?>
+		<?php } else { ?>
+		<div class="data">Not recorded</div>
+		<?php } ?>
 	</div>
+	<div class="right">
+		<?php if($element->hasLeft()) { ?>
+		<?php if($element->getCombined('left')) { ?>
+		<div class="data">
+			<?php echo $element->unit->name ?>
+		</div>
+		<div class="data">
+			<?php echo $element->getCombined('left') ?>
+		</div>
+		<?php } ?>
+		<?php if($element->left_comments) { ?>
+		<div class="data">
+			<?php echo $element->left_comments ?>
+		</div>
+		<?php } ?>
+		<?php } else { ?>
+		<div class="data">Not recorded</div>
+		<?php } ?>
+	</div>
+</div>

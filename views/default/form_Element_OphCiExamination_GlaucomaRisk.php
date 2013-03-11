@@ -18,5 +18,12 @@
  */
 ?>
 <div class="eventDetail">
-	<?php echo $form->dropdownList($element, 'risk_id', CHtml::listData(OphCiExamination_GlaucomaRisk_Risk::model()->findAll(), 'id', 'name'), array('nowrapper' => true)) ?>
+	<?php
+		$html_options = array('nowrapper' => true);
+		$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
+		foreach($risks as $option) {
+			$html_options['options'][(string)$option->id] = array('data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id);
+		}
+		echo $form->dropdownList($element, 'risk_id', CHtml::listData($risks, 'id', 'name'), $html_options);
+	?>
 </div>

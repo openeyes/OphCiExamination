@@ -26,7 +26,8 @@
  * @property string $follow_up
  * @property string $review
  * @property integer $display_order
- * @property string $color
+ * @property integer $display_order
+ * @property OphCiExamination_ClinicOutcome_Template $clinicoutcome_template
  */
 class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord {
 
@@ -59,7 +60,9 @@ class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord {
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		return array();
+		return array(
+				'clinicoutcome_template' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Template', 'clinicoutcome_template_id'),
+		);
 	}
 
 	/**
