@@ -18,12 +18,26 @@
  */
 ?>
 <div class="eventDetail">
-	<?php
-		$html_options = array('nowrapper' => true);
-		$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
-		foreach($risks as $option) {
-			$html_options['options'][(string)$option->id] = array('data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id);
-		}
-		echo $form->dropdownList($element, 'risk_id', CHtml::listData($risks, 'id', 'name'), $html_options);
-	?>
+	<div class="risk_wrapper <?php if($element->risk) { echo $element->risk->class; } ?>">
+		<?php
+			$html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
+			$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
+			foreach($risks as $option) {
+				$html_options['options'][(string)$option->id] = array(
+					'data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id,
+					'class' => $option->class,
+				);
+			}
+			echo $form->dropdownList($element, 'risk_id', CHtml::listData($risks, 'id', 'name'), $html_options);
+		?>
+	</div>
+	<span><a class="descriptions_link" href="#">definitions</a></span>
+	<div id="Element_OphCiExamination_GlaucomaRisk_descriptions">
+		<dl>
+			<?php foreach($risks as $option) { ?>
+			<dt class="<?php echo $option->class ?>"><a href="#" data-risk-id="<?php echo $option->id ?>"><?php echo $option->name ?></a></dt>
+			<dd class="<?php echo $option->class ?>"><?php echo nl2br($option->description) ?></dd>
+			<?php } ?>
+		</dl>
+	</div>
 </div>
