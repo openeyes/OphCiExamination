@@ -44,7 +44,7 @@ $(document).ready(function() {
 		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
 		e.preventDefault();
 	});
-	$('body').delegate('#Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function() {
+	$('body').delegate('#Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function(e) {
 		var value = $(this).attr('data-risk-id');
 		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
 		$('#Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
