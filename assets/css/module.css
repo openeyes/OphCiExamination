@@ -128,6 +128,9 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #previous_elements .eyedrawFields div.label,
 #previous_elements .eyedrawFields div.data { display: inline-block; }
 #previous_elements h4 { display: none; }
+#previous_elements .child_elements { background: #dae6f1; padding: 0 10px 10px; }
+#previous_elements .child_elements .element { border: 1px solid #fafafa; }
+#previous_elements .child_elements h4 { display: block; background: #fff; font-size: 14px; margin: 0; padding: 5px; }
 #previous_elements .cols2 .left { clear: left; float: left; width: 48%; }
 #previous_elements .cols2 .right { clear: right; float: right; width: 48%; }
 #previous_elements .eventDetail { padding: 10px; background: #dae6f1; position: relative; }
