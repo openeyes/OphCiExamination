@@ -36,7 +36,7 @@ foreach(array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSo
 	$onReadyCommandArray[] = array('addDoodle', array($doodleClass));
 }
 $onReadyCommandArray[] = array('deselectDoodles', array());
-$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
+$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => $doodleToolBarArray,
 		'onReadyCommandArray' => $onReadyCommandArray,
 		'bindingArray' => $bindingArray,

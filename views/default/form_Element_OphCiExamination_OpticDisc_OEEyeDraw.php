@@ -18,7 +18,7 @@
  */
 ?>
 <?php
-$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
+$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => array('PeripapillaryAtrophy', 'DiscPallor', 'DiscHaemorrhage', 'NerveFibreDefect', 'OpticDiscPit', 'Papilloedema'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('OpticDisc', array('mode' => 'Basic'))),

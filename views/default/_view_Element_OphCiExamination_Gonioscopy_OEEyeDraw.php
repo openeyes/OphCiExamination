@@ -18,7 +18,7 @@
  */
 ?>
 <?php
-$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
+$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'view',

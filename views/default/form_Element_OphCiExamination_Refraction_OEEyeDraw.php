@@ -1,5 +1,5 @@
 <?php
-$this->widget('application.modules.eyedraw2.OEEyeDrawWidget', array(
+$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => array(),
 		'toolbar' => false,
 		'onReadyCommandArray' => array(
