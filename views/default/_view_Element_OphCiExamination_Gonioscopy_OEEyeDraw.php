@@ -36,7 +36,8 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		</div>
 	</div>
 	<?php } ?>
-	<div>
+	<div class="shaffer_grade">
+		<div class="label">Shaffer Grade:</div>
 		<div class="data">
 			<div class="data gonioCross">
 				<div class="gonioSup">
@@ -54,11 +55,9 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			</div>
 		</div>
 	</div>
-	<?php if($element->{$side.'_van_herick_id'} || $element->getSetting('expert')) { ?>
 	<div>
+		<div class="label"><?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>:</div>
 		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>
-			:
 			<?php if($van_herick = $element->{$side.'_van_herick'}) { 
 				echo $van_herick->name;
 			} else {
@@ -66,5 +65,4 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 				} ?>
 		</div>
 	</div>
-	<?php } ?>
 </div>

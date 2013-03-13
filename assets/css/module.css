@@ -70,6 +70,8 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 .eyedrawFields.view .gonioCross .gonioTem { left: 15px; }
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
+#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .shaffer_grade div.label,
+#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .van_herick div.label { display: block; width: auto;}
 
 #comorbidities_selected { margin: 0 0 10px; }
 #comorbidities_selected ul { padding: 0; margin: 0; }

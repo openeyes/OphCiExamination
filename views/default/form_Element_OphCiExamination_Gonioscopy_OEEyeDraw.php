@@ -49,8 +49,8 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ?>
 <div class="eyedrawFields">
 	<div<?php if(!$expert) { ?>
-		style="display: none;" <?php } ?>>
-		<div class="label">Scheie grade:</div>
+		style="display: none;" <?php } ?> class="shaffer_grade">
+		<div class="label">Shaffer grade:</div>
 		<div class="data gonioCross">
 			<?php
 			$html_options = array();
@@ -73,7 +73,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		</div>
 	</div>
 	<?php if(!$expert) { ?>
-	<div>
+	<div class="basic_grade">
 		<div class="label">Angle Open?:</div>
 		<?php
 			$basic_options = array('0' => 'No', '1' => 'Yes');
@@ -95,7 +95,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		</div>
 	</div>
 	<?php } ?>
-	<div>
+	<div class="van_herick">
 		<div class="label">
 			<?php echo $element->getAttributeLabel($side.'_van_herick_id'); ?>
 			(
