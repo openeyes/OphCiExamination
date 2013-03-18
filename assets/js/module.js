@@ -1,3 +1,21 @@
+/**
+ * OpenEyes
+ *
+ * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
+ * (C) OpenEyes Foundation, 2011-2013
+ * This file is part of OpenEyes.
+ * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package OpenEyes
+ * @link http://www.openeyes.org.uk
+ * @author OpenEyes <info@openeyes.org.uk>
+ * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
+
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 var examination_print_url, module_css_path;
 
@@ -275,17 +293,31 @@ $(document).ready(function() {
 		if (m = window.location.href.match(/\/delete\/[0-9]+/)) {
 			window.location.href = window.location.href.replace('/delete/', '/view/');
 		} else {
-			window.location.href = baseUrl + '/patient/episodes/' + et_patient_id;
+			window.location.href = baseUrl + '/patient/episodes/' + OE_patient_id;
 		}
 		e.preventDefault();
 	});
 
 	$('#event_display').delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+		// Update Clinic Outcome follow up
 		var clinic_outcome_element = $('#active_elements .Element_OphCiExamination_ClinicOutcome');
 		if(clinic_outcome_element.length) {
 			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
 			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
 		}
+		
+		// Change colour of dropdown background
+		$('.Element_OphCiExamination_GlaucomaRisk .risk_wrapper').attr('class', 'risk_wrapper ' + $('option:selected', this).attr('class'));
+	});
+	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
+		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
+		e.preventDefault();
+	});
+	$('body').delegate('#Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function(e) {
+		var value = $(this).attr('data-risk-id');
+		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
+		$('#Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
+		e.preventDefault();
 	});
 	
 	/**
@@ -1188,6 +1220,16 @@ function OphCiExamination_Gonioscopy_init() {
 	});
 }
 
+function OphCiExamination_GlaucomaRisk_init() {
+	$("#Element_OphCiExamination_GlaucomaRisk_descriptions").dialog({
+		title: 'Glaucoma Risk Stratifications',
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 800
+	});
+}
+
 function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
 	if(Element_OphCiExamination_ClinicOutcome_templates[template_id]) {
 		$('#Element_OphCiExamination_ClinicOutcome_status_id')
@@ -1255,5 +1297,5 @@ $('a.removeDiagnosis').live('click',function() {
 });
 
 function OphCiExamination_do_print() {
-	printIFrameUrl(examination_print_url, null);
+	printIFrameUrl(OE_print_url, null);
 }

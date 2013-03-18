@@ -1,3 +1,20 @@
+/**
+ * OpenEyes
+ *
+ * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
+ * (C) OpenEyes Foundation, 2011-2013
+ * This file is part of OpenEyes.
+ * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package OpenEyes
+ * @link http://www.openeyes.org.uk
+ * @author OpenEyes <info@openeyes.org.uk>
+ * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
 
 .quicklook { width:280px;  top:0px; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
 
@@ -74,6 +91,8 @@ span.hint {font-style: italic;}
 .eyedrawFields.view .gonioCross .gonioTem { left: 15px; }
 .eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
 .eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
+#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .shaffer_grade div.label,
+#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .van_herick div.label { display: block; width: auto;}
 
 #comorbidities_selected { margin: 0 0 10px; }
 #comorbidities_selected ul { padding: 0; margin: 0; }
@@ -133,6 +152,9 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #previous_elements .eyedrawFields div.label,
 #previous_elements .eyedrawFields div.data { display: inline-block; }
 #previous_elements h4 { display: none; }
+#previous_elements .child_elements { background: #dae6f1; padding: 0 10px 10px; }
+#previous_elements .child_elements .element { border: 1px solid #fafafa; }
+#previous_elements .child_elements h4 { display: block; background: #fff; font-size: 14px; margin: 0; padding: 5px; }
 #previous_elements .cols2 .left { clear: left; float: left; width: 48%; }
 #previous_elements .cols2 .right { clear: right; float: right; width: 48%; }
 #previous_elements .eventDetail { padding: 10px; background: #dae6f1; position: relative; }
@@ -144,8 +166,21 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #previous_elements .metaData .user { color:#333; }
 
 #event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail { padding: 12px 10px; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper  { padding: 5px; border-radius: 5px; display: inline-block; }
 #event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt a { display: block; padding: 4px 8px; border-radius: 5px; margin: 10px 0; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt a:hover { border: none; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dd { font-size: 12px; line-height: 1.5em; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt.high_risk a,
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.high_risk,
 #event_content .Element_OphCiExamination_GlaucomaRisk .high_risk span { background: #f00; color: #fff; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt.low_risk a,
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.low_risk,
 #event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #fc0; }
-#event_content .Element_OphCiExamination_GlaucomaRisk .stable span { background: #36f; color: #fff; }
-#event_content .Element_OphCiExamination_GlaucomaRisk .normal span { background: #9c0; }
+
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt.stable_risk a,
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.stable_risk,
+#event_content .Element_OphCiExamination_GlaucomaRisk .stable_risk span { background: #36f; color: #fff; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt.normal_risk a,
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.normal_risk,
+#event_content .Element_OphCiExamination_GlaucomaRisk .normal_risk span { background: #9c0; }
