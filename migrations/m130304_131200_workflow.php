@@ -60,7 +60,6 @@ class m130304_131200_workflow extends OEMigration {
 		$this->addColumn('ophciexamination_element_set_rule', 'workflow_id', 'int(10) unsigned');
 		$this->dropForeignKey('ophciexamination_element_set_rule_set_id_fk', 'ophciexamination_element_set_rule');
 		foreach(OphCiExamination_ElementSetRule::model()->findAll() as $rule) {
-			$rule->workflow_id = OphCiExamination_ElementSet::model()->findByPk($rule->set_id)->workflow_id;
 			$workflow_id = $this->dbConnection->createCommand()
 			->select('workflow_id')
 			->from('ophciexamination_element_set')
