@@ -1,12 +1,33 @@
 <?php
+/**
+ * OpenEyes
+ *
+ * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
+ * (C) OpenEyes Foundation, 2011-2013
+ * This file is part of OpenEyes.
+ * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package OpenEyes
+ * @link http://www.openeyes.org.uk
+ * @author OpenEyes <info@openeyes.org.uk>
+ * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
 
-class DefaultController extends BaseEventTypeController {
-
+class DefaultController extends NestedElementsEventTypeController {
+	
 	public function actionCreate() {
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+
 		parent::actionCreate();
 	}
 
 	public function actionUpdate($id) {
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+
 		parent::actionUpdate($id);
 	}
 
@@ -18,151 +39,127 @@ class DefaultController extends BaseEventTypeController {
 		parent::actionPrint($id);
 	}
 
-	public function actionElementForm($id, $patient_id) {
-		$element_type = ElementType::model()->findByPk($id);
-		if(!$element_type) {
-			throw new CHttpException(404, 'Unknown ElementType');
-		}
-		$patient = Patient::model()->findByPk($patient_id);
-		if(!$patient) {
-			throw new CHttpException(404, 'Unknown Patient');
-		}
-		$this->patient = $patient;
-		$session = Yii::app()->session;
-		$firm = Firm::model()->findByPk($session['selected_firm_id']);
-		$this->episode = $this->getEpisode($firm, $this->patient->id);
-		$element = new $element_type->class_name;
-		$element->setDefaultOptions();
-		$form = Yii::app()->getWidgetFactory()->createWidget($this,'BaseEventTypeCActiveForm',array(
-				'id' => 'clinical-create',
-				'enableAjaxValidation' => false,
-				'htmlOptions' => array('class' => 'sliding'),
-		));
-		// Render called with processOutput
-		// TODO: Check that scripts aren't being double loaded
-		$this->renderPartial('create_' . $element->create_view, array(
-				'element' => $element,
-				'data' => null,
-				'form' => $form,
-		), false, true);
+	public function actionStep($id) {
+		// This is the same as update, but with a few extras, so we call the update code and then pick up on the action later
+		parent::actionUpdate($id);
 	}
-
-	/**
-	 * @see BaseEventTypeController::getDefaultElements()
-	 */
-	public function getDefaultElements($action, $event_type_id = false, $event = false) {
-		if(!$event && isset($this->event)) {
-			$event = $this->event;
-		}
-		if($event) {
-			$episode = $event->episode;
-		} else {
-			$episode = $this->getEpisode($this->firm, $this->patient->id);
-		}
-		$elements = array();
-		if(empty($_POST)) {
-			if(isset($event->event_type_id)) {
-				$element_types = ElementType::model()->findAll(array(
-						'condition' => 'event_type_id = :id',
-						'order' => 'display_order',
-						'params' => array(':id' => $event->eventType->id),
-				));
-				foreach($element_types as $element_type) {
-					$element_class = $element_type->class_name;
-					if($element = $element_class::model()->find('event_id = ?', array($event->id))) {
-						$elements[] = $element;
-					}
-				}
-			} else {
-				$elements = $this->getElementsBySet($episode);
+	
+	protected function afterUpdateElements($event) {
+		if($this->action->id == 'step') {
+			// Advance the workflow
+			if(!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+				// Create initial workflow assignment if event hasn't already got one
+				$assignment = new OphCiExamination_Event_ElementSet_Assignment();
+				$assignment->event_id = $event->id;
 			}
-		} else {
-			foreach($_POST as $key => $value) {
-				if(preg_match('/^Element|^OEElement/', $key)) {
-					if($element_type = ElementType::model()->find('class_name = ?',array($key))) {
-						$element_class = $element_type->class_name;
-						if(!isset($event->event_type_id) || !($element = $element_class::model()->find('event_id = ?',array($event->id)))) {
-							$element= new $element_class;
-							$element->attributes = $_POST[$key];
-						}
-						$elements[] = $element;
-					}
-				}
+			if(!$next_step = $this->getNextStep($event)) {
+				throw new CException('No next step available');
+			}
+			$assignment->step_id = $next_step->id;
+			if(!$assignment->save()) {
+				throw new CException('Cannot save assignment');
 			}
 		}
-		return $elements;
+	}
+	
+	protected function afterCreateElements($event) {
+	}
+	
+	protected function getCleanDefaultElements($event_type_id) {
+		return $this->getElementsByWorkflow(null, $this->episode);
 	}
 
-	/**
-	 * @see BaseEventTypeController::getOptionalElements()
-	 */
-	public function getOptionalElements($action) {
-		$elements = array();
-		$default_element_types = array();
-		foreach($this->getDefaultElements($action) as $default_element) {
-			$default_element_types[] = get_class($default_element);
-		}
-		$element_types = ElementType::model()->findAll(array(
-				'condition' => 'event_type_id = :id',
-				'order' => 'display_order',
-				'params' => array(':id' => $this->event_type->id),
-		));
-		foreach($element_types as $element_type) {
-			$element_class = $element_type->class_name;
-			if(!in_array($element_class, $default_element_types)) {
-				$elements[] = new $element_class;
-			}
-		}
-		return $elements;
+	protected function getCleanChildDefaultElements($parent, $event_type_id) {
+		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
-
+	
 	/**
-	 * Get the array of elements for the current site, subspecialty and episode status
-	 * @param Episode $episode
-	 * @param integer $default
+	 * Get the first workflow step using rules
+	 * @return OphCiExamination_ElementSet
 	 */
-	protected function getElementsBySet($episode = null) {
-		$elements = array();
+	protected function getFirstStep() {
 		$site_id = Yii::app()->request->cookies['site_id']->value;
 		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
-		$status_id = ($episode) ? $episode->episode_status_id : 1;
-		$set = OphCiExamination_ElementSetRule::findSet($site_id, $subspecialty_id, $status_id);
-		$element_types = $set->DefaultElementTypes;
-		foreach($element_types as $element_type) {
-			$elements[] = new $element_type->class_name;
+		$status_id = $this->episode->episode_status_id;
+		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
+	}
+	
+	/**
+	 * Get the next workflow step
+	 * @return OphCiExamination_ElementSet
+	 */
+	protected function getNextStep($event = null) {
+		if(!$event) {
+			$event = $this->event;
+		}
+		if($assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+			$step = $assignment->step;
+		} else {
+			$step = $this->getFirstStep();
+		}
+		return $step->getNextStep();
+	}
+	
+	protected function getSavedElements($action, $event, $parent = null) {
+		$elements = parent::getSavedElements($action, $event, $parent);
+		if($action == 'step') {
+			$elements = $this->mergeNextStep($elements, $event, $parent);
 		}
 		return $elements;
 	}
-
+	
 	/**
-	 * @see BaseEventTypeController::renderDefaultElements()
+	 * Merge workflow next step elements into existing elements
+	 * @param array $elements
+	 * @param Event $event
+	 * @param ElementType $parent
+	 * @throws CException
+	 * @return array
 	 */
-	public function renderDefaultElements($action, $form = false, $data = false) {
-		foreach ($this->getDefaultElements($action) as $element) {
-			if ($action == 'create' && empty($_POST)) {
-				$element->setDefaultOptions();
+	protected function mergeNextStep($elements, $event, $parent = null) {
+		if(!$next_step = $this->getNextStep($event)) {
+			throw new CException('No next step available');
+		}
+		$parent_id = ($parent) ? $parent->id : null;
+		$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
+		$merged_elements = array();
+		foreach($elements as $element) {
+			$element_type = $element->getElementType();
+			$merged_elements[$element_type->display_order] = $element;
+			if(isset($extra_elements[$element_type->id])) {
+				unset($extra_elements[$element_type->id]);
 			}
-			$this->renderPartial(
-					$action . '_' . $element->{$action.'_view'},
-					array('element' => $element, 'data' => $data, 'form' => $form),
-					false, false
-					);
 		}
+		foreach($extra_elements as $extra_element) {
+			$merged_elements[$extra_element->getElementType()->display_order] = $extra_element;
+		}
+		ksort($merged_elements);
+		return $merged_elements;
 	}
-
+	
 	/**
-	 * @see BaseEventTypeController::renderOptionalElements()
+	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
+	 * @param OphCiExamination_ElementSet $set
+	 * @param Episode $episode
+	 * @param integer $parent_id
 	 */
-	public function renderOptionalElements($action, $form = false, $data = false) {
-		foreach ($this->getOptionalElements($action) as $element) {
-			$this->renderPartial(
-					'_optional_element',
-					array('element' => $element, 'data' => $data, 'form' => $form),
-					false, false
-			);
+	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null) {
+		$elements = array();
+		if(!$set) {
+			$site_id = Yii::app()->request->cookies['site_id']->value;
+			$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+			$status_id = ($episode) ? $episode->episode_status_id : 1;
+			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
 		}
+		$element_types = $set->DefaultElementTypes;
+		foreach($element_types as $element_type) {
+			if ((!$parent_id && !$element_type->parent_element_type_id) || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
+				$elements[$element_type->id] = new $element_type->class_name;
+			}
+		}
+		return $elements;
 	}
-
+	
 	public function actionGetDisorderTableRow() {
 		if (@$_GET['disorder_id'] == '0') return;
 
