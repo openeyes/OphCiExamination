@@ -21,11 +21,13 @@ $this->header();
 		at <?php echo date('H:i', strtotime($this->event->last_modified_date)) ?></span>
 </div>
 
+<?php if($this->canPrint()) { ?>
 <div class="form_button">
 	<img class="loader" style="display: none;" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." />&nbsp;
 	<button type="submit" class="classy blue venti" id="et_print" name="print"><span class="button-span button-span-blue">Print</span></button>
 </div>
 
 <iframe id="print_iframe" name="print_iframe" style="display: none;" src="<?php echo Yii::app()->createUrl('OphCiExamination/Default/print/'.$this->event->id)?>"></iframe>
+<?php } ?>
 
 <?php $this->footer() ?>
