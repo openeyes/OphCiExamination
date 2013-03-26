@@ -54,19 +54,18 @@ class m130304_131200_workflow extends OEMigration {
 			if(!$workflow->save()) {
 				throw new CException('Error saving workflow');
 			}
-			$set->workflow_id = $workflow->id;
-			if(!$set->save()) {
-				throw new CException('Error saving set');
-			}
+			$this->update('ophciexamination_element_set', array('workflow_id' => $workflow->id), 'id = :id', array(':id' => $set->id));
 		}
 		$this->alterColumn('ophciexamination_element_set', 'workflow_id', 'int(10) unsigned NOT NULL');
 		$this->addColumn('ophciexamination_element_set_rule', 'workflow_id', 'int(10) unsigned');
 		$this->dropForeignKey('ophciexamination_element_set_rule_set_id_fk', 'ophciexamination_element_set_rule');
 		foreach(OphCiExamination_ElementSetRule::model()->findAll() as $rule) {
-			$rule->workflow_id = OphCiExamination_ElementSet::model()->findByPk($rule->set_id)->workflow_id;
-			if(!$rule->save()) {
-				throw new CException('Error saving rule');
-			}
+			$workflow_id = $this->dbConnection->createCommand()
+			->select('workflow_id')
+			->from('ophciexamination_element_set')
+			->where('id=:id', array(':id' => $rule->set_id))
+			->queryScalar();
+			$this->update('ophciexamination_element_set_rule', array('workflow_id' => $workflow_id), 'id = :id', array(':id' => $rule->id));
 		}
 		$this->dropColumn('ophciexamination_element_set_rule', 'set_id');
 		$this->addForeignKey('ophciexamination_element_set_rule_workflow_id_fk', 'ophciexamination_element_set_rule', 'workflow_id', 'ophciexamination_workflow', 'id');
