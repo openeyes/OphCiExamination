@@ -19,6 +19,18 @@
 
 class DefaultController extends NestedElementsEventTypeController {
 	
+	protected function beforeAction($action)
+	{
+		$res = parent::beforeAction($action);
+		
+		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
+			Yii::app()->getClientScript()->registerCssFile(Yii::app()->createUrl('css/spliteventtype.css'));
+			Yii::app()->getClientScript()->registerScriptFile(Yii::app()->createUrl('js/spliteventtype.js'));
+		}
+		
+		return $res;
+	}
+	
 	public function actionCreate() {
 		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
