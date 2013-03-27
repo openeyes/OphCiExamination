@@ -140,18 +140,28 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 
 	/**
-	 * Get the best reading for the specified side
+	 * Get the best reading for the given side
+	 * 
 	 * @param string $side
-	 * @return string
+	 * @return Ambigous <null, integer>
 	 */
-	public function getBest($side) {
-		$best = false;
+	public function getBestReading($side) {
+		$best = null;
 		foreach ($this->{$side.'_readings'} as $reading) {
 			if (!$best || $reading->value >= $best->value) {
 				$best = $reading;
 			}
 		}
-
+		return $best;
+	}
+	
+	/**
+	 * Get the best reading for the specified side in current units
+	 * @param string $side
+	 * @return string
+	 */
+	public function getBest($side) {
+		$best = $this->getBestReading($side);
 		if ($best) {
 			return $best->convertTo($best->value);
 		}
