@@ -296,9 +296,9 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 				}
 			}
 		}
-		foreach(array('left', 'right') as $side) {
-			if($reading_count[$side] == 0 && !$this->{$side.'_comments'}) {
-				$this->addError('visualacuity_reading',"Please enter at least one reading or comment for $side side");
+		foreach(array(1 => 'left', 2 => 'right') as $side_id => $side_string) {
+			if(($this->eye_id == 3 || $this->eye_id == $side_id) && $reading_count[$side_string] == 0 && !$this->{$side_string.'_comments'}) {
+				$this->addError('visualacuity_reading',"Please enter at least one reading or comment for $side_string side");
 			}
 		}
 		return parent::afterValidate();
