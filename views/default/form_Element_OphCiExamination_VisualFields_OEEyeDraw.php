@@ -19,7 +19,7 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array(),
+		'doodleToolBarArray' => array('ArcuateScotoma'),
 		'onReadyCommandArray' => array(
 			array('addDoodle',array('VisualFieldChart')),
 			array('addDoodle',array('VisualField')),
