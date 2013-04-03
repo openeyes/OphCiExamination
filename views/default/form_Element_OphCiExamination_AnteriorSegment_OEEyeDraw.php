@@ -19,7 +19,7 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI','Fuchs','RK','LasikFlap','CornealScar'),
+		'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI','Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia'),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('AntSeg')),
 				array('deselectDoodles', array()),
