@@ -83,6 +83,11 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 	
+	/*
+	 * returns the best visual acuity for the specified side
+	 * 
+	 * @return OphCiExamination_VisualAcuity_Reading
+	 */
 	public function getBestVisualAcuity($patient, $side) {
 		if ($va = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_VisualAcuity')) {
 			switch ($side) {
@@ -128,4 +133,29 @@ class OphCiExamination_API extends BaseAPI {
 			return $ac->{$side.'_description'};
 		}
 	}
+	
+	/*
+	 * gets a list of disorders diagnosed for the patient within the current episode, ordered by event creation date
+	 * 
+	 * @param Patient $patient
+	 * 
+	 * @return array() - list of associative arrays with disorder_id and eye_id defined  
+	 */
+	public function getOrderedDisorders($patient) {
+		$events = $this->getEventsInEpisode($patient);
+		$disorders = array();
+		
+		foreach ($events as $event) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('event_id',$event->id);
+						
+			$diagnoses = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+			foreach ($diagnoses->diagnoses as $diagnosis) {
+				$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+			}
+		}
+		
+		return $disorders;
+	}
+
 }
