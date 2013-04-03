@@ -26,28 +26,19 @@
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('right_eom_id')?>:
-				</div>
+				<?php echo $element->getAttributeLabel('right_eom_id')?>:
+				&nbsp;&nbsp;
 				<?php echo CHtml::activeDropDownList($element,'right_eom_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_EOM::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('right_ct_distance_id')?>:
-				</div>
+				&nbsp;&nbsp;
+				<?php echo $element->getAttributeLabel('right_ct_distance_id')?>:
 				<?php echo CHtml::activeDropDownList($element,'right_ct_distance_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_CT_Distance::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('right_ct_near_id')?>:
-				</div>
+				&nbsp;&nbsp;
+				<?php echo $element->getAttributeLabel('right_ct_near_id')?>:
 				<?php echo CHtml::activeDropDownList($element,'right_ct_near_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_CT_Near::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('right_details')?>:
-				</div>
-				<?php echo CHtml::activeTextArea($element,'right_details',array('class'=>'autosize'))?>
+			<div style="margin-top: 10px;">
+				<?php echo $element->getAttributeLabel('right_details')?>:
+				<?php echo CHtml::activeTextArea($element,'right_details',array('rows'=>3,'cols'=>50,'class'=>'autosize'))?>
 			</div>
 		</div>
 		<div class="inactiveForm">
@@ -60,29 +51,19 @@
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('left_eom_id')?>:
-				</div>
-				<?php echo CHtml::activeDropDownList($element,'left_eom_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_EOM::model()->findAll(array('order'=>'display_order')),
-'id','name'))?> 
-			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('left_ct_distance_id')?>:
-				</div>
+				<?php echo $element->getAttributeLabel('left_eom_id')?>:
+				&nbsp;&nbsp;
+				<?php echo CHtml::activeDropDownList($element,'left_eom_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_EOM::model()->findAll(array('order'=>'display_order')), 'id','name'))?>
+				&nbsp;&nbsp;
+				<?php echo $element->getAttributeLabel('left_ct_distance_id')?>:
 				<?php echo CHtml::activeDropDownList($element,'left_ct_distance_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_CT_Distance::model()->findAll(array('order'=>'display_order')),'id','name'))?>
-			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('left_ct_near_id')?>:
-				</div>				
+				&nbsp;&nbsp;
+				<?php echo $element->getAttributeLabel('left_ct_near_id')?>:
 				<?php echo CHtml::activeDropDownList($element,'left_ct_near_id',CHtml::listData(OphCiExamination_ExtraocularMuscles_CT_Near::model()->findAll(array('order'=>'display_order')),'id','name'))?>
 			</div>
-			<div>
-				<div class="label">
-					<?php echo $element->getAttributeLabel('left_details')?>:
-				</div>
-				<?php echo CHtml::activeTextArea($element,'left_details',array('class'=>'autosize'))?>
+			<div style="margin-top: 10px;">
+				<?php echo $element->getAttributeLabel('left_details')?>:
+				<?php echo CHtml::activeTextArea($element,'left_details',array('rows'=>3,'cols'=>50,'class'=>'autosize'))?>
 			</div>
 		</div>
 		<div class="inactiveForm">
