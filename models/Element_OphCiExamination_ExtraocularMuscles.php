@@ -78,12 +78,12 @@ class Element_OphCiExamination_ExtraocularMuscles extends SplitEventTypeElement 
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'leftEOM' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_EOM', 'left_eom_id'),
-				'rightEOM' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_EOM', 'right_eom_id'),
-				'leftCTDistance' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_CT_Distance', 'left_ct_distance_id'),
-				'rightCTDistance' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_CT_Distance', 'right_ct_distance_id'),
-				'leftCTNear' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_CT_Near', 'left_ct_near_id'),
-				'rightCTNear' => array(self::BELONGS_TO, 'OphCiExamination_ExtraOcularMuscles_CT_Near', 'right_ct_near_id'),
+				'leftEOM' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_EOM', 'left_eom_id'),
+				'rightEOM' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_EOM', 'right_eom_id'),
+				'leftCTDistance' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_CT_Distance', 'left_ct_distance_id'),
+				'rightCTDistance' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_CT_Distance', 'right_ct_distance_id'),
+				'leftCTNear' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_CT_Near', 'left_ct_near_id'),
+				'rightCTNear' => array(self::BELONGS_TO, 'OphCiExamination_ExtraocularMuscles_CT_Near', 'right_ct_near_id'),
 		);
 	}
 
