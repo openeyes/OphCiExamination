@@ -250,11 +250,11 @@ $(document).ready(function() {
 		var expert = $(this).closest('.side').find('.gonioExpert[data-position="'+position+'"]');
 		if($(this).val() == 0) {
 			$('option',expert).attr('selected', function () {
-				return ($(this).attr('data-value') == 'III');
+				return ($(this).attr('data-value') == '1');
 			});
 		} else {
 			$('option',expert).attr('selected', function () {
-				return ($(this).attr('data-value') == 'I');
+				return ($(this).attr('data-value') == '3');
 			});			
 		}
 		e.preventDefault();
