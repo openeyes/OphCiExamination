@@ -18,6 +18,7 @@
  */
 
 class OphCiExamination_API extends BaseAPI {
+	
 	public function getLetterHistory($patient) {
 		if ($history = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_History')) {
 			return strtolower($history->description);
@@ -81,20 +82,37 @@ class OphCiExamination_API extends BaseAPI {
 			}
 		}
 	}
-
-	public function getLetterVisualAcuity($patient, $side) {
+	
+	/*
+	 * returns the best visual acuity for the specified side
+	 * 
+	 * @return OphCiExamination_VisualAcuity_Reading
+	 */
+	public function getBestVisualAcuity($patient, $side) {
 		if ($va = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_VisualAcuity')) {
 			switch ($side) {
 				case 'left':
-					return $va->hasLeft() ? $va->getBest('left') : null;
+					return $va->getBestReading('left');
 				case 'right':
-					return $va->hasRight() ? $va->getBest('right') : null;
-				case 'both':
-					return ($va->hasRight() ? $va->getBest('right') : "not recorded")." on the right and ".($va->hasLeft() ? $va->getBest('left') : "not recorded")." on the left";
-				case 'episode':
-					$episode = $patient->getEpisodeForCurrentSubspecialty();
-					return $this->getLetterVisualAcuity($patient, strtolower($episode->eye->name));
+					return $va->getBestReading('right');
 			}
+		}
+	}
+	
+	public function getLetterVisualAcuity($patient, $side) {
+		switch ($side) {
+			case 'left':
+				return ($best = $this->getBestVisualAcuity($patient, 'left')) ? $best->convertTo($best->value) : null;
+			case 'right':
+				return ($best = $this->getBestVisualAcuity($patient, 'right')) ? $best->convertTo($best->value) : null;
+			case 'both':
+				$left = $this->getBestVisualAcuity($patient, 'left');
+				$right = $this->getBestVisualAcuity($patient, 'right');
+				error_log('oi');
+				return ($right ? $right->convertTo($right->value)  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value) : "not recorded")." on the left";
+			case 'episode':
+				$episode = $patient->getEpisodeForCurrentSubspecialty();
+				return $this->getLetterVisualAcuity($patient, strtolower($episode->eye->name));
 		}
 	}
 
@@ -130,5 +148,29 @@ class OphCiExamination_API extends BaseAPI {
 		}
 
 		return $return;
+	}
+	
+	/*
+	 * gets a list of disorders diagnosed for the patient within the current episode, ordered by event creation date
+	 * 
+	 * @param Patient $patient
+	 * 
+	 * @return array() - list of associative arrays with disorder_id and eye_id defined  
+	 */
+	public function getOrderedDisorders($patient) {
+		$events = $this->getEventsInEpisode($patient);
+		$disorders = array();
+		
+		foreach ($events as $event) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('event_id',$event->id);
+						
+			$diagnoses = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+			foreach ($diagnoses->diagnoses as $diagnosis) {
+				$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+			}
+		}
+		
+		return $disorders;
 	}
 }

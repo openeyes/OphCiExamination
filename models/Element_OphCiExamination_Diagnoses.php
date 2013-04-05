@@ -213,7 +213,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 				);
 			}
 
-			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($_GET['patient_id'])) as $sd) {
+			$patient_id = Yii::app()->controller->patient->id;
+			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
 				if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
 					$diagnoses[] = array(
 						'disorder' => $sd->disorder,
