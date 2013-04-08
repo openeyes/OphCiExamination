@@ -473,6 +473,11 @@ function updateTextMacros() {
 			});
 			$(this).empty().append(options);
 		}
+		if($('option', this).length > 1) {
+			$(this).removeAttr('disabled');
+		} else {
+			$(this).attr('disabled', 'disabled');
+		} 
 	});
 }
 
