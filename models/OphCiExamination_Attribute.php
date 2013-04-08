@@ -69,6 +69,7 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 * Options are stashed in attribute_options property for easy iteration
 	 * @param integer $element_type_id
 	 * @param integer $subspecialty_id
+	 * @param boolean $include_descendents
 	 * @return OphCiExamination_Attribute[]
 	 */
 	public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true) {
@@ -91,19 +92,25 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 		}
 		$criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id';
 		$criteria->order = 'attribute_element.attribute_id';
-		$attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
+		$all_attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
 		$attributes = array();
 		$attribute = null;
-		foreach($attribute_options as $attribute_option) {
+		$attribute_options = array();
+		foreach($all_attribute_options as $attribute_option) {
 			if(!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
 				if($attribute) {
+					ksort($attribute_options);
+					$attribute->attribute_options = array_values($attribute_options);
+					$attribute_options = array();
 					$attributes[] = $attribute;
 				}
 				$attribute = $attribute_option->attribute_element->attribute;
 			}
-			$attribute->attribute_options[] = $attribute_option;
+			$attribute_options[$attribute_option->label] = $attribute_option;
 		}
 		if($attribute) {
+			ksort($attribute_options);
+			$attribute->attribute_options = array_values($attribute_options);
 			$attributes[] = $attribute;
 		}
 		return $attributes;
