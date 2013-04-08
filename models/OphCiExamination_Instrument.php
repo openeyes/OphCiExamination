@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_attribute".
+ * This is the model class for table "ophciexamination_instrument".
  *
  * @property integer $id
  * @property string $name

@@ -23,11 +23,12 @@
  * @property integer $id
  * @property string $name
  * @property string $label
- * @property OphCiExamination_AttributeOption[] $options
- * @property integer $element_type_id
+ * @property OphCiExamination_AttributeElement[] $attribute_elements
 
  */
 class OphCiExamination_Attribute extends BaseActiveRecord {
+	
+	protected $attribute_options = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -59,33 +60,57 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'options' => array(self::HAS_MANY, 'OphCiExamination_AttributeOption', 'attribute_id'),
+				'attribute_elements' => array(self::HAS_MANY, 'OphCiExamination_AttributeElement', 'attribute_id'),
 		);
 	}
 
 	/**
-	 *
+	 * Fetches all the attributes for an element_type filtered by subspecialty
+	 * Options are stashed in attribute_options property for easy iteration
+	 * @param integer $element_type_id
 	 * @param integer $subspecialty_id
+	 * @return OphCiExamination_Attribute[]
 	 */
-	public function findAllOptionsForSubspecialty($subspecialty_id = null) {
-		$condition = 'attribute_id = :attribute_id AND ';
-		$params = array(':attribute_id' => $this->id);
-		if($subspecialty_id) {
-			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
-			$params[':subspecialty_id'] = $subspecialty_id;
-		} else {
-			$condition .=  'subspecialty_id IS NULL';
+	public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true) {
+		$criteria = new CDbCriteria();
+		$criteria->select = 't.*';
+		$criteria->distinct = true;
+		$element_type_ids = array($element_type_id);
+		if($include_descendents) {
+			$element_type = ElementType::model()->findByPk($element_type_id);
+			foreach($element_type->getDescendents() as $descendent) {
+				$element_type_ids[] = $descendent->id;
+			}
 		}
-		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
+		$criteria->addInCondition('attribute_element.element_type_id', $element_type_ids);
+		if($subspecialty_id) {
+			$criteria->addCondition('subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL');
+			$criteria->params[':subspecialty_id'] = $subspecialty_id;
+		} else {
+			$criteria->addCondition('subspecialty_id IS NULL');
+		}
+		$criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id';
+		$criteria->order = 'attribute_element.attribute_id';
+		$attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
+		$attributes = array();
+		$attribute = null;
+		foreach($attribute_options as $attribute_option) {
+			if(!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
+				if($attribute) {
+					$attributes[] = $attribute;
+				}
+				$attribute = $attribute_option->attribute_element->attribute;
+			}
+			$attribute->attribute_options[] = $attribute_option;
+		}
+		if($attribute) {
+			$attributes[] = $attribute;
+		}
+		return $attributes;
 	}
 	
-	/**
-	 * 
-	 * @param BaseEventTypeElement $element
-	 */
-	public function findAllByElement($element) {
-		$element_type = $element->getElementType();
-		return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
+	public function getAttributeOptions() {
+		return $this->attribute_options;
 	}
 	
 	/**

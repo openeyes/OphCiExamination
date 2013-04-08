@@ -102,21 +102,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		));
 	}
 
-	/**
-	 * Fetch attributes for this element and all it's children
-	 * // TODO: This needs to be cleverer in merging attributes with the same name
-	 * // TODO: Load child attributes along with child ajax call
-	 * @return OphCiExamination_Attribute[]
-	 */
-	public function getChildAttributes() {
-		$criteria = new CDbCriteria();
-		$criteria->join = 'JOIN element_type ON element_type.id = t.element_type_id';
-		$criteria->condition = 'element_type.parent_element_type_id = :element_type_id OR t.element_type_id = :element_type_id';
-		$criteria->params = array(':element_type_id' => $this->getElementType()->id);
-		$attributes = OphCiExamination_Attribute::model()->findAll($criteria);
-		return $attributes;
-	}
-	
 	public function getLetter_string() {
 		// FIXME: Refactor to get details from children?
 	}

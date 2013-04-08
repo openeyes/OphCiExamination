@@ -214,5 +214,16 @@ class DefaultController extends NestedElementsEventTypeController {
 
 		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
+	
+	/**
+	 * Get all the attributes for an element
+	 * @param BaseEventTypeElement $element
+	 * @return OphCiExamination_Attribute[]
+	 */
+	public function getAttributes($element, $subspecialty_id = null) {
+		$attributes = OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
+		return $attributes;
+	}
+	
 }
 
