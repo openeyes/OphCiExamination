@@ -37,7 +37,7 @@
 				DOB: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
 			</div>
 			<div class="headerDetails">
-				<?php if ($consultant = $this->event->episode->firm->getConsultant()) { ?>
+				<?php if ($consultant = $this->event->episode->firm->consultant) { ?>
 				<strong><?php echo $consultant->contact->getFullName() ?></strong>
 				<br>
 				<?php } ?>
