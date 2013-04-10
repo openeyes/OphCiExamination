@@ -23,16 +23,14 @@
 
 class DefaultController extends NestedElementsEventTypeController {
 	
-	protected function beforeAction($action)
-	{
-		$res = parent::beforeAction($action);
+	protected function beforeAction($action) {
 		
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
-			Yii::app()->getClientScript()->registerCssFile(Yii::app()->createUrl('css/spliteventtype.css'));
+			$this->registerCssFile('spliteventtype.css', Yii::app()->createUrl('css/spliteventtype.css'));
 			Yii::app()->getClientScript()->registerScriptFile(Yii::app()->createUrl('js/spliteventtype.js'));
 		}
 		
-		return $res;
+		return parent::beforeAction($action);
 	}
 	
 	public function actionCreate() {

@@ -1,13 +1,13 @@
 <?php
 
-class m130228_135042_dr_function extends CDbMigration
+class m130408_135042_dr_function extends CDbMigration
 {
 	public function up()
 	{
 		
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		// Posterior Segment Element type
-		$posterior_et  = ElementType::model()->find('class_name=? and event_type_id=?', array('Element_OphCiExamination_PosteriorSegment', $event_type->id));
+		$posterior_et  = ElementType::model()->find('class_name=? and event_type_id=?', array('Element_OphCiExamination_PosteriorPole', $event_type->id));
 		// Management element type
 		$mgmt_et = ElementType::model()->find('class_name=?',array('Element_OphCiExamination_Management'));
 		
@@ -16,26 +16,37 @@ class m130228_135042_dr_function extends CDbMigration
 		
 		$mr_id = $subspecialty['id'];
 		
-		// create the MR default examination set
-		$this->insert('ophciexamination_element_set', array('name'=>'MR Default'));
-		$set_id = $this->dbConnection->lastInsertID;
+		// create the MR default examination workflow
+		$this->insert('ophciexamination_workflow', array('name' => 'MR Default'));
+		$wf_id = $this->dbConnection->lastInsertID;
+		
+		$this->insert('ophciexamination_element_set', array('name'=>'Nurse', 'workflow_id' => $wf_id, 'position' => 1));
+		$nurse_set_id = $this->dbConnection->lastInsertID;
+		$this->insert('ophciexamination_element_set', array('name'=>'Consultant', 'workflow_id' => $wf_id, 'position' => 2));
+		$consultant_set_id = $this->dbConnection->lastInsertID;
 		
 		$subspecialty_rule = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set_rule')->where('clause=:clause', array(':clause'=>"subspecialty_id"))->queryRow();
 		$parent_rule_id = $subspecialty_rule["id"];
 		
 		// MR set rules (not worried about status, so don't need another clause)
-		$this->insert('ophciexamination_element_set_rule', array('set_id'=>$set_id, 'parent_id'=> $parent_rule_id, 'value'=>$mr_id));
+		$this->insert('ophciexamination_element_set_rule', array('workflow_id'=>$wf_id, 'parent_id'=> $parent_rule_id, 'value'=>$mr_id));
 		// MR set items
 		$history = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_History"))->queryRow();
 		$va = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_VisualAcuity"))->queryRow();
 		$outcome = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_ClinicOutcome"))->queryRow();
-
-		// actual base elements for MR (more to follow as they are defined below)
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $posterior_et->id));
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $history['id']));
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $va['id']));
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $outcome['id']));
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $mgmt_et->id));
+		$refraction = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_Refraction"))->queryRow();
+		$iop = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_IntraocularPressure"))->queryRow();
+		$dilation = $this->dbConnection->createCommand()->select('id')->from('element_type')->where('class_name=:class_name', array(':class_name'=>"Element_OphCiExamination_Dilation"))->queryRow();
+		
+		// base nurse and consultant set items
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$nurse_set_id, 'element_type_id' => $history['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$nurse_set_id, 'element_type_id' => $refraction['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$nurse_set_id, 'element_type_id' => $va['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$nurse_set_id, 'element_type_id' => $iop['id']));
+		
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $posterior_et->id));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $outcome['id']));
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $mgmt_et->id));
 		
 		
 		// NSC Retinopathy lookup
@@ -157,8 +168,8 @@ class m130228_135042_dr_function extends CDbMigration
 		$this->insert('element_type',array('name'=>'DR Grading','class_name'=>'Element_OphCiExamination_DRGrading','event_type_id'=>$event_type->id, 'parent_element_type_id'=>$posterior_et->id, 'display_order'=>$posterior_et->display_order+1));
 		$dr_grading_id = $this->dbConnection->lastInsertID;
 		
-		// add DR Grading element to default set for MR
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $dr_grading_id));
+		// add DR Grading element to default set for Consultant workflow step
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $dr_grading_id));
 		
 		// end of DR Grading setup
 		
@@ -225,10 +236,12 @@ class m130228_135042_dr_function extends CDbMigration
 				'KEY `et_ophciexamination_lasermanagement_cui_fk` (`created_user_id`)',
 				'KEY `et_ophciexamination_lasermanagement_laser_fk` (`laser_status_id`)',
 				'KEY `et_ophciexamination_lasermanagement_ldeferral_fk` (`laser_deferralreason_id`)',
+				'KEY `et_ophciexamination_lasermanagement_event_id_fk` (`event_id`)',
 				'CONSTRAINT `et_ophciexamination_lasermanagement_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_lasermanagement_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_lasermanagement_laser_fk` FOREIGN KEY (`laser_status_id`) REFERENCES `ophciexamination_management_status` (`id`)',
 				'CONSTRAINT `et_ophciexamination_lasermanagement_ldeferral_fk` FOREIGN KEY (`laser_deferralreason_id`) REFERENCES `ophciexamination_management_deferralreason` (`id`)',
+				'CONSTRAINT `et_ophciexamination_lasermanagement_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
 		$this->insert('element_type', array(
@@ -242,8 +255,8 @@ class m130228_135042_dr_function extends CDbMigration
 		
 		$lmgmt_id = $this->dbConnection->lastInsertID;
 		
-		// add to the MR default set
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $lmgmt_id));
+		// add to the MR Consultant workflow step
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $lmgmt_id));
 		
 		// end laser management
 		
@@ -263,10 +276,12 @@ class m130228_135042_dr_function extends CDbMigration
 				'KEY `et_ophciexamination_injectionmanagement_cui_fk` (`created_user_id`)',
 				'KEY `et_ophciexamination_injectionmanagement_injection_fk` (`injection_status_id`)',
 				'KEY `et_ophciexamination_injectionmanagement_ideferral_fk` (`injection_deferralreason_id`)',
+				'KEY `et_ophciexamination_injectionmanagement_event_id_fk` (`event_id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagement_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagement_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagement_injection_fk` FOREIGN KEY (`injection_status_id`) REFERENCES `ophciexamination_management_status` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagement_ideferral_fk` FOREIGN KEY (`injection_deferralreason_id`) REFERENCES `ophciexamination_management_deferralreason` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagement_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
 		$this->insert('element_type', array(
@@ -280,15 +295,18 @@ class m130228_135042_dr_function extends CDbMigration
 		
 		$imgmt_id = $this->dbConnection->lastInsertID;
 		
-		// add to the MR default set
-		$this->insert('ophciexamination_element_set_item', array('set_id'=>$set_id, 'element_type_id' => $imgmt_id));
+		// add to the MR Consultant workflow set
+		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $imgmt_id));
 		
 		//end injection management
 	}
 
 	public function down()
 	{
-		$mr_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name',array(':name'=>"MR Default"))->queryRow();
+		$workflow = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_workflow')->where('name=:name', array(':name'=>"MR Default"))->queryRow();
+		
+		$consultant_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name AND workflow_id=:wf_id',array(':name'=>"Consultant", ':wf_id'=> $workflow['id']))->queryRow();
+		$nurse_set = $this->dbConnection->createCommand()->select('id')->from('ophciexamination_element_set')->where('name=:name AND workflow_id=:wf_id',array(':name'=>"Nurse", ':wf_id'=> $workflow['id']))->queryRow();
 		
 		// laser
 		$this->dropTable('et_ophciexamination_lasermanagement');
@@ -299,7 +317,7 @@ class m130228_135042_dr_function extends CDbMigration
 		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_LaserManagement'))
 		->queryScalar();
 		
-		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set['id'], ':element_type_id' => $lmgmt_id));
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$consultant_set['id'], ':element_type_id' => $lmgmt_id));
 		$this->delete('element_type', 'id=:id', array(':id'=>$lmgmt_id));
 		
 		// injection
@@ -311,7 +329,7 @@ class m130228_135042_dr_function extends CDbMigration
 		->where('class_name=:class_name', array(':class_name'=>'Element_OphCiExamination_InjectionManagement'))
 		->queryScalar();
 		
-		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$mr_set['id'], ':element_type_id' => $imgmt_id));
+		$this->delete('ophciexamination_element_set_item', 'set_id=:set_id AND element_type_id = :element_type_id', array(':set_id'=>$consultant_set['id'], ':element_type_id' => $imgmt_id));
 		$this->delete('element_type', 'id=:id', array(':id'=>$imgmt_id));
 		
 		// mgmt lookups
@@ -324,9 +342,17 @@ class m130228_135042_dr_function extends CDbMigration
 		$this->dropTable('ophciexamination_drgrading_nscretinopathy');
 		$this->dropTable('ophciexamination_drgrading_clinical');
 		
-		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$mr_set['id']));
-		$this->delete('ophciexamination_element_set_rule', "set_id=:set_id", array(':set_id'=>$mr_set['id']));
-		$this->delete('ophciexamination_element_set', "id=:id", array(':id'=>$mr_set['id']));
+		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$consultant_set['id']));
+		$this->delete('ophciexamination_element_set_item', "set_id=:set_id", array(':set_id'=>$nurse_set['id']));
+		
+		$this->delete('ophciexamination_element_set_rule', "workflow_id=:wf_id", array(':wf_id'=>$workflow['id']));
+		
+		// remove any workflow step assignments
+		$this->delete('ophciexamination_event_elementset_assignment', "step_id=:step_id", array(':step_id'=>$nurse_set['id']));
+		$this->delete('ophciexamination_event_elementset_assignment', "step_id=:step_id", array(':step_id'=>$consultant_set['id']));
+		
+		$this->delete('ophciexamination_element_set', "workflow_id=:id", array(':id'=>$workflow['id']));
+		$this->delete('ophciexamination_workflow', "id=:id", array(':id'=>$workflow['id']));
 		
 		// remove DR Grading class
 		$this->delete('element_type', "class_name=:name", array(":name"=>"Element_OphCiExamination_DRGrading"));
