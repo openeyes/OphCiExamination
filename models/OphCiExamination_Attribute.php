@@ -68,15 +68,15 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 * @param integer $subspecialty_id
 	 */
 	public function findAllOptionsForSubspecialty($subspecialty_id = null) {
-		$condition = 'attribute_id = :attribute_id AND ';
-		$params = array(':attribute_id' => $this->id);
-		if($subspecialty_id) {
-			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
-			$params[':subspecialty_id'] = $subspecialty_id;
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('attribute_id = '.$this->id);
+		if ($subspecialty_id) {
+			$criteria->addCondition("(subspecialty_id = $subspecialty_id or subspecialty_id is null)");
 		} else {
-			$condition .=  'subspecialty_id IS NULL';
+			$criteria->addCondition("subspecialty_id is null");
 		}
-		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
+		$criteria->order = 'value asc';
+		return OphCiExamination_AttributeOption::model()->findAll($criteria);
 	}
 	
 	/**
