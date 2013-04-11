@@ -56,6 +56,7 @@ class m130408_135042_dr_function extends CDbMigration
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'booking_weeks' => 'int(2) unsigned',
+				'class' => 'varchar(16) NOT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -67,12 +68,12 @@ class m130408_135042_dr_function extends CDbMigration
 				'CONSTRAINT `ophciexamination_drgrading_nscretinopathy_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R0', 'display_order' => '1', 'description' => 'No retinopathy'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R1', 'display_order' => '2', 'description' => 'Background retinopathy<ul><li>Microaneurysms</li><li>Retinal haemorrhages</li><li>Venous loop</li><li>Any exudate in the presence of other non-referable features of DR</li><li>Any number of cotton wool spots (CWS) in the presence of other non-referable features of DR</li></ul>'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R2', 'display_order' => '3', 'description' => 'Pre-proliferative retinopathy<ul><li>Venous beading</li><li>Venous reduplication</li><li>Multiple blot haemorrhages</li><li>Intraretinal microvascular abnormality (IRMA)</li></ul>'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3S', 'display_order' => '4', 'description' => 'Evidence of Peripheral Retinal Laser Treatment AND stable retina from photograph taken at or shortly after discharge from the Hospital Eye service (HES)'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3A', 'display_order' => '5', 'booking_weeks' => 2, 'description' => 'Active Proliferative Retinopathy<ul><li>New vessels on disc (NVD)</li><li>New vessels elsewhere (NVE)</li><li>Pre-retinal or vitreous haemorrhage</li><li>Pre-retinal fibrosis +/- tractional retinal detachment</li></ul>'));
-		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'U', 'display_order' => '6', 'description' => 'Ungradable'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R0', 'display_order' => '1', 'class' => 'none', 'description' => 'No retinopathy'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R1', 'display_order' => '2', 'class' => 'background', 'description' => 'Background retinopathy<ul><li>Microaneurysms</li><li>Retinal haemorrhages</li><li>Venous loop</li><li>Any exudate in the presence of other non-referable features of DR</li><li>Any number of cotton wool spots (CWS) in the presence of other non-referable features of DR</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R2', 'display_order' => '3', 'class' => 'pre-prolif', 'description' => 'Pre-proliferative retinopathy<ul><li>Venous beading</li><li>Venous reduplication</li><li>Multiple blot haemorrhages</li><li>Intraretinal microvascular abnormality (IRMA)</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3S', 'display_order' => '4', 'class' => 'peripheral', 'description' => 'Evidence of Peripheral Retinal Laser Treatment AND stable retina from photograph taken at or shortly after discharge from the Hospital Eye service (HES)'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'R3A', 'display_order' => '5', 'class' => 'proliferative', 'booking_weeks' => 2, 'description' => 'Active Proliferative Retinopathy<ul><li>New vessels on disc (NVD)</li><li>New vessels elsewhere (NVE)</li><li>Pre-retinal or vitreous haemorrhage</li><li>Pre-retinal fibrosis +/- tractional retinal detachment</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscretinopathy', array('name'=>'U', 'display_order' => '6', 'class' => 'ungradable', 'description' => 'Ungradable'));
 		
 		
 		// NSC Maculopathy lookup
@@ -82,6 +83,7 @@ class m130408_135042_dr_function extends CDbMigration
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'booking_weeks' => 'int(2) unsigned',
+				'class' => 'varchar(16) NOT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -93,8 +95,8 @@ class m130408_135042_dr_function extends CDbMigration
 				'CONSTRAINT `ophciexamination_drgrading_nscmaculopathy_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
-		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M0', 'display_order' => '1', 'description' => 'No maculopathy'));
-		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'booking_weeks' => 13, 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
+		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M0', 'display_order' => '1', 'class' =>'none', 'description' => 'No maculopathy'));
+		$this->insert('ophciexamination_drgrading_nscmaculopathy', array('name'=>'M1', 'display_order' => '2', 'class' =>'maculopathy', 'booking_weeks' => 13, 'description' => 'Any of the following:<ul><li>Exudate within 1 disc diameter (DD) of the centre of the fovea</li><li>Group of exudates within the macula</li><li>Retinal thickening within 1DD of the centre of the fovea (if stereo available)</li><li>Any microaneurysm or haemorrhage within 1DD of the centre of the fovea only if associated with a best VA of <= 6/12 (if no stereo)</li></ul>'));
 		
 		// clinical grading lookup
 		$this->createTable('ophciexamination_drgrading_clinical', array(
@@ -102,6 +104,7 @@ class m130408_135042_dr_function extends CDbMigration
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'class' => 'varchar(16) NOT NULL',
 				'booking_weeks' => 'int(2) unsigned',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
@@ -114,12 +117,12 @@ class m130408_135042_dr_function extends CDbMigration
 				'CONSTRAINT `ophciexamination_drgrading_clinical_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'None', 'display_order' => '1', 'description' => 'No retinopathy'));
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Mild nonproliferative retinopathy', 'display_order' => '2', 'description' => 'At least one microaneurysm'));
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Moderate nonproliferative retinopathy', 'display_order' => '3', 'description' => 'Hemorrhages and/or microaneurysms &ge; standard photograph 2A*; and/or:<ul><li>soft exudates</li><li>venous beading</li><li>intraretinal microvascular abnormalities definitely present ( IRMA )</li></ul>'));
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Severe nonproliferative retinopathy', 'display_order' => '4', 'description' => '<ul><li>Soft exudates, venous beading, and intraretinal microvascular abnormalities all definitely present in at least two of fields four through seven</li><li>or two of the preceding three lesions present in at least two of fields four through seven and hemorrhages and microaneurysms present in these four fields, equaling or exceeding standard photo 2A in at least one of them</li><li>or intraretinal microvascular abnormalities present in each of fields four through seven and equaling or exceeding standard photograph 8A in at least two of them</li></ul>'));
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Early proliferative retinopathy', 'display_order' => '5', 'description' => 'Proliferative retinopathy without Diabetic Retinopathy Study high-risk characteristic:<ul><li>New vessels</li></ul>'));
-		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'High-risk proliferative retinopathy', 'display_order' => '6', 'description' => 'Proliferative retinopathy with Diabetic Retinopathy Study high-risk characteristics:<ul><li>New vessels on or within one disc diameter of the optic disc (NVD) &ge; standard photograph 10A* (about one-quarter to one-third disc area), with or without vitreous or preretinal hemorrhage</li><li>vitreous and/or preretinal hemorrhage accompanied by new vessels, either NVD &lt; standard photograph 10A or new vessels elsewhere (NVE) &ge; one-quarter disc area</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'None', 'display_order' => '1', 'class' => 'none', 'description' => 'No retinopathy'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Mild nonproliferative retinopathy', 'display_order' => '2', 'class' => 'mild', 'description' => 'At least one microaneurysm'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Moderate nonproliferative retinopathy', 'display_order' => '3', 'class' => 'moderate', 'description' => 'Hemorrhages and/or microaneurysms &ge; standard photograph 2A*; and/or:<ul><li>soft exudates</li><li>venous beading</li><li>intraretinal microvascular abnormalities definitely present ( IRMA )</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Severe nonproliferative retinopathy', 'display_order' => '4', 'class' => 'severe', 'description' => '<ul><li>Soft exudates, venous beading, and intraretinal microvascular abnormalities all definitely present in at least two of fields four through seven</li><li>or two of the preceding three lesions present in at least two of fields four through seven and hemorrhages and microaneurysms present in these four fields, equaling or exceeding standard photo 2A in at least one of them</li><li>or intraretinal microvascular abnormalities present in each of fields four through seven and equaling or exceeding standard photograph 8A in at least two of them</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'Early proliferative retinopathy', 'display_order' => '5', 'class' => 'early', 'description' => 'Proliferative retinopathy without Diabetic Retinopathy Study high-risk characteristic:<ul><li>New vessels</li></ul>'));
+		$this->insert('ophciexamination_drgrading_clinical', array('name'=>'High-risk proliferative retinopathy', 'display_order' => '6', 'class' => 'high-risk', 'description' => 'Proliferative retinopathy with Diabetic Retinopathy Study high-risk characteristics:<ul><li>New vessels on or within one disc diameter of the optic disc (NVD) &ge; standard photograph 10A* (about one-quarter to one-third disc area), with or without vitreous or preretinal hemorrhage</li><li>vitreous and/or preretinal hemorrhage accompanied by new vessels, either NVD &lt; standard photograph 10A or new vessels elsewhere (NVE) &ge; one-quarter disc area</li></ul>'));
 		
 		// create the DR Grading table
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;

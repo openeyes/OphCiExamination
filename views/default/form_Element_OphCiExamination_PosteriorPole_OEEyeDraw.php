@@ -31,11 +31,6 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 				array('addDoodle', array('PostPole')),
 				array('deselectDoodles', array()),
 		),
-		'bindingArray' => array(
-				'PostPole' => array(
-						'cdRatio' => array('id' => 'Element_OphCiExamination_PosteriorSegment_'.$side.'_cd_ratio_id', 'attribute' => 'data-val'),
-				),
-		),
 		'listenerArray' => array('posteriorListener'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',

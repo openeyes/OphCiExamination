@@ -108,7 +108,6 @@ class OphCiExamination_API extends BaseAPI {
 			case 'both':
 				$left = $this->getBestVisualAcuity($patient, 'left');
 				$right = $this->getBestVisualAcuity($patient, 'right');
-				error_log('oi');
 				return ($right ? $right->convertTo($right->value)  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value) : "not recorded")." on the left";
 			case 'episode':
 				$episode = $patient->getEpisodeForCurrentSubspecialty();
