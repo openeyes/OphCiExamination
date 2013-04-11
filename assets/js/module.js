@@ -490,7 +490,7 @@ $(document).ready(function() {
 	});
 	
 	$('#event_OphCiExamination').delegate('a#drgrading_dirty', 'click', function(e) {
-		$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
+		$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 			var drawingName = $(this).attr('data-drawing-name');
 			if (window[drawingName]) {
 				// the posterior segment drawing is available to sync values with
@@ -1204,7 +1204,7 @@ function OphCiExamination_DRGrading_init() {
 		width: 480
 	});
 	
-	$('div.Element_OphCiExamination_PosteriorSegment').find('canvas').each(function() {
+	$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 		
 		var drawingName = $(this).attr('data-drawing-name');
 		
