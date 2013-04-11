@@ -30,6 +30,8 @@
  * @property float $right_diameter
  * @property string $left_eyedraw
  * @property string $right_eyedraw
+ * @property boolean $left_expert_mode
+ * @property boolean $right_expert_mode
  *
  * The followings are the available model relations:
  * @property Event $event
@@ -64,21 +66,21 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		return array(
 				array('eye_id, event_id, left_diameter, right_diameter, left_description,
 						right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id,
-						right_cd_ratio_id, left_lens_id, right_lens_id',
-						'safe'),
-				array('left_diameter, left_lens_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_diameter, right_lens_id', 'requiredIfSide', 'side' => 'right'),
+						right_cd_ratio_id, left_lens_id, right_lens_id,
+						left_expert_mode, right_expert_mode', 'safe'),
+				array('left_diameter, left_lens_id, left_expert_mode', 'requiredIfSide', 'side' => 'left'),
+				array('right_diameter, right_lens_id, right_expert_mode', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('eye_id, event_id, left_description, right_description, left_eyedraw,
 						right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id,
-						right_cd_ratio_id, left_lens_id, right_lens_id',
-						'safe', 'on' => 'search'),
+						right_cd_ratio_id, left_lens_id, right_lens_id,
+						left_expert_mode, right_expert_mode', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
+		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id', 'expert_mode');
 	}
 	
 	public function canCopy() {
@@ -121,6 +123,8 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 				'right_cd_ratio_id' => 'C/D Ratio',
 				'left_lens_id' => 'Lens',
 				'right_lens_id' => 'Lens',
+				'left_expert_mode' => 'Mode',
+				'right_expert_mode' => 'Mode',
 		);
 	}
 
