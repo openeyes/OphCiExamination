@@ -173,4 +173,40 @@ class OphCiExamination_API extends BaseAPI {
 		
 		return $disorders;
 	}
+
+	public function getLetterStringForModel($patient, $element_type_id) {
+		if (!$element_type = ElementType::model()->findByPk($element_type_id)) {
+			throw new Exception("Unknown element type: $element_type_id");
+		}
+
+		if ($element = $this->getElementForLatestEventInEpisode($patient, $element_type->class_name)) {
+			return $element->letter_string;
+		}
+	}
+
+	public function getElementsForLatestEventInEpisode($patient) {
+		$element_types = array();
+
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+
+			if ($event = $this->getMostRecentEventInEpisode($episode->id, $event_type->id)) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_type_id',$event_type->id);
+				$criteria->order = 'display_order';
+
+				foreach (ElementType::model()->findAll($criteria) as $element_type) {
+					$class = $element_type->class_name;
+
+					if ($element = $class::model()->find('event_id=?',array($event->id))) {
+						if (method_exists($element, 'getLetter_string')) {
+							$element_types[] = $element_type;
+						}
+					}
+				}
+			}
+		}
+
+		return $element_types;
+	}
 }
