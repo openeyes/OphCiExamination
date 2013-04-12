@@ -28,7 +28,7 @@ $key = 0;
 	<div
 		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
-		<div class="activeForm">
+		<div class="activeForm" style="margin-bottom: 10px;">
 			<a href="#" class="removeSide">-</a>
 			<div class="data">
 				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right')); ?>

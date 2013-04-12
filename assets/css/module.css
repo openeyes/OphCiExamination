@@ -175,3 +175,4 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #event_content .Element_OphCiExamination_GlaucomaRisk .normal_risk span { background: #9c0; }
 
 #event_content .Element_OphCiExamination_ExtraocularMuscles .label { width: 100px !important; display: inline-block !important; margin-bottom: 10px; }
+.addReading { margin-top: 5px!important; margin-bottom: 5px !important; }
