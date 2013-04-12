@@ -103,7 +103,6 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	}
 
 	public function getLetter_string() {
-		// FIXME: Refactor to get details from children?
+		return "Clinical management: $this->comments";
 	}
-	
 }

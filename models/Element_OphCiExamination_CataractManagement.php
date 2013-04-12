@@ -134,11 +134,6 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 
 		$text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
 
-		if ($this->comments) {
-			// FIXME: Comments moved to parent
-			$text[] = strtolower($this->comments);
-		}
-
-		return "Management: ".implode(', ',$text)."\n";
+		return "Cataract management: ".implode(', ',$text)."\n";
 	}
 }
