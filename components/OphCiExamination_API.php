@@ -194,9 +194,11 @@ class OphCiExamination_API extends BaseAPI {
 			$criteria = new CDbCriteria;
 			$criteria->compare('event_id',$event->id);
 						
-			$diagnoses = Element_OphCiExamination_Diagnoses::model()->find($criteria);
-			foreach ($diagnoses->diagnoses as $diagnosis) {
-				$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+			$diagnoses_el = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+			if ($diagnoses_el) { 
+				foreach ($diagnoses_el->diagnoses as $diagnosis) {
+					$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+				}
 			}
 		}
 		
