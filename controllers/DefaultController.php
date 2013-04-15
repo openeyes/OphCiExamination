@@ -135,17 +135,24 @@ class DefaultController extends NestedElementsEventTypeController {
 		$merged_elements = array();
 		foreach($elements as $element) {
 			$element_type = $element->getElementType();
-			$merged_elements[$element_type->display_order] = $element;
+			$merged_elements[] = $element;
 			if(isset($extra_elements[$element_type->id])) {
 				unset($extra_elements[$element_type->id]);
 			}
 		}
 		foreach($extra_elements as $extra_element) {
-			$merged_elements[$extra_element->getElementType()->display_order] = $extra_element;
+			$extra_element->setDefaultOptions();
+			$merged_elements[] = $extra_element;
 		}
-		ksort($merged_elements);
+		usort($merged_elements, function ($a, $b) {
+			if($a->getElementType()->display_order == $b->getElementType()->display_order) {
+				return 0;
+			}
+			return ($a->getElementType()->display_order > $b->getElementType()->display_order) ? 1 : -1;
+		});
 		return $merged_elements;
 	}
+	
 	
 	/**
 	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
