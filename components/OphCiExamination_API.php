@@ -133,6 +133,7 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 	
+
 	public function getLetterDRRetinopathy($patient, $side) {
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, 'Element_OphCiExamination_DRGrading')) {
 			$res = $dr->{$side."_nscretinopathy"};
@@ -179,7 +180,7 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 	
-	/*
+	/**
 	 * gets a list of disorders diagnosed for the patient within the current episode, ordered by event creation date
 	 * 
 	 * @param Patient $patient
