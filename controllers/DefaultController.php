@@ -141,6 +141,7 @@ class DefaultController extends NestedElementsEventTypeController {
 			}
 		}
 		foreach($extra_elements as $extra_element) {
+			$extra_element->setDefaultOptions();
 			$merged_elements[] = $extra_element;
 		}
 		usort($merged_elements, function ($a, $b) {
