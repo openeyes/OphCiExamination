@@ -267,18 +267,20 @@ class OphCiExamination_API extends BaseAPI {
 	 * 
 	 * @return array() - list of associative arrays with disorder_id and eye_id defined  
 	 */
-	public function getOrderedDisorders($patient) {
-		$events = $this->getEventsInEpisode($patient);
+	public function getOrderedDisorders($patient, $episode) {
+		$events = $this->getEventsInEpisode($patient, $episode);
 		$disorders = array();
 		
-		foreach ($events as $event) {
-			$criteria = new CDbCriteria;
-			$criteria->compare('event_id',$event->id);
-						
-			$diagnoses_el = Element_OphCiExamination_Diagnoses::model()->find($criteria);
-			if ($diagnoses_el) { 
-				foreach ($diagnoses_el->diagnoses as $diagnosis) {
-					$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+		if ($events) {
+			foreach (@$events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+							
+				$diagnoses_el = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+				if ($diagnoses_el) { 
+					foreach ($diagnoses_el->diagnoses as $diagnosis) {
+						$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+					}
 				}
 			}
 		}
