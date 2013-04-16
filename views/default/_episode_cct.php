@@ -17,12 +17,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_description"
-	class="eventDetail">
-	<div class="data">
-		<div class="textMacros">
-			<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'description', 'form' => $form)); ?>
-		</div>
-		<?php echo $form->textArea($element, 'description', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+<h4>CCT</h4>
+<div class="episodeMetadata">
+	<div>
+		<span>Right: <?php echo $cct->hasRight() ? $cct->right_value.' &micro;m ('.$cct->right_method->name.')' : 'Not recorded'?></span>
+	</div>
+	<div>
+		<span>Left: <?php echo $cct->hasLeft() ? $cct->left_value.' &micro;m ('.$cct->left_method->name.')' : 'Not recorded'?></span>
 	</div>
 </div>

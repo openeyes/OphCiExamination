@@ -17,12 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_description"
-	class="eventDetail">
-	<div class="data">
-		<div class="textMacros">
-			<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'description', 'form' => $form)); ?>
-		</div>
-		<?php echo $form->textArea($element, 'description', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
-	</div>
-</div>
+<?php
+	foreach($this->getAttributes($element, $this->firm->serviceSubspecialtyAssignment->subspecialty_id) as $attribute) {
+		$options = CHtml::listData($attribute->getAttributeOptions(), 'slug', 'label');
+		$html_options = array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'delimited' => true, 'nowrapper'=>true);
+		foreach($attribute->getAttributeOptions() as $option) {
+			$html_options['options'][(string)$option->slug] = array(
+				'data-element-type-id'=> $option->attribute_element->element_type_id,
+			);
+		}
+		echo $form->dropDownTextSelection($element, $field, $options, $html_options);
+	}
+?>

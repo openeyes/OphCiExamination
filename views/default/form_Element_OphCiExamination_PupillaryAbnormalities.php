@@ -17,12 +17,32 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_description"
-	class="eventDetail">
-	<div class="data">
-		<div class="textMacros">
-			<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'description', 'form' => $form)); ?>
+<div class="cols2 clearfix">
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<div
+		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		data-side="right">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<div class="data">
+				<?php echo $form->dropDownList($element, 'right_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --')) ?>
+			</div>
 		</div>
-		<?php echo $form->textArea($element, 'description', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+		<div class="inactiveForm">
+			<a href="#">Add right side</a>
+		</div>
+	</div>
+	<div
+		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		data-side="left">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<div class="data">
+				<?php echo $form->dropDownList($element, 'left_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --')) ?>
+			</div>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add left side</a>
+		</div>
 	</div>
 </div>

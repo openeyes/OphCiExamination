@@ -18,17 +18,17 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_instrument".
+ * This is the model class for table "ophciexamination_pupillaryabnormalities_abnormality".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
- */
-class OphCiExamination_Instrument extends BaseActiveRecord {
 
+ */
+class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveRecord {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Instrument the static model class
+	 * @return OphCiExamination_PupillaryAbnormalities_Abnormality the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -38,11 +38,11 @@ class OphCiExamination_Instrument extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_instrument';
+		return 'ophciexamination_pupillaryabnormalities_abnormality';
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model visualacuity_methods.
 	 */
 	public function rules() {
 		return array(
@@ -55,7 +55,8 @@ class OphCiExamination_Instrument extends BaseActiveRecord {
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		return array();
+		return array(
+		);
 	}
 
 	/**
@@ -70,5 +71,4 @@ class OphCiExamination_Instrument extends BaseActiveRecord {
 				'criteria'=>$criteria,
 		));
 	}
-
 }

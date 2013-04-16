@@ -164,6 +164,9 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
+		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.5'));
+		$this->left_cd_ratio_id = $cd_ratio->id;
+		$this->right_cd_ratio_id = $cd_ratio->id;
 	}
 
 	protected function beforeSave() {

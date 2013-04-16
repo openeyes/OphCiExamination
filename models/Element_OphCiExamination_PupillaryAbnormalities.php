@@ -18,20 +18,22 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_management".
+ * This is the model class for table "et_ophciexamination_pupillaryabnormalities".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- *
- * The followings are the available model relations:
+ * @property integer $eye_id
+ * @property OphCiExamination_PupillaryAbnormalities_Abnormality $left_abnormality
+ * @property OphCiExamination_PupillaryAbnormalities_Abnormality $right_abnormality
  */
 
-class Element_OphCiExamination_Management extends BaseEventTypeElement {
+class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElement {
+	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_Management the static model class
+	 * @return Element_OphCiExamination_PupillaryAbnormalities the static model class
 	 */
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -41,7 +43,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_management';
+		return 'et_ophciexamination_pupillaryabnormalities';
 	}
 
 	/**
@@ -51,13 +53,16 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
+				array('eye_id', 'required'),
+				array('left_abnormality_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_abnormality_id', 'requiredIfSide', 'side' => 'right'),
+				array('event_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments', 'safe', 'on' => 'search'),
+				array('id, event_id, left_abnormality_id, right_abnormality_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -67,11 +72,18 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		return array(
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'left_abnormality' => array(self::BELONGS_TO, 'OphCiExamination_PupillaryAbnormalities_Abnormality', 'left_abnormality_id'),
+				'right_abnormality' => array(self::BELONGS_TO, 'OphCiExamination_PupillaryAbnormalities_Abnormality', 'right_abnormality_id'),
 		);
 	}
 
+	public function sidedFields() {
+		return array('abnormality_id');
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -79,8 +91,13 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'comments' => 'Comments',
+				'left_abnormality_id' => 'Abnormality',
+				'right_abnormality_id' => 'Abnormality',
 		);
+	}
+
+	public function getAbnormalityOptions() {
+		return CHtml::listData(OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
 	}
 
 	/**
@@ -95,14 +112,10 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('comments', $this->comments);
-
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
-	public function getLetter_string() {
-		return "Clinical management: $this->comments";
-	}
 }
