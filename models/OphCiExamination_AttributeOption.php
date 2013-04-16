@@ -23,7 +23,7 @@
  *
  * @property integer $id
  * @property Subspecialty $subspecialty
- * @property OphCiExamination_Attribute $attribute
+ * @property OphCiExamination_AttributeElement $attribute_element
  * @property string $value
  * @property string $delimiter
  */
@@ -67,7 +67,7 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'attribute' => array(self::BELONGS_TO, 'OphCiExamination_Attribute', 'attribute_id'),
+				'attribute_element' => array(self::BELONGS_TO, 'OphCiExamination_AttributeElement', 'attribute_element_id'),
 				'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
 		);
 	}
