@@ -17,12 +17,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_<?php echo get_class($element)?>_description"
-	class="eventDetail">
-	<div class="data">
-		<div class="textMacros">
-			<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'description', 'form' => $form)); ?>
+<div class="cols2 clearfix">
+	<div class="left eventDetail">
+		<div class="data">
+			<?php if($element->hasRight()) {
+				echo $element->right_abnormality->name;
+				} else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
-		<?php echo $form->textArea($element, 'description', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+	</div>
+	<div class="right eventDetail">
+		<div class="data">
+			<?php if($element->hasLeft()) {
+				echo $element->left_abnormality->name;
+				} else { ?>
+			Not recorded
+			<?php } ?>
+		</div>
 	</div>
 </div>

@@ -18,22 +18,20 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_management".
+ * This is the model class for table "ophciexamination_attribute_element".
  *
- * The followings are the available columns in table:
- * @property string $id
- * @property integer $event_id
- *
- * The followings are the available model relations:
+ * @property integer $id
+ * @property OphCiExamination_Attribute $attribute
+ * @property ElementType $element_type
+ * @property OphCiExamination_AttributeOption[] $options
  */
-
-class Element_OphCiExamination_Management extends BaseEventTypeElement {
+class OphCiExamination_AttributeElement extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_Management the static model class
+	 * @return OphCiExamination_AttributeElement the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
@@ -41,20 +39,16 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_management';
+		return 'ophciexamination_attribute_element';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules() {
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id, comments', 'safe', 'on' => 'search'),
+				array('attribute_id, element_type_id', 'required'),
+				array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,47 +56,41 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * @return array relational rules.
 	 */
 	public function relations() {
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'attribute' => array(self::BELONGS_TO, 'OphCiExamination_Attribute', 'attribute_id'),
+				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
+				'options' => array(self::HAS_MANY, 'OphCiExamination_AttributeOption', 'attribute_element_id'),
 		);
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
+	 * Fetches all the options for this attribute_element, standard _and_ subspecialty specific
+	 * @param integer $subspecialty_id
+	 * @return OphCiExamination_AttributeOption[]
 	 */
-	public function attributeLabels() {
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'comments' => 'Comments',
-		);
+	public function findAllOptionsForSubspecialty($subspecialty_id = null) {
+		$condition = 'attribute_element_id = :attribute_element_id AND ';
+		$params = array(':attribute_element_id' => $this->id);
+		if($subspecialty_id) {
+			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
+			$params[':subspecialty_id'] = $subspecialty_id;
+		} else {
+			$condition .=  'subspecialty_id IS NULL';
+		}
+		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
 	}
-
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search() {
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('comments', $this->comments);
-
+		$criteria=new CDbCriteria;
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
 		return new CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
+				'criteria'=>$criteria,
 		));
 	}
 
-	public function getLetter_string() {
-		return "Clinical management: $this->comments";
-	}
 }

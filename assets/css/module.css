@@ -104,7 +104,7 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 	width: 14px;
 	margin-left: 4px;
 	text-indent: -9999px;
-	background: url(../../../img/_elements/icons/extra-element_remove.png) no-repeat -10px -2px;
+	background: url(../../../img/_elements/icons/event-optional/element-remove.png) no-repeat -10px -2px;
 	opacity: 0.5;
 }
 #comorbidities_selected li a:hover {

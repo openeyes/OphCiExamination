@@ -19,16 +19,14 @@
 
 class DefaultController extends NestedElementsEventTypeController {
 	
-	protected function beforeAction($action)
-	{
-		$res = parent::beforeAction($action);
+	protected function beforeAction($action) {
 		
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
-			Yii::app()->getClientScript()->registerCssFile(Yii::app()->createUrl('css/spliteventtype.css'));
+			$this->registerCssFile('spliteventtype.css', Yii::app()->createUrl('css/spliteventtype.css'));
 			Yii::app()->getClientScript()->registerScriptFile(Yii::app()->createUrl('js/spliteventtype.js'));
 		}
 		
-		return $res;
+		return parent::beforeAction($action);
 	}
 	
 	public function actionCreate() {
@@ -137,17 +135,24 @@ class DefaultController extends NestedElementsEventTypeController {
 		$merged_elements = array();
 		foreach($elements as $element) {
 			$element_type = $element->getElementType();
-			$merged_elements[$element_type->display_order] = $element;
+			$merged_elements[] = $element;
 			if(isset($extra_elements[$element_type->id])) {
 				unset($extra_elements[$element_type->id]);
 			}
 		}
 		foreach($extra_elements as $extra_element) {
-			$merged_elements[$extra_element->getElementType()->display_order] = $extra_element;
+			$extra_element->setDefaultOptions();
+			$merged_elements[] = $extra_element;
 		}
-		ksort($merged_elements);
+		usort($merged_elements, function ($a, $b) {
+			if($a->getElementType()->display_order == $b->getElementType()->display_order) {
+				return 0;
+			}
+			return ($a->getElementType()->display_order > $b->getElementType()->display_order) ? 1 : -1;
+		});
 		return $merged_elements;
 	}
+	
 	
 	/**
 	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
@@ -216,5 +221,16 @@ class DefaultController extends NestedElementsEventTypeController {
 
 		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
+	
+	/**
+	 * Get all the attributes for an element
+	 * @param BaseEventTypeElement $element
+	 * @return OphCiExamination_Attribute[]
+	 */
+	public function getAttributes($element, $subspecialty_id = null) {
+		$attributes = OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
+		return $attributes;
+	}
+	
 }
 

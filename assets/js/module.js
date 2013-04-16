@@ -250,11 +250,11 @@ $(document).ready(function() {
 		var expert = $(this).closest('.side').find('.gonioExpert[data-position="'+position+'"]');
 		if($(this).val() == 0) {
 			$('option',expert).attr('selected', function () {
-				return ($(this).attr('data-value') == 'III');
+				return ($(this).attr('data-value') == '1');
 			});
 		} else {
 			$('option',expert).attr('selected', function () {
-				return ($(this).attr('data-value') == 'I');
+				return ($(this).attr('data-value') == '3');
 			});			
 		}
 		e.preventDefault();
@@ -438,8 +438,64 @@ $(document).ready(function() {
 			window[initFunctionName]();
 		}
 	});
+	
+	updateTextMacros();
 
 });
+
+function updateTextMacros() {
+	var active_element_ids = []; 
+	$('#active_elements > .element, #active_elements .active_child_elements > .element').each(function() {
+		active_element_ids.push($(this).attr('data-element-type-id'));
+	});
+	$('#active_elements .textMacro option').each(function() {
+		if($(this).val() && $.inArray($(this).attr('data-element-type-id'), active_element_ids) == -1) {
+			disableTextMacro(this);
+		}
+	});
+	$('#active_elements .textMacro').each(function() {
+		var sort = false;
+		if($(this).data('disabled-options')) {
+			var select = this;
+			$.each($(this).data('disabled-options'), function(index, option) {
+				if($.inArray($(option).attr('data-element-type-id'), active_element_ids) != -1) {
+					enableTextMacro(select, index, option);
+					sort = true;
+				}
+			});
+		}
+		if(sort) {
+			var options = $('option', this);
+			options.sort(function(a, b) {
+				if(a.text > b.text) return 1;
+				else if(a.text < b.text) return -1;
+				else return 0;
+			});
+			$(this).empty().append(options);
+		}
+		if($('option', this).length > 1) {
+			$(this).removeAttr('disabled');
+		} else {
+			$(this).attr('disabled', 'disabled');
+		} 
+	});
+}
+
+function disableTextMacro(option) {
+	var disabled_options = $(option).parent().data('disabled-options');
+	if(!disabled_options) {
+		disabled_options = [];
+	}
+	disabled_options.push(option);
+	$(option).parent().data('disabled-options', disabled_options);
+	$(option).remove();
+}
+
+function enableTextMacro(select, index, option) {
+	var disabled_options = $(select).data('disabled-options');
+	$(select).append(option);
+	disabled_options.splice(index,1);
+}
 
 function OphCiExamination_Dilation_getNextKey() {
 	var keys = $('#event_content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
