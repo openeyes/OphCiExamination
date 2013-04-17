@@ -25,9 +25,12 @@
 		</div>
 		<div class="headerInfo">
 			<div class="patientDetails">
-				<strong><?php echo $this->patient->addressname?></strong>
+				<strong><?php echo $this->patient->contact->fullName?></strong>
 				<br />
-				<?php echo $this->patient->address ? $this->patient->address->getLetterHtml() : ''?>
+				<?php echo $this->patient->getLetterAddress(array(
+					'include_name' => true,
+					'delimiter' => '<br/>',
+				))?>
 				<br>
 				<br>
 				Hospital No: <strong><?php echo $this->patient->hos_num ?></strong>
