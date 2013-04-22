@@ -239,7 +239,29 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			$diagnoses[0]['principal'] = true;
 		}
 
-		return $diagnoses;
+		return $this->uniqueDiagnoses($diagnoses);
+	}
+
+	public function uniqueDiagnoses($diagnoses) {
+		$_diagnoses = array();
+
+		foreach ($diagnoses as $diagnosis) {
+			if (!$this->diagnosisInArray($diagnosis,$_diagnoses)) {
+				$_diagnoses[] = $diagnosis;
+			}
+		}
+
+		return $_diagnoses;
+	}
+
+	public function diagnosisInArray($diagnosis, $diagnoses) {
+		foreach ($diagnoses as $_diagnosis) {
+			if ($diagnosis['disorder']->id == $_diagnosis['disorder']->id && $diagnosis['eye_id'] == $_diagnosis['eye_id'] && $diagnosis['principal'] == $_diagnosis['principal']) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function getSelectedDisorderIDs() {
