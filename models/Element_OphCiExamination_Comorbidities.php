@@ -50,7 +50,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id', 'safe'),
+				array('event_id, comments', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),

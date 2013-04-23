@@ -19,4 +19,8 @@
 ?>
 <div class="eventDetail">
 	<?php echo $element->summary ?>
+	<?php if ($element->comments) {?>
+		<br/>
+		<?php echo $element->comments;
+	}?>
 </div>
