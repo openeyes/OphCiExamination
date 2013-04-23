@@ -43,15 +43,15 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->{$side.'_cd_ratio'}->name ?>
 		</div>
 	</div>
+	<?php if($element->{$side.'_diameter'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->getAttributeLabel($side.'_diameter') ?>
 			:
 			<?php echo $element->{$side.'_diameter'} ?> mm
-			<?php if($element->{$side.'_lens_id'}) { ?>
 			(lens <?php echo $element->{$side.'_lens'}->name ?>)
-			<?php } ?>
-			</div>
+		</div>
 	</div>
+	<?php } ?>
 </div>
 
