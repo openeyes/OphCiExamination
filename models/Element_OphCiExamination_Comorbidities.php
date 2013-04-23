@@ -99,7 +99,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 	}
 
 	public function getItemOptions() {
-		$items = OphCiExamination_Comorbidities_Item::model()->findAll();
+		$items = OphCiExamination_Comorbidities_Item::model()->findAll(array('order'=>'name'));
 		return CHtml::encodeArray(CHtml::listData($items, 'id', 'name'));
 	}
 	
