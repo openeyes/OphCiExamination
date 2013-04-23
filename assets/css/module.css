@@ -157,12 +157,9 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.high_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.high_risk,
 #event_content .Element_OphCiExamination_GlaucomaRisk .high_risk span { background: #f00; color: #fff; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt.moderate_risk a,
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.moderate_risk,
+#event_content .Element_OphCiExamination_GlaucomaRisk .moderate_risk span { background: #fc0; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.low_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.low_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #fc0; }
-#Element_OphCiExamination_GlaucomaRisk_descriptions dt.stable_risk a,
-#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.stable_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .stable_risk span { background: #36f; color: #fff; }
-#Element_OphCiExamination_GlaucomaRisk_descriptions dt.normal_risk a,
-#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.normal_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .normal_risk span { background: #9c0; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #9c0; }
