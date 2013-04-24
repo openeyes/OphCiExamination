@@ -59,17 +59,13 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules() {
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_diameter, right_diameter, left_description,
-						right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id,
-						right_cd_ratio_id, left_lens_id, right_lens_id',
-						'safe'),
-				array('left_diameter, left_lens_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_diameter, right_lens_id', 'requiredIfSide', 'side' => 'right'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
+				array('eye_id, event_id, left_description, right_description,
+						left_eyedraw, right_eyedraw, left_cd_ratio_id,
+						right_cd_ratio_id', 'safe'),
+				array('left_diameter, right_diameter', 'type', 'type' => 'float'),
+				array('left_diameter, right_diameter', 'numerical', 'max' => 9.9, 'min' => 0.1),
+				array('left_lens_id, right_lens_id', 'checkDiameter'),
 				array('eye_id, event_id, left_description, right_description, left_eyedraw,
 						right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id,
 						right_cd_ratio_id, left_lens_id, right_lens_id',
@@ -77,6 +73,18 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		);
 	}
 
+	/**
+	 * Vertical diameter requires that lens is also specified
+	 * @param string $attribute
+	 */
+	public function checkDiameter($attribute) {
+		$side = explode('_', $attribute, 2);
+		$side = $side[0];
+		if($this->{$side.'_diameter'} && !$this->$attribute) {
+			$this->addError($attribute, ucfirst($side).' vertical diameter requires lens');
+		}
+	}
+	
 	public function sidedFields() {
 		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
 	}
@@ -129,9 +137,6 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search() {
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
@@ -164,21 +169,9 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * Set default values for forms on create
 	 */
 	public function setDefaultOptions() {
-		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.5'));
+		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'));
 		$this->left_cd_ratio_id = $cd_ratio->id;
 		$this->right_cd_ratio_id = $cd_ratio->id;
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
-	protected function afterSave() {
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate() {
-		return parent::beforeValidate();
 	}
 
 }
