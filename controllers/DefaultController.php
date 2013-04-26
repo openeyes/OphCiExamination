@@ -88,7 +88,7 @@ class DefaultController extends NestedElementsEventTypeController {
 	 * @return OphCiExamination_ElementSet
 	 */
 	protected function getFirstStep() {
-		$site_id = Yii::app()->request->cookies['site_id']->value;
+		$site_id = Yii::app()->session['selected_site_id'];
 		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
 		$status_id = $this->episode->episode_status_id;
 		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
@@ -163,7 +163,7 @@ class DefaultController extends NestedElementsEventTypeController {
 	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null) {
 		$elements = array();
 		if(!$set) {
-			$site_id = Yii::app()->request->cookies['site_id']->value;
+			$site_id = Yii::app()->session['selected_site_id'];
 			$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
 			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
