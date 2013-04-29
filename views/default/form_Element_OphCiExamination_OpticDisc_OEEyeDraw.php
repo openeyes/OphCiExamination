@@ -26,8 +26,8 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		),
 		'bindingArray' => array(
 			'OpticDisc' => array(
+					'mode' => array('id' => $side.'_opticdisc_mode', 'attribute' => 'data-value'),
 					'cdRatio' => array('id' => 'Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
-					//'mode' => array('id' => $side.'_opticdisc_mode'),
 			),
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
@@ -41,7 +41,13 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	<div>
 		<div class="label">Mode:</div>
 		<div class="data">
-			<?php echo CHtml::dropDownList($side.'_opticdisc_mode', 'Basic', array('Basic' => 'Basic', 'Expert' => 'Expert'), array('class' => 'opticdisc-mode')) ?>
+			<?php echo CHtml::dropDownList($side.'_opticdisc_mode', 'Basic', array('Basic' => 'Basic', 'Expert' => 'Expert'), array(
+				'class' => 'opticdisc-mode',
+				'options' => array(
+					'Basic' => array('data-value' => 'Basic'),
+					'Expert' => array('data-value' => 'Expert'),
+				),
+			)) ?>
 		</div>
 	</div>
 	<div>

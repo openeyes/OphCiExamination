@@ -274,22 +274,6 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_OpticDisc .opticDiscToggle', 'click', function(e) {
-		var side = $(this).closest('[data-side]').attr('data-side');
-		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
-		var doodle = eyedraw.firstDoodleOfClass('OpticDisc');
-		if(doodle.mode == 'Basic') {
-			doodle.mode = 'Expert'
-		} else {
-			doodle.mode = 'Basic';
-		}
-		doodle.setHandleProperties();
-		eyedraw.repaint();
-		e.preventDefault();
-	});
-
-
 	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'change', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_Dilation_addTreatment(this, side);
