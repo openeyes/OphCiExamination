@@ -83,8 +83,37 @@ class DefaultController extends NestedElementsEventTypeController {
 		return $this->getElementsByWorkflow(null, $this->episode);
 	}
 
+	/**
+	 * filters child elements based on coded dependencies
+	 * 
+	 * @param ElementType[] $elements
+	 * @return ElementType[]
+	 */
+	protected function filterChildElements($elements) {
+		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
+			$remove = array('Element_OphCiExamination_InjectionManagement');
+		}
+		else {
+			$remove = array('Element_OphCiExamination_InjectionManagementComplex');
+		}
+		
+		$final = array();
+		foreach ($elements as $el) {
+			if (!in_array(get_class($el), $remove) ) {
+				$final[] = $el;
+			}
+		}
+		return $final;
+	}
+	
 	protected function getCleanChildDefaultElements($parent, $event_type_id) {
-		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
+		$elements = $this->getElementsByWorkflow(null, $this->episode, $parent->id);
+		return $this->filterChildElements($elements);
+	}
+	
+	public function getChildOptionalElements($parent_class, $action) {
+		$elements = parent::getChildOptionalElements($parent_class, $action);
+		return $this->filterChildElements($elements);
 	}
 	
 	/**

@@ -1238,6 +1238,30 @@ function OphCiExamination_Management_init() {
 	updateBookingWeeks();
 }
 
+
+function OphCiExamination_InjectionManagementComplex_check() {
+	val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	if (val) {
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input').each(function() { $(this).removeAttr('disabled')});
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').hide();
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).attr('disabled', 'disabled'); });
+	}
+	else {
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').hide().find('input').each(function() { $(this).attr('disabled', 'disabled')});
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).removeAttr('disabled'); });
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').show();
+	}
+}
+function OphCiExamination_InjectionManagementComplex_init() {
+	OphCiExamination_InjectionManagementComplex_check();
+	
+	$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').bind('change', function() {
+		OphCiExamination_InjectionManagementComplex_check();
+	});
+	
+}
+
 function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var max_id = -1;
 	var count = 0;
