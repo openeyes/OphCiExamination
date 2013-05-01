@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * OpenEyes
  *
@@ -16,12 +16,28 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+?>
 
-return array(
-	'params' => array(
-		'admin_menu' => array(
-			'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
-			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
-		),
-	),
-);
+<h1><?php echo $title ? $title : "Examination Admin" ?></h1>
+
+<?php 
+echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getDisorders(),'id','term'), array('empty'=>'- Please select -'));
+?>
+
+<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
+
+<div>
+	<ul class="grid reduceheight">
+		<li class="header">
+			<span class="column_name">Name</span>
+		</li>
+		<div class="sortable">
+			<?php
+			foreach ($model_list as $i => $model) {?>
+				<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>">
+					<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a></span>
+				</li>
+			<?php }?>
+		</div>
+	</ul>
+</div>

@@ -20,6 +20,8 @@
 class AdminController extends ModuleAdminController {
 	public $defaultAction = "ViewNoTreatmentReasons";
 	
+	// No Treatment Reason views
+	
 	public function actionViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason() {
 		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order' => 'display_order asc'));
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
@@ -78,7 +80,7 @@ class AdminController extends ModuleAdminController {
 	}
 	
 	/*
-	 * sorts the drugs into the provided order (NOTE does not support a paginated list of drugs)
+	 * sorts the no treatment reasons into the provided order (NOTE does not support a paginated list of reasons)
 	*/
 	public function actionSortNoTreatmentReasons() {
 		if (!empty($_POST['order'])) {
@@ -91,6 +93,31 @@ class AdminController extends ModuleAdminController {
 				}
 			}
 		}
+	}
+	
+	// Disorder Questions
+	
+	public function actionViewOphCiExamination_InjectionManagementComplex_Question() {
+		
+		$model_list = array();
+		$disorder_id = null;
+		if (isset($_GET['disorder_id'])) {
+			$disorder_id = (int)$_GET['disorder_id'];
+			$criteria = new CDbCriteria;
+			$criteria->order = "display_order desc";
+			$criteria->condition = "disorder_id = :disorder_id";
+			$criteria->params = array(':disorder_id' => (int)$_GET['disorder_id']);
+			 
+			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->find($criteria);
+		}
+		
+		$this->render('list_diagnosis_questions',array(
+				'disorder_id'=>$disorder_id,
+				'model_list'=>$model_list,
+				'title'=>'Disorder Questions',
+				'model_class'=>'OphCiExamination_InjectionManagementComplex_Question',
+		));
+		
 	}
 	
 }

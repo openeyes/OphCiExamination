@@ -28,11 +28,11 @@
  * @property integer $left_diagnosis_id
  * @property integer $right_diagnosis_id
  * 
+ * The followings are the available model relations:
  * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $no_treatment_reason
  * @property Disorder $left_diagnosis
  * @property Disorder $right_diagnosis
  *
- * The followings are the available model relations:
  */
 
 class Element_OphCiExamination_InjectionManagementComplex extends SplitEventTypeElement {
