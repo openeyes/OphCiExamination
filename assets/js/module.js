@@ -201,6 +201,10 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_OpticDisc .opticdisc-mode', 'change', function() {
+		OphCiExamination_OpticDisc_updateCDRatio(this);
+	});
+
 	$('#event_display').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
@@ -640,6 +644,16 @@ function OphCiExamination_Gonioscopy_init() {
 	});
 }
 
+function OphCiExamination_OpticDisc_init() {
+	func = function() {
+		$('#event_content .Element_OphCiExamination_OpticDisc .opticdisc-mode').each(function() {
+			OphCiExamination_OpticDisc_updateCDRatio(this);
+		});		
+	}
+	edChecker = getOEEyeDrawChecker();	
+	edChecker.registerForReady(func);
+}
+
 function OphCiExamination_GlaucomaRisk_init() {
 	$("#Element_OphCiExamination_GlaucomaRisk_descriptions").dialog({
 		title: 'Glaucoma Risk Stratifications',
@@ -679,6 +693,27 @@ function OphCiExamination_Comorbidities_init() {
 		});		
 	} else {
 		$('#comorbidities_selected').html('<p>No comorbidities</p>');
+	}
+}
+
+function OphCiExamination_OpticDisc_updateCDRatio(field) {
+	var cdratio_field = $(field).closest('.eyedrawFields').find('.cd-ratio');
+	var _drawing = window[$(field).closest('.side').find('canvas').first().attr('data-drawing-name')];
+	if($(field).val() == 'Basic') {
+		$(field).closest('.eyedrawFields').find('.cd-ratio-readonly').remove();
+		_drawing.unRegisterForNotifications(this);
+		cdratio_field.show();
+	} else {
+		cdratio_field.hide();
+		var readonly = $('<span class="cd-ratio-readonly"></span>');
+		readonly.html($('option:selected', cdratio_field).attr('data-value'));
+		cdratio_field.after(readonly);
+		_drawing.registerForNotifications(this, 'handler', ['parameterChanged']);
+		this.handler = function(_messageArray) {
+			if(_messageArray.eventName == 'parameterChanged' && _messageArray.object.parameter == 'cdRatio') {
+				readonly.html(_messageArray.object.value);
+			}
+		}
 	}
 }
 
