@@ -215,12 +215,14 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 
 			$patient_id = Yii::app()->controller->patient->id;
 			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
-				if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
-					$diagnoses[] = array(
-						'disorder' => $sd->disorder,
-						'eye_id' => $sd->eye_id,
-						'principal' => false,
-					);
+				if (!$episode || $sd->disorder_id != $episode->disorder_id || $episode->eye_id != $sd->eye_id) {
+					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
+						$diagnoses[] = array(
+							'disorder' => $sd->disorder,
+							'eye_id' => $sd->eye_id,
+							'principal' => false,
+						);
+					}
 				}
 			}
 		}
@@ -237,7 +239,29 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			$diagnoses[0]['principal'] = true;
 		}
 
-		return $diagnoses;
+		return $this->uniqueDiagnoses($diagnoses);
+	}
+
+	public function uniqueDiagnoses($diagnoses) {
+		$_diagnoses = array();
+
+		foreach ($diagnoses as $diagnosis) {
+			if (!$this->diagnosisInArray($diagnosis,$_diagnoses)) {
+				$_diagnoses[] = $diagnosis;
+			}
+		}
+
+		return $_diagnoses;
+	}
+
+	public function diagnosisInArray($diagnosis, $diagnoses) {
+		foreach ($diagnoses as $_diagnosis) {
+			if ($diagnosis['disorder']->id == $_diagnosis['disorder']->id && $diagnosis['eye_id'] == $_diagnosis['eye_id'] && $diagnosis['principal'] == $_diagnosis['principal']) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function getSelectedDisorderIDs() {

@@ -69,6 +69,8 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				array('eye_id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
 						right_gonio_sup_id, right_gonio_tem_id, right_gonio_nas_id, right_gonio_inf_id, left_van_herick_id,
 						right_van_herick_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',

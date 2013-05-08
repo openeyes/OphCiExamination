@@ -142,6 +142,10 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		foreach($extra_elements as $extra_element) {
 			$extra_element->setDefaultOptions();
+
+			// Precache Element Type to avoid bug in usort
+			$extra_element->getElementType();
+
 			$merged_elements[] = $extra_element;
 		}
 		usort($merged_elements, function ($a, $b) {

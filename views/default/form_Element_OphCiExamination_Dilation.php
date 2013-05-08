@@ -26,7 +26,7 @@
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---'))?>
+			<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
 			<button class="clearDilation classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
@@ -68,7 +68,7 @@
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
-			<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---'))?>
+			<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
 			<button class="clearDilation classy green mini" type="button">
 				<span class="button-span button-span-green">Clear</span>
 			</button>
