@@ -60,16 +60,13 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 */
 	public function rules() {
 		return array(
-				array('eye_id, event_id, left_description, right_description,
-						left_eyedraw, right_eyedraw, left_cd_ratio_id,
-						right_cd_ratio_id', 'safe'),
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id, right_cd_ratio_id', 'safe'),
 				array('left_diameter, right_diameter', 'type', 'type' => 'float'),
 				array('left_diameter, right_diameter', 'numerical', 'max' => 9.9, 'min' => 0.1),
 				array('left_lens_id, right_lens_id', 'checkDiameter'),
-				array('eye_id, event_id, left_description, right_description, left_eyedraw,
-						right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id,
-						right_cd_ratio_id, left_lens_id, right_lens_id',
-						'safe', 'on' => 'search'),
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id, right_cd_ratio_id, left_lens_id, right_lens_id', 'safe', 'on' => 'search'),
+				array('left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_description', 'requiredIfSide', 'side' => 'right'),
 		);
 	}
 
