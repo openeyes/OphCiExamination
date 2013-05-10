@@ -81,15 +81,15 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 			$this->addError($attribute, ucfirst($side).' vertical diameter requires lens');
 		}
 	}
-	
+
 	public function sidedFields() {
 		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
 	}
-	
+
 	public function canCopy() {
 		return true;
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -161,14 +161,12 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		$options = OphCiExamination_OpticDisc_Lens::model()->findAll(array('order' => 'display_order'));
 		return CHtml::listData($options, 'id', 'name');
 	}
-	
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
+
+	public function sidedDefaults() {
 		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'));
-		$this->left_cd_ratio_id = $cd_ratio->id;
-		$this->right_cd_ratio_id = $cd_ratio->id;
+		return array(
+				'cd_ratio_id' => $cd_ratio->id
+		);
 	}
 
 }

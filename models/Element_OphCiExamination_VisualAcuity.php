@@ -65,7 +65,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	public function sidedFields() {
 		return array('comments');
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -103,7 +103,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 			return array();
 		}
 	}
-	
+
 	/**
 	 * Get the measurement unit
 	 */
@@ -141,7 +141,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 
 	/**
 	 * Get the best reading for the given side
-	 * 
+	 *
 	 * @param string $side
 	 * @return Ambigous <null, integer>
 	 */
@@ -154,7 +154,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		}
 		return $best;
 	}
-	
+
 	/**
 	 * Get the best reading for the specified side in current units
 	 * @param string $side
@@ -185,12 +185,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
 	}
 
 	/**
@@ -245,13 +239,13 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 			// Process (any) posted readings
 			$new_readings = (isset($_POST['visualacuity_reading'])) ? $_POST['visualacuity_reading'] : array();
 			foreach($new_readings as $reading) {
-				
+
 				// Check to see if side is inactive
 				if($reading['side'] == 0 && $this->eye_id == 1
 						|| $reading['side'] == 1 && $this->eye_id == 2) {
 					continue;
 				}
-				
+
 				if(isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
 
 					// Reading is being updated
