@@ -81,11 +81,11 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 	public function sidedFields() {
 		return array('gonio_sup_id', 'gonio_tem_id', 'gonio_nas_id', 'gonio_inf_id', 'van_herick_id', 'description', 'eyedraw');
 	}
-	
+
 	public function canCopy() {
 		return true;
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -110,7 +110,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -185,27 +185,12 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				->findAll(array('order'=>'display_order')),'id','name');
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		foreach(array('left','right') as $side) {
-			foreach(array('sup','tem','nas','inf') as $position) {
-				$this->{$side.'_gonio_'.$position.'_id'} = 1;
-			}
+	public function sidedDefaults() {
+		$defaults = array();
+		foreach(array('sup','tem','nas','inf') as $position) {
+			$defaults['gonio_'.$position.'_id'] = 1;
 		}
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
-	protected function afterSave() {
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate() {
-		return parent::beforeValidate();
+		return $defaults;
 	}
 
 }

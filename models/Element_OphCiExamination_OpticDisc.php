@@ -60,16 +60,13 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 */
 	public function rules() {
 		return array(
-				array('eye_id, event_id, left_description, right_description,
-						left_eyedraw, right_eyedraw, left_cd_ratio_id,
-						right_cd_ratio_id', 'safe'),
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id, right_cd_ratio_id', 'safe'),
 				array('left_diameter, right_diameter', 'type', 'type' => 'float'),
 				array('left_diameter, right_diameter', 'numerical', 'max' => 9.9, 'min' => 0.1),
 				array('left_lens_id, right_lens_id', 'checkDiameter'),
-				array('eye_id, event_id, left_description, right_description, left_eyedraw,
-						right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id,
-						right_cd_ratio_id, left_lens_id, right_lens_id',
-						'safe', 'on' => 'search'),
+				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_diameter, right_diameter, left_cd_ratio_id, right_cd_ratio_id, left_lens_id, right_lens_id', 'safe', 'on' => 'search'),
+				array('left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_description', 'requiredIfSide', 'side' => 'right'),
 		);
 	}
 
@@ -84,15 +81,15 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 			$this->addError($attribute, ucfirst($side).' vertical diameter requires lens');
 		}
 	}
-	
+
 	public function sidedFields() {
 		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
 	}
-	
+
 	public function canCopy() {
 		return true;
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -164,14 +161,12 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		$options = OphCiExamination_OpticDisc_Lens::model()->findAll(array('order' => 'display_order'));
 		return CHtml::listData($options, 'id', 'name');
 	}
-	
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
+
+	public function sidedDefaults() {
 		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'));
-		$this->left_cd_ratio_id = $cd_ratio->id;
-		$this->right_cd_ratio_id = $cd_ratio->id;
+		return array(
+				'cd_ratio_id' => $cd_ratio->id
+		);
 	}
 
 }

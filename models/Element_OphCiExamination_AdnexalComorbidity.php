@@ -63,11 +63,11 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement 
 				array('id, event_id, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 	public function sidedFields() {
 		return array('description');
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -110,28 +110,10 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement 
 
 		$criteria->compare('left_description', $this->left_description);
 		$criteria->compare('right_description', $this->right_description);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
-	protected function afterSave() 	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate() {
-		return parent::beforeValidate();
 	}
 
 	public function getLetter_string() {

@@ -498,20 +498,22 @@ function OphCiExamination_Dilation_getNextKey() {
 
 function OphCiExamination_Dilation_addTreatment(element, side) {
 	var drug_id = $('option:selected', element).val();
-	var drug_name = $('option:selected', element).text();
-	$('option:selected', element).remove();
-	var template = $('#dilation_treatment_template').html();
-	var data = {
-		"key" : OphCiExamination_Dilation_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1),
-		"drug_name" : drug_name,
-		"drug_id" : drug_id,
-	};
-	var form = Mustache.render(template, data);
-	var table = $('#event_content .Element_OphCiExamination_Dilation .[data-side="' + side + '"] .dilation_table');
-	table.show();
-	$(element).closest('.side').find('.timeDiv').show();
-	$('tbody', table).append(form);
+	if(drug_id) {
+		var drug_name = $('option:selected', element).text();
+		$('option:selected', element).remove();
+		var template = $('#dilation_treatment_template').html();
+		var data = {
+			"key" : OphCiExamination_Dilation_getNextKey(),
+			"side" : (side == 'right' ? 0 : 1),
+			"drug_name" : drug_name,
+			"drug_id" : drug_id,
+		};
+		var form = Mustache.render(template, data);
+		var table = $('#event_content .Element_OphCiExamination_Dilation .[data-side="' + side + '"] .dilation_table');
+		table.show();
+		$(element).closest('.side').find('.timeDiv').show();
+		$('tbody', table).append(form);		
+	}
 }
 
 // Global function to route eyedraw event to the correct element handler
