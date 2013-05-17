@@ -302,7 +302,11 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		$text = "Visual acuity:\n";
 
 		if ($this->hasLeft()) {
-			$text .= "left: ".$this->getCombined('left');
+			if ($this->getCombined('left')) {
+				$text .= "left: ".$this->getCombined('left');
+			} else {
+				$text .= "left: not recorded";
+			}
 			if (trim($this->left_comments)) {
 				$text .= ", ".$this->left_comments;
 			}
@@ -310,7 +314,11 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 
 		if ($this->hasRight()) {
 			if ($text) $text .= "\n";
-			$text .= "right: ".$this->getCombined('right');
+			if ($this->getCombined('right')) {
+				$text .= "right: ".$this->getCombined('right');
+			} else {
+				$text .= "right: not recorded";
+			}
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
