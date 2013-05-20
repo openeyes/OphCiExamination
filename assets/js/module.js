@@ -104,45 +104,47 @@ $(document).ready(function() {
 
 		// Update diagnoses
 		var code = eyedraw.diagnosis();
-		var max_id = -1;
-		var count = 0;
-		var already_in_list = false;
-		var list_eye_id = null;
-		var existing_id = null;
-		$('#OphCiExamination_diagnoses').children('tr').map(function() {
-			var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
-			if (id >= max_id) {
-				max_id = id;
-			}
-			count += 1;
 
-			if ($(this).children('td:nth-child(4)').children('a:first').attr('rel') == code) {
-				already_in_list = true;
-				list_eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']"]:checked').val();
-				existing_id = id;
-			}
-		});
+		for (var i in code) {
+			var max_id = -1;
+			var already_in_list = false;
+			var list_eye_id = null;
+			var existing_id = null;
 
-		if (already_in_list) {
-			var side_n = side == 'right' ? 2 : 1;
+			$('#OphCiExamination_diagnoses').children('tr').map(function() {
+				var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
+				if (id >= max_id) {
+					max_id = id;
+				}
 
-			if ((side_n == 1 && list_eye_id == 2) || (side_n == 2 && list_eye_id == 1)) {
-				$('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
-			}
-
-		} else {
-			var id = max_id + 1;
-
-			$.ajax({
-				'type': 'GET',
-				'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code+'&side='+side+'&id='+id,
-				'success': function(html) {
-					if (html.length > 0) {
-						$('#OphCiExamination_diagnoses').append(html);
-						$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
-					}
+				if ($(this).children('td:nth-child(4)').children('a:first').attr('rel') == code[i]) {
+					already_in_list = true;
+					list_eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']"]:checked').val();
+					existing_id = id;
 				}
 			});
+
+			if (already_in_list) {
+				var side_n = side == 'right' ? 2 : 1;
+
+				if ((side_n == 1 && list_eye_id == 2) || (side_n == 2 && list_eye_id == 1)) {
+					$('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
+				}
+
+			} else {
+				var id = max_id + 1 + parseInt(i);
+
+				$.ajax({
+					'type': 'GET',
+					'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code[i]+'&side='+side+'&id='+id,
+					'success': function(html) {
+						if (html.length > 0) {
+							$('#OphCiExamination_diagnoses').append(html);
+							$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code[i]+'">');
+						}
+					}
+				});
+			}
 		}
 
 		e.preventDefault();
