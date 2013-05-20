@@ -17,8 +17,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div id="div_Element_OphCiExamination_Management_city_road"
-	class="eventDetail">
+<div id="div_Element_OphCiExamination_CataractManagement_eye_id" class="eventDetail">
+	<div class="data">
+		<?php echo $form->radioButtons($element, 'eye_id', 'ophciexamination_cataractmanagement_eye',null,false,false,false,false,array('nowrapper'=>true))?>
+	</div>
+</div>
+<div id="div_Element_OphCiExamination_CataractManagement_city_road" class="eventDetail">
 	<div class="data">
 		<?php echo $form->checkbox($element, 'city_road', array('no-label' => true, 'nowrapper' => true))?>
 		<?php echo $element->getAttributeLabel('city_road')?>

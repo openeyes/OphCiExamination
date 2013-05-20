@@ -18,17 +18,19 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_history".
+ * This is the model class for table "et_ophciexamination_visual_fields".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $description
+ * @property integer $eye_id
+ * @property string $left_description
+ * @property string $right_description
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_History extends BaseEventTypeElement {
+class Element_OphCiExamination_VisualFields extends SplitEventTypeElement {
 	public $service;
 
 	/**
@@ -43,7 +45,7 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_history';
+		return 'et_ophciexamination_visual_fields';
 	}
 
 	/**
@@ -53,14 +55,13 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description', 'safe'),
-				array('description', 'required'),
+				array('event_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, description, ', 'safe', 'on' => 'search'),
+				array('id, event_id, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -72,6 +73,7 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 
@@ -82,7 +84,8 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'description' => 'Description',
+				'left_description' => 'Description',
+				'right_description' => 'Description',
 		);
 	}
 
@@ -99,14 +102,11 @@ class Element_OphCiExamination_History extends BaseEventTypeElement {
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('description', $this->description);
-
+		$criteria->compare('left_description', $this->left_description);
+		$criteria->compare('right_description', $this->right_description);
+		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	public function getLetter_string() {
-		return "History: $this->description\n";
 	}
 }

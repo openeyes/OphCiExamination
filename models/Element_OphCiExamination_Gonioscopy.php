@@ -69,6 +69,8 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				array('eye_id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
 						right_gonio_sup_id, right_gonio_tem_id, right_gonio_nas_id, right_gonio_inf_id, left_van_herick_id,
 						right_van_herick_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw',
@@ -79,11 +81,11 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 	public function sidedFields() {
 		return array('gonio_sup_id', 'gonio_tem_id', 'gonio_nas_id', 'gonio_inf_id', 'van_herick_id', 'description', 'eyedraw');
 	}
-	
+
 	public function canCopy() {
 		return true;
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -108,7 +110,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -183,27 +185,12 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement {
 				->findAll(array('order'=>'display_order')),'id','name');
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		foreach(array('left','right') as $side) {
-			foreach(array('sup','tem','nas','inf') as $position) {
-				$this->{$side.'_gonio_'.$position.'_id'} = 1;
-			}
+	public function sidedDefaults() {
+		$defaults = array();
+		foreach(array('sup','tem','nas','inf') as $position) {
+			$defaults['gonio_'.$position.'_id'] = 1;
 		}
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
-	protected function afterSave() {
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate() {
-		return parent::beforeValidate();
+		return $defaults;
 	}
 
 }

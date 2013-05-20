@@ -18,50 +18,29 @@
  */
 ?>
 <div class="cols2 clearfix">
-	<div class="left eventDetail">
-		<?php if ($element->hasRight()) {?>
-			<?php if ($element->getCombined('right')) {?>
-				<div class="data">
-					<?php echo $element->unit->name ?>
-				</div>
-				<div class="data">
-					<?php echo $element->getCombined('right') ?>
-				</div>
-			<?php }else{?>
-				<div class="data">
-					Not recorded
-				</div>
-			<?php }?>
-			<?php if($element->right_comments) {?>
-				<div class="data">
-					<?php echo $element->right_comments?>
-				</div>
-			<?php }?>
-		<?php }else{?>
-			<div class="data">Not recorded</div>
-		<?php }?>
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<div
+		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		data-side="right">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+				array('side' => 'right', 'element' => $element)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add right side</a>
+		</div>
 	</div>
-	<div class="right eventDetail">
-		<?php if ($element->hasLeft()) {?>
-			<?php if ($element->getCombined('left')) {?>
-				<div class="data">
-					<?php echo $element->unit->name?>
-				</div>
-				<div class="data">
-					<?php echo $element->getCombined('left')?>
-				</div>
-			<?php }else{?>
-				<div class="data">
-					Not recorded
-				</div>
-			<?php }?>
-			<?php if ($element->left_comments) {?>
-				<div class="data">
-					<?php echo $element->left_comments?>
-				</div>
-			<?php }?>
-		<?php }else{?>
-		<div class="data">Not recorded</div>
-		<?php }?>
+	<div
+		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		data-side="left">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw',
+				array('side' => 'left', 'element' => $element)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add left side</a>
+		</div>
 	</div>
 </div>

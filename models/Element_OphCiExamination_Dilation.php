@@ -26,7 +26,7 @@
  * @property integer $eye_id
  * @property string $left_time
  * @property string $right_time
- * 
+ *
  *
  * The followings are the available model relations:
  */
@@ -83,7 +83,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 	public function sidedFields() {
 		return array('time');
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -113,9 +113,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		));
 	}
 
-	public function setDefaultOptions() {
-		$this->left_time = date('H:i');
-		$this->right_time = date('H:i');
+	public function sidedDefaults() {
+		return array(
+				'time' => date('H:i')
+		);
 	}
 
 	/**
@@ -179,7 +180,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		}
 		return parent::beforeDelete();
 	}
-	
+
 	protected function afterSave() {
 		// Check to see if treatments have been posted
 		if(isset($_POST['dilation_treatments_valid']) && $_POST['dilation_treatments_valid']) {
@@ -193,13 +194,13 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 			// Process (any) posted treatments
 			$new_treatments = (isset($_POST['dilation_treatment'])) ? $_POST['dilation_treatment'] : array();
 			foreach($new_treatments as $treatment) {
-				
+
 				// Check to see if side is inactive
 				if($treatment['side'] == 0 && $this->eye_id == 1
 						|| $treatment['side'] == 1 && $this->eye_id == 2) {
 					continue;
 				}
-				
+
 				if(isset($treatment['id']) && isset($existing_treatment_ids[$treatment['id']])) {
 
 					// Treatment is being updated
@@ -229,5 +230,5 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 
 		return parent::afterSave();
 	}
-	
+
 }
