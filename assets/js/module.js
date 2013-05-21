@@ -511,7 +511,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"drug_id" : drug_id,
 		};
 		var form = Mustache.render(template, data);
-		var table = $('#event_content .Element_OphCiExamination_Dilation .[data-side="' + side + '"] .dilation_table');
+		var table = $('#event_content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
 		table.show();
 		$(element).closest('.side').find('.timeDiv').show();
 		$('tbody', table).append(form);		
@@ -582,8 +582,8 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 		"side" : (side == 'right' ? 0 : 1),
 	};
 	var form = Mustache.render(template, data);
-	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .noReadings').hide();
-	var table = $('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] table');
+	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
+	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
@@ -598,7 +598,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
  */
 function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 	var method_ids = OphCiExamination_VisualAcuity_method_ids;
-	$('#event_content .Element_OphCiExamination_VisualAcuity .[data-side="' + side + '"] .method_id').each(function() {
+	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .method_id').each(function() {
 		var method_id = $(this).val();
 		method_ids = $.grep(method_ids, function(value) {
 			return value != method_id;
