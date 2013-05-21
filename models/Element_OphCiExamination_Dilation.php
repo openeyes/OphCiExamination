@@ -24,8 +24,6 @@
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property string $left_time
- * @property string $right_time
  *
  *
  * The followings are the available model relations:
@@ -56,9 +54,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, eye_id', 'safe'),
-				array('left_time', 'requiredIfSide', 'side' => 'left'),
-				array('right_time', 'requiredIfSide', 'side' => 'right'),
-				array('id, event_id, eye_id, left_time, right_time', 'safe', 'on' => 'search'),
+				array('id, event_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,10 +74,6 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 			'right_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = 0'),
 			'left_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = 1'),
 		);
-	}
-
-	public function sidedFields() {
-		return array('time');
 	}
 
 	/**
@@ -111,12 +103,6 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	public function sidedDefaults() {
-		return array(
-				'time' => date('H:i')
-		);
 	}
 
 	/**
@@ -219,6 +205,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement {
 				$treatment_model->drops = $treatment['drops'];
 				$treatment_model->drug_id = $treatment['drug_id'];
 				$treatment_model->side = $treatment['side'];
+				$treatment_model->treatment_time = $treatment['treatment_time'];
 				$treatment_model->save();
 
 			}
