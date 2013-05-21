@@ -329,4 +329,27 @@ class OphCiExamination_API extends BaseAPI {
 
 		return $element_types;
 	}
+	
+	/**
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @return Element_OphCiExamination_InjectionManagementComplex[]
+	 */
+	public function getInjectionManagementComplexInEpisode($patient, $episode) {
+		$events = $this->getEventsInEpisode($patient, $episode);
+		$elements = array();
+		
+		if ($events) {
+			foreach (@$events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				
+				if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+					$elements[] = $el;
+				}
+			}
+		}
+		
+		return $elements;
+	}
 }
