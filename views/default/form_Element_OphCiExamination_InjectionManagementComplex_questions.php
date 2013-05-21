@@ -18,20 +18,39 @@
  */
 ?>
 
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis_id') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_diagnosis'}->term ?></div>
+<div id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
+	<?php 
+	$name_stub = get_class($element) . '[' . $side . '_Answer]';
+	foreach ($questions as $question) {
+		?>
+		<div class="eventDetail">
+			<div class="label">
+				<?php echo $question->question ?>
+			</div>
+			<?php 
+			$name = $name_stub . '[' . $question->id . ']';
+			$value = $element->getQuestionAnswer($side, $question->id);
+			// update with POST values if available
+			if (isset($_POST[get_class($element)][$side . '_Answer'][$question->id])) {
+				$value = $_POST[get_class($element)][$side . '_Answer'][$question->id];
+			}
+			?>
+			<div class="data">
+			<span class="group">
+			<?php 
+			echo CHtml::radioButton($name, $value, array('value' => 1));
+			?>
+			<label>Yes</label>
+			</span>
+			
+			<span class="group">
+			<?php 
+			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('value' => 0));
+			?>
+			<label>No</label>
+			</span>
+			</div>
+		</div>
+		<?php
+	}?>
 </div>
-
-<?php foreach ($element->{$side . '_answers'} as $answer) {?>
-	<div class="eventDetail aligned">
-		<div class="label"><?php echo $answer->question->question ?></div>
-		<div class="data"><?php echo ($answer->answer) ? 'Yes' : 'No'; ?></div>
-	</div>
-<?php } ?>
-
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_comments'} ?></div>
-</div>
-

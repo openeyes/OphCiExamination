@@ -23,6 +23,17 @@
 	<div class="data"><?php echo $form->dropDownList($element, $side . '_diagnosis_id', CHtml::listData($element->getDisorders(),'id','term'),array('empty'=>'- Please select -', 'nowrapper' => true))?></div>
 </div>
 
+
+<?php 
+$questions = array();
+if ($disorder_id = $element->{$side . '_diagnosis_id'} ) {
+	$questions = $this->getInjectionQuestionsForDisorderId($disorder_id);
+}
+	
+$this->renderPartial('form_' . get_class($element) . '_questions',
+				array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));
+?>
+
 <div class="elementField comments">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments'); ?></div>
 	<div class="data"><?php echo $form->textArea($element, $side . '_comments',array('rows' => 4, 'cols' => 50, 'nowrapper' => true))?></div>

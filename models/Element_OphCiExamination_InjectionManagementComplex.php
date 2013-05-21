@@ -58,8 +58,12 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id, left_comments, right_comments', 'safe'),
+				array('event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id, left_comments, right_comments', 'safe'),
 				array('no_treatment', 'required'),
+				array('left_diagnosis_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_diagnosis_id', 'requiredIfSide', 'side' => 'right'),
+				array('left_answers', 'answerValidation', 'side' => 'left'),
+				array('right_answers', 'answerValidation', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id, left_comments, right_comments', 'safe', 'on' => 'search'),
@@ -67,7 +71,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 	
 	public function sidedFields() {
-		return array('diagnosis_id, comments');
+		return array('diagnosis_id', 'comments');
 	}
 	
 	/**
@@ -85,6 +89,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'no_treatment_reason' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'no_treatment_reason_id'),
 				'left_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis_id'),
 				'right_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis_id'),
+				'answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id'),
+				'left_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'left_answers.eye_id = ' . SplitEventTypeElement::LEFT),
+				'right_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'right_answers.eye_id = ' . SplitEventTypeElement::RIGHT),
 		);
 	}
 	
@@ -127,9 +134,94 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 	
 	/**
+	 * validate that all the questions for the set diagnosis have been answered
+	 * 
+	 * @param unknown $attribute
+	 * @param array $params
+	 */
+	public function answerValidation($attribute, $params) {
+		$side = $params['side'];
+		if ($disorder_id = $this->{$side . '_diagnosis_id'}) {
+			$criteria = new CDbCriteria;
+			$criteria->condition = 'disorder_id = :disorder_id';
+			$criteria->params = array(':disorder_id' => $disorder_id);
+			
+			$questions = OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
+			$answer_q_ids = array();
+			foreach ($this->{$side . '_answers'} as $ans) {
+				$answer_q_ids[] = $ans->question_id;
+			}
+			foreach ($questions as $required_question) {
+				if (!in_array($required_question->id, $answer_q_ids)) {
+					$this->addError($attribute, ucfirst($side)." ".$required_question->question." must be answered.");
+				}
+			}
+		}
+	}
+	
+	/**
+	 * store the answers for the questions asked for the $side diagnosis
+	 * 
+	 * @param string $side
+	 * @param array $update_answers - associate array of question id to answer value
+	 */
+	public function updateQuestionAnswers($side, $update_answers) {
+		$current_answers = array();
+		$save_answers = array();
+		
+		// note we operate on answers relation here, so that we avoid any custom assignment
+		// that might have taken place for the purposes of validation (for $side_answers)
+		// TODO: when looking at OE-2927 it might be better if we update the interventions in a different way
+		// where the changes are stored when set for validation, and then afterSave is used to do the actual database changes
+		foreach ($this->answers as $curr) {
+			if ($curr->eye_id == $side) {
+				$current_answers[$curr->question_id] = $curr;
+			}
+		}
+		
+		// go through each question answer, if there isn't one for this element,
+		// create it and store for saving
+		// if there is, check if the value is the same ... if it has changed
+		// update and store for saving, otherwise remove from the current answers array
+		// anything left in current answers at the end is ripe for deleting
+		foreach ($update_answers as $question_id => $answer) {
+			if (!array_key_exists($question_id, $current_answers)) {
+				$s = new OphCiExamination_InjectionManagementComplex_Answer();
+				$s->attributes = array('element_id' => $this->id, 'eye_id' => $side, 'question_id' => $question_id, 'answer' => $answer);
+				$save_answers[] = $s;
+			} else {
+				if ($current_answers[$question_id]->answer != $answer) {
+					$current_answers[$question_id]->answer = $answer;
+					$save_responses[] = $current_answers[$question_id];
+				}
+				// don't want to delete this, so remove from list which we use later to delete
+				unset($current_answers[$question_id]);
+			}
+		}
+		
+		// save what needs saving
+		foreach ($save_answers as $save) {
+			$save->save();
+		}
+		// delete any that are no longer relevant
+		foreach ($current_answers as $curr) {
+			$curr->delete();
+		}
+		
+	}
+	
+	/**
 	 * returns list of disorders as defined in the therapy application module
 	 */
 	public function getDisorders() {
 		return Element_OphCoTherapyapplication_Therapydiagnosis::model()->getTherapyDisorders();
+	}
+	
+	public function getQuestionAnswer($side, $question_id) {
+		foreach ($this->{$side . '_answers'} as $answer) {
+			if ($answer->question_id == $question_id) {
+				return $answer->answer;
+			}
+		}
 	}
 }

@@ -1243,11 +1243,35 @@ function OphCiExamination_InjectionManagementComplex_check() {
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').show();
 	}
 }
+
+function OphCiExamination_InjectionManagementComplex_loadQuestions(side, disorder_id) {
+	var params = {
+		'disorder_id': disorder_id,
+		'side': side
+	};
+	
+	$.ajax({
+		'type': 'GET',
+		'url': OphCiExamination_loadQuestions_url + '?' + $.param(params),
+		'success': function(html) {
+			console.log(html);
+			if (html.length > 0) {
+				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
+			}
+		}
+	});
+}
+
 function OphCiExamination_InjectionManagementComplex_init() {
 	OphCiExamination_InjectionManagementComplex_check();
 	
 	$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').bind('change', function() {
 		OphCiExamination_InjectionManagementComplex_check();
+	});
+	
+	$('#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis_id').bind('change', function() {
+		var side = getSplitElementSide($(this));
+		OphCiExamination_InjectionManagementComplex_loadQuestions(side, $(this).val());
 	});
 	
 }

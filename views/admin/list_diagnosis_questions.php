@@ -21,23 +21,36 @@
 <h1><?php echo $title ? $title : "Examination Admin" ?></h1>
 
 <?php 
-echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getDisorders(),'id','term'), array('empty'=>'- Please select -'));
+echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
 ?>
 
-<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
+<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>?disorder_id=<?php echo $disorder_id ?>">Add New</a>
 
-<div>
-	<ul class="grid reduceheight">
-		<li class="header">
-			<span class="column_name">Name</span>
-		</li>
-		<div class="sortable">
-			<?php
-			foreach ($model_list as $i => $model) {?>
-				<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>">
-					<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a></span>
-				</li>
-			<?php }?>
-		</div>
-	</ul>
-</div>
+<?php
+if (!$disorder_id) {
+?>
+	<p><b>Please select a disorder to view the questions</b></p>
+<?php
+}  
+elseif (count($model_list)) {
+?>
+	<div>
+		<ul class="grid reduceheight">
+			<li class="header">
+				<span class="column_name">Name</span>
+			</li>
+			<div class="sortable">
+				<?php
+				foreach ($model_list as $i => $model) {?>
+					<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>">
+						<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></span>
+					</li>
+				<?php }?>
+			</div>
+		</ul>
+	</div>
+<?php } else { ?>
+	<p>
+	<b>No questions set for this disorder</b>
+	</p>
+<?php } ?>

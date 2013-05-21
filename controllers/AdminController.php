@@ -22,6 +22,9 @@ class AdminController extends ModuleAdminController {
 	
 	// No Treatment Reason views
 	
+	/**
+	 * list the reasons that can be selected for not providing an injection treatment
+	 */
 	public function actionViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason() {
 		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order' => 'display_order asc'));
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
@@ -33,6 +36,10 @@ class AdminController extends ModuleAdminController {
 		));
 	}
 	
+	/**
+	 * create a new no treatment reason for injection
+	 * 
+	 */
 	public function actionCreateOphCiExamination_InjectionManagementComplex_NoTreatmentReason() {
 		$model = new OphCiExamination_InjectionManagementComplex_NoTreatmentReason();
 	
@@ -59,7 +66,11 @@ class AdminController extends ModuleAdminController {
 		));
 	}
 	
-	
+	/**
+	 * update the no treatment reason with id $id
+	 * 
+	 * @param integer $id
+	 */
 	public function actionUpdateOphCiExamination_InjectionManagementComplex_NoTreatmentReason($id) {
 		$model = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk((int)$id);
 	
@@ -104,11 +115,13 @@ class AdminController extends ModuleAdminController {
 		if (isset($_GET['disorder_id'])) {
 			$disorder_id = (int)$_GET['disorder_id'];
 			$criteria = new CDbCriteria;
-			$criteria->order = "display_order desc";
+			$criteria->order = "display_order asc";
 			$criteria->condition = "disorder_id = :disorder_id";
 			$criteria->params = array(':disorder_id' => (int)$_GET['disorder_id']);
 			 
-			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->find($criteria);
+			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
+			
+			$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
 		}
 		
 		$this->render('list_diagnosis_questions',array(
@@ -120,4 +133,60 @@ class AdminController extends ModuleAdminController {
 		
 	}
 	
+	public function actionCreateOphCiExamination_InjectionManagementComplex_Question() {
+		$model = new OphCiExamination_InjectionManagementComplex_Question();
+		
+		if (isset($_POST['OphCiExamination_InjectionManagementComplex_Question'])) {
+			// process submission
+			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_Question'];
+			
+			if ($model->disorder_id) {
+				// not a valid question otherwise
+				$criteria = new CDbCriteria;
+				$criteria->order = "display_order desc";
+				$criteria->condition = "disorder_id = :disorder_id";
+				$criteria->limit  = 1;
+				$criteria->params = array(':disorder_id' => $model->disorder_id);
+				
+				if ($bottom = OphCiExamination_InjectionManagementComplex_Question::model()->find($criteria) ) {
+					$display_order = $bottom->display_order+1;
+				} else {
+					$display_order = 1;
+				}
+				$model->display_order = $display_order;
+				
+				if ($model->save()) {
+					Audit::add('OphCiExamination_InjectionManagementComplex_Question', 'create', serialize($model->attributes));
+					Yii::app()->user->setFlash('success', 'Injection Management Disorder Question added');
+				
+					$this->redirect(array('ViewOphCiExamination_InjectionManagementComplex_Question', 'disorder_id' => $model->disorder_id));
+				}
+			}
+		}
+		elseif (isset($_GET['disorder_id'])) {
+			// allow the ability to pre-select which disorder is being set for a question
+			$model->disorder_id = $_GET['disorder_id'];
+		}
+		
+		$this->render('create', array(
+				'model' => $model,
+		));
+		
+	}
+	
+	/*
+	 * sorts the no treatment reasons into the provided order (NOTE does not support a paginated list of reasons)
+	*/
+	public function actionSortQuestions() {
+		if (!empty($_POST['order'])) {
+			foreach ($_POST['order'] as $i => $id) {
+				if ($question = OphCiExamination_InjectionManagementComplex_Question::model()->findByPk($id)) {
+					$question->display_order = $i+1;
+					if (!$question->save()) {
+						throw new Exception("Unable to save drug: ".print_r($drug->getErrors(),true));
+					}
+				}
+			}
+		}
+	}
 }
