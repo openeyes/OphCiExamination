@@ -31,7 +31,7 @@ class AdminController extends ModuleAdminController {
 		
 		$this->render('list',array(
 				'model_list'=>$model_list,
-				'title'=>'Treatment Drugs',
+				'title'=>'No Treatment Reasons',
 				'model_class'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason',
 		));
 	}
