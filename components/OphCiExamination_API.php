@@ -331,11 +331,16 @@ class OphCiExamination_API extends BaseAPI {
 	}
 	
 	/**
+	 * Get the most recent InjectionManagementComplex element in this episode for the given disorder
+	 * 
 	 * @param Patient $patient
 	 * @param Episode $episode
+	 * @param string $side
+	 * @param int $disorder_id
+	 * 
 	 * @return Element_OphCiExamination_InjectionManagementComplex[]
 	 */
-	public function getInjectionManagementComplexInEpisode($patient, $episode) {
+	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder_id) {
 		$events = $this->getEventsInEpisode($patient, $episode);
 		$elements = array();
 		
@@ -343,13 +348,21 @@ class OphCiExamination_API extends BaseAPI {
 			foreach (@$events as $event) {
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_id',$event->id);
+				$criteria->compare($side . '_diagnosis_id', $disorder_id);
 				
 				if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
-					$elements[] = $el;
+					return $el;
 				}
 			}
 		}
-		
-		return $elements;
+	}
+	
+	/**
+	 * wrapper to retrieve question objects for a given disorder id
+	 * 
+	 * @param int $disorder_id
+	 */
+	public function getInjectionManagementQuestionsForDisorder($disorder_id) {
+		return Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
 	}
 }

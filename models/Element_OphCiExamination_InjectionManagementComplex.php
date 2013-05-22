@@ -192,7 +192,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 			} else {
 				if ($current_answers[$question_id]->answer != $answer) {
 					$current_answers[$question_id]->answer = $answer;
-					$save_responses[] = $current_answers[$question_id];
+					$save_answers[] = $current_answers[$question_id];
 				}
 				// don't want to delete this, so remove from list which we use later to delete
 				unset($current_answers[$question_id]);
@@ -217,6 +217,38 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return Element_OphCoTherapyapplication_Therapydiagnosis::model()->getTherapyDisorders();
 	}
 	
+	/**
+	 * return the questions for a given disorder id
+	 * 
+	 * @param unknown $disorder_id
+	 * @throws Exception
+	 */
+	public function getInjectionQuestionsForDisorderId($disorder_id) {
+		if (!$disorder_id) {
+			throw new Exception('Disorder id required for injection questions');
+		}
+	
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'disorder_id = :disorder_id';
+		$criteria->params = array(':disorder_id' => $disorder_id);
+	
+		$tdis = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria);
+		if (!$tdis) {
+			throw new Exception('Invalid disorder id for injection questions');
+		}
+	
+		$criteria->order = 'display_order asc';
+	
+		// get the questions
+		return OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
+	}
+	
+	/**
+	 * get the answer that has been set for the $side and $question_id
+	 * 
+	 * @param unknown $side
+	 * @param unknown $question_id
+	 */
 	public function getQuestionAnswer($side, $question_id) {
 		foreach ($this->{$side . '_answers'} as $answer) {
 			if ($answer->question_id == $question_id) {

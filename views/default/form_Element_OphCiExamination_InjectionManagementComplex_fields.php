@@ -27,7 +27,7 @@
 <?php 
 $questions = array();
 if ($disorder_id = $element->{$side . '_diagnosis_id'} ) {
-	$questions = $this->getInjectionQuestionsForDisorderId($disorder_id);
+	$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
 }
 	
 $this->renderPartial('form_' . get_class($element) . '_questions',

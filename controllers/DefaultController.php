@@ -272,26 +272,10 @@ class DefaultController extends NestedElementsEventTypeController {
 		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
 
-	public function getInjectionQuestionsForDisorderId($disorder_id) {
-		if (!$disorder_id) {
-			throw new Exception('Disorder id required for injection questions');
-		}
-		
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'disorder_id = :disorder_id';
-		$criteria->params = array(':disorder_id' => $disorder_id);
-		
-		$tdis = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria);
-		if (!$tdis) {
-			throw new Exception('Invalid disorder id for injection questions');
-		}
-		
-		$criteria->order = 'display_order asc';
-		
-		// get the questions
-		return OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
-	}
-	
+	/**
+	 * ajax action to load the questions for a side and disorder_id
+	 * 
+	 */
 	public function actionLoadInjectionQuestions() {
 		// need a side specification for the form element names
 		$side = @$_GET['side'];
@@ -300,7 +284,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		
 		// disorder id verification
-		$questions = $this->getInjectionQuestionsForDisorderId(@$_GET['disorder_id']);
+		$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId(@$_GET['disorder_id']);
 		
 		// need a form object
 		$form = Yii::app()->getWidgetFactory()->createWidget($this,'BaseEventTypeCActiveForm',array(
@@ -369,15 +353,13 @@ class DefaultController extends NestedElementsEventTypeController {
 	}
 
 	/*
-	 * similar to setPOSTManyToMany, but will actually call methods on the elements that will create database entries
+	* similar to setPOSTManyToMany, but will actually call methods on the elements that will create database entries
 	* should be called on create and update.
 	*
 	*/
 	protected function storePOSTManyToMany($elements) {
 		foreach ($elements as $el) {
 			if (get_class($el) == 'Element_OphCiExamination_InjectionManagementComplex') {
-				// note we don't do this in POST Validation as we don't need to validate the values of the decision tree selection
-				// this is really just for record keeping - we are mainly interested in whether or not it's got compliance value
 				$el->updateQuestionAnswers(Element_OphCiExamination_InjectionManagementComplex::LEFT,
 						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
 								$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
@@ -389,7 +371,19 @@ class DefaultController extends NestedElementsEventTypeController {
 			}
 		}
 	}
-		
+	
+	/*
+	* ensures Many Many fields processed for elements
+	*/
+	public function createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)
+	{
+		if ($response = parent::createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)) {
+			// creating has been successful, need to save many to many
+			$this->storePOSTManyToMany($elements);
+		}
+		return $response;
+	}
+	
 	/*
 	 * ensures Many Many fields processed for elements
 	*/
