@@ -162,33 +162,30 @@ $(document).ready(function() {
 			side = $(this).closest('[data-side]').attr('data-side');
 		}
 
-		// Get eyedraw js object
-		var eyedraw = element.attr('data-element-type-id');
-		if (side) {
-			eyedraw = side + '_' + eyedraw;
-		}
-		eyedraw = window['ed_drawing_edit_' + eyedraw];
-
-		// Reset eyedraw
-		eyedraw.deleteAllDoodles();
-		eyedraw.deselectDoodles();
-		eyedraw.drawAllDoodles();
-
 		// Clear inputs marked as clearWithEyedraw
-		if(side) {
+		if (side) {
 			var element_or_side = $(this).closest('.side');			
 		} else {
 			var element_or_side = element;
 		}
 		$('.clearWithEyedraw',element_or_side).each(function() {
-			if($(this).is(':checkbox')) {
-				$(this).attr('checked', false);
+			if (side) {
+				if (side == 'left') {
+					if ($(this).attr('id').match(/_left_description$/)) {
+						$(this).val('');
+					}
+				} else {
+					if ($(this).attr('id').match(/_right_description$/)) {
+						$(this).val('');
+					}
+				}
 			} else {
-				$(this).val('');
+				if ($(this).attr('id').match(/_description$/)) {
+					$(this).val('');
+				}
 			}
-			$(this).trigger('change');
-		})
-		
+		});
+
 		e.preventDefault();
 	});
 
