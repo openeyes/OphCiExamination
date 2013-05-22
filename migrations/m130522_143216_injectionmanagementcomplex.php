@@ -1,6 +1,6 @@
 <?php
 
-class m130430_123216_injectionmanagementcomplex extends CDbMigration
+class m130522_143216_injectionmanagementcomplex extends CDbMigration
 {
 	public function up()
 	{
