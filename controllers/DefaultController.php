@@ -97,12 +97,12 @@ class DefaultController extends NestedElementsEventTypeController {
 	}
 
 	/**
-	 * filters child elements based on coded dependencies
+	 * filters elements based on coded dependencies
 	 * 
 	 * @param ElementType[] $elements
 	 * @return ElementType[]
 	 */
-	protected function filterChildElements($elements) {
+	protected function filterElements($elements) {
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
 		}
@@ -120,13 +120,12 @@ class DefaultController extends NestedElementsEventTypeController {
 	}
 	
 	protected function getCleanChildDefaultElements($parent, $event_type_id) {
-		$elements = $this->getElementsByWorkflow(null, $this->episode, $parent->id);
-		return $this->filterChildElements($elements);
+		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
 	
 	public function getChildOptionalElements($parent_class, $action) {
 		$elements = parent::getChildOptionalElements($parent_class, $action);
-		return $this->filterChildElements($elements);
+		return $this->filterElements($elements);
 	}
 
 	/**
@@ -178,6 +177,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		$parent_id = ($parent) ? $parent->id : null;
 		$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
+		
 		$merged_elements = array();
 		foreach($elements as $element) {
 			$element_type = $element->getElementType();
@@ -224,7 +224,7 @@ class DefaultController extends NestedElementsEventTypeController {
 				$elements[$element_type->id] = new $element_type->class_name;
 			}
 		}
-		return $elements;
+		return $this->filterElements($elements);
 	}
 
 	public function actionGetDisorderTableRow() {

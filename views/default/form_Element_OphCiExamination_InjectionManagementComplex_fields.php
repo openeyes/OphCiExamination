@@ -18,7 +18,7 @@
  */
 ?>
 
-<div class="elementField diagnosis_id clearfix">
+<div class="eventDetail diagnosis_id clearfix">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis_id'); ?></div>
 	<div class="data"><?php echo $form->dropDownList($element, $side . '_diagnosis_id', CHtml::listData($element->getDisorders(),'id','term'),array('empty'=>'- Please select -', 'nowrapper' => true))?></div>
 </div>
@@ -34,7 +34,7 @@ $this->renderPartial('form_' . get_class($element) . '_questions',
 				array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));
 ?>
 
-<div class="elementField comments">
+<div class="eventDetail comments">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments'); ?></div>
 	<div class="data"><?php echo $form->textArea($element, $side . '_comments',array('rows' => 4, 'cols' => 50, 'nowrapper' => true))?></div>
 </div>

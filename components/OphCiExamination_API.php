@@ -331,14 +331,44 @@ class OphCiExamination_API extends BaseAPI {
 	}
 	
 	/**
-	 * Get the most recent InjectionManagementComplex element in this episode for the given disorder
+	 * Get the most recent InjectionManagementComplex element in this episode for the given side
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side
+	 *
+	 * @return Element_OphCiExamination_InjectionManagementComplex
+	 */
+	public function getInjectionManagementComplexInEpisodeForSide($patient, $episode, $side) {
+		$events = $this->getEventsInEpisode($patient, $episode);
+		
+		$eye_vals = array(SplitEventTypeElement::BOTH);
+		if ($side == 'left') {
+			$eye_vals[] = SplitEventTypeElement::LEFT;
+		}
+		else {
+			$eye_vals[] = SplitEventTypeElement::RIGHT;
+		}
+		foreach (@$events as $event) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('event_id', $event->id);
+			$criteria->addInCondition('eye_id', $eye_vals);
+			
+			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+				return $el;
+			}
+		}
+	}
+	
+	/**
+	 * Get the most recent InjectionManagementComplex element in this episode for the given side and disorder
 	 * 
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side
 	 * @param int $disorder_id
 	 * 
-	 * @return Element_OphCiExamination_InjectionManagementComplex[]
+	 * @return Element_OphCiExamination_InjectionManagementComplex
 	 */
 	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder_id) {
 		$events = $this->getEventsInEpisode($patient, $episode);
