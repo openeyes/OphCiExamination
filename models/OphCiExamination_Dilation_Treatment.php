@@ -49,8 +49,8 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecord {
 	 */
 	public function rules() {
 		return array(
-				array('side, drug_id, drops, element_id', 'safe'),
-				array('id, side, drug_id, drops, element_id', 'safe', 'on'=>'search'),
+				array('side, drug_id, drops, element_id, treatment_time', 'safe'),
+				array('id, side, drug_id, drops, element_id, treatment_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +62,10 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecord {
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Dilation', 'element_id'),
 			'drug' => array(self::BELONGS_TO, 'OphCiExamination_Dilation_Drugs', 'drug_id'),
 		);
+	}
+
+	public function setDefaultOptions() {
+		$this->treatment_time = date('H:i');
 	}
 
 	/**
