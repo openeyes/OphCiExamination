@@ -288,8 +288,8 @@ $(document).ready(function() {
 		var wrapper = $(this).closest('.side');
 		var side = wrapper.attr('data-side');
 		var row = $(this).closest('tr');
-		var id = $('td:first input', row).val();
-		var name = $('td:first span', row).text();
+		var id = $('.drugId', row).val();
+		var name = $('.drugName', row).text();
 		row.remove();
 		var dilation_drug = wrapper.find('.dilation_drug');
 		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
