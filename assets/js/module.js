@@ -123,22 +123,6 @@ $(document).ready(function() {
 					existing_id = id;
 				}
 			});
-		} else {
-			var id = max_id + 1;
-
-			$.ajax({
-				'type': 'GET',
-				'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code+'&side='+side+'&id='+id,
-				'success': function(html) {
-					if (html.length > 0) {
-						$('#OphCiExamination_diagnoses').append(html);
-						$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
-
-						var m = html.match(/removeDiagnosis" rel="([0-9]+)"/);
-						eyedraw_added_diagnoses.push(m[1]);
-					}
-				}
-			});
 
 			if (already_in_list) {
 				var side_n = side == 'right' ? 2 : 1;
