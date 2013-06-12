@@ -123,6 +123,22 @@ $(document).ready(function() {
 					existing_id = id;
 				}
 			});
+		} else {
+			var id = max_id + 1;
+
+			$.ajax({
+				'type': 'GET',
+				'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code+'&side='+side+'&id='+id,
+				'success': function(html) {
+					if (html.length > 0) {
+						$('#OphCiExamination_diagnoses').append(html);
+						$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code+'">');
+
+						var m = html.match(/removeDiagnosis" rel="([0-9]+)"/);
+						eyedraw_added_diagnoses.push(m[1]);
+					}
+				}
+			});
 
 			if (already_in_list) {
 				var side_n = side == 'right' ? 2 : 1;
@@ -185,6 +201,12 @@ $(document).ready(function() {
 				}
 			}
 		});
+
+		for (var i in eyedraw_added_diagnoses) {
+			$('a.removeDiagnosis[rel="'+eyedraw_added_diagnoses[i]+'"]').click();
+		}
+
+		eyedraw_added_diagnoses = [];
 
 		e.preventDefault();
 	});
@@ -751,6 +773,48 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
+	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').children('option:selected').text());
+	eyedraw.repaint();
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
+	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
+	eyedraw.repaint();
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
+
+var eyedraw_added_diagnoses = [];
 
 function OphCiExamination_do_print() {
 	printIFrameUrl(OE_print_url, null);
