@@ -3,7 +3,7 @@
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2012
+ * (C) OpenEyes Foundation, 2011-2013
  * This file is part of OpenEyes.
  * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -13,7 +13,7 @@
  * @link http://www.openeyes.org.uk
  * @author OpenEyes <info@openeyes.org.uk>
  * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
@@ -64,6 +64,10 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		// will receive user inputs.
 		return array(
 				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
+				array('left_axis', 'requiredIfSide', 'side' => 'left'),
+				array('left_axis', 'numerical', 'integerOnly'=>true),
+				array('right_axis', 'requiredIfSide', 'side' => 'right'),
+				array('right_axis', 'numerical', 'integerOnly'=>true),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
@@ -74,6 +78,14 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
 	}
 	
+	public function sidedDefaults() {
+		return array('axis' => 0, 'type_id' => 1);
+	}
+	
+	public function canCopy() {
+		return true;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -81,7 +93,6 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
@@ -151,16 +162,6 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement {
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		$this->left_axis = 0;
-		$this->right_axis = 0;
-		$this->left_type_id = 1;
-		$this->right_type_id = 1;
 	}
 
 	protected function beforeSave() {

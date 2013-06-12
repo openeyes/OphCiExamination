@@ -62,19 +62,19 @@ class m121012_092744_management_element extends CDbMigration
 
 		$this->insert('ophciexamination_attribute',array('name'=>'management','label'=>'Management','element_type_id'=>$element_type->id));
 
-		$attribute = OphCiExamination_Attribute::model()->find('element_type_id=?',array($element_type->id));
+		$attribute_id = Yii::app()->db->createCommand()->select("id")->from("ophciexamination_attribute")->where("element_type_id = $element_type->id")->queryScalar();
 
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Listed for left cataract surgery under LA'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Listed for right cataract surgery under LA'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Patient managing well and not keen for surgery'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Wean off the medication'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'New glasses prescribed'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Good outcome from the first eye surgery and is booked for second eye'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Discharged with glasses'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Discharged with prescription for glasses'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Discharged and glasses not required'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Patient declined surgery'));
-		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute->id,'value'=>'Removal of suture at next visit'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Listed for left cataract surgery under LA'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Listed for right cataract surgery under LA'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Patient managing well and not keen for surgery'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Wean off the medication'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'New glasses prescribed'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Good outcome from the first eye surgery and is booked for second eye'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Discharged with glasses'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Discharged with prescription for glasses'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Discharged and glasses not required'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Patient declined surgery'));
+		$this->insert('ophciexamination_attribute_option',array('attribute_id'=>$attribute_id,'value'=>'Removal of suture at next visit'));
 	}
 
 	public function down()
@@ -82,10 +82,10 @@ class m121012_092744_management_element extends CDbMigration
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Management'));
 
-		$attribute = OphCiExamination_Attribute::model()->find('element_type_id=?',array($element_type->id));
+		$attribute_id = Yii::app()->db->createCommand()->select("id")->from("ophciexamination_attribute")->where("element_type_id = $element_type->id")->queryScalar();
 
-		$this->delete('ophciexamination_attribute_option','attribute_id='.$attribute->id);
-		$this->delete('ophciexamination_attribute','id='.$attribute->id);
+		$this->delete('ophciexamination_attribute_option','attribute_id='.$attribute_id);
+		$this->delete('ophciexamination_attribute','id='.$attribute_id);
 
 		$this->dropTable('et_ophciexamination_management');
 		$this->dropTable('ophciexamination_management_suitable_for_surgeon');

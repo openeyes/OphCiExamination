@@ -3,7 +3,7 @@
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2012
+ * (C) OpenEyes Foundation, 2011-2013
  * This file is part of OpenEyes.
  * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -13,7 +13,7 @@
  * @link http://www.openeyes.org.uk
  * @author OpenEyes <info@openeyes.org.uk>
  * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
@@ -24,7 +24,7 @@
  * @property integer $parent_id
  * @property string $clause
  * @property string $value
- * @property OphCiExamination_ElementSet $set
+ * @property OphCiExamination_Workflow $workflow
 
  */
 class OphCiExamination_ElementSetRule extends BaseActiveRecord {
@@ -58,20 +58,19 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'set' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'set_id'),
+				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
 				'children' => array(self::HAS_MANY, 'OphCiExamination_ElementSetRule', 'parent_id'),
 		);
 	}
 
 	/**
-	 * Finds the best matching element set
-	 *
+	 * Finds the best matching workflow
 	 * @param integer $site_id
 	 * @param integer $subspecialty_id
 	 * @param integer $status_id
-	 * @return OphCiExamination_ElementSet
+	 * @return OphCiExamination_Workflow
 	 */
-	public static function findSet($site_id, $subspecialty_id, $status_id) {
+	public static function findWorkflow($site_id, $subspecialty_id, $status_id) {
 		if($rule = self::model()->find('parent_id IS NULL')) {
 			return $rule->processClause($site_id, $subspecialty_id, $status_id);
 		} else {
@@ -98,14 +97,14 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord {
 				
 			} else {
 				
-				// No matching rule, so we return the current rule's element set
-				return $this->set;
+				// No matching rule, so we return the current rule's workflow
+				return $this->workflow;
 				
 			}
 		} else {
 			
-			// No clause, so we return the current rule's element set
-			return $this->set;
+			// No clause, so we return the current rule's workflow
+			return $this->workflow;
 			
 		}
 

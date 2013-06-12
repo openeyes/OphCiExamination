@@ -3,7 +3,7 @@
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2012
+ * (C) OpenEyes Foundation, 2011-2013
  * This file is part of OpenEyes.
  * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -13,7 +13,7 @@
  * @link http://www.openeyes.org.uk
  * @author OpenEyes <info@openeyes.org.uk>
  * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
@@ -68,7 +68,6 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
@@ -170,7 +169,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		}
 
 		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
-			if (!$sd->disorder->systemic) {
+			if ($sd->disorder->specialty && $sd->disorder->specialty->code = 'OPH') {
 				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
 					$this->event->episode->patient->removeDiagnosis($sd->id);
 				}
@@ -193,7 +192,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					$diagnoses[] = array(
 						'disorder' => Disorder::model()->findByPk($disorder_id),
 						'eye_id' => $eyes[$i],
-						'principal' => (boolean)$_POST['principal_diagnosis'] == $disorder_id,
+						'principal' => (boolean)@$_POST['principal_diagnosis'] == $disorder_id,
 					);
 				}
 			}
@@ -214,13 +213,16 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 				);
 			}
 
-			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($_GET['patient_id'])) as $sd) {
-				if (!$sd->disorder->systemic) {
-					$diagnoses[] = array(
-						'disorder' => $sd->disorder,
-						'eye_id' => $sd->eye_id,
-						'principal' => false,
-					);
+			$patient_id = Yii::app()->controller->patient->id;
+			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
+				if (!$episode || $sd->disorder_id != $episode->disorder_id || $episode->eye_id != $sd->eye_id) {
+					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
+						$diagnoses[] = array(
+							'disorder' => $sd->disorder,
+							'eye_id' => $sd->eye_id,
+							'principal' => false,
+						);
+					}
 				}
 			}
 		}
@@ -237,7 +239,29 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 			$diagnoses[0]['principal'] = true;
 		}
 
-		return $diagnoses;
+		return $this->uniqueDiagnoses($diagnoses);
+	}
+
+	public function uniqueDiagnoses($diagnoses) {
+		$_diagnoses = array();
+
+		foreach ($diagnoses as $diagnosis) {
+			if (!$this->diagnosisInArray($diagnosis,$_diagnoses)) {
+				$_diagnoses[] = $diagnosis;
+			}
+		}
+
+		return $_diagnoses;
+	}
+
+	public function diagnosisInArray($diagnosis, $diagnoses) {
+		foreach ($diagnoses as $_diagnosis) {
+			if ($diagnosis['disorder']->id == $_diagnosis['disorder']->id && $diagnosis['eye_id'] == $_diagnosis['eye_id'] && $diagnosis['principal'] == $_diagnosis['principal']) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function getSelectedDisorderIDs() {

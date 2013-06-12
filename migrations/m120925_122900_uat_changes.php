@@ -10,7 +10,7 @@ class m120925_122900_uat_changes extends OEMigration {
 		// Remove "Other" from refraction types and add "Own Glasses"
 		$this->alterColumn('et_ophciexamination_refraction','left_type_id','int(10) unsigned');
 		$this->alterColumn('et_ophciexamination_refraction','right_type_id','int(10) unsigned');
-		$other_id = OphCiExamination_Refraction_Type::model()->find("name = 'Other'")->id;
+		$other_id = Yii::app()->db->createCommand()->select("id")->from("ophciexamination_refraction_type")->where("name = 'Other'")->queryScalar();
 		$this->update('et_ophciexamination_refraction',array('left_type_id' => null), "left_type_id = $other_id");
 		$this->update('et_ophciexamination_refraction',array('right_type_id' => null), "right_type_id = $other_id");
 		$this->delete('ophciexamination_refraction_type', "id = $other_id");
