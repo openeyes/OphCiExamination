@@ -58,6 +58,6 @@
 		'field' => 'disorder_id',
 		'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),
 		'layout' => 'minimal',
-		'code' => 'OPH',
+		'code' => '130', // Ophthamology
 		'callback' => 'OphCiExamination_AddDiagnosis',
 ))?>
