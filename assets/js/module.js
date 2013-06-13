@@ -444,6 +444,12 @@ $(document).ready(function() {
 			}
 		});
 
+		for (var i in eyedraw_added_diagnoses) {
+			$('a.removeDiagnosis[rel="'+eyedraw_added_diagnoses[i]+'"]').click();
+		}
+
+		eyedraw_added_diagnoses = [];
+
 		e.preventDefault();
 	});
 
@@ -1419,6 +1425,48 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('CorticalCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
+	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').children('option:selected').text());
+	eyedraw.repaint();
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
+	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
+	eyedraw.repaint();
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
+
+$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
+	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	eyedraw.deleteDoodlesOfClass('NuclearCataract');
+	return false;
+});
+
+var eyedraw_added_diagnoses = [];
 
 function OphCiExamination_do_print() {
 	printIFrameUrl(OE_print_url, null);

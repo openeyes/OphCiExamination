@@ -55,7 +55,7 @@ class Element_OphCiExamination_VisualFields extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
+				array('event_id, left_description, right_description, left_eyedraw, right_eyedraw, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
