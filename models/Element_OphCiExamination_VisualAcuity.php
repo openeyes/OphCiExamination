@@ -55,7 +55,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, eye_id', 'safe'),
+				array('event_id, left_comments, right_comments, eye_id, unit_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -78,6 +78,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
 				'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
 				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
 				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
@@ -107,11 +108,17 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	/**
 	 * Get the measurement unit
 	 */
+	/*
 	public function getUnit() {
 		$unit_id = $this->getSetting('unit_id');
 		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
 	}
-
+	*/
+	
+	public function setDefaultOptions() {
+		$this->unit_id = $this->getSetting('unit_id');
+	}
+	
 	/**
 	 * Array of unit values for dropdown
 	 * @param integer $unit_id
@@ -121,7 +128,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		if($unit_id) {
 			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
 		} else {
-			$unit = $this->getUnit();
+			$unit = $this->unit;
 		}
 		return CHtml::listData($unit->values, 'base_value', 'value');
 	}

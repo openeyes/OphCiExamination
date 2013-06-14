@@ -24,6 +24,7 @@ $key = 0;
 ?>
 <div class="cols2 clearfix">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
+	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
 		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
@@ -48,7 +49,7 @@ $key = 0;
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
-								'methods' => $methods
+								'methods' => $methods,
 						));
 						$key++;
 						}?>
@@ -93,7 +94,7 @@ $key = 0;
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
-								'methods' => $methods
+								'methods' => $methods,
 						));
 						$key++;
 						}?>
