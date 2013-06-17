@@ -43,7 +43,7 @@ $key = 0;
 					<tbody>
 						<?php foreach($right_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
-							$reading->loadClosest();
+							$reading->loadClosest($element->unit_id);
 							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 								'key' => $key,
 								'reading' => $reading,
