@@ -679,7 +679,9 @@ $(document).ready(function() {
 
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity #visualacuity_unit_change', 'change', function(e) {
 		removeElement($(this).closest('.Element_OphCiExamination_VisualAcuity'));
-		addElement($('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity'), true, undefined, undefined, {unit_id: $(this).val()});
+		var el = $('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity');
+		el.addClass('clicked');
+		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
 	});
 	
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
@@ -1027,32 +1029,8 @@ function OphCiExamination_Refraction_init() {
  * Visual Acuity
  */
 
-function OphCiExamination_VisualAcuity_getNextKey() {
-	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
-		return parseInt($(el).attr('data-key'));
-	}).get();
-	if(keys.length) {
-		return Math.max.apply(null, keys) + 1;		
-	} else {
-		return 0;
-	}
-}
-
-function OphCiExamination_VisualAcuity_addReading(side) {
-	var template = $('#visualacuity_reading_template').html();
-	var data = {
-		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1),
-	};
-	var form = Mustache.render(template, data);
-	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
-	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
-	table.show();
-	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
-	$('tbody', table).append(form);
-	$('.method_id', table).last().val(nextMethodId);
-
-	var iconHover = table.find('.va-info-icon:last');
+function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
+	var iconHover = row.find('.va-info-icon:last');
 	
 	iconHover.hover(function(e) {
 		var sel = $(this).parent().parent().find('select.va-selector');
@@ -1095,6 +1073,34 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	}, function(e) {
 		$('body > div:last').remove();
 	});
+}
+
+function OphCiExamination_VisualAcuity_getNextKey() {
+	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;		
+	} else {
+		return 0;
+	}
+}
+
+function OphCiExamination_VisualAcuity_addReading(side) {
+	var template = $('#visualacuity_reading_template').html();
+	var data = {
+		"key" : OphCiExamination_VisualAcuity_getNextKey(),
+		"side" : (side == 'right' ? 0 : 1),
+	};
+	var form = Mustache.render(template, data);
+	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
+	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
+	table.show();
+	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
+	$('tbody', table).append(form);
+	$('.method_id', table).last().val(nextMethodId);
+
+	OphCiExamination_VisualAcuity_ReadingTooltip(table.find('tr').last());
 	
 }
 
@@ -1116,6 +1122,12 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 }
 
 function OphCiExamination_VisualAcuity_init() {
+	// ensure tooltip works when loading for an edit
+	$('#event_content .Element_OphCiExamination_VisualAcuity .side').each(function() {
+		$(this).find('tr.visualAcuityReading').each(function() {
+			OphCiExamination_VisualAcuity_ReadingTooltip($(this));
+		});
+	});
 }
 
 // setup the dr grading fields (called once the Posterior Segment is fully loaded)
