@@ -677,6 +677,11 @@ $(document).ready(function() {
 		}
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity #visualacuity_unit_change', 'change', function(e) {
+		removeElement($(this).closest('.Element_OphCiExamination_VisualAcuity'));
+		addElement($('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity'), true, undefined, undefined, {unit_id: $(this).val()});
+	});
+	
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();

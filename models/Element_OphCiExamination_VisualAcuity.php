@@ -120,6 +120,19 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	}
 	
 	/**
+	 * list of units that are usable for setting visual acuity
+	 * 
+	 * @return OphCiExamination_VisualAcuityUnit[]
+	 */
+	public function getUsableUnits() {
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'tooltip = :tt';
+		$criteria->params = array(':tt' => true);
+		$criteria->order = 'name';
+		return OphCiExamination_VisualAcuityUnit::model()->findAll($criteria);
+	}
+	
+	/**
 	 * Array of unit values for dropdown
 	 * @param integer $unit_id
 	 * @param boolean $selectable - whether want selectable values or all unit values
