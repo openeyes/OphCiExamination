@@ -18,7 +18,7 @@
  */
 ?>
 <?php
-$values = $element->getUnitValues();
+list($values, $val_options) = $element->getUnitValuesForForm();
 $methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name');
 $key = 0;
 ?>
@@ -49,6 +49,7 @@ $key = 0;
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
+								'val_options' => $val_options,
 								'methods' => $methods,
 						));
 						$key++;
@@ -94,6 +95,7 @@ $key = 0;
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
+								'val_options' => $val_options,								
 								'methods' => $methods,
 						));
 						$key++;
@@ -124,6 +126,7 @@ $key = 0;
 			'key' => '{{key}}',
 			'side' => '{{side}}',
 			'values' => $values,
+			'val_options' => $val_options,
 			'methods' => $methods,
 	));
 	?>
