@@ -18,10 +18,17 @@
  */
 ?>
 <?php
-$values = $element->getUnitValues();
+list($values, $val_options) = $element->getUnitValuesForForm();
 $methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name');
 $key = 0;
 ?>
+<?php if ($element->isNewRecord) { ?>
+<div class="clearfix">
+	<div style="margin-top:-25px; margin-left:120px;">
+		<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData($element->getUsableUnits(), 'id', 'name')); ?>
+	</div>
+</div>
+<?php } ?>
 <div class="cols2 clearfix">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
 	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>
@@ -43,12 +50,13 @@ $key = 0;
 					<tbody>
 						<?php foreach($right_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
-							$reading->loadClosest($element->unit_id);
+							$reading->loadClosest($element->unit->id);
 							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 								'key' => $key,
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
+								'val_options' => $val_options,
 								'methods' => $methods,
 						));
 						$key++;
@@ -88,12 +96,13 @@ $key = 0;
 					<tbody>
 						<?php foreach($left_readings as $reading) { 
 							// Adjust currently element readings to match unit steps
-							$reading->loadClosest();
+							$reading->loadClosest($element->unit->id);
 							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 								'key' => $key,
 								'reading' => $reading,
 								'side' => $reading->side,
 								'values' => $values,
+								'val_options' => $val_options,								
 								'methods' => $methods,
 						));
 						$key++;
@@ -124,6 +133,7 @@ $key = 0;
 			'key' => '{{key}}',
 			'side' => '{{side}}',
 			'values' => $values,
+			'val_options' => $val_options,
 			'methods' => $methods,
 	));
 	?>

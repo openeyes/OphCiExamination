@@ -677,6 +677,13 @@ $(document).ready(function() {
 		}
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity #visualacuity_unit_change', 'change', function(e) {
+		removeElement($(this).closest('.Element_OphCiExamination_VisualAcuity'));
+		var el = $('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity');
+		el.addClass('clicked');
+		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
+	});
+	
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();
@@ -692,7 +699,7 @@ $(document).ready(function() {
 		OphCiExamination_VisualAcuity_addReading(side);
 		e.preventDefault();
 	});
-
+	
 	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		$('.foster_images_dialog[data-side="'+side+'"]').dialog('open');
@@ -749,8 +756,8 @@ $(document).ready(function() {
 		var wrapper = $(this).closest('.side');
 		var side = wrapper.attr('data-side');
 		var row = $(this).closest('tr');
-		var id = $('td:first input', row).val();
-		var name = $('td:first span', row).text();
+		var id = $('.drugId', row).val();
+		var name = $('.drugName', row).text();
 		row.remove();
 		var dilation_drug = wrapper.find('.dilation_drug');
 		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
@@ -1022,6 +1029,52 @@ function OphCiExamination_Refraction_init() {
  * Visual Acuity
  */
 
+function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
+	var iconHover = row.find('.va-info-icon:last');
+	
+	iconHover.hover(function(e) {
+		var sel = $(this).parent().parent().find('select.va-selector');
+		var val = sel.val();
+		var conversions = [];
+		
+		sel.find('option').each(function() {
+			if ($(this).val() == val) {
+				conversions = $(this).data('tooltip');
+				return true;
+			}
+		});
+		
+		var tooltip_text = '';
+		var approx = false;
+		for (var i = 0; i < conversions.length; i++) {
+			tooltip_text += conversions[i].name + ": " + conversions[i].value;
+			if (conversions[i].approx) {
+				approx = true;
+				tooltip_text += '*';
+			}
+			tooltip_text += "<br />";
+		}
+		if (approx) {
+			tooltip_text += "<i>* Approximate</i>";
+		}
+		
+		var infoWrap = $('<div class="quicklook">' + tooltip_text + '</div>');
+		infoWrap.appendTo('body');
+		var offsetPos = $(this).offset();
+		var top = offsetPos.top;
+		var left = offsetPos.left + 25;
+		
+		top = top - (infoWrap.height()/2) + 8;
+		
+		if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
+		infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+		infoWrap.fadeIn('fast');
+		
+	}, function(e) {
+		$('body > div:last').remove();
+	});
+}
+
 function OphCiExamination_VisualAcuity_getNextKey() {
 	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
@@ -1046,6 +1099,9 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
 	$('.method_id', table).last().val(nextMethodId);
+
+	OphCiExamination_VisualAcuity_ReadingTooltip(table.find('tr').last());
+	
 }
 
 /**
@@ -1066,6 +1122,12 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 }
 
 function OphCiExamination_VisualAcuity_init() {
+	// ensure tooltip works when loading for an edit
+	$('#event_content .Element_OphCiExamination_VisualAcuity .side').each(function() {
+		$(this).find('tr.visualAcuityReading').each(function() {
+			OphCiExamination_VisualAcuity_ReadingTooltip($(this));
+		});
+	});
 }
 
 // setup the dr grading fields (called once the Posterior Segment is fully loaded)
@@ -1259,7 +1321,6 @@ function OphCiExamination_InjectionManagementComplex_loadQuestions(side, disorde
 		'type': 'GET',
 		'url': OphCiExamination_loadQuestions_url + '?' + $.param(params),
 		'success': function(html) {
-			console.log(html);
 			if (html.length > 0) {
 				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
 			}

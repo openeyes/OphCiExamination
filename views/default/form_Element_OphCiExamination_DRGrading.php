@@ -29,6 +29,10 @@
 		title="DR Grading Images">
 		<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 	</div>
+<?php } else { ?> 
+	<div style="margin-top:-25px; margin-left:120px;">
+	<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+	</div>
 <?php } ?>
 </div>
 <div class="cols2 clearfix">

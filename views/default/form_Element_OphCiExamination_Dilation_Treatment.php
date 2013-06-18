@@ -30,8 +30,8 @@
 		<input type="hidden"
 			name="dilation_treatment[<?php echo $key ?>][side]"
 			value="<?php echo $side ?>" />
-		<span><?php echo $drug_name ?></span>
-		<input type="hidden" name="dilation_treatment[<?php echo $key ?>][drug_id]" value="<?php echo @$drug_id ?>" />
+		<span class="drugName"><?php echo $drug_name ?></span>
+		<input type="hidden" class="drugId" name="dilation_treatment[<?php echo $key ?>][drug_id]" value="<?php echo @$drug_id ?>" />
 	</td>
 	<td>
 		<select name="dilation_treatment[<?php echo $key ?>][drops]">
