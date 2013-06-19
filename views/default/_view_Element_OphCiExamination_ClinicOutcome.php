@@ -27,5 +27,6 @@
 	<?php if($element->role_comments)  { ?>
 	(<?php echo $element->role_comments; ?>)
 	<?php } ?>
+	<?php if ($element->community_patient) {?>(Community patient)<?php }?>
 	<?php } ?>
 </div>
