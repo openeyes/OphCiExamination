@@ -72,6 +72,10 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		);
 	}
 
+	public function canCopy() {
+		return true;
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
