@@ -29,6 +29,13 @@ $key = 0;
 	</div>
 </div>
 <?php } ?>
+<?php if ($element->unit->information) {?>
+<div class="clearfix">
+	<div style="margin-top:-22px; margin-left:240px; font-size: 10px;">
+		<i><?php echo $element->unit->information ?></i>
+	</div>
+</div>
+<?php } ?>
 <div class="cols2 clearfix">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
 	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>
