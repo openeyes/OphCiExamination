@@ -214,7 +214,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * returns list of disorders as defined in the therapy application module
 	 */
 	public function getDisorders() {
-		return Element_OphCoTherapyapplication_Therapydiagnosis::model()->getTherapyDisorders();
+		$disorders = array();
+		foreach (Element_OphCoTherapyapplication_Therapydiagnosis::model()->getLevel1TherapyDiagnoses() as $td) {
+			$disorders[] = $td->disorder;
+		}
+		return $disorders;
 	}
 	
 	/**
