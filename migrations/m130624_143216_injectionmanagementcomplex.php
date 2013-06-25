@@ -22,7 +22,7 @@ class m130624_143216_injectionmanagementcomplex extends CDbMigration
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
-				'enabled' => 'boolean NOT NUL DEFAULT true',
+				'enabled' => 'boolean NOT NULL DEFAULT true',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -33,6 +33,13 @@ class m130624_143216_injectionmanagementcomplex extends CDbMigration
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+		
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'DNA', 'display_order' => 1));
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'Infection', 'display_order' => 2));
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'CVA', 'display_order' => 3));
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'MI', 'display_order' => 4));
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'Spontaneous improvement', 'display_order' => 5));
+		$this->insert('ophciexamination_injectmanagecomplex_notreatmentreason', array('name' => 'Other', 'display_order' => 6));
 		
 		$this->createTable('et_ophciexamination_injectionmanagementcomplex', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
