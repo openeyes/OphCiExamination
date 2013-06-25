@@ -65,8 +65,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				array('event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis1_id, right_diagnosis1_id,' . 
 						'left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
 				array('no_treatment', 'required'),
-				array('left_diagnosis1_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_diagnosis1_id', 'requiredIfSide', 'side' => 'right'),
+				array('left_diagnosis1_id', 'requiredIfTreatment', 'side' => 'left'),
+				array('right_diagnosis1_id', 'requiredIfTreatment', 'side' => 'right'),
 				array('left_diagnosis2_id', 'requiredIfSecondary', 'dependent' => 'left_diagnosis1_id'),
 				array('right_diagnosis2_id', 'requiredIfSecondary', 'dependent' => 'right_diagnosis1_id'),
 				array('left_answers', 'answerValidation', 'side' => 'left'),
@@ -222,25 +222,35 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 	
 	/**
-	 * TODO: remove
-	 * returns list of disorders as defined in the therapy application module
+	 * get the list of no treatment reasons that should be used for this element 
+	 * 
+	 * @return multitype:OphCiExamination_InjectionManagementComplex_NoTreatmentReason unknown
 	 */
-	public function getDisorders() {
+	public function getNoTreatmentReasons() {
 		$criteria = new CDbCriteria;
-		$criteria->condition = 'parent_id IS NULL';
+		$criteria->condition = 'enabled = true';
 		$criteria->order = 'display_order asc';
 		
-		$therapy_disorders = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->findAll($criteria);
+		$reasons = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll($criteria);
 		
-		$disorders = array();
-		foreach ($therapy_disorders as $td) {
-			$disorders[] = $td->disorder;
-			foreach ($td->getLevel2Disorders() as $l2) {
-				$disorders[] = $l2;
+		if ($curr_id = $this->no_treatment_reason_id) {
+			$seen = false;
+			$all_reasons = array();
+			foreach ($reasons as $r) {
+				if ($r->id == $curr_id) {
+					$seen = true;
+					break;
+				}
+				$all_reasons[] = $r;
+			}
+			if (!$seen) {
+				$all_reasons[] = $this->no_treatment_reason;
+				$reasons = $all_reasons;
 			}
 		}
-		return $disorders;
+		return $reasons;
 	}
+	
 	/*
 	 * get the relevant questions for the given side
 	 * 
@@ -351,7 +361,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * @param unknown $therapyDisorder
 	 * @return Disorder[]
 	 */
-	public function getLevel2Disorders($disorder) {
+	public function getLevel2Disorders($disorder) 
+	{
 		$criteria = new CDbCriteria;
 		$criteria->condition = 'parent_id IS NULL AND disorder_id = :did';
 		$criteria->params = array(':did' => $disorder->id);
@@ -375,10 +386,25 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return $disorders;
 	}
 	
+	/**
+	 * simple wrapper around requiredIfSide that checks the no treatment status flag before checking the side required 
+	 * attribute
+	 * 
+	 * @param string $attribute
+	 * @param array $params
+	 */
+	public function requiredIfTreatment($attribute, $params) 
+	{
+		if (!$this->no_treatment) {
+			$this->requiredIfSide($attribute, $params);
+		}
+	}
+	
 	/*
 	 * check that the standard intervention description is given if the element is flagged appropriately
 	*/
-	public function requiredIfSecondary($attribute, $params) {
+	public function requiredIfSecondary($attribute, $params) 
+	{
 		if ($this->$params['dependent'] && !$this->$attribute) {
 			$criteria = new CDbCriteria;
 			// FIXME: mysql dependent NULL check

@@ -25,26 +25,28 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('input.question_enabled').bind('change', function() {
-		var question_id = $(this).parents('li').data('attr-id');
+	$('input.model_enabled').bind('change', function() {
+		var model_id = $(this).parents('li').data('attr-id');
+		var model_name = $(this).parents('li').data('attr-name');
+		
 		var enabled = 0;
 		if ($(this).attr('checked')) {
 			enabled = 1;
 		}
 		$.ajax({
 			type: 'POST',
-			url: OphCiExamination_question_status_url,
+			url: OphCiExamination_model_status_url,
 			data: {
-				id: question_id,
+				id: model_id,
 				enabled: enabled,
 				YII_CSRF_TOKEN: YII_CSRF_TOKEN
 			},
 			'success': function() {
 				if (enabled) {
-					alert('question enabled');
+					alert(model_name + ' enabled');
 				}
 				else {
-					alert('question disabled');
+					alert(model_name + ' disabled');
 				}
 			}
 		});

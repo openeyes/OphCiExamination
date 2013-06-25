@@ -26,12 +26,16 @@
 	<ul class="grid reduceheight">
 		<li class="header">
 			<span class="column_name">Name</span>
+			<span class="column_actions">Enabled</span>
 		</li>
 		<div class="sortable">
 			<?php
 			foreach ($model_list as $i => $model) {?>
-				<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>">
+				<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="No Treatment Reason">
 					<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a></span>
+					<span class="column_actions">
+						<input type="checkbox" class="model_enabled" <?php if ($model->enabled) { echo "checked"; }?> />
+					</span>
 				</li>
 			<?php }?>
 		</div>

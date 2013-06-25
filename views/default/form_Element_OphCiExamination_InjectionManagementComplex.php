@@ -36,7 +36,7 @@
 	</div>
 	<div class="data">
 		<?php echo $form->dropDownlist($element, 'no_treatment_reason_id', 
-				CHtml::listData(OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order'=> 'display_order asc')),'id','name'),
+				CHtml::listData($element->getNoTreatmentReasons(),'id','name'),
 				array('empty'=>'- Please select -', 'nowrapper' => true)) ?>
 	</div>
 </div>

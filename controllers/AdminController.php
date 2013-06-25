@@ -28,6 +28,7 @@ class AdminController extends ModuleAdminController {
 	public function actionViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason() {
 		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order' => 'display_order asc'));
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
+		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
 		
 		$this->render('list',array(
 				'model_list'=>$model_list,
@@ -106,14 +107,40 @@ class AdminController extends ModuleAdminController {
 		}
 	}
 	
+	/**
+	 * Update the enabled status of the given reason
+	 */
+	public function actionSetNoTreatmentReasonStatus() {
+	
+		if ($model = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk((int)@$_POST['id'])) {
+			if (!array_key_exists('enabled', $_POST)) {
+				throw new Exception('cannot determine status for reason');
+			}
+			error_log('cack' . $_POST['enabled']);
+				
+			if ($_POST['enabled']) {
+				$model->enabled = true;
+			}
+			else {
+				$model->enabled = false;
+			}
+			if (!$model->save()) {
+				throw new Exception("Unable to set reason status: " . print_r($model->getErrors(), true));
+			}
+		}
+		else {
+			throw new Exception('Cannot find reason with id' . @$_POST['id']);
+		}
+	}
+	
 	// Disorder Questions
 	
 	/**
 	 * list the questions set for the given disorder id
 	 */
 	public function actionViewOphCiExamination_InjectionManagementComplex_Question() {
-		$this->jsVars['OphCiExamination_question_status_url'] = $this->createUrl('setQuestionStatus');
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
+		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setQuestionStatus');
 		
 		$model_list = array();
 		$disorder_id = null;
@@ -226,7 +253,6 @@ class AdminController extends ModuleAdminController {
 	
 	/**
 	 * Update the enabled status of the given question
-	 * 
 	 */
 	public function actionSetQuestionStatus() {
 		

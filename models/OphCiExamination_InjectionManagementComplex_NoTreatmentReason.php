@@ -17,6 +17,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+/**
+ * This is the model class for table "ophciexamination_injectmanagecomplex_notreatmentreason". It is used to define a lookup of reasons for not providing an injection treatment
+ *
+ * The followings are the available columns in table:
+ * @property string $id
+ * @property string $name
+ * @property boolean $enabled
+ *
+ */
+
+
 class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,11 +52,11 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	public function rules()
 	{
 		return array(
-				array('name, display_order', 'safe'),
+				array('name, display_order, enabled', 'safe'),
 				array('name, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, name, display_order', 'safe', 'on' => 'search'),
+				array('id, name, display_order, enabled', 'safe', 'on' => 'search'),
 		);
 	}
 	
