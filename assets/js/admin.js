@@ -25,4 +25,29 @@ $(document).ready(function() {
 		}
 	});
 	
+	$('input.question_enabled').bind('change', function() {
+		var question_id = $(this).parents('li').data('attr-id');
+		var enabled = 0;
+		if ($(this).attr('checked')) {
+			enabled = 1;
+		}
+		$.ajax({
+			type: 'POST',
+			url: OphCiExamination_question_status_url,
+			data: {
+				id: question_id,
+				enabled: enabled,
+				YII_CSRF_TOKEN: YII_CSRF_TOKEN
+			},
+			'success': function() {
+				if (enabled) {
+					alert('question enabled');
+				}
+				else {
+					alert('question disabled');
+				}
+			}
+		});
+	});
+	
 });

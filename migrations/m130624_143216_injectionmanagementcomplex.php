@@ -17,7 +17,7 @@ class m130624_143216_injectionmanagementcomplex extends CDbMigration
 		
 		// get the id for both eyes
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
-		/*
+		
 		$this->createTable('ophciexamination_injectmanagecomplex_notreatmentreason', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -32,7 +32,7 @@ class m130624_143216_injectionmanagementcomplex extends CDbMigration
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
-		*/
+		
 		$this->createTable('et_ophciexamination_injectionmanagementcomplex', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'event_id' => 'int(10) unsigned NOT NULL',
@@ -73,6 +73,7 @@ class m130624_143216_injectionmanagementcomplex extends CDbMigration
 				'disorder_id' => 'int(10) unsigned NOT NULL',
 				'question' => 'varchar(128) COLLATE utf8_bin NOT NULL',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
+				'enabled' => 'boolean NOT NULL DEFAULT true',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',

@@ -156,28 +156,16 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	public function answerValidation($attribute, $params) {
 		$side = $params['side'];
 		
-		$disorders = array();
-		if ($did = $this->{$side . '_diagnosis1_id'}) {
-			$disorders[] = $did;
-		}
-		if ($did = $this->{$side . '_diagnosis2_id'}) {
-			$disorders[] = $did;
+		$questions = $this->getInjectionQuestionsForSide($side);
+		
+		$answer_q_ids = array();
+		foreach ($this->{$side . '_answers'} as $ans) {
+			$answer_q_ids[] = $ans->question_id;
 		}
 		
-		foreach ($disorders as $disorder_id) {
-			$criteria = new CDbCriteria;
-			$criteria->condition = 'disorder_id = :disorder_id';
-			$criteria->params = array(':disorder_id' => $disorder_id);
-			
-			$questions = OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
-			$answer_q_ids = array();
-			foreach ($this->{$side . '_answers'} as $ans) {
-				$answer_q_ids[] = $ans->question_id;
-			}
-			foreach ($questions as $required_question) {
-				if (!in_array($required_question->id, $answer_q_ids)) {
-					$this->addError($attribute, ucfirst($side)." ".$required_question->question." must be answered.");
-				}
+		foreach ($questions as $required_question) {
+			if (!in_array($required_question->id, $answer_q_ids)) {
+				$this->addError($attribute, ucfirst($side)." ".$required_question->question." must be answered.");
 			}
 		}
 	}
@@ -253,11 +241,42 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 		return $disorders;
 	}
+	/*
+	 * get the relevant questions for the given side
+	 * 
+	 * @param string $side - 'left' or 'right'
+	 */
+	public function getInjectionQuestionsForSide($side) {
+		// need to get the questions for the set disorders. And then check if there are already answers on the side
+		// if there are, then check for any missing questions, in case they've been disabled since
+		$questions = array();
+		$qids = array();
+		if ($did = $this->{$side . '_diagnosis1_id'}) {
+			foreach ($this->getInjectionQuestionsForDisorderId($did) as $question) {
+				$questions[] = $question;
+				$qids[] = $question->id;
+			}
+		}
+		if ($did = $this->{$side . '_diagnosis2_id'}) {
+			foreach ($this->getInjectionQuestionsForDisorderId($did) as $question) {
+				$questions[] = $question;
+				$qids[] = $question->id;
+			}
+		}
+		
+		foreach ($this->{$side . '_answers'} as $answer) {
+			if (!in_array($answer->question_id, $qids) ) {
+				$questions[] = $answer->question;
+			}
+		}
+		
+		return $questions;
+	}
 	
 	/**
 	 * return the questions for a given disorder id
 	 * 
-	 * @param unknown $disorder_id
+	 * @param integer $disorder_id
 	 * @throws Exception
 	 */
 	public function getInjectionQuestionsForDisorderId($disorder_id) {
@@ -273,7 +292,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		if (!$tdis) {
 			throw new Exception('Invalid disorder id for injection questions');
 		}
-	
+		
+		$criteria->condition .= ' AND enabled = true';
 		$criteria->order = 'display_order asc';
 	
 		// get the questions

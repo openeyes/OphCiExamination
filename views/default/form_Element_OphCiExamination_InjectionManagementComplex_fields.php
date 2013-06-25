@@ -56,7 +56,8 @@
 </div>
 
 <?php 
-$questions = array();
+$questions = $element->getInjectionQuestionsForSide($side);
+/*
 if ($disorder_id = $element->{$side . '_diagnosis1_id'} ) {
 	$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
 }
@@ -65,6 +66,7 @@ if ($disorder_id = $element->{$side . '_diagnosis2_id'} ) {
 		$questions[] = $q;
 	}
 }
+*/
 	
 $this->renderPartial('form_' . get_class($element) . '_questions',
 				array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));

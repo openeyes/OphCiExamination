@@ -108,7 +108,12 @@ class AdminController extends ModuleAdminController {
 	
 	// Disorder Questions
 	
+	/**
+	 * list the questions set for the given disorder id
+	 */
 	public function actionViewOphCiExamination_InjectionManagementComplex_Question() {
+		$this->jsVars['OphCiExamination_question_status_url'] = $this->createUrl('setQuestionStatus');
+		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
 		
 		$model_list = array();
 		$disorder_id = null;
@@ -133,7 +138,11 @@ class AdminController extends ModuleAdminController {
 		
 	}
 	
-	public function actionCreateOphCiExamination_InjectionManagementComplex_Question() {
+	/**
+	 * create a question for the given disorder id
+	 */
+	public function actionCreateOphCiExamination_InjectionManagementComplex_Question() 
+	{
 		$model = new OphCiExamination_InjectionManagementComplex_Question();
 		
 		if (isset($_POST['OphCiExamination_InjectionManagementComplex_Question'])) {
@@ -174,8 +183,33 @@ class AdminController extends ModuleAdminController {
 		
 	}
 	
-	/*
-	 * sorts the no treatment reasons into the provided order (NOTE does not support a paginated list of reasons)
+	/**
+	 * update the question for the specified id
+	 * 
+	 * @param integer $id
+	 */
+	public function actionUpdateOphCiExamination_InjectionManagementComplex_Question($id)
+	{
+		$model = OphCiExamination_InjectionManagementComplex_Question::model()->findByPk((int)$id);
+		if (isset($_POST['OphCiExamination_InjectionManagementComplex_Question'])) {
+			// process submission
+			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_Question'];
+			
+			if ($model->save()) {
+				Audit::add('OphCiExamination_InjectionManagementComplex_Question', 'update', serialize($model->attributes));
+				Yii::app()->user->setFlash('success', 'Injection Management Disorder Question updated');
+				
+				$this->redirect(array('ViewOphCiExamination_InjectionManagementComplex_Question', 'disorder_id' => $model->disorder_id));
+			}
+		}
+		
+		$this->render('update', array(
+				'model' => $model
+		));
+	} 
+	
+	/**
+	 * sorts questions into the given order
 	*/
 	public function actionSortQuestions() {
 		if (!empty($_POST['order'])) {
@@ -183,10 +217,37 @@ class AdminController extends ModuleAdminController {
 				if ($question = OphCiExamination_InjectionManagementComplex_Question::model()->findByPk($id)) {
 					$question->display_order = $i+1;
 					if (!$question->save()) {
-						throw new Exception("Unable to save drug: ".print_r($drug->getErrors(),true));
+						throw new Exception("Unable to save question: ".print_r($question->getErrors(),true));
 					}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Update the enabled status of the given question
+	 * 
+	 */
+	public function actionSetQuestionStatus() {
+		
+		if ($model = OphCiExamination_InjectionManagementComplex_Question::model()->findByPk((int)@$_POST['id'])) {
+			if (!array_key_exists('enabled', $_POST)) {
+				throw new Exception('cannot determine status for question');
+			}
+			error_log('cack' . $_POST['enabled']);
+			
+			if ($_POST['enabled']) {
+				$model->enabled = true;
+			}
+			else {
+				$model->enabled = false;
+			}
+			if (!$model->save()) {
+				throw new Exception("Unable to set question status: " . print_r($model->getErrors(), true));
+			}
+		}
+		else {
+			throw new Exception('Cannot find question with id' . @$_POST['id']);
+		}		
 	}
 }

@@ -24,6 +24,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $disorder_id
+ * @property boolean $enabled
  *
  * The followings are the available model relations:
  * @property Disorder $disorder
@@ -55,11 +56,11 @@ class OphCiExamination_InjectionManagementComplex_Question extends BaseActiveRec
 	public function rules()
 	{
 		return array(
-				array('disorder_id, question, display_order', 'safe'),
+				array('disorder_id, question, display_order, enabled', 'safe'),
 				array('disorder_id, question, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, disorder_id, question, display_order', 'safe', 'on' => 'search'),
+				array('id, disorder_id, question, display_order, enabled', 'safe', 'on' => 'search'),
 		);
 	}
 	
