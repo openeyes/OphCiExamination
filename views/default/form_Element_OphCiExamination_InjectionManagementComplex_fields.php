@@ -18,16 +18,52 @@
  */
 ?>
 
-<div class="eventDetail diagnosis_id clearfix">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis_id'); ?></div>
-	<div class="data"><?php echo $form->dropDownList($element, $side . '_diagnosis_id', CHtml::listData($element->getDisorders(),'id','term'),array('empty'=>'- Please select -', 'nowrapper' => true))?></div>
+<div class="eventDetail elementField diagnosis_id clearfix">
+	<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis1_id'); ?></div>
+	<div class="data" style="display: inline-block;">
+	<?php $form->widget('application.widgets.DiagnosisSelection',array(
+			'field' => $side . '_diagnosis1_id',
+			'element' => $element,
+			'options' => CHtml::listData($l1_disorders,'id','term'),
+			'layout' => 'search',
+			'default' => false,
+			'dropdownOptions' => array('empty'=>'- Please select -', 'options' => $l1_opts, 'style' => 'margin-bottom: 10px'),
+	));?>
+	</div>
 </div>
 
+<div class="eventDetail elementField<?php if (!array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders) ) { echo " hidden"; }?>" id="<?php echo $side ?>_diagnosis2_wrapper">
+	<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id'); ?></div>
+	<div class="data" style="display: inline-block;">
+		<?php 
+		$l2_attrs =  array('empty'=>'- Please select -', 'style' => 'margin-bottom: 10px');
+		$l2_opts = array();
+		if (array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders)) {
+			$l2_opts = $l2_disorders[$element->{$side . '_diagnosis1_id'}];
+			// this is used in the javascript for checking the second level list is correct.
+			$l2_attrs['data-parent_id'] = $element->{$side . '_diagnosis1_id'};
+		}
+		$form->widget('application.widgets.DiagnosisSelection',array(
+			'field' => $side . '_diagnosis2_id',
+			'element' => $element,
+			'options' => CHtml::listData($l2_opts,'id','term'),
+			'layout' => 'search',
+			'default' => false,
+			'dropdownOptions' => $l2_attrs,
+		));?>
+		
+	</div>
+</div>
 
 <?php 
 $questions = array();
-if ($disorder_id = $element->{$side . '_diagnosis_id'} ) {
+if ($disorder_id = $element->{$side . '_diagnosis1_id'} ) {
 	$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
+}
+if ($disorder_id = $element->{$side . '_diagnosis2_id'} ) {
+	foreach (Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id) as $q) {
+		$questions[] = $q;
+	}
 }
 	
 $this->renderPartial('form_' . get_class($element) . '_questions',

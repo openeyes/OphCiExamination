@@ -41,6 +41,25 @@
 	</div>
 </div>
 
+<?php 
+// build up data structures for the two levels of disorders that are mapped through the therapydisorder lookup
+$l1_disorders = $element->getLevel1Disorders();
+$l1_options = array();
+$l2_disorders = array();
+
+foreach ($l1_disorders as $disorder) {
+	if ($td_l2 = $element->getLevel2Disorders($disorder)) {
+		$jsn_arry = array();
+		foreach ($td_l2 as $l2) {
+			$jsn_arry[] = array('id' => $l2->id, 'term' => $l2->term);
+		}
+		$l1_options[$disorder->id] = array('data-level2' => CJSON::encode($jsn_arry));
+		$l2_disorders[$disorder->id] = $td_l2;
+	}
+}
+
+?>
+
 <div class="cols2 clearfix" id="div_<?php echo get_class($element)?>_treatment_fields">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
@@ -49,7 +68,9 @@
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
-				array('side' => 'right', 'element' => $element, 'form' => $form)); ?>
+				array('side' => 'right', 'element' => $element, 'form' => $form,
+					'l1_disorders' => $l1_disorders, 'l1_opts' => $l1_options, 'l2_disorders' => $l2_disorders,
+				)); ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add right side</a>
@@ -61,7 +82,9 @@
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
-				array('side' => 'left', 'element' => $element, 'form' => $form)); ?>
+				array('side' => 'left', 'element' => $element, 'form' => $form,
+					'l1_disorders' => $l1_disorders, 'l1_opts' => $l1_options, 'l2_disorders' => $l2_disorders,
+				)); ?>
 		</div>
 		<div class="inactiveForm">
 			<a href="#">Add left side</a>

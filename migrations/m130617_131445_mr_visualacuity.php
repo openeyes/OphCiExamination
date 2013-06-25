@@ -80,7 +80,7 @@ class m130617_131445_mr_visualacuity extends CDbMigration
 	public function down()
 	{
 		echo "***WARNING: down migration will remove selectable values for VA. Edit migration and remove return statement to perform this down step";
-		return false;
+		//return false;
 		$this->dropForeignKey('et_ophciexamination_visualacuity_unit_fk', 'et_ophciexamination_visualacuity');
 		$this->dropColumn('et_ophciexamination_visualacuity', 'unit_id');
 		$this->dropColumn('ophciexamination_visual_acuity_unit_value', 'selectable');

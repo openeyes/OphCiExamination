@@ -444,6 +444,10 @@ class OphCiExamination_API extends BaseAPI {
 	 * @param int $disorder_id
 	 */
 	public function getInjectionManagementQuestionsForDisorder($disorder_id) {
-		return Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
+		try {
+			Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
+		} catch (Exception $e) {
+			return array();
+		}
 	}
 }

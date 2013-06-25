@@ -25,13 +25,17 @@
  * @property integer $event_id
  * @property boolean $no_treatment
  * @property integer $no_treatment_reason_id
- * @property integer $left_diagnosis_id
- * @property integer $right_diagnosis_id
+ * @property integer $left_diagnosis1_id
+ * @property integer $right_diagnosis1_id
+ * @property integer $left_diagnosis2_id
+ * @property integer $right_diagnosis2_id
  * 
  * The followings are the available model relations:
  * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $no_treatment_reason
- * @property Disorder $left_diagnosis
- * @property Disorder $right_diagnosis
+ * @property Disorder $left_diagnosis1
+ * @property Disorder $right_diagnosis1
+ * @property Disorder $left_diagnosis2
+ * @property Disorder $right_diagnosis2
  *
  */
 
@@ -58,20 +62,24 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id, left_comments, right_comments', 'safe'),
+				array('event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis1_id, right_diagnosis1_id,' . 
+						'left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
 				array('no_treatment', 'required'),
-				array('left_diagnosis_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_diagnosis_id', 'requiredIfSide', 'side' => 'right'),
+				array('left_diagnosis1_id', 'requiredIfSide', 'side' => 'left'),
+				array('right_diagnosis1_id', 'requiredIfSide', 'side' => 'right'),
+				array('left_diagnosis2_id', 'requiredIfSecondary', 'dependent' => 'left_diagnosis1_id'),
+				array('right_diagnosis2_id', 'requiredIfSecondary', 'dependent' => 'right_diagnosis1_id'),
 				array('left_answers', 'answerValidation', 'side' => 'left'),
 				array('right_answers', 'answerValidation', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id, left_comments, right_comments', 'safe', 'on' => 'search'),
+				array('id, event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id,' .
+						'left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe', 'on' => 'search'),
 		);
 	}
 	
 	public function sidedFields() {
-		return array('diagnosis_id', 'comments');
+		return array('diagnosis1_id', 'diagnosis2_id', 'comments');
 	}
 	
 	/**
@@ -87,8 +95,10 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'no_treatment_reason' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'no_treatment_reason_id'),
-				'left_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis_id'),
-				'right_diagnosis' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis_id'),
+				'left_diagnosis1' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis1_id'),
+				'right_diagnosis1' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis1_id'),
+				'left_diagnosis2' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis2_id'),
+				'right_diagnosis2' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis2_id'),
 				'answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id'),
 				'left_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'left_answers.eye_id = ' . SplitEventTypeElement::LEFT),
 				'right_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'right_answers.eye_id = ' . SplitEventTypeElement::RIGHT),
@@ -104,8 +114,10 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'event_id' => 'Event',
 				'no_treatment' => "No Treatment",
 				'no_treatment_reason_id' => 'Reason for No Treatment',
-				'left_diagnosis_id' => 'Diagnosis',
-				'right_diagnosis_id' => 'Diagnosis',
+				'left_diagnosis1_id' => 'Diagnosis',
+				'right_diagnosis1_id' => 'Diagnosis',
+				'left_diagnosis2_id' => 'Secondary to',
+				'right_diagnosis2_id' => 'Secondary to',
 				'left_comments' => 'Comments', 
 				'right_comments' => 'Comments',
 		);
@@ -125,8 +137,10 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		$criteria->compare('no_treatment', $this->no_treatment);
 		$criteria->compare('no_treatment_reason_id', $this->no_treatment_reason_id);
 		$criteria->compare('eye_id', $this->eye_id);
-		$criteria->compare('left_diagnosis_id', $this->left_diagnosis_id);
-		$criteria->compare('right_diagnosis_id', $this->right_diagnosis_id);
+		$criteria->compare('left_diagnosis1_id', $this->left_diagnosis1_id);
+		$criteria->compare('right_diagnosis1_id', $this->right_diagnosis1_id);
+		$criteria->compare('left_diagnosis2_id', $this->left_diagnosis2_id);
+		$criteria->compare('right_diagnosis2_id', $this->right_diagnosis2_id);
 	
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
@@ -141,7 +155,16 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function answerValidation($attribute, $params) {
 		$side = $params['side'];
-		if ($disorder_id = $this->{$side . '_diagnosis_id'}) {
+		
+		$disorders = array();
+		if ($did = $this->{$side . '_diagnosis1_id'}) {
+			$disorders[] = $did;
+		}
+		if ($did = $this->{$side . '_diagnosis2_id'}) {
+			$disorders[] = $did;
+		}
+		
+		foreach ($disorders as $disorder_id) {
 			$criteria = new CDbCriteria;
 			$criteria->condition = 'disorder_id = :disorder_id';
 			$criteria->params = array(':disorder_id' => $disorder_id);
@@ -211,12 +234,22 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 	
 	/**
+	 * TODO: remove
 	 * returns list of disorders as defined in the therapy application module
 	 */
 	public function getDisorders() {
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'parent_id IS NULL';
+		$criteria->order = 'display_order asc';
+		
+		$therapy_disorders = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->findAll($criteria);
+		
 		$disorders = array();
-		foreach (Element_OphCoTherapyapplication_Therapydiagnosis::model()->getLevel1TherapyDiagnoses() as $td) {
+		foreach ($therapy_disorders as $td) {
 			$disorders[] = $td->disorder;
+			foreach ($td->getLevel2Disorders() as $l2) {
+				$disorders[] = $l2;
+			}
 		}
 		return $disorders;
 	}
@@ -257,6 +290,84 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		foreach ($this->{$side . '_answers'} as $answer) {
 			if ($answer->question_id == $question_id) {
 				return $answer->answer;
+			}
+		}
+	}
+	
+	// -- DUPLICATED FROM Therapyapplication --
+	
+	/**
+	 * Get a list of level 1 disorders for this element (appends any level 1 disorder that has been selected for this
+	 * element but aren't part of the default list)
+	 *
+	 * @return Disorder[]
+	 */
+	public function getLevel1Disorders() {
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'parent_id IS NULL';
+		$criteria->order = 'display_order asc';
+	
+		$therapy_disorders = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->findAll($criteria);
+	
+		$disorders = array();
+		$disorder_ids = array();
+		foreach ($therapy_disorders as $td) {
+			$disorders[] = $td->disorder;
+			$disorder_ids[] = $td->disorder->id;
+		}
+		// if this element has been created with a disorder outside of the standard list, needs to be available in the
+		// list for selection to be maintained
+		foreach (array('left', 'right') as $side) {
+			if ($this->{$side . '_diagnosis1_id'} && !in_array($this->{$side . '_diagnosis1_id'}, $disorder_ids) ) {
+				$disorders[] = $this->{$side . '_diagnosis1'};
+			}
+		}
+	
+		return $disorders;
+	}
+	
+	/**
+	 * retrieve a list of disorders that are defined as level 2 disorders for the given disorder
+	 * @param unknown $therapyDisorder
+	 * @return Disorder[]
+	 */
+	public function getLevel2Disorders($disorder) {
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'parent_id IS NULL AND disorder_id = :did';
+		$criteria->params = array(':did' => $disorder->id);
+		$disorders = array();
+	
+		if ($td = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria)) {
+			$disorders = $td->getLevel2Disorders();
+			$dids = array();
+			foreach ($disorders as $d) {
+				$dids[] = $d->id;
+			}
+			foreach(array('left', 'right') as $side) {
+				if ($this->{$side . '_diagnosis1_id'} == $disorder->id
+				&& $this->{$side . '_diagnosis2'}
+				&& !in_array($this->{$side . '_diagnosis2_id'}, $dids)) {
+					$disorders[] = $this->{$side . '_diagnosis2'};
+				}
+			}
+				
+		}
+		return $disorders;
+	}
+	
+	/*
+	 * check that the standard intervention description is given if the element is flagged appropriately
+	*/
+	public function requiredIfSecondary($attribute, $params) {
+		if ($this->$params['dependent'] && !$this->$attribute) {
+			$criteria = new CDbCriteria;
+			// FIXME: mysql dependent NULL check
+			$criteria->condition = 'disorder_id = :did AND parent_id IS NULL';
+			$criteria->params = array(':did' => $this->$params['dependent']);
+			if ($td = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->find($criteria)) {
+				if ($td->getLevel2Disorders()) {
+					$this->addError($attribute, $td->disorder->term . " must be secondary to another diagnosis");
+				}
 			}
 		}
 	}

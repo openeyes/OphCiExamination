@@ -284,7 +284,14 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		
 		// disorder id verification
-		$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId(@$_GET['disorder_id']);
+		$questions = array();
+		foreach (@$_GET['disorders'] as $did) {
+			if ((int)$did) {
+				foreach (Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
+					$questions[] = $q;
+				}
+			}
+		}
 		
 		// need a form object
 		$form = Yii::app()->getWidgetFactory()->createWidget($this,'BaseEventTypeCActiveForm',array(

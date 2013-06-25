@@ -1311,9 +1311,11 @@ function OphCiExamination_InjectionManagementComplex_check() {
 	}
 }
 
-function OphCiExamination_InjectionManagementComplex_loadQuestions(side, disorder_id) {
+function OphCiExamination_InjectionManagementComplex_loadQuestions(side) {
+	var disorders = Array($('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis1_id').val(), 
+	                 $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').val());
 	var params = {
-		'disorder_id': disorder_id,
+		'disorders': disorders,
 		'side': side
 	};
 	
@@ -1321,11 +1323,61 @@ function OphCiExamination_InjectionManagementComplex_loadQuestions(side, disorde
 		'type': 'GET',
 		'url': OphCiExamination_loadQuestions_url + '?' + $.param(params),
 		'success': function(html) {
-			if (html.length > 0) {
-				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
+			// ensure we maintain any answers for questions that still remain after load (e.g. only level 2 has changed)
+			var answers = new Array();
+			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').find('input:radio:checked').each(function() {
+				answers.push($(this).attr('id'));
+			});
+			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
+			for (var i = 0; i < answers.length; i++) {
+				$('#'+answers[i]).attr('checked', 'checked');
 			}
 		}
 	});
+}
+
+function OphCiExamination_InjectionManagementComplex_DiagnosisCheck(side) {
+	var el = $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis1_id');
+
+	if (el.is(":visible") && el.val()) {
+		var l2_el = $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id');
+		// check l2 selection needs updating
+		if (l2_el.data('parent_id') != el.val()) {
+			
+			var l2_data;
+			el.find('option').each(function() {
+				if ($(this).val() == el.val()) {
+					l2_data = $(this).data('level2');
+					return true;
+				}
+			});
+			
+			if (l2_data) {
+				// need to update the list of options in the level 2 drop down
+				var options = '<option value="">- Please Select -</option>';
+				for (var i in l2_data) {
+					options += '<option value="' + l2_data[i].id + '">' + l2_data[i].term + '</option>';
+				}
+				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').html(options);
+				$('#' + side + '_diagnosis2_wrapper').removeClass('hidden');
+			}
+			else {
+				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').val('');
+				$('#' + side + '_diagnosis2_wrapper').addClass('hidden');
+			}
+			// store the parent_id on the selector for later checking
+			l2_el.data('parent_id', el.val());
+		}
+		else {
+			// ensure its displayed
+			$('#' + side + '_diagnosis2_wrapper').removeClass('hidden');
+		}
+		OphCiExamination_InjectionManagementComplex_loadQuestions(side);
+	}
+	else {
+		$('#' + side + '_diagnosis2_wrapper').addClass('hidden');
+		$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').html('');
+	}
 }
 
 function OphCiExamination_InjectionManagementComplex_init() {
@@ -1335,12 +1387,15 @@ function OphCiExamination_InjectionManagementComplex_init() {
 		OphCiExamination_InjectionManagementComplex_check();
 	});
 	
-	$('#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis_id').bind('change', function() {
+	$('#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis1_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis1_id,' +
+		'#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis2_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis2_id').bind('change', function() {
 		var side = getSplitElementSide($(this));
-		OphCiExamination_InjectionManagementComplex_loadQuestions(side, $(this).val());
+		OphCiExamination_InjectionManagementComplex_DiagnosisCheck(side);
 	});
 	
 }
+
+// END InjectionManagementComplex
 
 function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var max_id = -1;

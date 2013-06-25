@@ -1,6 +1,6 @@
 <?php
 
-class m130603_143216_injectionmanagementcomplex extends CDbMigration
+class m130624_143216_injectionmanagementcomplex extends CDbMigration
 {
 	public function up()
 	{
@@ -17,7 +17,7 @@ class m130603_143216_injectionmanagementcomplex extends CDbMigration
 		
 		// get the id for both eyes
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
-		
+		/*
 		$this->createTable('ophciexamination_injectmanagecomplex_notreatmentreason', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -32,15 +32,17 @@ class m130603_143216_injectionmanagementcomplex extends CDbMigration
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_injectmanagecomplex_notreatmentreason_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
-		
+		*/
 		$this->createTable('et_ophciexamination_injectionmanagementcomplex', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'event_id' => 'int(10) unsigned NOT NULL',
 				'eye_id' => 'int(10) unsigned DEFAULT ' . $both_eyes_id,
 				'no_treatment' => 'boolean NOT NULL DEFAULT false',
 				'no_treatment_reason_id' => 'int(10) unsigned',
-				'left_diagnosis_id' => 'int(10) unsigned',
-				'right_diagnosis_id' => 'int(10) unsigned',
+				'left_diagnosis1_id' => 'int(10) unsigned',
+				'right_diagnosis1_id' => 'int(10) unsigned',
+				'left_diagnosis2_id' => 'int(10) unsigned',
+				'right_diagnosis2_id' => 'int(10) unsigned',
 				'left_comments' => 'text',
 				'right_comments' => 'text',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -51,14 +53,18 @@ class m130603_143216_injectionmanagementcomplex extends CDbMigration
 				'KEY `et_ophciexamination_injectionmanagementcomplex_lmui_fk` (`last_modified_user_id`)',
 				'KEY `et_ophciexamination_injectionmanagementcomplex_cui_fk` (`created_user_id`)',
 				'KEY `et_ophciexamination_injectionmanagementcomplex_eye_fk` (`eye_id`)',
-				'KEY `et_ophciexamination_injectionmanagementcomplex_ldiag_fk` (`left_diagnosis_id`)',
-				'KEY `et_ophciexamination_injectionmanagementcomplex_rdiag_fk` (`right_diagnosis_id`)',
+				'KEY `et_ophciexamination_injectionmanagementcomplex_ldiag1_fk` (`left_diagnosis1_id`)',
+				'KEY `et_ophciexamination_injectionmanagementcomplex_rdiag1_fk` (`right_diagnosis1_id`)',
+				'KEY `et_ophciexamination_injectionmanagementcomplex_ldiag2_fk` (`left_diagnosis2_id`)',
+				'KEY `et_ophciexamination_injectionmanagementcomplex_rdiag2_fk` (`right_diagnosis2_id`)',
 				'KEY `et_ophciexamination_injectionmanagementcomplex_event_id_fk` (`event_id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_eye_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
-				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_ldiag_fk` FOREIGN KEY (`left_diagnosis_id`) REFERENCES `disorder` (`id`)',
-				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_rdiag_fk` FOREIGN KEY (`right_diagnosis_id`) REFERENCES `disorder` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_ldiag1_fk` FOREIGN KEY (`left_diagnosis1_id`) REFERENCES `disorder` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_rdiag1_fk` FOREIGN KEY (`right_diagnosis1_id`) REFERENCES `disorder` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_ldiag2_fk` FOREIGN KEY (`left_diagnosis2_id`) REFERENCES `disorder` (`id`)',
+				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_rdiag2_fk` FOREIGN KEY (`right_diagnosis2_id`) REFERENCES `disorder` (`id`)',
 				'CONSTRAINT `et_ophciexamination_injectionmanagementcomplex_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 		
