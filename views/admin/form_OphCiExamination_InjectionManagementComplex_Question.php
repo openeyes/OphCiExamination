@@ -23,6 +23,6 @@
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->dropDownList($model,'disorder_id', CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getDisorders(),'id','term'), array('empty'=>'- Please select -')); ?>
+<?php echo $form->dropDownList($model,'disorder_id', CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -')); ?>
 
 <?php echo $form->textField($model,'question'); ?>

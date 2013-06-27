@@ -324,6 +324,17 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 	}
 	
+	public function getAllDisorders() {
+		$disorders = array();
+		foreach ($this->getLevel1Disorders() as $disorder) {
+			$disorders[] = $disorder;
+			foreach ($this->getLevel2Disorders($disorder) as $l2_disorder) {
+				$disorders[] = $l2_disorder;
+			}
+		}
+		return $disorders;
+	}
+	
 	// -- DUPLICATED FROM Therapyapplication --
 	
 	/**

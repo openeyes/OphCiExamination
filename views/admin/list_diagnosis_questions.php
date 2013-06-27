@@ -21,7 +21,7 @@
 <h1><?php echo $title ? $title : "Examination Admin" ?></h1>
 
 <?php 
-echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
+echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
 ?>
 
 <a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>?disorder_id=<?php echo $disorder_id ?>">Add New</a>

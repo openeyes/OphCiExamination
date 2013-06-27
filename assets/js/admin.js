@@ -9,7 +9,10 @@ $(document).ready(function() {
 			$.ajax({
 				'type': 'POST',
 				'url': OphCiExamination_sort_url,
-				'data': {order: ids},
+				'data': {
+					order: ids,
+					YII_CSRF_TOKEN: YII_CSRF_TOKEN
+				},
 				'success': function(data) {
 					alert('Questions reordered');
 				}
