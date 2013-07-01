@@ -57,19 +57,22 @@
 
 <?php 
 $questions = $element->getInjectionQuestionsForSide($side);
-/*
-if ($disorder_id = $element->{$side . '_diagnosis1_id'} ) {
-	$questions = Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
-}
-if ($disorder_id = $element->{$side . '_diagnosis2_id'} ) {
-	foreach (Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id) as $q) {
-		$questions[] = $q;
-	}
-}
-*/
 	
 $this->renderPartial('form_' . get_class($element) . '_questions',
 				array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));
+?>
+
+<?php 
+	$html_options = array(
+		'options' => array(),	
+		'empty' => '- Please select -',
+		'div_id' =>  get_class($element) . '_' . $side . '_risks',
+		'label' => 'Risks');
+	$risks = $element->getRisksForSide($side);
+	foreach ($risks as $risk) {
+		$html_options['options'][(string)$risk->id] = array('data-order' => $risk->display_order); 
+	}
+	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options)
 ?>
 
 <div class="eventDetail comments">

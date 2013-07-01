@@ -38,6 +38,23 @@
 <?php } ?>
 
 <div class="eventDetail aligned">
+		<div class="label"><?php echo $element->getAttributeLabel($side . '_risks') ?>:</div>
+		<div class="data" style="display: inline-block;">
+			<?php 
+			if (!$element->{$side . '_risks'}) {
+				echo "None";
+			}
+			else {
+				foreach ($element->{$side . '_risks'} as $item) {
+					echo $item->name . "<br />";
+				}
+			}
+			?>
+		</div>
+	</div>
+
+
+<div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
 	<div class="data"><?php echo $element->{$side . '_comments'} ?></div>
 </div>

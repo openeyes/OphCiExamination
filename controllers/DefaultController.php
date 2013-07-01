@@ -329,7 +329,8 @@ class DefaultController extends NestedElementsEventTypeController {
 	 * @param Element_OphCiExamination_InjectionManagementComplex $element
 	 * @param string $side
 	 */
-	private function _POST_InjectionAnswers($element, $side) {
+	private function _POST_InjectionAnswers($element, $side) 
+	{
 		$answers = array();
 		if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
 			foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
@@ -349,14 +350,40 @@ class DefaultController extends NestedElementsEventTypeController {
 	}
 	
 	/**
+	 * associate the risks from the POST submission with the Element_OphCiExamination_InjectionManagementComplex element for
+	 * validation
+	 *
+	 * @param Element_OphCiExamination_InjectionManagementComplex $element
+	 * @param string $side
+	 */
+	private function _POST_InjectionRisks($element, $side)
+	{
+		if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
+			$risks = array();
+		
+			foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
+				if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+					$risks[] = $risk;
+				}
+			}
+			$element->{$side . '_risks'} = $risks;
+		}
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see BaseEventTypeController::setPOSTManyToMany()
 	 */
 	protected function setPOSTManyToMany($element) {
-		if (get_class($element) == "Element_OphCiExamination_InjectionManagementComplex") {
+		$cls = get_class($element);
+		if ($cls == "Element_OphCiExamination_InjectionManagementComplex") {
 			$this->_POST_InjectionAnswers($element, 'left');
 			$this->_POST_InjectionAnswers($element, 'right');
+			$this->_POST_InjectionRisks($element, 'left');
+			$this->_POST_InjectionRisks($element, 'right');
 		}
+		
+		
 	}
 
 	/*
@@ -367,13 +394,21 @@ class DefaultController extends NestedElementsEventTypeController {
 	protected function storePOSTManyToMany($elements) {
 		foreach ($elements as $el) {
 			if (get_class($el) == 'Element_OphCiExamination_InjectionManagementComplex') {
-				$el->updateQuestionAnswers(Element_OphCiExamination_InjectionManagementComplex::LEFT,
+				$el->updateQuestionAnswers(Eye::LEFT,
 						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
 								$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
 								array());
-				$el->updateQuestionAnswers(Element_OphCiExamination_InjectionManagementComplex::RIGHT,
+				$el->updateQuestionAnswers(Eye::RIGHT,
 						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
 						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+						array());
+				$el->updateRisks(Eye::LEFT,
+						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
+						$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+						array());
+				$el->updateRisks(Eye::RIGHT,
+						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
+						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
 						array());
 			}
 		}

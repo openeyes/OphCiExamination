@@ -36,7 +36,10 @@
  * @property Disorder $right_diagnosis1
  * @property Disorder $left_diagnosis2
  * @property Disorder $right_diagnosis2
- *
+ * @property OphCiExamination_InjectionManagementComplex_Answer[] $left_answers
+ * @property OphCiExamination_InjectionManagementComplex_Answer[] $right_answers
+ * @property OphCiExamination_InjectionManagementComplex_Risk[] $left_risks
+ * @property OphCiExamination_InjectionManagementComplex_Risk[] $right_risks
  */
 
 class Element_OphCiExamination_InjectionManagementComplex extends SplitEventTypeElement {
@@ -100,8 +103,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'left_diagnosis2' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis2_id'),
 				'right_diagnosis2' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis2_id'),
 				'answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id'),
-				'left_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'left_answers.eye_id = ' . SplitEventTypeElement::LEFT),
-				'right_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'right_answers.eye_id = ' . SplitEventTypeElement::RIGHT),
+				'left_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'left_answers.eye_id = ' . Eye::LEFT),
+				'right_answers' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Answer', 'element_id', 'on' => 'right_answers.eye_id = ' . Eye::RIGHT),
+				'risk_assignments' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_RiskAssignment' , 'element_id' ),
+				'left_risks' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Risk', 'risk_id', 'through' => 'risk_assignments', 'on' => 'risk_assignments.eye_id = ' . Eye::LEFT),
+				'right_risks' => array(self::HAS_MANY, 'OphCiExamination_InjectionManagementComplex_Risk', 'risk_id', 'through' => 'risk_assignments' , 'on' => 'risk_assignments.eye_id = ' . Eye::RIGHT),
 		);
 	}
 	
@@ -118,6 +124,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'right_diagnosis1_id' => 'Diagnosis',
 				'left_diagnosis2_id' => 'Secondary to',
 				'right_diagnosis2_id' => 'Secondary to',
+				'left_risks' => 'Risks',
+				'right_risks' => 'Risks',
 				'left_comments' => 'Comments', 
 				'right_comments' => 'Comments',
 		);
@@ -176,7 +184,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * @param string $side
 	 * @param array $update_answers - associate array of question id to answer value
 	 */
-	public function updateQuestionAnswers($side, $update_answers) {
+	public function updateQuestionAnswers($side, $update_answers) 
+	{
 		$current_answers = array();
 		$save_answers = array();
 		
@@ -222,11 +231,78 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 	
 	/**
+	 * update the risks for the given side.
+	 * 
+	 * @param string $side
+	 * @param integer[] $risk_ids - array of risk ids to assign to the element 
+	 */
+	public function updateRisks($side, $risk_ids) 
+	{
+		$current_risks = array();
+		$save_risks = array();
+		
+		foreach ($this->risk_assignments as $curr) {
+			if ($curr->eye_id == $side) {
+				$current_risks[$curr->risk_id] = $curr;
+			}
+		}
+		
+		// go through each update risk id, if it isn't assigned for this element,
+		// create assignment and store for saving
+		// if there is, remove from the current risk array
+		// anything left in $current_risks at the end is ripe for deleting
+		foreach ($risk_ids as $risk_id) {
+			if (!array_key_exists($risk_id, $current_risks)) {
+				$s = new OphCiExamination_InjectionManagementComplex_RiskAssignment();
+				$s->attributes = array('element_id' => $this->id, 'eye_id' => $side, 'risk_id' => $risk_id);
+				$save_risks[] = $s;
+			} else {
+				// don't want to delete later
+				unset($current_risks[$risk_id]);
+			}
+		}
+		// save what needs saving
+		foreach ($save_risks as $save) {
+			$save->save();
+		}
+		// delete the rest
+		foreach ($current_risks as $curr) {
+			$curr->delete();
+		}
+	}
+	
+	public function getRisksForSide($side)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'enabled = true';
+		$criteria->order = 'display_order asc';
+		
+		$risks = OphCiExamination_InjectionManagementComplex_Risk::model()->findAll($criteria);
+		
+		$all_risks = array();
+		$r_ids = array();
+		
+		foreach ($risks as $risk) {
+			$all_risks[] = $risk;
+			$r_ids[] = $risk->id;
+		}
+		
+		foreach ($this->{$side . '_risks'} as $curr) {
+			if (!in_array($curr->id, $r_ids)) {
+				$all_risks[] = $curr;
+			}
+		}
+		
+		return $all_risks;
+	}
+	
+	/**
 	 * get the list of no treatment reasons that should be used for this element 
 	 * 
 	 * @return multitype:OphCiExamination_InjectionManagementComplex_NoTreatmentReason unknown
 	 */
-	public function getNoTreatmentReasons() {
+	public function getNoTreatmentReasons() 
+	{
 		$criteria = new CDbCriteria;
 		$criteria->condition = 'enabled = true';
 		$criteria->order = 'display_order asc';
