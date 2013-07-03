@@ -5,6 +5,7 @@ class m130226_142600_glaucoma_risk_element extends OEMigration {
 	public function up() {
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$clinic_outcome_element_type_id = ElementType::model()->find('class_name = ?', array('Element_OphCiExamination_ClinicOutcome'))->id;
+		
 		$this->insert('element_type',array(
 				'name' => 'Glaucoma Risk Stratification',
 				'class_name' => 'Element_OphCiExamination_GlaucomaRisk',
@@ -27,6 +28,7 @@ class m130226_142600_glaucoma_risk_element extends OEMigration {
 		);
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
+		
 		$this->createTable('et_ophciexamination_glaucomarisk', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'event_id' => 'int(10) unsigned NOT NULL',
@@ -45,7 +47,8 @@ class m130226_142600_glaucoma_risk_element extends OEMigration {
 			'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
 		$this->addColumn('et_ophciexamination_glaucomarisk', 'risk_id', 'int(10) unsigned NOT NULL');
-		$this->addForeignKey('et_ophciexamination_glaucomarisk_risk_id_fk', 'et_ophciexamination_glaucomarisk', 'risk_id', 'OphCiExamination_GlaucomaRisk_Risk', 'id');
+
+		$this->addForeignKey('et_ophciexamination_glaucomarisk_risk_id_fk', 'et_ophciexamination_glaucomarisk', 'risk_id', 'ophciexamination_glaucomarisk_risk', 'id');
 	}
 
 	public function down() {
