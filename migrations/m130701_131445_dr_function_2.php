@@ -4,7 +4,6 @@ class m130701_131445_dr_function_2 extends CDbMigration
 {
 	public function up()
 	{
-		
 		$element_type = $this->dbConnection->createCommand()->select('id')->from('element_type')
 			->where('class_name=:cname', array(':cname'=>'Element_OphCiExamination_VisualAcuity'))->queryRow();
 		$va_id = $element_type['id'];
@@ -49,7 +48,6 @@ class m130701_131445_dr_function_2 extends CDbMigration
 					'base_value' => $i));
 		}
 		
-		
 		// add column on VA units to flag whether it should be shown in conversion tool tip
 		$this->addColumn('ophciexamination_visual_acuity_unit', 'tooltip', 'boolean NOT NULL DEFAULT false');
 		
@@ -90,6 +88,7 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		// turn logMAR on
 		$this->update('ophciexamination_visual_acuity_unit', array('tooltip' => true), 'id = :uid', array(':uid' => $logmar_id));
 		
+
 		// Injection Management Complex
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		// Management element type
@@ -104,7 +103,7 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		
 		// get the id for both eyes
 		$both_eyes_id = Eye::BOTH;
-		/*
+		
 		$this->createTable('ophciexamination_injectmanagecomplex_notreatmentreason', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
@@ -182,7 +181,7 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Pre-existing glaucoma','display_order'=>1));
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Previous glaucoma surgery (trabeculectomy bleb, glaucoma draining device)','display_order'=>2));
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Allergy to povidone iodine','display_order'=>3));
-		*/
+		
 		$this->createTable('ophciexamination_injectmanagecomplex_risk_assignment', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'element_id' => 'int(10) unsigned NOT NULL',
