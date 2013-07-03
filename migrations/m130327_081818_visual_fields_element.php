@@ -5,6 +5,7 @@ class m130327_081818_visual_fields_element extends CDbMigration
 	public function up()
 	{
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		/*
 		$this->insert('element_type',array(
 			'name' => 'Visual Fields',
 			'class_name' => 'Element_OphCiExamination_VisualFields',
@@ -12,6 +13,7 @@ class m130327_081818_visual_fields_element extends CDbMigration
 			'display_order' => 31,
 			'default' => 0,
 		));
+		*/
 
 		$this->createTable('et_ophciexamination_visual_fields', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
