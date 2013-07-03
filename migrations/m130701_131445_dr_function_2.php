@@ -398,6 +398,7 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		
 		$this->dropTable('et_ophciexamination_cmt');
 		$this->delete('element_type',"class_name = 'Element_OphCiExamination_CMT'");
+		$this->dropTable('ophciexamination_cmt_method');
 		$this->dropTable('et_ophciexamination_oct');
 		$this->delete('element_type',"class_name = 'Element_OphCiExamination_OCT'");
 		
