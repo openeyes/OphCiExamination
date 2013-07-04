@@ -27,7 +27,7 @@
 			'options' => CHtml::listData($l1_disorders,'id','term'),
 			'layout' => 'search',
 			'default' => false,
-			'dropdownOptions' => array('empty'=>'- Please select -', 'options' => $l1_opts, 'style' => 'margin-bottom: 10px'),
+			'dropdownOptions' => array('empty'=>'- Please select -', 'options' => $l1_opts, 'style' => 'margin-bottom: 10px; width: 240px;'),
 	));?>
 	</div>
 </div>
@@ -36,7 +36,7 @@
 	<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id'); ?></div>
 	<div class="data" style="display: inline-block;">
 		<?php 
-		$l2_attrs =  array('empty'=>'- Please select -', 'style' => 'margin-bottom: 10px');
+		$l2_attrs =  array('empty'=>'- Please select -', 'style' => 'margin-bottom: 10px; width: 240px;');
 		$l2_opts = array();
 		if (array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders)) {
 			$l2_opts = $l2_disorders[$element->{$side . '_diagnosis1_id'}];
