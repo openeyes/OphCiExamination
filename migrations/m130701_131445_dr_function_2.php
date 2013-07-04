@@ -48,6 +48,29 @@ class m130701_131445_dr_function_2 extends CDbMigration
 					'base_value' => $i));
 		}
 		
+		// extend the snellen metre values
+		$this->insert('ophciexamination_visual_acuity_unit_value', array(
+				'unit_id' => $snellen_id,
+				'value' => '6/4',
+				'base_value' => 119));
+		
+		$this->insert('ophciexamination_visual_acuity_unit_value', array(
+				'unit_id' => $snellen_id,
+				'value' => '6/3',
+				'base_value' => 126));
+		
+		$this->insert('ophciexamination_visual_acuity_unit_value', array(
+				'unit_id' => $snellen_id,
+				'value' => '6/2',
+				'selectable' => false,
+				'base_value' => 135));
+		
+		$this->insert('ophciexamination_visual_acuity_unit_value', array(
+				'unit_id' => $snellen_id,
+				'value' => '6/1',
+				'selectable' => false,
+				'base_value' => 150));
+		
 		// add column on VA units to flag whether it should be shown in conversion tool tip
 		$this->addColumn('ophciexamination_visual_acuity_unit', 'tooltip', 'boolean NOT NULL DEFAULT false');
 		
