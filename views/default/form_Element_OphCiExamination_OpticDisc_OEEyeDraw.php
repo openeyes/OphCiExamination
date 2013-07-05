@@ -57,7 +57,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		</div>
 		<div class="data">
 			<?php 
-			$cd_ratio_html_options = array('options' => array());
+			$cd_ratio_html_options = array('class' => 'cd-ratio', 'options' => array());
 			foreach (OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')) as $ratio) {
 				$cd_ratio_html_options['options'][(string)$ratio->id] = array('data-value'=> $ratio->name);
 			}

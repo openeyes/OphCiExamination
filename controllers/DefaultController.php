@@ -18,17 +18,17 @@
  */
 
 class DefaultController extends NestedElementsEventTypeController {
-	
+
 	protected function beforeAction($action) {
-		
+
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
 			$this->registerCssFile('spliteventtype.css', Yii::app()->createUrl('css/spliteventtype.css'));
 			Yii::app()->getClientScript()->registerScriptFile(Yii::app()->createUrl('js/spliteventtype.js'));
 		}
-		
+
 		return parent::beforeAction($action);
 	}
-	
+
 	public function actionCreate() {
 		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
@@ -51,9 +51,16 @@ class DefaultController extends NestedElementsEventTypeController {
 
 	public function actionStep($id) {
 		// This is the same as update, but with a few extras, so we call the update code and then pick up on the action later
-		parent::actionUpdate($id);
+		$this->actionUpdate($id);
 	}
-	
+
+	protected function setElementOptions($element, $action) {
+		parent::setElementOptions($element, $action);
+		if ($action == 'step') {
+			$element->setUpdateOptions();
+		}
+	}
+
 	protected function afterUpdateElements($event) {
 		if($this->action->id == 'step') {
 			// Advance the workflow
@@ -71,10 +78,10 @@ class DefaultController extends NestedElementsEventTypeController {
 			}
 		}
 	}
-	
+
 	protected function afterCreateElements($event) {
 	}
-	
+
 	protected function getCleanDefaultElements($event_type_id) {
 		return $this->getElementsByWorkflow(null, $this->episode);
 	}
@@ -82,7 +89,7 @@ class DefaultController extends NestedElementsEventTypeController {
 	protected function getCleanChildDefaultElements($parent, $event_type_id) {
 		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
-	
+
 	/**
 	 * Get the first workflow step using rules
 	 * @return OphCiExamination_ElementSet
@@ -93,7 +100,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		$status_id = $this->episode->episode_status_id;
 		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
 	}
-	
+
 	/**
 	 * Get the next workflow step
 	 * @return OphCiExamination_ElementSet
@@ -109,7 +116,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		return $step->getNextStep();
 	}
-	
+
 	protected function getSavedElements($action, $event, $parent = null) {
 		$elements = parent::getSavedElements($action, $event, $parent);
 		if($action == 'step') {
@@ -117,7 +124,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		return $elements;
 	}
-	
+
 	/**
 	 * Merge workflow next step elements into existing elements
 	 * @param array $elements
@@ -156,8 +163,8 @@ class DefaultController extends NestedElementsEventTypeController {
 		});
 		return $merged_elements;
 	}
-	
-	
+
+
 	/**
 	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
 	 * @param OphCiExamination_ElementSet $set
@@ -180,7 +187,7 @@ class DefaultController extends NestedElementsEventTypeController {
 		}
 		return $elements;
 	}
-	
+
 	public function actionGetDisorderTableRow() {
 		if (@$_GET['disorder_id'] == '0') return;
 
@@ -225,7 +232,7 @@ class DefaultController extends NestedElementsEventTypeController {
 
 		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
-	
+
 	/**
 	 * Get all the attributes for an element
 	 * @param BaseEventTypeElement $element
@@ -235,6 +242,6 @@ class DefaultController extends NestedElementsEventTypeController {
 		$attributes = OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
 		return $attributes;
 	}
-	
+
 }
 
