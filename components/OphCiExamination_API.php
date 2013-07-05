@@ -481,7 +481,7 @@ class OphCiExamination_API extends BaseAPI {
 			foreach ($events as $event) {
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_id',$event->id);
-				$criteria->addInConditon('eye_id', $side_list);
+				$criteria->addInCondition('eye_id', $side_list);
 
 				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
 					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
