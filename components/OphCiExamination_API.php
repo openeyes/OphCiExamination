@@ -417,19 +417,27 @@ class OphCiExamination_API extends BaseAPI {
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side
-	 * @param int $disorder_id
+	 * @param int $disorder1_id
+	 * @param int $disorder2_id
 	 * 
 	 * @return Element_OphCiExamination_InjectionManagementComplex
 	 */
-	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder_id) {
+	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder1_id, $disorder2_id) 
+	{
 		$events = $this->getEventsInEpisode($patient, $episode);
 		$elements = array();
 		
 		if ($events) {
-			foreach (@$events as $event) {
+			foreach ($events as $event) {
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_id',$event->id);
-				$criteria->compare($side . '_diagnosis_id', $disorder_id);
+				$criteria->compare($side . '_diagnosis1_id', $disorder1_id);
+				if ($disorder2_id) {
+					$criteria->compare($side . '_diagnosis2_id', $disorder2_id);
+				}
+				else {
+					$criteria->addCondition($side . '_diagnosis2_id IS NULL');
+				}
 				
 				if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
 					return $el;
@@ -442,12 +450,43 @@ class OphCiExamination_API extends BaseAPI {
 	 * wrapper to retrieve question objects for a given disorder id
 	 * 
 	 * @param int $disorder_id
+	 * @return OphCiExamination_InjectionMangementComplex_Question[]
 	 */
-	public function getInjectionManagementQuestionsForDisorder($disorder_id) {
+	public function getInjectionManagementQuestionsForDisorder($disorder_id) 
+	{
 		try {
 			Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
 		} catch (Exception $e) {
 			return array();
+		}
+	}
+
+	/**
+	 * retrieve OCT measurements for the given side for the patient in the given episode
+	 * @param Patient $patient 
+	 * @param Episode $episode 
+	 * @param string $side - 'left' or 'right'
+	 * @return array(maximum_CMT, central_SFT) or null
+	 */
+	public function getOCTForSide($patient, $episode, $side)
+	{
+		$events = $this->getEventsInEpisode($patient, $episode);
+		if ($side == 'left') {
+			$side_list = array(Eye::LEFT, Eye::BOTH);
+		}
+		else {
+			$side_list = array(Eye::RIGHT, Eye::BOTH);
+		}
+		if ($events) {
+			foreach ($events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				$criteria->addInConditon('eye_id', $side_list);
+
+				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
+					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
+				}
+			}
 		}
 	}
 }
