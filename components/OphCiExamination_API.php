@@ -264,8 +264,16 @@ class OphCiExamination_API extends BaseAPI {
 		return $return;
 	}
 	
-
-	public function getLetterDRRetinopathy($patient, $episode, $side) {
+	/**
+	 * Get the NSC Retinopathy grade
+	 * 
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getLetterDRRetinopathy($patient, $episode, $side) 
+	{
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
 			$res = $dr->{$side."_nscretinopathy"};
 			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
@@ -275,7 +283,29 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 	
-	public function getLetterDRMaculopathy($patient, $episode, $side) {
+	public function getLetterDRRetinopathyLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getLetterDRRetinopathy($patient, $episode, 'left');
+		}
+	}
+	
+	public function getLetterDRRetinopathyRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getLetterDRRetinopathy($patient, $episode, 'right');
+		}
+	}
+	
+	/**
+	 * Get the NSC Maculopathy grade
+	 * 
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRMaculopathy($patient, $episode, $side) {
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
 			$res = $dr->{$side."_nscmaculopathy"};
 			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
@@ -285,28 +315,90 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 	
-	public function getLetterDRClinical($patient, $episode, $side) {
+	public function getLetterDRMaculopathyLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRMaculopathy($patient, $episode, 'left');
+		}
+	}
+	
+	public function getLetterDRMaculopathyRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRMaculopathy($patient, $episode, 'right');
+		}
+	}
+	
+	/**
+	 * Get the clinical diabetic retinopathy grade
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRClinical($patient, $episode, $side) {
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
 			return $dr->{$side."_clinical"};
 		}
 	}
 	
-	public function getLetterLaserManagementPlan($patient, $episode) {
-		if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
-			return $m->getLetter_lmp();
+	public function getLetterDRClinicalLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinical($patient, $episode, 'left');
 		}
 	}
 	
-	public function getLetterLaserManagementComments($patient, $episode) {
-		if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Management')) {
-			return $m->comments;
+	public function getLetterDRClinicalRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinical($patient, $episode, 'right');
 		}
 	}
 	
-	public function getLetterOutcomeFollowUpPeriod($patient, $episode) {
-		if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_ClinicOutcome')) {
-			if ($o->followup_quantity) {
-				return $o->followup_quantity . " " . $o->followup_period;
+	/**
+	 * get the laser management plan
+	 * 
+	 * @param Patient $patient
+	 */
+	public function getLetterLaserManagementPlan($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
+				return $m->getLetter_lmp();
+			}
+		}
+	}
+	
+	/**
+	 * get laser management comments
+	 * 
+	 * @param Patient $patient
+	 * @return string
+	 */
+	public function getLetterLaserManagementComments($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Management')) {
+				return $m->comments;
+			}
+		}
+	}
+	
+	/**
+	 * get follow up period from clinical outcome
+	 * 
+	 * @param Patient $patient
+	 * @return string
+	 */
+	public function getLetterOutcomeFollowUpPeriod($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_ClinicOutcome')) {
+				if ($o->followup_quantity) {
+					return $o->followup_quantity . " " . $o->followup_period;
+				}
 			}
 		}
 	}

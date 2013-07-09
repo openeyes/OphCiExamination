@@ -4,6 +4,19 @@ class m130701_131445_dr_function_2 extends CDbMigration
 {
 	public function up()
 	{
+		// letter short codes
+		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		
+		$event_type->registerShortcode('nrr','getLetterDRRetinopathyRight','NSC right retinopathy');
+		$event_type->registerShortcode('nlr','getLetterDRRetinopathyLeft','NSC left retinopathy');
+		$event_type->registerShortcode('nrm','getLetterDRMaculopathyRight','NSC right maculopathy');
+		$event_type->registerShortcode('nlm','getLetterDRMaculopathyLeft','NSC left maculopathy');
+		$event_type->registerShortcode('crd','getLetterDRClinicalRight','Clinical right retinopathy');
+		$event_type->registerShortcode('cld','getLetterDRClinicalLeft','Clinical left retinopathy');
+		$event_type->registerShortcode('lmp','getLetterLaserManagementPlan','Laser management plan');
+		$event_type->registerShortcode('lmc','getLetterLaserManagementComments','Laser management comments');
+		$event_type->registerShortcode('fup','getLetterOutcomeFollowUpPeriod','Follow up period');
+		
 		$element_type = $this->dbConnection->createCommand()->select('id')->from('element_type')
 			->where('class_name=:cname', array(':cname'=>'Element_OphCiExamination_VisualAcuity'))->queryRow();
 		$va_id = $element_type['id'];
@@ -425,6 +438,15 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		$this->dropTable('et_ophciexamination_oct');
 		$this->delete('element_type',"class_name = 'Element_OphCiExamination_OCT'");
 		
+		$this->delete('patient_shortcode', "default_code = 'nrr'");
+		$this->delete('patient_shortcode', "default_code = 'nlr'");
+		$this->delete('patient_shortcode', "default_code = 'nrm'");
+		$this->delete('patient_shortcode', "default_code = 'nlm'");
+		$this->delete('patient_shortcode', "default_code = 'crd'");
+		$this->delete('patient_shortcode', "default_code = 'cld'");
+		$this->delete('patient_shortcode', "default_code = 'lmp'");
+		$this->delete('patient_shortcode', "default_code = 'lmc'");
+		$this->delete('patient_shortcode', "default_code = 'fup'");		
 	}
 
 }
