@@ -100,7 +100,7 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	 */
 	public function getClosest($base_value, $unit_id = null) {
 		if(!$unit_id) {
-			$unit_id = Element_OphCiExamination_VisualAcuity::model()->getUnit()->id;
+			$unit_id = $this->element->unit_id;
 		}
 		$criteria = new CDbCriteria();
 		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');

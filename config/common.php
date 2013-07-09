@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * OpenEyes
  *
@@ -16,22 +16,12 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-<tr class="visualAcuityReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
-	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-	</td>
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
-	</td>
-	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+return array(
+	'params' => array(
+		'admin_menu' => array(
+			'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
+			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
+		),
+	),
+);

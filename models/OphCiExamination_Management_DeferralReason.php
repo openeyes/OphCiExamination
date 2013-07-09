@@ -3,7 +3,7 @@
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2013
+ * (C) OpenEyes Foundation, 2011-2012
  * This file is part of OpenEyes.
  * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -13,21 +13,23 @@
  * @link http://www.openeyes.org.uk
  * @author OpenEyes <info@openeyes.org.uk>
  * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
+ * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
 /**
- * This is the model class for table "ophciexamination_visual_acuity_unit".
+ * This is the model class for table "ophciexamination_management_deferralreason".
  *
  * @property integer $id
  * @property string $name
+ * @property integer $display_order
+ 
  */
-class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
+class OphCiExamination_Management_DeferralReason extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_VisualAcuityUnit the static model class
+	 * @return OphCiExamination_Risks_Assignment the static model class
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -37,16 +39,20 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_visual_acuity_unit';
+		return 'ophciexamination_management_deferralreason';
 	}
 
+	public function __toString() {
+		return $this->name;
+	}
+	
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model OphCiExamination_Risks_Assignment.
 	 */
 	public function rules() {
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('name, display_order', 'required'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +61,6 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'order' => 'base_value DESC'),
-				'selectableValues' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'on' => 'selectableValues.selectable = true', 'order' => 'base_value DESC'),
 		);
 	}
 
@@ -68,6 +72,7 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('display_order',$this->display_order,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

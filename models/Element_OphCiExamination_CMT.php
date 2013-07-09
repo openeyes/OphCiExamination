@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_anteriorsegment_cct".
+ * This is the model class for table "et_ophciexamination_cmt".
  *
  * The followings are the available columns in table:
  * @property integer $id
@@ -26,13 +26,13 @@
  * @property integer $eye_id
  * @property string $left_value
  * @property string $right_value
- * @property OphCiExamination_AnteriorSegment_CCT_Method $left_method
- * @property OphCiExamination_AnteriorSegment_CCT_Method $right_method
+ * @property OphCiExamination_CMT_Method $left_method
+ * @property OphCiExamination_CMT_Method $right_method
  *
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement {
+class Element_OphCiExamination_CMT extends SplitEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -46,7 +46,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_anteriorsegment_cct';
+		return 'et_ophciexamination_cmt';
 	}
 
 	/**
@@ -59,8 +59,12 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 				array('eye_id, event_id', 'safe'),
 				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
-				array('left_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
-				array('right_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
+				array('left_value', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
+						'tooBig' => 'Left {attribute} must be between 250 and 600',
+						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
+				array('right_value', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
+						'tooBig' => 'Right {attribute} must be between 250 and 600',
+						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_method_id, right_method_id, left_value, right_value', 'safe', 'on' => 'search'),
@@ -84,8 +88,8 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'right_method_id'),
+				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_CMT_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_CMT_Method', 'right_method_id'),
 		);
 	}
 

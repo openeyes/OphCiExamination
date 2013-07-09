@@ -17,21 +17,29 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
-	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-	</td>
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
-	</td>
-	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+<?php if ($element->no_treatment) {?>
+	<div class="eventDetail">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('no_treatment_reason_id'))?></div>
+		<div class="data"><?php echo $element->no_treatment_reason ? $element->no_treatment_reason->name : 'Not specified'?></div>
+	</div>
+<?php } else { ?>
+	<div class="cols2 clearfix">
+		<div class="left eventDetail">
+			<?php if($element->hasRight()) {
+				$this->renderPartial('_view_' . get_class($element) . '_fields',
+					array('side' => 'right', 'element' => $element));
+			} else { ?>
+			Not recorded
+			<?php } ?>
+		</div>
+		<div class="right eventDetail">
+			<?php if($element->hasLeft()) {
+				$this->renderPartial('_view_' . get_class($element) . '_fields',
+					array('side' => 'left', 'element' => $element));
+			} else { ?>
+			Not recorded
+			<?php } ?>
+		</div>
+	</div>
+<?php }?>

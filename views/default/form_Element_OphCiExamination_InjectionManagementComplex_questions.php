@@ -17,21 +17,40 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
-	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-	</td>
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
-	</td>
-	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+<div id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
+	<?php 
+	$name_stub = get_class($element) . '[' . $side . '_Answer]';
+	foreach ($questions as $question) {
+		?>
+		<div class="eventDetail">
+			<div class="label">
+				<?php echo $question->question ?>
+			</div>
+			<?php 
+			$name = $name_stub . '[' . $question->id . ']';
+			$value = $element->getQuestionAnswer($side, $question->id);
+			// update with POST values if available
+			if (isset($_POST[get_class($element)][$side . '_Answer'][$question->id])) {
+				$value = $_POST[get_class($element)][$side . '_Answer'][$question->id];
+			}
+			?>
+			<div class="data">
+			<span class="group">
+			<?php 
+			echo CHtml::radioButton($name, $value, array('value' => 1));
+			?>
+			<label>Yes</label>
+			</span>
+			
+			<span class="group">
+			<?php 
+			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('value' => 0));
+			?>
+			<label>No</label>
+			</span>
+			</div>
+		</div>
+		<?php
+	}?>
+</div>

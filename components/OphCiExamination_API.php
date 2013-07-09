@@ -163,15 +163,6 @@ class OphCiExamination_API extends BaseAPI {
 		}
 	}
 
-	/**
-	 * get the description of the best visual acuity for the given eye for the patient episode. This is from the most recent examination
-	 * that has a visual acuity element.
-	 * 
-	 * @param Patient $patient
-	 * @param Episode $episode
-	 * @param string $side
-	 * @return string
-	 */
 	public function getLetterVisualAcuityLeft($patient) {
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			return ($best = $this->getBestVisualAcuity($patient, $episode, 'left')) ? $best->convertTo($best->value) : null;
@@ -273,24 +264,167 @@ class OphCiExamination_API extends BaseAPI {
 		return $return;
 	}
 	
-	/*
+	/**
+	 * Get the NSC Retinopathy grade
+	 * 
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getLetterDRRetinopathy($patient, $episode, $side) 
+	{
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+			$res = $dr->{$side."_nscretinopathy"};
+			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
+				$res .= " and evidence of photocoagulation";
+			}
+			return $res;
+		}
+	}
+	
+	public function getLetterDRRetinopathyLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getLetterDRRetinopathy($patient, $episode, 'left');
+		}
+	}
+	
+	public function getLetterDRRetinopathyRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getLetterDRRetinopathy($patient, $episode, 'right');
+		}
+	}
+	
+	/**
+	 * Get the NSC Maculopathy grade
+	 * 
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRMaculopathy($patient, $episode, $side) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+			$res = $dr->{$side."_nscmaculopathy"};
+			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
+				$res .= " and evidence of photocoagulation";
+			}
+			return $res;
+		}
+	}
+	
+	public function getLetterDRMaculopathyLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRMaculopathy($patient, $episode, 'left');
+		}
+	}
+	
+	public function getLetterDRMaculopathyRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRMaculopathy($patient, $episode, 'right');
+		}
+	}
+	
+	/**
+	 * Get the clinical diabetic retinopathy grade
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRClinical($patient, $episode, $side) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+			return $dr->{$side."_clinical"};
+		}
+	}
+	
+	public function getLetterDRClinicalLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinical($patient, $episode, 'left');
+		}
+	}
+	
+	public function getLetterDRClinicalRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinical($patient, $episode, 'right');
+		}
+	}
+	
+	/**
+	 * get the laser management plan
+	 * 
+	 * @param Patient $patient
+	 */
+	public function getLetterLaserManagementPlan($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
+				return $m->getLetter_lmp();
+			}
+		}
+	}
+	
+	/**
+	 * get laser management comments
+	 * 
+	 * @param Patient $patient
+	 * @return string
+	 */
+	public function getLetterLaserManagementComments($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Management')) {
+				return $m->comments;
+			}
+		}
+	}
+	
+	/**
+	 * get follow up period from clinical outcome
+	 * 
+	 * @param Patient $patient
+	 * @return string
+	 */
+	public function getLetterOutcomeFollowUpPeriod($patient) 
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_ClinicOutcome')) {
+				if ($o->followup_quantity) {
+					return $o->followup_quantity . " " . $o->followup_period;
+				}
+			}
+		}
+	}
+	
+	/**
 	 * gets a list of disorders diagnosed for the patient within the current episode, ordered by event creation date
 	 * 
 	 * @param Patient $patient
 	 * 
 	 * @return array() - list of associative arrays with disorder_id and eye_id defined  
 	 */
-	public function getOrderedDisorders($patient) {
-		$events = $this->getEventsInEpisode($patient);
+	public function getOrderedDisorders($patient, $episode) {
+		$events = $this->getEventsInEpisode($patient, $episode);
 		$disorders = array();
 		
-		foreach ($events as $event) {
-			$criteria = new CDbCriteria;
-			$criteria->compare('event_id',$event->id);
-						
-			$diagnoses = Element_OphCiExamination_Diagnoses::model()->find($criteria);
-			foreach ($diagnoses->diagnoses as $diagnosis) {
-				$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+		if ($events) {
+			foreach (@$events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+							
+				$diagnoses_el = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+				if ($diagnoses_el) { 
+					foreach ($diagnoses_el->diagnoses as $diagnosis) {
+						$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
+					}
+				}
 			}
 		}
 		
@@ -337,5 +471,114 @@ class OphCiExamination_API extends BaseAPI {
 		}
 
 		return $element_types;
+	}
+	
+	/**
+	 * Get the most recent InjectionManagementComplex element in this episode for the given side
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side
+	 *
+	 * @return Element_OphCiExamination_InjectionManagementComplex
+	 */
+	public function getInjectionManagementComplexInEpisodeForSide($patient, $episode, $side) {
+		$events = $this->getEventsInEpisode($patient, $episode);
+		
+		$eye_vals = array(SplitEventTypeElement::BOTH);
+		if ($side == 'left') {
+			$eye_vals[] = SplitEventTypeElement::LEFT;
+		}
+		else {
+			$eye_vals[] = SplitEventTypeElement::RIGHT;
+		}
+		foreach (@$events as $event) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('event_id', $event->id);
+			$criteria->addInCondition('eye_id', $eye_vals);
+			
+			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+				return $el;
+			}
+		}
+	}
+	
+	/**
+	 * Get the most recent InjectionManagementComplex element in this episode for the given side and disorder
+	 * 
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side
+	 * @param int $disorder1_id
+	 * @param int $disorder2_id
+	 * 
+	 * @return Element_OphCiExamination_InjectionManagementComplex
+	 */
+	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder1_id, $disorder2_id) 
+	{
+		$events = $this->getEventsInEpisode($patient, $episode);
+		$elements = array();
+		
+		if ($events) {
+			foreach ($events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				$criteria->compare($side . '_diagnosis1_id', $disorder1_id);
+				if ($disorder2_id) {
+					$criteria->compare($side . '_diagnosis2_id', $disorder2_id);
+				}
+				else {
+					$criteria->addCondition($side . '_diagnosis2_id IS NULL');
+				}
+				
+				if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+					return $el;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * wrapper to retrieve question objects for a given disorder id
+	 * 
+	 * @param int $disorder_id
+	 * @return OphCiExamination_InjectionMangementComplex_Question[]
+	 */
+	public function getInjectionManagementQuestionsForDisorder($disorder_id) 
+	{
+		try {
+			Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
+		} catch (Exception $e) {
+			return array();
+		}
+	}
+
+	/**
+	 * retrieve OCT measurements for the given side for the patient in the given episode
+	 * @param Patient $patient 
+	 * @param Episode $episode 
+	 * @param string $side - 'left' or 'right'
+	 * @return array(maximum_CMT, central_SFT) or null
+	 */
+	public function getOCTForSide($patient, $episode, $side)
+	{
+		$events = $this->getEventsInEpisode($patient, $episode);
+		if ($side == 'left') {
+			$side_list = array(Eye::LEFT, Eye::BOTH);
+		}
+		else {
+			$side_list = array(Eye::RIGHT, Eye::BOTH);
+		}
+		if ($events) {
+			foreach ($events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				$criteria->addInCondition('eye_id', $side_list);
+
+				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
+					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
+				}
+			}
+		}
 	}
 }

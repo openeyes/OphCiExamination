@@ -17,21 +17,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
-	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-	</td>
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
-	</td>
-	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+<h1><?php echo $title ? $title : "Examination Admin" ?></h1>
+
+<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
+
+<div>
+	<ul class="grid reduceheight">
+		<li class="header">
+			<span class="column_name">Name</span>
+			<span class="column_actions">Enabled</span>
+		</li>
+		<div class="sortable">
+			<?php
+			foreach ($model_list as $i => $model) {?>
+				<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="No Treatment Reason">
+					<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a></span>
+					<span class="column_actions">
+						<input type="checkbox" class="model_enabled" <?php if ($model->enabled) { echo "checked"; }?> />
+					</span>
+				</li>
+			<?php }?>
+		</div>
+	</ul>
+</div>

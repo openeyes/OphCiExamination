@@ -17,21 +17,30 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading" data-key="<?php echo $key ?>">
-	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][id]"
-		value="<?php echo $reading->id?>" />
-	<?php } ?>
-	<input type="hidden"
-		name="visualacuity_reading[<?php echo $key ?>][side]"
-		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
-	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-	</td>
-	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
-	</td>
-	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+<div class="cols2 clearfix">
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<div
+		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		data-side="right">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+				array('side' => 'right', 'element' => $element, 'form' => $form)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add right side</a>
+		</div>
+	</div>
+	<div
+		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		data-side="left">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+				array('side' => 'left', 'element' => $element, 'form' => $form)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add left side</a>
+		</div>
+	</div>
+</div>

@@ -16,6 +16,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+.quicklook { width:280px;  top:0px; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
+
 .textMacro { margin: 0 0 10px; } 
 .textMacro.inline { display: inline-block; }
 .textMacro { width: 120px; }
@@ -47,6 +49,7 @@
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 .left { border-right-width: 2px; text-align: right; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 .right { border-left-width: 2px; }
 span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
+span.hint {font-style: italic;}
 
 #div_Element_OphCiExamination_CataractManagement_city_road { padding: 5px !important; }
 #div_Element_OphCiExamination_CataractManagement_satellite { padding: 5px !important; }
@@ -114,6 +117,7 @@ span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
 #comorbidities_unselected { clear: both; margin: 0 0 5px; }
 #comorbidities_unselected a { margin-left: 10px; }
 
+
 #div_dilation_drug_right { margin-left: -10px; display: inline; }
 #div_dilation_drug_left { margin-left: -10px; display: inline; }
 #div_Element_OphCiExamination_Dilation_time_right { margin-left: -10px; }
@@ -163,3 +167,49 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.low_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.low_risk,
 #event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #9c0; }
+
+#event_content .Element_OphCiExamination_DRGrading .wrapper  { padding: 5px; border-radius: 5px; display: inline-block; }
+#event_content .Element_OphCiExamination_DRGrading .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
+.grade-info-all dt a { display: block; padding: 4px 8px; border-radius: 5px; margin: 10px 0; }
+.grade-info-all dt a:hover { border: none; }
+.grade-info-all dd { font-size: 12px; line-height: 1.5em; }
+
+.grade-info-all dt.severe a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.severe,
+#event_content .Element_OphCiExamination_DRGrading .severe span, 
+.grade-info-all dt.high-risk a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.high-risk,
+#event_content .Element_OphCiExamination_DRGrading .high-risk span, 
+.grade-info-all dt.proliferative a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.proliferative,
+#event_content .Element_OphCiExamination_DRGrading .proliferative span,
+.grade-info-all dt.maculopathy a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.maculopathy,
+#event_content .Element_OphCiExamination_DRGrading .maculopathy span { background: #f00; color: #fff; }
+
+.grade-info-all dt.moderate a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.moderate,
+#event_content .Element_OphCiExamination_DRGrading .moderate span,
+.grade-info-all dt.pre-prolif a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.pre-prolif,
+#event_content .Element_OphCiExamination_DRGrading .pre-prolif span { background: #fc0; }
+
+.grade-info-all dt.mild a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.mild,
+#event_content .Element_OphCiExamination_DRGrading .mild span,
+.grade-info-all dt.early a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.early,
+#event_content .Element_OphCiExamination_DRGrading .early span, 
+.grade-info-all dt.background a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.background,
+#event_content .Element_OphCiExamination_DRGrading .background span,
+.grade-info-all dt.peripheral a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.peripheral,
+#event_content .Element_OphCiExamination_DRGrading .peripheral span,
+.grade-info-all dt.ungradable a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.ungradable,
+#event_content .Element_OphCiExamination_DRGrading .ungradable span { background: #36f; color: #fff; }
+
+.grade-info-all dt.none a,
+#event_content .Element_OphCiExamination_DRGrading .wrapper.none,
+#event_content .Element_OphCiExamination_DRGrading .none span { background: #9c0; }

@@ -18,16 +18,18 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_visual_acuity_unit".
+ * This is the model class for table "ophciexamination_anteriorsegment_cct_method".
  *
  * @property integer $id
  * @property string $name
+ * @property integer $display_order
+
  */
-class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
+class OphCiExamination_CMT_Method extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_VisualAcuityUnit the static model class
+	 * @return OphCiExamination_AnteriorSegment_CCT_Method
 	 */
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -37,16 +39,16 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_visual_acuity_unit';
+		return 'ophciexamination_cmt_method';
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model visualacuity_methods.
 	 */
 	public function rules() {
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('name, display_order', 'required'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +57,6 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 	 */
 	public function relations() {
 		return array(
-				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'order' => 'base_value DESC'),
-				'selectableValues' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'on' => 'selectableValues.selectable = true', 'order' => 'base_value DESC'),
 		);
 	}
 
@@ -68,9 +68,9 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('display_order',$this->display_order,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}
-
 }

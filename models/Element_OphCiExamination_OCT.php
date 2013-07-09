@@ -18,21 +18,20 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_anteriorsegment_cct".
+ * This is the model class for table "et_ophciexamination_oct".
  *
  * The followings are the available columns in table:
  * @property integer $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property string $left_value
- * @property string $right_value
- * @property OphCiExamination_AnteriorSegment_CCT_Method $left_method
- * @property OphCiExamination_AnteriorSegment_CCT_Method $right_method
+ * @property string $left_crt
+ * @property string $right_crt
+ * @property string $left_sft
+ * @property string $right_sft
  *
- * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement {
+class Element_OphCiExamination_OCT extends SplitEventTypeElement {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -46,7 +45,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'et_ophciexamination_anteriorsegment_cct';
+		return 'et_ophciexamination_oct';
 	}
 
 	/**
@@ -56,19 +55,29 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id', 'safe'),
-				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
-				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
-				array('left_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
-				array('right_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
+				array('eye_id, event_id, left_crt, left_sft, right_crt, right_sft', 'safe'),
+				array('left_crt, left_sft', 'requiredIfSide', 'side' => 'left'),
+				array('right_crt, right_sft', 'requiredIfSide', 'side' => 'right'),
+				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250, 
+						'tooBig' => 'Left {attribute} must be between 250 and 600', 
+						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
+				array('right_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250, 
+						'tooBig' => 'Right {attribute} must be between 250 and 600',
+						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
+				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 400, 'min' => 50, 
+						'tooBig' => 'Left {attribute} must be between 50 and 400',
+						'tooSmall' => 'Left {attribute} must be between 50 and 400'),
+				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 400, 'min' => 50, 
+					'tooBig' => 'Left {attribute} must be between 50 and 400',
+					'tooSmall' => 'Left {attribute} must be between 50 and 400'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_method_id, right_method_id, left_value, right_value', 'safe', 'on' => 'search'),
+				array('id, event_id, left_crt, left_sft, right_crt, right_sft', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields() {
-		return array('value', 'method_id');
+		return array('crt', 'sft');
 	}
 	
 	public function sidedDefaults() {
@@ -84,8 +93,6 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'right_method_id'),
 		);
 	}
 
@@ -96,10 +103,10 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_value' => 'Value',
-				'right_value' => 'Value',
-				'left_method' => 'Method',
-				'right_method' => 'Method',
+				'left_crt' => 'Maximum CRT',
+				'right_crt' => 'Maximum CRT',
+				'left_sft' => 'Central SFT',
+				'right_sft' => 'Central SFT',
 		);
 	}
 
@@ -115,11 +122,10 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_value', $this->left_value);
-		$criteria->compare('right_value', $this->right_value);
-		$criteria->compare('left_method_id', $this->left_method_id);
-		$criteria->compare('right_method_id', $this->right_method_id);
-		
+		$criteria->compare('left_crt', $this->left_crt);
+		$criteria->compare('right_crt', $this->right_crt);
+		$criteria->compare('left_sft', $this->left_sft);
+		$criteria->compare('right_sft', $this->right_sft);
 		
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,

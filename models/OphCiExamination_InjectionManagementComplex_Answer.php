@@ -18,59 +18,63 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_visual_acuity_unit".
+ * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during 
+ * an examination for any given diagnosis
  *
- * @property integer $id
- * @property string $name
+ * The followings are the available columns in table:
+ * @property string $id
+ * @property integer $element_id
+ * @property integer $question_id
+ * @property integer $eye_id
+ * @property boolean $answer
+ *
+ * The followings are the available model relations:
+ * @property Disorder $disorder
+ *
  */
-class OphCiExamination_VisualAcuityUnit extends BaseActiveRecord {
 
+
+class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecord {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_VisualAcuityUnit the static model class
+	 * @return the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
-
+	
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
-		return 'ophciexamination_visual_acuity_unit';
+	public function tableName()
+	{
+		return 'ophciexamination_injectmanagecomplex_answer';
 	}
-
+	
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('element_id, question_id, eye_id, answer', 'safe'),
+				array('element_id, question_id, eye_id, answer', 'required'),
+				// The following rule is used by search().
+				// Please remove those attributes that should not be searched.
+				array('id, element_id, question_id, eye_id, answer', 'safe', 'on' => 'search'),
 		);
 	}
-
+	
 	/**
 	 * @return array relational rules.
 	 */
 	public function relations() {
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
-				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'order' => 'base_value DESC'),
-				'selectableValues' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'on' => 'selectableValues.selectable = true', 'order' => 'base_value DESC'),
+			'question' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_Question', 'question_id'),
 		);
 	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search() {
-		$criteria=new CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
+	
 }
