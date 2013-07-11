@@ -454,7 +454,7 @@ class OphCiExamination_API extends BaseAPI {
 
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 
-		if ($event = $this->getMostRecentEventInEpisode($episode->id, $event_type->id)) {
+		if ($event_type && $event = $this->getMostRecentEventInEpisode($episode->id, $event_type->id)) {
 			$criteria = new CDbCriteria;
 			$criteria->compare('event_type_id',$event_type->id);
 			$criteria->order = 'display_order';
