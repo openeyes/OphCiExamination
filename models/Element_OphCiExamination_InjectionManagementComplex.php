@@ -376,7 +376,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	
 		$tdis = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria);
 		if (!$tdis) {
-			throw new Exception('Invalid disorder id for injection questions');
+			return array();
 		}
 		
 		$criteria->condition .= ' AND enabled = true';
