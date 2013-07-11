@@ -259,14 +259,17 @@ function posteriorListener(_drawing) {
 		var dr_grade = $('#' + this.drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
 		var dr_side = dr_grade.find('.side.eventDetail[data-side="'+this.side+'"]');
 		
+		/*
 		if (dr_side.hasClass('uninitialised')) {
 			// the dr grade element has been loaded from the db, so if the doodle is ready, need to check whether
 			// the grade is in sync with the eyedraw
-			if (this.drawing.lastDoodleOfClass('PostPole')) { 
+			if (_messageArray['eventName'] == 'ready') { 
 				OphCiExamination_DRGrading_dirtyCheck(this.drawing);
 			}
 		}
-		else if (!$('#drgrading_dirty').is(":visible")) {
+		else
+		*/
+		if (!dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 			var grades = gradeCalculator(this.drawing);
 			if (grades) {
 				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
@@ -1134,7 +1137,6 @@ function OphCiExamination_VisualAcuity_init() {
 // will verify whether the form values match that of the loaded eyedraws, and if not, mark as dirty
 function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
 	var dr_grade = $('.' + dr_grade_et_class);
-		
 	var grades = gradeCalculator(_drawing);
 	var retinopathy = grades[0],
 		maculopathy = grades[1],
@@ -1241,12 +1243,26 @@ function OphCiExamination_DRGrading_init() {
 		
 		var func = function() {
 			var _drawing = window[drawingName];
-			var grades = gradeCalculator(_drawing);
-
-			updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
+			var side = 'right';
+			if (_drawing.eye) {
+				side = 'left';
+			}
+			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+			var dr_side = dr_grade.find('.side.eventDetail[data-side="'+side+'"]');
+			
+			if (dr_side.hasClass('uninitialised')) {
+				OphCiExamination_DRGrading_dirtyCheck(_drawing);
+			}
+			
+			if (!$('#drgrading_dirty').is(":visible")) {
+				
+				var grades = gradeCalculator(_drawing);
+	
+				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
+			}
 		};
 		
-		if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
+		//if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
 			if (window[drawingName]) {
 				func();
 			}
@@ -1254,7 +1270,7 @@ function OphCiExamination_DRGrading_init() {
 				edChecker = getOEEyeDrawChecker();	
 				edChecker.registerForReady(func);
 			}	
-		}		
+		//}		
 	});
 	
 	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
