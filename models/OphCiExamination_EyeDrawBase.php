@@ -72,7 +72,7 @@ class OphCiExamination_EyeDrawBase extends BaseEventTypeElement
         if ($side && strtolower($side{0}) == 'l') {
             $image_string = $this->checkItems($this->doodleInfo,
                     $this->image_string_left);
-        } else if ($side && strtolower($side{0}) == 'r') {
+        } elseif ($side && strtolower($side{0}) == 'r') {
             $image_string = $this->checkItems($this->doodleInfo,
                     $this->image_string_right);
         }
@@ -113,4 +113,3 @@ class OphCiExamination_EyeDrawBase extends BaseEventTypeElement
         return $hasValues;
     }
 }
-?>

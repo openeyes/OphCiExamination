@@ -130,4 +130,3 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 		return parent::beforeValidate();
 	}
 }
-?>

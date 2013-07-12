@@ -205,7 +205,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 					);
 				}
 			}
-		} else if ($this->event) {
+		} elseif ($this->event) {
 			foreach ($this->diagnoses as $i => $diagnosis) {
 				$diagnoses[] = array(
 					'disorder' => $diagnosis->disorder,
