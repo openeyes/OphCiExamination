@@ -27,10 +27,11 @@
 	<input type="hidden"
 		name="visualacuity_reading[<?php echo $key ?>][side]"
 		value="<?php echo $side ?>" />
-	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values); ?>
+	<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options)); ?>
+	<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
 	</td>
 	<td><?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id')); ?>
 	</td>
-	<td class="readingActions"><a class="removeReading" href="#">Remove</a>
+	<td class="readingActions"> <a class="removeReading" href="#">Remove</a>
 	</td>
 </tr>

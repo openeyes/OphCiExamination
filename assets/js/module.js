@@ -16,8 +16,269 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-$(document).ready(function() {
+var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
+var examination_print_url, module_css_path;
 
+function gradeCalculator(_drawing) {
+    var doodleArray = _drawing.doodleArray;
+    
+    // Array to store counts of doodles of relevant classes
+    var countArray = new Array();
+    countArray['Microaneurysm'] = 0;
+    countArray['HardExudate'] = 0;
+    countArray['Circinate'] = 0;
+    countArray['BlotHaemorrhage'] = 0;
+    countArray['PreRetinalHaemorrhage'] = 0;
+    countArray['CottonWoolSpot'] = 0;
+    countArray['DiabeticNV'] = 0;
+    countArray['FibrousProliferation'] = 0;            
+    countArray['LaserSpot'] = 0;
+    countArray['FocalLaser'] = 0;
+    countArray['MacularGrid'] = 0;
+    countArray['SectorPRPPostPole'] = 0;
+    countArray['PRPPostPole'] = 0;
+    countArray['IRMA'] = 0;
+    
+    var retinopathy = "R0";
+    var maculopathy = "M0";
+    var retinopathy_photocoagulation = false;
+    var maculopathy_photocoagulation = false;
+    var clinical = "None";
+    var dnv_within = false;
+    
+    // Get reference to PostPole doodle
+    var postPole = _drawing.lastDoodleOfClass('PostPole');
+    
+    if (postPole)
+    {
+        // Iterate through doodles counting, and checking location
+        for (var i = 0; i < doodleArray.length; i++)
+        {
+            var doodle = doodleArray[i];
+            countArray[doodle.className]++;
+            
+            // Exudates within one disk diameter of fovea
+            if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
+            {
+                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
+            }
+            //TODO: needs to check against optic disc, not Fovea
+            /*
+            if (doodle.className == 'DiabeticNV') {
+            	if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
+            }
+            */
+            if (doodle.className == 'LaserSpot' || doodle.className == 'FocalLaser') {
+            	if (postPole.isWithinArcades(doodle)) {
+            		retinopathy_photocoagulation = true;
+            	} 
+            	else {
+            		maculopathy_photocoagulation = true;
+            	}
+            }
+        }
+        
+        if (countArray['Microaneurysm'] > 0) {
+        	clinical = 'Mild nonproliferative retinopathy';
+        }
+        
+        if (countArray['BlotHaemorrhage'] > 0 || countArray['IRMA'] > 0 || countArray['PreRetinalHaemorrhage']) {
+        	clinical = 'Moderate nonproliferative retinopathy';
+        }
+        
+        if ((countArray['PreRetinalHaemorrhage'] || countArray['BlotHaemorrhage'] > 0) && countArray['IRMA'] > 0) {
+        	clinical = 'Severe nonproliferative retinopathy';
+        }
+        
+        if (countArray['DiabeticNV'] > 0) {
+        	clinical = 'Early proliferative retinopathy';
+        	if (dnv_within || countArray['PreRetinalHaemorrhage']) {
+        		clinical = 'High-risk proliferative retinopathy';
+        	}
+        	
+        }
+        
+        // R1 (Background)
+        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
+        {
+            retinopathy = "R1";
+        }
+        
+        // R2
+        if (countArray['BlotHaemorrhage'] >= 2 || countArray['IRMA'] > 0)
+        {
+            retinopathy = "R2";                        
+        }
+        
+        // R3
+        if (countArray['PRPPostPole'] > 0)
+        {
+            retinopathy = "R3S";
+            retinopathy_photocoagulation = true;
+        }
+        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0)
+        {
+            retinopathy = "R3A";
+        }
+        
+        if (countArray['SectorPRPPostPole'] > 0 || countArray['MacularGrid'] > 0) {
+        	maculopathy_photocoagulation = true;
+        }
+        
+        return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation, clinical];
+        
+    }
+    return false;
+}
+
+//returns the number of weeks booking recommendation from the DR grades
+function getDRBookingVal() {
+	var dr_grade = $('.' + dr_grade_et_class);
+	var sides = Array("left", "right");
+	var booking = null;
+	
+	for (var i = 0; i < sides.length; i++) {
+		var side = sides[i],
+			val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').val();
+		$('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').find('option').each(function() {
+			if ($(this).val() == val) {
+				var b = parseInt($(this).attr("data-booking"));
+				if (b && (booking == null || b < booking)) {
+					booking = b;
+					return false;
+				}
+			}
+		});
+		val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').val();
+		$('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').find('option').each(function() {
+			if ($(this).val() == val) {
+				var b = parseInt($(this).attr("data-booking"));
+				if (b && (booking == null || b < booking)) {
+					booking = b;
+					return false;
+				}
+			}
+		});
+	}
+	return booking;	
+}
+
+// sets the booking hint text based on the DR grade
+function updateBookingWeeks() {
+	var weeks = getDRBookingVal();
+	if (weeks){
+		$('.Element_OphCiExamination_LaserManagement').find('#laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
+	}
+	else {
+		$('.Element_OphCiExamination_LaserManagement').find('#laser_booking_hint').text('');
+	}
+}
+
+function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo, clinical) {
+    if (_drawing.eye) {
+    	var side = 'left';
+    }
+    else {
+    	var side = 'right';
+    }
+    
+    var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+    // clinical
+    var cSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinical_id');
+    cSel.find('option').each(function() {
+    	if ($(this).attr('data-val') == clinical) {
+    		cSel.val($(this).val());
+    		cSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+    		return false;
+    	}
+    });
+    
+    // description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinical_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinical_desc_' + clinical.replace(/\s+/g, '')).show();
+    
+    // Retinopathy
+    var retSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id');
+    retSel.find('option').each(function() {
+    	if ($(this).attr('data-val') == retinopathy) {
+    		retSel.val($(this).val());
+    		retSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+    		return false;
+    	}
+    });
+    
+    ret_photo_id = dr_grade_et_class+'_'+side+'_nscretinopathy_photocoagulation_';
+    if (ret_photo) {
+    	dr_grade.find('input#' + ret_photo_id + '1').attr('checked', 'checked');
+    }
+    else {
+    	dr_grade.find('input#' + ret_photo_id + '0').attr('checked', 'checked');
+    }
+    
+    // display description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc_' + retinopathy).show();
+   
+    // Maculopathy
+    var macSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id');
+    macSel.find('option').each(function() {
+    	if ($(this).attr('data-val') == maculopathy) {
+    		macSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+    		macSel.val($(this).val());
+    		return false;
+    	}
+    });
+    
+    mac_photo_id = dr_grade_et_class+'_'+side+'_nscmaculopathy_photocoagulation_';
+    if (mac_photo) {
+    	dr_grade.find('input#' + mac_photo_id + '1').attr('checked', 'checked');
+    }
+    else {
+    	dr_grade.find('input#' + mac_photo_id + '0').attr('checked', 'checked');
+    }
+    
+    // display description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
+	
+    updateBookingWeeks();
+    
+}
+
+function posteriorListener(_drawing) {
+	this.drawing = _drawing;
+	var side = 'right';
+	if (this.drawing.eye) {
+		side = 'left';
+	}
+	this.side = side;
+	
+	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded', 'doodleDeleted', 'parameterChanged']);
+	
+	this.callBack = function (_messageArray) {
+		var dr_grade = $('#' + this.drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+		var dr_side = dr_grade.find('.side.eventDetail[data-side="'+this.side+'"]');
+		
+		/*
+		if (dr_side.hasClass('uninitialised')) {
+			// the dr grade element has been loaded from the db, so if the doodle is ready, need to check whether
+			// the grade is in sync with the eyedraw
+			if (_messageArray['eventName'] == 'ready') { 
+				OphCiExamination_DRGrading_dirtyCheck(this.drawing);
+			}
+		}
+		else
+		*/
+		if (!dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
+			var grades = gradeCalculator(this.drawing);
+			if (grades) {
+				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
+			}
+		}
+	}
+}
+
+$(document).ready(function() {
 	/**
 	 * Save event
 	 */
@@ -195,6 +456,204 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// dr grading
+	$('#event_OphCiExamination').delegate('a.drgrading_images_link', 'click', function(e) {
+		$('.drgrading_images_dialog').dialog('open');
+		e.preventDefault();
+	});
+	
+	// Note. a manual change to DR grade will mark the grade as unsynced, regardless of whether the user
+	// manually syncs or not, as we are using the manual change as an indicator that we should no longer automatically
+	// update the values. Although this will not apply between saves
+	$('#event_OphCiExamination').delegate(
+		'#Element_OphCiExamination_DRGrading_right_clinical_id, ' +
+		'#Element_OphCiExamination_DRGrading_left_clinical_id, ' +
+		'#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
+		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' + 
+		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
+		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
+			, 'change', function(e) {
+		
+		var gradePK = $(this).val();
+		var grade = null;
+		
+		$(this).find('option').each(function() {
+        	if ($(this).attr('value') == gradePK) {
+        		grade = $(this).attr('data-val');
+        		return false;
+        	}
+        });
+		
+		var id = $(this).attr('id');
+		var dr_grade = $(this).parents('.element');
+		var desc = id.substr(0,id.length-2) + 'desc';
+		dr_grade.find('.'+desc).hide();
+		dr_grade.find('#'+desc + '_' + grade.replace(/\s+/g, '')).show();
+		$('#drgrading_dirty').show();
+		
+		$(this).closest('.wrapper').attr('class', 'wrapper ' + $('option:selected', this).attr('class'));
+		
+		updateBookingWeeks();
+	})
+	
+	$('body').delegate('.grade-info-all a', 'click', function(e) {
+		var value = $(this).data('id');
+		var select_id = $(this).parents('.grade-info-all').data('select-id');
+		$(this).parents('.grade-info-all').dialog('close');
+		$('#'+select_id).val(value).trigger('change');
+		e.preventDefault();
+	});
+	
+	$('#event_OphCiExamination').delegate('input[name="Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[left_nscretinopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
+		'input[name="Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
+			, 'change', function(e) {
+		$('#drgrading_dirty').show();
+	});
+	
+	$('#event_OphCiExamination').delegate('a#drgrading_dirty', 'click', function(e) {
+		$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+			var drawingName = $(this).attr('data-drawing-name');
+			if (window[drawingName]) {
+				// the posterior segment drawing is available to sync values with
+				var grades = gradeCalculator(window[drawingName]);
+				
+				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3], grades[4]);
+			}
+		});
+		$(this).hide();
+		e.preventDefault();
+	})
+	
+	// end of DR
+	
+	// management
+	function isDeferralOther(element, name) {
+		var reasonPK = $('#'+element+'_'+name+'_deferralreason_id').val();
+		var other = false;
+		
+		$('#'+element+'_'+name+'_deferralreason_id').find('option').each(function() {
+			if ($(this).attr('value') == reasonPK) {
+				if ($(this).attr('data-other') == "1") {
+					other = true;
+					return false;
+				}
+			}
+		});
+		
+		return other;
+	}
+	
+	function showDeferralOther(element, name) {
+		$('#div_'+element+'_'+name+'_deferralreason_other').slideDown().find('textarea').each(function(e) {
+			if ($(this).data('stored-value')) {
+				// must've changed their mind, restore the value
+				$(this).val($(this).data('stored-value'));
+			}
+			$(this).autosize();
+			
+		});
+	}
+	
+	function hideDeferralOther(element, name) {
+		if ($('#div_'+element+'_'+name+'_deferralreason_other').is(':visible')) {	
+			// because of the value storage, only want to do this if its showing
+			$('#div_'+element+'_'+name+'_deferralreason_other').slideUp().find('textarea').each(function(e) {
+				// clear text value to prevent submission, but store to make available if user changes their mind
+				$(this).data('stored-value', $(this).val());
+				$(this).val('');
+			});
+		}
+	}
+	
+	// abstracted to manage the deferral fields for laser/injection
+	function deferralFields(element, name) {
+		var thePK = $('#'+element+'_'+name+'_status_id').val();
+		// flag for deferred fields
+		var deferred = false;
+		// flag for booking hint
+		var book = false;
+		
+		$('#'+element+'_'+name+'_status_id').find('option').each(function() {
+			if ($(this).attr('value') == thePK) {
+				if ($(this).attr('data-deferred') == "1") {
+					deferred = true;
+				}
+				if ($(this).attr('data-book') == "1") {
+					book = true;
+				}
+				return false;
+			}
+		});
+		
+		if (book) {
+			$('.'+element).find('#'+name+'_booking_hint').slideDown();
+		}
+		else {
+			$('.'+element).find('#'+name+'_booking_hint').slideUp();
+		}
+		
+		if (deferred) {
+			$('#div_'+element+'_'+name+'_deferralreason').slideDown();
+			if ($('#'+element+'_'+name+'_deferralreason_id').data('stored-value')) {
+				$('#'+element+'_'+name+'_deferralreason_id').val(
+					$('#'+element+'_'+name+'_deferralreason_id').data('stored-value')
+				);
+				if (isDeferralOther(name)) {
+					showDeferralOther(name);
+				}
+			}
+		}
+		else {
+			
+			$('#div_'+element+'_'+name+'_deferralreason').slideUp();
+			if ($('#'+element+'_'+name+'_deferralreason_id').val()) {
+				$('#'+element+'_'+name+'_deferralreason_id').data('stored-value', $('#'+element+'_'+name+'_deferralreason_id').val());
+				$('#'+element+'_'+name+'_deferralreason_id').val('');
+				// call the hide on other in case it's currently showing
+				hideDeferralOther(name);
+			}
+		}
+	}
+	
+	// show/hide the laser deferral fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
+		deferralFields('Element_OphCiExamination_LaserManagement', 'laser');
+	});
+	
+	// show/hide the injection deferral fields
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_status_id', 'change', function(e) {
+		deferralFields('Element_OphCiExamination_InjectionManagement', 'injection');
+	});
+	
+	// show/hide the deferral reason option
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+		
+		if (other) {
+			showDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+		}
+		else {
+			hideDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+		}
+	});
+	
+	// show/hide the deferral reason option
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_deferralreason_id', 'change', function(e) {
+		var other = isDeferralOther('Element_OphCiExamination_InjectionManagement', 'injection');
+		
+		if (other) {
+			showDeferralOther('Element_OphCiExamination_InjectionManagement', 'injection');
+		}
+		else {
+			hideDeferralOther('Element_OphCiExamination_InjectionManagement', 'injection');
+		}
+	});
+
+	
+	// end of management
+	
 	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
@@ -221,6 +680,13 @@ $(document).ready(function() {
 		}
 	});
 
+	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity #visualacuity_unit_change', 'change', function(e) {
+		removeElement($(this).closest('.Element_OphCiExamination_VisualAcuity'));
+		var el = $('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity');
+		el.addClass('clicked');
+		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
+	});
+	
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 		$(this).closest('tr').remove();
@@ -236,7 +702,7 @@ $(document).ready(function() {
 		OphCiExamination_VisualAcuity_addReading(side);
 		e.preventDefault();
 	});
-
+	
 	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		$('.foster_images_dialog[data-side="'+side+'"]').dialog('open');
@@ -293,8 +759,8 @@ $(document).ready(function() {
 		var wrapper = $(this).closest('.side');
 		var side = wrapper.attr('data-side');
 		var row = $(this).closest('tr');
-		var id = $('td:first input', row).val();
-		var name = $('td:first span', row).text();
+		var id = $('.drugId', row).val();
+		var name = $('.drugName', row).text();
 		row.remove();
 		var dilation_drug = wrapper.find('.dilation_drug');
 		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
@@ -433,7 +899,6 @@ $(document).ready(function() {
 	});
 	
 	updateTextMacros();
-
 });
 
 function updateTextMacros() {
@@ -567,6 +1032,52 @@ function OphCiExamination_Refraction_init() {
  * Visual Acuity
  */
 
+function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
+	var iconHover = row.find('.va-info-icon:last');
+	
+	iconHover.hover(function(e) {
+		var sel = $(this).parent().parent().find('select.va-selector');
+		var val = sel.val();
+		var conversions = [];
+		
+		sel.find('option').each(function() {
+			if ($(this).val() == val) {
+				conversions = $(this).data('tooltip');
+				return true;
+			}
+		});
+		
+		var tooltip_text = '';
+		var approx = false;
+		for (var i = 0; i < conversions.length; i++) {
+			tooltip_text += conversions[i].name + ": " + conversions[i].value;
+			if (conversions[i].approx) {
+				approx = true;
+				tooltip_text += '*';
+			}
+			tooltip_text += "<br />";
+		}
+		if (approx) {
+			tooltip_text += "<i>* Approximate</i>";
+		}
+		
+		var infoWrap = $('<div class="quicklook">' + tooltip_text + '</div>');
+		infoWrap.appendTo('body');
+		var offsetPos = $(this).offset();
+		var top = offsetPos.top;
+		var left = offsetPos.left + 25;
+		
+		top = top - (infoWrap.height()/2) + 8;
+		
+		if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
+		infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+		infoWrap.fadeIn('fast');
+		
+	}, function(e) {
+		$('body > div:last').remove();
+	});
+}
+
 function OphCiExamination_VisualAcuity_getNextKey() {
 	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
@@ -591,6 +1102,9 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
 	$('.method_id', table).last().val(nextMethodId);
+
+	OphCiExamination_VisualAcuity_ReadingTooltip(table.find('tr').last());
+	
 }
 
 /**
@@ -611,7 +1125,293 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 }
 
 function OphCiExamination_VisualAcuity_init() {
+	// ensure tooltip works when loading for an edit
+	$('#event_content .Element_OphCiExamination_VisualAcuity .side').each(function() {
+		$(this).find('tr.visualAcuityReading').each(function() {
+			OphCiExamination_VisualAcuity_ReadingTooltip($(this));
+		});
+	});
 }
+
+// setup the dr grading fields (called once the Posterior Segment is fully loaded)
+// will verify whether the form values match that of the loaded eyedraws, and if not, mark as dirty
+function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
+	var dr_grade = $('.' + dr_grade_et_class);
+	var grades = gradeCalculator(_drawing);
+	var retinopathy = grades[0],
+		maculopathy = grades[1],
+		ret_photo   = grades[2],
+		mac_photo   = grades[3],
+		clinical    = grades[4],
+		dirty 	    = false,	
+		side        = 'right';
+
+	if (_drawing.eye) {
+    	side = 'left';
+    }
+	
+	// clinical
+	var cSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinical_id');
+	var cSelVal = cSel.val();
+	
+    cSel.find('option').each(function() {
+    	if ($(this).attr('value') == cSelVal) {
+        	if ($(this).attr('data-val') != clinical) {
+        		dirty = true;
+        		clinical = $(this).attr('data-val');
+        	}
+    		return false;
+    	}
+    });
+    
+    // display clinical description
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinical_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinical_desc_' + clinical.replace(/\s+/g, '')).show();
+    
+    //retinopathy
+    var retSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id');
+    var retSelVal = retSel.val();
+    
+    retSel.find('option').each(function() {
+    	if ($(this).attr('value') == retSelVal) {
+    		if ($(this).attr('data-val') != retinopathy) {
+    			dirty = true;
+    			retinopathy = $(this).attr('data-val');
+    		}
+    		return false;
+    	}
+    });
+    
+    // retinopathy photocogaulation
+    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscretinopathy_photocoagulation\]]:checked').val() != ret_photo) {
+    	dirty = true;
+    }
+    
+    // maculopathy photocoagulation
+    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscmaculopathy_photocoagulation\]]:checked').val() != mac_photo) {
+    	dirty = true;
+    }
+    
+    // Maculopathy
+    var macSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id');
+    var macSelVal = macSel.val();
+    
+    macSel.find('option').each(function() {
+    	if ($(this).attr('value') == macSelVal) {
+    		if ($(this).attr('data-val') != maculopathy) {
+    			dirty = true;
+    			maculopathy = $(this).attr('data-val');
+    		}
+    		return false;
+    	}
+    });
+
+    // display descriptions
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscretinopathy_desc_' + retinopathy).show();
+    
+    dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
+    dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
+
+    if (dirty) {
+    	$('#drgrading_dirty').show();
+    }
+	dr_grade.find('.side.eventDetail[data-side="'+side+'"]').removeClass('uninitialised');
+}
+
+function OphCiExamination_DRGrading_init() {
+	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 480
+	});
+	
+	$(".Element_OphCiExamination_DRGrading").find(".grade-info-all").each(function() {
+		$(this).dialog({
+			title: 'Grade Definitions',
+			autoOpen: false,
+			modal: true,
+			resizable: false,
+			width: 800
+		});
+	});
+	
+	$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+		
+		var drawingName = $(this).attr('data-drawing-name');
+		
+		var func = function() {
+			var _drawing = window[drawingName];
+			var side = 'right';
+			if (_drawing.eye) {
+				side = 'left';
+			}
+			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+			var dr_side = dr_grade.find('.side.eventDetail[data-side="'+side+'"]');
+			
+			if (dr_side.hasClass('uninitialised')) {
+				OphCiExamination_DRGrading_dirtyCheck(_drawing);
+			}
+			
+			if (!$('#drgrading_dirty').is(":visible")) {
+				
+				var grades = gradeCalculator(_drawing);
+	
+				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
+			}
+		};
+		
+		//if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
+			if (window[drawingName]) {
+				func();
+			}
+			else {
+				edChecker = getOEEyeDrawChecker();	
+				edChecker.registerForReady(func);
+			}	
+		//}		
+	});
+	
+	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
+		var quick = $(this);
+		var iconHover = $(this).parent().find('.grade-info-icon');
+		
+		iconHover.hover(function(e){
+			var infoWrap = $('<div class="quicklook"></div>');
+			infoWrap.appendTo('body');
+			infoWrap.html(quick.html());
+			
+			var offsetPos = $(this).offset();
+			var top = offsetPos.top;
+			var left = offsetPos.left + 25;
+			
+			top = top - (infoWrap.height()/2) + 8;
+			
+			if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
+			infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+			infoWrap.fadeIn('fast');
+		},function(e){
+			$('body > div:last').remove();
+		});	
+	});
+	
+	$('.Element_OphCiExamination_DRGrading').delegate('.grade-info-icon', 'click', function(e) {
+		var side = getSplitElementSide($(this));
+		var info_type = $(this).data('info-type');
+		$('#Element_OphCiExamination_DRGrading_' + side + '_all_' + info_type + '_desc').dialog('open');
+		// remove hovering:
+		$(this).trigger('mouseleave');
+		e.preventDefault();
+	});
+	
+}
+
+function OphCiExamination_Management_init() {
+	updateBookingWeeks();
+}
+
+
+function OphCiExamination_InjectionManagementComplex_check() {
+	val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	if (val) {
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input').each(function() { $(this).removeAttr('disabled')});
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').hide();
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).attr('disabled', 'disabled'); });
+	}
+	else {
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').hide().find('input').each(function() { $(this).attr('disabled', 'disabled')});
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).removeAttr('disabled'); });
+		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').show();
+	}
+}
+
+function OphCiExamination_InjectionManagementComplex_loadQuestions(side) {
+	var disorders = Array($('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis1_id').val(), 
+	                 $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').val());
+	var params = {
+		'disorders': disorders,
+		'side': side
+	};
+	
+	$.ajax({
+		'type': 'GET',
+		'url': OphCiExamination_loadQuestions_url + '?' + $.param(params),
+		'success': function(html) {
+			// ensure we maintain any answers for questions that still remain after load (e.g. only level 2 has changed)
+			var answers = new Array();
+			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').find('input:radio:checked').each(function() {
+				answers.push($(this).attr('id'));
+			});
+			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
+			for (var i = 0; i < answers.length; i++) {
+				$('#'+answers[i]).attr('checked', 'checked');
+			}
+		}
+	});
+}
+
+function OphCiExamination_InjectionManagementComplex_DiagnosisCheck(side) {
+	var el = $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis1_id');
+
+	if (el.is(":visible") && el.val()) {
+		var l2_el = $('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id');
+		// check l2 selection needs updating
+		if (l2_el.data('parent_id') != el.val()) {
+			
+			var l2_data;
+			el.find('option').each(function() {
+				if ($(this).val() == el.val()) {
+					l2_data = $(this).data('level2');
+					return true;
+				}
+			});
+			
+			if (l2_data) {
+				// need to update the list of options in the level 2 drop down
+				var options = '<option value="">- Please Select -</option>';
+				for (var i in l2_data) {
+					options += '<option value="' + l2_data[i].id + '">' + l2_data[i].term + '</option>';
+				}
+				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').html(options);
+				$('#' + side + '_diagnosis2_wrapper').removeClass('hidden');
+			}
+			else {
+				$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_diagnosis2_id').val('');
+				$('#' + side + '_diagnosis2_wrapper').addClass('hidden');
+			}
+			// store the parent_id on the selector for later checking
+			l2_el.data('parent_id', el.val());
+		}
+		else {
+			// ensure its displayed
+			$('#' + side + '_diagnosis2_wrapper').removeClass('hidden');
+		}
+		OphCiExamination_InjectionManagementComplex_loadQuestions(side);
+	}
+	else {
+		$('#' + side + '_diagnosis2_wrapper').addClass('hidden');
+		$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').html('');
+	}
+}
+
+function OphCiExamination_InjectionManagementComplex_init() {
+	OphCiExamination_InjectionManagementComplex_check();
+	
+	$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').bind('change', function() {
+		OphCiExamination_InjectionManagementComplex_check();
+	});
+	
+	$('#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis1_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis1_id,' +
+		'#Element_OphCiExamination_InjectionManagementComplex_right_diagnosis2_id, #Element_OphCiExamination_InjectionManagementComplex_left_diagnosis2_id').bind('change', function() {
+		var side = getSplitElementSide($(this));
+		OphCiExamination_InjectionManagementComplex_DiagnosisCheck(side);
+	});
+	
+}
+
+// END InjectionManagementComplex
 
 function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var max_id = -1;

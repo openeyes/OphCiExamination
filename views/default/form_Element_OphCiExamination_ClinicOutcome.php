@@ -50,6 +50,10 @@
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
+	<div class="data" style="margin-left: 1em;">
+		<?php echo CHtml::activeCheckBox($element,'community_patient')?>
+		<?php echo $element->getAttributeLabel('community_patient')?>
+	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_role"
 	class="eventDetail" 

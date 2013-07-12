@@ -56,7 +56,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, followup_quantity, followup_period_id, role_id, role_comments', 'safe'),
+				array('event_id, followup_quantity, followup_period_id, role_id, role_comments, community_patient', 'safe'),
 				array('status_id', 'required'),
 				array('status_id', 'statusDependencyValidation'),
 				array('role_id', 'roleDependencyValidation'),
@@ -93,6 +93,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 				'followup_period_id' => 'Follow-up period',
 				'role_id' => 'Role',
 				'role_comments' => 'Role comment',
+				'community_patient' => 'Patient suitable for community patient tariff',
 		);
 	}
 

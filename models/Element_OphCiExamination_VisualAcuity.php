@@ -55,7 +55,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, eye_id', 'safe'),
+				array('event_id, left_comments, right_comments, eye_id, unit_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -78,6 +78,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
 				'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
 				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
 				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
@@ -107,25 +108,101 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement {
 	/**
 	 * Get the measurement unit
 	 */
+	/*
 	public function getUnit() {
 		$unit_id = $this->getSetting('unit_id');
 		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
 	}
-
+	*/
+	
+	public function setDefaultOptions() {
+		$this->unit_id = $this->getSetting('unit_id');
+	}
+	
+	/**
+	 * list of units that are usable for setting visual acuity
+	 * 
+	 * @return OphCiExamination_VisualAcuityUnit[]
+	 */
+	public function getUsableUnits() {
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'tooltip = :tt';
+		$criteria->params = array(':tt' => true);
+		$criteria->order = 'name';
+		return OphCiExamination_VisualAcuityUnit::model()->findAll($criteria);
+	}
+	
 	/**
 	 * Array of unit values for dropdown
 	 * @param integer $unit_id
+	 * @param boolean $selectable - whether want selectable values or all unit values
 	 * @return array
 	 */
-	public function getUnitValues($unit_id = null) {
+	public function getUnitValues($unit_id = null, $selectable=true) {
 		if($unit_id) {
 			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
 		} else {
-			$unit = $this->getUnit();
+			$unit = $this->unit;
 		}
-		return CHtml::listData($unit->values, 'base_value', 'value');
+		if ($selectable) {
+			return CHtml::listData($unit->selectableValues, 'base_value', 'value');
+		}
+		else {
+			return CHtml::listData($unit->values, 'base_value', 'value');
+		}
 	}
-
+	
+	public function getUnitValuesForForm($unit_id = null) {
+		if ($unit_id) {
+			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
+		} else {
+			$unit = $this->unit;
+		}
+		
+		$unit_values = $unit->selectableValues;
+		
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'id <> :unit_id AND tooltip = :tt';
+		$criteria->params = array(':unit_id' => $unit->id, ':tt' => true);
+		$criteria->order = 'name';
+		$tooltip_units = OphCiExamination_VisualAcuityUnit::model()->findAll($criteria);
+		
+		$options = array();
+		
+		// getting the conversion values
+		foreach ($unit_values as $uv) {
+			$idx = (string)$uv->base_value;
+			$options[$idx] = array('data-tooltip' => array());
+			foreach ($tooltip_units as $tt) {
+				$last = null;
+				foreach ($tt->values as $tt_val) {
+					
+					if ($tt_val->base_value <= $uv->base_value) {
+						$val = $tt_val->value;
+						
+						if ($last != null && (abs($uv->base_value - $tt_val->base_value) > abs($uv->base_value - $last->base_value))) {
+							$val = $last->value;
+						}
+						$map = array('name' => $tt->name, 'value' => $val, 'approx' => false);
+						if ($tt_val->base_value < $uv->base_value) {
+							$map['approx'] = true;
+						}
+						$options[$idx]['data-tooltip'][] = $map;
+						break;
+					}
+					
+					$last = $tt_val;
+					
+				}
+			}
+			// need to JSONify the options data
+			$options[$idx]['data-tooltip'] = CJSON::encode($options[$idx]['data-tooltip']);
+		}
+		
+		return array(CHtml::listData($unit_values, 'base_value', 'value'), $options);
+		
+	}
+	
 	/**
 	 * Get a combined string of the different readings
 	 * @param string $side
