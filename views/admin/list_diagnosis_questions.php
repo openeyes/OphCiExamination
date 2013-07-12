@@ -20,7 +20,7 @@
 
 <h1><?php echo $title ? $title : "Examination Admin" ?></h1>
 
-<?php 
+<?php
 echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
 ?>
 
@@ -31,8 +31,7 @@ if (!$disorder_id) {
 ?>
 	<p><b>Please select a disorder to view the questions</b></p>
 <?php
-}  
-elseif (count($model_list)) {
+} elseif (count($model_list)) {
 ?>
 	<div>
 		<ul class="grid reduceheight">
@@ -43,7 +42,7 @@ elseif (count($model_list)) {
 			<div class="sortable">
 				<?php
 				foreach ($model_list as $i => $model) {?>
-					<li class="<?php if ($i%2 == 0) {?>even<?php }else{?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
+					<li class="<?php if ($i%2 == 0) {?>even<?php } else {?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
 						<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></span>
 						<span class="column_actions">
 							<input type="checkbox" class="model_enabled" <?php if ($model->enabled) { echo "checked"; }?> />

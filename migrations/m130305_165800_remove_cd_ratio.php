@@ -1,16 +1,17 @@
 <?php
 
-class m130305_165800_remove_cd_ratio extends OEMigration {
-	
-	public function up() {
-		foreach(Element_OphCiExamination_PosteriorPole::model()->findAll() as $element) {
+class m130305_165800_remove_cd_ratio extends OEMigration
+{
+	public function up()
+	{
+		foreach (Element_OphCiExamination_PosteriorPole::model()->findAll() as $element) {
 			$description = array(
 					'left' => $element->left_description,
 					'right' => $element->right_description,
 			);
 			$command = $this->getDbConnection()->createCommand('select name from ophciexamination_posteriorpole_cd_ratio where id = :id');
-			foreach(array('left', 'right') as $side) {
-				if($ratio_id = $element->{$side.'_cd_ratio_id'}) {
+			foreach (array('left', 'right') as $side) {
+				if ($ratio_id = $element->{$side.'_cd_ratio_id'}) {
 					$ratio = $command->queryScalar(array(':id' => $ratio_id));
 					$description[$side] .= ' C/D Ratio = ' . $ratio;
 				}
@@ -27,7 +28,8 @@ class m130305_165800_remove_cd_ratio extends OEMigration {
 		$this->dropTable('ophciexamination_posteriorpole_cd_ratio');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->createTable('ophciexamination_posteriorpole_cd_ratio',array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(3) COLLATE utf8_bin DEFAULT NULL',
@@ -50,5 +52,5 @@ class m130305_165800_remove_cd_ratio extends OEMigration {
 		$this->addColumn('et_ophciexamination_posteriorpole', 'right_cd_ratio_id', 'int(10) unsigned');
 		$this->addForeignKey('et_ophciexamination_posteriorpole_rcri_fk', 'et_ophciexamination_posteriorpole', 'right_cd_ratio_id', 'ophciexamination_posteriorpole_cd_ratio', 'id');
 	}
-	
+
 }

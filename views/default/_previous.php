@@ -18,7 +18,7 @@
  */
 ?>
 <div id="previous_elements">
-	<?php foreach($elements as $element) { ?>
+	<?php foreach ($elements as $element) { ?>
 	<div class="element_wrapper">
 		<div class="element <?php echo $element->elementType->class_name ?>"
 			data-element-id="<?php echo $element->id ?>"
@@ -31,10 +31,10 @@
 				'_view_' . $element->view_view,
 				array('element' => $element)
 			); ?>
-			
-			<?php if($children = $element->getChildren()) { ?>
+
+			<?php if ($children = $element->getChildren()) { ?>
 			<div class="child_elements clearfix">
-				<?php foreach($children as $child ) { ?>
+				<?php foreach ($children as $child) { ?>
 				<div class="element <?php echo $child->elementType->class_name ?>"
 					data-element-id="<?php echo $child->id ?>"
 					data-element-type-id="<?php echo $child->elementType->id ?>"

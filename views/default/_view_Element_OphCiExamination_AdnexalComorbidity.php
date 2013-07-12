@@ -20,7 +20,7 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<div class="data">
-				<?php if($element->hasRight()) {
+				<?php if ($element->hasRight()) {
 					echo $element->right_description;
 				} else { ?>
 				Not recorded
@@ -29,7 +29,7 @@
 		</div>
 		<div class="right eventDetail">
 			<div class="data">
-				<?php if($element->hasLeft()) {
+				<?php if ($element->hasLeft()) {
 					echo $element->left_description;
 				} else { ?>
 				Not recorded

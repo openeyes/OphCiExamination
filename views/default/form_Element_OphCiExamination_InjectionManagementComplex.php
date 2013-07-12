@@ -25,8 +25,8 @@
 	</div>
 	<div class="data">
 		<?php
-			echo $form->checkbox($element, 'no_treatment', array('nowrapper' => true)); 
-		?> 
+			echo $form->checkbox($element, 'no_treatment', array('nowrapper' => true));
+		?>
 	</div>
 </div>
 
@@ -35,13 +35,13 @@
 		<?php echo $element->getAttributeLabel('no_treatment_reason_id') ?>
 	</div>
 	<div class="data">
-		<?php echo $form->dropDownlist($element, 'no_treatment_reason_id', 
+		<?php echo $form->dropDownlist($element, 'no_treatment_reason_id',
 				CHtml::listData($element->getNoTreatmentReasons(),'id','name'),
 				array('empty'=>'- Please select -', 'nowrapper' => true)) ?>
 	</div>
 </div>
 
-<?php 
+<?php
 // build up data structures for the two levels of disorders that are mapped through the therapydisorder lookup
 $l1_disorders = $element->getLevel1Disorders();
 $l1_options = array();
@@ -63,7 +63,7 @@ foreach ($l1_disorders as $disorder) {
 <div class="cols2 clearfix" id="div_<?php echo get_class($element)?>_treatment_fields">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
@@ -77,7 +77,7 @@ foreach ($l1_disorders as $disorder) {
 		</div>
 	</div>
 	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>

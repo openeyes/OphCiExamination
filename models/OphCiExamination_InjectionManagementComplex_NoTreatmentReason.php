@@ -28,7 +28,8 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord {
+class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -37,7 +38,7 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,7 +46,7 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	{
 		return 'ophciexamination_injectmanagecomplex_notreatmentreason';
 	}
-	
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -59,5 +60,5 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 				array('id, name, display_order, enabled', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 }

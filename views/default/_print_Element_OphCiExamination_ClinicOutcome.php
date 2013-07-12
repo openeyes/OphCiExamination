@@ -24,7 +24,7 @@
 	<?php echo $element->getFollowUp(); ?>
 	with
 	<?php echo $element->role->name; ?>
-	<?php if($element->role_comments)  { ?>
+	<?php if ($element->role_comments) { ?>
 	(<?php echo $element->role_comments; ?>)
 	<?php } ?>
 	<?php } ?>

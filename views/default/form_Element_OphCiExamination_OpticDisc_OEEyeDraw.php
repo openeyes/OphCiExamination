@@ -56,10 +56,10 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			:
 		</div>
 		<div class="data">
-			<?php 
+			<?php
 			$cd_ratio_html_options = array('class' => 'cd-ratio', 'options' => array());
 			foreach (OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')) as $ratio) {
-				$cd_ratio_html_options['options'][(string)$ratio->id] = array('data-value'=> $ratio->name);
+				$cd_ratio_html_options['options'][(string) $ratio->id] = array('data-value'=> $ratio->name);
 			}
 			?>
 			<?php echo CHtml::activeDropDownList($element, $side . '_cd_ratio_id', CHtml::listData(OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'), $cd_ratio_html_options) ?>

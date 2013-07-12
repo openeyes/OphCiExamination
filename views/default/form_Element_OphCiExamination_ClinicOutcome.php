@@ -23,16 +23,16 @@
 		<?php echo $element->getAttributeLabel('status_id') ?>:
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		foreach (OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
-			$html_options['options'][(string)$opt->id] = array('data-followup' => $opt->followup);
+			$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
 		}
-		echo CHtml::activeDropDownList($element,'status_id', CHtml::listData(OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+		echo CHtml::activeDropDownList($element,'status_id', CHtml::listData(OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_followup"
-	class="eventDetail" 
+	class="eventDetail"
 	<?php if (!($element->status && $element->status->followup)) { ?>
 	style="display: none;"
 	<?php }?>
@@ -41,12 +41,12 @@
 		<?php echo $element->getAttributeLabel('followup_quantity')?>:
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		echo CHtml::activeDropDownList($element,'followup_quantity', $element->getFollowUpQuantityOptions(), $html_options)?>
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
@@ -56,7 +56,7 @@
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_role"
-	class="eventDetail" 
+	class="eventDetail"
 	<?php if (!($element->status && $element->status->followup)) { ?>
 	style="display: none;"
 	<?php }?>>
@@ -64,7 +64,7 @@
 		<?php echo $element->getAttributeLabel('role')?>:
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		echo CHtml::activeDropDownList($element, 'role_id',
 			CHtml::listData(OphCiExamination_ClinicOutcome_Role::model()->findAll(array('order'=>'display_order')),'id', 'name'),
@@ -76,7 +76,7 @@
 </div>
 <script type="text/javascript">
 		var Element_OphCiExamination_ClinicOutcome_templates = {
-		<?php foreach(OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
+		<?php foreach (OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
 		"<?php echo $template->id?>": {
 			"clinic_outcome_status_id": <?php echo $template->clinic_outcome_status_id ?>,
 			"followup_quantity": "<?php echo $template->followup_quantity ?>",

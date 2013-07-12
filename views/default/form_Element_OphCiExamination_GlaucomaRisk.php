@@ -18,12 +18,12 @@
  */
 ?>
 <div class="eventDetail">
-	<div class="risk_wrapper <?php if($element->risk) { echo $element->risk->class; } ?>">
+	<div class="risk_wrapper <?php if ($element->risk) { echo $element->risk->class; } ?>">
 		<?php
 			$html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
 			$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
-			foreach($risks as $option) {
-				$html_options['options'][(string)$option->id] = array(
+			foreach ($risks as $option) {
+				$html_options['options'][(string) $option->id] = array(
 					'data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id,
 					'class' => $option->class,
 				);
@@ -34,7 +34,7 @@
 	<span><a class="descriptions_link" href="#">definitions</a></span>
 	<div id="Element_OphCiExamination_GlaucomaRisk_descriptions">
 		<dl>
-			<?php foreach($risks as $option) { ?>
+			<?php foreach ($risks as $option) { ?>
 			<dt class="<?php echo $option->class ?>"><a href="#" data-risk-id="<?php echo $option->id ?>"><?php echo $option->name ?></a></dt>
 			<dd class="<?php echo $option->class ?>"><?php echo nl2br($option->description) ?></dd>
 			<?php } ?>

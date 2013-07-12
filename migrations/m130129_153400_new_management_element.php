@@ -1,8 +1,9 @@
 <?php
 
-class m130129_153400_new_management_element extends CDbMigration {
-	
-	public function up() {
+class m130129_153400_new_management_element extends CDbMigration
+{
+	public function up()
+	{
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$this->insert('element_type', array(
 				'name' => 'Management',
@@ -30,13 +31,13 @@ class m130129_153400_new_management_element extends CDbMigration {
 			),
 			'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
-		
+
 		// Make the cataract management element a child
 		$this->update('element_type', array('parent_element_type_id' => $element_type->id, 'display_order' => 10), "class_name = 'Element_OphCiExamination_CataractManagement'");
-		
+
 		// Create a management element for each cataract_management
 		$elements =  Element_OphCiExamination_CataractManagement::model()->findAll();
-		foreach($elements as $element) {
+		foreach ($elements as $element) {
 			$this->insert('et_ophciexamination_management', array(
 					'event_id' => $element->event_id,
 					'comments' => $element->comments,
@@ -50,15 +51,16 @@ class m130129_153400_new_management_element extends CDbMigration {
 		$this->dropColumn('et_ophciexamination_cataractmanagement', 'comments');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->addColumn('et_ophciexamination_cataractmanagement', 'comments', 'varchar(2048) COLLATE utf8_bin');
 		$elements =  Element_OphCiExamination_Management::model()->findAll();
-		foreach($elements as $element) {
+		foreach ($elements as $element) {
 			$this->update('et_ophciexamination_cataractmanagement', array('comments' => $element->comments), 'event_id = :event_id', array(':event_id' => $element->event_id));
 		}
 		$this->update('element_type', array('parent_element_type_id' => null, 'display_order' => 95), "class_name = 'Element_OphCiExamination_CataractManagement'");
 		$this->dropTable('et_ophciexamination_management');
 		$this->delete('element_type', "class_name = 'Element_OphCiExamination_Management'");
 	}
-	
+
 }
