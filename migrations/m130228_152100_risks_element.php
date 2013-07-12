@@ -1,8 +1,9 @@
 <?php
 
-class m130228_152100_risks_element extends OEMigration {
-	
-	public function up() {
+class m130228_152100_risks_element extends OEMigration
+{
+	public function up()
+	{
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$this->insert('element_type',array(
 				'name' => 'Risks',
@@ -33,7 +34,8 @@ class m130228_152100_risks_element extends OEMigration {
 		$this->update('element_type', array('parent_element_type_id' => $risks_et_id), 'class_name = :class_name', array(':class_name' => 'Element_OphCiExamination_GlaucomaRisk'));
 	}
 
-	public function down() {
+	public function down()
+	{
 		$outcome_et_id = ElementType::model()->find('class_name=?', array('Element_OphCiExamination_ClinicOutcome'))->id;
 		$this->update('element_type', array('parent_element_type_id' => $outcome_et_id), 'class_name = :class_name', array(':class_name' => 'Element_OphCiExamination_GlaucomaRisk'));
 		$this->dropTable('et_ophciexamination_risks');

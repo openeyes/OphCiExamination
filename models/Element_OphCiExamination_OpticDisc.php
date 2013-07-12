@@ -38,27 +38,30 @@
  * @property OphCiExamination_OpticDisc_CDRatio $left_cd_ratio
  * @property OphCiExamination_OpticDisc_CDRatio $right_cd_ratio
  */
-class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
-
+class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_opticdisc';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('eye_id, event_id, left_description, right_description, left_eyedraw, right_eyedraw, left_cd_ratio_id, right_cd_ratio_id', 'safe'),
 				array('left_diameter, right_diameter', 'type', 'type' => 'float'),
@@ -74,26 +77,30 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * Vertical diameter requires that lens is also specified
 	 * @param string $attribute
 	 */
-	public function checkDiameter($attribute) {
+	public function checkDiameter($attribute)
+	{
 		$side = explode('_', $attribute, 2);
 		$side = $side[0];
-		if($this->{$side.'_diameter'} && !$this->$attribute) {
+		if ($this->{$side.'_diameter'} && !$this->$attribute) {
 			$this->addError($attribute, ucfirst($side).' vertical diameter requires lens');
 		}
 	}
 
-	public function sidedFields() {
+	public function sidedFields()
+	{
 		return array('diameter', 'description', 'eyedraw', 'cd_ratio_id', 'lens_id');
 	}
 
-	public function canCopy() {
+	public function canCopy()
+	{
 		return true;
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -112,7 +119,8 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -133,7 +141,8 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
@@ -150,19 +159,22 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement {
 		));
 	}
 
-	public function getDiameterOptions() {
+	public function getDiameterOptions()
+	{
 		$range = range(0, 4, 0.1);
-		foreach($range as $key => $value) {
+		foreach ($range as $key => $value) {
 			$range[$key] = sprintf('%01.1f',$value);
 		}
 		return array_combine($range,$range);
 	}
-	public function getLensOptions() {
+	public function getLensOptions()
+	{
 		$options = OphCiExamination_OpticDisc_Lens::model()->findAll(array('order' => 'display_order'));
 		return CHtml::listData($options, 'id', 'name');
 	}
 
-	public function sidedDefaults() {
+	public function sidedDefaults()
+	{
 		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'));
 		return array(
 				'cd_ratio_id' => $cd_ratio->id

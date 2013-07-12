@@ -28,28 +28,32 @@
  * @property OphCiExamination_PupillaryAbnormalities_Abnormality $right_abnormality
  */
 
-class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElement {
+class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_PupillaryAbnormalities the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_pupillaryabnormalities';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -62,11 +66,12 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 				array('id, event_id, left_abnormality_id, right_abnormality_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -80,14 +85,16 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 		);
 	}
 
-	public function sidedFields() {
+	public function sidedFields()
+	{
 		return array('abnormality_id');
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -96,7 +103,8 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 		);
 	}
 
-	public function getAbnormalityOptions() {
+	public function getAbnormalityOptions()
+	{
 		return CHtml::listData(OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
 	}
 
@@ -104,7 +112,8 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -112,7 +121,7 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

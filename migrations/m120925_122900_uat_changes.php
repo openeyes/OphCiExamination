@@ -1,8 +1,9 @@
 <?php
 
-class m120925_122900_uat_changes extends OEMigration {
-
-	public function up() {
+class m120925_122900_uat_changes extends OEMigration
+{
+	public function up()
+	{
 		// Add other field to refraction types
 		$this->addColumn('et_ophciexamination_refraction', 'left_type_other', 'varchar(100)');
 		$this->addColumn('et_ophciexamination_refraction', 'right_type_other', 'varchar(100)');
@@ -62,12 +63,13 @@ class m120925_122900_uat_changes extends OEMigration {
 		$this->addForeignKey('et_ophciexamination_posteriorsegment_eye_id_fk', 'et_ophciexamination_posteriorsegment', 'eye_id', 'eye', 'id');
 		$this->addColumn('et_ophciexamination_intraocularpressure', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
 		$this->addForeignKey('et_ophciexamination_intraocularpressure_eye_id_fk', 'et_ophciexamination_intraocularpressure', 'eye_id', 'eye', 'id');
-		
+
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropForeignKey('et_ophciexamination_refraction_eye_id_fk', 'et_ophciexamination_refraction');
 		$this->dropForeignKey('et_ophciexamination_visualacuity_eye_id_fk', 'et_ophciexamination_visualacuity');
 		$this->dropForeignKey('et_ophciexamination_adnexalcomorbidity_eye_id_fk', 'et_ophciexamination_adnexalcomorbidity');

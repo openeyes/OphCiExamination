@@ -29,28 +29,32 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
+class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_diagnoses';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -64,7 +68,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -81,7 +86,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -94,7 +100,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -111,7 +118,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		));
 	}
 
-	protected function afterSave() {
+	protected function afterSave()
+	{
 		$disorder_ids = array();
 		$secondary_diagnosis_ids = array();
 
@@ -179,7 +187,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		parent::afterSave();
 	}
 
-	public function getFormDiagnoses() {
+	public function getFormDiagnoses()
+	{
 		$diagnoses = array();
 
 		$episode = Yii::app()->getController()->episode;
@@ -192,11 +201,11 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 					$diagnoses[] = array(
 						'disorder' => Disorder::model()->findByPk($disorder_id),
 						'eye_id' => $eyes[$i],
-						'principal' => (boolean)@$_POST['principal_diagnosis'] == $disorder_id,
+						'principal' => (boolean) @$_POST['principal_diagnosis'] == $disorder_id,
 					);
 				}
 			}
-		} else if ($this->event) {
+		} elseif ($this->event) {
 			foreach ($this->diagnoses as $i => $diagnosis) {
 				$diagnoses[] = array(
 					'disorder' => $diagnosis->disorder,
@@ -242,7 +251,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return $this->uniqueDiagnoses($diagnoses);
 	}
 
-	public function uniqueDiagnoses($diagnoses) {
+	public function uniqueDiagnoses($diagnoses)
+	{
 		$_diagnoses = array();
 
 		foreach ($diagnoses as $diagnosis) {
@@ -254,7 +264,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return $_diagnoses;
 	}
 
-	public function diagnosisInArray($diagnosis, $diagnoses) {
+	public function diagnosisInArray($diagnosis, $diagnoses)
+	{
 		foreach ($diagnoses as $_diagnosis) {
 			if ($diagnosis['disorder']->id == $_diagnosis['disorder']->id && $diagnosis['eye_id'] == $_diagnosis['eye_id'] && $diagnosis['principal'] == $_diagnosis['principal']) {
 				return true;
@@ -264,7 +275,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return false;
 	}
 
-	public function getSelectedDisorderIDs() {
+	public function getSelectedDisorderIDs()
+	{
 		$disorder_ids = array();
 
 		foreach ($this->getFormDiagnoses() as $diagnosis) {
@@ -274,7 +286,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return $disorder_ids;
 	}
 
-	public function getCommonOphthalmicDisorders($firm_id) {
+	public function getCommonOphthalmicDisorders($firm_id)
+	{
 		$disorder_ids = $this->getSelectedDisorderIDs();
 
 		$disorders = array();
@@ -288,7 +301,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return $disorders;
 	}
 
-	protected function beforeDelete() {
+	protected function beforeDelete()
+	{
 		foreach ($this->diagnoses as $diagnosis) {
 			$diagnosis->delete();
 		}
@@ -296,7 +310,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return parent::beforeDelete();
 	}
 
-	public function getLetter_string() {
+	public function getLetter_string()
+	{
 		$text = "";
 
 		if ($principal = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1',array($this->id))) {
@@ -310,7 +325,8 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		return $text;
 	}
 
-	public function afterValidate() {
+	public function afterValidate()
+	{
 		if (empty($_POST['selected_diagnoses'])) {
 			$this->addError('selected_diagnoses','Please select some diagnoses');
 		}

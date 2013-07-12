@@ -26,29 +26,32 @@
  * @property OphCiExamination_AttributeElement[] $attribute_elements
 
  */
-class OphCiExamination_Attribute extends BaseActiveRecord {
-	
+class OphCiExamination_Attribute extends BaseActiveRecord
+{
 	protected $attribute_options = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Attribute the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_attribute';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name', 'required'),
 				array('id, name', 'safe', 'on'=>'search'),
@@ -58,7 +61,8 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'attribute_elements' => array(self::HAS_MANY, 'OphCiExamination_AttributeElement', 'attribute_id'),
 		);
@@ -72,19 +76,20 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 	 * @param boolean $include_descendents
 	 * @return OphCiExamination_Attribute[]
 	 */
-	public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true) {
+	public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true)
+	{
 		$criteria = new CDbCriteria();
 		$criteria->select = 't.*';
 		$criteria->distinct = true;
 		$element_type_ids = array($element_type_id);
-		if($include_descendents) {
+		if ($include_descendents) {
 			$element_type = ElementType::model()->findByPk($element_type_id);
-			foreach($element_type->getDescendents() as $descendent) {
+			foreach ($element_type->getDescendents() as $descendent) {
 				$element_type_ids[] = $descendent->id;
 			}
 		}
 		$criteria->addInCondition('attribute_element.element_type_id', $element_type_ids);
-		if($subspecialty_id) {
+		if ($subspecialty_id) {
 			$criteria->addCondition('subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL');
 			$criteria->params[':subspecialty_id'] = $subspecialty_id;
 		} else {
@@ -96,9 +101,9 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 		$attributes = array();
 		$attribute = null;
 		$attribute_options = array();
-		foreach($all_attribute_options as $attribute_option) {
-			if(!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
-				if($attribute) {
+		foreach ($all_attribute_options as $attribute_option) {
+			if (!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
+				if ($attribute) {
 					ksort($attribute_options);
 					$attribute->attribute_options = array_values($attribute_options);
 					$attribute_options = array();
@@ -108,23 +113,25 @@ class OphCiExamination_Attribute extends BaseActiveRecord {
 			}
 			$attribute_options[$attribute_option->label] = $attribute_option;
 		}
-		if($attribute) {
+		if ($attribute) {
 			ksort($attribute_options);
 			$attribute->attribute_options = array_values($attribute_options);
 			$attributes[] = $attribute;
 		}
 		return $attributes;
 	}
-	
-	public function getAttributeOptions() {
+
+	public function getAttributeOptions()
+	{
 		return $this->attribute_options;
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

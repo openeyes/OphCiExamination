@@ -19,7 +19,7 @@
 ?>
 <tr class="visualAcuityReading" data-key="<?php echo $key ?>">
 	<td>
-	<?php if(isset($reading) && $reading->id) { ?>
+	<?php if (isset($reading) && $reading->id) { ?>
 	<input type="hidden"
 		name="visualacuity_reading[<?php echo $key ?>][id]"
 		value="<?php echo $reading->id?>" />

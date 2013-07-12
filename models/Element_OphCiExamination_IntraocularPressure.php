@@ -29,28 +29,32 @@
  * @property OphCiExamination_IntraocularPressure_Reading $right_reading
  */
 
-class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement {
+class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_intraocularpressure';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -60,11 +64,12 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -83,7 +88,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -94,7 +100,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 		);
 	}
 
-	public function getInstrumentValues() {
+	public function getInstrumentValues()
+	{
 		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
 	}
 
@@ -102,7 +109,8 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -110,12 +118,12 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		
+
 		$criteria->compare('left_instrument_id', $this->left_instrument_id);
 		$criteria->compare('left_reading_id', $this->left_reading_id);
 		$criteria->compare('right_instrument_id', $this->right_instrument_id);
 		$criteria->compare('right_reading_id', $this->right_reading_id);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -124,32 +132,35 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement 
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions() {
-		
+	public function setDefaultOptions()
+	{
 		// Default instrument
-		if($default_instrument_id = $this->getSetting('default_instrument_id')) {
+		if ($default_instrument_id = $this->getSetting('default_instrument_id')) {
 			$this->left_instrument_id = $default_instrument_id;
 			$this->right_instrument_id = $default_instrument_id;
 		}
-		
+
 		// Show instruments
-		if(!$this->getSetting('show_instruments')) {
+		if (!$this->getSetting('show_instruments')) {
 			$this->left_instrument_id = null;
 			$this->right_instrument_id = null;
 		}
 	}
 
-	protected function beforeSave() {
+	protected function beforeSave()
+	{
 		return parent::beforeSave();
 	}
 
-	public function getLetter_reading($side) {
+	public function getLetter_reading($side)
+	{
 		$segment = $side.'_reading';
 		$reading = $this->$segment->name;
 		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
 	}
 
-	public function getLetter_string() {
+	public function getLetter_string()
+	{
 		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
 	}
 }

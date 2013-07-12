@@ -25,27 +25,30 @@
  * @property ElementType $element_type
  * @property OphCiExamination_AttributeOption[] $options
  */
-class OphCiExamination_AttributeElement extends BaseActiveRecord {
-
+class OphCiExamination_AttributeElement extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_AttributeElement the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_attribute_element';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('attribute_id, element_type_id', 'required'),
 				array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
@@ -55,7 +58,8 @@ class OphCiExamination_AttributeElement extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'attribute' => array(self::BELONGS_TO, 'OphCiExamination_Attribute', 'attribute_id'),
 				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
@@ -68,10 +72,11 @@ class OphCiExamination_AttributeElement extends BaseActiveRecord {
 	 * @param integer $subspecialty_id
 	 * @return OphCiExamination_AttributeOption[]
 	 */
-	public function findAllOptionsForSubspecialty($subspecialty_id = null) {
+	public function findAllOptionsForSubspecialty($subspecialty_id = null)
+	{
 		$condition = 'attribute_element_id = :attribute_element_id AND ';
 		$params = array(':attribute_element_id' => $this->id);
-		if($subspecialty_id) {
+		if ($subspecialty_id) {
 			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
 			$params[':subspecialty_id'] = $subspecialty_id;
 		} else {
@@ -79,12 +84,13 @@ class OphCiExamination_AttributeElement extends BaseActiveRecord {
 		}
 		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

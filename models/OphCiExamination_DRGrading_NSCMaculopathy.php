@@ -27,31 +27,35 @@
  * @property integer $booking_weeks
 
  */
-class OphCiExamination_DRGrading_NSCMaculopathy extends BaseActiveRecord {
-
+class OphCiExamination_DRGrading_NSCMaculopathy extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_PosteriorSegment_CDRatio the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
-	public function __toString() {
+	public function __toString()
+	{
 		return $this->name;
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_drgrading_nscmaculopathy';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name', 'required'),
 				array('id, name, description, booking_weeks', 'safe', 'on'=>'search'),
@@ -61,7 +65,8 @@ class OphCiExamination_DRGrading_NSCMaculopathy extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 		);
 	}
@@ -70,7 +75,8 @@ class OphCiExamination_DRGrading_NSCMaculopathy extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

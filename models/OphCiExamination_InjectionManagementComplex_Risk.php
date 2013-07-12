@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during 
+ * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during
  * an examination for any given diagnosis
  *
  * The followings are the available columns in table:
@@ -30,7 +30,8 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord {
+class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -39,7 +40,7 @@ class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord 
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -47,7 +48,7 @@ class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord 
 	{
 		return 'ophciexamination_injectmanagecomplex_risk';
 	}
-	
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -61,5 +62,5 @@ class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord 
 				array('id, question, display_order, enabled', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 }
