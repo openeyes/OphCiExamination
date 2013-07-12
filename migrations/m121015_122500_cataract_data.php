@@ -1,8 +1,9 @@
 <?php
 
-class m121015_122500_cataract_data extends OEMigration {
-
-	public function up() {
+class m121015_122500_cataract_data extends OEMigration
+{
+	public function up()
+	{
 		$this->delete('ophciexamination_attribute_option');
 		$this->delete('ophciexamination_attribute');
 		$this->delete('ophciexamination_element_set_item');
@@ -15,7 +16,8 @@ class m121015_122500_cataract_data extends OEMigration {
 		$this->initialiseData($migrations_path);
 	}
 
-	public function down() {
+	public function down()
+	{
 	}
 
 }

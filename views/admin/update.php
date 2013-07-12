@@ -21,11 +21,11 @@
 <div class="report curvybox white">
 
 <div class="admin">
-<?php 
+<?php
 $form=$this->beginWidget('BaseEventTypeCActiveForm', array(
 	'id'=>'OphCiExamination_adminform',
 	'enableAjaxValidation'=>false,
-)); 
+));
 
 $this->renderPartial('form_' . get_class($model), array(
 		'model' => $model,

@@ -27,45 +27,51 @@
  * @property string $value
  * @property string $delimiter
  */
-class OphCiExamination_AttributeOption extends BaseActiveRecord {
-
+class OphCiExamination_AttributeOption extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_AttributeOption the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_attribute_option';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('value, delimiter', 'required'),
 				array('id, value, delimiter', 'safe', 'on'=>'search'),
 		);
 	}
 
-	public function getLabel() {
+	public function getLabel()
+	{
 		return ucfirst($this->value);
 	}
-	
-	public function getSlug() {
+
+	public function getSlug()
+	{
 		return $this->value . $this->delimiter . ' ';
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'attribute_element' => array(self::BELONGS_TO, 'OphCiExamination_AttributeElement', 'attribute_element_id'),
 				'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
@@ -76,7 +82,8 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);

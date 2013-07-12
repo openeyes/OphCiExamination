@@ -25,27 +25,30 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord {
-
+class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_AnteriorSegment_CCT_Method
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_anteriorsegment_cct_method';
 	}
 
 	/**
 	 * @return array validation rules for model visualacuity_methods.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name, display_order', 'required'),
 				array('id, name, display_order', 'safe', 'on'=>'search'),
@@ -55,7 +58,8 @@ class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 		);
 	}
@@ -64,7 +68,8 @@ class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

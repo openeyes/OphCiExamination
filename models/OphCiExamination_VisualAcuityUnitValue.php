@@ -25,27 +25,30 @@
  * @property string $value
  * @property integer $base_value
  */
-class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecord {
-
+class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_VisualAcuityUnitValue the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_visual_acuity_unit_value';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('value, unit_id, base_value', 'required'),
 				array('id, value, unit_id, base_value', 'safe', 'on'=>'search'),
@@ -55,7 +58,8 @@ class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
 		);
@@ -65,7 +69,8 @@ class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

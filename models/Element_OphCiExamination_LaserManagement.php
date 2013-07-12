@@ -30,28 +30,32 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
+class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_lasermanagement';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -68,7 +72,8 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -84,7 +89,8 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -98,8 +104,8 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
-
+	public function search()
+	{
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
@@ -108,47 +114,48 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 		$criteria->compare('laser_status_id', $this->laser_status_id);
 		$criteria->compare('laser_deferralreason_id', $this->laser_deferral_reason_id);
 		$criteria->compare('laser_deferralreason_other', $this->laser_deferralreason_other);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
-	
+
 	/*
 	 * deferral reason is only required for laser status that are flagged deferred
 	 */
-	public function laserDependencyValidation($attribute) {
+	public function laserDependencyValidation($attribute)
+	{
 		if ($this->laser_status && $this->laser_status->deferred) {
 			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_id'));
 			$v->validate($this);
 		}
 	}
-	
+
 	/*
 	 * only need a text "other" reason for reasons that are flagged "other"
-	 */	
-	public function laserDeferralReasonDependencyValidation($attribute) {
+	 */
+	public function laserDeferralReasonDependencyValidation($attribute)
+	{
 		if ($this->laser_deferralreason && $this->laser_deferralreason->other) {
 			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->laser_deferralreason));
 			$v->validate($this);
 		}
 	}
-	
+
 	/*
 	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
 	*
 	* @returns string
 	*/
-	public function getLaserDeferralReason() {
+	public function getLaserDeferralReason()
+	{
 		if ($this->laser_deferralreason) {
 			if ($this->laser_deferralreason->other) {
 				return $this->laser_deferralreason_other;
-			}
-			else {
+			} else {
 				return $this->laser_deferralreason->name;
 			}
-		}
-		else {
+		} else {
 			// shouldn't get to this point really
 			return "N/A";
 		}
@@ -156,12 +163,13 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement {
 
 	/**
 	 * Returns the laser management plan section  for use in correspondence
-	 * 
+	 *
 	 * @return string
 	 */
-	public function getLetter_lmp() {
+	public function getLetter_lmp()
+	{
 		$text = array();
-		
+
 		if ($this->laser_status) {
 			$text[] = $this->laser_status;
 			if ($this->laser_status->deferred) {

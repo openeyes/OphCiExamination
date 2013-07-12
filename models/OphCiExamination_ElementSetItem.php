@@ -26,27 +26,30 @@
  * @property ElementType $element_type
  * @property integer $default
  */
-class OphCiExamination_ElementSetItem extends BaseActiveRecord {
-
+class OphCiExamination_ElementSetItem extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_ElementSetItem the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_element_set_item';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('id', 'safe', 'on'=>'search'),
 		);
@@ -55,7 +58,8 @@ class OphCiExamination_ElementSetItem extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'set' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'set_id'),
 				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
@@ -65,7 +69,8 @@ class OphCiExamination_ElementSetItem extends BaseActiveRecord {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 		);
@@ -75,7 +80,8 @@ class OphCiExamination_ElementSetItem extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		return new CActiveDataProvider(get_class($this), array(

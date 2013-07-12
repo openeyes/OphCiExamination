@@ -1,8 +1,9 @@
 <?php
 
-class m130415_115500_new_pupillaryabnormalities_element extends OEMigration {
-	
-	public function up() {
+class m130415_115500_new_pupillaryabnormalities_element extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_pupillaryabnormalities_abnormality', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(255) NOT NULL',
@@ -56,10 +57,11 @@ class m130415_115500_new_pupillaryabnormalities_element extends OEMigration {
 		);
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropTable('et_ophciexamination_pupillaryabnormalities');
 		$this->delete('element_type', "class_name = 'Element_OphCiExamination_PupillaryAbnormalities'");
 		$this->dropTable('ophciexamination_pupillaryabnormalities_abnormality');
 	}
-	
+
 }

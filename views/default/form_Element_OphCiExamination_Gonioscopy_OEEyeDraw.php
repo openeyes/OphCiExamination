@@ -18,8 +18,8 @@
  */
 ?>
 <?php
-$expert = $element->getSetting('expert'); 
-if($expert) {
+$expert = $element->getSetting('expert');
+if ($expert) {
 	$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 } else {
 	$doodleToolBarArray = array('AngleNV', 'AntSynech');
@@ -28,9 +28,9 @@ $bindingArray = array();
 $onReadyCommandArray = array(
 	array('addDoodle', array('Gonioscopy'))
 );
-foreach(array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
+foreach (array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
 	$bindingArray[$doodleClass]['grade'] = array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
-	if(!$expert) {
+	if (!$expert) {
 		$bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
 	}
 	$onReadyCommandArray[] = array('addDoodle', array($doodleClass));
@@ -48,14 +48,14 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields">
-	<div<?php if(!$expert) { ?>
+	<div<?php if (!$expert) { ?>
 		style="display: none;" <?php } ?> class="shaffer_grade">
 		<div class="label">Shaffer grade:</div>
 		<div class="data gonioCross">
 			<?php
 			$html_options = array();
-			foreach(OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
-				$html_options[(string)$option->id] = array('data-value'=> $option->name);
+			foreach (OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
+				$html_options[(string) $option->id] = array('data-value'=> $option->name);
 			}
 			?>
 			<div class="gonioSup">
@@ -72,7 +72,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			</div>
 		</div>
 	</div>
-	<?php if(!$expert) { ?>
+	<?php if (!$expert) { ?>
 	<div class="basic_grade">
 		<div class="label">Angle Open?:</div>
 		<?php

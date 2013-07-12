@@ -41,58 +41,64 @@
  * @property OphCiExamination_NSCMaculopathy $right_nscmaculopathy
  * @property OphCiExamination_Clinical $left_clinical
  * @property OphCiExamination_Clinical $right_clinical
- * 
+ *
  */
 
-class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
+class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_drgrading';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, 
-						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, 
-						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id, 
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation,
+						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id,
+						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id,
 						right_clinical_id, eye_id', 'safe'),
-				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation, 
+				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation,
 						left_nscmaculopathy_photocoagulation, left_clinical_id', 'requiredIfSide', 'side' => 'left'),
-				array('right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation, 
+				array('right_nscretinopathy_id, right_nscmaculopathy_id, right_nscretinopathy_photocoagulation,
 						right_nscmaculopathy_photocoagulation, right_clinical_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretionopathy_photocoagulation, 
-						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id, 
-						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id, 
+				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretionopathy_photocoagulation,
+						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id,
+						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinical_id,
 						right_clinical_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
-	public function sidedFields() {
+	public function sidedFields()
+	{
 		return array('nscretinopathy_id', 'nscmaculopathy_id','nscretinopathy_photocoagulation','nscmaculopathy_photocoagulation','clinical_id');
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -114,7 +120,8 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -135,7 +142,8 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -150,12 +158,12 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 		$criteria->compare('right_retinopathy_id', $this->right_retinopathy_id);
 		$criteria->compare('right_maculopathy_id', $this->right_maculopathy_id);
 		$criteria->compare('right_clinical_id', $this->right_clinical_id);
-		
+
 		$criteria->compare('left_nscretinopathy_photocoagulation', $this->left_nscretinopathy_photocoagulation);
 		$criteria->compare('left_nscmaculopathy_photocoagulation', $this->left_nscmaculopathy_photocoagulation);
 		$criteria->compare('right_nscretinopathy_photocoagulation', $this->right_nscretinopathy_photocoagulation);
 		$criteria->compare('right_nscmaculopathy_photocoagulation', $this->right_nscmaculopathy_photocoagulation);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -164,19 +172,23 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement {
 	/**
 	 * Set default values for forms on create
 	 */
-	public function setDefaultOptions() {
+	public function setDefaultOptions()
+	{
 		return parent::setDefaultOptions();
 	}
-	
-	protected function beforeSave() {
+
+	protected function beforeSave()
+	{
 		return parent::beforeSave();
 	}
 
-	protected function afterSave() {
+	protected function afterSave()
+	{
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate() {
+	protected function beforeValidate()
+	{
 		return parent::beforeValidate();
 	}
 }

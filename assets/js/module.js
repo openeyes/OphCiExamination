@@ -1140,8 +1140,8 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
 	var grades = gradeCalculator(_drawing);
 	var retinopathy = grades[0],
 		maculopathy = grades[1],
-		ret_photo   = grades[2],
-		mac_photo   = grades[3],
+		ret_photo   = grades[2] ? '1' : '0',
+		mac_photo   = grades[3] ? '1' : '0',
 		clinical    = grades[4],
 		dirty 	    = false,	
 		side        = 'right';
@@ -1183,12 +1183,12 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
     });
     
     // retinopathy photocogaulation
-    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscretinopathy_photocoagulation\]]:checked').val() != ret_photo) {
+    if ($('input[name="'+dr_grade_et_class+'\['+side+'_nscretinopathy_photocoagulation\]"]:checked').val() != ret_photo) {
     	dirty = true;
     }
     
     // maculopathy photocoagulation
-    if ($('input[@name='+dr_grade_et_class+'\['+side+'_nscmaculopathy_photocoagulation\]]:checked').val() != mac_photo) {
+    if ($('input[name="'+dr_grade_et_class+'\['+side+'_nscmaculopathy_photocoagulation\]"]:checked').val() != mac_photo) {
     	dirty = true;
     }
     

@@ -36,7 +36,7 @@
 						</tbody>
 					</table>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<span>None given.</span>
 			<?php }?>
 		</div>
@@ -58,7 +58,7 @@
 						</tbody>
 					</table>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<span>None given</span>
 			<?php }?>
 		</div>

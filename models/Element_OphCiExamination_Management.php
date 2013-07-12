@@ -27,27 +27,30 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Management extends BaseEventTypeElement {
-
+class Element_OphCiExamination_Management extends BaseEventTypeElement
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_Management the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_management';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -61,7 +64,8 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -75,7 +79,8 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -87,7 +92,8 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -102,7 +108,8 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement {
 		));
 	}
 
-	public function getLetter_string() {
+	public function getLetter_string()
+	{
 		return "Clinical management: $this->comments";
 	}
 }

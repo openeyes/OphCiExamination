@@ -26,27 +26,30 @@
  * @property Event $event
  * @property OphCiExamination_Comorbidities_Item[] $items
  */
-class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
-
+class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_Comorbidities the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_comorbidities';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -60,7 +63,8 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -75,7 +79,8 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 		);
 	}
@@ -84,7 +89,8 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -98,48 +104,52 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 		));
 	}
 
-	public function getItemOptions() {
+	public function getItemOptions()
+	{
 		$items = OphCiExamination_Comorbidities_Item::model()->findAll(array('order'=>'name'));
 		return CHtml::encodeArray(CHtml::listData($items, 'id', 'name'));
 	}
-	
-	public function getItemIds() {
+
+	public function getItemIds()
+	{
 		return CHtml::listData($this->items, 'id', 'id');
 	}
-	
-	public function getSummary() {
+
+	public function getSummary()
+	{
 		$return = array();
-		foreach($this->items as $item) {
+		foreach ($this->items as $item) {
 			$return[] = $item->name;
 		}
-		if($return) {
+		if ($return) {
 			return implode(', ',$return);
 		} else {
 			return 'None';
 		}
 	}
-	
-	protected function beforeDelete() {
+
+	protected function beforeDelete()
+	{
 		OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
 		return parent::beforeDelete();
 	}
-	
-	protected function afterSave() {
-		
+
+	protected function afterSave()
+	{
 		// Check to see if items have been posted
-		if(isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
+		if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
 
 			// Get a list of ids so we can keep track of what's been removed
 			$existing_item_ids = array();
-			foreach($this->items as $item) {
+			foreach ($this->items as $item) {
 				$existing_item_ids[$item->id] = $item->id;
 			}
 
 			// Process (any) posted items
 			$new_items = (isset($_POST['comorbidities_items'])) ? $_POST['comorbidities_items'] : array();
-			foreach($new_items as $item_id) {
-				
-				if($item_id && isset($existing_item_ids[$item_id])) {
+			foreach ($new_items as $item_id) {
+
+				if ($item_id && isset($existing_item_ids[$item_id])) {
 
 					// Item is being updated
 					$item_assignment = OphCiExamination_Comorbidities_Assignment::model()->findByAttributes(array('element_id' => $this->id, 'item_id' => $item_id));
@@ -153,9 +163,9 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 					$item_assignment->item_id = $item_id;
 
 				}
-				
+
 				$item_assignment->save();
-				
+
 			}
 
 			// Delete remaining (removed) ids
@@ -165,5 +175,5 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement {
 
 		return parent::afterSave();
 	}
-	
+
 }

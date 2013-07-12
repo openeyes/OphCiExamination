@@ -1,9 +1,9 @@
 <?php
 
-class m121111_155600_glaucoma extends OEMigration {
-
-	public function up() {
-
+class m121111_155600_glaucoma extends OEMigration
+{
+	public function up()
+	{
 		// Get examination event type
 		$event_type_id = $this->dbConnection->createCommand()
 		->select('id')
@@ -17,7 +17,7 @@ class m121111_155600_glaucoma extends OEMigration {
 				'Element_OphCiExamination_Gonioscopy' => array('name' => 'Gonioscopy', 'display_order' => 35),
 				'Element_OphCiExamination_OpticDisc' => array('name' => 'Optic Disc', 'display_order' => 65),
 		);
-		foreach($element_types as $element_type_class => $element_type_data) {
+		foreach ($element_types as $element_type_class => $element_type_data) {
 			$this->insert('element_type', array(
 					'name' => $element_type_data['name'],
 					'class_name' => $element_type_class,
@@ -42,7 +42,7 @@ class m121111_155600_glaucoma extends OEMigration {
 				'gonioscopy',
 				'opticdisc',
 		);
-		foreach($element_type_tables as $element_type_table) {
+		foreach ($element_type_tables as $element_type_table) {
 			$this->createTable('et_ophciexamination_'.$element_type_table, array(
 					'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 					'event_id' => 'int(10) unsigned NOT NULL',
@@ -93,9 +93,9 @@ class m121111_155600_glaucoma extends OEMigration {
 				'CONSTRAINT `ophciexamination_risks_assign_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_risks_assign_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
-		
+
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
-		
+
 		// Gonioscopy
 		$this->addColumn('et_ophciexamination_gonioscopy', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
 		$this->addForeignKey('et_ophciexamination_gonioscopy_eye_id_fk', 'et_ophciexamination_gonioscopy', 'eye_id', 'eye', 'id');
@@ -191,14 +191,14 @@ class m121111_155600_glaucoma extends OEMigration {
 				'parent_id' => $parent_id,
 				'value' => $glaucoma_id
 		));
-				
+
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 
 	}
 
-	public function down() {
-
+	public function down()
+	{
 		$set_id = OphCiExamination_ElementSet::model()->find("name = 'Glaucoma Default'")->id;
 		$this->delete('ophciexamination_element_set_rule', 'set_id = :set_id', array(
 			':set_id' => $set_id,
@@ -209,7 +209,7 @@ class m121111_155600_glaucoma extends OEMigration {
 		$this->delete('ophciexamination_element_set', 'id = :set_id', array(
 			'set_id' => $set_id,
 		));
-		
+
 		// Remove tables
 		$tables = array(
 				'ophciexamination_risks_assignment',
@@ -220,7 +220,7 @@ class m121111_155600_glaucoma extends OEMigration {
 				'et_ophciexamination_gonioscopy',
 				'et_ophciexamination_opticdisc',
 		);
-		foreach($tables as $table) {
+		foreach ($tables as $table) {
 			$this->dropTable($table);
 		}
 
@@ -230,7 +230,7 @@ class m121111_155600_glaucoma extends OEMigration {
 				'Element_OphCiExamination_Gonioscopy',
 				'Element_OphCiExamination_OpticDisc',
 		);
-		foreach($element_types as $element_type) {
+		foreach ($element_types as $element_type) {
 			$element_type_id = $this->dbConnection->createCommand()
 				->select('id')
 				->from('element_type')

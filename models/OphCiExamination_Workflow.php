@@ -25,27 +25,30 @@
  * @property OphCiExamination_Workflow_Step[] $steps
 
  */
-class OphCiExamination_Workflow extends BaseActiveRecord {
-
+class OphCiExamination_Workflow extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Workflow the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_workflow';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name', 'required'),
 				array('id, name', 'safe', 'on'=>'search'),
@@ -55,7 +58,8 @@ class OphCiExamination_Workflow extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id'),
 				'first_step' => array(self::HAS_ONE, 'OphCiExamination_ElementSet', 'workflow_id',
@@ -67,7 +71,8 @@ class OphCiExamination_Workflow extends BaseActiveRecord {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'name' => 'Name',
@@ -78,15 +83,17 @@ class OphCiExamination_Workflow extends BaseActiveRecord {
 	 * First step (set) in this workflow
 	 * @return OphCiExamination_ElementSet
 	 */
-	public function getFirstStep() {
+	public function getFirstStep()
+	{
 		return $this->first_step;
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

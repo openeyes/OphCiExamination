@@ -25,31 +25,35 @@
  * @property integer $display_order
  * @property boolean $requires_comment
  */
-class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecord {
-
+class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_ClinicOutcome_Role the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
-	public function __toString() {
+	public function __toString()
+	{
 		return $this->name;
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_clinicoutcome_role';
 	}
 
 	/**
 	 * @return array validation rules for model
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name, display_order, requires_comment', 'required'),
 				array('id, name, display_order, requires_comment', 'safe', 'on'=>'search'),
@@ -59,7 +63,8 @@ class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 		);
 	}
@@ -68,7 +73,8 @@ class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

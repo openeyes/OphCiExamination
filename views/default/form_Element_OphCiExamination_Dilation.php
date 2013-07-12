@@ -22,7 +22,7 @@
 	<input type="hidden" name="dilation_treatments_valid" value="1" />
 	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
 	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
@@ -61,7 +61,7 @@
 		</div>
 	</div>
 	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>

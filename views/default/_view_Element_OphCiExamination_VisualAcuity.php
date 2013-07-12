@@ -27,17 +27,17 @@
 				<div class="data">
 					<?php echo $element->getCombined('right') ?>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<div class="data">
 					Not recorded
 				</div>
 			<?php }?>
-			<?php if($element->right_comments) {?>
+			<?php if ($element->right_comments) {?>
 				<div class="data">
 					<?php echo $element->right_comments?>
 				</div>
 			<?php }?>
-		<?php }else{?>
+		<?php } else {?>
 			<div class="data">Not recorded</div>
 		<?php }?>
 	</div>
@@ -50,7 +50,7 @@
 				<div class="data">
 					<?php echo $element->getCombined('left')?>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<div class="data">
 					Not recorded
 				</div>
@@ -60,7 +60,7 @@
 					<?php echo $element->left_comments?>
 				</div>
 			<?php }?>
-		<?php }else{?>
+		<?php } else {?>
 		<div class="data">Not recorded</div>
 		<?php }?>
 	</div>
