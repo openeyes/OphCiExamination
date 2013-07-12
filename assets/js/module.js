@@ -976,7 +976,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"key" : OphCiExamination_Dilation_getNextKey(),
 			"side" : (side == 'right' ? 0 : 1),
 			"drug_name" : drug_name,
-			"drug_id" : drug_id,
+			"drug_id" : drug_id
 		};
 		var form = Mustache.render(template, data);
 		var table = $('#event_content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
@@ -1093,7 +1093,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1),
+		"side" : (side == 'right' ? 0 : 1)
 	};
 	var form = Mustache.render(template, data);
 	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();

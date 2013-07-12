@@ -370,7 +370,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		}
 
-		return parent::afterSave();
+		parent::afterSave();
 	}
 
 	protected function afterValidate()

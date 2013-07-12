@@ -140,19 +140,4 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		));
 	}
 
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
-	protected function afterSave()
-	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate()
-	{
-		return parent::beforeValidate();
-	}
-
 }

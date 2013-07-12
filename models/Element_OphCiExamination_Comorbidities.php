@@ -173,7 +173,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 
 		}
 
-		return parent::afterSave();
+		parent::afterSave();
 	}
 
 }

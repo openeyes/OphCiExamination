@@ -61,9 +61,7 @@ class OphCiExamination_EyeDrawBase extends BaseEventTypeElement
      * Does the image string for this EyeDraw object contain any of
      * the EyeDraw doodles?
      *
-     * @param type $side a string with it's first character an 'l'
-     * (for left) or 'r' (for right).
-     *
+     * @param string $side a string with it's first character an 'l' (for left) or 'r' (for right).
      * @return boolean true of the image string contains
      */
     public function isImageStringSet($side)
@@ -83,11 +81,8 @@ class OphCiExamination_EyeDrawBase extends BaseEventTypeElement
      * Checks to see if the specified image string contains any of the strings
      * given in the items array.
      *
-     * @param type $contents an array of string to look for in the image string.
-     *
-     * @param type $image_string the non-null image string in the form of
-     * a JSON EyeDraw string.
-     *
+     * @param string[] $contents an array of string to look for in the image string.
+     * @param string $image_string the non-null image string in the form of a JSON EyeDraw string.
      * @return boolean true if any of the items exist; false otherwise.
      */
     private function checkItems($contents, $image_string)

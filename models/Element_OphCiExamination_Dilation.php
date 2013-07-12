@@ -226,7 +226,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 
 		}
 
-		return parent::afterSave();
+		parent::afterSave();
 	}
 
 }
