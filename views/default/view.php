@@ -35,7 +35,7 @@
 	$this->renderPartial('//patient/event_actions');
 ?>
 
-<div id="event_<?php echo $this->module->name?>">
+<div id="event_<?php echo $this->module->name?>" class="event-view">
 	<div id="elements" class="view">
 		<?php $this->renderDefaultElements('view'); ?>
 	</div>
