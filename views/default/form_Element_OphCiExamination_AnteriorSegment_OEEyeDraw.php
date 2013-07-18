@@ -38,6 +38,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		),
 		'deleteValueArray' => array(
 			'Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id' => '',
+			'Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id' => '',
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
