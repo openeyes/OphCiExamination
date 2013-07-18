@@ -1313,7 +1313,7 @@ function OphCiExamination_Management_init() {
 
 
 function OphCiExamination_InjectionManagementComplex_check() {
-	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')) {
+	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').length >0) {
 		val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
 	} else {
 		val = false;
