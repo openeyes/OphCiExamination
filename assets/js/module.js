@@ -1313,7 +1313,12 @@ function OphCiExamination_Management_init() {
 
 
 function OphCiExamination_InjectionManagementComplex_check() {
-	val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')) {
+		val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	} else {
+		val = false;
+	}
+
 	if (val) {
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input').each(function() { $(this).removeAttr('disabled')});
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
