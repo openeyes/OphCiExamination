@@ -55,5 +55,5 @@
 
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_comments'} ?></div>
+	<div class="data"><?php echo $element->textWithLineBreaks($side . '_comments') ?></div>
 </div>
