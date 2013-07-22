@@ -18,6 +18,10 @@
  */
 ?>
 <div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_method') ?>:</div>
+	<div class="data"><?php echo $form->dropDownList($element, $side . '_method_id', CHtml::listData(OphCiExamination_OCT_Method::model()->findAll(array('order' => 'display_order')),'id','name'), array('nowrapper' => true)) ?></div>
+</div>
+<div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
 	<div class="data"><?php echo $form->textField($element, $side . '_crt', array('nowrapper' => true, 'size' => 6)) ?> &micro;m</div>
 </div>

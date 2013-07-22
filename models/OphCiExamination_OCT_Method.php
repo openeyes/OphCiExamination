@@ -18,14 +18,14 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_anteriorsegment_cct_method".
+ * This is the model class for table "ophciexamination_oct_method".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
 
  */
-class OphCiExamination_CMT_Method extends BaseActiveRecord {
+class OphCiExamination_OCT_Method extends BaseActiveRecord {
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,7 +39,7 @@ class OphCiExamination_CMT_Method extends BaseActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
-		return 'ophciexamination_cmt_method';
+		return 'ophciexamination_oct_method';
 	}
 
 	/**

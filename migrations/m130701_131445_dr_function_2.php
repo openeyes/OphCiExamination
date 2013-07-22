@@ -48,13 +48,25 @@ class m130701_131445_dr_function_2 extends CDbMigration
 				'selectable' => false,
 				'base_value' => 21));
 		
-		// extend the ETDRS range to 0 and 120:
+		// extend the ETDRS range to 0:
 		$this->insert('ophciexamination_visual_acuity_unit_value', array(
 				'unit_id' => $etdrs_id,
 				'value' => '0',
 				'base_value' => 25));
 		
-		for ($i = 130; $i <= 145; $i+=5) {
+		// add entries for every single letter for ETDRS
+		for ($i = 26; $i < 130; $i++) {
+			if ($i % 5 == 0) {
+				continue;
+			}
+			$this->insert('ophciexamination_visual_acuity_unit_value', array(
+					'unit_id' => $etdrs_id,
+					'value' => $i-25,
+					'base_value' => $i));
+		}
+		
+		// extend ETDRS to 120
+		for ($i = 126; $i <= 145; $i++) {
 			$this->insert('ophciexamination_visual_acuity_unit_value', array(
 					'unit_id' => $etdrs_id,
 					'value' => $i-25,
@@ -299,7 +311,7 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		// add to the MR Consultant workflow set
 		$this->insert('ophciexamination_element_set_item', array('set_id'=>$consultant_set_id, 'element_type_id' => $imgmt_id));
 		
-		// OCT && CMT Elements
+		// OCT Elements
 		
 		$event_type_id = Yii::app()->db->createCommand("select id from event_type where class_name = 'OphCiExamination'")->queryScalar();
 		$investigation_id = Yii::app()->db->createCommand("select id from element_type where class_name = 'Element_OphCiExamination_Investigation'")->queryScalar();
@@ -307,10 +319,24 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		
 		$both_eyes_id = Eye::BOTH;
 		
+		$this->createTable('ophciexamination_oct_method', array(
+				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+				'name' => 'varchar(255)NOT NULL',
+				'display_order' => 'int(10) unsigned NOT NULL',
+				'PRIMARY KEY (`id`)',
+		),
+				'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
+		);
+		
+		$this->insert('ophciexamination_oct_method', array('name' => 'Topcon', 'display_order' => 1));
+		$this->insert('ophciexamination_oct_method', array('name' => 'Spectralis', 'display_order' => 2));
+		
 		$this->createTable('et_ophciexamination_oct', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'event_id' => 'int(10) unsigned NOT NULL',
 				'eye_id' => 'int(10) unsigned NOT NULL DEFAULT '.$both_eyes_id,
+				'left_method_id' => 'int(10) unsigned',
+				'right_method_id' => 'int(10) unsigned',
 				'left_crt' => 'int(10) unsigned',
 				'right_crt' => 'int(10) unsigned',
 				'left_sft' => 'int(10) unsigned',
@@ -324,10 +350,14 @@ class m130701_131445_dr_function_2 extends CDbMigration
 				'KEY `et_ophciexamination_oct_eye_id_fk` (`eye_id`)',
 				'KEY `et_ophciexamination_oct_last_modified_user_id_fk` (`last_modified_user_id`)',
 				'KEY `et_ophciexamination_oct_created_user_id_fk` (`created_user_id`)',
+				'KEY `et_ophciexamination_oct_lmid_fk` (`left_method_id`)',
+				'KEY `et_ophciexamination_oct_rmid_fk` (`right_method_id`)',
 				'CONSTRAINT `et_ophciexamination_oct_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 				'CONSTRAINT `et_ophciexamination_oct_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
 				'CONSTRAINT `et_ophciexamination_oct_last_modified_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophciexamination_oct_created_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
+				'CONSTRAINT `et_ophciexamination_oct_lmid_fk` FOREIGN KEY (`left_method_id`) REFERENCES `ophciexamination_oct_method` (`id`)',
+				'CONSTRAINT `et_ophciexamination_oct_rmid_fk` FOREIGN KEY (`right_method_id`) REFERENCES `ophciexamination_oct_method` (`id`)',
 		),
 				'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
@@ -340,54 +370,6 @@ class m130701_131445_dr_function_2 extends CDbMigration
 				'parent_element_type_id' => $investigation_id
 		));
 		
-		$this->createTable('ophciexamination_cmt_method', array(
-				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'name' => 'varchar(255)NOT NULL',
-				'display_order' => 'int(10) unsigned NOT NULL',
-				'PRIMARY KEY (`id`)',
-		),
-				'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
-		);
-		
-		$this->insert('ophciexamination_cmt_method', array('name' => 'Topcon', 'display_order' => 1));
-		$this->insert('ophciexamination_cmt_method', array('name' => 'Spectralis', 'display_order' => 2));
-		
-		$this->createTable('et_ophciexamination_cmt', array(
-				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'event_id' => 'int(10) unsigned NOT NULL',
-				'eye_id' => 'int(10) unsigned NOT NULL DEFAULT '.$both_eyes_id,
-				'left_method_id' => 'int(10) unsigned',
-				'right_method_id' => 'int(10) unsigned',
-				'left_value' => 'int(10) unsigned',
-				'right_value' => 'int(10) unsigned',
-				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
-				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
-				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT \'1\'',
-				'created_date' => 'datetime NOT NULL DEFAULT \'1900-01-01 00:00:00\'',
-				'PRIMARY KEY (`id`)',
-				'KEY `et_ophciexamination_cmt_event_id_fk` (`event_id`)',
-				'KEY `et_ophciexamination_cmt_eye_id_fk` (`eye_id`)',
-				'KEY `et_ophciexamination_cmt_last_modified_user_id_fk` (`last_modified_user_id`)',
-				'KEY `et_ophciexamination_cmt_created_user_id_fk` (`created_user_id`)',
-				'KEY `et_ophciexamination_cmt_lmi_fk` (`left_method_id`)',
-				'KEY `et_ophciexamination_cmt_rmi_fk` (`right_method_id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_last_modified_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_created_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_lmi_fk` FOREIGN KEY (`left_method_id`) REFERENCES `ophciexamination_anteriorsegment_cct_method` (`id`)',
-				'CONSTRAINT `et_ophciexamination_cmt_rmi_fk` FOREIGN KEY (`right_method_id`) REFERENCES `ophciexamination_anteriorsegment_cct_method` (`id`)'
-		),
-				'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
-		);
-		
-		$this->insert('element_type',array(
-				'name' => 'CMT',
-				'class_name' => 'Element_OphCiExamination_CMT',
-				'event_type_id' => $event_type_id,
-				'display_order' => 1,
-				'parent_element_type_id' => $posterior_id
-		));
 	}
 
 	public function down()
@@ -416,6 +398,22 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		// remove the additional scale entries
 		$this->delete('ophciexamination_visual_acuity_unit_value', 'base_value = :bv AND unit_id = :uid', array(':bv' => 21, ':uid' => $etdrs_id));
 		
+		// extend the ETDRS range to 0:
+		$this->delete('ophciexamination_visual_acuity_unit_value', 'base_value = :bv AND unit_id = :uid', array(':bv' => 25, ':uid' => $etdrs_id));
+		
+		// remove the non stepped values for ETDRS
+		for ($i = 26; $i < 130; $i++) {
+			if ($i % 5 == 0) {
+				continue;
+			}
+			$this->delete('ophciexamination_visual_acuity_unit_value','base_value = :bv AND unit_id = :uid', array(':bv' => $i, ':uid' => $etdrs_id));
+		}
+		
+		// remove all ETDRS above 100
+		for ($i = 126; $i <= 145; $i++) {
+			$this->delete('ophciexamination_visual_acuity_unit_value','base_value = :bv AND unit_id = :uid', array(':bv' => $i, ':uid' => $etdrs_id));
+		}
+		
 		$this->dropTable('ophciexamination_injectmanagecomplex_answer');
 		$this->dropTable('ophciexamination_injectmanagecomplex_question');
 		$this->dropTable('ophciexamination_injectmanagecomplex_risk_assignment');
@@ -432,10 +430,8 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		$this->delete('ophciexamination_element_set_item', 'element_type_id = :element_type_id', array(':element_type_id' => $imgmt_id));
 		$this->delete('element_type', 'id=:id', array(':id'=>$imgmt_id));
 		
-		$this->dropTable('et_ophciexamination_cmt');
-		$this->delete('element_type',"class_name = 'Element_OphCiExamination_CMT'");
-		$this->dropTable('ophciexamination_cmt_method');
 		$this->dropTable('et_ophciexamination_oct');
+		$this->dropTable('ophciexamination_oct_method');
 		$this->delete('element_type',"class_name = 'Element_OphCiExamination_OCT'");
 		
 		$this->delete('patient_shortcode', "default_code = 'nrr'");

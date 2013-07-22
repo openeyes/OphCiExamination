@@ -19,6 +19,10 @@
 ?>
 
 <div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_method_id') ?>:</div>
+	<div class="data"><?php echo $element->{$side . '_method'}->name; ?></div>
+</div>
+<div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
 	<div class="data"><?php echo $element->{$side . '_crt'}; ?> &micro;m</div>
 </div>
