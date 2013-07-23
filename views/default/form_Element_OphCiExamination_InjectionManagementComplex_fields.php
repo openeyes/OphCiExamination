@@ -35,7 +35,7 @@
 <div class="eventDetail elementField<?php if (!array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders) ) { echo " hidden"; }?>" id="<?php echo $side ?>_diagnosis2_wrapper">
 	<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id'); ?></div>
 	<div class="data" style="display: inline-block;">
-		<?php 
+		<?php
 		$l2_attrs =  array('empty'=>'- Please select -', 'style' => 'margin-bottom: 10px; width: 240px;');
 		$l2_opts = array();
 		if (array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders)) {
@@ -51,26 +51,26 @@
 			'default' => false,
 			'dropdownOptions' => $l2_attrs,
 		));?>
-		
+
 	</div>
 </div>
 
-<?php 
+<?php
 $questions = $element->getInjectionQuestionsForSide($side);
-	
+
 $this->renderPartial('form_' . get_class($element) . '_questions',
 				array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));
 ?>
 
-<?php 
+<?php
 	$html_options = array(
-		'options' => array(),	
+		'options' => array(),
 		'empty' => '- Please select -',
 		'div_id' =>  get_class($element) . '_' . $side . '_risks',
 		'label' => 'Risks');
 	$risks = $element->getRisksForSide($side);
 	foreach ($risks as $risk) {
-		$html_options['options'][(string)$risk->id] = array('data-order' => $risk->display_order); 
+		$html_options['options'][(string) $risk->id] = array('data-order' => $risk->display_order);
 	}
 	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options)
 ?>

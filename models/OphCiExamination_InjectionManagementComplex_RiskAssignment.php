@@ -30,7 +30,7 @@
  * @property Element_OphTrIntravitrealinjection_Complications $element
  * @property OphTrIntravitrealinjection_Complication $complication
  * @property User $user
- * @property User $usermodified 
+ * @property User $usermodified
  */
 
 class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseActiveRecord
@@ -67,7 +67,7 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 			array('id, element_id, risk_id', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -115,19 +115,4 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 	{
 	}
 
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
-	protected function afterSave()
-	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate()
-	{
-		return parent::beforeValidate();
-	}
 }
-?>

@@ -30,12 +30,12 @@
 				'enableAjaxValidation' => false,
 				'htmlOptions' => array('class' => 'sliding'),
 		));
-		
+
 		// Event actions
 		$this->event_actions[] = EventAction::button('Save', 'save', array('colour' => 'green'));
 		$this->renderPartial('//patient/event_actions');
 	?>
-	
+
 	<div id="elements">
 		<?php $this->displayErrors($errors)?>
 		<div id="active_elements">

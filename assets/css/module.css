@@ -1,3 +1,4 @@
+
 /**
  * OpenEyes
  *
@@ -16,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-.quicklook { width:280px;  top:0px; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
+.quicklook { width:280px;  top:0; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999;	box-shadow: 2px 2px 2px 0 #999;  }
 
 .textMacro { margin: 0 0 10px; } 
 .textMacro.inline { display: inline-block; }
@@ -24,6 +25,10 @@
 #event_content.watermarkBox { background-image: url(../img/watermark.png); background-position: -5px 0; background-repeat: repeat-y; border-color: #fdcc56; }
 #event_content h3.withEventIcon { background:transparent url(../img/medium.png) center left no-repeat; }
 #event_content .eventDetail .eventDetail { background: none; margin-right: 10px; }
+#event_content .event-view .cols2 .data { width: 324px; float: right; }
+#event_content .event-view .eventDetail > .label { padding-right: 8px; }
+#event_content .event-view .eventDetail > .eventDetail { padding-left: 0; padding-right: 0; }
+
 #event_content div.activeForm div.aligned { clear: both;}
 #event_contentdiv.activeForm div.aligned div.label,
 #event_content div.activeForm div.aligned div.data { display: inline-block; }

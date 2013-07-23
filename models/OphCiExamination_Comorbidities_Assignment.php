@@ -23,29 +23,32 @@
  * @property integer $id
  * @property integer $element_id
  * @property integer $item_id
- 
- */
-class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord {
 
+ */
+class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Comorbidities_Assignment the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_comorbidities_assignment';
 	}
 
 	/**
 	 * @return array validation rules for model OphCiExamination_Comorbidities_Assignment.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('element_id, item_id', 'required'),
 				array('id, element_id, item_id', 'safe', 'on'=>'search'),
@@ -55,7 +58,8 @@ class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Comorbidities', 'element_id'),
 		);
@@ -65,7 +69,8 @@ class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('element_id',$this->element_id,true);

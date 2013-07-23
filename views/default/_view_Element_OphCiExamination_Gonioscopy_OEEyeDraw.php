@@ -29,7 +29,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields view">
-	<?php if($element->{$side.'_description'}) { ?>
+	<?php if ($element->{$side.'_description'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->{$side.'_description'} ?>
@@ -58,7 +58,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	<div>
 		<div class="label"><?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>:</div>
 		<div class="data">
-			<?php if($van_herick = $element->{$side.'_van_herick'}) { 
+			<?php if ($van_herick = $element->{$side.'_van_herick'}) {
 				echo $van_herick->name;
 			} else {
 					echo 'NR';

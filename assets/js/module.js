@@ -976,7 +976,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"key" : OphCiExamination_Dilation_getNextKey(),
 			"side" : (side == 'right' ? 0 : 1),
 			"drug_name" : drug_name,
-			"drug_id" : drug_id,
+			"drug_id" : drug_id
 		};
 		var form = Mustache.render(template, data);
 		var table = $('#event_content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
@@ -1093,7 +1093,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1),
+		"side" : (side == 'right' ? 0 : 1)
 	};
 	var form = Mustache.render(template, data);
 	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
@@ -1313,7 +1313,12 @@ function OphCiExamination_Management_init() {
 
 
 function OphCiExamination_InjectionManagementComplex_check() {
-	val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').length >0) {
+		val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	} else {
+		val = false;
+	}
+
 	if (val) {
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input').each(function() { $(this).removeAttr('disabled')});
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
@@ -1558,18 +1563,6 @@ $('a.removeDiagnosis').live('click',function() {
 	return false;
 });
 
-$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	return false;
-});
-
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
@@ -1583,18 +1576,6 @@ $('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',funct
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
 	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
 	eyedraw.repaint();
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('NuclearCataract');
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('NuclearCataract');
 	return false;
 });
 

@@ -112,8 +112,8 @@ h3{
 .detailRow .label{
 	display: block;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 200px;
 }
 
@@ -236,7 +236,7 @@ h3{
 
 .data { display: inline-block; }
 
-.gonioCross { width: 160px; height: 110px; background: url(../img/cross.gif) no-repeat center center; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
+.gonioCross { width: 160px; height: 110px; background: url(../img/cross_print.gif) no-repeat center center; overflow: hidden; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
 .gonioCross div { position: absolute; text-align: center; }
 .gonioCross .gonioSup { top: 5px; width: 100%; }
 .gonioCross .gonioTem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }

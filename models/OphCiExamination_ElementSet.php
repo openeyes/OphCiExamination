@@ -27,27 +27,30 @@
  * @property OphCiExamination_ElementSetItem[] $items
 
  */
-class OphCiExamination_ElementSet extends BaseActiveRecord {
-
+class OphCiExamination_ElementSet extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_ElementSet the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_element_set';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name', 'required'),
 				array('id, name', 'safe', 'on'=>'search'),
@@ -57,7 +60,8 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
 				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
@@ -67,7 +71,8 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 		);
 	}
 
-	public function getNextStep() {
+	public function getNextStep()
+	{
 		$criteria = new CDbCriteria(array(
 			'condition' => 'workflow_id = :workflow_id AND position >= :position AND id <> :id',
 			'order' => 'position, id',
@@ -75,12 +80,13 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 		));
 		return $this->find($criteria);
 	}
-	
+
 	/**
 	 * Get an array of ElementTypes corresponding with the items in this set
 	 * @return ElementType[]
 	 */
-	public function getDefaultElementTypes() {
+	public function getDefaultElementTypes()
+	{
 		$default_element_types = ElementType::model()->findAll(array(
 				'condition' => "ophciexamination_element_set_item.set_id = :set_id",
 				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
@@ -94,9 +100,10 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	 * Get an array of ElementTypes corresponding with the items NOT in this set
 	 * @return ElementType[]
 	 */
-	public function getOptionalElementTypes() {
+	public function getOptionalElementTypes()
+	{
 		$optional_element_types = ElementType::model()->findAll(array(
-				'condition' => "event_type.class_name = 'OphCiExamination' AND 
+				'condition' => "event_type.class_name = 'OphCiExamination' AND
 					ophciexamination_element_set_item.id IS NULL",
 				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
@@ -106,11 +113,12 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 		));
 		return $optional_element_types;
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'name' => 'Name',
@@ -121,7 +129,8 @@ class OphCiExamination_ElementSet extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

@@ -29,7 +29,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields view">
-	<?php if($element->{$side.'_description'}) { ?>
+	<?php if ($element->{$side.'_description'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->{$side.'_description'} ?>
@@ -43,7 +43,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->{$side.'_cd_ratio'}->name ?>
 		</div>
 	</div>
-	<?php if($element->{$side.'_diameter'}) { ?>
+	<?php if ($element->{$side.'_diameter'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->getAttributeLabel($side.'_diameter') ?>
@@ -54,4 +54,3 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	</div>
 	<?php } ?>
 </div>
-

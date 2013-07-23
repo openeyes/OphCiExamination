@@ -19,7 +19,7 @@
 ?>
 
 <div id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
-	<?php 
+	<?php
 	$name_stub = get_class($element) . '[' . $side . '_Answer]';
 	foreach ($questions as $question) {
 		?>
@@ -27,7 +27,7 @@
 			<div class="label">
 				<?php echo $question->question ?>
 			</div>
-			<?php 
+			<?php
 			$name = $name_stub . '[' . $question->id . ']';
 			$value = $element->getQuestionAnswer($side, $question->id);
 			// update with POST values if available
@@ -37,14 +37,14 @@
 			?>
 			<div class="data">
 			<span class="group">
-			<?php 
+			<?php
 			echo CHtml::radioButton($name, $value, array('value' => 1));
 			?>
 			<label>Yes</label>
 			</span>
-			
+
 			<span class="group">
-			<?php 
+			<?php
 			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('value' => 0));
 			?>
 			<label>No</label>

@@ -25,27 +25,30 @@
  * @property OphCiExamination_ElementSet $step
 
  */
-class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord {
-
+class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Event_ElementSet_Assignment the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_event_elementset_assignment';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('step_id', 'required'),
 				array('event_id', 'unique'),
@@ -56,7 +59,8 @@ class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'step' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'step_id'),
@@ -66,7 +70,8 @@ class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 		);
@@ -76,7 +81,8 @@ class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		return new CActiveDataProvider(get_class($this), array(

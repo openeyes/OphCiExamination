@@ -1,8 +1,9 @@
 <?php
 
-class m130227_121900_rename_risk_to_comorbidities extends OEMigration {
-	
-	public function up() {
+class m130227_121900_rename_risk_to_comorbidities extends OEMigration
+{
+	public function up()
+	{
 		$this->update('element_type', array('class_name' => 'Element_OphCiExamination_Comorbidities'), "class_name = 'Element_OphCiExamination_Risks'");
 		$this->dropForeignKey('ophciexamination_risks_assign_e_id_fk', 'ophciexamination_risks_assignment');
 		$this->dropForeignKey('ophciexamination_risks_assign_r_id_fk', 'ophciexamination_risks_assignment');
@@ -14,7 +15,8 @@ class m130227_121900_rename_risk_to_comorbidities extends OEMigration {
 		$this->addForeignKey('ophciexamination_comorbidities_assign_i_id_fk', 'ophciexamination_comorbidities_assignment', 'item_id', 'ophciexamination_comorbidities_item', 'id');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropForeignKey('ophciexamination_comorbidities_assign_e_id_fk', 'ophciexamination_comorbidities_assignment');
 		$this->dropForeignKey('ophciexamination_comorbidities_assign_i_id_fk', 'ophciexamination_comorbidities_assignment');
 		$this->renameTable('ophciexamination_comorbidities_assignment', 'ophciexamination_risks_assignment');
@@ -25,5 +27,5 @@ class m130227_121900_rename_risk_to_comorbidities extends OEMigration {
 		$this->addForeignKey('ophciexamination_risks_assign_r_id_fk', 'ophciexamination_risks_assignment', 'risk_id', 'ophciexamination_risks_risk', 'id');
 		$this->update('element_type', array('class_name' => 'Element_OphCiExamination_Risks'), "class_name = 'Element_OphCiExamination_Comorbidities'");
 	}
-	
+
 }

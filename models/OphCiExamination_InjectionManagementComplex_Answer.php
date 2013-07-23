@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during 
+ * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during
  * an examination for any given diagnosis
  *
  * The followings are the available columns in table:
@@ -34,7 +34,8 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecord {
+class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -43,7 +44,7 @@ class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecor
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -51,7 +52,7 @@ class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecor
 	{
 		return 'ophciexamination_injectmanagecomplex_answer';
 	}
-	
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -65,16 +66,17 @@ class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecor
 				array('id, element_id, question_id, eye_id, answer', 'safe', 'on' => 'search'),
 		);
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
 			'question' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_Question', 'question_id'),
 		);
 	}
-	
+
 }

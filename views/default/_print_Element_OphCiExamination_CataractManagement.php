@@ -31,7 +31,7 @@
 	</div>
 	<?php if ($element->correction_discussed) {?>
 		<div>Post-op refractive correction has been discussed with the patient</div>
-	<?php }else{?>
+	<?php } else {?>
 		<div>Post-op refractive correction has not been discussed with the patient</div>
 	<?php }?>
 	<div>

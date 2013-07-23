@@ -38,6 +38,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		),
 		'deleteValueArray' => array(
 			'Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id' => '',
+			'Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id' => '',
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
@@ -54,10 +55,10 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->getAttributeLabel($side.'_pupil_id'); ?>:
 		</div>
 		<div class="data">
-			<?php 
+			<?php
 				$html_options = array();
-				foreach(OphCiExamination_AnteriorSegment_Pupil::model()->findAll(array('order'=>'display_order')) as $option) {
-					$html_options[(string)$option->id] = array('data-value'=> $option->value);
+				foreach (OphCiExamination_AnteriorSegment_Pupil::model()->findAll(array('order'=>'display_order')) as $option) {
+					$html_options[(string) $option->id] = array('data-value'=> $option->value);
 				}
 				echo CHtml::activeDropDownList($element, $side.'_pupil_id', CHtml::listData(OphCiExamination_AnteriorSegment_Pupil::model()->findAll(array('order'=>'display_order')),
 				'id','name'), array('options' => $html_options));
@@ -69,10 +70,10 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->getAttributeLabel($side.'_nuclear_id'); ?>:
 		</div>
 		<div class="data">
-			<?php 
+			<?php
 				$html_options = array();
-				foreach(OphCiExamination_AnteriorSegment_Nuclear::model()->findAll(array('order'=>'display_order')) as $option) {
-					$html_options[(string)$option->id] = array('data-value'=> $option->value);
+				foreach (OphCiExamination_AnteriorSegment_Nuclear::model()->findAll(array('order'=>'display_order')) as $option) {
+					$html_options[(string) $option->id] = array('data-value'=> $option->value);
 				}
 				echo CHtml::activeDropDownList($element, $side.'_nuclear_id', CHtml::listData(OphCiExamination_AnteriorSegment_Nuclear::model()->findAll(array('order'=>'display_order')),
 				'id','name'), array('options' => $html_options));
@@ -84,10 +85,10 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->getAttributeLabel($side.'_cortical_id'); ?>:
 		</div>
 		<div class="data">
-			<?php 
+			<?php
 				$html_options = array();
-				foreach(OphCiExamination_AnteriorSegment_Cortical::model()->findAll(array('order'=>'display_order')) as $option) {
-					$html_options[(string)$option->id] = array('data-value'=> $option->value);
+				foreach (OphCiExamination_AnteriorSegment_Cortical::model()->findAll(array('order'=>'display_order')) as $option) {
+					$html_options[(string) $option->id] = array('data-value'=> $option->value);
 				}
 				echo CHtml::activeDropDownList($element, $side.'_cortical_id', CHtml::listData(OphCiExamination_AnteriorSegment_Cortical::model()->findAll(array('order'=>'display_order')),
 				'id','name'), array('options' => $html_options));

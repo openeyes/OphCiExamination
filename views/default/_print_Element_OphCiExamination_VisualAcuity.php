@@ -19,8 +19,8 @@
 ?>
 <div class="cols2 clearfix">
 	<div class="left">
-		<?php if($element->hasRight()) { ?>
-		<?php if($element->getCombined('right')) { ?>
+		<?php if ($element->hasRight()) { ?>
+		<?php if ($element->getCombined('right')) { ?>
 		<div class="data">
 			<?php echo $element->unit->name ?>
 		</div>
@@ -28,7 +28,7 @@
 			<?php echo $element->getCombined('right') ?>
 		</div>
 		<?php } ?>
-		<?php if($element->right_comments) { ?>
+		<?php if ($element->right_comments) { ?>
 		<div class="data">
 			<?php echo $element->right_comments ?>
 		</div>
@@ -38,8 +38,8 @@
 		<?php } ?>
 	</div>
 	<div class="right">
-		<?php if($element->hasLeft()) { ?>
-		<?php if($element->getCombined('left')) { ?>
+		<?php if ($element->hasLeft()) { ?>
+		<?php if ($element->getCombined('left')) { ?>
 		<div class="data">
 			<?php echo $element->unit->name ?>
 		</div>
@@ -47,7 +47,7 @@
 			<?php echo $element->getCombined('left') ?>
 		</div>
 		<?php } ?>
-		<?php if($element->left_comments) { ?>
+		<?php if ($element->left_comments) { ?>
 		<div class="data">
 			<?php echo $element->left_comments ?>
 		</div>

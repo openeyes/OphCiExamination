@@ -27,21 +27,20 @@
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
-	
-	<?php 
+
+	<?php
 	$this->renderPartial(
 		'_view_' . $element->view_view,
 		array('element' => $element, 'data' => $data, 'form' => $form)
-	); 
+	);
 	?>
-	
-	<?php if(!@$child) { ?>
+
+	<?php if (!@$child) { ?>
 	<div class="child_elements clearfix">
-		<?php 
+		<?php
 		$this->renderChildDefaultElements($element, 'view', $form, $data);
 		?>
 	</div>
 	<?php } ?>
-	
+
 </div>
-	

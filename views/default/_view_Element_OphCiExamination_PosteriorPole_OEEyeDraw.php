@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php 
+<?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
@@ -26,11 +26,11 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'height' => 200,
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
-			
+
 ));
 ?>
 <div class="eyedrawFields view">
-	<?php if($description = $element->{$side . '_description'}) { ?>
+	<?php if ($description = $element->{$side . '_description'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $description ?>

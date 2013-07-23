@@ -30,28 +30,32 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement {
+class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_injectionmanagement';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -68,7 +72,8 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -84,7 +89,8 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -98,8 +104,8 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
-
+	public function search()
+	{
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
@@ -108,50 +114,51 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement 
 		$criteria->compare('injection_status_id', $this->injection_status_id);
 		$criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
 		$criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
-	
+
 	/*
 	 * deferral reason is only required for injection status that are flagged deferred
 	*/
-	public function injectionDependencyValidation($attribute) {
+	public function injectionDependencyValidation($attribute)
+	{
 		if ($this->injection_status && $this->injection_status->deferred) {
 			$v = CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
 			$v->validate($this);
 		}
 	}
-	
+
 	/*
 	 * only need a text "other" reason for reasons that are flagged "other"
 	*/
-	public function injectionDeferralReasonDependencyValidation($attribute) {
+	public function injectionDeferralReasonDependencyValidation($attribute)
+	{
 		if ($this->injection_deferralreason && $this->injection_deferralreason->other) {
 			$v = CValidator::createValidator('required', $this, array('injection_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->injection_deferralreason));
 			$v->validate($this);
 		}
 	}
-	
+
 	/*
 	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
-	 * 
+	 *
 	 * @returns string
 	 */
-	public function getInjectionDeferralReason() {
+	public function getInjectionDeferralReason()
+	{
 		if ($this->injection_deferralreason) {
 			if ($this->injection_deferralreason->other) {
 				return $this->injection_deferralreason_other;
-			}
-			else {
+			} else {
 				return $this->injection_deferralreason->name;
 			}
-		}
-		else {
+		} else {
 			// shouldn't get to this point really
 			return "N/A";
 		}
 	}
-	
+
 }

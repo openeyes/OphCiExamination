@@ -18,5 +18,5 @@
  */
 ?>
 	<div class="eventDetail">
-		<?php echo $element->comments ?>
+		<?php echo $element->textWithLineBreaks('comments') ?>
 	</div>

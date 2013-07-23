@@ -24,7 +24,7 @@
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
 	<div class="elementActions">
-		<?php if(@$child) { ?>
+		<?php if (@$child) { ?>
 		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue nano">
 			<span class="button-span icon-only"><img
 				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
@@ -32,7 +32,7 @@
 		</button>
 		<?php } else {
 			$event_id = ($element->id) ? $element->event_id : null;
-			if($this->canCopy($element->elementType->class_name, $event_id)) { ?>
+			if ($this->canCopy($element->elementType->class_name, $event_id)) { ?>
 		<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
 		<?php } ?>
 		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue mini">
@@ -45,18 +45,17 @@
 	<h4 class="elementTypeName">
 		<?php echo $element->elementType->name; ?>
 	</h4>
-	
-	<?php 
+
+	<?php
 	$this->renderPartial(
 		'form_' . get_class($element),
 		array('element' => $element, 'data' => $data, 'form' => $form, 'previous_parent_id' => @$previous_parent_id),
 		false, false
-	); 
+	);
 	?>
-	
-	<?php if(!@$child) { ?>
+
+	<?php if (!@$child) { ?>
 	<div class="active_child_elements clearfix">
-		
 		<?php 
 		$this->renderChildDefaultElements($element, $this->action->id, $form, $data, @$previous_parent_id);
 		?>
@@ -67,6 +66,5 @@
 		?>
 	</div>
 	<?php } ?>
-	
+
 </div>
-	

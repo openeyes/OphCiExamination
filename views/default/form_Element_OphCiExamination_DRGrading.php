@@ -29,7 +29,7 @@
 		title="DR Grading Images">
 		<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 	</div>
-<?php } else { ?> 
+<?php } else { ?>
 	<div style="margin-top:-25px; margin-left:120px;">
 	<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
 	</div>
@@ -38,7 +38,7 @@
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
+		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
+		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } if ($element->id || !empty($_POST) ) { ?> uninitialised<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',

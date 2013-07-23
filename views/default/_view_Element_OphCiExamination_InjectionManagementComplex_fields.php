@@ -40,11 +40,10 @@
 <div class="eventDetail aligned">
 		<div class="label"><?php echo $element->getAttributeLabel($side . '_risks') ?>:</div>
 		<div class="data" style="display: inline-block;">
-			<?php 
+			<?php
 			if (!$element->{$side . '_risks'}) {
 				echo "None";
-			}
-			else {
+			} else {
 				foreach ($element->{$side . '_risks'} as $item) {
 					echo $item->name . "<br />";
 				}
@@ -56,6 +55,5 @@
 
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_comments'} ?></div>
+	<div class="data"><?php echo $element->textWithLineBreaks($side . '_comments') ?></div>
 </div>
-

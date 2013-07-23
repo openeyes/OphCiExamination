@@ -24,16 +24,16 @@
 		<?php echo $element->getAttributeLabel('injection_status_id') ?>:
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		foreach (OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
-			$html_options['options'][(string)$opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
+			$html_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
 		}
-		echo CHtml::activeDropDownList($element,'injection_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?> 
+		echo CHtml::activeDropDownList($element,'injection_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_injection_deferralreason"
-	class="eventDetail" 
+	class="eventDetail"
 	<?php if (!($element->injection_status && $element->injection_status->deferred)) { ?>
 	style="display: none;"
 	<?php }?>
@@ -42,10 +42,10 @@
 		<?php echo $element->getAttributeLabel('injection_deferralreason_id')?>:
 	</div>
 	<div class="data">
-		<?php 
+		<?php
 		$html_options = array('empty'=>'- Please select -', 'options' => array());
 		foreach (OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')) as $opt) {
-			$html_options['options'][(string)$opt->id] = array('data-other' => $opt->other);
+			$html_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
 		}
 		echo CHtml::activeDropDownList($element,'injection_deferralreason_id', CHtml::listData(OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	</div>
