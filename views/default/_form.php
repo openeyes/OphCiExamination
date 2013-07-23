@@ -49,20 +49,21 @@
 	<?php 
 	$this->renderPartial(
 		'form_' . get_class($element),
-		array('element' => $element, 'data' => $data, 'form' => $form),
+		array('element' => $element, 'data' => $data, 'form' => $form, 'previous_parent_id' => @$previous_parent_id),
 		false, false
 	); 
 	?>
 	
 	<?php if(!@$child) { ?>
 	<div class="active_child_elements clearfix">
+		
 		<?php 
-		$this->renderChildDefaultElements($element, $this->action->id, $form, $data);
+		$this->renderChildDefaultElements($element, $this->action->id, $form, $data, @$previous_parent_id);
 		?>
 	</div>
 	<div class="inactive_child_elements">
 		<?php
-		$this->renderChildOptionalElements($element, $this->action->id, $form, $data);
+		$this->renderChildOptionalElements($element, $this->action->id, $form, $data, @$previous_parent_id);
 		?>
 	</div>
 	<?php } ?>

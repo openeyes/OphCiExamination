@@ -123,8 +123,8 @@ class DefaultController extends NestedElementsEventTypeController {
 		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
 	
-	public function getChildOptionalElements($parent_class, $action) {
-		$elements = parent::getChildOptionalElements($parent_class, $action);
+	public function getChildOptionalElements($parent_class, $action, $previous_parent_id = null) {
+		$elements = parent::getChildOptionalElements($parent_class, $action, $previous_parent_id);
 		return $this->filterElements($elements);
 	}
 
