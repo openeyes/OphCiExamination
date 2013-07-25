@@ -229,6 +229,9 @@ class m130701_131445_dr_function_2 extends CDbMigration
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Pre-existing glaucoma','display_order'=>1));
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Previous glaucoma surgery (trabeculectomy bleb, glaucoma draining device)','display_order'=>2));
 		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Allergy to povidone iodine','display_order'=>3));
+		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'Previous interocular surgery','display_order'=>4));
+		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'CVA','display_order'=>5));
+		$this->insert('ophciexamination_injectmanagecomplex_risk',array('name'=>'MI','display_order'=>6));
 
 		$this->createTable('ophciexamination_injectmanagecomplex_risk_assignment', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
