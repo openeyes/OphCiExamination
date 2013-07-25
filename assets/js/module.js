@@ -60,7 +60,7 @@ function gradeCalculator(_drawing) {
             // Exudates within one disk diameter of fovea
             if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
             {
-                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
+                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1A';
             }
             //TODO: needs to check against optic disc, not Fovea
             /*
