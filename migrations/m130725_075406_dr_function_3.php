@@ -50,9 +50,13 @@ class m130725_075406_dr_function_3 extends CDbMigration
 		$this->delete('ophciexamination_drgrading_nscmaculopathy', "name = 'U'");
 		$this->update('ophciexamination_drgrading_nscmaculopathy', array('name' => 'M1', 'display_order' => 2), 'name = :cname', array(':cname' => 'M1A'));
 		
+		$this->dropColumn('et_ophciexamination_lasermanagement', 'eye_id');
+		
+		$this->dropForeignKey('et_ophciexamination_lasermanagement_llt_fk', 'et_ophciexamination_lasermanagement');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'left_lasertype_id');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'left_lasertype_other');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'left_comments');
+		$this->dropForeignKey('et_ophciexamination_lasermanagement_rlt_fk', 'et_ophciexamination_lasermanagement');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'right_lasertype_id');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'right_lasertype_other');
 		$this->dropColumn('et_ophciexamination_lasermanagement', 'right_comments');
