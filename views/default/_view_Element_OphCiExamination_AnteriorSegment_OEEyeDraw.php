@@ -30,7 +30,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ?>
 <div class="eyedrawFields view">
 	<?php if ($description = $element->{$side.'_description'}) { ?>
-	<div>
+	<div class="description">
 		<div class="data">
 			<?php echo $description ?>
 		</div>
