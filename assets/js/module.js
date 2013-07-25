@@ -620,6 +620,45 @@ $(document).ready(function() {
 	// show/hide the laser deferral fields
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
 		deferralFields('Element_OphCiExamination_LaserManagement', 'laser');
+		var selVal = $(this).val();
+		var showFields = false;
+		$(this).find('option').each(function() {
+			if ($(this).val() == selVal) {
+				if ($(this).data('book') == '1' || $(this).data('event') == '1') {
+					// need to gather further information
+					showFields = true;
+				}
+				return true;
+			}
+		});
+		
+		if (showFields) {
+			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').removeClass('hidden');
+		}
+		else {
+			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').addClass('hidden');
+		}
+		
+	});
+	
+	$('#event_OphCiExamination').delegate('.lasertype select', 'change', function(e) {
+		var selVal = $(this).val();
+		var showOther = false;
+		$(this).find('option').each(function() {
+			if ($(this).val() == selVal) {
+				if ($(this).data('other') == '1') {
+					showOther = true;
+				}
+				return true;
+			}
+		});
+		
+		if (showOther) {
+			$(this).parents('.side').find('.lasertype_other').removeClass('hidden');
+		}
+		else {
+			$(this).parents('.side').find('.lasertype_other').addClass('hidden');
+		}
 	});
 	
 	// show/hide the injection deferral fields

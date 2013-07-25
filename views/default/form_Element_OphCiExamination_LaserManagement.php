@@ -63,3 +63,53 @@
 		<?php echo $form->textArea($element, 'laser_deferralreason_other', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper' => true) ) ?>
 	</div>
 </div>
+
+<?php 
+	$lasertypes = OphCiExamination_LaserManagement_LaserType::model()->findAll();
+	$lasertype_options = array();
+	
+	foreach ($lasertypes as $lt) {
+		$lasertype_options[(string)$lt->id] = array('data-other' => $lt->other);
+	}
+	
+	$show_fields = false;
+	if (@$_POST[get_class($element)]) {
+		if ($status = OphCiExamination_Management_Status::model()->findByPk((int)@$_POST[get_class($element)]['laser_status_id'])) {
+			$show_fields = $status->book || $status->event;
+		}
+	} else {
+		if ($element->laser_status) {
+			$show_fields = $element->laser_status->book || $element->laser_status->event;
+		}
+	}
+?>
+
+<div class="cols2 clearfix<?php if (!$show_fields) { echo " hidden"; } ?>" id="div_<?php echo get_class($element)?>_treatment_fields">
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<div
+		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
+		data-side="right">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+				array('side' => 'right', 'element' => $element, 'form' => $form,
+					'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add right side</a>
+		</div>
+	</div>
+	<div
+		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } ?>"
+		data-side="left">
+		<div class="activeForm">
+			<a href="#" class="removeSide">-</a>
+			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+				array('side' => 'left', 'element' => $element, 'form' => $form,
+					'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
+		</div>
+		<div class="inactiveForm">
+			<a href="#">Add left side</a>
+		</div>
+	</div>
+</div>

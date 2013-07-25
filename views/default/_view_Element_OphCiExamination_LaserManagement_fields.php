@@ -18,34 +18,13 @@
  */
 ?>
 
-<div class="eventDetail">
-	<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('laser_status_id'))?></div>
-	<div class="data"><?php echo $element->laser_status ?></div>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_lasertype_id') ?>:</div>
+	<div class="data"><?php echo $element->getLaserTypeStringForSide($side) ?></div>
 </div>
 
-<?php if ($element->laser_status->deferred) { ?>
-	<div class="eventDetail">
-		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('laser_deferralreason_id'))?></div>
-		<div class="data"><?php echo $element->getLaserDeferralReason() ?></div>
-	</div>
-<?php } else if ($element->laser_status->book || $element->laser_status->event) { ?>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+	<div class="data"><?php echo $element->{$side . '_comments'} ? $element->{$side . '_comments'} : 'None'; ?></div>
+</div>
 
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php if ($element->hasRight()) {
-				$this->renderPartial('_view_' . get_class($element) . '_fields',
-					array('side' => 'right', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) {
-				$this->renderPartial('_view_' . get_class($element) . '_fields',
-					array('side' => 'left', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-	</div>
-<?php } ?>
