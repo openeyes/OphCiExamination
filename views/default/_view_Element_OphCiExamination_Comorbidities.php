@@ -21,6 +21,6 @@
 	<?php echo $element->summary ?>
 	<?php if ($element->comments) {?>
 		<br/>
-		<?php echo $element->comments;
+		<?php echo $element->textWithLineBreaks('comments');
 	}?>
 </div>

@@ -128,14 +128,26 @@ class DefaultController extends NestedElementsEventTypeController
 		return $final;
 	}
 
+	/**
+	 * extends standard method to provide workflow functionality
+	 * 
+	 * (non-PHPdoc)
+	 * @see NestedElementsEventTypeController::getCleanChildDefaultElements()
+	 */
 	protected function getCleanChildDefaultElements($parent, $event_type_id)
 	{
 		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
-
-	public function getChildOptionalElements($parent_class, $action)
+	
+	/**
+	 * extends standard method to filter elements
+	 * 
+	 * (non-PHPdoc)
+	 * @see NestedElementsEventTypeController::getChildOptionalElements()
+	 */
+	public function getChildOptionalElements($parent_class, $action, $previous_parent_id = null) 
 	{
-		$elements = parent::getChildOptionalElements($parent_class, $action);
+		$elements = parent::getChildOptionalElements($parent_class, $action, $previous_parent_id);
 		return $this->filterElements($elements);
 	}
 

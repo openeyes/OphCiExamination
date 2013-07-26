@@ -28,7 +28,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Investigation extends BaseEventTypeElement
+class Element_OphCiExamination_Investigation extends BaseEventTypeElement 
 {
 	public $service;
 
@@ -57,7 +57,7 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description, ', 'safe'),
+				array('event_id, description', 'safe'),
 				array('description, ', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -92,6 +92,11 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement
 		);
 	}
 
+	public function canCopy()
+	{
+		return true;
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

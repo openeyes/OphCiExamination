@@ -16,22 +16,47 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php if ($element->hasRight()) { ?>
-				<?php echo $element->right_value; ?> &micro;m
-				(<?php echo $element->right_method->name; ?>)
-			<?php } else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) { ?>
-				<?php echo $element->left_value; ?> &micro;m
-				(<?php echo $element->left_method->name; ?>)
-			<?php } else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-	</div>
+
+class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecord
+{
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return the static model class
+	 */
+	public static function model($className = __CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'ophciexamination_lasermanagement_lasertype';
+	}
+	
+	public function defaultScope()
+	{
+		
+		return array(
+			'order' => 'display_order ASC',
+			'condition' => $this->getTableAlias(false, false) . '.enabled = true'
+		);
+	}
+	
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		return array(
+				array('name, display_order, other', 'safe'),
+				array('name, display_order', 'required'),
+				// The following rule is used by search().
+				// Please remove those attributes that should not be searched.
+				array('id, name, display_order, other', 'safe', 'on' => 'search'),
+		);
+	}
+
+}

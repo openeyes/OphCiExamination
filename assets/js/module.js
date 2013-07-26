@@ -60,7 +60,7 @@ function gradeCalculator(_drawing) {
             // Exudates within one disk diameter of fovea
             if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
             {
-                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1';
+                if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1A';
             }
             //TODO: needs to check against optic disc, not Fovea
             /*
@@ -574,6 +574,8 @@ $(document).ready(function() {
 		var deferred = false;
 		// flag for booking hint
 		var book = false;
+		// flag for event creation hint
+		var event = false;
 		
 		$('#'+element+'_'+name+'_status_id').find('option').each(function() {
 			if ($(this).attr('value') == thePK) {
@@ -582,6 +584,9 @@ $(document).ready(function() {
 				}
 				if ($(this).attr('data-book') == "1") {
 					book = true;
+				}
+				if ($(this).data('event') == '1') {
+					event = true;
 				}
 				return false;
 			}
@@ -593,6 +598,14 @@ $(document).ready(function() {
 		else {
 			$('.'+element).find('#'+name+'_booking_hint').slideUp();
 		}
+		
+		if (event) {
+			$('.'+element).find('#'+name+'_event_hint').slideDown();
+		}
+		else {
+			$('.'+element).find('#'+name+'_event_hint').slideUp();
+		}
+		
 		
 		if (deferred) {
 			$('#div_'+element+'_'+name+'_deferralreason').slideDown();
@@ -620,6 +633,45 @@ $(document).ready(function() {
 	// show/hide the laser deferral fields
 	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
 		deferralFields('Element_OphCiExamination_LaserManagement', 'laser');
+		var selVal = $(this).val();
+		var showFields = false;
+		$(this).find('option').each(function() {
+			if ($(this).val() == selVal) {
+				if ($(this).data('book') == '1' || $(this).data('event') == '1') {
+					// need to gather further information
+					showFields = true;
+				}
+				return true;
+			}
+		});
+		
+		if (showFields) {
+			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').removeClass('hidden');
+		}
+		else {
+			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').addClass('hidden');
+		}
+		
+	});
+	
+	$('#event_OphCiExamination').delegate('.lasertype select', 'change', function(e) {
+		var selVal = $(this).val();
+		var showOther = false;
+		$(this).find('option').each(function() {
+			if ($(this).val() == selVal) {
+				if ($(this).data('other') == '1') {
+					showOther = true;
+				}
+				return true;
+			}
+		});
+		
+		if (showOther) {
+			$(this).parents('.side').find('.lasertype_other').removeClass('hidden');
+		}
+		else {
+			$(this).parents('.side').find('.lasertype_other').addClass('hidden');
+		}
 	});
 	
 	// show/hide the injection deferral fields
@@ -976,7 +1028,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"key" : OphCiExamination_Dilation_getNextKey(),
 			"side" : (side == 'right' ? 0 : 1),
 			"drug_name" : drug_name,
-			"drug_id" : drug_id,
+			"drug_id" : drug_id
 		};
 		var form = Mustache.render(template, data);
 		var table = $('#event_content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
@@ -1093,7 +1145,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1),
+		"side" : (side == 'right' ? 0 : 1)
 	};
 	var form = Mustache.render(template, data);
 	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
@@ -1313,7 +1365,12 @@ function OphCiExamination_Management_init() {
 
 
 function OphCiExamination_InjectionManagementComplex_check() {
-	val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').length >0) {
+		val = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox')[0].checked;
+	} else {
+		val = false;
+	}
+
 	if (val) {
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input').each(function() { $(this).removeAttr('disabled')});
 		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
@@ -1558,18 +1615,6 @@ $('a.removeDiagnosis').live('click',function() {
 	return false;
 });
 
-$('#Element_OphCiExamination_AnteriorSegment_right_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_cortical_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('CorticalCataract');
-	return false;
-});
-
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
@@ -1583,18 +1628,6 @@ $('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',funct
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
 	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
 	eyedraw.repaint();
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_right_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('NuclearCataract');
-	return false;
-});
-
-$('#Element_OphCiExamination_AnteriorSegment_left_nuclear_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
-	eyedraw.deleteDoodlesOfClass('NuclearCataract');
 	return false;
 });
 

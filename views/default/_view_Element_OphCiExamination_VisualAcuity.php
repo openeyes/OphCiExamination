@@ -34,7 +34,7 @@
 			<?php }?>
 			<?php if ($element->right_comments) {?>
 				<div class="data">
-					<?php echo $element->right_comments?>
+					<?php echo $element->textWithLineBreaks('right_comments')?>
 				</div>
 			<?php }?>
 		<?php } else {?>
@@ -57,7 +57,7 @@
 			<?php }?>
 			<?php if ($element->left_comments) {?>
 				<div class="data">
-					<?php echo $element->left_comments?>
+					<?php echo $element->textWithLineBreaks('left_comments')?>
 				</div>
 			<?php }?>
 		<?php } else {?>

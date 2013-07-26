@@ -30,7 +30,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
+class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 {
 	public $service;
 
@@ -59,16 +59,26 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other', 'safe'),
+				array('event_id, eye_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, left_lasertype_id, ' .
+					'left_lasertype_other, left_comments, right_lasertype_id, right_lasertype_other, right_comments', 'safe'),
 				array('laser_status_id', 'required'),
 				array('laser_status_id', 'laserDependencyValidation'),
 				array('laser_deferralreason_id', 'laserDeferralReasonDependencyValidation'),
+				array('left_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'left'),
+				array('left_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'left', 'lasertype' => 'left_lasertype'),
+				array('right_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'right'),
+				array('right_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'right', 'lasertype' => 'right_lasertype'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function sidedFields()
+	{
+		return array('lasertype_id', 'lasertype_other', 'comments');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -81,8 +91,11 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'laser_status_id'),
 				'laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'laser_deferralreason_id'),
+				'left_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
+				'right_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
 		);
 	}
 
@@ -97,6 +110,13 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 				'laser_status_id' => "Laser",
 				'laser_deferralreason_id' => 'Laser deferral reason',
 				'laser_deferralreason_other' => 'Laser deferral reason',
+				'left_lasertype_id' => 'Laser type',
+				'left_lasertype_other' => 'Please provide other laser type name',
+				'left_comments' => 'Comments',
+				'right_lasertype_id' => 'Laser type',
+				'right_lasertype_other' => 'Please provide other laser type name',
+				'right_comments' => 'Comments',
+				
 		);
 	}
 
@@ -114,6 +134,12 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 		$criteria->compare('laser_status_id', $this->laser_status_id);
 		$criteria->compare('laser_deferralreason_id', $this->laser_deferral_reason_id);
 		$criteria->compare('laser_deferralreason_other', $this->laser_deferralreason_other);
+		$criteria->compare('left_lasertype_id', $this->left_lasertype_id);
+		$criteria->compare('left_lasertype_other', $this->left_lasertype_other);
+		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('right_lasertype_id', $this->right_lasertype_id);
+		$criteria->compare('right_lasertype_other', $this->right_lasertype_other);
+		$criteria->compare('right_comments', $this->right_comments);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
@@ -142,6 +168,24 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 		}
 	}
 
+	public function requiredIfTreatmentNeeded($attribute, $params)
+	{
+		$side = $params['side'];
+		if ($this->laser_status && ($this->laser_status->book || $this->laser_status->event) ) {
+			$this->requiredIfSide($attribute, $params);
+		}
+	}
+	
+	public function requiredIfLaserTypeOther($attribute, $params)
+	{
+		$lasertype_attr = $params['lasertype'];
+		$lt = $this->$lasertype_attr;
+		if ($lt && $lt->other) {
+			$v = CValidator::createValidator('required', $this, array($attribute), array('message' => ucfirst($params['side']) . ' {attribute} required for laser type ' . $lt->name));
+			$v->validate($this);
+		}
+	}
+	
 	/*
 	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
 	*
@@ -160,7 +204,25 @@ class Element_OphCiExamination_LaserManagement extends BaseEventTypeElement
 			return "N/A";
 		}
 	}
-
+	
+	/**
+	 * returns the laser type for the given side
+	 * 
+	 * @param string $side
+	 * @return string
+	 */
+	public function getLaserTypeStringForSide($side)
+	{
+		if ($lt = $this->{$side . '_lasertype'}) {
+			if ($lt->other) {
+				return $this->{$side . '_lasertype_other'};
+			} else {
+				return $lt->name;
+			}
+		}
+		return 'N/A';
+	}
+	
 	/**
 	 * Returns the laser management plan section  for use in correspondence
 	 *

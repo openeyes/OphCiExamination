@@ -17,21 +17,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php if ($element->hasRight()) { ?>
-				<?php echo $element->right_value; ?> &micro;m
-				(<?php echo $element->right_method->name; ?>)
-			<?php } else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) { ?>
-				<?php echo $element->left_value; ?> &micro;m
-				(<?php echo $element->left_method->name; ?>)
-			<?php } else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-	</div>
+
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_lasertype_id') ?>:</div>
+	<div class="data"><?php echo $element->getLaserTypeStringForSide($side) ?></div>
+</div>
+
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+	<div class="data"><?php echo $element->{$side . '_comments'} ? $element->{$side . '_comments'} : 'None'; ?></div>
+</div>
+

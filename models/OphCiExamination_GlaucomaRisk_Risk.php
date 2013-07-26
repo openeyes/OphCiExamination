@@ -26,7 +26,6 @@
  * @property string $follow_up
  * @property string $review
  * @property integer $display_order
- * @property integer $display_order
  * @property OphCiExamination_ClinicOutcome_Template $clinicoutcome_template
  */
 class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord

@@ -125,16 +125,16 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'left_nscretinopathy_id' => 'NSC Retinopathy',
-				'left_nscmaculopathy_id' => 'NSC Maculopathy',
-				'right_nscretinopathy_id' => 'NSC Retinopathy',
-				'right_nscmaculopathy_id' => 'NSC Maculopathy',
-				'left_nscretinopathy_photocoagulation' => 'Retinopathy Photocoagulation',
-				'left_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
-				'right_nscretinopathy_photocoagulation' => 'Retinopathy Photocoagulation',
-				'right_nscmaculopathy_photocoagulation' => 'Maculopathy Photocoagulation',
-				'left_clinical_id' => 'Clinical Grading',
-				'right_clinical_id' => 'Clinical Grading'
+				'left_nscretinopathy_id' => 'NSC retinopathy',
+				'left_nscmaculopathy_id' => 'NSC maculopathy',
+				'right_nscretinopathy_id' => 'NSC retinopathy',
+				'right_nscmaculopathy_id' => 'NSC maculopathy',
+				'left_nscretinopathy_photocoagulation' => 'Retinopathy photocoagulation',
+				'left_nscmaculopathy_photocoagulation' => 'Maculopathy photocoagulation',
+				'right_nscretinopathy_photocoagulation' => 'Retinopathy photocoagulation',
+				'right_nscmaculopathy_photocoagulation' => 'Maculopathy photocoagulation',
+				'left_clinical_id' => 'Clinical Grading for retinopathy',
+				'right_clinical_id' => 'Clinical Grading for retinopathy'
 		);
 	}
 
@@ -169,26 +169,4 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		));
 	}
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions()
-	{
-		return parent::setDefaultOptions();
-	}
-
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
-	protected function afterSave()
-	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate()
-	{
-		return parent::beforeValidate();
-	}
 }

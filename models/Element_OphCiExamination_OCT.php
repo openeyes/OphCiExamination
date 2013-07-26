@@ -31,7 +31,7 @@
  *
  */
 
-class Element_OphCiExamination_OCT extends SplitEventTypeElement
+class Element_OphCiExamination_OCT extends SplitEventTypeElement 
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -58,11 +58,11 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_crt, left_sft, right_crt, right_sft', 'safe'),
-				array('left_crt, left_sft', 'requiredIfSide', 'side' => 'left'),
-				array('right_crt, right_sft', 'requiredIfSide', 'side' => 'right'),
-				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
-						'tooBig' => 'Left {attribute} must be between 250 and 600',
+				array('eye_id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe'),
+				array('left_method_id, left_crt, left_sft', 'requiredIfSide', 'side' => 'left'),
+				array('right_method_id, right_crt, right_sft', 'requiredIfSide', 'side' => 'right'),
+				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250, 
+						'tooBig' => 'Left {attribute} must be between 250 and 600', 
 						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
 				array('right_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Right {attribute} must be between 250 and 600',
@@ -75,23 +75,24 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 					'tooSmall' => 'Left {attribute} must be between 50 and 400'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_crt, left_sft, right_crt, right_sft', 'safe', 'on' => 'search'),
+				array('id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe', 'on' => 'search'),
 		);
 	}
 
-	public function sidedFields()
+	public function sidedFields() 
 	{
-		return array('crt', 'sft');
+		return array('method_id', 'crt', 'sft');
 	}
-
+	
 	public function sidedDefaults()
 	{
 		return array();
 	}
+	
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
+	public function relations() 
 	{
 		return array(
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
@@ -99,6 +100,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'right_method_id'),
 		);
 	}
 
@@ -110,6 +113,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
+				'left_method_id' => 'Image Type',
+				'right_method_id' => 'Image Type',
 				'left_crt' => 'Maximum CRT',
 				'right_crt' => 'Maximum CRT',
 				'left_sft' => 'Central SFT',
@@ -130,6 +135,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
+		$criteria->compare('left_method_id', $this->left_method_id);
+		$criteria->compare('right_method_id', $this->right_method_id);
 		$criteria->compare('left_crt', $this->left_crt);
 		$criteria->compare('right_crt', $this->right_crt);
 		$criteria->compare('left_sft', $this->left_sft);
@@ -140,19 +147,18 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		));
 	}
 
-	protected function beforeSave()
+	protected function beforeSave() 
 	{
 		return parent::beforeSave();
 	}
 
-	protected function afterSave()
+	protected function afterSave() 
 	{
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate()
+	protected function beforeValidate() 
 	{
 		return parent::beforeValidate();
 	}
-
 }

@@ -135,21 +135,6 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 		));
 	}
 
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
-	protected function afterSave()
-	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate()
-	{
-		return parent::beforeValidate();
-	}
-
 	public function getLetter_string()
 	{
 		return "Posterior segment:\nright: ".$this->right_description."\nleft: ".$this->left_description."\n";
