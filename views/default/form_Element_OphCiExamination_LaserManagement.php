@@ -30,6 +30,11 @@
 		}
 		echo CHtml::activeDropDownList($element,'laser_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
 	<span id="laser_booking_hint" class="hint" style="display:none;"></span>
+	<?php if (Yii::app()->hasModule('OphTrLaser')) { 
+		$event = EventType::model()->find("class_name = 'OphTrLaser'");
+		?>
+		<span id="laser_event_hint" class="hint" style="display:none;">Ensure a <?php echo $event->name ?> event is added for this patient when procedure is completed</span>
+	<?php }?>
 	</div>
 </div>
 <div id="div_<?php echo get_class($element)?>_laser_deferralreason"

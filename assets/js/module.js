@@ -574,6 +574,8 @@ $(document).ready(function() {
 		var deferred = false;
 		// flag for booking hint
 		var book = false;
+		// flag for event creation hint
+		var event = false;
 		
 		$('#'+element+'_'+name+'_status_id').find('option').each(function() {
 			if ($(this).attr('value') == thePK) {
@@ -582,6 +584,9 @@ $(document).ready(function() {
 				}
 				if ($(this).attr('data-book') == "1") {
 					book = true;
+				}
+				if ($(this).data('event') == '1') {
+					event = true;
 				}
 				return false;
 			}
@@ -593,6 +598,14 @@ $(document).ready(function() {
 		else {
 			$('.'+element).find('#'+name+'_booking_hint').slideUp();
 		}
+		
+		if (event) {
+			$('.'+element).find('#'+name+'_event_hint').slideDown();
+		}
+		else {
+			$('.'+element).find('#'+name+'_event_hint').slideUp();
+		}
+		
 		
 		if (deferred) {
 			$('#div_'+element+'_'+name+'_deferralreason').slideDown();
