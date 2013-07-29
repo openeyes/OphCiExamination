@@ -14,24 +14,26 @@ $(document).ready(function() {
 					YII_CSRF_TOKEN: YII_CSRF_TOKEN
 				},
 				'success': function(data) {
-					alert('Questions reordered');
+					new OpenEyes.Dialog.Alert({
+						content: 'Questions reordered'
+					}).open();
 				}
 			});
-			
+
 		}
 	});
-	
+
 	$('#question_disorder').bind('change', function() {
 		did = $(this).val();
 		if (did) {
 			window.location.href = URI(window.location.href).setSearch('disorder_id',did);
 		}
 	});
-	
+
 	$('input.model_enabled').bind('change', function() {
 		var model_id = $(this).parents('li').data('attr-id');
 		var model_name = $(this).parents('li').data('attr-name');
-		
+
 		var enabled = 0;
 		if ($(this).attr('checked')) {
 			enabled = 1;
@@ -46,13 +48,17 @@ $(document).ready(function() {
 			},
 			'success': function() {
 				if (enabled) {
-					alert(model_name + ' enabled');
+					new OpenEyes.Dialog.Alert({
+						content: model_name + ' enabled'
+					}).open();
 				}
 				else {
-					alert(model_name + ' disabled');
+					new OpenEyes.Dialog.Alert({
+						content: model_name + ' disabled'
+					}).open();
 				}
 			}
 		});
 	});
-	
+
 });
