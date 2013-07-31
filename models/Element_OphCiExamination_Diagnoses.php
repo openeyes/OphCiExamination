@@ -314,5 +314,17 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement {
 		if (empty($_POST['selected_diagnoses'])) {
 			$this->addError('selected_diagnoses','Please select some diagnoses');
 		}
+
+		if (!empty($_POST['principal_diagnosis']) && !empty($_POST['selected_diagnoses'])) {
+			foreach ($_POST['selected_diagnoses'] as $diagnosis) {
+				if ($_POST['principal_diagnosis'] == $diagnosis) {
+					$principal = $diagnosis;
+				}
+			}
+
+			if (!isset($principal)) {
+				$this->addError('selected_diagnoses','Invalid principal diagnosis set');
+			}
+		}
 	}
 }
