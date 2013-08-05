@@ -22,6 +22,11 @@ var examination_print_url, module_css_path;
 function gradeCalculator(_drawing) {
     var doodleArray = _drawing.doodleArray;
     
+    var side = 'right';
+    if (_drawing.eye) {
+    	side = 'left';
+    }
+    
     // Array to store counts of doodles of relevant classes
     var countArray = new Array();
     countArray['Microaneurysm'] = 0;
@@ -38,6 +43,7 @@ function gradeCalculator(_drawing) {
     countArray['SectorPRPPostPole'] = 0;
     countArray['PRPPostPole'] = 0;
     countArray['IRMA'] = 0;
+    countArray['TractionRetinalDetachment'] = 0;
     
     var retinopathy = "R0";
     var maculopathy = "M0";
@@ -98,8 +104,17 @@ function gradeCalculator(_drawing) {
         	
         }
         
+        if (countArray['BlotHaemorrhage'] > 0 || countArray['Microaneurysm'] > 0) {
+        	var bestVa = OphCiExamination_VisualAcuity_bestForSide(side);
+        	
+        	if (bestVa !== null && bestVa <= 95) {
+        		maculopathy = 'M1A';
+        	}
+        }
+        
         // R1 (Background)
-        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
+        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || 
+        		countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
         {
             retinopathy = "R1";
         }
@@ -116,7 +131,8 @@ function gradeCalculator(_drawing) {
             retinopathy = "R3S";
             retinopathy_photocoagulation = true;
         }
-        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0)
+        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0 ||
+    		countArray['TractionRetinalDetachment'] > 0)
         {
             retinopathy = "R3A";
         }
@@ -256,25 +272,7 @@ function posteriorListener(_drawing) {
 	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded', 'doodleDeleted', 'parameterChanged']);
 	
 	this.callBack = function (_messageArray) {
-		var dr_grade = $('#' + this.drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
-		var dr_side = dr_grade.find('.side.eventDetail[data-side="'+this.side+'"]');
-		
-		/*
-		if (dr_side.hasClass('uninitialised')) {
-			// the dr grade element has been loaded from the db, so if the doodle is ready, need to check whether
-			// the grade is in sync with the eyedraw
-			if (_messageArray['eventName'] == 'ready') { 
-				OphCiExamination_DRGrading_dirtyCheck(this.drawing);
-			}
-		}
-		else
-		*/
-		if (!dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
-			var grades = gradeCalculator(this.drawing);
-			if (grades) {
-				updateDRGrades(this.drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
-			}
-		}
+		OphCiExamination_DRGrading_update(side);
 	}
 }
 
@@ -524,7 +522,14 @@ $(document).ready(function() {
 		});
 		$(this).hide();
 		e.preventDefault();
-	})
+	});
+	
+	// When VA updated we may need to update the DR Grade
+	$('#event_OphCiExamination').delegate('.va-selector', 'change', function(e) {
+		side = getSplitElementSide($(this));
+		
+		OphCiExamination_DRGrading_update(side);
+	});
 	
 	// end of DR
 	
@@ -741,10 +746,16 @@ $(document).ready(function() {
 	
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
+		
 		$(this).closest('tr').remove();
 		if ($('tbody', block).children('tr').length == 0) {
 			$('.noReadings', block).show();
 			$('table', block).hide();
+		}
+		else {
+			// VA can affect DR
+			var side = getSplitElementSide($(this));
+			OphCiExamination_DRGrading_update(side);
 		}
 		e.preventDefault();
 	});
@@ -752,6 +763,8 @@ $(document).ready(function() {
 	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .addReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_VisualAcuity_addReading(side);
+		// VA can affect DR
+		OphCiExamination_DRGrading_update(side);
 		e.preventDefault();
 	});
 	
@@ -1176,6 +1189,20 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 	return method_ids[0];
 }
 
+function OphCiExamination_VisualAcuity_bestForSide(side) {
+	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
+	if (table.is(':visible')) {
+		var best = 0;
+		table.find('tr .va-selector').each(function() {
+			if (parseInt($(this).val()) > best) {
+				best = parseInt($(this).val());
+			}
+		});
+		return best;
+	}
+	return null;
+}
+
 function OphCiExamination_VisualAcuity_init() {
 	// ensure tooltip works when loading for an edit
 	$('#event_content .Element_OphCiExamination_VisualAcuity .side').each(function() {
@@ -1269,6 +1296,41 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
     	$('#drgrading_dirty').show();
     }
 	dr_grade.find('.side.eventDetail[data-side="'+side+'"]').removeClass('uninitialised');
+}
+
+/**
+ * returns true if the dr side can be updated with calculated grades
+ * 
+ * @param side
+ */
+function OphCiExamination_DRGrading_canUpdate(side) {
+	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .active_child_elements .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+side+'"]');
+	
+	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * update the dr grades for the given side (if they can be updated)
+ * 
+ * @param side
+ */
+function OphCiExamination_DRGrading_update(side) {
+	var physical_side = 'left';
+	if (side == 'left') {
+		physical_side = 'right';
+	}
+	if (OphCiExamination_DRGrading_canUpdate(side)) {
+		var cv = $('div.Element_OphCiExamination_PosteriorPole').find('.eventDetail.' + physical_side).find('canvas');
+		var drawingName = cv.data('drawing-name');
+		var drawing = window[drawingName];
+		var grades = gradeCalculator(drawing);
+		if (grades) {
+			updateDRGrades(drawing, grades[0], grades[1], grades[2], grades[3], grades[4]);
+		}
+	}
 }
 
 function OphCiExamination_DRGrading_init() {

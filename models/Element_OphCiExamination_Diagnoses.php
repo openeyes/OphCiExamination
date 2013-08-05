@@ -177,7 +177,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		}
 
 		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
-			if ($sd->disorder->specialty && $sd->disorder->specialty->code = 'OPH') {
+			if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
 				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
 					$this->event->episode->patient->removeDiagnosis($sd->id);
 				}
@@ -225,7 +225,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 			$patient_id = Yii::app()->controller->patient->id;
 			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
 				if (!$episode || $sd->disorder_id != $episode->disorder_id || $episode->eye_id != $sd->eye_id) {
-					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 'OPH') {
+					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
 						$diagnoses[] = array(
 							'disorder' => $sd->disorder,
 							'eye_id' => $sd->eye_id,
@@ -329,6 +329,18 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 	{
 		if (empty($_POST['selected_diagnoses'])) {
 			$this->addError('selected_diagnoses','Please select some diagnoses');
+		}
+
+		if (!empty($_POST['principal_diagnosis']) && !empty($_POST['selected_diagnoses'])) {
+			foreach ($_POST['selected_diagnoses'] as $diagnosis) {
+				if ($_POST['principal_diagnosis'] == $diagnosis) {
+					$principal = $diagnosis;
+				}
+			}
+
+			if (!isset($principal)) {
+				$this->addError('selected_diagnoses','Invalid principal diagnosis set');
+			}
 		}
 	}
 }
