@@ -43,6 +43,7 @@ function gradeCalculator(_drawing) {
     countArray['SectorPRPPostPole'] = 0;
     countArray['PRPPostPole'] = 0;
     countArray['IRMA'] = 0;
+    countArray['TractionRetinalDetachment'] = 0;
     
     var retinopathy = "R0";
     var maculopathy = "M0";
@@ -112,7 +113,8 @@ function gradeCalculator(_drawing) {
         }
         
         // R1 (Background)
-        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
+        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 || 
+        		countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
         {
             retinopathy = "R1";
         }
@@ -129,7 +131,8 @@ function gradeCalculator(_drawing) {
             retinopathy = "R3S";
             retinopathy_photocoagulation = true;
         }
-        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0)
+        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0 ||
+    		countArray['TractionRetinalDetachment'] > 0)
         {
             retinopathy = "R3A";
         }
@@ -1301,7 +1304,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
  * @param side
  */
 function OphCiExamination_DRGrading_canUpdate(side) {
-	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .active_child_elements .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+this.side+'"]');
+	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .active_child_elements .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+side+'"]');
 	
 	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 		return true;
