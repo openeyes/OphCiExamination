@@ -111,7 +111,7 @@ class DefaultController extends NestedElementsEventTypeController
 	 * @param ElementType[] $elements
 	 * @return ElementType[]
 	 */
-	protected function filterElements($elements)
+	protected function filterElements($elements, $by_type_id = false)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
@@ -204,16 +204,22 @@ class DefaultController extends NestedElementsEventTypeController
 		}
 		$parent_id = ($parent) ? $parent->id : null;
 		$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
-
+		$extra_by_etid = array();
+		
+		foreach ($extra_elements as $extra) {
+			$extra_by_etid[$extra->getElementType()->id] = $extra;
+		}
+		
 		$merged_elements = array();
 		foreach ($elements as $element) {
 			$element_type = $element->getElementType();
 			$merged_elements[] = $element;
-			if (isset($extra_elements[$element_type->id])) {
-				unset($extra_elements[$element_type->id]);
+			if (isset($extra_by_etid[$element_type->id])) {
+				unset($extra_by_etid[$element_type->id]);
 			}
 		}
-		foreach ($extra_elements as $extra_element) {
+		
+		foreach ($extra_by_etid as $extra_element) {
 			$extra_element->setDefaultOptions();
 
 			// Precache Element Type to avoid bug in usort
