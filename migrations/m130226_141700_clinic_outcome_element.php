@@ -40,8 +40,8 @@ class m130226_141700_clinic_outcome_element extends CDbMigration
 				'CONSTRAINT `ophciexamination_clinicoutcome_episode_status_fk` FOREIGN KEY (`episode_status_id`) REFERENCES `episode_status` (`id`)',
 		), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
 
-		$this->insert('ophciexamination_clinicoutcome_status', array('name'=>'Follow-up', 'display_order' => '1', 'episode_status_id' => $fup->id, 'followup' => true));
-		$this->insert('ophciexamination_clinicoutcome_status', array('name'=>'Discharge', 'display_order' => '2', 'episode_status_id' => $dcharg->id));
+		$this->insert('ophciexamination_clinicoutcome_status', array('id' => 1, 'name'=>'Follow-up', 'display_order' => '1', 'episode_status_id' => $fup->id, 'followup' => true));
+		$this->insert('ophciexamination_clinicoutcome_status', array('id' => 2, 'name'=>'Discharge', 'display_order' => '2', 'episode_status_id' => $dcharg->id));
 
 		$this->createTable('et_ophciexamination_clinicoutcome', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
