@@ -163,6 +163,33 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 
 	/**
+	 * extends standard delete method to remove any risk assignments made to it
+	 * 
+	 * (non-PHPdoc)
+	 * @see CActiveRecord::delete()
+	 */
+	public function delete()
+	{
+		$transaction = $this->dbConnection->beginTransaction();
+		try {
+			foreach ($this->risk_assignments as $riska) {
+				$riska->delete();
+			}
+			if (parent::delete()) {
+				$transaction->commit();
+			}
+			else {
+				throw new Exception('unable to delete');
+			}
+		}
+		catch (Exception $e) {
+			$transaction->rollback();
+			throw $e;
+		}
+		
+	}
+	
+	/**
 	 * validate that all the questions for the set diagnosis have been answered
 	 *
 	 * @param unknown $attribute

@@ -17,49 +17,29 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+
+<?php if ($element->no_treatment) {?>
+	<div class="eventDetail">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('no_treatment_reason_id'))?></div>
+		<div class="data"><?php echo $element->no_treatment_reason ? $element->no_treatment_reason->name : 'Not specified'?></div>
+	</div>
+<?php } else { ?>
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
-			<?php if ($element->hasRight()) {?>
-				<div class="grid-view dilation_table">
-					<table style="padding: 10px;">
-						<thead>
-							<tr>
-								<th style="width: 15px;">Time</th>
-								<th style="min-width: 50px;">Drug</th>
-								<th style="width: 50px;">Drops</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($element->right_treatments as $treatment) {
-								$this->renderPartial('_view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
-							}?>
-						</tbody>
-					</table>
-				</div>
-			<?php } else {?>
-				<span>None given.</span>
-			<?php }?>
+			<?php if ($element->hasRight()) {
+				$this->renderPartial('_view_' . get_class($element) . '_fields',
+					array('side' => 'right', 'element' => $element));
+			} else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) {?>
-				<div class="grid-view dilation_table">
-					<table style="padding: 10px;">
-						<thead>
-							<tr>
-								<th style="width: 15px;">Time</th>
-								<th style="min-width: 50px;">Drug</th>
-								<th style="width: 50px;">Drops</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($element->left_treatments as $treatment) {
-								$this->renderPartial('_view_Element_OphCiExamination_Dilation_Treatment',array('treatment'=>$treatment));
-							}?>
-						</tbody>
-					</table>
-				</div>
-			<?php } else {?>
-				<span>None given</span>
-			<?php }?>
+			<?php if ($element->hasLeft()) {
+				$this->renderPartial('_view_' . get_class($element) . '_fields',
+					array('side' => 'left', 'element' => $element));
+			} else { ?>
+			Not recorded
+			<?php } ?>
 		</div>
 	</div>
+<?php }?>
