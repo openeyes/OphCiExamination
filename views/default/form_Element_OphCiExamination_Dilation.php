@@ -74,9 +74,10 @@
 				<table>
 					<thead>
 						<tr>
+							<th style="width: 20px;">Time</th>
 							<th>Drug</th>
-							<th>Drops</th>
-							<th></th>
+							<th style="width: 50px;">Drops</th>
+							<th style="width: 40px;"></th>
 						</tr>
 					</thead>
 					<tbody id="dilation_left">

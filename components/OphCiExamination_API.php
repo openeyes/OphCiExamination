@@ -210,9 +210,30 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	 * get the list of possible unit values for Visual Acuity
+	 *
+	 * currently operates on the assumption there is always Snellen Metre available as a VA unit, and provides this
+	 * exclusively.
+	 *
+	 */
+	public function getVAList()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('name = :nm');
+		$criteria->params = array(':nm' => 'Snellen Metre');
+
+		$unit = OphCiExamination_VisualAcuityUnit::model()->find($criteria);
+		$res = array();
+		foreach ($unit->selectableValues as $uv) {
+			$res[$uv->base_value] = $uv->value;
+		}
+		return $res;
+	}
+
+	/**
 	 * get the conclusion text from the most recent examination in the patient examination that has a conclusion element
 	 *
-	 * @param unknown $patient
+	 * @param Patient $patient
 	 * @param unknown $episode
 	 * @return string
 	 */
