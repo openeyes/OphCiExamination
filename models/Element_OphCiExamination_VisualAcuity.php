@@ -28,6 +28,15 @@
  * @property string $right_comments
  *
  * The followings are the available model relations:
+ * @property OphCiExamination_VisualAcuityUnit $unit
+ * @property OphCiExamination_VisualAcuity_Reading[] $readings
+ * @property OphCiExamination_VisualAcuity_Reading[] $left_readings
+ * @property OphCiExamination_VisualAcuity_Reading[] $right_readings
+ * @property User $user
+ * @property User $usermodified
+ * @property Eye eye
+ * @property EventType $eventType
+ * @property Event $event
  */
 
 class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
