@@ -15,716 +15,172 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-/* line 19, ../sass/module.scss */
-.quicklook {
-  width: 280px;
-  top: 0;
-  z-index: 1;
-  padding: 5px;
-  border: 1px solid #3665ff;
-  background: #fff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -moz-box-shadow: 2px 2px 2px 0 #999;
-  -webkit-box-shadow: 2px 2px 2px 0 #999;
-  box-shadow: 2px 2px 2px 0 #999;
-}
 
-/* line 21, ../sass/module.scss */
-.textMacro {
-  margin: 0 0 10px;
-}
+.quicklook { width:280px;  top:0; z-index:1; padding:5px; border:1px solid #3665ff; background:#fff; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 2px 2px 2px 0 #999;  -webkit-box-shadow: 2px 2px 2px 0 #999; box-shadow: 2px 2px 2px 0 #999;  }
 
-/* line 22, ../sass/module.scss */
-.textMacro.inline {
-  display: inline-block;
-}
+.textMacro { margin: 0 0 10px; }
+.textMacro.inline { display: inline-block; }
+.textMacro { width: 120px; }
+#event_content.watermarkBox { background-image: url(../img/watermark.png); background-position: -5px 0; background-repeat: repeat-y; border-color: #fdcc56; }
+#event_content h3.withEventIcon { background:transparent url(../img/medium.png) center left no-repeat; }
+#event_content .eventDetail .eventDetail { background: none; margin-right: 10px; }
+#event_content .event-view .cols2 .aligned .data { width: 324px; float: right; }
+#event_content .event-view .eventDetail > .label { padding-right: 8px; }
+#event_content .event-view .eventDetail > .eventDetail { padding-left: 0; padding-right: 0; }
 
-/* line 23, ../sass/module.scss */
-.textMacro {
-  width: 120px;
-}
-
-/* line 24, ../sass/module.scss */
-#event_content.watermarkBox {
-  background-image: url(../img/watermark.png);
-  background-position: -5px 0;
-  background-repeat: repeat-y;
-  border-color: #fdcc56;
-}
-
-/* line 25, ../sass/module.scss */
-#event_content h3.withEventIcon {
-  background: transparent url(../img/medium.png) center left no-repeat;
-}
-
-/* line 26, ../sass/module.scss */
-#event_content .eventDetail .eventDetail {
-  background: none;
-  margin-right: 10px;
-}
-
-/* line 27, ../sass/module.scss */
-#event_content .event-view .cols2 .aligned .data {
-  width: 324px;
-  float: right;
-}
-
-/* line 28, ../sass/module.scss */
-#event_content .event-view .eventDetail > .label {
-  padding-right: 8px;
-}
-
-/* line 29, ../sass/module.scss */
-#event_content .event-view .eventDetail > .eventDetail {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-/* line 31, ../sass/module.scss */
-#event_content div.activeForm div.aligned {
-  clear: both;
-}
-
-/* line 33, ../sass/module.scss */
+#event_content div.activeForm div.aligned { clear: both;}
 #event_contentdiv.activeForm div.aligned div.label,
-#event_content div.activeForm div.aligned div.data {
-  display: inline-block;
-}
-
-/* line 34, ../sass/module.scss */
-#event_content .metaData {
-  margin-top: 20px;
-}
-
-/* line 35, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity th {
-  font-weight: normal;
-  text-align: left;
-  padding: 2px 5px 2px 0;
-}
-
-/* line 36, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity td {
-  padding: 2px 10px 2px 0;
-}
-
-/* line 37, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity .eventDetail {
-  padding-bottom: 0;
-}
-
-/* line 38, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity .data {
-  display: block;
-  margin-bottom: 10px;
-}
-
-/* line 39, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity .data input {
-  font-size: 13px;
-}
-
-/* line 40, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity table {
-  margin-bottom: 5px;
-}
-
-/* line 41, ../sass/module.scss */
-#event_content .Element_OphCiExamination_VisualAcuity .readingActions {
-  font-size: 12px;
-  line-height: 19px;
-}
-
-/* line 42, ../sass/module.scss */
-#event_content canvas {
-  float: left;
-  border: 1px solid #ccc;
-  margin: 0;
-}
-
-/* line 43, ../sass/module.scss */
-#event_content div.ed_toolbar {
-  margin: 0 0 10px;
-}
-
-/* line 44, ../sass/module.scss */
-#event_content .eyedrawFields {
-  float: left;
-  width: 180px;
-  margin: 5px 0 0 10px;
-}
-
-/* line 45, ../sass/module.scss */
-#event_content .eyedrawFields.view {
-  width: 280px;
-}
-
-/* line 46, ../sass/module.scss */
-#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .data {
-  width: 196px;
-}
-
-/* line 47, ../sass/module.scss */
-#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .description {
-  overflow: hidden;
-  margin-bottom: 10px;
-  margin-top: 0;
-}
-
-/* line 48, ../sass/module.scss */
-#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .description .data {
-  width: 100%;
-}
-
-/* line 49, ../sass/module.scss */
-#event_content .eyedrawFields > div {
-  margin: 5px 0;
-}
-
-/* line 51, ../sass/module.scss */
+#event_content div.activeForm div.aligned div.data { display: inline-block; }
+#event_content .metaData { margin-top: 20px; }
+#event_content .Element_OphCiExamination_VisualAcuity th { font-weight: normal; text-align: left; padding: 2px 5px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity td { padding: 2px 10px 2px 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .eventDetail { padding-bottom: 0; }
+#event_content .Element_OphCiExamination_VisualAcuity .data { display: block; margin-bottom: 10px; }
+#event_content .Element_OphCiExamination_VisualAcuity .data input { font-size: 13px; }
+#event_content .Element_OphCiExamination_VisualAcuity table { margin-bottom: 5px; }
+#event_content .Element_OphCiExamination_VisualAcuity .readingActions { font-size: 12px; line-height: 19px;}
+#event_content canvas { float: left; border: 1px solid #ccc; margin: 0; }
+#event_content div.ed_toolbar { margin: 0 0 10px; }
+#event_content .eyedrawFields { float: left; width: 180px; margin: 5px 0 0 10px; }
+#event_content .eyedrawFields.view { width: 280px; }
+#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .data { width: 196px; }
+#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .description { overflow: hidden; margin-bottom:10px; margin-top: 0; }
+#event_content .event-view .Element_OphCiExamination_AnteriorSegment .cols2 .eyedrawFields.view .description .data { width: 100%; }
+#event_content .eyedrawFields > div { margin: 5px 0; }
 #event_content .eyedrawFields div.label,
-#event_content .eyedrawFields div.data {
-  display: inline-block;
-}
-
-/* line 52, ../sass/module.scss */
-#event_content .eyedrawFields .aligned .label {
-  width: 75px;
-}
-
-/* line 53, ../sass/module.scss */
-#event_content .Element_OphCiExamination_Refraction .eyedrawFields {
-  width: 320px;
-}
-
-/* line 55, ../sass/module.scss */
+#event_content .eyedrawFields div.data { display: inline-block; }
+#event_content .eyedrawFields .aligned .label { width: 75px; }
+#event_content .Element_OphCiExamination_Refraction .eyedrawFields { width: 320px; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.left,
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.right {
-  border-width: 4px 0 0 0;
-  border-color: #000;
-  border-style: solid;
-}
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.right { border-width: 4px 0 0 0; border-color: #000; border-style: solid; }
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.left { border-right-width: 2px; text-align: right; }
+#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .reventDetail.ight { border-left-width: 2px; }
+span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
+span.hint {font-style: italic;}
 
-/* line 56, ../sass/module.scss */
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.left {
-  border-right-width: 2px;
-  text-align: right;
-}
+#div_Element_OphCiExamination_CataractManagement_city_road { padding: 5px !important; }
+#div_Element_OphCiExamination_CataractManagement_satellite { padding: 5px !important; }
+#div_Element_OphCiExamination_CataractManagement_fast_track { padding: 5px !important; }
+#Element_OphCiExamination_CataractManagement_city_road { margin-left: 5px !important; margin-top: 7px; }
+#Element_OphCiExamination_CataractManagement_satellite { margin-left: 5px !important; }
+#Element_OphCiExamination_CataractManagement_fast_track { margin-left: 5px !important; }
+#div_Element_OphCiExamination_CataractManagement_target_postop_refraction > .label { width: 290px !important; }
+#Element_OphCiExamination_CataractManagement_target_postop_refraction { width: 400px !important; }
+#Element_OphCiExamination_CataractManagement_correction_discussed > .label { width: 286px !important; }
+#Element_OphCiExamination_CataractManagement_supervised { margin-left: 5px; }
+#Element_OphCiExamination_CataractManagement_previous_refractive_surgery > .label { width: 288px !important; }
+#div_Element_OphCiExamination_CataractManagement_suitable_for_surgeon_id > .label { width: 288px !important; }
+.Element_OphCiExamination_DRGrading .whiteBox { clear: none; float: right; display: block; width: 200px; margin-left:50px;}
 
-/* line 57, ../sass/module.scss */
-#event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .reventDetail.ight {
-  border-left-width: 2px;
-}
+#Element_OphCiExamination_History_previous_refractive_surgery > .label { width: 208px !important; margin-top: 5px; }
 
-/* line 58, ../sass/module.scss */
-span.OphCiExamination_eye_radio {
-  width: 73px;
-  display: inline-block;
-}
-
-/* line 59, ../sass/module.scss */
-span.hint {
-  font-style: italic;
-}
-
-/* line 61, ../sass/module.scss */
-#div_Element_OphCiExamination_CataractManagement_city_road {
-  padding: 5px !important;
-}
-
-/* line 62, ../sass/module.scss */
-#div_Element_OphCiExamination_CataractManagement_satellite {
-  padding: 5px !important;
-}
-
-/* line 63, ../sass/module.scss */
-#div_Element_OphCiExamination_CataractManagement_fast_track {
-  padding: 5px !important;
-}
-
-/* line 64, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_city_road {
-  margin-left: 5px !important;
-  margin-top: 7px;
-}
-
-/* line 65, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_satellite {
-  margin-left: 5px !important;
-}
-
-/* line 66, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_fast_track {
-  margin-left: 5px !important;
-}
-
-/* line 67, ../sass/module.scss */
-#div_Element_OphCiExamination_CataractManagement_target_postop_refraction > .label {
-  width: 290px !important;
-}
-
-/* line 68, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_target_postop_refraction {
-  width: 400px !important;
-}
-
-/* line 69, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_correction_discussed > .label {
-  width: 286px !important;
-}
-
-/* line 70, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_supervised {
-  margin-left: 5px;
-}
-
-/* line 71, ../sass/module.scss */
-#Element_OphCiExamination_CataractManagement_previous_refractive_surgery > .label {
-  width: 288px !important;
-}
-
-/* line 72, ../sass/module.scss */
-#div_Element_OphCiExamination_CataractManagement_suitable_for_surgeon_id > .label {
-  width: 288px !important;
-}
-
-/* line 73, ../sass/module.scss */
-.Element_OphCiExamination_DRGrading .whiteBox {
-  clear: none;
-  float: right;
-  display: block;
-  width: 200px;
-  margin-left: 50px;
-}
-
-/* line 75, ../sass/module.scss */
-#Element_OphCiExamination_History_previous_refractive_surgery > .label {
-  width: 208px !important;
-  margin-top: 5px;
-}
-
-/* line 77, ../sass/module.scss */
-.gonioCross {
-  width: 160px;
-  height: 110px;
-  background: url(../img/cross.gif) no-repeat center center;
-  position: relative;
-  margin-top: 5px;
-}
-
-/* line 78, ../sass/module.scss */
-.gonioCross div {
-  position: absolute;
-  text-align: center;
-}
-
-/* line 79, ../sass/module.scss */
-.gonioCross .gonioSup {
-  top: 5px;
-  width: 100%;
-}
-
-/* line 80, ../sass/module.scss */
-.gonioCross .gonioTem {
-  left: 5px;
-  top: 50%;
-  height: 20px;
-  margin-top: -10px;
-}
-
-/* line 81, ../sass/module.scss */
-.gonioCross .gonioNas {
-  right: 5px;
-  top: 50%;
-  height: 20px;
-  margin-top: -10px;
-}
-
-/* line 82, ../sass/module.scss */
-.gonioCross .gonioInf {
-  bottom: 5px;
-  width: 100%;
-}
-
-/* line 83, ../sass/module.scss */
-.eyedrawFields.view .gonioCross {
-  width: 120px;
-  height: 80px;
-}
-
-/* line 84, ../sass/module.scss */
-.eyedrawFields.view .gonioCross .gonioSup {
-  top: 5px;
-}
-
-/* line 85, ../sass/module.scss */
-.eyedrawFields.view .gonioCross .gonioTem {
-  left: 15px;
-}
-
-/* line 86, ../sass/module.scss */
-.eyedrawFields.view .gonioCross .gonioNas {
-  right: 15px;
-}
-
-/* line 87, ../sass/module.scss */
-.eyedrawFields.view .gonioCross .gonioInf {
-  bottom: 5px;
-}
-
-/* line 89, ../sass/module.scss */
+.gonioCross { width: 160px; height: 110px; background: url(../img/cross.gif) no-repeat center center; position: relative; margin-top: 5px;}
+.gonioCross div { position: absolute; text-align: center; }
+.gonioCross .gonioSup { top: 5px; width: 100%; }
+.gonioCross .gonioTem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
+.gonioCross .gonioNas { right: 5px; top: 50%; height: 20px; margin-top: -10px; }
+.gonioCross .gonioInf { bottom: 5px; width: 100%; }
+.eyedrawFields.view .gonioCross { width: 120px; height: 80px; }
+.eyedrawFields.view .gonioCross .gonioSup { top: 5px; }
+.eyedrawFields.view .gonioCross .gonioTem { left: 15px; }
+.eyedrawFields.view .gonioCross .gonioNas { right: 15px; }
+.eyedrawFields.view .gonioCross .gonioInf { bottom: 5px; }
 #event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .shaffer_grade div.label,
-#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .van_herick div.label {
-  display: block;
-  width: auto;
-}
+#event_content .Element_OphCiExamination_Gonioscopy .eyedrawFields .van_herick div.label { display: block; width: auto;}
 
-/* line 91, ../sass/module.scss */
-#comorbidities_selected {
-  margin: 0 0 10px;
-}
-
-/* line 92, ../sass/module.scss */
-#comorbidities_selected ul {
-  padding: 0;
-  margin: 0;
-}
-
-/* line 93, ../sass/module.scss */
-#comorbidities_selected ul:before, #comorbidities_selected ul:after {
-  content: "";
-  display: table;
-}
-
-/* line 94, ../sass/module.scss */
-#comorbidities_selected ul:after {
-  clear: both;
-}
-
-/* line 95, ../sass/module.scss */
-#comorbidities_selected ul {
-  zoom: 1;
-}
-
-/* line 96, ../sass/module.scss */
+#comorbidities_selected { margin: 0 0 10px; }
+#comorbidities_selected ul { padding: 0; margin: 0; }
+#comorbidities_selected ul:before, #comorbidities_selected ul:after { content: ""; display: table; }
+#comorbidities_selected ul:after { clear: both; }
+#comorbidities_selected ul { zoom: 1; }
 #content #comorbidities_selected p {
-  margin: 10px 0 0 0;
-  padding: 4px 6px;
-  background: #efe;
+    margin: 10px 0 0 0;
+    padding: 4px 6px;
+    background: #efe;
 }
-
-/* line 101, ../sass/module.scss */
 #comorbidities_selected li {
-  float: left;
-  margin: 5px 5px 0 0;
-  list-style: none;
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: #ffe;
+    float: left;
+    margin: 5px 5px 0 0;
+    list-style: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+    background: #ffe;
 }
-
-/* line 109, ../sass/module.scss */
 #comorbidities_selected li span {
-  float: left;
+    float: left;
 }
-
-/* line 112, ../sass/module.scss */
 #comorbidities_selected li a {
-  float: right;
-  width: 14px;
-  margin-left: 4px;
-  text-indent: -9999px;
-  background: url(../../../img/_elements/icons/event-optional/element-remove.png) no-repeat -10px -2px;
-  opacity: 0.5;
+    float: right;
+    width: 14px;
+    margin-left: 4px;
+    text-indent: -9999px;
+    background: url(../../../img/_elements/icons/event-optional/element-remove.png) no-repeat -10px -2px;
+    opacity: 0.5;
 }
-
-/* line 120, ../sass/module.scss */
 #comorbidities_selected li a:hover {
-  opacity: 1;
-  border: none;
+    opacity: 1;
+    border: none;
 }
+#comorbidities_unselected { clear: both; margin: 0 0 5px; }
+#comorbidities_unselected a { margin-left: 10px; }
 
-/* line 124, ../sass/module.scss */
-#comorbidities_unselected {
-  clear: both;
-  margin: 0 0 5px;
-}
 
-/* line 125, ../sass/module.scss */
-#comorbidities_unselected a {
-  margin-left: 10px;
-}
+#div_dilation_drug_right { margin-left: -10px; display: inline; }
+#div_dilation_drug_left { margin-left: -10px; display: inline; }
+#div_Element_OphCiExamination_Dilation_time_right { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_left { margin-left: -10px; }
+#div_Element_OphCiExamination_Dilation_time_right .label { width: 55px !important; margin-top: 3px; }
+#div_Element_OphCiExamination_Dilation_time_left .label { width: 55px !important; margin-top: 3px; }
+#Element_OphCiExamination_Dilation_time_right { width: 48px; }
+#Element_OphCiExamination_Dilation_time_left { width: 48px; }
+div.dilation_table { margin-top: 10px; }
+div.timeDiv { display: inline; margin-left: 12px; }
 
-/* line 128, ../sass/module.scss */
-#div_dilation_drug_right {
-  margin-left: -10px;
-  display: inline;
-}
+#event_content .Element_OphCiExamination_AnteriorSegment_CCT .cct_value { width: 50px; }
 
-/* line 129, ../sass/module.scss */
-#div_dilation_drug_left {
-  margin-left: -10px;
-  display: inline;
-}
+#event_content .Element_OphCiExamination_OpticDisc .diameter { width: 30px; }
 
-/* line 130, ../sass/module.scss */
-#div_Element_OphCiExamination_Dilation_time_right {
-  margin-left: -10px;
-}
-
-/* line 131, ../sass/module.scss */
-#div_Element_OphCiExamination_Dilation_time_left {
-  margin-left: -10px;
-}
-
-/* line 132, ../sass/module.scss */
-#div_Element_OphCiExamination_Dilation_time_right .label {
-  width: 55px !important;
-  margin-top: 3px;
-}
-
-/* line 133, ../sass/module.scss */
-#div_Element_OphCiExamination_Dilation_time_left .label {
-  width: 55px !important;
-  margin-top: 3px;
-}
-
-/* line 134, ../sass/module.scss */
-#Element_OphCiExamination_Dilation_time_right {
-  width: 48px;
-}
-
-/* line 135, ../sass/module.scss */
-#Element_OphCiExamination_Dilation_time_left {
-  width: 48px;
-}
-
-/* line 136, ../sass/module.scss */
-div.dilation_table {
-  margin-top: 10px;
-}
-
-/* line 137, ../sass/module.scss */
-div.timeDiv {
-  display: inline;
-  margin-left: 12px;
-}
-
-/* line 139, ../sass/module.scss */
-#event_content .Element_OphCiExamination_AnteriorSegment_CCT .cct_value {
-  width: 50px;
-}
-
-/* line 141, ../sass/module.scss */
-#event_content .Element_OphCiExamination_OpticDisc .diameter {
-  width: 30px;
-}
-
-/* line 143, ../sass/module.scss */
-#previous_elements .element_wrapper {
-  margin: 10px 0;
-  padding-bottom: 3px;
-  border-bottom: 2px dotted #ccc;
-  font-size: 13px;
-  font-family: Helvetica, Arial, sans-serif;
-}
-
-/* line 144, ../sass/module.scss */
-#previous_elements .data {
-  display: inline;
-}
-
-/* line 145, ../sass/module.scss */
-#previous_elements .eyedrawFields {
-  width: 280px;
-  margin: 5px 0 0 10px;
-  float: left;
-}
-
-/* line 147, ../sass/module.scss */
+#previous_elements .element_wrapper { margin: 10px 0; padding-bottom: 3px; border-bottom: 2px dotted #ccc; font-size: 13px; font-family: Helvetica, Arial, sans-serif; }
+#previous_elements .data { display: inline; }
+#previous_elements .eyedrawFields { width: 280px; margin: 5px 0 0 10px; float: left; }
 #previous_elements .eyedrawFields div.label,
-#previous_elements .eyedrawFields div.data {
-  display: inline-block;
-}
+#previous_elements .eyedrawFields div.data { display: inline-block; }
+#previous_elements h4 { display: none; }
+#previous_elements .child_elements { background: #dae6f1; padding: 0 10px 10px; }
+#previous_elements .child_elements .element { border: 1px solid #fafafa; }
+#previous_elements .child_elements h4 { display: block; background: #fff; font-size: 14px; margin: 0; padding: 5px; }
+#previous_elements .cols2 .left { clear: left; float: left; width: 48%; }
+#previous_elements .cols2 .right { clear: right; float: right; width: 48%; }
+#previous_elements .eventDetail { padding: 10px; background: #dae6f1; position: relative; }
+#previous_elements canvas { float: left; border: 1px solid #ccc; margin: 0; }
+#previous_elements .actions { margin: 10px; }
+#previous_elements .actions button { float: right; }
+#previous_elements .metaData { float: left; font-size:12px; font-style: italic; margin: 10px; color:#888; }
+#previous_elements .metaData .info { margin-right: 15px; }
+#previous_elements .metaData .user { color:#333; }
 
-/* line 148, ../sass/module.scss */
-#previous_elements h4 {
-  display: none;
-}
-
-/* line 149, ../sass/module.scss */
-#previous_elements .child_elements {
-  background: #dae6f1;
-  padding: 0 10px 10px;
-}
-
-/* line 150, ../sass/module.scss */
-#previous_elements .child_elements .element {
-  border: 1px solid #fafafa;
-}
-
-/* line 151, ../sass/module.scss */
-#previous_elements .child_elements h4 {
-  display: block;
-  background: #fff;
-  font-size: 14px;
-  margin: 0;
-  padding: 5px;
-}
-
-/* line 152, ../sass/module.scss */
-#previous_elements .cols2 .left {
-  clear: left;
-  float: left;
-  width: 48%;
-}
-
-/* line 153, ../sass/module.scss */
-#previous_elements .cols2 .right {
-  clear: right;
-  float: right;
-  width: 48%;
-}
-
-/* line 154, ../sass/module.scss */
-#previous_elements .eventDetail {
-  padding: 10px;
-  background: #dae6f1;
-  position: relative;
-}
-
-/* line 155, ../sass/module.scss */
-#previous_elements canvas {
-  float: left;
-  border: 1px solid #ccc;
-  margin: 0;
-}
-
-/* line 156, ../sass/module.scss */
-#previous_elements .actions {
-  margin: 10px;
-}
-
-/* line 157, ../sass/module.scss */
-#previous_elements .actions button {
-  float: right;
-}
-
-/* line 158, ../sass/module.scss */
-#previous_elements .metaData {
-  float: left;
-  font-size: 12px;
-  font-style: italic;
-  margin: 10px;
-  color: #888;
-}
-
-/* line 159, ../sass/module.scss */
-#previous_elements .metaData .info {
-  margin-right: 15px;
-}
-
-/* line 160, ../sass/module.scss */
-#previous_elements .metaData .user {
-  color: #333;
-}
-
-/* line 162, ../sass/module.scss */
-#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail {
-  padding: 12px 10px;
-}
-
-/* line 163, ../sass/module.scss */
-#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper {
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-}
-
-/* line 164, ../sass/module.scss */
-#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail span {
-  padding: 3px 5px;
-  border-radius: 5px;
-  margin: 2px 0;
-}
-
-/* line 165, ../sass/module.scss */
-#Element_OphCiExamination_GlaucomaRisk_descriptions dt a {
-  display: block;
-  padding: 4px 8px;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-/* line 166, ../sass/module.scss */
-#Element_OphCiExamination_GlaucomaRisk_descriptions dt a:hover {
-  border: none;
-}
-
-/* line 167, ../sass/module.scss */
-#Element_OphCiExamination_GlaucomaRisk_descriptions dd {
-  font-size: 12px;
-  line-height: 1.5em;
-}
-
-/* line 170, ../sass/module.scss */
+#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail { padding: 12px 10px; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper  { padding: 5px; border-radius: 5px; display: inline-block; }
+#event_content .Element_OphCiExamination_GlaucomaRisk .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt a { display: block; padding: 4px 8px; border-radius: 5px; margin: 10px 0; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dt a:hover { border: none; }
+#Element_OphCiExamination_GlaucomaRisk_descriptions dd { font-size: 12px; line-height: 1.5em; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.high_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.high_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .high_risk span {
-  background: #f00;
-  color: #fff;
-}
-
-/* line 173, ../sass/module.scss */
+#event_content .Element_OphCiExamination_GlaucomaRisk .high_risk span { background: #f00; color: #fff; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.moderate_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.moderate_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .moderate_risk span {
-  background: #fc0;
-}
-
-/* line 176, ../sass/module.scss */
+#event_content .Element_OphCiExamination_GlaucomaRisk .moderate_risk span { background: #fc0; }
 #Element_OphCiExamination_GlaucomaRisk_descriptions dt.low_risk a,
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.low_risk,
-#event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span {
-  background: #9c0;
-}
+#event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #9c0; }
 
-/* line 178, ../sass/module.scss */
-#event_content .Element_OphCiExamination_DRGrading .wrapper {
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-}
+#event_content .Element_OphCiExamination_DRGrading .wrapper  { padding: 5px; border-radius: 5px; display: inline-block; }
+#event_content .Element_OphCiExamination_DRGrading .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
+.grade-info-all dt a { display: block; padding: 4px 8px; border-radius: 5px; margin: 10px 0; }
+.grade-info-all dt a:hover { border: none; }
+.grade-info-all dd { font-size: 12px; line-height: 1.5em; }
 
-/* line 179, ../sass/module.scss */
-#event_content .Element_OphCiExamination_DRGrading .eventDetail span {
-  padding: 3px 5px;
-  border-radius: 5px;
-  margin: 2px 0;
-}
-
-/* line 180, ../sass/module.scss */
-.grade-info-all dt a {
-  display: block;
-  padding: 4px 8px;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-/* line 181, ../sass/module.scss */
-.grade-info-all dt a:hover {
-  border: none;
-}
-
-/* line 182, ../sass/module.scss */
-.grade-info-all dd {
-  font-size: 12px;
-  line-height: 1.5em;
-}
-
-/* line 195, ../sass/module.scss */
 .grade-info-all dt.severe a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.severe,
 #event_content .Element_OphCiExamination_DRGrading .severe span,
@@ -736,22 +192,15 @@ div.timeDiv {
 #event_content .Element_OphCiExamination_DRGrading .proliferative span,
 .grade-info-all dt.maculopathy a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.maculopathy,
-#event_content .Element_OphCiExamination_DRGrading .maculopathy span {
-  background: #f00;
-  color: #fff;
-}
+#event_content .Element_OphCiExamination_DRGrading .maculopathy span { background: #f00; color: #fff; }
 
-/* line 202, ../sass/module.scss */
 .grade-info-all dt.moderate a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.moderate,
 #event_content .Element_OphCiExamination_DRGrading .moderate span,
 .grade-info-all dt.pre-prolif a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.pre-prolif,
-#event_content .Element_OphCiExamination_DRGrading .pre-prolif span {
-  background: #fc0;
-}
+#event_content .Element_OphCiExamination_DRGrading .pre-prolif span { background: #fc0; }
 
-/* line 218, ../sass/module.scss */
 .grade-info-all dt.mild a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.mild,
 #event_content .Element_OphCiExamination_DRGrading .mild span,
@@ -766,14 +215,8 @@ div.timeDiv {
 #event_content .Element_OphCiExamination_DRGrading .peripheral span,
 .grade-info-all dt.ungradable a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.ungradable,
-#event_content .Element_OphCiExamination_DRGrading .ungradable span {
-  background: #36f;
-  color: #fff;
-}
+#event_content .Element_OphCiExamination_DRGrading .ungradable span { background: #36f; color: #fff; }
 
-/* line 222, ../sass/module.scss */
 .grade-info-all dt.none a,
 #event_content .Element_OphCiExamination_DRGrading .wrapper.none,
-#event_content .Element_OphCiExamination_DRGrading .none span {
-  background: #9c0;
-}
+#event_content .Element_OphCiExamination_DRGrading .none span { background: #9c0; }
