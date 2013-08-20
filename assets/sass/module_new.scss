@@ -1,3 +1,70 @@
-.example {
-    color: goldenrod;
+/** Examination module styles */
+
+@import "openeyes";
+
+.event {
+	&.examination {
+		background-image: image-url("watermark.png");
+		background-position: right top;
+		background-repeat: no-repeat;
+		border-color: #fdcc56;
+		.event-title {
+			background-image: image-url("medium.png");
+		}
+	}
+}
+
+.gonio-cross {
+	background: image-url("cross.gif") no-repeat center center;
+	height: 110px;
+	margin: 0 0 emCalc(10px) 0;
+	position: relative;
+	width: 160px;
+	div {
+		position: absolute;
+		text-align: center;
+	}
+	.gonio-sup {
+		top: 5px;
+		width: 100%;
+	}
+	.gonio-tem {
+		height: 20px;
+		left: 5px;
+		margin-top: -10px;
+		top: 50%;
+	}
+	.gonio-nas {
+		height: 20px;
+		margin-top: -10px;
+		right: 5px;
+		top: 50%;
+	}
+	.gonio-inf {
+		bottom: 5px;
+		width: 100%;
+	}
+}
+
+.event {
+	&.examination {
+		&.view {
+			.gonio-cross {
+				height: 80px;
+				width: 120px;
+				.gonio-sup {
+					top: 5px;
+				}
+				.gonio-tem {
+					left: 15px;
+				}
+				.gonio-nas {
+					right: 15px;
+				}
+				.gonio-inf {
+					bottom: 5px;
+				}
+			}
+		}
+	}
 }
