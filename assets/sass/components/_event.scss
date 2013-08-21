@@ -1,0 +1,9 @@
+.event {
+	&.examination {
+		background-image: image-url("watermark.png");
+		border-color: #fdcc56;
+		.event-title {
+			background-image: image-url("medium.png");
+		}
+	}
+}

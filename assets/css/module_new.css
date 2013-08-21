@@ -17,19 +17,17 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-/* line 6, ../sass/module_new.scss */
+/* line 2, ../sass/components/_event.scss */
 .event.examination {
   background-image: url('../img/new/watermark.png?1376987159');
-  background-position: right top;
-  background-repeat: no-repeat;
   border-color: #fdcc56;
 }
-/* line 11, ../sass/module_new.scss */
+/* line 5, ../sass/components/_event.scss */
 .event.examination .event-title {
   background-image: url('../img/new/medium.png?1376987159');
 }
 
-/* line 17, ../sass/module_new.scss */
+/* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
   background: url('../img/new/cross.gif?1376987159') no-repeat center center;
   height: 110px;
@@ -37,54 +35,54 @@
   position: relative;
   width: 160px;
 }
-/* line 23, ../sass/module_new.scss */
+/* line 7, ../sass/components/_gonio-cross.scss */
 .gonio-cross div {
   position: absolute;
   text-align: center;
 }
-/* line 27, ../sass/module_new.scss */
+/* line 11, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-sup {
   top: 5px;
   width: 100%;
 }
-/* line 31, ../sass/module_new.scss */
+/* line 15, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-tem {
   height: 20px;
   left: 5px;
   margin-top: -10px;
   top: 50%;
 }
-/* line 37, ../sass/module_new.scss */
+/* line 21, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-nas {
   height: 20px;
   margin-top: -10px;
   right: 5px;
   top: 50%;
 }
-/* line 43, ../sass/module_new.scss */
+/* line 27, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-inf {
   bottom: 5px;
   width: 100%;
 }
 
-/* line 52, ../sass/module_new.scss */
-.event.examination.view .gonio-cross {
+/* line 35, ../sass/components/_gonio-cross.scss */
+.event.view .gonio-cross {
   height: 80px;
   width: 120px;
 }
-/* line 55, ../sass/module_new.scss */
-.event.examination.view .gonio-cross .gonio-sup {
+/* line 38, ../sass/components/_gonio-cross.scss */
+.event.view .gonio-cross .gonio-sup {
   top: 5px;
 }
-/* line 58, ../sass/module_new.scss */
-.event.examination.view .gonio-cross .gonio-tem {
+/* line 41, ../sass/components/_gonio-cross.scss */
+.event.view .gonio-cross .gonio-tem {
   left: 15px;
 }
-/* line 61, ../sass/module_new.scss */
-.event.examination.view .gonio-cross .gonio-nas {
+/* line 44, ../sass/components/_gonio-cross.scss */
+.event.view .gonio-cross .gonio-nas {
   right: 15px;
 }
-/* line 64, ../sass/module_new.scss */
-.event.examination.view .gonio-cross .gonio-inf {
+/* line 47, ../sass/components/_gonio-cross.scss */
+.event.view .gonio-cross .gonio-inf {
   bottom: 5px;
 }
