@@ -21,7 +21,7 @@
 <?php if ($element->no_treatment) {?>
 	<div class="eventDetail">
 		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('no_treatment_reason_id'))?></div>
-		<div class="data"><?php echo $element->no_treatment_reason ? $element->no_treatment_reason->name : 'Not specified'?></div>
+		<div class="data"><?php echo $element->no_treatment_reason ? $element->getNoTreatmentReasonName() : 'Not specified'?></div>
 	</div>
 <?php } else { ?>
 	<div class="cols2 clearfix">

@@ -18,6 +18,30 @@
  */
 ?>
 
+<?php
+	$no_treatment = $element->no_treatment;
+	$no_treatment_reason = $element->no_treatment_reason;
+	if (isset($_POST[get_class($element)])) {
+		$no_treatment = $_POST[get_class($element)]['no_treatment'];
+		$no_treatment_reason = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk((int)@$_POST[get_class($element)]['no_treatment_reason_id']);
+	}
+	$show_no_treatment_reason_other = false;
+	if ($no_treatment_reason && $no_treatment_reason->other) {
+		$show_no_treatment_reason_other = true;
+	}
+
+	$no_treatment_reasons = $element->getNoTreatmentReasons();
+	$no_treatment_reasons_opts = array(
+		'options' => array(),
+		'empty'=>'- Please select -',
+		'nowrapper' => true,
+	);
+	foreach ($no_treatment_reasons as $ntr) {
+		$no_treatment_reasons_opts['options'][$ntr->id] = array('data-other' => $ntr->other ? '1' : '0');
+	}
+
+?>
+
 <div id="div_<?php echo get_class($element)?>_no_treatment"
 	class="eventDetail">
 	<div class="label">
@@ -30,14 +54,23 @@
 	</div>
 </div>
 
-<div id="div_<?php echo get_class($element)?>_no_treatment_reason_id" class="eventDetail"<?php if (!$element->no_treatment) {?> style="display: none;"<?php }?>>
+<div id="div_<?php echo get_class($element)?>_no_treatment_reason_id" class="eventDetail"<?php if (!$no_treatment) {?> style="display: none;"<?php }?>>
 	<div class="label">
 		<?php echo $element->getAttributeLabel('no_treatment_reason_id') ?>
 	</div>
 	<div class="data">
 		<?php echo $form->dropDownlist($element, 'no_treatment_reason_id',
-				CHtml::listData($element->getNoTreatmentReasons(),'id','name'),
-				array('empty'=>'- Please select -', 'nowrapper' => true)) ?>
+				CHtml::listData($no_treatment_reasons,'id','name'),
+				$no_treatment_reasons_opts) ?>
+	</div>
+</div>
+
+<div id="div_<?php echo get_class($element)?>_no_treatment_reason_other" class="eventDetail" <?php if (!$show_no_treatment_reason_other) {?> style="display: none;"<?php }?>>
+	<div class="label">
+		<?php echo $element->getAttributeLabel('no_treatment_reason_other') ?>
+	</div>
+	<div class="data">
+		<?php echo $form->textArea($element, 'no_treatment_reason_other', array('rows' => 4, 'cols' => 50, 'nowrapper' => true)) ?>
 	</div>
 </div>
 

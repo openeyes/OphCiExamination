@@ -25,6 +25,7 @@
  * @property integer $event_id
  * @property boolean $no_treatment
  * @property integer $no_treatment_reason_id
+ * @property string $no_treatment_reason_other
  * @property integer $left_diagnosis1_id
  * @property integer $right_diagnosis1_id
  * @property integer $left_diagnosis2_id
@@ -69,9 +70,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis1_id, right_diagnosis1_id,' .
-						'left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
+				array('event_id, eye_id, no_treatment, no_treatment_reason_id, no_treatment_reason_other, left_diagnosis1_id,
+						right_diagnosis1_id, left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
 				array('no_treatment', 'required'),
+				array('no_treatment_reason_id', 'requiredIfNoTreatment'),
+				array('no_treatment_reason_other', 'requiredIfNoTreatmentOther'),
 				array('left_diagnosis1_id', 'requiredIfTreatment', 'side' => 'left'),
 				array('right_diagnosis1_id', 'requiredIfTreatment', 'side' => 'right'),
 				array('left_diagnosis2_id', 'requiredIfSecondary', 'side' => 'left', 'dependent' => 'left_diagnosis1_id'),
@@ -125,8 +128,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'no_treatment' => "No Treatment",
-				'no_treatment_reason_id' => 'Reason for No Treatment',
+				'no_treatment' => "No treatment",
+				'no_treatment_reason_id' => 'Reason for no treatment',
+				'no_treatment_reason_other' => 'Please provide other reason for no treatment',
 				'left_diagnosis1_id' => 'Diagnosis',
 				'right_diagnosis1_id' => 'Diagnosis',
 				'left_diagnosis2_id' => 'Secondary to',
@@ -164,7 +168,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 
 	/**
 	 * extends standard delete method to remove any risk assignments made to it
-	 * 
+	 *
 	 * (non-PHPdoc)
 	 * @see CActiveRecord::delete()
 	 */
@@ -186,9 +190,25 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 			$transaction->rollback();
 			throw $e;
 		}
-		
+
 	}
-	
+
+	/**
+	 * get the reason for no treatment as a string
+	 *
+	 * @return string
+	 */
+	public function getNoTreatmentReasonName() {
+		if ($ntr = $this->no_treatment_reason) {
+			if ($ntr->other) {
+				return $this->no_treatment_reason_other;
+			}
+			else {
+				return $ntr->name;
+			}
+		}
+	}
+
 	/**
 	 * validate that all the questions for the set diagnosis have been answered
 	 *
@@ -306,6 +326,12 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 	}
 
+	/**
+	 * get the risk options for a given side.
+	 *
+	 * @param $side
+	 * @return array
+	 */
 	public function getRisksForSide($side)
 	{
 		$criteria = new CDbCriteria;
@@ -362,7 +388,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return $reasons;
 	}
 
-	/*
+	/**
 	 * get the relevant questions for the given side
 	 *
 	 * @param string $side - 'left' or 'right'
@@ -527,9 +553,35 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 	}
 
-	/*
+	/**
+	 * checks value defined when no treatment is set on the element
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function requiredIfNoTreatment($attribute, $params)
+	{
+		if ($this->no_treatment && is_null($this->$attribute) ) {
+			$this->addError($attribute, $this->getAttributeLabel($attribute) . " must be provided when there is no treatment");
+		}
+	}
+
+	/**
+	 * checks $attribute defined when the no treatment reason is an 'other' type
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function requiredIfNoTreatmentOther($attribute, $params)
+	{
+		if ($this->no_treatment_reason && $this->no_treatment_reason->other && (is_null($this->$attribute) || strlen(trim($this->$attribute)) == 0) ) {
+			$this->addError($attribute, $this->getAttributeLabel($attribute) . " must be provided for " . $this->no_treatment_reason->name . ' no treatment reason');
+		}
+	}
+
+	/**
 	 * check a level 2 diagnosis is provided for level 1 diagnoses that require it (need to check the side as well though)
-	*/
+	 */
 	public function requiredIfSecondary($attribute, $params)
 	{
 		if (($params['side'] == 'left' && $this->eye_id != Eye::RIGHT) || ($params['side'] == 'right' && $this->eye_id != Eye::LEFT)) {
