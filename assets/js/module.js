@@ -1508,13 +1508,15 @@ function OphCiExamination_InjectionManagementComplex_loadQuestions(side) {
 		'url': OphCiExamination_loadQuestions_url + '?' + $.param(params),
 		'success': function(html) {
 			// ensure we maintain any answers for questions that still remain after load (e.g. only level 2 has changed)
-			var answers = new Array();
+			var answers = {};
 			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').find('input:radio:checked').each(function() {
-				answers.push($(this).attr('id'));
+				answers[$(this).attr('id')] = $(this).val();
 			});
 			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
-			for (var i = 0; i < answers.length; i++) {
-				$('#'+answers[i]).attr('checked', 'checked');
+			for (var ans in answers) {
+				if (answers.hasOwnProperty(ans)) {
+					$('#'+ans+'[value='+answers[ans]+']').attr('checked', 'checked');
+				}
 			}
 		}
 	});
