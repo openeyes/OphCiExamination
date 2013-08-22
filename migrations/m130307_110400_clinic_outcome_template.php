@@ -1,8 +1,9 @@
 <?php
 
-class m130307_110400_clinic_outcome_template extends OEMigration {
-	
-	public function up() {
+class m130307_110400_clinic_outcome_template extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_clinicoutcome_template', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'followup_quantity' => 'int(10) unsigned',
@@ -30,7 +31,8 @@ class m130307_110400_clinic_outcome_template extends OEMigration {
 		$this->alterColumn('ophciexamination_glaucomarisk_risk', 'clinicoutcome_template_id', 'int(10) unsigned NOT NULL');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropForeignKey('ophciexamination_glaucomarisk_risk_coti_fk', 'ophciexamination_glaucomarisk_risk');
 		$this->dropColumn('ophciexamination_glaucomarisk_risk', 'clinicoutcome_template_id');
 		$this->dropTable('ophciexamination_clinicoutcome_template');

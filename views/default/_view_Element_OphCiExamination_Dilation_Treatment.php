@@ -19,6 +19,9 @@
 ?>
 <tr>
 	<td>
+		<?php echo date('H:i', strtotime($treatment->treatment_time))?>
+	</td>
+	<td>
 		<span><?php echo $treatment->drug->name?></span>
 	</td>
 	<td>

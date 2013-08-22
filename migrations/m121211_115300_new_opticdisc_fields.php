@@ -1,8 +1,9 @@
 <?php
 
-class m121211_115300_new_opticdisc_fields extends OEMigration {
-
-	public function up() {
+class m121211_115300_new_opticdisc_fields extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_opticdisc_cd_ratio', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(64) NOT NULL',
@@ -24,20 +25,21 @@ class m121211_115300_new_opticdisc_fields extends OEMigration {
 		$this->addColumn('et_ophciexamination_opticdisc', 'right_cd_ratio_id', 'int(10) unsigned NOT NULL DEFAULT '.$default_ratio_id);
 		$this->addForeignKey('et_ophciexamination_opticdisc_left_cd_ratio_id_fk', 'et_ophciexamination_opticdisc', 'left_cd_ratio_id', 'ophciexamination_opticdisc_cd_ratio', 'id');
 		$this->addForeignKey('et_ophciexamination_opticdisc_right_cd_ratio_id_fk', 'et_ophciexamination_opticdisc', 'right_cd_ratio_id', 'ophciexamination_opticdisc_cd_ratio', 'id');
-		
+
 		$this->renameColumn('et_ophciexamination_opticdisc', 'left_size', 'left_diameter');
 		$this->renameColumn('et_ophciexamination_opticdisc', 'right_size', 'right_diameter');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->renameColumn('et_ophciexamination_opticdisc', 'left_diameter', 'left_size');
 		$this->renameColumn('et_ophciexamination_opticdisc', 'right_diameter', 'right_size');
-		
+
 		$this->dropForeignKey('et_ophciexamination_opticdisc_left_cd_ratio_id_fk', 'et_ophciexamination_opticdisc');
 		$this->dropForeignKey('et_ophciexamination_opticdisc_right_cd_ratio_id_fk', 'et_ophciexamination_opticdisc');
 		$this->dropColumn('et_ophciexamination_opticdisc', 'left_cd_ratio_id');
 		$this->dropColumn('et_ophciexamination_opticdisc', 'right_cd_ratio_id');
 		$this->dropTable('ophciexamination_opticdisc_cd_ratio');
 	}
-	
+
 }

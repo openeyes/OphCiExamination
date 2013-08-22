@@ -25,9 +25,12 @@
 		</div>
 		<div class="headerInfo">
 			<div class="patientDetails">
-				<strong><?php echo $this->patient->addressname?></strong>
+				<strong><?php echo $this->patient->contact->fullName?></strong>
 				<br />
-				<?php echo $this->patient->address ? $this->patient->address->getLetterHtml() : ''?>
+				<?php echo $this->patient->getLetterAddress(array(
+					'include_name' => true,
+					'delimiter' => '<br/>',
+				))?>
 				<br>
 				<br>
 				Hospital No: <strong><?php echo $this->patient->hos_num ?></strong>
@@ -37,7 +40,7 @@
 				DOB: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
 			</div>
 			<div class="headerDetails">
-				<?php if ($consultant = $this->event->episode->firm->getConsultant()) { ?>
+				<?php if ($consultant = $this->event->episode->firm->consultant) { ?>
 				<strong><?php echo $consultant->contact->getFullName() ?></strong>
 				<br>
 				<?php } ?>
@@ -50,7 +53,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="body">
 		<?php $this->renderDefaultElements('print'); ?>
 		<div class="metaData clear">
@@ -63,23 +66,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		// function for printing
-		printFn = function() {
-			window.print();
-		};
-
-		// check to see if the eyedraw libraries are loaded (which implies that we have eyedraws
-		// on the page) If they are, then use that to call the print function when ready, otherwise 
-		// we can just call it straight off
-		if (typeof(getOeEyeDrawChecker) === 'function') {
-			edChecker = getOEEyeDrawChecker();	
-			edChecker.registerForReady(printFn);
-		}
-		else {
-			printFn();
-		}
-	});
-	
-</script>

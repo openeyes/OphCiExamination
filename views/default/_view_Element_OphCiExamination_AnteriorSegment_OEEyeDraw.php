@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php 
+<?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
@@ -29,8 +29,8 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ));
 ?>
 <div class="eyedrawFields view">
-	<?php if($description = $element->{$side.'_description'}) { ?>
-	<div>
+	<?php if ($description = $element->{$side.'_description'}) { ?>
+	<div class="description">
 		<div class="data">
 			<?php echo $description ?>
 		</div>
@@ -63,14 +63,14 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			<?php echo $element->{$side.'_cortical'}->name ?>
 		</div>
 	</div>
-	<?php if($element->{$side.'_pxe'}) { ?>
+	<?php if ($element->{$side.'_pxe'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->getAttributeLabel($side.'_pxe') ?>
 		</div>
 	</div>
 	<?php } ?>
-	<?php if($element->{$side.'_phako'}) { ?>
+	<?php if ($element->{$side.'_phako'}) { ?>
 	<div>
 		<div class="data">
 			<?php echo $element->getAttributeLabel($side.'_phako') ?>

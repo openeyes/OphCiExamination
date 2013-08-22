@@ -23,7 +23,7 @@
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<?php if(!@$child) { ?>
+	<?php if (!@$child) { ?>
 	<h2><?php echo $element->elementType->name; ?></h2>
 	<?php } else { ?>
 	<h3><?php echo $element->elementType->name; ?></h3>
@@ -33,7 +33,7 @@
 			'_print_' . $element->view_view,
 			array('element' => $element, 'data' => $data, 'form' => $form)
 		); ?>
-		<?php if(!@$child) { ?>
+		<?php if (!@$child) { ?>
 		<div class="child_elements">
 			<?php $this->renderChildDefaultElements($element, 'print', $form, $data); ?>
 		</div>

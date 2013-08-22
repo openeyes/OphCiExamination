@@ -30,33 +30,37 @@
  * @property string $role_comments
  */
 
-class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
+class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
+{
 	const FOLLOWUP_Q_MIN = 1;
 	const FOLLOWUP_Q_MAX = 12;
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_ClinicOutcome the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_clinicoutcome';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, followup_quantity, followup_period_id, role_id, role_comments', 'safe'),
+				array('event_id, followup_quantity, followup_period_id, role_id, role_comments, community_patient', 'safe'),
 				array('status_id', 'required'),
 				array('status_id', 'statusDependencyValidation'),
 				array('role_id', 'roleDependencyValidation'),
@@ -68,7 +72,8 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -84,7 +89,8 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -93,6 +99,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 				'followup_period_id' => 'Follow-up period',
 				'role_id' => 'Role',
 				'role_comments' => 'Role comment',
+				'community_patient' => 'Patient suitable for community patient tariff',
 		);
 	}
 
@@ -100,8 +107,8 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
-
+	public function search()
+	{
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
@@ -113,65 +120,71 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement {
 		$criteria->compare('followup_period_id', $this->followup_period_id);
 		$criteria->compare('role_id', $this->role_id);
 		$criteria->compare('role_comments', $this->role_comments);
-		
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
-	
+
 	/**
 	 * Follow up data is only required for status status that are flagged for follow up
 	 * @property string $attribute
 	 */
-	public function statusDependencyValidation($attribute) {
+	public function statusDependencyValidation($attribute)
+	{
 		if ($this->status_id && $this->status->followup) {
 			$v = CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
 			$v->validate($this);
 		}
 	}
-	
+
 	/**
 	 * Role comments are only required if role flags it
 	 * @property string $attribute
 	 */
-	public function roleDependencyValidation($attribute) {
+	public function roleDependencyValidation($attribute)
+	{
 		if ($this->role && $this->role->requires_comment
 				&& !trim($this->role_comments)) {
 			$this->addError($attribute, 'Role requires a comment');
 		}
 	}
-	
-	public function getFollowUpQuantityOptions() {
+
+	public function getFollowUpQuantityOptions()
+	{
 		$opts = array();
 		for ($i = self::FOLLOWUP_Q_MIN; $i <= self::FOLLOWUP_Q_MAX; $i++) {
-			$opts[(string)$i] = $i;
+			$opts[(string) $i] = $i;
 		}
 		return $opts;
 	}
-	
-	public function getFollowUp() {
+
+	public function getFollowUp()
+	{
 		if ($this->status->followup) {
 			return $this->followup_quantity . ' ' . $this->followup_period;
 		}
 	}
-	
+
 	/**
 	 * Returns the follow up period information
-	 * 
+	 *
 	 * @return string
 	 */
-	public function getLetter_fup() {
+	public function getLetter_fup()
+	{
 		$text = array();
-		
+
 		$text[] = $this->getFollowUp();
 		$text[] = $this->role->name;
-		if($this->role_comments) {
+		if ($this->role_comments) {
 			$text[] = '(' . $this->role_comments . ')';
 		}
 		return implode(' ', $text);
 	}
-	
-	public function afterSave() {
+
+	public function afterSave()
+	{
 		// Update Episode status when outcome is saved
 		if ($this->status) {
 			if ($this->event->isLatestOfTypeInEpisode()) {

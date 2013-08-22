@@ -19,7 +19,10 @@
 ?>
 <tr class="dilationTreatment" data-key="<?php echo $key ?>">
 	<td>
-		<?php if(isset($treatment) && $treatment->id) { ?>
+		<?php echo CHtml::textField('dilation_treatment['.$key.'][treatment_time]',isset($treatment) ? substr($treatment->treatment_time,0,5) : date('H:i'),array('size'=>'6'))?>
+	</td>
+	<td>
+		<?php if (isset($treatment) && $treatment->id) { ?>
 		<input type="hidden"
 			name="dilation_treatment[<?php echo $key ?>][id]"
 			value="<?php echo $treatment->id?>" />

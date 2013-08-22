@@ -1,8 +1,9 @@
 <?php
 
-class m130308_145200_clinic_outcome_role extends OEMigration {
-	
-	public function up() {
+class m130308_145200_clinic_outcome_role extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_clinicoutcome_role', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(64) NOT NULL',
@@ -25,7 +26,8 @@ class m130308_145200_clinic_outcome_role extends OEMigration {
 		$this->initialiseData($migrations_path);
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropForeignKey('et_ophciexamination_clinicoutcome_ri_fk', 'et_ophciexamination_clinicoutcome');
 		$this->dropColumn('et_ophciexamination_clinicoutcome', 'role_id');
 		$this->dropColumn('et_ophciexamination_clinicoutcome', 'role_comments');

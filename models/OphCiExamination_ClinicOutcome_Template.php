@@ -23,29 +23,32 @@
  * @property integer $id
  * @property OphCiExamination_ClinicOutcome_Status $clinic_outcome_status
  * @property integer $followup_quantity
- * @property Period $followup_period 
+ * @property Period $followup_period
  */
-class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord {
-
+class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_ClinicOutcome_Status the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_clinicoutcome_template';
 	}
 
 	/**
 	 * @return array validation rules for model
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('clinic_outcome_status_id', 'required'),
 				array('followup_quantity, followup_period_id', 'safe'),
@@ -60,7 +63,8 @@ class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'clinic_outcome_status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
 				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
@@ -71,7 +75,8 @@ class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		return new CActiveDataProvider(get_class($this), array(

@@ -17,13 +17,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array('Geographic','VitreousOpacity','DiabeticNV','CNV','Circinate','CystoidMacularOedema','EpiretinalMembrane','HardDrusen','PRPPostPole','MacularHole'),
+		'doodleToolBarArray' => array(
+				array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
+				array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
+				array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
+				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+		),
 		'onReadyCommandArray' => array(
 				array('addDoodle', array('PostPole')),
 				array('deselectDoodles', array()),
 		),
+		'listenerArray' => array('posteriorListener'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'edit',

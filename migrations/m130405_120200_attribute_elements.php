@@ -1,8 +1,9 @@
 <?php
 
-class m130405_120200_attribute_elements extends OEMigration {
-
-	public function up() {
+class m130405_120200_attribute_elements extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_attribute_element',array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'attribute_id' => 'int(10) unsigned NOT NULL',
@@ -21,17 +22,17 @@ class m130405_120200_attribute_elements extends OEMigration {
 		 ->select('id, element_type_id')
 		 ->from('ophciexamination_attribute')
 		 ->queryAll();
-		foreach($attributes as $attribute) {
+		foreach ($attributes as $attribute) {
 			$this->insert('ophciexamination_attribute_element', array('attribute_id' => $attribute['id'], 'element_type_id' => $attribute['element_type_id']));
 		}
 		$this->dropColumn('ophciexamination_attribute', 'element_type_id');
-		
+
 		$this->addColumn('ophciexamination_attribute_option', 'attribute_element_id', 'int(10) unsigned');
 		$options = $this->getDbConnection()->createCommand()
 		 ->select('id, attribute_id')
 		 ->from('ophciexamination_attribute_option')
 		 ->queryAll();
-		foreach($options as $option) {
+		foreach ($options as $option) {
 			$attribute_element_id = $this->getDbConnection()->createCommand()
 			 ->select('id')
 			 ->from('ophciexamination_attribute_element')

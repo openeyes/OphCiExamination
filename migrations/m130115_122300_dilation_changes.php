@@ -1,9 +1,9 @@
 <?php
 
-class m130115_122300_dilation_changes extends OEMigration {
-	
-	public function up() {
-
+class m130115_122300_dilation_changes extends OEMigration
+{
+	public function up()
+	{
 		$this->addColumn('et_ophciexamination_dilation', 'left_time', 'time NOT NULL');
 		$this->addColumn('et_ophciexamination_dilation', 'right_time', 'time NOT NULL');
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
@@ -33,15 +33,16 @@ class m130115_122300_dilation_changes extends OEMigration {
 		);
 		$this->dropTable('ophciexamination_dilation_drug');
 		$this->dropTable('ophciexamination_dilation_side');
-		
+
 	}
 
-	public function down() {
+	public function down()
+	{
 		// TODO: Recreate old tables
 		$this->dropTable('ophciexamination_dilation_treatment');
 		$this->dropColumn('et_ophciexamination_dilation', 'left_time');
 		$this->dropColumn('et_ophciexamination_dilation', 'right_time');
 		$this->alterColumn('et_ophciexamination_dilation','eye_id','int(10) unsigned NULL');
 	}
-	
+
 }

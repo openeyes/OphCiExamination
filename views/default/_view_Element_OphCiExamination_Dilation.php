@@ -20,11 +20,11 @@
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if ($element->hasRight()) {?>
-				<span>Dilation given at <?php echo date('H:i', strtotime($element->right_time)); ?></span>
 				<div class="grid-view dilation_table">
 					<table>
 						<thead>
 							<tr>
+								<th style="width: 15px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
@@ -36,17 +36,17 @@
 						</tbody>
 					</table>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<span>None given.</span>
 			<?php }?>
 		</div>
 		<div class="right eventDetail">
 			<?php if ($element->hasLeft()) {?>
-				<span>Dilation given at <?php echo date('H:i', strtotime($element->left_time)); ?></span>
 				<div class="grid-view dilation_table">
 					<table>
 						<thead>
 							<tr>
+								<th style="width: 15px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
@@ -58,7 +58,7 @@
 						</tbody>
 					</table>
 				</div>
-			<?php }else{?>
+			<?php } else {?>
 				<span>None given</span>
 			<?php }?>
 		</div>

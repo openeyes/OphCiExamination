@@ -27,33 +27,37 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
+class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
+{
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_CataractManagement the static model class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_cataractmanagement';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye', 'safe'),
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery', 'required'),
+				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, eye_id', 'safe'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, eye_id', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery', 'safe', 'on' => 'search'),
@@ -63,7 +67,8 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -72,13 +77,15 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_SuitableForSurgeon', 'suitable_for_surgeon_id'),
+				'eye' => array(self::BELONGS_TO, 'OphCiExamination_CataractManagement_Eye', 'eye_id'),
 		);
 	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -91,6 +98,7 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 				'supervised' => 'Supervised',
 				'previous_refractive_surgery' => 'Previous refractive surgery',
 				'vitrectomised_eye' => 'Vitrectomised eye',
+				'eye_id' => 'Eye',
 		);
 	}
 
@@ -98,7 +106,8 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -114,7 +123,8 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 		));
 	}
 
-	public function getLetter_string() {
+	public function getLetter_string()
+	{
 		$text = array();
 
 		if ($this->city_road) {
@@ -135,5 +145,27 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement {
 		$text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
 
 		return "Cataract management: ".implode(', ',$text)."\n";
+	}
+
+	public function getFormOptions($table=null)
+	{
+		return CHtml::listData(OphCiExamination_CataractManagement_Eye::model()->findAll(array('order'=>'display_order')),'id','name');
+	}
+
+	public function setDefaultOptions()
+	{
+		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {
+			if ($api = Yii::app()->moduleAPI->get('OphTrOperationnote')) {
+				if (!$patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+					throw new Exception("Patient not found: ".@$_GET['patient_id']);
+				}
+
+				if ($api->getOpnoteWithCataractElementInCurrentEpisode($patient)) {
+					$this->eye_id = OphCiExamination_CataractManagement_Eye::model()->find('name=?',array('Second eye'))->id;
+				} else {
+					$this->eye_id = OphCiExamination_CataractManagement_Eye::model()->find('name=?',array('First eye'))->id;
+				}
+			}
+		}
 	}
 }

@@ -19,7 +19,7 @@
 ?>
 <div class="clearfix eventDetail">
 	<?php
-	if(isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
+	if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
 		$item_ids = @$_POST['comorbidities_items'];
 	} else {
 		$item_ids = $element->getItemIds();

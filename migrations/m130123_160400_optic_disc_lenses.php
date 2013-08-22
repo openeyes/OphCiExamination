@@ -1,8 +1,9 @@
 <?php
 
-class m130123_160400_optic_disc_lenses extends OEMigration {
-	
-	public function up() {
+class m130123_160400_optic_disc_lenses extends OEMigration
+{
+	public function up()
+	{
 		$this->createTable('ophciexamination_opticdisc_lens', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'name' => 'varchar(255)NOT NULL',
@@ -18,12 +19,13 @@ class m130123_160400_optic_disc_lenses extends OEMigration {
 		$this->addForeignKey('et_ophciexamination_opticdisc_rli', 'et_ophciexamination_opticdisc', 'right_lens_id', 'ophciexamination_opticdisc_lens', 'id');
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropForeignKey('et_ophciexamination_opticdisc_lli', 'et_ophciexamination_opticdisc');
 		$this->dropForeignKey('et_ophciexamination_opticdisc_rli', 'et_ophciexamination_opticdisc');
 		$this->dropColumn('et_ophciexamination_opticdisc', 'left_lens_id');
 		$this->dropColumn('et_ophciexamination_opticdisc', 'right_lens_id');
 		$this->dropTable('ophciexamination_opticdisc_lens');
 	}
-	
+
 }

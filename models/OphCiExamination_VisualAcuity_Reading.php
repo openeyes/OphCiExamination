@@ -27,27 +27,30 @@
  * @property integer $method_id
 
  */
-class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
-
+class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_VisualAcuity_Reading the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_visualacuity_reading';
 	}
 
 	/**
 	 * @return array validation rules for model visualacuity_methods.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('id', 'safe'),
 				array('value, method_id, element_id, side', 'required'),
@@ -58,7 +61,8 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_VisualAcuity', 'element_id'),
 				'method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'method_id'),
@@ -69,7 +73,8 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);
@@ -87,7 +92,8 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	 * @param integer $unit_id
 	 * @return string
 	 */
-	public function convertTo($base_value, $unit_id = null) {
+	public function convertTo($base_value, $unit_id = null)
+	{
 		$value = $this->getClosest($base_value, $unit_id);
 		return $value->value;
 	}
@@ -98,9 +104,10 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	 * @param integer $unit_id
 	 * @return OphCiExamination_VisualAcuityUnitValue
 	 */
-	public function getClosest($base_value, $unit_id = null) {
-		if(!$unit_id) {
-			$unit_id = Element_OphCiExamination_VisualAcuity::model()->getUnit()->id;
+	public function getClosest($base_value, $unit_id = null)
+	{
+		if (!$unit_id) {
+			$unit_id = $this->element->unit_id;
 		}
 		$criteria = new CDbCriteria();
 		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');
@@ -115,9 +122,10 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord {
 	 * Load model with closest base_values for current unit. This is to allow for switching units.
 	 * @param integer $unit_id
 	 */
-	public function loadClosest($unit_id = null) {
+	public function loadClosest($unit_id = null)
+	{
 		$base_value = $this->value;
-		if($base_value) {
+		if ($base_value) {
 			$value = $this->getClosest($base_value, $unit_id);
 			$this->value = $value->base_value;
 		}

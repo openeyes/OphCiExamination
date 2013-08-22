@@ -1,11 +1,12 @@
 <?php
 
-class m130121_115900_anterior_segment_cct_element extends OEMigration {
-	
-	public function up() {
+class m130121_115900_anterior_segment_cct_element extends OEMigration
+{
+	public function up()
+	{
 		$event_type_id = Yii::app()->db->createCommand("select id from event_type where class_name = 'OphCiExamination'")->queryScalar();
 		$anterior_segment_id = Yii::app()->db->createCommand("select id from element_type where class_name = 'Element_OphCiExamination_AnteriorSegment'")->queryScalar();
-		
+
 		$this->insert('element_type',array(
 				'name' => 'CCT',
 				'class_name' => 'Element_OphCiExamination_AnteriorSegment_CCT',
@@ -22,7 +23,7 @@ class m130121_115900_anterior_segment_cct_element extends OEMigration {
 			),
 			'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin'
 		);
-		
+
 		$both_eyes_id = Eye::model()->find("name = 'Both'")->id;
 		$this->createTable('et_ophciexamination_anteriorsegment_cct', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
@@ -56,10 +57,11 @@ class m130121_115900_anterior_segment_cct_element extends OEMigration {
 		$this->initialiseData(dirname(__FILE__));
 	}
 
-	public function down() {
+	public function down()
+	{
 		$this->dropTable('et_ophciexamination_anteriorsegment_cct');
 		$this->dropTable('ophciexamination_anteriorsegment_cct_method');
 		$this->delete('element_type',"class_name = 'Element_OphCiExamination_AnteriorSegment_CCT'");
 	}
-	
+
 }

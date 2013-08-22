@@ -22,7 +22,7 @@
 	<input type="hidden" name="dilation_treatments_valid" value="1" />
 	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField')); ?>
 	<div
-		class="side left eventDetail<?php if(!$element->hasRight()) { ?> inactive<?php } ?>"
+		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
 		data-side="right">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
@@ -31,14 +31,11 @@
 				<span class="button-span button-span-green">Clear</span>
 			</button>
 			<?php $right_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'right') : $element->right_treatments); ?>
-			<div class="timeDiv right"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
-				<span class="label">Time:</span>
-				<?php echo CHtml::textField(get_class($element)."[right_time]",isset($_POST[get_class($element)]['right_time']) ? $_POST[get_class($element)]['right_time'] : $element->hasRight() ? substr($element->right_time,0,5) : date('H:i'))?>
-			</div>
 			<div class="grid-view dilation_table"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
+							<th style="width: 20px;">Time</th>
 							<th>Drug</th>
 							<th style="width: 50px;">Drops</th>
 							<th style="width: 40px;"></th>
@@ -64,7 +61,7 @@
 		</div>
 	</div>
 	<div
-		class="side right eventDetail<?php if(!$element->hasLeft()) { ?> inactive<?php } ?>"
+		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } ?>"
 		data-side="left">
 		<div class="activeForm">
 			<a href="#" class="removeSide">-</a>
@@ -73,17 +70,14 @@
 				<span class="button-span button-span-green">Clear</span>
 			</button>
 			<?php $left_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'left') : $element->left_treatments); ?>
-			<div class="timeDiv left"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
-				<span class="label">Time:</span>
-				<?php echo CHtml::textField(get_class($element)."[left_time]",isset($_POST[get_class($element)]['left_time']) ? $_POST[get_class($element)]['left_time'] : $element->hasLeft() ? substr($element->left_time,0,5) : date('H:i'))?>
-			</div>
 			<div class="grid-view dilation_table"<?php if (!$left_treatments) {?> style="display: none;"<?php }?>>
 				<table>
 					<thead>
 						<tr>
+							<th style="width: 20px;">Time</th>
 							<th>Drug</th>
-							<th>Drops</th>
-							<th></th>
+							<th style="width: 50px;">Drops</th>
+							<th style="width: 40px;"></th>
 						</tr>
 					</thead>
 					<tbody id="dilation_left">
@@ -117,6 +111,7 @@
 			'side' => '{{side}}',
 			'drug_name' => '{{drug_name}}',
 			'drug_id' => '{{drug_id}}',
+			'treatment_time' => '{{treatment_time}}',
 	));
 	?>
 </script>

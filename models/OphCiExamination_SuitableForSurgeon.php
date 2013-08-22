@@ -23,27 +23,30 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord {
-
+class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_SuitableForSurgeon the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'ophciexamination_cataractmanagement_suitable_for_surgeon';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 				array('name', 'required'),
 				array('id, name, display_order', 'safe', 'on'=>'search'),
@@ -53,7 +56,8 @@ class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array();
 	}
 
@@ -61,7 +65,8 @@ class OphCiExamination_SuitableForSurgeon extends BaseActiveRecord {
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);

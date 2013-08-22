@@ -1,8 +1,9 @@
 <?php
 
-class m121022_144600_cataract_data_again extends OEMigration {
-
-	public function up() {
+class m121022_144600_cataract_data_again extends OEMigration
+{
+	public function up()
+	{
 		$this->delete('ophciexamination_element_set_item');
 		foreach (Yii::app()->db->createCommand()->select("id")->from("ophciexamination_element_set_rule")->order("id desc")->queryAll() as $rule) {
 			$this->delete("ophciexamination_element_set_rule","id={$rule['id']}");
@@ -12,7 +13,8 @@ class m121022_144600_cataract_data_again extends OEMigration {
 		$this->initialiseData($migrations_path);
 	}
 
-	public function down() {
+	public function down()
+	{
 	}
 
 }

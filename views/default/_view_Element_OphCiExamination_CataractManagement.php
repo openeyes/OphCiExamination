@@ -21,6 +21,10 @@
 		<table class="subtleWhite normalText">
 			<tbody>
 				<tr>
+					<th><?php echo CHtml::encode($element->getAttributeLabel('eye_id'))?></th>
+					<td><?php echo $element->eye ? $element->eye->name : 'Not specified'?></td>
+				</tr>
+				<tr>
 					<th><?php echo CHtml::encode($element->getAttributeLabel('city_road'))?></th>
 					<td><?php echo $element->city_road ? 'Yes' : 'No'?></td>
 				</tr>

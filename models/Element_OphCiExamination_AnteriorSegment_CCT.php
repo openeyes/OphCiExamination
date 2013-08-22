@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * OpenEyes
  *
@@ -32,52 +32,58 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement {
-
+class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
+{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_AnteriorSegment_CCT
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'et_ophciexamination_anteriorsegment_cct';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
 				array('eye_id, event_id', 'safe'),
 				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
-				array('left_value', 'numerical', 'integerOnly' => false, 'numberPattern' => '/^[0-9]{1,3}(\.[0-9])?$/', 'message' => 'Left Value must be 0.0 - 999.9'),
-				array('right_value', 'numerical', 'integerOnly' => false, 'numberPattern' => '/^[0-9]{1,3}(\.[0-9])?$/', 'message' => 'Right Value must be 0.0 - 999.9'),
+				array('left_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
+				array('right_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_method_id, right_method_id, left_value, right_value', 'safe', 'on' => 'search'),
 		);
 	}
 
-	public function sidedFields() {
+	public function sidedFields()
+	{
 		return array('value', 'method_id');
 	}
-	
-	public function sidedDefaults() {
+
+	public function sidedDefaults()
+	{
 		return array();
 	}
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
@@ -92,7 +98,8 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
@@ -107,7 +114,8 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search() {
+	public function search()
+	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -119,22 +127,11 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		$criteria->compare('right_value', $this->right_value);
 		$criteria->compare('left_method_id', $this->left_method_id);
 		$criteria->compare('right_method_id', $this->right_method_id);
-		
+
+
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
-	}
-
-	protected function beforeSave() {
-		return parent::beforeSave();
-	}
-
-	protected function afterSave() {
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate() {
-		return parent::beforeValidate();
 	}
 
 }

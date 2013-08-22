@@ -17,9 +17,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExaminationModule extends BaseEventTypeModule {
-	
-	public function init() {
+class OphCiExaminationModule extends BaseEventTypeModule
+{
+	public function init()
+	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 
@@ -31,15 +32,14 @@ class OphCiExaminationModule extends BaseEventTypeModule {
 		parent::init();
 	}
 
-	public function beforeControllerAction($controller, $action) {
-		if(parent::beforeControllerAction($controller, $action))
-		{
+	public function beforeControllerAction($controller, $action)
+	{
+		if (parent::beforeControllerAction($controller, $action)) {
 			// this method is called before any module controller action is performed
 			// you may place customized code here
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
-	
+
 }
