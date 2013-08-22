@@ -1425,6 +1425,39 @@ function OphCiExamination_Management_init() {
 	updateBookingWeeks();
 }
 
+/**
+ * partner function to unmaskFields, will empty the input fields in the given element, ignoring
+ * fields that match the given selector in ignore
+ *
+ * @param element
+ * @param ignore
+ */
+function maskFields(element, ignore) {
+	if (element.is(':visible')) {
+		element.find('input, select, textarea').filter(':not('+ignore+')').each( function() {
+			debugger;
+			$(this).data('stored-val', $(this).val());
+			$(this).val('');
+		});
+		element.hide();
+	}
+}
+
+/**
+ * partner function maskFields, will set values back into input fields in the given element that have been masked,
+ * ignoring fields that match the given selector in ignore
+ *
+ * @param element
+ * @param ignore
+ */
+function unmaskFields(element, ignore) {
+	if (!element.is(':visible')) {
+		element.find('input, select, textarea').filter(':not('+ignore+')').each( function() {
+			$(this).val($(this).data('stored-val'));
+		});
+		element.show();
+	}
+}
 
 function OphCiExamination_InjectionManagementComplex_check() {
 	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').length >0) {
@@ -1434,10 +1467,8 @@ function OphCiExamination_InjectionManagementComplex_check() {
 	}
 
 	if (val) {
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('input, select').each(function() { $(this).removeAttr('disabled')});
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').show();
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').hide();
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).attr('disabled', 'disabled'); });
+		unmaskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id'));
+		maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields'),'[id$="eye_id"]');
 
 		// if we have an other selection on no treatment, need to display the text field
 		var selVal = $('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('select').val();
@@ -1451,18 +1482,16 @@ function OphCiExamination_InjectionManagementComplex_check() {
 			}
 		});
 		if (other) {
-			$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other').find('textarea').each(function() { $(this).removeAttr('disabled')});
-			$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other').show();
+			unmaskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other'));
 		}
 		else {
-			$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other').hide().find('textarea').each(function() { $(this).attr('disabled','disabled')});
+			maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other'));
 		}
 	}
 	else {
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').hide().find('input, select').each(function() { $(this).attr('disabled', 'disabled')});
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other').hide().find('textarea').each(function() { $(this).attr('disabled','disabled')});
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').find('input, select, textarea').each(function() { $(this).removeAttr('disabled'); });
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields').show();
+		maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id'));
+		maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_other'));
+		unmaskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_treatment_fields'),'[id$="eye_id"]');
 	}
 }
 
