@@ -113,6 +113,21 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 		));
 	}
 
+    /**
+     * Set default values for forms on create
+     */
+    public function setDefaultOptions() {
+        if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+            if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+                if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+                    if ($element=$api->getHistory($episode->id)) {
+                        $this->description = $element;
+                    }
+                }
+            }
+        }
+    }
+
 	public function getLetter_string()
 	{
 		return "History: $this->description\n";
