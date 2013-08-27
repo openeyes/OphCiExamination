@@ -27,6 +27,19 @@
   background-image: url('../img/new/medium.png?1376987159');
 }
 
+/* line 2, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data {
+  border-top: 4px solid #000;
+}
+/* line 4, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye {
+  border-right: 2px solid #000;
+}
+/* line 7, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .right-eye {
+  text-align: right;
+}
+
 /* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
   background: url('../img/new/cross.gif?1376987159') no-repeat center center;
