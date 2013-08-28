@@ -181,20 +181,20 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('left')."\n";
 	}
 
-    public function setDefaultOptions() {
+	public function setDefaultOptions() {
 
-        if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
-            if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
-                if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-                    if ($element=$api->getRefractionElement($episode->id)) {
-                            foreach ($element as $key => $value) {
-                                if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key))
-                                    $this->{$key} = $value;
-                        }
-                    }
-                }
-            }
-        }
-    }
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+				if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+					if ($element=$api->getRefractionElement($episode->id)) {
+							foreach ($element as $key => $value) {
+								if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key))
+									$this->{$key} = $value;
+						}
+					}
+				}
+			}
+		}
+	}
 
 }

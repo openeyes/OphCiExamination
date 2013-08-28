@@ -28,83 +28,83 @@
  */
 class OphCiExamination_EyeDrawBase extends BaseEventTypeElement
 {
-    /** This is the array of doodle names that will be used to detect
-     * if the mage string has been set or not. The names are modelled
-     * directly on the OEEyeDrawWidget DoodleInfo class titles.
-     */
-    private $doodleInfo = array();
+	/** This is the array of doodle names that will be used to detect
+	 * if the mage string has been set or not. The names are modelled
+	 * directly on the OEEyeDrawWidget DoodleInfo class titles.
+	 */
+	private $doodleInfo = array();
 
-    /**
-     * Set the titles of the eyedraw component. This is done by callers
-     *
-     *
-     * @param type $titles an array of strings containing the DoodleInfo
-     * titles to check to see if the eyedraw string has been set or not.
-     */
-    public function setDoodleInfo($titles)
-    {
-        $this->doodleInfo = $titles;
-    }
+	/**
+	 * Set the titles of the eyedraw component. This is done by callers
+	 *
+	 *
+	 * @param type $titles an array of strings containing the DoodleInfo
+	 * titles to check to see if the eyedraw string has been set or not.
+	 */
+	public function setDoodleInfo($titles)
+	{
+		$this->doodleInfo = $titles;
+	}
 
-    /**
-     * Gets the doodle info that has been set on this class
-     *
-     * @return array the doodle info; if no doodle info has been set,
-     * the empty array is returned.
-     */
-    public function getDoodleInfo()
-    {
-        return $this->doodleInfo;
-    }
+	/**
+	 * Gets the doodle info that has been set on this class
+	 *
+	 * @return array the doodle info; if no doodle info has been set,
+	 * the empty array is returned.
+	 */
+	public function getDoodleInfo()
+	{
+		return $this->doodleInfo;
+	}
 
-    /**
-     * Does the image string for this EyeDraw object contain any of
-     * the EyeDraw doodles?
-     *
-     * @param string $side a string with it's first character an 'l' (for left) or 'r' (for right).
-     * @return boolean true of the image string contains
-     */
-    public function isImageStringSet($side)
-    {
-        $image_string = false;
-        if ($side && strtolower($side{0}) == 'l') {
-            $image_string = $this->checkItems($this->doodleInfo,
-                    $this->image_string_left);
-        } elseif ($side && strtolower($side{0}) == 'r') {
-            $image_string = $this->checkItems($this->doodleInfo,
-                    $this->image_string_right);
-        }
-        return $image_string;
-    }
+	/**
+	 * Does the image string for this EyeDraw object contain any of
+	 * the EyeDraw doodles?
+	 *
+	 * @param string $side a string with it's first character an 'l' (for left) or 'r' (for right).
+	 * @return boolean true of the image string contains
+	 */
+	public function isImageStringSet($side)
+	{
+		$image_string = false;
+		if ($side && strtolower($side{0}) == 'l') {
+			$image_string = $this->checkItems($this->doodleInfo,
+					$this->image_string_left);
+		} elseif ($side && strtolower($side{0}) == 'r') {
+			$image_string = $this->checkItems($this->doodleInfo,
+					$this->image_string_right);
+		}
+		return $image_string;
+	}
 
-    /**
-     * Checks to see if the specified image string contains any of the strings
-     * given in the items array.
-     *
-     * @param string[] $contents an array of string to look for in the image string.
-     * @param string $image_string the non-null image string in the form of a JSON EyeDraw string.
-     * @return boolean true if any of the items exist; false otherwise.
-     */
-    private function checkItems($contents, $image_string)
-    {
-        $hasValues = false;
-        /* Dirty hack - see if any of the angle grades have values different
-         * to -176 - if they have, it's been set; else move on: */
-        $json = json_decode($image_string);
-        if ($json) {
-            foreach ($json as $element) {
-                if ($element->{'subclass'} == "AngleGrade") {
-                    if ($element->{'apexY'} != -176) {
-                        $hasValues = true;
-                    }
-                }
-            }
-        }
-        foreach ($contents as $item) {
-            if (strpos($image_string, $item) !== false) {
-                $hasValues = true;
-            }
-        }
-        return $hasValues;
-    }
+	/**
+	 * Checks to see if the specified image string contains any of the strings
+	 * given in the items array.
+	 *
+	 * @param string[] $contents an array of string to look for in the image string.
+	 * @param string $image_string the non-null image string in the form of a JSON EyeDraw string.
+	 * @return boolean true if any of the items exist; false otherwise.
+	 */
+	private function checkItems($contents, $image_string)
+	{
+		$hasValues = false;
+		/* Dirty hack - see if any of the angle grades have values different
+		 * to -176 - if they have, it's been set; else move on: */
+		$json = json_decode($image_string);
+		if ($json) {
+			foreach ($json as $element) {
+				if ($element->{'subclass'} == "AngleGrade") {
+					if ($element->{'apexY'} != -176) {
+						$hasValues = true;
+					}
+				}
+			}
+		}
+		foreach ($contents as $item) {
+			if (strpos($image_string, $item) !== false) {
+				$hasValues = true;
+			}
+		}
+		return $hasValues;
+	}
 }

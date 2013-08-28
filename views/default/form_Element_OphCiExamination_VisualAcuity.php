@@ -47,7 +47,7 @@ $key = 0;
 			<a href="#" class="removeSide">-</a>
 			<div class="data">
 				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right')); ?>
-                <table <?php if (!$right_readings) { ?> style="display: none;"
+					 <table <?php if (!$right_readings) { ?> style="display: none;"
 <?php } ?>>
 					<thead>
 						<tr>
@@ -55,7 +55,7 @@ $key = 0;
 						</tr>
 					</thead>
 					<tbody>
-                    <?php if ($right_readings) {
+						  <?php if ($right_readings) {
 						foreach ($right_readings as $reading) {
 							// Adjust currently element readings to match unit steps
 							$reading->loadClosest($element->unit->id);
@@ -68,9 +68,9 @@ $key = 0;
 								'methods' => $methods,
 						));
 						$key++;
-                        }
-                    }
-                    ?>
+								}
+						  }
+						  ?>
 					</tbody>
 				</table>
 				<div class="data noReadings" <?php if ($right_readings) { ?>
@@ -105,21 +105,21 @@ $key = 0;
 					</thead>
 					<tbody>
 						<?php
-                        if($left_readings){
-                            foreach ($left_readings as $reading) {
-                                // Adjust currently element readings to match unit steps
-                                $reading->loadClosest($element->unit->id);
-                                $this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
-                                    'key' => $key,
-                                    'reading' => $reading,
-                                    'side' => $reading->side,
-                                    'values' => $values,
-                                    'val_options' => $val_options,
-                                    'methods' => $methods,
-                            ));
-                            $key++;
-						    }
-                        }?>
+								if($left_readings){
+									 foreach ($left_readings as $reading) {
+										  // Adjust currently element readings to match unit steps
+										  $reading->loadClosest($element->unit->id);
+										  $this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+												'key' => $key,
+												'reading' => $reading,
+												'side' => $reading->side,
+												'values' => $values,
+												'val_options' => $val_options,
+												'methods' => $methods,
+									 ));
+									 $key++;
+							 }
+								}?>
 					</tbody>
 				</table>
 				<div class="data noReadings" <?php if ($left_readings) { ?>
