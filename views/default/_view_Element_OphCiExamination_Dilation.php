@@ -17,6 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+	dfgdf
 	<div class="cols2 clearfix">
 		<div class="left eventDetail">
 			<?php if ($element->hasRight()) {?>
@@ -24,7 +25,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
+								<th style="width: 65px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
@@ -46,7 +47,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
+								<th style="width: 65px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
