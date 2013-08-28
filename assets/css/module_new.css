@@ -40,6 +40,28 @@
   text-align: right;
 }
 
+/* line 13, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Diagnoses .panel {
+  margin-bottom: 10px;
+}
+/* line 16, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Diagnoses .panel:last-child {
+  margin-bottom: 0;
+}
+/* line 20, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Diagnoses table.blank {
+  width: 100%;
+}
+/* line 23, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Diagnoses table td {
+  padding: 0.3125em 0;
+}
+/* line 26, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Diagnoses table td.eye label {
+  display: inline-block;
+  padding-right: 0.5em;
+}
+
 /* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
   background: url('../img/new/cross.gif?1376987159') no-repeat center center;

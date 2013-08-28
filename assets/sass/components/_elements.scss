@@ -9,3 +9,25 @@
 		}
 	}
 }
+.Element_OphCiExamination_Diagnoses {
+	.panel {
+		margin-bottom: 10px;
+	}
+	.panel:last-child {
+		margin-bottom: 0;
+	}
+	table {
+		&.blank {
+			width: 100%;
+		}
+		td {
+			padding: emCalc(5px) 0;
+			&.eye {
+				label {
+					display: inline-block;
+					padding-right: emCalc(8px);
+				}
+			}
+		}
+	}
+}
