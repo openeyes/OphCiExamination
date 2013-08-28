@@ -434,15 +434,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 
 		$criteria = new CDbCriteria;
-		$criteria->condition = 'disorder_id = :disorder_id';
+		$criteria->condition = 'disorder_id = :disorder_id AND enabled = true';
 		$criteria->params = array(':disorder_id' => $disorder_id);
-
-		$tdis = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria);
-		if (!$tdis) {
-			return array();
-		}
-
-		$criteria->condition .= ' AND enabled = true';
 		$criteria->order = 'display_order asc';
 
 		// get the questions
@@ -476,8 +469,6 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return $disorders;
 	}
 
-	// -- DUPLICATED FROM Therapyapplication --
-
 	/**
 	 * Get a list of level 1 disorders for this element (appends any level 1 disorder that has been selected for this
 	 * element but aren't part of the default list)
@@ -486,18 +477,17 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function getLevel1Disorders()
 	{
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'parent_id IS NULL';
-		$criteria->order = 'display_order asc';
-
-		$therapy_disorders = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->findAll($criteria);
-
 		$disorders = array();
 		$disorder_ids = array();
-		foreach ($therapy_disorders as $td) {
-			$disorders[] = $td->disorder;
-			$disorder_ids[] = $td->disorder->id;
+		if ($api = Yii::app()->moduleAPI->get('OphCoTherapyapplication')) {
+			$therapy_disorders = $api->getLevel1Disorders();
+
+			foreach ($therapy_disorders as $td) {
+				$disorders[] = $td;
+				$disorder_ids[] = $td->id;
+			}
 		}
+
 		// if this element has been created with a disorder outside of the standard list, needs to be available in the
 		// list for selection to be maintained
 		foreach (array('left', 'right') as $side) {
@@ -516,26 +506,23 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function getLevel2Disorders($disorder)
 	{
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'parent_id IS NULL AND disorder_id = :did';
-		$criteria->params = array(':did' => $disorder->id);
 		$disorders = array();
 
-		if ($td = OphCoTherapyapplication_TherapyDisorder::model()->find($criteria)) {
-			$disorders = $td->getLevel2Disorders();
-			$dids = array();
+		if ($api = Yii::app()->moduleAPI->get('OphCoTherapyapplication')) {
+			$disorders = $api->getLevel2Disorders($disorder->id);
 			foreach ($disorders as $d) {
-				$dids[] = $d->id;
+				$disorder_ids[] = $d->id;
 			}
+
 			foreach (array('left', 'right') as $side) {
 				if ($this->{$side . '_diagnosis1_id'} == $disorder->id
-				&& $this->{$side . '_diagnosis2'}
-				&& !in_array($this->{$side . '_diagnosis2_id'}, $dids)) {
+					&& $this->{$side . '_diagnosis2_id'}
+					&& !in_array($this->{$side . '_diagnosis2_id'}, $disorder_ids)) {
 					$disorders[] = $this->{$side . '_diagnosis2'};
 				}
 			}
-
 		}
+
 		return $disorders;
 	}
 
@@ -586,13 +573,10 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	{
 		if (($params['side'] == 'left' && $this->eye_id != Eye::RIGHT) || ($params['side'] == 'right' && $this->eye_id != Eye::LEFT)) {
 			if ($this->$params['dependent'] && !$this->$attribute) {
-				$criteria = new CDbCriteria;
-				// FIXME: mysql dependent NULL check
-				$criteria->condition = 'disorder_id = :did AND parent_id IS NULL';
-				$criteria->params = array(':did' => $this->$params['dependent']);
-				if ($td = OphCoTherapyapplication_TherapyDisorder::model()->with('disorder')->find($criteria)) {
-					if ($td->getLevel2Disorders()) {
-						$this->addError($attribute, $td->disorder->term . " must be secondary to another diagnosis");
+				if ($api = Yii::app()->moduleAPI->get('OphCoTherapyapplication')) {
+					if (count($api->getLevel2Disorders($this->$params['dependent']))) {
+						$disorder = Disorder::model()->findByPk($this->$params['dependent']);
+						$this->addError($attribute, $disorder->term . " must be secondary to another diagnosis");
 					}
 				}
 			}
