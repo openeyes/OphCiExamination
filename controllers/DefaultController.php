@@ -23,6 +23,44 @@
 
 class DefaultController extends NestedElementsEventTypeController
 {
+
+
+	public function setDefaultOptions($element)
+	{
+		$class = get_class($element);
+
+		if($class=='Element_OphCiExamination_Refraction' || $class=='Element_OphCiExamination_History' || $class=='Element_OphCiExamination_VisualAcuity');
+		{
+			if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+
+				if ($episode = $this->patient->getEpisodeForCurrentSubspecialty()) {
+					switch ($class) {
+						case 'Element_OphCiExamination_Refraction':
+							if ($defaults=$api->getRefractionElement($episode->id)) {
+								foreach ($defaults as $key => $value) {
+									if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key)){
+										$element->{$key} = $value;
+									}
+								}
+							}
+							break;
+						case 'Element_OphCiExamination_History':
+							if ($description=$api->getHistory($episode->id)) {
+								$element->description = $description;
+							}
+							break;
+						case 'Element_OphCiExamination_VisualAcuity':
+							if ($readings=$api->getVisualAcuityElement($episode->id)) {
+								$element->left_readings=$readings['left_readings'];
+								$element->right_readings=$readings['right_readings'];
+							}
+					}
+				}
+			}
+		}
+		return $element;
+	}
+
 	protected function beforeAction($action)
 	{
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
