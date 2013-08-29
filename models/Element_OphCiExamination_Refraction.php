@@ -181,13 +181,4 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('left')."\n";
 	}
 
-	public function setDefaults($options) {
-
-		foreach ($options as $key => $value) {
-			if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key))
-				$this->{$key} = $value;
-		}
-
-	}
-
 }
