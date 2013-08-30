@@ -55,6 +55,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement
 		// will receive user inputs.
 		return array(
 				array('event_id, comments', 'safe'),
+				array('comments', 'required', 'message' => '{attribute} cannot be blank when there are no child elements', 'on' => 'formHasNoChildren'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, comments', 'safe', 'on' => 'search'),
@@ -108,8 +109,14 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement
 		));
 	}
 
+	/**
+	 * retrieves a string summary of this element (intended for correspondence)
+	 *
+	 * @return string
+	 */
 	public function getLetter_string()
 	{
 		return "Clinical management: $this->comments";
 	}
+
 }
