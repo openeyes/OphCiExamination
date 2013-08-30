@@ -37,6 +37,6 @@
 		<div class="child_elements">
 			<?php $this->renderChildDefaultElements($element, 'print', $form, $data); ?>
 		</div>
-	</div>
 	<?php } ?>
+	</div>
 </div>

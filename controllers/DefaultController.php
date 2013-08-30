@@ -24,41 +24,36 @@
 class DefaultController extends NestedElementsEventTypeController
 {
 
-
-	public function setDefaultOptions($element)
+	public function setDefaultOptions_Element_OphCiExamination_Refraction($element)
 	{
-		$class = get_class($element);
-
-		if($class=='Element_OphCiExamination_Refraction' || $class=='Element_OphCiExamination_History' || $class=='Element_OphCiExamination_VisualAcuity');
-		{
-			if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
-
-				if ($episode = $this->patient->getEpisodeForCurrentSubspecialty()) {
-					switch ($class) {
-						case 'Element_OphCiExamination_Refraction':
-							if ($defaults=$api->getRefractionElement($episode->id)) {
-								foreach ($defaults as $key => $value) {
-									if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key)){
-										$element->{$key} = $value;
-									}
-								}
-							}
-							break;
-						case 'Element_OphCiExamination_History':
-							if ($description=$api->getHistory($episode->id)) {
-								$element->description = $description;
-							}
-							break;
-						case 'Element_OphCiExamination_VisualAcuity':
-							if ($readings=$api->getVisualAcuityElement($episode->id)) {
-								$element->left_readings=$readings['left_readings'];
-								$element->right_readings=$readings['right_readings'];
-							}
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($defaults=$api->getRefractionElement($this->episode->id)) {
+				foreach ($defaults as $key => $value) {
+					if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key)){
+						$element->{$key} = $value;
 					}
 				}
 			}
 		}
-		return $element;
+	}
+
+	public function setDefaultOptions_Element_OphCiExamination_History($element)
+	{
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($description=$api->getHistory($this->episode->id)) {
+				$element->description = $description;
+			}
+		}
+	}
+
+	public function setDefaultOptions_Element_OphCiExamination_VisualAcuity($element)
+	{
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($readings=$api->getVisualAcuityElement($this->episode->id)) {
+				$element->left_readings=$readings['left_readings'];
+				$element->right_readings=$readings['right_readings'];
+			}
+		}
 	}
 
 	protected function beforeAction($action)
