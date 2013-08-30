@@ -11,16 +11,13 @@ This document is intended to summarise the changes made for each release. It sho
 	Injection Management Complex (child of management)
 	Laser Management (child of management)
 	OCT (child of investigation)
-+ Changed original management element to cataract element
-+ Grouped all management elements within Clinical Management wrapper
-+ Renamed Posterior Segment to Posterior Pole
 + Added new doodles for Posterior Pole
-+ workflow for Medical Retina
-+ Added new doodles to Anteror Segment
++ Workflow for Medical Retina
++ Added new doodles to Anterior Segment
 + Enable switching of Visual Acuity units, and increase the range of VA that can be recorded.
 + Line break rendering for comments fields
 + Tweaks to design layout for improved display on lower resolution screens
 + Use the new standard dialogs from core
 + Audit log consistency
 + Dilation layout changes
-+ Added ability to have elements import data from previous entries
++ Added ability to have child elements import data from previous entries
