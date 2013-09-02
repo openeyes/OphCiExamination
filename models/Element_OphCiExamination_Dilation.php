@@ -162,6 +162,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			if ($this->hasRight() && !$sides[0]) {
 				$this->addError('dilation_treatment','Please select at least one treatment, or remove the right side');
 			}
+
+			if (!$treatment_time = strtotime($dilation_treatment['treatment_time'])) {
+				$this->addError('dilation_treatment','Invalid treatment time');
+			}
 		}
 
 		return parent::beforeValidate();
@@ -216,7 +220,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 				$treatment_model->drops = $treatment['drops'];
 				$treatment_model->drug_id = $treatment['drug_id'];
 				$treatment_model->side = $treatment['side'];
-				$treatment_model->treatment_time = $treatment['treatment_time'];
+
+				$treatment_time = (date('H:i', strtotime($treatment['treatment_time'])));
+
+				$treatment_model->treatment_time = $treatment_time;
 				$treatment_model->save();
 
 			}
