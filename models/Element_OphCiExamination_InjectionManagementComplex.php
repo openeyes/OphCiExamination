@@ -179,6 +179,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 			foreach ($this->risk_assignments as $riska) {
 				$riska->delete();
 			}
+			foreach ($this->answers as $answer) {
+				$answer->delete();
+			}
 			if (parent::delete()) {
 				$transaction->commit();
 			}
