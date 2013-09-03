@@ -28,38 +28,44 @@
 }
 
 /* line 2, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data {
+.Element_OphCiExamination_IntraocularPressure .element-data, .Element_OphCiExamination_IntraocularPressure .element-fields {
   border-top: 4px solid #000;
 }
 /* line 4, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .element-eye {
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
   border-right: 2px solid #000;
 }
-/* line 7, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .right-eye {
+/* line 6, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
+  border: 0;
+}
+/* line 10, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .right-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
   text-align: right;
 }
 
-/* line 13, ../sass/components/_elements.scss */
+/* line 16, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel {
   margin-bottom: 10px;
 }
-/* line 16, ../sass/components/_elements.scss */
+/* line 19, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel:last-child {
   margin-bottom: 0;
 }
-/* line 20, ../sass/components/_elements.scss */
+/* line 23, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table.blank {
   width: 100%;
 }
-/* line 23, ../sass/components/_elements.scss */
-.Element_OphCiExamination_Diagnoses table td {
-  padding: 0.3125em 0;
-}
-/* line 26, ../sass/components/_elements.scss */
+/* line 32, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table td.eye label {
   display: inline-block;
   padding-right: 0.5em;
+}
+
+/* line 43, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Dilation table .input-time {
+  width: 4em;
+  text-align: center;
 }
 
 /* line 1, ../sass/components/_gonio-cross.scss */

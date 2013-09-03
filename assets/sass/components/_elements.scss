@@ -1,8 +1,11 @@
 .Element_OphCiExamination_IntraocularPressure {
-	.element-data {
+	.element-data, .element-fields {
 		border-top: 4px solid #000;
 		.element-eye {
 			border-right: 2px solid #000;
+			&:last-child {
+				border: 0;
+			}
 		}
 		.right-eye {
 			text-align: right;
@@ -20,14 +23,26 @@
 		&.blank {
 			width: 100%;
 		}
+		th {
+			// color: #aaa;
+		}
 		td {
-			padding: emCalc(5px) 0;
+			// padding: emCalc(5px) 0;
 			&.eye {
 				label {
 					display: inline-block;
 					padding-right: emCalc(8px);
 				}
 			}
+		}
+	}
+}
+
+.Element_OphCiExamination_Dilation  {
+	table {
+		.input-time {
+			width: 4em;
+			text-align: center;
 		}
 	}
 }
