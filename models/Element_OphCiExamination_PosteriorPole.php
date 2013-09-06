@@ -35,6 +35,7 @@
 class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 {
 	public $service;
+	public $doodles;
 
 	/**
 	 * Returns the static model of the specified AR class.

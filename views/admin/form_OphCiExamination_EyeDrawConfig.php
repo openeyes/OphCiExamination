@@ -17,32 +17,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<h3><?php echo 'Eye Draw Doodles for '.$model->subspeciality->service->name;?></h3>
 
-<?php
-$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => $element->doodles,
-		'onReadyCommandArray' => array(
-			array('addDoodle', array('PostPole')),
-			array('deselectDoodles', array()),
-		),
-		'listenerArray' => array('posteriorListener'),
-		'idSuffix' => $side.'_'.$element->elementType->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'edit',
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
-	));
-?>
-<div class="eyedrawFields">
-	<div>
-		<div class="label">
-			<?php echo $element->getAttributeLabel($side . '_description'); ?>
-			:
-		</div>
-		<div class="data">
-			<?php echo CHtml::activeTextArea($element, $side . '_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
-		</div>
-	</div>
-	<button class="ed_report">Report</button>
-	<button class="ed_clear">Clear</button>
-</div>
+<?php echo $form->textArea($model,'config',array('rows'=>6, 'cols'=>50)); ?>

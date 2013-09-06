@@ -72,6 +72,37 @@ class AdminController extends ModuleAdminController
 		));
 	}
 
+	public function actionEyeDrawConfig()
+	{
+		$firm = Firm::model()->findByPk(Yii::app()->session['selected_firm_id']);
+		$subspecialty_id = $firm->serviceSubspecialtyAssignment->subspecialty_id;
+
+		$criteria = new CDbCriteria;
+		$criteria->condition = "subspeciality_id = :subspeciality_id and event_id = :event_id";
+		$criteria->params = array(':subspeciality_id' => $subspecialty_id,':event_id' => 30 );
+
+		$model = OphCiExamination_EyeDrawConfig::model()->find($criteria);
+		if(!$model){
+			$model=new OphCiExamination_EyeDrawConfig();
+		}
+
+		$model->subspeciality_id=$subspecialty_id;
+		$model->event_id=30;
+
+		if (isset($_POST['OphCiExamination_EyeDrawConfig'])) {
+			$model->attributes = $_POST['OphCiExamination_EyeDrawConfig'];
+			if ($model->save()) {
+
+				$this->redirect(array('UpdateEyeDrawConfig'));
+			}
+
+
+		}
+
+		$this->render('update', array(
+				'model' => $model,
+			));
+	}
 	/**
 	 * update the no treatment reason with id $id
 	 *

@@ -44,7 +44,7 @@
 				<div class="textMacros inline">
 					<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'left_description', 'form' => $form)); ?>
 				</div>
-				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+				<?php echo $form->textArea($element, 'left_description', array('rows' => "1", 'cols' => "40")) ?>
 			</div>
 		</div>
 		<div class="inactiveForm">

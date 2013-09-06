@@ -23,6 +23,37 @@
 
 class DefaultController extends NestedElementsEventTypeController
 {
+	public function setDefaultOptions($element)
+	{
+		$element->setDefaultOptions($element);
+		if(strpos(get_class($element),'PosteriorPole'))
+		{
+			$element->doodles = array(
+				array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
+				array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
+				array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
+				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+				array('RRD','UTear','RoundHole','Dialysis','GRT','MacularHole','StarFold','AntPVR','Lattice','Cryo','LaserCircle','Buckle','Retinoschisis','OuterLeafBreak','InnerLeafBreak'),
+			);
+
+			$firm = Firm::model()->findByPk(Yii::app()->session['selected_firm_id']);
+			$subspecialty_id = $firm->serviceSubspecialtyAssignment->subspecialty_id;
+
+			$criteria = new CDbCriteria;
+			$criteria->condition = "subspeciality_id = :subspeciality_id and event_id = :event_id";
+			$criteria->params = array(':subspeciality_id' => $subspecialty_id,':event_id' => 30 );
+
+			$model = OphCiExamination_EyeDrawConfig::model()->find($criteria);
+			if($model){
+
+			$element->doodles =  array(
+				array($model->config),
+			);
+			}
+
+		}
+	}
+
 	protected function beforeAction($action)
 	{
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
