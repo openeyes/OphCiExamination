@@ -23,32 +23,35 @@
 
 class DefaultController extends NestedElementsEventTypeController
 {
-	public function setDefaultOptions($element)
+	public function getDefaultElements($action, $event_type_id = null, $event = null)
 	{
-		$element->setDefaultOptions($element);
-		if(strpos(get_class($element),'PosteriorPole'))
+		$elements = Parent::getDefaultElements($action, $event_type_id,$event);
+		foreach ($elements as $element)
 		{
-			$element->doodles = array(
-				array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
-				array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
-				array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
-				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
-				array('RRD','UTear','RoundHole','Dialysis','GRT','MacularHole','StarFold','AntPVR','Lattice','Cryo','LaserCircle','Buckle','Retinoschisis','OuterLeafBreak','InnerLeafBreak'),
-			);
+			if(strpos(get_class($element),'PosteriorPole'))
+			{
+				$element->doodles = array(
+					array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
+					array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
+					array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
+					array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+					array('RRD','UTear','RoundHole','Dialysis','GRT','MacularHole','StarFold','AntPVR','Lattice','Cryo','LaserCircle','Buckle','Retinoschisis','OuterLeafBreak','InnerLeafBreak'),
+				);
 
-			$firm = Firm::model()->findByPk(Yii::app()->session['selected_firm_id']);
-			$subspecialty_id = $firm->serviceSubspecialtyAssignment->subspecialty_id;
+				$firm = Firm::model()->findByPk(Yii::app()->session['selected_firm_id']);
+				$subspecialty_id = $firm->serviceSubspecialtyAssignment->subspecialty_id;
 
-			$criteria = new CDbCriteria;
-			$criteria->condition = "subspeciality_id = :subspeciality_id and event_id = :event_id";
-			$criteria->params = array(':subspeciality_id' => $subspecialty_id,':event_id' => 30 );
+				$criteria = new CDbCriteria;
+				$criteria->condition = "subspeciality_id = :subspeciality_id and event_id = :event_id";
+				$criteria->params = array(':subspeciality_id' => $subspecialty_id,':event_id' => 30 );
 
-			$model = OphCiExamination_EyeDrawConfig::model()->find($criteria);
-			if($model){
+				$model = OphCiExamination_EyeDrawConfig::model()->find($criteria);
+				if($model){
 
-			$element->doodles =  array(
-				array($model->config),
-			);
+					$element->doodles =  array(
+						array($model->config),
+					);
+				}
 			}
 
 		}
