@@ -604,7 +604,7 @@ class OphCiExamination_API extends BaseAPI
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side - 'left' or 'right'
-	 * @return array(maximum_CMT, central_SFT) or null
+	 * @return array(maximum_CRT, central_SFT) or null
 	 */
 	public function getOCTForSide($patient, $episode, $side)
 	{
@@ -621,7 +621,7 @@ class OphCiExamination_API extends BaseAPI
 				$criteria->addInCondition('eye_id', $side_list);
 
 				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
-					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
+					return array($el->{$side . '_crt'}, $el->{$side . '_sft'});
 				}
 			}
 		}
