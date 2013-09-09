@@ -210,6 +210,28 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	* get the va from the given episode for the right side of the episode patient
+	* 
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeLeft($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'left');
+	}
+
+	/**
+	* get the va from the given episode for the right side of the episode patient
+	*
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeRight($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'right');
+	}
+
+	/**
 	 * get the list of possible unit values for Visual Acuity
 	 *
 	 * currently operates on the assumption there is always Snellen Metre available as a VA unit, and provides this
