@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -19,12 +18,15 @@
  */
 /* line 2, ../sass/components/_event.scss */
 .event.examination {
-  background-image: url('../img/new/watermark.png?1376987159');
   border-color: #fdcc56;
 }
-/* line 5, ../sass/components/_event.scss */
+/* line 4, ../sass/components/_event.scss */
+.event.examination .event-content {
+  background-image: url('../img/new/watermark.png?1378387106');
+}
+/* line 7, ../sass/components/_event.scss */
 .event.examination .event-title {
-  background-image: url('../img/new/medium.png?1376987159');
+  background-image: url('../img/new/medium.png?1378387106');
 }
 
 /* line 2, ../sass/components/_elements.scss */
@@ -70,7 +72,7 @@
 
 /* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/new/cross.gif?1376987159') no-repeat center center;
+  background: url('../img/new/cross.gif?1378387106') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
@@ -126,4 +128,9 @@
 /* line 47, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-inf {
   bottom: 5px;
+}
+
+/* line 8, ../sass/module_new.scss */
+.test {
+  color: red;
 }
