@@ -71,8 +71,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 						'tooBig' => 'Left {attribute} must be between 50 and 700',
 						'tooSmall' => 'Left {attribute} must be between 50 and 700'),
 				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
-					'tooBig' => 'Left {attribute} must be between 50 and 700',
-					'tooSmall' => 'Left {attribute} must be between 50 and 700'),
+						'tooBig' => 'Right {attribute} must be between 50 and 700',
+						'tooSmall' => 'Right {attribute} must be between 50 and 700'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe', 'on' => 'search'),
