@@ -814,10 +814,17 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'change', function(e) {
+	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_Dilation_addTreatment(this, side);
 		e.preventDefault();
+	});
+
+	$('#event_content .Element_OphCiExamination_Dilation .dilation_drug').keypress(function(e) {
+		if (e.keyCode == 13) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_Dilation_addTreatment(this, side);
+		}
 	});
 
 	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .removeTreatment', 'click', function(e) {

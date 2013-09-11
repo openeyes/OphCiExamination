@@ -21,14 +21,15 @@
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'doodleToolBarArray' => array(
-				array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
-				array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
-				array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
-				array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+			array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
+			array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
+			array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
+			array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+			array('RRD','UTear','RoundHole','Dialysis','GRT','MacularHole','StarFold','AntPVR','Lattice','Cryo','LaserCircle','Buckle','Retinoschisis','OuterLeafBreak','InnerLeafBreak'),
 		),
 		'onReadyCommandArray' => array(
-				array('addDoodle', array('PostPole')),
-				array('deselectDoodles', array()),
+			array('addDoodle', array('PostPole')),
+			array('deselectDoodles', array()),
 		),
 		'listenerArray' => array('posteriorListener'),
 		'idSuffix' => $side.'_'.$element->elementType->id,
@@ -36,7 +37,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'mode' => 'edit',
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
-));
+	));
 ?>
 <div class="eyedrawFields">
 	<div>
