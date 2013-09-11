@@ -27,6 +27,13 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'height' => 0,
 	));
 ?>
+
+
+<?php
+$doodles = DoodleInfo::$titles;
+array_splice($doodles,0,1);
+echo Chtml::dropDownList('OphCiExamination_EyeDrawConfig_Doodles"','',$doodles); ?>
+
 	</div>
 <br /><br />
 <?php echo $form->textArea($model,'config',array('rows'=>6, 'cols'=>50)); ?>
