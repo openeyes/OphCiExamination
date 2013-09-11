@@ -24,6 +24,7 @@
  * @property string $id
  * @property string $name
  * @property boolean $enabled
+ * @property boolean $other - flag to indicate whether this reason would need an other description
  *
  */
 
@@ -53,11 +54,11 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	public function rules()
 	{
 		return array(
-				array('name, display_order, enabled', 'safe'),
+				array('name, display_order, enabled, other', 'safe'),
 				array('name, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, name, display_order, enabled', 'safe', 'on' => 'search'),
+				array('id, name, display_order, enabled, other', 'safe', 'on' => 'search'),
 		);
 	}
 

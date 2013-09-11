@@ -38,14 +38,14 @@
 			<div class="data">
 			<span class="group">
 			<?php
-			echo CHtml::radioButton($name, $value, array('value' => 1));
+			echo CHtml::radioButton($name, $value, array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_1', 'value' => 1));
 			?>
 			<label>Yes</label>
 			</span>
 
 			<span class="group">
 			<?php
-			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('value' => 0));
+			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_0', 'value' => 0));
 			?>
 			<label>No</label>
 			</span>
