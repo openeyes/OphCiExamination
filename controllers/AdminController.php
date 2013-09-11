@@ -72,6 +72,15 @@ class AdminController extends ModuleAdminController
 		));
 	}
 
+	public function actionEyeDrawConfigPreview()
+	{
+		if (isset($_POST['doodles'])) {
+		$this->renderPartial('OphCiExamination_EyeDrawConfig_Preview', array(
+				'doodles' => explode(',',$_POST['doodles']),
+			));
+		}
+	}
+
 	public function actionEyeDrawConfig()
 	{
 		$firm = Firm::model()->findByPk(Yii::app()->session['selected_firm_id']);
@@ -87,13 +96,14 @@ class AdminController extends ModuleAdminController
 		}
 
 		$model->subspeciality_id=$subspecialty_id;
-		$model->event_id=30;
+		$event = EventType::model()->find('class_name="OphCiExamination"');
+		$model->event_id=$event->id;
 
 		if (isset($_POST['OphCiExamination_EyeDrawConfig'])) {
 			$model->attributes = $_POST['OphCiExamination_EyeDrawConfig'];
 			if ($model->save()) {
 
-				$this->redirect(array('UpdateEyeDrawConfig'));
+				$this->redirect(array('EyeDrawConfig'));
 			}
 
 

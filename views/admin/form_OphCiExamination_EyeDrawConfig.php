@@ -19,4 +19,16 @@
 ?>
 <h3><?php echo 'Eye Draw Doodles for '.$model->subspeciality->service->name;?></h3>
 
+<div id='OphCiExamination_EyeDrawConfig_Doodles'>
+<?php
+$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+		'doodleToolBarArray' => explode(',',$model->config),
+		'width' => 0,
+		'height' => 0,
+	));
+?>
+	</div>
+<br /><br />
 <?php echo $form->textArea($model,'config',array('rows'=>6, 'cols'=>50)); ?>
+
+
