@@ -24,7 +24,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
+								<th style="width: 65px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
@@ -46,7 +46,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
+								<th style="width: 65px;">Time</th>
 								<th>Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>

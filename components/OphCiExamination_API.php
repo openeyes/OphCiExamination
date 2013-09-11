@@ -210,6 +210,28 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	* get the va from the given episode for the right side of the episode patient
+	* 
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeLeft($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'left');
+	}
+
+	/**
+	* get the va from the given episode for the right side of the episode patient
+	*
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeRight($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'right');
+	}
+
+	/**
 	 * get the list of possible unit values for Visual Acuity
 	 *
 	 * currently operates on the assumption there is always Snellen Metre available as a VA unit, and provides this
@@ -604,7 +626,7 @@ class OphCiExamination_API extends BaseAPI
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side - 'left' or 'right'
-	 * @return array(maximum_CMT, central_SFT) or null
+	 * @return array(maximum_CRT, central_SFT) or null
 	 */
 	public function getOCTForSide($patient, $episode, $side)
 	{
@@ -621,7 +643,7 @@ class OphCiExamination_API extends BaseAPI
 				$criteria->addInCondition('eye_id', $side_list);
 
 				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
-					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
+					return array($el->{$side . '_crt'}, $el->{$side . '_sft'});
 				}
 			}
 		}
