@@ -222,16 +222,20 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	{
 		$side = $params['side'];
 
-		$questions = $this->getInjectionQuestionsForSide($side);
+		if (($side == 'left' && $this->eye_id != Eye::RIGHT) ||
+			($side == 'right' && $this->eye_id != Eye::LEFT)) {
 
-		$answer_q_ids = array();
-		foreach ($this->{$side . '_answers'} as $ans) {
-			$answer_q_ids[] = $ans->question_id;
-		}
+			$questions = $this->getInjectionQuestionsForSide($side);
 
-		foreach ($questions as $required_question) {
-			if (!in_array($required_question->id, $answer_q_ids)) {
-				$this->addError($attribute, ucfirst($side)." ".$required_question->question." must be answered.");
+			$answer_q_ids = array();
+			foreach ($this->{$side . '_answers'} as $ans) {
+				$answer_q_ids[] = $ans->question_id;
+			}
+
+			foreach ($questions as $required_question) {
+				if (!in_array($required_question->id, $answer_q_ids)) {
+					$this->addError($attribute, ucfirst($side)." ".$required_question->question." must be answered.");
+				}
 			}
 		}
 	}
