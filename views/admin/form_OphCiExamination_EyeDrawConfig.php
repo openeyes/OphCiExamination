@@ -29,12 +29,13 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 ?>
 
 
+
+
+	</div>
 <?php
 $doodles = DoodleInfo::$titles;
 array_splice($doodles,0,1);
-echo Chtml::dropDownList('OphCiExamination_EyeDrawConfig_Doodles"','',$doodles); ?>
-
-	</div>
+echo Chtml::dropDownList('OphCiExamination_EyeDrawConfig_Doodle_List','',$doodles); ?>
 <br /><br />
 <?php echo $form->textArea($model,'config',array('rows'=>6, 'cols'=>50)); ?>
 
