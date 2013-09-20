@@ -130,7 +130,7 @@ class DefaultController extends NestedElementsEventTypeController
 
 	/**
 	 * extends standard method to provide workflow functionality
-	 * 
+	 *
 	 * (non-PHPdoc)
 	 * @see NestedElementsEventTypeController::getCleanChildDefaultElements()
 	 */
@@ -138,14 +138,14 @@ class DefaultController extends NestedElementsEventTypeController
 	{
 		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
 	}
-	
+
 	/**
 	 * extends standard method to filter elements
-	 * 
+	 *
 	 * (non-PHPdoc)
 	 * @see NestedElementsEventTypeController::getChildOptionalElements()
 	 */
-	public function getChildOptionalElements($parent_class, $action, $previous_parent_id = null) 
+	public function getChildOptionalElements($parent_class, $action, $previous_parent_id = null)
 	{
 		$elements = parent::getChildOptionalElements($parent_class, $action, $previous_parent_id);
 		return $this->filterElements($elements);
@@ -205,11 +205,11 @@ class DefaultController extends NestedElementsEventTypeController
 		$parent_id = ($parent) ? $parent->id : null;
 		$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
 		$extra_by_etid = array();
-		
+
 		foreach ($extra_elements as $extra) {
 			$extra_by_etid[$extra->getElementType()->id] = $extra;
 		}
-		
+
 		$merged_elements = array();
 		foreach ($elements as $element) {
 			$element_type = $element->getElementType();
@@ -218,7 +218,7 @@ class DefaultController extends NestedElementsEventTypeController
 				unset($extra_by_etid[$element_type->id]);
 			}
 		}
-		
+
 		foreach ($extra_by_etid as $extra_element) {
 			$extra_element->setDefaultOptions();
 
@@ -370,17 +370,20 @@ class DefaultController extends NestedElementsEventTypeController
 	private function _POST_InjectionAnswers($element, $side)
 	{
 		$answers = array();
-		if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
-			foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
-				$answer = new OphCiExamination_InjectionManagementComplex_Answer();
-				$answer->question_id = $id;
-				$answer->answer = $p_ans;
-				if ($side == 'left') {
-					$answer->eye_id = SplitEventTypeElement::LEFT;
-				} else {
-					$answer->eye_id = SplitEventTypeElement::RIGHT;
+		$checker = 'has' . ucfirst($side);
+		if ($element->$checker()) {
+			if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
+				foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
+					$answer = new OphCiExamination_InjectionManagementComplex_Answer();
+					$answer->question_id = $id;
+					$answer->answer = $p_ans;
+					if ($side == 'left') {
+						$answer->eye_id = Eye::LEFT;
+					} else {
+						$answer->eye_id = Eye::RIGHT;
+					}
+					$answers[] = $answer;
 				}
-				$answers[] = $answer;
 			}
 		}
 		$element->{$side . '_answers'} = $answers;
@@ -395,16 +398,18 @@ class DefaultController extends NestedElementsEventTypeController
 	 */
 	private function _POST_InjectionRisks($element, $side)
 	{
-		if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
-			$risks = array();
-
-			foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
-				if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
-					$risks[] = $risk;
+		$risks = array();
+		$checker = 'has' . ucfirst($side);
+		if ($element->$checker()) {
+			if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
+				foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
+					if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+						$risks[] = $risk;
+					}
 				}
 			}
-			$element->{$side . '_risks'} = $risks;
 		}
+		$element->{$side . '_risks'} = $risks;
 	}
 
 	/**
@@ -434,19 +439,19 @@ class DefaultController extends NestedElementsEventTypeController
 		foreach ($elements as $el) {
 			if (get_class($el) == 'Element_OphCiExamination_InjectionManagementComplex') {
 				$el->updateQuestionAnswers(Eye::LEFT,
-						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
+						$el->hasLeft() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
 								$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
 								array());
 				$el->updateQuestionAnswers(Eye::RIGHT,
-						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
+						$el->hasRight() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
 						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
 						array());
 				$el->updateRisks(Eye::LEFT,
-						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
+						$el->hasLeft() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
 						$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
 						array());
 				$el->updateRisks(Eye::RIGHT,
-						isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
+						$el->hasRight() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
 						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
 						array());
 			}
