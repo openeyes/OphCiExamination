@@ -185,12 +185,12 @@ class m121111_155600_glaucoma extends OEMigration
 					'element_type_id' => $element_type_id
 			));
 		}
-		if ($glaucoma_id = Subspecialty::model()->find("ref_spec = 'GL'")->id) {
+		if ($glaucoma = Subspecialty::model()->find("ref_spec = 'GL'")) {
 			$parent_id = OphCiExamination_ElementSetRule::model()->find("clause = 'subspecialty_id'")->id;
 			$this->insert('ophciexamination_element_set_rule',array(
 					'set_id' => $set_id,
 					'parent_id' => $parent_id,
-					'value' => $glaucoma_id
+					'value' => $glaucoma->id
 			));
 		}
 
