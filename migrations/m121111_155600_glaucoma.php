@@ -144,13 +144,14 @@ class m121111_155600_glaucoma extends OEMigration
 				'name' => 'Expert Mode',
 				'default_value' => 0,
 		));
-		$glaucoma_ss = Subspecialty::model()->find('ref_spec = \'GL\'');
-		$this->insert('setting_subspecialty', array(
-				'subspecialty_id' => $glaucoma_ss->id,
-				'element_type_id' => $element_types['Element_OphCiExamination_Gonioscopy']['id'],
-				'key' => 'expert',
-				'value' => 1
-		));
+		if ($glaucoma_ss = Subspecialty::model()->find('ref_spec = \'GL\'')) {
+			$this->insert('setting_subspecialty', array(
+					'subspecialty_id' => $glaucoma_ss->id,
+					'element_type_id' => $element_types['Element_OphCiExamination_Gonioscopy']['id'],
+					'key' => 'expert',
+					'value' => 1
+			));
+		}
 
 		// Optic Disc
 		$this->addColumn('et_ophciexamination_opticdisc', 'eye_id', "int(10) unsigned NOT NULL DEFAULT $both_eyes_id");
