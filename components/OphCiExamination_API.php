@@ -175,17 +175,30 @@ class OphCiExamination_API extends BaseAPI
 		}
 	}
 
+	/**
+	 * gets the id for the Snellen Metre unit type for VA
+	 *
+	 * @return int|null
+	 */
+	protected function getSnellenUnitId()
+	{
+		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
+			return $unit->id;
+		}
+		return null;
+	}
+
 	public function getLetterVisualAcuityLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return ($best = $this->getBestVisualAcuity($patient, $episode, 'left')) ? $best->convertTo($best->value) : null;
+			return ($best = $this->getBestVisualAcuity($patient, $episode, 'left')) ? $best->convertTo($best->value, $this->getSnellenUnitId()) : null;
 		}
 	}
 
 	public function getLetterVisualAcuityRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return ($best = $this->getBestVisualAcuity($patient, $episode, 'right')) ? $best->convertTo($best->value) : null;
+			return ($best = $this->getBestVisualAcuity($patient, $episode, 'right')) ? $best->convertTo($best->value, $this->getSnellenUnitId()) : null;
 		}
 	}
 
@@ -195,7 +208,7 @@ class OphCiExamination_API extends BaseAPI
 			$left = $this->getBestVisualAcuity($patient, $episode, 'left');
 			$right = $this->getBestVisualAcuity($patient, $episode, 'right');
 
-			return ($right ? $right->convertTo($right->value)  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value) : "not recorded")." on the left";
+			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
 		}
 	}
 

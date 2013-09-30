@@ -225,15 +225,17 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	}
 
 	/**
-	 * Get a combined string of the different readings
+	 * Get a combined string of the different readings. If a unit_id is given, the readings will
+	 * be converted to unit type of that id.
+	 *
 	 * @param string $side
 	 * @return string
 	 */
-	public function getCombined($side)
+	public function getCombined($side, $unit_id = null)
 	{
 		$combined = array();
 		foreach ($this->{$side.'_readings'} as $reading) {
-			$combined[] = $reading->convertTo($reading->value) . ' ' . $reading->method->name;
+			$combined[] = $reading->convertTo($reading->value, $unit_id) . ' ' . $reading->method->name;
 		}
 		return implode(', ',$combined);
 	}
@@ -405,13 +407,26 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		return parent::afterValidate();
 	}
 
+	/**
+	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
+	 * as this is assumed to be the standard for correspondence.
+	 *
+	 * @TODO: The units for correspondence should become a configuration variable
+	 *
+	 * @return string
+	 */
 	public function getLetter_string()
 	{
+		$unit_id = null;
+		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
+			$unit_id = $unit->id;
+		}
+
 		$text = "Visual acuity:\n";
 
 		if ($this->hasLeft()) {
 			if ($this->getCombined('left')) {
-				$text .= "left: ".$this->getCombined('left');
+				$text .= "left: ".$this->getCombined('left', $unit_id);
 			} else {
 				$text .= "left: not recorded";
 			}
@@ -423,7 +438,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		if ($this->hasRight()) {
 			if ($text) $text .= "\n";
 			if ($this->getCombined('right')) {
-				$text .= "right: ".$this->getCombined('right');
+				$text .= "right: ".$this->getCombined('right', $unit_id);
 			} else {
 				$text .= "right: not recorded";
 			}
