@@ -49,7 +49,7 @@ function gradeCalculator(_drawing) {
     var maculopathy = "M0";
     var retinopathy_photocoagulation = false;
     var maculopathy_photocoagulation = false;
-    var clinical = "None";
+    var clinical = "No retinopathy";
     var dnv_within = false;
 
     // Get reference to PostPole doodle
