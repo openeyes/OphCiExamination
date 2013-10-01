@@ -19,17 +19,6 @@
 ?>
 
 <?php
-	$no_treatment = $element->no_treatment;
-	$no_treatment_reason = $element->no_treatment_reason;
-	if (isset($_POST[get_class($element)])) {
-		$no_treatment = $_POST[get_class($element)]['no_treatment'];
-		$no_treatment_reason = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk((int)@$_POST[get_class($element)]['no_treatment_reason_id']);
-	}
-	$show_no_treatment_reason_other = false;
-	if ($no_treatment_reason && $no_treatment_reason->other) {
-		$show_no_treatment_reason_other = true;
-	}
-
 	$no_treatment_reasons = $element->getNoTreatmentReasons();
 	$no_treatment_reasons_opts = array(
 		'options' => array(),
@@ -42,37 +31,6 @@
 
 ?>
 
-<div id="div_<?php echo get_class($element)?>_no_treatment"
-	class="eventDetail">
-	<div class="label">
-		<?php echo $element->getAttributeLabel('no_treatment') ?>:
-	</div>
-	<div class="data">
-		<?php
-			echo $form->checkbox($element, 'no_treatment', array('nowrapper' => true));
-		?>
-	</div>
-</div>
-
-<div id="div_<?php echo get_class($element)?>_no_treatment_reason_id" class="eventDetail"<?php if (!$no_treatment) {?> style="display: none;"<?php }?>>
-	<div class="label">
-		<?php echo $element->getAttributeLabel('no_treatment_reason_id') ?>
-	</div>
-	<div class="data">
-		<?php echo $form->dropDownlist($element, 'no_treatment_reason_id',
-				CHtml::listData($no_treatment_reasons,'id','name'),
-				$no_treatment_reasons_opts) ?>
-	</div>
-</div>
-
-<div id="div_<?php echo get_class($element)?>_no_treatment_reason_other" class="eventDetail" <?php if (!$show_no_treatment_reason_other) {?> style="display: none;"<?php }?>>
-	<div class="label">
-		<?php echo $element->getAttributeLabel('no_treatment_reason_other') ?>
-	</div>
-	<div class="data">
-		<?php echo $form->textArea($element, 'no_treatment_reason_other', array('rows' => 4, 'cols' => 50, 'nowrapper' => true)) ?>
-	</div>
-</div>
 
 <?php
 // build up data structures for the two levels of disorders that are mapped through the therapydisorder lookup
@@ -93,7 +51,7 @@ foreach ($l1_disorders as $disorder) {
 
 ?>
 
-<div class="cols2 clearfix" id="div_<?php echo get_class($element)?>_treatment_fields">
+<div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
 		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
@@ -102,6 +60,7 @@ foreach ($l1_disorders as $disorder) {
 			<a href="#" class="removeSide">-</a>
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
 				array('side' => 'right', 'element' => $element, 'form' => $form,
+					'no_treatment_reasons' => $no_treatment_reasons, 'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
 					'l1_disorders' => $l1_disorders, 'l1_opts' => $l1_options, 'l2_disorders' => $l2_disorders,
 				)); ?>
 		</div>
@@ -116,6 +75,7 @@ foreach ($l1_disorders as $disorder) {
 			<a href="#" class="removeSide">-</a>
 			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
 				array('side' => 'left', 'element' => $element, 'form' => $form,
+					'no_treatment_reasons' => $no_treatment_reasons, 'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
 					'l1_disorders' => $l1_disorders, 'l1_opts' => $l1_options, 'l2_disorders' => $l2_disorders,
 				)); ?>
 		</div>

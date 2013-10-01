@@ -18,28 +18,21 @@
  */
 ?>
 
-<?php if ($element->no_treatment) {?>
-	<div class="eventDetail">
-		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('no_treatment_reason_id'))?></div>
-		<div class="data"><?php echo $element->no_treatment_reason ? $element->getNoTreatmentReasonName() : 'Not specified'?></div>
+<div class="cols2 clearfix">
+	<div class="left eventDetail">
+		<?php if ($element->hasRight()) {
+			$this->renderPartial('_view_' . get_class($element) . '_fields',
+				array('side' => 'right', 'element' => $element));
+		} else { ?>
+		Not recorded
+		<?php } ?>
 	</div>
-<?php } else { ?>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php if ($element->hasRight()) {
-				$this->renderPartial('_view_' . get_class($element) . '_fields',
-					array('side' => 'right', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) {
-				$this->renderPartial('_view_' . get_class($element) . '_fields',
-					array('side' => 'left', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
+	<div class="right eventDetail">
+		<?php if ($element->hasLeft()) {
+			$this->renderPartial('_view_' . get_class($element) . '_fields',
+				array('side' => 'left', 'element' => $element));
+		} else { ?>
+		Not recorded
+		<?php } ?>
 	</div>
-<?php }?>
+</div>
