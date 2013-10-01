@@ -12,7 +12,10 @@ class m130930_145832_injection_mgmt_no_treatment_both_eyes extends CDbMigration
 		$this->addColumn('et_ophciexamination_injectionmanagementcomplex','left_no_treatment_reason_other','text');
 		$this->addColumn('et_ophciexamination_injectionmanagementcomplex','right_no_treatment_reason_other','text');
 
-		foreach (Yii::app()->db->createCommand()->select("id, no_treatment_reason_id, no_treatment_reason_other")->from("et_ophciexamination_injectionmanagementcomplex")->order("id desc")->queryAll() as $imc) {
+		foreach (Yii::app()->db->createCommand()->select("id, no_treatment_reason_id, no_treatment_reason_other")
+					 ->from("et_ophciexamination_injectionmanagementcomplex")
+					 ->where('no_treatment = true')
+					 ->order("id desc")->queryAll() as $imc) {
 			$this->update('et_ophciexamination_injectionmanagementcomplex', array(
 					'left_no_treatment' => true,
 					'right_no_treatment' => true,
