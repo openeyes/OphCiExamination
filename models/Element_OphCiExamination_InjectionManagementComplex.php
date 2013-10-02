@@ -222,7 +222,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * @param string $side
 	 * @return string
 	 */
-	 protected function getNoTreatmentReasonName($side) {
+	protected function getNoTreatmentReasonName($side) {
 		if ($ntr = $this->{$side . '_no_treatment_reason'}) {
 			if ($ntr->other) {
 				return $this->{$side . '_no_treatment_reason_other'};
@@ -231,12 +231,13 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				return $ntr->name;
 			}
 		}
+		return "Not specified";
 	}
 
 	/**
 	 * get the no treatment reason name for the left side
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public function getLeftNoTreatmentReasonName() {
 		return $this->getNoTreatmentReasonName('left');
@@ -245,7 +246,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	/**
 	 * get the no treatment reason name for the right side
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public function getRightNoTreatmentReasonName() {
 		return $this->getNoTreatmentReasonName('right');
