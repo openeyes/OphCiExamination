@@ -208,7 +208,7 @@ class OphCiExamination_API extends BaseAPI
 			$left = $this->getBestVisualAcuity($patient, $episode, 'left');
 			$right = $this->getBestVisualAcuity($patient, $episode, 'right');
 
-			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
+			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())	: "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
 		}
 	}
 
@@ -801,4 +801,18 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterInjectionManagementComplexDiagnosisRight($patient) {
 		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'right');
 	}
+
+	 public function getMostRecentPredictedRefractionInEpisode($episode)
+	 {
+		 $criteria = new CDbCriteria;
+		 $criteria->addCondition('episode_id = :episode_id');
+		 $criteria->params[':episode_id'] = $episode->id;
+		 $criteria->order = 'event.created_date desc';
+
+		 if ($catman = Element_OphCiExamination_CataractManagement::model()->with('event')->find($criteria)) {
+			 return $catman->target_postop_refraction;
+		 }
+
+		 return false;
+	 }
 }
