@@ -176,6 +176,7 @@ div.timeDiv { display: inline; margin-left: 12px; }
 #event_content .Element_OphCiExamination_GlaucomaRisk .risk_wrapper.low_risk,
 #event_content .Element_OphCiExamination_GlaucomaRisk .low_risk span { background: #9c0; }
 
+#event_content .Element_OphCiExamination_DRGrading .clinical select { width: 260px; }
 #event_content .Element_OphCiExamination_DRGrading .wrapper  { padding: 5px; border-radius: 5px; display: inline-block; }
 #event_content .Element_OphCiExamination_DRGrading .eventDetail span { padding: 3px 5px; border-radius: 5px; margin: 2px 0; }
 .grade-info-all dt a { display: block; padding: 4px 8px; border-radius: 5px; margin: 10px 0; }
