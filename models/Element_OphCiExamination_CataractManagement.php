@@ -89,8 +89,8 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'city_road' => 'At City Road',
-				'satellite' => 'At Satellite',
+				'city_road' => 'FEH',
+				'satellite' => 'Local Hospital',
 				'fast_track' => 'Straightforward case',
 				'target_postop_refraction' => 'Post operative refractive target in dioptres',
 				'correction_discussed' => 'The post operative refractive target has been discussed with the patient',

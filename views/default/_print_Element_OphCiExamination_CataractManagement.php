@@ -19,10 +19,10 @@
 ?>
 	<div><?php echo $element->eye ? $element->eye->name : 'Eye no specified'?></div>
 	<?php if ($element->city_road) {?>
-		<div>At City Road</div>
+		<div>FEH</div>
 	<?php }?>
 	<?php if ($element->satellite) {?>
-		<div>At satellite</div>
+		<div>Local Hospital</div>
 	<?php }?>
 	<?php if ($element->fast_track) {?>
 		<div>Suitable for fast-track</div>
