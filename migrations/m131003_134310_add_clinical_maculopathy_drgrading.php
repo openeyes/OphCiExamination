@@ -4,6 +4,11 @@ class m131003_134310_add_clinical_maculopathy_drgrading extends CDbMigration
 {
 	public function up()
 	{
+		$exam_event_type = $this->dbConnection->createCommand()->select('id')->from('event_type')
+			->where('name=:name', array(':name'=>'Examination'))->queryRow();
+
+		$exam_event_type_id = $exam_event_type['id'];
+
 		$this->renameTable('ophciexamination_drgrading_clinical', 'ophciexamination_drgrading_clinicalretinopathy');
 		$this->dropForeignKey('et_ophciexamination_drgrading_l_clinical_fk', 'et_ophciexamination_drgrading');
 		$this->renameColumn('et_ophciexamination_drgrading', 'left_clinical_id', 'left_clinicalret_id');
@@ -39,10 +44,46 @@ class m131003_134310_add_clinical_maculopathy_drgrading extends CDbMigration
 		$this->addForeignKey('et_ophciexamination_drgrading_l_clinmac_fk', 'et_ophciexamination_drgrading', 'left_clinicalmac_id', 'ophciexamination_drgrading_clinicalmaculopathy', 'id');
 		$this->addColumn('et_ophciexamination_drgrading', 'right_clinicalmac_id', 'int(10) unsigned');
 		$this->addForeignKey('et_ophciexamination_drgrading_r_clinmac_fk', 'et_ophciexamination_drgrading', 'right_clinicalmac_id', 'ophciexamination_drgrading_clinicalmaculopathy', 'id');
+
+		$this->update('patient_shortcode', array(
+				'method' => 'getLetterDRClinicalRetLeft'
+			),
+			'method = :meth', array(':meth' => 'getLetterDRClinicalLeft'));
+		$this->update('patient_shortcode', array(
+				'method' => 'getLetterDRClinicalRetRight'
+			),
+			'method = :meth', array(':meth' => 'getLetterDRClinicalRight'));
+
+		$this->insert('patient_shortcode', array(
+				'event_type_id' => $exam_event_type_id,
+				'default_code' => 'clm',
+				'code' => 'clm',
+				'method' => 'getLetterDRClinicalMacLeft',
+				'description' => 'Clinical left maculopathy'
+			));
+		$this->insert('patient_shortcode', array(
+				'event_type_id' => $exam_event_type_id,
+				'default_code' => 'crm',
+				'code' => 'crm',
+				'method' => 'getLetterDRClinicalMacRight',
+				'description' => 'Clinical left maculopathy'
+			));
 	}
 
 	public function down()
 	{
+
+		$this->delete('patient_shortcode', 'method = :method', array(':method' => 'getLetterDRClinicalMacRight'));
+		$this->delete('patient_shortcode', 'method = :method', array(':method' => 'getLetterDRClinicalMacLeft'));
+
+		$this->update('patient_shortcode', array(
+				'method' => 'getLetterDRClinicalLeft'
+			),
+			'method = :method', array(':method' => 'getLetterDRClinicalRetLeft'));
+		$this->update('patient_shortcode', array(
+				'method' => 'getLetterDRClinicalRight'
+			),
+			'method = :method', array(':method' => 'getLetterDRClinicalRetRight'));
 
 		$this->dropForeignKey('et_ophciexamination_drgrading_r_clinmac_fk', 'et_ophciexamination_drgrading');
 		$this->dropColumn('et_ophciexamination_drgrading', 'right_clinicalmac_id');

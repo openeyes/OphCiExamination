@@ -415,24 +415,57 @@ class OphCiExamination_API extends BaseAPI
 	 * @param string $side 'left' or 'right'
 	 * @return string
 	 */
-	public function getDRClinical($patient, $episode, $side)
+	public function getDRClinicalRet($patient, $episode, $side)
 	{
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
-			return $dr->{$side."_clinical"};
+			if ($ret = $dr->{$side."_clinicalret"}) {
+				return $ret->name;
+			};
 		}
 	}
 
-	public function getLetterDRClinicalLeft($patient)
+	public function getLetterDRClinicalRetLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return $this->getDRClinical($patient, $episode, 'left');
+			return $this->getDRClinicalRet($patient, $episode, 'left');
 		}
 	}
 
-	public function getLetterDRClinicalRight($patient)
+	public function getLetterDRClinicalRetRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return $this->getDRClinical($patient, $episode, 'right');
+			return $this->getDRClinicalRet($patient, $episode, 'right');
+		}
+	}
+
+	/**
+	 * Get the clinical diabetic maculopathy grade
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRClinicalMac($patient, $episode, $side)
+	{
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+			if ($mac = $dr->{$side."_clinicalmac"}) {
+				return $mac->name;
+			}
+		}
+	}
+
+	public function getLetterDRClinicalMacLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinicalMac($patient, $episode, 'left');
+		}
+	}
+
+	public function getLetterDRClinicalMacRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinicalMac($patient, $episode, 'right');
 		}
 	}
 
