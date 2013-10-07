@@ -55,6 +55,39 @@
 		</div>
 	</div>
 </div>
+<div class="eventDetail aligned">
+	<div class="label">
+		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>:
+	</div>
+	<div class="data">
+		<div class="wrapper <?php if ($element->{$side . '_nscretinopathy'}) { echo $element->{$side . '_nscretinopathy'}->class; } ?>">
+		<?php
+			$nscretinopathy_html_options = array('options' => array());
+			foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
+				$nscretinopathy_html_options['options'][(string) $retin->id] = array('data-val' => $retin->name, 'data-booking' => $retin->booking_weeks, 'class' => $retin->class);
+			}
+			echo CHtml::activeDropDownList($element, $side . '_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
+		?>
+		</div>
+		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
+		<div class="quicklook grade-info" style="display: none;">
+			<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
+				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscretinopathy_desc" id="' . $element_class . '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
+			}
+			?>
+		</div>
+
+		<div id="<?php echo $element_class . '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
+			<dl>
+				<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) { ?>
+				<dt class="<?php echo $retin->class ?>"><a href="#" data-id="<?php echo $retin->id ?>"><?php echo $retin->name ?></a></dt>
+				<dd class="<?php echo $retin->class ?>"><?php echo nl2br($retin->description) ?></dd>
+				<?php } ?>
+			</dl>
+		</div>
+	</div>
+</div>
+<?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation'); ?>
 <div class="eventDetail aligned clinical">
 	<?php
 	$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->findAll(array('order'=>'display_order'));
@@ -94,39 +127,6 @@
 		-->
 	</div>
 </div>
-<div class="eventDetail aligned">
-	<div class="label">
-		<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id'); ?>:
-	</div>
-	<div class="data">
-		<div class="wrapper <?php if ($element->{$side . '_nscretinopathy'}) { echo $element->{$side . '_nscretinopathy'}->class; } ?>">
-		<?php
-			$nscretinopathy_html_options = array('options' => array());
-			foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-				$nscretinopathy_html_options['options'][(string) $retin->id] = array('data-val' => $retin->name, 'data-booking' => $retin->booking_weeks, 'class' => $retin->class);
-			}
-			echo CHtml::activeDropDownList($element, $side . '_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
-		?>
-		</div>
-		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
-		<div class="quicklook grade-info" style="display: none;">
-			<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {
-				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_nscretinopathy_desc" id="' . $element_class . '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
-			}
-			?>
-		</div>
-
-		<div id="<?php echo $element_class . '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
-			<dl>
-				<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) { ?>
-				<dt class="<?php echo $retin->class ?>"><a href="#" data-id="<?php echo $retin->id ?>"><?php echo $retin->name ?></a></dt>
-				<dd class="<?php echo $retin->class ?>"><?php echo nl2br($retin->description) ?></dd>
-				<?php } ?>
-			</dl>
-		</div>
-	</div>
-</div>
-<?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation'); ?>
 <div class="eventDetail aligned">
 	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>:
