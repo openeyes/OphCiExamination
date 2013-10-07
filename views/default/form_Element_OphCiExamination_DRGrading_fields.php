@@ -73,6 +73,8 @@
 			echo CHtml::activeDropDownList($element, $side . '_clinicalmac_id', CHtml::listData($clinical_maculopathys,'id','name'), $html_options);
 			?>
 		</div>
+		<!-- REMOVED UNTIL WE ARE PROVIDED WITH APPROPRIATE TEXT FOR THE DESCRIPTIONS
+		TODO: code to auto detect when there are no descriptions, so that this works dynamically based on the data.
 		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php foreach ($clinical_maculopathys as $clinical) {
@@ -89,6 +91,7 @@
 				<?php } ?>
 			</dl>
 		</div>
+		-->
 	</div>
 </div>
 <div class="eventDetail aligned">
