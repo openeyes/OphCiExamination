@@ -18,42 +18,51 @@
  */
 ?>
 
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis1_id') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_diagnosis1'}->term ?></div>
-</div>
-
-<?php if ($element->{$side . '_diagnosis2_id'}) { ?>
-	<div class="eventDetail aligned">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id') ?>:</div>
-		<div class="data"><?php echo $element->{$side . '_diagnosis2'}->term ?></div>
+<?php if ($element->{$side . '_no_treatment'}) {?>
+	<div class="eventDetail">
+		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel($side . '_no_treatment_reason_id'))?></div>
+		<div class="data"><?php echo $element->{$side . 'NoTreatmentReasonName'} ?></div>
 	</div>
-<?php } ?>
-
-<?php foreach ($element->{$side . '_answers'} as $answer) {?>
+<?php } else { ?>
 	<div class="eventDetail aligned">
-		<div class="label"><?php echo $answer->question->question ?></div>
-		<div class="data"><?php echo ($answer->answer) ? 'Yes' : 'No'; ?></div>
+		<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis1_id') ?>:</div>
+		<div class="data"><?php echo $element->{$side . '_diagnosis1'}->term ?></div>
 	</div>
-<?php } ?>
 
-<div class="eventDetail aligned">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_risks') ?>:</div>
-		<div class="data" style="display: inline-block;">
-			<?php
-			if (!$element->{$side . '_risks'}) {
-				echo "None";
-			} else {
-				foreach ($element->{$side . '_risks'} as $item) {
-					echo $item->name . "<br />";
-				}
-			}
-			?>
+
+	<?php if ($element->{$side . '_diagnosis2_id'}) { ?>
+		<div class="eventDetail aligned">
+			<div class="label"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id') ?>:</div>
+			<div class="data"><?php echo $element->{$side . '_diagnosis2'}->term ?></div>
 		</div>
+	<?php } ?>
+
+	<?php foreach ($element->{$side . '_answers'} as $answer) {?>
+		<div class="eventDetail aligned">
+			<div class="label"><?php echo $answer->question->question ?></div>
+			<div class="data"><?php echo ($answer->answer) ? 'Yes' : 'No'; ?></div>
+		</div>
+	<?php } ?>
+
+	<div class="eventDetail aligned">
+			<div class="label"><?php echo $element->getAttributeLabel($side . '_risks') ?>:</div>
+			<div class="data" style="display: inline-block;">
+				<?php
+				if (!$element->{$side . '_risks'}) {
+					echo "None";
+				} else {
+					foreach ($element->{$side . '_risks'} as $item) {
+						echo $item->name . "<br />";
+					}
+				}
+				?>
+			</div>
+		</div>
+
+
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+		<div class="data"><?php echo $element->textWithLineBreaks($side . '_comments') ?></div>
 	</div>
+<?php }
 
-
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-	<div class="data"><?php echo $element->textWithLineBreaks($side . '_comments') ?></div>
-</div>

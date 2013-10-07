@@ -413,6 +413,19 @@ class DefaultController extends NestedElementsEventTypeController
 	}
 
 	/**
+	 * use the POST to process setting the diabetes type on the dr grading element
+	 * @param $element
+	 */
+	private function _POST_DiabeticDiagnosis($element)
+	{
+		if (!$this->patient->getDiabetesType()) {
+			if (!$element->secondarydiagnosis_disorder_id) {
+				$element->secondarydiagnosis_disorder_required = true;
+			}
+		}
+	}
+
+	/**
 	 * (non-PHPdoc)
 	 * @see BaseEventTypeController::setPOSTManyToMany()
 	 */
@@ -426,10 +439,14 @@ class DefaultController extends NestedElementsEventTypeController
 			$this->_POST_InjectionRisks($element, 'right');
 		}
 
+		if ($cls == "Element_OphCiExamination_DRGrading") {
+			$this->_POST_DiabeticDiagnosis($element);
+		}
+
 
 	}
 
-	/*
+	/**
 	* similar to setPOSTManyToMany, but will actually call methods on the elements that will create database entries
 	* should be called on create and update.
 	*
@@ -458,9 +475,10 @@ class DefaultController extends NestedElementsEventTypeController
 		}
 	}
 
-	/*
-	* ensures Many Many fields processed for elements
-	*/
+	/**
+	 *
+	 * ensures Many Many fields processed for elements
+	 */
 	public function createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)
 	{
 		if ($response = parent::createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)) {
@@ -470,9 +488,9 @@ class DefaultController extends NestedElementsEventTypeController
 		return $response;
 	}
 
-	/*
+	/**
 	 * ensures Many Many fields processed for elements
-	*/
+	 */
 	public function updateElements($elements, $data, $event)
 	{
 		if ($response = parent::updateElements($elements, $data, $event)) {

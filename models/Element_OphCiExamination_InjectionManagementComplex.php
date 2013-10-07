@@ -23,16 +23,20 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property boolean $no_treatment
- * @property integer $no_treatment_reason_id
- * @property string $no_treatment_reason_other
+ * @property boolean $left_no_treatment
+ * @property boolean $right_no_treatment
+ * @property integer $left_no_treatment_reason_id
+ * @property integer $right_no_treatment_reason_id
+ * @property string $left_no_treatment_reason_other
+ * @property string $right_no_treatment_reason_other
  * @property integer $left_diagnosis1_id
  * @property integer $right_diagnosis1_id
  * @property integer $left_diagnosis2_id
  * @property integer $right_diagnosis2_id
  *
  * The followings are the available model relations:
- * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $no_treatment_reason
+ * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $left_no_treatment_reason
+ * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $right_no_treatment_reason
  * @property Disorder $left_diagnosis1
  * @property Disorder $right_diagnosis1
  * @property Disorder $left_diagnosis2
@@ -70,11 +74,15 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, no_treatment, no_treatment_reason_id, no_treatment_reason_other, left_diagnosis1_id,
+				array('event_id, eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
+						left_no_treatment_reason_other, right_no_treatment_reason_other, left_diagnosis1_id,
 						right_diagnosis1_id, left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
-				array('no_treatment', 'required'),
-				array('no_treatment_reason_id', 'requiredIfNoTreatment'),
-				array('no_treatment_reason_other', 'requiredIfNoTreatmentOther'),
+				array('left_no_treatment', 'requiredIfSide', 'side' => 'left'),
+				array('right_no_treatment', 'requiredIfSide', 'side' => 'right'),
+				array('left_no_treatment_reason_id', 'requiredIfNoTreatment', 'side' => 'left'),
+				array('right_no_treatment_reason_id', 'requiredIfNoTreatment', 'side' => 'right'),
+				array('left_no_treatment_reason_other', 'requiredIfNoTreatmentOther', 'side' => 'left'),
+				array('right_no_treatment_reason_other', 'requiredIfNoTreatmentOther', 'side' => 'right'),
 				array('left_diagnosis1_id', 'requiredIfTreatment', 'side' => 'left'),
 				array('right_diagnosis1_id', 'requiredIfTreatment', 'side' => 'right'),
 				array('left_diagnosis2_id', 'requiredIfSecondary', 'side' => 'left', 'dependent' => 'left_diagnosis1_id'),
@@ -83,14 +91,15 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				array('right_answers', 'answerValidation', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, eye_id, no_treatment, no_treatment_reason_id, left_diagnosis_id, right_diagnosis_id,' .
+				array('id, event_id, eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
+						left_no_treatment_reason_other, right_no_treatment_reason_other, left_diagnosis_id, right_diagnosis_id,' .
 						'left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields()
 	{
-		return array('diagnosis1_id', 'diagnosis2_id', 'comments');
+		return array('no_treatment', 'no_treatment_reason_id', 'no_treatment_reason_other', 'diagnosis1_id', 'diagnosis2_id', 'comments');
 	}
 
 	/**
@@ -106,7 +115,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'no_treatment_reason' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'no_treatment_reason_id'),
+				'left_no_treatment_reason' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'left_no_treatment_reason_id'),
+				'right_no_treatment_reason' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'right_no_treatment_reason_id'),
 				'left_diagnosis1' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis1_id'),
 				'right_diagnosis1' => array(self::BELONGS_TO, 'Disorder', 'right_diagnosis1_id'),
 				'left_diagnosis2' => array(self::BELONGS_TO, 'Disorder', 'left_diagnosis2_id'),
@@ -128,9 +138,12 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return array(
 				'id' => 'ID',
 				'event_id' => 'Event',
-				'no_treatment' => "No treatment",
-				'no_treatment_reason_id' => 'Reason for no treatment',
-				'no_treatment_reason_other' => 'Please provide other reason for no treatment',
+				'left_no_treatment' => "No treatment",
+				'right_no_treatment' => "No treatment",
+				'left_no_treatment_reason_id' => 'Reason for no treatment',
+				'right_no_treatment_reason_id' => 'Reason for no treatment',
+				'left_no_treatment_reason_other' => 'Please provide other reason for no treatment',
+				'right_no_treatment_reason_other' => 'Please provide other reason for no treatment',
 				'left_diagnosis1_id' => 'Diagnosis',
 				'right_diagnosis1_id' => 'Diagnosis',
 				'left_diagnosis2_id' => 'Secondary to',
@@ -153,13 +166,20 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('no_treatment', $this->no_treatment);
-		$criteria->compare('no_treatment_reason_id', $this->no_treatment_reason_id);
+		$criteria->compare('left_no_treatment', $this->left_no_treatment);
+		$criteria->compare('right_no_treatment', $this->right_no_treatment);
+		$criteria->compare('left_no_treatment_reason_id', $this->left_no_treatment_reason_id);
+		$criteria->compare('right_no_treatment_reason_id', $this->right_no_treatment_reason_id);
+		$criteria->compare('left_no_treatment_reason_other', $this->left_no_treatment_reason_other);
+		$criteria->compare('right_no_treatment_reason_other', $this->right_no_treatment_reason_other);
 		$criteria->compare('eye_id', $this->eye_id);
 		$criteria->compare('left_diagnosis1_id', $this->left_diagnosis1_id);
 		$criteria->compare('right_diagnosis1_id', $this->right_diagnosis1_id);
 		$criteria->compare('left_diagnosis2_id', $this->left_diagnosis2_id);
 		$criteria->compare('right_diagnosis2_id', $this->right_diagnosis2_id);
+		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('right_comments', $this->right_comments);
+
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
@@ -197,19 +217,39 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 
 	/**
-	 * get the reason for no treatment as a string
+	 * get the reason for no treatment as a string for given side
 	 *
+	 * @param string $side
 	 * @return string
 	 */
-	public function getNoTreatmentReasonName() {
-		if ($ntr = $this->no_treatment_reason) {
+	protected function getNoTreatmentReasonName($side) {
+		if ($ntr = $this->{$side . '_no_treatment_reason'}) {
 			if ($ntr->other) {
-				return $this->no_treatment_reason_other;
+				return $this->{$side . '_no_treatment_reason_other'};
 			}
 			else {
 				return $ntr->name;
 			}
 		}
+		return "Not specified";
+	}
+
+	/**
+	 * get the no treatment reason name for the left side
+	 *
+	 * @return string
+	 */
+	public function getLeftNoTreatmentReasonName() {
+		return $this->getNoTreatmentReasonName('left');
+	}
+
+	/**
+	 * get the no treatment reason name for the right side
+	 *
+	 * @return string
+	 */
+	public function getRightNoTreatmentReasonName() {
+		return $this->getNoTreatmentReasonName('right');
 	}
 
 	/**
@@ -367,7 +407,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	/**
 	 * get the list of no treatment reasons that should be used for this element
 	 *
-	 * @return multitype:OphCiExamination_InjectionManagementComplex_NoTreatmentReason unknown
+	 * @return OphCiExamination_InjectionManagementComplex_NoTreatmentReason[]
 	 */
 	public function getNoTreatmentReasons()
 	{
@@ -377,28 +417,31 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 
 		$reasons = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll($criteria);
 
-		if ($curr_id = $this->no_treatment_reason_id) {
-			$seen = false;
+		if ($this->left_no_treatment_reason || $this->right_no_treatment_reason) {
 			$all_reasons = array();
+			$all_reason_ids = array();
 			foreach ($reasons as $r) {
-				if ($r->id == $curr_id) {
-					$seen = true;
-					break;
-				}
 				$all_reasons[] = $r;
+				$all_reason_ids[] = $r->id;
 			}
-			if (!$seen) {
-				$all_reasons[] = $this->no_treatment_reason;
-				$reasons = $all_reasons;
+			if ($this->left_no_treatment_reason && !in_array($this->left_no_treatment_reason->id, $all_reason_ids)) {
+				$all_reasons[] = $this->left_no_treatment_reason;
+				$all_reason_ids[] = $this->left_no_treatment_reason_id;
 			}
+			if ($this->right_no_treatment_reason && !in_array($this->right_no_treatment_reason->id, $all_reason_ids)) {
+				$all_reasons[] = $this->right_no_treatment_reason;
+			}
+			$reasons = $all_reasons;
 		}
 		return $reasons;
+
 	}
 
 	/**
 	 * get the relevant questions for the given side
 	 *
 	 * @param string $side - 'left' or 'right'
+	 * @return OphCiExamination_InjectionManagementComplex_Question[]
 	 */
 	public function getInjectionQuestionsForSide($side)
 	{
@@ -542,8 +585,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function requiredIfTreatment($attribute, $params)
 	{
-		if (!$this->no_treatment) {
-			$this->requiredIfSide($attribute, $params);
+		$side = $params['side'];
+		if (($side == 'left' && $this->eye_id != Eye::RIGHT) || ($side == 'right' && $this->eye_id != Eye::LEFT)) {
+			if (!$this->{$side . '_no_treatment'} && $this->$attribute == null) {
+				$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' must be provided when treatment required');
+			}
 		}
 	}
 
@@ -555,8 +601,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function requiredIfNoTreatment($attribute, $params)
 	{
-		if ($this->no_treatment && is_null($this->$attribute) ) {
-			$this->addError($attribute, $this->getAttributeLabel($attribute) . " must be provided when there is no treatment");
+		$side = $params['side'];
+		if (($side == 'left' && $this->eye_id != Eye::RIGHT) || ($side == 'right' && $this->eye_id != Eye::LEFT)) {
+			if ($this->{$side . '_no_treatment'} && $this->$attribute == null ) {
+				$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . " must be provided when there is no treatment");
+			}
 		}
 	}
 
@@ -568,8 +617,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function requiredIfNoTreatmentOther($attribute, $params)
 	{
-		if ($this->no_treatment_reason && $this->no_treatment_reason->other && (is_null($this->$attribute) || strlen(trim($this->$attribute)) == 0) ) {
-			$this->addError($attribute, $this->getAttributeLabel($attribute) . " must be provided for " . $this->no_treatment_reason->name . ' no treatment reason');
+		$side = $params['side'];
+		if ($this->{$side . '_no_treatment_reason'} && $this->{$side . '_no_treatment_reason'}->other && (is_null($this->$attribute) || strlen(trim($this->$attribute)) == 0) ) {
+			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute));
 		}
 	}
 
