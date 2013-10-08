@@ -639,4 +639,37 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 			}
 		}
 	}
+
+	/**
+	 * return the side (Eye::BOTH, Eye::LEFT or Eye::RIGHT) that should be injected if one should be. null otherwise
+	 *
+	 * @return integer|null
+	 */
+	public function getInjectionSide()
+	{
+		$left = false;
+		$right = false;
+		if ($this->hasLeft()) {
+			if (!$this->left_no_treatment) {
+				$left = true;
+			}
+		}
+		if ($this->hasRight()) {
+			if (!$this->right_no_treatment) {
+				$right = true;
+			}
+		}
+		if ($left) {
+			if ($right) {
+				return Eye::BOTH;
+			}
+			else {
+				return Eye::LEFT;
+			}
+		}
+		elseif ($right) {
+			return Eye::RIGHT;
+		}
+		return null;
+	}
 }
