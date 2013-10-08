@@ -44,6 +44,13 @@
 		</div>
 	<?php } ?>
 
+	<?php if ($treatment = $element->{$side . '_treatment'}) {?>
+		<div class="eventDetail aligned">
+			<div class="label"><?php echo $element->getAttributeLabel($side . '_treatment_id') ?>:</div>
+			<div class="data"><?php echo $element->{$side . '_treatment'}->name ?></div>
+		</div>
+	<?php } ?>
+
 	<div class="eventDetail aligned">
 			<div class="label"><?php echo $element->getAttributeLabel($side . '_risks') ?>:</div>
 			<div class="data" style="display: inline-block;">

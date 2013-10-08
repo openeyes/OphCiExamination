@@ -33,6 +33,8 @@
  * @property integer $right_diagnosis1_id
  * @property integer $left_diagnosis2_id
  * @property integer $right_diagnosis2_id
+ * @property integer $left_treatment_id
+ * @property integer $right_treatment_id
  *
  * The followings are the available model relations:
  * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $left_no_treatment_reason
@@ -45,10 +47,14 @@
  * @property OphCiExamination_InjectionManagementComplex_Answer[] $right_answers
  * @property OphCiExamination_InjectionManagementComplex_Risk[] $left_risks
  * @property OphCiExamination_InjectionManagementComplex_Risk[] $right_risks
+ * @property OphTrIntravitrealinjection_Treatment_Drug $left_treatment - ONLY availabile if OphTrIntravitrealinjection module installed
+ * @property OphTrIntravitrealinjection_Treatment_Drug $right_treatment - ONLY availabile if OphTrIntravitrealinjection module installed
  */
 
 class Element_OphCiExamination_InjectionManagementComplex extends SplitEventTypeElement
 {
+	protected $_injection_installed = null;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -67,6 +73,19 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 
 	/**
+	 * returns boolean to indicate if the injection module is installed (and therefore whether we can pick treatments
+	 * from that module)
+	 * @return boolean
+	 */
+	public function injectionInstalled()
+	{
+		if ($this->_injection_installed == null) {
+			$this->_injection_installed = Yii::app()->hasModule('OphTrIntravitrealinjection');
+		}
+		return $this->_injection_installed;
+	}
+
+	/**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -76,7 +95,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return array(
 				array('event_id, eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
 						left_no_treatment_reason_other, right_no_treatment_reason_other, left_diagnosis1_id,
-						right_diagnosis1_id, left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments', 'safe'),
+						right_diagnosis1_id, left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments,
+						left_treatment_id, right_treatment_id', 'safe'),
 				array('left_no_treatment', 'requiredIfSide', 'side' => 'left'),
 				array('right_no_treatment', 'requiredIfSide', 'side' => 'right'),
 				array('left_no_treatment_reason_id', 'requiredIfNoTreatment', 'side' => 'left'),
@@ -89,6 +109,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				array('right_diagnosis2_id', 'requiredIfSecondary', 'side' => 'right', 'dependent' => 'right_diagnosis1_id'),
 				array('left_answers', 'answerValidation', 'side' => 'left'),
 				array('right_answers', 'answerValidation', 'side' => 'right'),
+				array('left_treatment_id', 'ifInjectionInstalled', 'side' => 'left', 'check' => 'requiredIfTreatment'),
+				array('right_treatment_id', 'ifInjectionInstalled', 'side' => 'right', 'check' => 'requiredIfTreatment'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
@@ -152,6 +174,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				'right_risks' => 'Risks',
 				'left_comments' => 'Comments',
 				'right_comments' => 'Comments',
+				'left_treatment_id' => 'Intended Treatment',
+				'right_treatment_id' => 'Intended Treatment',
 		);
 	}
 
@@ -641,6 +665,19 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 
 	/**
+	 * pass through validation function that will run the 'check' attribute method if the injection module is installed
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function ifInjectionInstalled($attribute, $params)
+	{
+		if ($this->injectionInstalled()) {
+			$check = $params['check'];
+			$this->$check($attribute, $params);
+		}
+	}
+	/**
 	 * return the side (Eye::BOTH, Eye::LEFT or Eye::RIGHT) that should be injected if one should be. null otherwise
 	 *
 	 * @return integer|null
@@ -671,5 +708,63 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 			return Eye::RIGHT;
 		}
 		return null;
+	}
+
+	/**
+	 * get the treatments list to select from for this element on the given side
+	 *
+	 * @param $side
+	 * @return OphTrIntravitrealinjection_Treatment_Drug[]|null
+	 */
+	public function getInjectionTreatments($side)
+	{
+		if ($this->injectionInstalled()) {
+			$treatments = OphTrIntravitrealinjection_Treatment_Drug::model()->availableScope()->findAll();
+			if ($current_id = $this->{$side . '_treatment_id'}) {
+				$treatment_list = array();
+
+				foreach ($treatments as $treatment) {
+					if ($treatment->id == $current_id) {
+						return $treatments;
+					}
+					$treatment_list[] = $treatment;
+				}
+				$treatment_list[] = $this->{$side . '_treatment'};
+				$treatments = $treatment_list;
+			}
+			return $treatments;
+		}
+	}
+
+	/**
+	 * return the treatment drug for the left side if defined
+	 *
+	 * defines relation to external model, hence not using the yii magic relations definition
+	 *
+	 * @return OphTrIntravitrealinjection_Treatment_Drug|null
+	 */
+	public function getleft_treatment()
+	{
+		if ($this->injectionInstalled()) {
+			if ($this->hasLeft() && $this->left_treatment_id) {
+				return OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->left_treatment_id);
+			}
+		}
+	}
+
+	/**
+	 * return the treatment drug for the right side if defined
+	 *
+	 * defines relation to external model, hence not using the yii magic relations definition
+	 *
+	 * @return OphTrIntravitrealinjection_Treatment_Drug|null
+	 */
+	public function getright_treatment()
+	{
+		if ($this->injectionInstalled()) {
+			if ($this->hasRight() && $this->right_treatment_id) {
+				return OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->right_treatment_id);
+			}
+		}
 	}
 }

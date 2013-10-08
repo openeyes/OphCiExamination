@@ -111,7 +111,7 @@ class DefaultController extends NestedElementsEventTypeController
 	 * @param ElementType[] $elements
 	 * @return ElementType[]
 	 */
-	protected function filterElements($elements, $by_type_id = false)
+	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
