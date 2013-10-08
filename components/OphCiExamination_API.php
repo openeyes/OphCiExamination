@@ -677,15 +677,21 @@ class OphCiExamination_API extends BaseAPI
 	 * return the most recent Injection Management Complex examination element in the given episode.
 	 *
 	 * @param Episode $episode
+	 * @param DateTime $after
 	 * @return OphCiExamination_InjectionManagementComplex|null
 	 */
-	public function getLatestInjectionManagementComplex($episode)
+	public function getLatestInjectionManagementComplex($episode, $after=null)
 	{
 		$events = $this->getEventsInEpisode($episode->patient, $episode);
 
 		foreach ($events as $event) {
 			$criteria = new CDbCriteria();
-			$criteria->compare('event_id', $event->id);
+			$criteria->addCondition('event_id = ?');
+			$criteria->params = array($event->id);
+			if ($after) {
+				$criteria->addCondition('created_date > ?');
+				$criteria->params[] = $after->format('Y-m-d H:i:s');
+			}
 			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
 				return $el;
 			}
