@@ -67,7 +67,7 @@ if ($no_treatment_reason && $no_treatment_reason->other) {
 
 <div id="div_<?php echo get_class($element) . '_' . $side ?>_treatment_fields">
 	<div class="eventDetail elementField diagnosis_id clearfix">
-		<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis1_id'); ?></div>
+		<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis1_id'); ?>:</div>
 		<div class="data" style="display: inline-block;">
 		<?php $form->widget('application.widgets.DiagnosisSelection',array(
 				'field' => $side . '_diagnosis1_id',
@@ -81,7 +81,7 @@ if ($no_treatment_reason && $no_treatment_reason->other) {
 	</div>
 
 	<div class="eventDetail elementField<?php if (!array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders) ) { echo " hidden"; }?>" id="<?php echo $side ?>_diagnosis2_wrapper">
-		<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id'); ?></div>
+		<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_diagnosis2_id'); ?>:</div>
 		<div class="data" style="display: inline-block;">
 			<?php
 			$l2_attrs =  array('empty'=>'- Please select -', 'style' => 'margin-bottom: 10px; width: 240px;');
@@ -108,6 +108,23 @@ if ($no_treatment_reason && $no_treatment_reason->other) {
 
 	$this->renderPartial('form_' . get_class($element) . '_questions',
 					array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions));
+	?>
+
+	<?php
+	if ($treatments = $element->getInjectionTreatments($side)) {
+		?>
+		<div class="eventDetail elementField diagnosis_id clearfix">
+			<div class="label" style="vertical-align: top;"><?php echo $element->getAttributeLabel($side . '_treatment_id'); ?>:</div>
+			<div class="data">
+				<?php $form->dropDownlist($element, $side . '_treatment_id',
+					CHtml::listData($treatments,'id','name'),
+					array('empty'=>'- Please select -', 'nowrapper' => true));
+				?>
+			</div>
+		</div>
+
+	<?php
+	}
 	?>
 
 	<?php

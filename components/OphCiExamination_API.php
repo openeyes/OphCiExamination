@@ -674,6 +674,31 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	 * return the most recent Injection Management Complex examination element in the given episode.
+	 *
+	 * @param Episode $episode
+	 * @param DateTime $after
+	 * @return OphCiExamination_InjectionManagementComplex|null
+	 */
+	public function getLatestInjectionManagementComplex($episode, $after=null)
+	{
+		$events = $this->getEventsInEpisode($episode->patient, $episode);
+
+		foreach ($events as $event) {
+			$criteria = new CDbCriteria();
+			$criteria->addCondition('event_id = ?');
+			$criteria->params = array($event->id);
+			if ($after) {
+				$criteria->addCondition('created_date > ?');
+				$criteria->params[] = $after->format('Y-m-d H:i:s');
+			}
+			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+				return $el;
+			}
+		}
+	}
+
+	/**
 	 * retrieve OCT measurements for the given side for the patient in the given episode
 	 *
 	 * N.B. This is different from letter functions as it will return the most recent OCT element, regardless of whether

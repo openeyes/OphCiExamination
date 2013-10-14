@@ -103,7 +103,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 
 	public function sidedFields()
 	{
-		return array('nscretinopathy_id', 'nscmaculopathy_id','nscretinopathy_photocoagulation','nscmaculopathy_photocoagulation','clinical_id');
+		return array('nscretinopathy_id', 'nscmaculopathy_id','nscretinopathy_photocoagulation','nscmaculopathy_photocoagulation','clinicalret_id', 'clinicalmac_id');
 	}
 
 	/**

@@ -1277,7 +1277,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
 
 	// clinical maculopathy
 	var cmSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalmac_id');
-	var cmSelVal = cSel.val();
+	var cmSelVal = cmSel.val();
 
 	cmSel.find('option').each(function() {
 		if ($(this).attr('value') == cmSelVal) {
