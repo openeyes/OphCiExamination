@@ -24,7 +24,7 @@
 </div>
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_crt'}; ?> &micro;m</div>
+	<div class="data"><?php echo $element->{$side . '_crt'} !== null ? $element->{$side . '_crt'} . ' &micro;m' : 'Not recorded'; ?> </div>
 </div>
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
