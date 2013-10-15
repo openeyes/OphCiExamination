@@ -35,6 +35,20 @@
 	</div>
 <?php } ?>
 </div>
+
+<div class="eventDetail">
+	<div class="label"><?php echo $element->getAttributeLabel('secondarydiagnosis_disorder_id');?></div>
+	<div class="data">
+		<?php
+			if ($diabetes = $this->patient->getDiabetesType()) {
+				echo $diabetes->term;
+			}
+			else {
+				$form->radioButtons($element, 'secondarydiagnosis_disorder_id', 'diabetes_types', null, false, false, false, false, array('nowrapper' => true));
+			}
+		?>
+	</div>
+</div>
 <div class="cols2 clearfix">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div
