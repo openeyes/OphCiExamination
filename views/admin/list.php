@@ -18,6 +18,7 @@
  */
 ?>
 
+
 <h1><?php echo $title ? $title : "Examination Admin" ?></h1>
 
 <a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
