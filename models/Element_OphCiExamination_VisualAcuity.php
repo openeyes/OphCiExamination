@@ -434,6 +434,9 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 				$text .= ", ".$this->left_comments;
 			}
 		}
+		else {
+			$text .= "left: not recorded";
+		}
 
 		if ($this->hasRight()) {
 			if ($text) $text .= "\n";
@@ -445,6 +448,9 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
+		}
+		else {
+			$text .= "right: not recorded";
 		}
 
 		return $text."\n";
