@@ -242,3 +242,5 @@ h3{
 .gonioCross .gonioTem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
 .gonioCross .gonioNas { right: 5px; top: 50%; height: 20px; margin-top: -10px; }
 .gonioCross .gonioInf { bottom: 5px; width: 100%; }
+
+div.dilation_table table { width: 90% }

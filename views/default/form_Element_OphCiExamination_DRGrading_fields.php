@@ -20,31 +20,34 @@
 	$element_class = get_class($element);
 
 ?>
-<div class="eventDetail aligned">
+<div class="eventDetail aligned clinical">
+	<?php
+	$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->findAll(array('order'=>'display_order'));
+	?>
 	<div class="label">
-		<?php echo $element->getAttributeLabel($side.'_clinical_id'); ?>
+		<?php echo $element->getAttributeLabel($side.'_clinicalret_id'); ?>
 	</div>
 	<div class="data">
-		<div class="wrapper <?php if ($element->{$side . '_clinical'}) { echo $element->{$side . '_clinical'}->class; } ?>">
+		<div class="wrapper <?php if ($element->{$side . '_clinicalret'}) { echo $element->{$side . '_clinicalret'}->class; } ?>">
 			<?php
 				$html_options = array('options' => array());
-				foreach (OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')) as $clinical) {
+				foreach ($clinical_retinopathys as $clinical) {
 					$html_options['options'][(string) $clinical->id] = array('data-val' => $clinical->name, 'class' => $clinical->class);
 				}
-				echo CHtml::activeDropDownList($element, $side . '_clinical_id', CHtml::listData(OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options);
+				echo CHtml::activeDropDownList($element, $side . '_clinicalret_id', CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
 			?>
 		</div>
 		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
 		<div class="quicklook grade-info" style="display: none;">
-			<?php foreach (OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')) as $clinical) {
-				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_clinical_desc" id="' . $element_class . '_' . $side . '_clinical_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
+			<?php foreach ($clinical_retinopathys as $clinical) {
+				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_clinicalret_desc" id="' . $element_class . '_' . $side . '_clinicalret_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
 			}
 			?>
 		</div>
 
-		<div id="<?php echo $element_class . '_'. $side.'_all_clinical_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinical_id'; ?>">
+		<div id="<?php echo $element_class . '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalret_id'; ?>">
 			<dl>
-				<?php foreach (OphCiExamination_DRGrading_Clinical::model()->findAll(array('order'=>'display_order')) as $clinical) { ?>
+				<?php foreach ($clinical_retinopathys as $clinical) { ?>
 				<dt class="<?php echo $clinical->class ?>"><a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a></dt>
 				<dd class="<?php echo $clinical->class ?>"><?php echo nl2br($clinical->description) ?></dd>
 				<?php } ?>
@@ -85,6 +88,45 @@
 	</div>
 </div>
 <?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation'); ?>
+<div class="eventDetail aligned clinical">
+	<?php
+	$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->findAll(array('order'=>'display_order'));
+	$curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac'} : @$clinical_maculopathys[0];
+	?>
+	<div class="label">
+		<?php echo $element->getAttributelabel($side.'_clinicalmac_id'); ?>
+	</div>
+	<div class="data">
+		<div class="wrapper <?php if ($curr_cm) { echo $curr_cm->class; } ?>">
+			<?php
+			$html_options = array('options' => array());
+			foreach ($clinical_maculopathys as $clinical) {
+				$html_options['options'][(string) $clinical->id] = array('data-val' => $clinical->name, 'class' => $clinical->class);
+			}
+			echo CHtml::activeDropDownList($element, $side . '_clinicalmac_id', CHtml::listData($clinical_maculopathys,'id','name'), $html_options);
+			?>
+		</div>
+		<!-- REMOVED UNTIL WE ARE PROVIDED WITH APPROPRIATE TEXT FOR THE DESCRIPTIONS
+		TODO: code to auto detect when there are no descriptions, so that this works dynamically based on the data.
+		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" /></span>
+		<div class="quicklook grade-info" style="display: none;">
+			<?php foreach ($clinical_maculopathys as $clinical) {
+				echo '<div style="display: none;" class="' . $element_class . '_'. $side.'_clinicalmac_desc" id="' . $element_class . '_' . $side . '_clinicalmac_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
+			}
+			?>
+		</div>
+
+		<div id="<?php echo $element_class . '_'. $side.'_all_clinicalmac_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalmac_id'; ?>">
+			<dl>
+				<?php foreach ($clinical_maculopathys as $clinical) { ?>
+					<dt class="<?php echo $clinical->class ?>"><a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a></dt>
+					<dd class="<?php echo $clinical->class ?>"><?php echo nl2br($clinical->description) ?></dd>
+				<?php } ?>
+			</dl>
+		</div>
+		-->
+	</div>
+</div>
 <div class="eventDetail aligned">
 	<div class="label">
 		<?php echo $element->getAttributeLabel($side.'_nscmaculopathy_id'); ?>:

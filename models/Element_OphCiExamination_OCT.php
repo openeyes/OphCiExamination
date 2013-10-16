@@ -31,7 +31,7 @@
  *
  */
 
-class Element_OphCiExamination_OCT extends SplitEventTypeElement 
+class Element_OphCiExamination_OCT extends SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -61,38 +61,38 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				array('eye_id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe'),
 				array('left_method_id, left_crt, left_sft', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_crt, right_sft', 'requiredIfSide', 'side' => 'right'),
-				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250, 
-						'tooBig' => 'Left {attribute} must be between 250 and 600', 
+				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
+						'tooBig' => 'Left {attribute} must be between 250 and 600',
 						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
 				array('right_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Right {attribute} must be between 250 and 600',
 						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
-				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 400, 'min' => 50,
-						'tooBig' => 'Left {attribute} must be between 50 and 400',
-						'tooSmall' => 'Left {attribute} must be between 50 and 400'),
-				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 400, 'min' => 50,
-					'tooBig' => 'Left {attribute} must be between 50 and 400',
-					'tooSmall' => 'Left {attribute} must be between 50 and 400'),
+				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
+						'tooBig' => 'Left {attribute} must be between 50 and 700',
+						'tooSmall' => 'Left {attribute} must be between 50 and 700'),
+				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
+						'tooBig' => 'Right {attribute} must be between 50 and 700',
+						'tooSmall' => 'Right {attribute} must be between 50 and 700'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe', 'on' => 'search'),
 		);
 	}
 
-	public function sidedFields() 
+	public function sidedFields()
 	{
 		return array('method_id', 'crt', 'sft');
 	}
-	
+
 	public function sidedDefaults()
 	{
 		return array();
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() 
+	public function relations()
 	{
 		return array(
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
@@ -147,17 +147,17 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		));
 	}
 
-	protected function beforeSave() 
+	protected function beforeSave()
 	{
 		return parent::beforeSave();
 	}
 
-	protected function afterSave() 
+	protected function afterSave()
 	{
 		return parent::afterSave();
 	}
 
-	protected function beforeValidate() 
+	protected function beforeValidate()
 	{
 		return parent::beforeValidate();
 	}
