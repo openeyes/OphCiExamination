@@ -373,6 +373,9 @@ class OphCiExamination_API extends BaseAPI
 			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
 			}
+			else {
+				$res .= " and no evidence of photocoagulation";
+			}
 			return $res;
 		}
 	}
@@ -405,6 +408,9 @@ class OphCiExamination_API extends BaseAPI
 			$res = $dr->{$side."_nscmaculopathy"};
 			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
+			}
+			else {
+				$res .= " and no evidence of photocoagulation";
 			}
 			return $res;
 		}
