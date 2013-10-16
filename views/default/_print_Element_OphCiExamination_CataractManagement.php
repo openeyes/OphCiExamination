@@ -17,6 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+	<div><?php echo $element->eye ? $element->eye->name : 'Eye no specified'?></div>
 	<?php if ($element->city_road) {?>
 		<div>At City Road</div>
 	<?php }?>

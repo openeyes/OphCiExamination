@@ -175,17 +175,30 @@ class OphCiExamination_API extends BaseAPI
 		}
 	}
 
+	/**
+	 * gets the id for the Snellen Metre unit type for VA
+	 *
+	 * @return int|null
+	 */
+	protected function getSnellenUnitId()
+	{
+		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
+			return $unit->id;
+		}
+		return null;
+	}
+
 	public function getLetterVisualAcuityLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return ($best = $this->getBestVisualAcuity($patient, $episode, 'left')) ? $best->convertTo($best->value) : null;
+			return ($best = $this->getBestVisualAcuity($patient, $episode, 'left')) ? $best->convertTo($best->value, $this->getSnellenUnitId()) : null;
 		}
 	}
 
 	public function getLetterVisualAcuityRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return ($best = $this->getBestVisualAcuity($patient, $episode, 'right')) ? $best->convertTo($best->value) : null;
+			return ($best = $this->getBestVisualAcuity($patient, $episode, 'right')) ? $best->convertTo($best->value, $this->getSnellenUnitId()) : null;
 		}
 	}
 
@@ -195,7 +208,7 @@ class OphCiExamination_API extends BaseAPI
 			$left = $this->getBestVisualAcuity($patient, $episode, 'left');
 			$right = $this->getBestVisualAcuity($patient, $episode, 'right');
 
-			return ($right ? $right->convertTo($right->value)  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value) : "not recorded")." on the left";
+			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
 		}
 	}
 
@@ -207,6 +220,28 @@ class OphCiExamination_API extends BaseAPI
 				return $this->{$method}($patient);
 			}
 		}
+	}
+
+	/**
+	* get the va from the given episode for the right side of the episode patient
+	*
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeLeft($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'left');
+	}
+
+	/**
+	* get the va from the given episode for the right side of the episode patient
+	*
+	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	* @return OphCiExamination_VisualAcuity_Reading
+	*/
+	public function getLetterVisualAcuityForEpisodeRight($episode)
+	{
+		return $this->getBestVisualAcuity($episode->patient, $episode, 'right');
 	}
 
 	/**
@@ -380,24 +415,57 @@ class OphCiExamination_API extends BaseAPI
 	 * @param string $side 'left' or 'right'
 	 * @return string
 	 */
-	public function getDRClinical($patient, $episode, $side)
+	public function getDRClinicalRet($patient, $episode, $side)
 	{
 		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
-			return $dr->{$side."_clinical"};
+			if ($ret = $dr->{$side."_clinicalret"}) {
+				return $ret->name;
+			};
 		}
 	}
 
-	public function getLetterDRClinicalLeft($patient)
+	public function getLetterDRClinicalRetLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return $this->getDRClinical($patient, $episode, 'left');
+			return $this->getDRClinicalRet($patient, $episode, 'left');
 		}
 	}
 
-	public function getLetterDRClinicalRight($patient)
+	public function getLetterDRClinicalRetRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			return $this->getDRClinical($patient, $episode, 'right');
+			return $this->getDRClinicalRet($patient, $episode, 'right');
+		}
+	}
+
+	/**
+	 * Get the clinical diabetic maculopathy grade
+	 *
+	 * @param Patient $patient
+	 * @param Episode $episode
+	 * @param string $side 'left' or 'right'
+	 * @return string
+	 */
+	public function getDRClinicalMac($patient, $episode, $side)
+	{
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+			if ($mac = $dr->{$side."_clinicalmac"}) {
+				return $mac->name;
+			}
+		}
+	}
+
+	public function getLetterDRClinicalMacLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinicalMac($patient, $episode, 'left');
+		}
+	}
+
+	public function getLetterDRClinicalMacRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			return $this->getDRClinicalMac($patient, $episode, 'right');
 		}
 	}
 
@@ -523,6 +591,9 @@ class OphCiExamination_API extends BaseAPI
 	/**
 	 * Get the most recent InjectionManagementComplex element in this episode for the given side
 	 *
+	 * N.B. This is different from letter functions as it will return the most recent Injection Management Complex
+	 * element, regardless of whether it is part of the most recent examination event, or an earlier one.
+	 *
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side
@@ -552,6 +623,9 @@ class OphCiExamination_API extends BaseAPI
 
 	/**
 	 * Get the most recent InjectionManagementComplex element in this episode for the given side and disorder
+	 *
+	 * N.B. This is different from letter functions as it will return the most recent Injection Management Complex element,
+	 * regardless of whether it is part of the most recent examination event, or an earlier one.
 	 *
 	 * @param Patient $patient
 	 * @param Episode $episode
@@ -600,11 +674,40 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	 * return the most recent Injection Management Complex examination element in the given episode.
+	 *
+	 * @param Episode $episode
+	 * @param DateTime $after
+	 * @return OphCiExamination_InjectionManagementComplex|null
+	 */
+	public function getLatestInjectionManagementComplex($episode, $after=null)
+	{
+		$events = $this->getEventsInEpisode($episode->patient, $episode);
+
+		foreach ($events as $event) {
+			$criteria = new CDbCriteria();
+			$criteria->addCondition('event_id = ?');
+			$criteria->params = array($event->id);
+			if ($after) {
+				$criteria->addCondition('created_date > ?');
+				$criteria->params[] = $after->format('Y-m-d H:i:s');
+			}
+			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+				return $el;
+			}
+		}
+	}
+
+	/**
 	 * retrieve OCT measurements for the given side for the patient in the given episode
+	 *
+	 * N.B. This is different from letter functions as it will return the most recent OCT element, regardless of whether
+	 * it is part of the most recent examination event, or an earlier one.
+	 *
 	 * @param Patient $patient
 	 * @param Episode $episode
 	 * @param string $side - 'left' or 'right'
-	 * @return array(maximum_CMT, central_SFT) or null
+	 * @return array(maximum_CRT, central_SFT) or null
 	 */
 	public function getOCTForSide($patient, $episode, $side)
 	{
@@ -621,9 +724,139 @@ class OphCiExamination_API extends BaseAPI
 				$criteria->addInCondition('eye_id', $side_list);
 
 				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
-					return array($el->{$side . '_cmt'}, $el->{$side . '_sft'});
+					return array($el->{$side . '_crt'}, $el->{$side . '_sft'});
 				}
 			}
 		}
+	}
+
+	/**
+	 * retrieve the Investigation Description for the given patient
+	 *
+	 * @param $patient
+	 * @return mixed
+	 */
+	public function getLetterInvestigationDescription($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Investigation')) {
+				return $el->description;
+			}
+		}
+	}
+
+	/**
+	 * get the maximum CRT for the patient for the given side
+	 *
+	 * @param $patient
+	 * @param $side
+	 * @return mixed
+	 */
+	public function getLetterMaxCRTForSide($patient, $side) {
+
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_OCT')) {
+				return $el->{$side . '_crt'} . 'um';
+			}
+		}
+	}
+
+	/**
+	 * wrapper function to get the Maximum CRT for the left side of the patient
+	 *
+	 * @param $patient
+	 * @return mixed
+	 */
+	public function getLetterMaxCRTLeft($patient) {
+		return $this->getLetterMaxCRTForSide($patient, "left");
+	}
+
+	/**
+	 * wrapper function to get the Maximum CRT for the right side of the patient
+	 *
+	 * @param $patient
+	 * @return mixed
+	 */
+	public function getLetterMaxCRTRight($patient) {
+		return $this->getLetterMaxCRTForSide($patient, "right");
+	}
+
+	/**
+	 * Get the central SFT for the given patient for the given side
+	 * @param $patient
+	 * @param $side
+	 * @return mixed
+	 */
+	public function getLetterCentralSFTForSide($patient, $side) {
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_OCT')) {
+				return $el->{$side . '_sft'} . 'um';
+			}
+		}
+	}
+
+	/**
+	 * wrapper function to get the Central SFT for the left side of the patient
+	 *
+	 * @param $patient
+	 * @return mixed
+	 */
+	public function getLetterCentralSFTLeft($patient) {
+		return $this->getLetterCentralSFTForSide($patient, "left");
+	}
+
+	/**
+	 * wrapper function to get the Central SFT for the right side of the patient
+	 *
+	 * @param $patient
+	 * @return mixed
+	 */
+	public function getLetterCentralSFTRight($patient) {
+		return $this->getLetterCentralSFTForSide($patient, "right");
+	}
+
+	/**
+	 * get the diagnosis description for the patient on the given side from the injection management complex element in the most
+	 * recent examination, if there is one.
+	 *
+	 * @param $patient
+	 * @param $side
+	 * @return string
+	 */
+	public function getLetterInjectionManagementComplexDiagnosisForSide($patient, $side)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_InjectionManagementComplex')) {
+				if ($d = $el->{$side . '_diagnosis1'}) {
+					$res = $d->term;
+					if ($d2 = $el->{$side . '_diagnosis2'}) {
+						$res .= ' secondary to ' . $d2->term;
+					}
+					return $res;
+				}
+			}
+		}
+	}
+
+	/**
+	 * get the diagnosis description for the patient on the left
+	 *
+	 * @param $patient
+	 * @return string
+	 * @see getLetterInjectionManagementComplexDiagnosisForSide
+	 */
+	public function getLetterInjectionManagementComplexDiagnosisLeft($patient) {
+		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'left');
+	}
+
+	/**
+	 * get the diagnosis description for the patient on the right
+	 *
+	 * @param $patient
+	 * @return string
+	 * @see getLetterInjectionManagementComplexDiagnosisForSide
+	 */
+	public function getLetterInjectionManagementComplexDiagnosisRight($patient) {
+		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'right');
 	}
 }

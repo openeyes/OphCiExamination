@@ -24,8 +24,8 @@
 					<table style="padding: 10px;">
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
-								<th style="min-width: 50px;">Drug</th>
+								<th style="text-align: left; width: 65px;">Time</th>
+								<th style="text-align: left; min-width: 50px;">Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
 						</thead>
@@ -46,8 +46,8 @@
 					<table style="padding: 10px;">
 						<thead>
 							<tr>
-								<th style="width: 15px;">Time</th>
-								<th style="min-width: 50px;">Drug</th>
+								<th style="text-align: left; width: 65px;">Time</th>
+								<th style="text-align: left; min-width: 50px;">Drug</th>
 								<th style="width: 50px;">Drops</th>
 							</tr>
 						</thead>
