@@ -78,6 +78,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			$display_order++;
 		}
 
+		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Diagnoses'));
+
+		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>2,'display_order'=>1));
+		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>3,'display_order'=>2));
+		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>1,'display_order'=>3));
+
 		// Raw create tables as per last dump
 		$this->execute("CREATE TABLE `et_ophciexamination_adnexalcomorbidity` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1837,6 +1844,11 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		foreach ($tables as $table) {
 			$this->dropTable($table);
 		}
+
+		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Diagnoses'));
+
+		$this->delete('element_type_eye','element_type_id='.$element_type->id);
 
 		$event_type_id = $this->dbConnection->createCommand()
 			->select('id')
