@@ -59,14 +59,15 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		// will receive user inputs.
 		return array(
 				array('eye_id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe'),
-				array('left_method_id, left_crt, left_sft', 'requiredIfSide', 'side' => 'left'),
-				array('right_method_id, right_crt, right_sft', 'requiredIfSide', 'side' => 'right'),
-				array('left_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
+				array('left_method_id, left_sft', 'requiredIfSide', 'side' => 'left'),
+				array('right_method_id, right_sft', 'requiredIfSide', 'side' => 'right'),
+				array('left_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Left {attribute} must be between 250 and 600',
 						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
-				array('right_crt', 'numerical', 'integerOnly' => true, 'max' => 600, 'min' => 250,
+				array('right_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Right {attribute} must be between 250 and 600',
 						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
+				array('left_crt, right_crt', 'default', 'setOnEmpty' => true, 'value' => null),
 				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
 						'tooBig' => 'Left {attribute} must be between 50 and 700',
 						'tooSmall' => 'Left {attribute} must be between 50 and 700'),
@@ -147,18 +148,4 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		));
 	}
 
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
-	protected function afterSave()
-	{
-		return parent::afterSave();
-	}
-
-	protected function beforeValidate()
-	{
-		return parent::beforeValidate();
-	}
 }
