@@ -753,6 +753,29 @@ class OphCiExamination_API extends BaseAPI
 		}
 	}
 
+	public function getOCTSFTHistoryForSide($episode, $side)
+	{
+		if ($events = $this->getEventsInEpisode($episode->patient, $episode)) {
+			if ($side == 'left') {
+				$side_list = array(Eye::LEFT, Eye::BOTH);
+			} else {
+				$side_list = array(Eye::RIGHT, Eye::BOTH);
+			}
+			$res = array();
+			foreach ($events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				$criteria->addInCondition('eye_id', $side_list);
+
+				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
+					$res[] = array('date' => $event->created_date, 'sft' => $el->{$side . '_sft'});
+				}
+			}
+			return $res;
+		}
+
+	}
+
 	/**
 	 * retrieve the Investigation Description for the given patient
 	 *

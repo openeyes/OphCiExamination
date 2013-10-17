@@ -747,6 +747,7 @@ $(document).ready(function() {
 				maskFields($('#Element_OphCiExamination_OCT_' + side + '_fluid_fields'),null);
 			}
 	});
+
 	// end of OCT
 
 	// end of management
@@ -1130,6 +1131,32 @@ function OphCiExamination_Refraction_updateType(field) {
 function OphCiExamination_Refraction_init() {
 	$("#event_content .Element_OphCiExamination_Refraction .refractionType").each(function() {
 		OphCiExamination_Refraction_updateType(this);
+	});
+}
+
+function OphCiExamination_OCT_init() {
+	// history tool tip
+	$(".Element_OphCiExamination_OCT").find('.sft-history').each(function(){
+		var quick = $(this);
+		var iconHover = $(this).parent().find('.sft-history-icon');
+
+		iconHover.hover(function(e){
+			var infoWrap = $('<div class="quicklook"></div>');
+			infoWrap.appendTo('body');
+			infoWrap.html(quick.html());
+
+			var offsetPos = $(this).offset();
+			var top = offsetPos.top;
+			var left = offsetPos.left + 25;
+
+			top = top - (infoWrap.height()/2) + 8;
+
+			if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
+			infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+			infoWrap.fadeIn('fast');
+		},function(e){
+			$('body > div:last').remove();
+		});
 	});
 }
 

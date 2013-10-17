@@ -19,6 +19,9 @@
 ?>
 
 <?php
+	$exam_api = Yii::app()->moduleAPI->get('OphCiExamination');
+	$current_episode = $this->patient->getEpisodeForCurrentSubspecialty();
+
 	$hide_fluid = true;
 	if (@$_POST[get_class($element)]) {
 		if ($_POST[get_class($element)][$side . '_dry'] == '0') {
@@ -39,10 +42,27 @@
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
 	<div class="data"><?php echo $form->textField($element, $side . '_crt', array('nowrapper' => true, 'size' => 6)) ?> &micro;m</div>
 </div>
+
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
-	<div class="data"><?php echo $form->textField($element, $side . '_sft', array('nowrapper' => true, 'size' => 6)) ?> &micro;m</div>
+	<div class="data"><?php echo $form->textField($element, $side . '_sft', array('nowrapper' => true, 'size' => 6)) ?> &micro;m
+	<?php if ($past_sft = $exam_api->getOCTSFTHistoryForSide($current_episode, $side)) { ?>
+		<span id="<?php echo $side; ?>_sft_history_icon" class="sft-history-icon">
+			<img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" />
+		</span>
+		<div class="quicklook sft-history" style="display: none;">
+			<?php
+			echo '<b>Previous SFT Measurements</b><br />';
+			echo '<dl style="margin-top: 0px; margin-bottom: 2px;">';
+			foreach ($past_sft as $previous) {
+				echo '<dt>' . Helper::convertDate2NHS($previous['date']) . ' - ' . $previous['sft'] . '&micro;m</dt>';
+			}
+			echo '</dl>';?>
+		</div>
+	<?php } ?>
+	</div>
 </div>
+
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_thickness_increase') ?>:</div>
 	<div class="data"><?php echo $form->radioBoolean($element, $side . '_thickness_increase', array('nowrapper' => true)) ?></div>
