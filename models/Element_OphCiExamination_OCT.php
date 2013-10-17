@@ -32,17 +32,17 @@
  * @property boolean $right_thickness_increase
  * @property boolean $left_dry
  * @property boolean $right_dry
- * @property boolean $left_srf_present
- * @property boolean $right_srf_present
- * @property boolean $left_irf_present
- * @property boolean $right_irf_present
- * @property boolean $left_ped_present
- * @property boolean $right_ped_present
  * @property integer $left_fluidstatus_id
  * @property integer $right_fluidstatus_id
  * @property string $left_comments
  * @property string $right_comments
  *
+ * @property OphCiExamination_OCT_Method $left_method
+ * @property OphCiExamination_OCT_Method $right_method
+ * @property OphCiExamination_OCT_FluidType[] $left_fluidtypes
+ * @property OphCiExamination_OCT_FluidType[] $right_fluidtypes
+ * @property OphCiExamination_OCT_FluidStatus $left_fluidstatus
+ * @property OphCiExamination_OCT_FluidStatus $right_fluidstatus
  */
 
 class Element_OphCiExamination_OCT extends SplitEventTypeElement
@@ -75,15 +75,16 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				array('eye_id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
 					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
 					right_dry, right_fluidstatus_id, right_comments', 'safe'),
-				array('left_method_id, left_sft', 'requiredIfSide', 'side' => 'left'),
-				array('right_method_id, right_sft', 'requiredIfSide', 'side' => 'right'),
+				array('left_method_id, left_sft, left_dry', 'requiredIfSide', 'side' => 'left'),
+				array('right_method_id, right_sft, right_dry', 'requiredIfSide', 'side' => 'right'),
 				array('left_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Left {attribute} must be between 250 and 600',
 						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
 				array('right_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Right {attribute} must be between 250 and 600',
 						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
-				array('left_crt, left_comments, right_crt, right_comments', 'default', 'setOnEmpty' => true, 'value' => null),
+				array('left_crt, left_thickness_increase, left_comments, right_crt, right_thickness_increase,
+					right_comments', 'default', 'setOnEmpty' => true, 'value' => null),
 				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
 						'tooBig' => 'Left {attribute} must be between 50 and 700',
 						'tooSmall' => 'Left {attribute} must be between 50 and 700'),
@@ -181,15 +182,35 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		$criteria->compare('right_crt', $this->right_crt);
 		$criteria->compare('left_sft', $this->left_sft);
 		$criteria->compare('right_sft', $this->right_sft);
+		$criteria->compare('left_thickness_increase', $this->left_thickness_increase);
+		$criteria->compare('right_thickness_increase', $this->right_thickness_increase);
+		$criteria->compare('left_dry', $this->left_dry);
+		$criteria->compare('right_dry', $this->right_dry);
+		$criteria->compare('left_fluidtypes', $this->left_fluidtypes);
+		$criteria->compare('right_fluidtypes', $this->right_fluidtypes);
+		$criteria->compare('left_fluidstatus_id', $this->left_fluidstatus_id);
+		$criteria->compare('right_fluidstatus_id', $this->right_fluidstatus_id);
+		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('right_comments', $this->right_comments);
 
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
-	protected function getFluidString($side)
+	/**
+	 * returns the appropriate string for displaying the fluid finding value(s) for the given side
+	 *
+	 * @param string $side left or right
+	 * @param boolean $notrecorded - flag to indicate whether we want a string for it not being recorded
+	 * @return string
+	 *
+	 */
+	protected function getFluidString($side, $notrecorded = true)
 	{
-		if ($this->{'has' . ucfirst($side)}()) {
+		// we check that dry is not null here, because if it is then it indicates the OCT
+		// was recorded prior to the introduction of the fluid fields
+		if ($this->{'has' . ucfirst($side)}() && $this->{$side . '_dry'} !== null) {
 			if ($this->{$side . '_dry'}) {
 				return 'Dry';
 			}
@@ -201,13 +222,26 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				return $this->{$side .'_fluidstatus'}->name . ' ' . implode(", ", $fts);
 			}
 		}
+		else {
+			return 'Not recorded';
+		}
 	}
 
+	/**
+	 * get the fluid findings string for the left
+	 *
+	 * @return string
+	 */
 	public function getLeftFluidString()
 	{
 		return $this->getFluidString('left');
 	}
 
+	/**
+	 * get the fluid findings string for the right
+	 *
+	 * @return string
+	 */
 	public function getRightFluidString()
 	{
 		return $this->getFluidString('right');
@@ -223,9 +257,9 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 	{
 		$dependency = $params['dependency'];
 		$side = $params['side'];
-		if ($this->$dependency !== null && !$this->$dependency && $this->$attribute == null) {
+		if ($this->$dependency !== null && !$this->$dependency && $this->$attribute !== null && !$this->$attribute) {
 			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
-				$side . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
+				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
 		}
 	}
 
@@ -283,5 +317,52 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		foreach ($current_fluidtypes as $curr) {
 			$curr->delete();
 		}
+	}
+
+	/**
+	 * get the letter string for the given side
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	protected function getLetterStringForSide($side)
+	{
+		$res = ucfirst($side) . " Eye:\n";
+		$res .= $this->getAttributeLabel($side . '_method_id') . ": " . $this->{$side . '_method'}->name . "\n";
+		if ($this->{$side . '_crt'}) {
+			$res .= $this->getAttributeLabel($side . '_crt') . ": " . $this->{$side . '_crt'} . " microns\n";
+		}
+		$res .= $this->getAttributeLabel($side . '_sft') . ": " . $this->{$side . '_sft'} . " microns\n";
+		if ($this->{$side . '_thickness_increase'} !== null) {
+			$res .= "Thickness increase over 100 microns: " . ($this->{$side . '_thickness_increase'} ? 'Yes' : 'No');
+			$res .= "\n";
+		}
+
+		if ($fluid = $this->getFluidString($side, false)) {
+			$res .= 'Finding:' . $fluid . "\n";
+		}
+
+		if ($this->{$side . '_comments'}) {
+			$res .= $this->{$side . '_comments'} . "\n";
+		}
+		return $res;
+	}
+
+	/**
+	 * get the letter string for the element
+	 * used by correspondence if installed
+	 *
+	 * @return string
+	 */
+	public function getLetter_string()
+	{
+		$res = "OCT:\n";
+		if ($this->hasRight()) {
+			$res .= $this->getLetterStringForSide('right');
+		}
+		if ($this->hasLeft()) {
+			$res .= $this->getLetterStringForSide('left');
+		}
+		return $res;
 	}
 }

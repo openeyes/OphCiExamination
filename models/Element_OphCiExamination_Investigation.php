@@ -58,7 +58,7 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement
 		// will receive user inputs.
 		return array(
 				array('event_id, description', 'safe'),
-				array('description, ', 'required'),
+				array('description', 'required', 'message' => '{attribute} cannot be blank when there are no child elements', 'on' => 'formHasNoChildren'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, description, ', 'safe', 'on' => 'search'),
@@ -118,8 +118,25 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement
 		));
 	}
 
+	/**
+	 * get the letter strings for this element and its children
+	 * method used by correspondence module if installed
+	 *
+	 * @return string
+	 */
 	public function getLetter_string()
 	{
-		return "Investigation: $this->description\n";
+		$res = "";
+		if ($this->description) {
+			$res .= "Investigation: $this->description\n";
+		}
+
+		foreach ($this->getChildren() as $el) {
+			if (method_exists($el, 'getLetter_string')) {
+				$res .= $el->getLetter_string() . "\n";
+			}
+		}
+
+		return $res;
 	}
 }
