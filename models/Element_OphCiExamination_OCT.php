@@ -28,6 +28,20 @@
  * @property string $right_crt
  * @property string $left_sft
  * @property string $right_sft
+ * @property boolean $left_thickness_increase
+ * @property boolean $right_thickness_increase
+ * @property boolean $left_dry
+ * @property boolean $right_dry
+ * @property boolean $left_srf_present
+ * @property boolean $right_srf_present
+ * @property boolean $left_irf_present
+ * @property boolean $right_irf_present
+ * @property boolean $left_ped_present
+ * @property boolean $right_ped_present
+ * @property integer $left_fluidstatus_id
+ * @property integer $right_fluidstatus_id
+ * @property string $left_comments
+ * @property string $right_comments
  *
  */
 
@@ -58,7 +72,9 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe'),
+				array('eye_id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
+					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
+					right_dry, right_fluidstatus_id, right_comments', 'safe'),
 				array('left_method_id, left_sft', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_sft', 'requiredIfSide', 'side' => 'right'),
 				array('left_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
@@ -67,22 +83,30 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				array('right_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
 						'tooBig' => 'Right {attribute} must be between 250 and 600',
 						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
-				array('left_crt, right_crt', 'default', 'setOnEmpty' => true, 'value' => null),
+				array('left_crt, left_comments, right_crt, right_comments', 'default', 'setOnEmpty' => true, 'value' => null),
 				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
 						'tooBig' => 'Left {attribute} must be between 50 and 700',
 						'tooSmall' => 'Left {attribute} must be between 50 and 700'),
 				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 700, 'min' => 50,
 						'tooBig' => 'Right {attribute} must be between 50 and 700',
 						'tooSmall' => 'Right {attribute} must be between 50 and 700'),
+				array('left_fluidstatus_id',
+					'notAllowedIfTrue', 'side' => 'left', 'dependency' => 'left_dry'),
+				array('right_fluidstatus_id',
+					'notAllowedIfTrue', 'side' => 'right', 'dependency' => 'right_dry'),
+				array('left_fluidstatus_id, left_fluidtypes', 'requiredIfFalse', 'side' => 'left', 'dependency' => 'left_dry'),
+				array('right_fluidstatus_id, right_fluidtypes', 'requiredIfFalse', 'side' => 'right', 'dependency' => 'right_dry'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_method_id, left_crt, left_sft, right_method_id, right_crt, right_sft', 'safe', 'on' => 'search'),
+				array('id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
+					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
+					right_dry, right_fluidstatus_id, right_comments', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields()
 	{
-		return array('method_id', 'crt', 'sft');
+		return array('method_id', 'crt', 'sft', 'dry', 'fluidstatus_id', 'comments');
 	}
 
 	public function sidedDefaults()
@@ -103,6 +127,11 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'left_method_id'),
 				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'right_method_id'),
+				'fluidtype_assignments' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
+				'left_fluidtypes' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . Eye::LEFT),
+				'right_fluidtypes' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments' , 'on' => 'fluidtype_assignments.eye_id = ' . Eye::RIGHT),
+				'left_fluidstatus' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidStatus', 'left_fluidstatus_id'),
+				'right_fluidstatus' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidStatus', 'right_fluidstatus_id'),
 		);
 	}
 
@@ -112,14 +141,24 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 	public function attributeLabels()
 	{
 		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'left_method_id' => 'Image Type',
-				'right_method_id' => 'Image Type',
-				'left_crt' => 'Maximum CRT',
-				'right_crt' => 'Maximum CRT',
-				'left_sft' => 'Central SFT',
-				'right_sft' => 'Central SFT',
+			'id' => 'ID',
+			'event_id' => 'Event',
+			'left_method_id' => 'Image Type',
+			'right_method_id' => 'Image Type',
+			'left_crt' => 'Maximum CRT',
+			'right_crt' => 'Maximum CRT',
+			'left_sft' => 'Central SFT',
+			'right_sft' => 'Central SFT',
+			'left_thickness_increase' => 'Thickness increase of 100&micro;m',
+			'right_thickness_increase' => 'Thickness increase of 100&micro;m',
+			'left_dry' => 'Dry',
+			'right_dry' => 'Dry',
+			'left_fluidtypes' => 'Findings',
+			'right_fluidtypes' => 'Findings',
+			'left_fluidstatus_id' => 'Fluid Status',
+			'right_fluidstatus_id' => 'Fluid Status',
+			'left_comments' => 'Comments',
+			'right_comments' => 'Comments',
 		);
 	}
 
@@ -148,4 +187,101 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		));
 	}
 
+	protected function getFluidString($side)
+	{
+		if ($this->{'has' . ucfirst($side)}()) {
+			if ($this->{$side . '_dry'}) {
+				return 'Dry';
+			}
+			else {
+				$fts = array();
+				foreach ($this->{$side . '_fluidtypes'} as $ft) {
+					$fts[] = $ft->name;
+				}
+				return $this->{$side .'_fluidstatus'}->name . ' ' . implode(", ", $fts);
+			}
+		}
+	}
+
+	public function getLeftFluidString()
+	{
+		return $this->getFluidString('left');
+	}
+
+	public function getRightFluidString()
+	{
+		return $this->getFluidString('right');
+	}
+
+	/**
+	 * validate that attribute is set if dependency is false
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function requiredIfFalse($attribute, $params)
+	{
+		$dependency = $params['dependency'];
+		$side = $params['side'];
+		if ($this->$dependency !== null && !$this->$dependency && $this->$attribute == null) {
+			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
+				$side . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
+		}
+	}
+
+	/**
+	 * validate that attribute is not set if dependency is true - should never arise through the forms
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function notAllowedIfTrue($attribute, $params)
+	{
+		$dependency = $params['dependency'];
+		$side = $params['side'];
+		if ($this->$dependency && $this->$attribute) {
+			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' cannot be set when ' . $side . ' ' . $this->getAttributeLabel($dependency) . ' is set');
+		}
+	}
+
+	/**
+	 * update the fluid types for the given side.
+	 *
+	 * @param string $side
+	 * @param integer[] $fluidtype_ids - array of fluid type ids to assign to the element
+	 */
+	public function updatefluidtypes($side, $fluidtype_ids)
+	{
+		$current_fluidtypes = array();
+		$save_fluidtypes = array();
+
+		foreach ($this->fluidtype_assignments as $curr) {
+			if ($curr->eye_id == $side) {
+				$current_fluidtypes[$curr->fluidtype_id] = $curr;
+			}
+		}
+
+		// go through each update fluidtype id, if it isn't assigned for this element,
+		// create assignment and store for saving
+		// if there is, remove from the current fluidtype array
+		// anything left in $current_fluidtypes at the end is ripe for deleting
+		foreach ($fluidtype_ids as $fluidtype_id) {
+			if (!array_key_exists($fluidtype_id, $current_fluidtypes)) {
+				$s = new OphCiExamination_OCT_FluidTypeAssignment();
+				$s->attributes = array('element_id' => $this->id, 'eye_id' => $side, 'fluidtype_id' => $fluidtype_id);
+				$save_fluidtypes[] = $s;
+			} else {
+				// don't want to delete later
+				unset($current_fluidtypes[$fluidtype_id]);
+			}
+		}
+		// save what needs saving
+		foreach ($save_fluidtypes as $save) {
+			$save->save();
+		}
+		// delete the rest
+		foreach ($current_fluidtypes as $curr) {
+			$curr->delete();
+		}
+	}
 }
