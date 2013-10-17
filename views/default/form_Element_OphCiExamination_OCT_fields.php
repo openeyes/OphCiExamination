@@ -17,8 +17,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+
+<?php
+	$hide_fluid = true;
+	if (@$_POST[get_class($element)]) {
+		if ($_POST[get_class($element)][$side . '_dry'] == '0') {
+			$hide_fluid = false;
+		}
+	}
+	else {
+		if ($element->{$side . '_dry'} === "0") {
+			$hide_fluid = false;
+		}
+	}
+?>
 <div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_method') ?>:</div>
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_method_id') ?>:</div>
 	<div class="data"><?php echo $form->dropDownList($element, $side . '_method_id', CHtml::listData(OphCiExamination_OCT_Method::model()->findAll(array('order' => 'display_order')),'id','name'), array('nowrapper' => true)) ?></div>
 </div>
 <div class="eventDetail aligned">
@@ -28,4 +42,36 @@
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
 	<div class="data"><?php echo $form->textField($element, $side . '_sft', array('nowrapper' => true, 'size' => 6)) ?> &micro;m</div>
+</div>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_thickness_increase') ?>:</div>
+	<div class="data"><?php echo $form->radioBoolean($element, $side . '_thickness_increase', array('nowrapper' => true)) ?></div>
+</div>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_dry') ?>:</div>
+	<div class="data"><?php echo $form->radioBoolean($element, $side . '_dry', array('nowrapper' => true)) ?></div>
+</div>
+<div id="<?php echo get_class($element) . '_' . $side; ?>_fluid_fields"<?php if ($hide_fluid) { echo ' style="display: none;"'; }?>>
+	<?php
+	$html_options = array(
+		'style' => 'margin-bottom: 10px; width: 240px;',
+		'options' => array(),
+		'empty' => '- Please select -',
+		'div_id' =>  get_class($element) . '_' . $side . '_fluidtypes',
+		'label' => 'Findings');
+	$fts = OphCiExamination_OCT_FluidType::model()->findAll();
+	foreach ($fts as $ft) {
+		$html_options['options'][(string) $ft->id] = array('data-order' => $ft->display_order);
+	}
+	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options)
+	?>
+	<div class="eventDetail aligned">
+		<div class="label">Finding Type:</div>
+		<div class="data"><?php echo $form->dropDownList($element, $side . '_fluidstatus_id', CHtml::listData(OphCiExamination_OCT_FluidStatus::model()->findAll(),'id','name'), array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?></div>
+	</div>
+
+</div>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+	<div class="data"><?php echo $form->textArea($element, $side . '_comments', array('rows' => 4, 'cols' => 30, 'nowrapper' => true))?></div>
 </div>

@@ -17,23 +17,23 @@
  */
 
 /**
- * This is the model class for table "ophtrintravitinjection_risk_assignment".
+ * This is the model class for table "ophciexamination_oct_fluidtype_assignment".
  *
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $element_id
  * @property integer $eye_id
- * @property integer $complication_id
+ * @property integer $fluidtype_id
  *
  * The followings are the available model relations:
  *
- * @property Element_OphTrIntravitrealinjection_Complications $element
- * @property OphTrIntravitrealinjection_Complication $complication
+ * @property Element_OphCiExamination_OCT $element
+ * @property OphCiExamination_OCT_FluidType $fluidtype
  * @property User $user
  * @property User $usermodified
  */
 
-class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseActiveRecord
+class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -49,7 +49,7 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_injectmanagecomplex_risk_assignment';
+		return 'ophciexamination_oct_fluidtype_assignment';
 	}
 
 	/**
@@ -60,11 +60,11 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('element_id, eye_id, risk_id', 'safe'),
-			array('element_id, eye_id, risk_id', 'required'),
+			array('element_id, eye_id, fluidtype_id', 'safe'),
+			array('element_id, eye_id, fluidtype_id', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, element_id, risk_id', 'safe', 'on' => 'search'),
+			array('id, element_id, fluidtype_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -76,8 +76,8 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_InjectionManagementComplex', 'element_id'),
-			'complication' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_Risk', 'complication_id'),
+			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_OCT', 'element_id'),
+			'fluidtype' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidType', 'fluidtype_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
@@ -104,15 +104,8 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 		$criteria->compare('id', $this->id, true);
 
 		return new CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-			));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions()
-	{
+			'criteria' => $criteria,
+		));
 	}
 
 }
