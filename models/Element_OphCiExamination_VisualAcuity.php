@@ -425,7 +425,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
-			if ($text) $text .= "\n";
 			if ($this->getCombined('right')) {
 				$text .= "right: ".$this->getCombined('right', $unit_id);
 			} else {
@@ -438,7 +437,8 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		else {
 			$text .= "right: not recorded";
 		}
-
+		$text .= "\n";
+		
 		if ($this->hasLeft()) {
 			if ($this->getCombined('left')) {
 				$text .= "left: ".$this->getCombined('left', $unit_id);
