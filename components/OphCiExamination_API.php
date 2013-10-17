@@ -730,7 +730,15 @@ class OphCiExamination_API extends BaseAPI
 		}
 	}
 
-	public function getOCTSFTHistoryForSide($episode, $side)
+	/**
+	 * Get previous SFT values for the given epsiode and side. Before $before, or all available
+	 *
+	 * @param Episode $episode
+	 * @param string $side
+	 * @param date $before
+	 * @return array
+	 */
+	public function getOCTSFTHistoryForSide($episode, $side, $before=null)
 	{
 		if ($events = $this->getEventsInEpisode($episode->patient, $episode)) {
 			if ($side == 'left') {
@@ -743,8 +751,12 @@ class OphCiExamination_API extends BaseAPI
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_id',$event->id);
 				$criteria->addInCondition('eye_id', $side_list);
+				if ($before) {
+					$criteria->addCondition('event.created_date < :edt');
+					$criteria->params[':edt'] = $before;
+				}
 
-				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
+				if ($el = Element_OphCiExamination_OCT::model()->with('event')->find($criteria)) {
 					$res[] = array('date' => $event->created_date, 'sft' => $el->{$side . '_sft'});
 				}
 			}

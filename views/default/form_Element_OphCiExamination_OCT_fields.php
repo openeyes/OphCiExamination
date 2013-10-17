@@ -21,7 +21,10 @@
 <?php
 	$exam_api = Yii::app()->moduleAPI->get('OphCiExamination');
 	$current_episode = $this->patient->getEpisodeForCurrentSubspecialty();
-
+	$event_date = null;
+	if ($event = $element->event) {
+		$event_date = $event->created_date;
+	}
 	$hide_fluid = true;
 	if (@$_POST[get_class($element)]) {
 		if ($_POST[get_class($element)][$side . '_dry'] == '0') {
@@ -46,7 +49,7 @@
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
 	<div class="data"><?php echo $form->textField($element, $side . '_sft', array('nowrapper' => true, 'size' => 6)) ?> &micro;m
-	<?php if ($past_sft = $exam_api->getOCTSFTHistoryForSide($current_episode, $side)) { ?>
+	<?php if ($past_sft = $exam_api->getOCTSFTHistoryForSide($current_episode, $side, $event_date)) { ?>
 		<span id="<?php echo $side; ?>_sft_history_icon" class="sft-history-icon">
 			<img src="<?php echo $this->assetPath ?>/img/icon_info.png" height="20" />
 		</span>
