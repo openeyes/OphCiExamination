@@ -1,8 +1,0 @@
-id,set_id,parent_id,clause,value
-1,1,NULL,subspecialty_id,NULL
-2,2,1,status_id,4
-3,3,2,NULL,1
-4,4,2,NULL,2
-5,5,2,NULL,3
-6,8,2,NULL,6
-7,9,1,status_id,7

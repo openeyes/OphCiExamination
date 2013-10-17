@@ -2,6 +2,37 @@
 
 class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 {
+	private $patients_shortcodes = array(
+		array('hpc','getLetterHistory','History of presenting complaint' ),
+		array( 'ipb','getLetterIOPReadingBoth','Intraocular pressure in both eyes' ),
+		array( 'ipl','getLetterIOPReadingLeft','Intraocular pressure in the left eye' ),
+		array( 'ipp','getLetterIOPReadingPrincipal','Intraocular pressure in the principal eye' ),
+		array( 'ipr','getLetterIOPReadingRight','Intraocular pressure in the right eye' ),
+		array( 'asl','getLetterAnteriorSegmentLeft','Anterior segment findings in the left eye' ),
+		array( 'asp','getLetterAnteriorSegmentPrincipal','Anterior segment findings in the principal eye' ),
+		array( 'asr','getLetterAnteriorSegmentRight','Anterior segment findings in the right eye' ),
+		array( 'psl','getLetterPosteriorPoleLeft','Posterior pole findings in the left eye' ),
+		array( 'psp','getLetterPosteriorPolePrincipal','Posterior pole findings in the principal eye' ),
+		array( 'psr','getLetterPosteriorPoleRight','Posterior pole findings in the right eye' ),
+		array( 'vbb','getLetterVisualAcuityBoth','Best visual acuity in both eyes' ),
+		array( 'vbl','getLetterVisualAcuityLeft','Best visual acuity in the left eye' ),
+		array( 'vbp','getLetterVisualAcuityPrincipal','Best visual acuity in the principal eye' ),
+		array( 'vbr','getLetterVisualAcuityRight','Best visual acuity in the right eye' ),
+		array( 'con','getLetterConclusion','Conclusion' ),
+		array( 'man','getLetterManagement','Management' ),
+		array( 'adr','getLetterAdnexalComorbidityRight','Adnexal comorbidity in the right eye' ),
+		array( 'adl','getLetterAdnexalComorbidityLeft','Adnexal comorbidity in the left eye' ),
+		array( 'nrr','getLetterDRRetinopathyRight','NSC right retinopathy' ),
+		array( 'nlr','getLetterDRRetinopathyLeft','NSC left retinopathy' ),
+		array( 'nrm','getLetterDRMaculopathyRight','NSC right maculopathy' ),
+		array( 'nlm','getLetterDRMaculopathyLeft','NSC left maculopathy' ),
+		array( 'crd','getLetterDRClinicalRight','Clinical right retinopathy' ),
+		array( 'cld','getLetterDRClinicalLeft','Clinical left retinopathy' ),
+		array( 'lmp','getLetterLaserManagementPlan','Laser management plan' ),
+		array( 'lmc','getLetterLaserManagementComments','Laser management comments' ),
+		array( 'fup','getLetterOutcomeFollowUpPeriod','Follow up period')
+	);
+
 	public function up()
 	{
 		//disable foreign keys check
@@ -138,6 +169,9 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 				'default_value' => $settingMetadata['default_value'],
 			));
 		}
+
+		//load patient_shortcodes
+		$this->loadPatientShortcodes();
 
 		// Raw create tables as per last dump
 		$this->execute("CREATE TABLE `et_ophciexamination_adnexalcomorbidity` (
@@ -1894,10 +1928,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			'ophciexamination_workflow'
 		);
 
+		$this->execute("SET foreign_key_checks = 0");
 
 		foreach ($tables as $table) {
 			$this->dropTable($table);
 		}
+
+		$this->deletePatientShortcodes();
 
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
 		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Diagnoses'));
@@ -1916,14 +1953,16 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			->from('element_type')
 			->where('event_type_id = :event_type_id', array(':event_type_id' => $event_type_id))
 			->queryColumn();
-		$element_type_ids_string = implode(',', $element_type_ids);
-		$this->delete('setting_metadata', "element_type_id IN ($element_type_ids_string)");
+		$element_type_ids_string = implode("', '", $element_type_ids);
+		$this->delete('setting_metadata', "element_type_id IN ('$element_type_ids_string')");
 
 		// Delete the element types
 		$this->delete('element_type', 'event_type_id = ' . $event_type_id);
 
 		// Delete the event type
 		$this->delete('event_type', 'id = ' . $event_type_id);
+
+		$this->execute("SET foreign_key_checks = 1");
 
 	}
 
@@ -1933,6 +1972,19 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			->from('element_type')
 			->where('class_name=:class_name', array(':class_name' => $className))
 			->queryScalar();
+	}
+
+	private function loadPatientShortcodes(){
+		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		foreach($this->patients_shortcodes as $patient_shortcode){
+			$event_type->registerShortcode($patient_shortcode[0],$patient_shortcode[1],$patient_shortcode[2]);
+		}
+	}
+
+	private function deletePatientShortcodes(){
+		foreach($this->patients_shortcodes as $patient_shortcode){
+			$this->delete('patient_shortcode', 'default_code = \'' . $patient_shortcode[0] . '\'');
+		}
 	}
 
 }
