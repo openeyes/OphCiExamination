@@ -257,7 +257,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 	{
 		$dependency = $params['dependency'];
 		$side = $params['side'];
-		if ($this->$dependency !== null && !$this->$dependency && $this->$attribute !== null && !$this->$attribute) {
+		if ($this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
+			!$this->$attribute) {
 			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
 				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
 		}
