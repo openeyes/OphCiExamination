@@ -18,5 +18,5 @@
  */
 ?>
 	<div class="eventDetail">
-		<?php echo $element->textWithLineBreaks('comments') ?>
+		<?= Yii::app()->format->Ntext($element->comments) ?>
 	</div>

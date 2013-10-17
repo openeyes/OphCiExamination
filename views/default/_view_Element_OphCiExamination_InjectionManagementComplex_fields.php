@@ -21,7 +21,7 @@
 <?php if ($element->{$side . '_no_treatment'}) {?>
 	<div class="eventDetail">
 		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel($side . '_no_treatment_reason_id'))?></div>
-		<div class="data"><?php echo $element->{$side . 'NoTreatmentReasonName'} ?></div>
+		<div class="data"><?= Yii::app()->format->Ntext($element->{"{$side}NoTreatmentReasonName"}) ?></div>
 	</div>
 <?php } else { ?>
 	<div class="eventDetail aligned">
@@ -69,7 +69,7 @@
 
 	<div class="eventDetail aligned">
 		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-		<div class="data"><?php echo $element->textWithLineBreaks($side . '_comments') ?></div>
+		<div class="data"><?= Yii::app()->format->Ntext($element->{"{$side}_comments"}) ?></div>
 	</div>
 <?php }
 

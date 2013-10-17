@@ -26,7 +26,7 @@
 <?php if ($element->laser_status->deferred) { ?>
 	<div class="eventDetail">
 		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel('laser_deferralreason_id'))?></div>
-		<div class="data"><?php echo $element->getLaserDeferralReason() ?></div>
+		<div class="data"><?= Yii::app()->format->Ntext($element->getLaserDeferralReason()) ?></div>
 	</div>
 <?php } else if ($element->laser_status->book || $element->laser_status->event) { ?>
 

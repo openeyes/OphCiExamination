@@ -47,6 +47,6 @@
 <?php if ($element->{$side . '_comments'}) { ?>
 	<div class="eventDetail aligned">
 		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-		<div class="data"><?php echo $element->{$side . '_comments'} ;?></div>
+		<div class="data"><?= Yii::app()->format->Ntext($element->{"{$side}_comments"}) ?></div>
 	</div>
 <?php }

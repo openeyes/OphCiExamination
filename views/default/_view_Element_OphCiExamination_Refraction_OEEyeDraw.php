@@ -32,7 +32,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 <div class="eyedrawFields view">
 	<div>
 		<div class="data">
-			<?php echo $element->getCombined($side)?><br/>
+			<?= Yii::app()->format->text($element->getCombined($side)) ?><br>/
 			Spherical equivalent: <?php echo number_format($element->{$side.'_sphere'} + 0.5 * $element->{$side.'_cylinder'},2)?>
 		</div>
 	</div>
