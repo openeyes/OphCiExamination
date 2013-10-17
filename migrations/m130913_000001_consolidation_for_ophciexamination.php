@@ -37,35 +37,51 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			'Element_OphCiExamination_AnteriorSegment' => array('name' => 'Anterior Segment'),
 			'Element_OphCiExamination_IntraocularPressure' => array('name' => 'Intraocular Pressure'),
 			'Element_OphCiExamination_PosteriorPole' => array('name' => 'Posterior Pole'),
-			'Element_OphCiExamination_Diagnosis' => array('name' => 'Diagnosis'),
+			'Element_OphCiExamination_Diagnoses' => array('name' => 'Diagnoses'),
 			'Element_OphCiExamination_Investigation' => array('name' => 'Investigation'),
 			'Element_OphCiExamination_Conclusion' => array('name' => 'Conclusion'),
-			'Element_OphCiExamination_CataractManagement' => array('name' => 'Cataract Management'),
-			'Element_OphCiExamination_Comorbidities' => array('name' => 'Comorbidities'),
 			'Element_OphCiExamination_Gonioscopy' => array('name' => 'Gonioscopy'),
 			'Element_OphCiExamination_OpticDisc' => array('name' => 'Optic Disc'),
 			'Element_OphCiExamination_Dilation' => array('name' => 'Dilation'),
 			'Element_OphCiExamination_AnteriorSegment_CCT' => array('name' => 'CCT'),
 			'Element_OphCiExamination_Management' => array('name' => 'Clinical Management'),
 			'Element_OphCiExamination_ClinicOutcome' => array('name' => 'Clinic Outcome'),
-			'Element_OphCiExamination_GlaucomaRisk' => array('name' => 'Glaucoma Risk Stratification'),
 			'Element_OphCiExamination_Risks' => array('name' => 'Risks'),
 			'Element_OphCiExamination_PupillaryAbnormalities' => array('name' => 'Pupillary Abnormalities'),
-			'Element_OphCiExamination_DRGrading' => array('name' => 'DR Grading'),
-			'Element_OphCiExamination_LaserManagement' => array('name' => 'Laser Management'),
-			'Element_OphCiExamination_InjectionManagement' => array('name' => 'Injection Management'),
-			'Element_OphCiExamination_InjectionManagementComplex' => array('name' => 'Injection Management'),
-			'Element_OphCiExamination_OCT' => array('name' => 'OCT'),
+
+			'Element_OphCiExamination_CataractManagement' => array('name' => 'Cataract Management' , 'parent_element_type_id' => 'Element_OphCiExamination_Management'),
+			'Element_OphCiExamination_Comorbidities' => array('name' => 'Comorbidities', 'parent_element_type_id' => 'Element_OphCiExamination_History'),
+			'Element_OphCiExamination_AnteriorSegment_CCT' => array('name' => 'CCT', 'parent_element_type_id' =>  'Element_OphCiExamination_AnteriorSegment'),
+			'Element_OphCiExamination_GlaucomaRisk' => array('name' => 'Glaucoma Risk Stratification', 'parent_element_type_id' => 'Element_OphCiExamination_Risks'),
+			'Element_OphCiExamination_DRGrading' => array('name' => 'DR Grading', 'parent_element_type_id' => 'Element_OphCiExamination_PosteriorPole'),
+			'Element_OphCiExamination_LaserManagement' => array('name' => 'Laser Management', 'parent_element_type_id' => 'Element_OphCiExamination_Management'),
+			'Element_OphCiExamination_InjectionManagement' => array('name' => 'Injection Management', 'parent_element_type_id' => 'Element_OphCiExamination_Management'),
+			'Element_OphCiExamination_InjectionManagementComplex' => array('name' => 'Injection Management', 'parent_element_type_id' => 'Element_OphCiExamination_Management'),
+			'Element_OphCiExamination_OCT' => array('name' => 'OCT', 'parent_element_type_id' => 'Element_OphCiExamination_Investigation'),
 		);
+
 		$display_order = 1;
 		foreach ($element_types as $element_type_class => $element_type_data) {
-			$this->insert('element_type', array(
-				'name' => $element_type_data['name'],
-				'class_name' => $element_type_class,
-				'event_type_id' => $event_type_id,
-				'display_order' => $display_order * 10,
-				'default' => 1,
-			));
+			//this is needed to se the parent id for those elements set as children elements of another element type
+			if(isset($element_type_data['parent_element_type_id'])){
+				$thisParentId = $this->getIdOfElementTypeByClassName($element_type_data['parent_element_type_id']);
+				$this->insert('element_type', array(
+					'name' => $element_type_data['name'],
+					'class_name' => $element_type_class,
+					'event_type_id' => $event_type_id,
+					'display_order' => $display_order * 10,
+					'default' => 1,
+					'parent_element_type_id' => $thisParentId
+				));
+			}else{
+				$this->insert('element_type', array(
+					'name' => $element_type_data['name'],
+					'class_name' => $element_type_class,
+					'event_type_id' => $event_type_id,
+					'display_order' => $display_order * 10,
+					'default' => 1,
+				));
+			}
 
 			// Insert element type id into element type array
 			$element_type_id = $this->dbConnection->createCommand()
@@ -78,12 +94,50 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			$display_order++;
 		}
 
-		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
-		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Diagnoses'));
+		$elementTypeIdForElementTypeEye = $this->getIdOfElementTypeByClassName('Element_OphCiExamination_Diagnoses');
 
-		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>2,'display_order'=>1));
-		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>3,'display_order'=>2));
-		$this->insert('element_type_eye',array('element_type_id'=>$element_type->id,'eye_id'=>1,'display_order'=>3));
+		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>2,'display_order'=>1));
+		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>3,'display_order'=>2));
+		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>1,'display_order'=>3));
+
+
+		//add setting_medatada dynamically
+		$settingMetadataArray = array(
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_VisualAcuity'), //$element_types['Element_OphCiExamination_VisualAcuity']['id'],
+				'field_type_id' => 2, // Dropdown
+				'key' => 'unit_id', 'name' => 'Units', 'default_value' => 2),
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_VisualAcuity'),
+				'field_type_id' => 1, // Checkbox
+				'key' => 'notes', 'name' => 'Show Notes', 'default_value' => 1),
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_IntraocularPressure'),
+				'field_type_id' => 2, // Checkbox
+				'key' => 'default_instrument_id', 'name' => 'Default Instrument', 'default_value' => 1),
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_IntraocularPressure'),
+				'field_type_id' => 1, // Checkbox
+				'key' => 'show_instruments', 'name' => 'Show instruments', 'default_value' => 1),
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_IntraocularPressure'),
+				'field_type_id' => 1, // Checkbox
+				'key' => 'link_instruments', 'name' => 'Link Instruments', 'default_value' => 1),
+			array(
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_Gonioscopy'),
+				'field_type_id' => 1, // Checkbox
+				'key' => 'expert', 'name' => 'Expert Mode', 'default_value' => 0),
+		);
+
+		foreach($settingMetadataArray as $settingMetadata){
+			$this->insert('setting_metadata', array(
+				'element_type_id' => $settingMetadata['element_type_id'],
+				'field_type_id' => $settingMetadata['field_type_id'], // Checkbox
+				'key' => $settingMetadata['key'],
+				'name' => $settingMetadata['name'],
+				'default_value' => $settingMetadata['default_value'],
+			));
+		}
 
 		// Raw create tables as per last dump
 		$this->execute("CREATE TABLE `et_ophciexamination_adnexalcomorbidity` (
@@ -1871,6 +1925,14 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		// Delete the event type
 		$this->delete('event_type', 'id = ' . $event_type_id);
 
+	}
+
+	private function getIdOfElementTypeByClassName($className){
+		return $this->dbConnection->createCommand()
+			->select('id')
+			->from('element_type')
+			->where('class_name=:class_name', array(':class_name' => $className))
+			->queryScalar();
 	}
 
 }
