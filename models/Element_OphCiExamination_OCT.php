@@ -37,6 +37,8 @@
  * @property string $left_comments
  * @property string $right_comments
  *
+ * @property OphCiExamination_OCT_Method $left_method
+ * @property OphCiExamination_OCT_Method $right_method
  * @property OphCiExamination_OCT_FluidType[] $left_fluidtypes
  * @property OphCiExamination_OCT_FluidType[] $right_fluidtypes
  * @property OphCiExamination_OCT_FluidStatus $left_fluidstatus
@@ -200,9 +202,11 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 	 * returns the appropriate string for displaying the fluid finding value(s) for the given side
 	 *
 	 * @param string $side left or right
+	 * @param boolean $notrecorded - flag to indicate whether we want a string for it not being recorded
 	 * @return string
+	 *
 	 */
-	protected function getFluidString($side)
+	protected function getFluidString($side, $notrecorded = true)
 	{
 		// we check that dry is not null here, because if it is then it indicates the OCT
 		// was recorded prior to the introduction of the fluid fields
@@ -313,5 +317,52 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		foreach ($current_fluidtypes as $curr) {
 			$curr->delete();
 		}
+	}
+
+	/**
+	 * get the letter string for the given side
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	protected function getLetterStringForSide($side)
+	{
+		$res = ucfirst($side) . " Eye:\n";
+		$res .= $this->getAttributeLabel($side . '_method_id') . ": " . $this->{$side . '_method'}->name . "\n";
+		if ($this->{$side . '_crt'}) {
+			$res .= $this->getAttributeLabel($side . '_crt') . ": " . $this->{$side . '_crt'} . " microns\n";
+		}
+		$res .= $this->getAttributeLabel($side . '_sft') . ": " . $this->{$side . '_sft'} . " microns\n";
+		if ($this->{$side . '_thickness_increase'} !== null) {
+			$res .= "Thickness increase over 100 microns: " . ($this->{$side . '_thickness_increase'} ? 'Yes' : 'No');
+			$res .= "\n";
+		}
+
+		if ($fluid = $this->getFluidString($side, false)) {
+			$res .= 'Finding:' . $fluid . "\n";
+		}
+
+		if ($this->{$side . '_comments'}) {
+			$res .= $this->{$side . '_comments'} . "\n";
+		}
+		return $res;
+	}
+
+	/**
+	 * get the letter string for the element
+	 * used by correspondence if installed
+	 *
+	 * @return string
+	 */
+	public function getLetter_string()
+	{
+		$res = "OCT:\n";
+		if ($this->hasRight()) {
+			$res .= $this->getLetterStringForSide('right');
+		}
+		if ($this->hasLeft()) {
+			$res .= $this->getLetterStringForSide('left');
+		}
+		return $res;
 	}
 }

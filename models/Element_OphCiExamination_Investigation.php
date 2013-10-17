@@ -118,8 +118,25 @@ class Element_OphCiExamination_Investigation extends BaseEventTypeElement
 		));
 	}
 
+	/**
+	 * get the letter strings for this element and its children
+	 * method used by correspondence module if installed
+	 *
+	 * @return string
+	 */
 	public function getLetter_string()
 	{
-		return "Investigation: $this->description\n";
+		$res = "";
+		if ($this->description) {
+			$res .= "Investigation: $this->description\n";
+		}
+
+		foreach ($this->getChildren() as $el) {
+			if (method_exists($el, 'getLetter_string')) {
+				$res .= $el->getLetter_string() . "\n";
+			}
+		}
+
+		return $res;
 	}
 }
