@@ -72,39 +72,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			'Element_OphCiExamination_OCT' => array('name' => 'OCT', 'parent_element_type_id' => 'Element_OphCiExamination_Investigation'),
 		);
 
-		$display_order = 1;
-		foreach ($element_types as $element_type_class => $element_type_data) {
-			//this is needed to se the parent id for those elements set as children elements of another element type
-			if(isset($element_type_data['parent_element_type_id'])){
-				$thisParentId = $this->getIdOfElementTypeByClassName($element_type_data['parent_element_type_id']);
-				$this->insert('element_type', array(
-					'name' => $element_type_data['name'],
-					'class_name' => $element_type_class,
-					'event_type_id' => $event_type_id,
-					'display_order' => $display_order * 10,
-					'default' => 1,
-					'parent_element_type_id' => $thisParentId
-				));
-			}else{
-				$this->insert('element_type', array(
-					'name' => $element_type_data['name'],
-					'class_name' => $element_type_class,
-					'event_type_id' => $event_type_id,
-					'display_order' => $display_order * 10,
-					'default' => 1,
-				));
-			}
-
-			// Insert element type id into element type array
-			$element_type_id = $this->dbConnection->createCommand()
-				->select('id')
-				->from('element_type')
-				->where('class_name=:class_name', array(':class_name' => $element_type_class))
-				->queryScalar();
-			$element_types[$element_type_class]['id'] = $element_type_id;
-
-			$display_order++;
-		}
+		$this->insertOEElementTypes($element_types, $event_type_id);
 
 		$elementTypeIdForElementTypeEye = $this->getIdOfElementTypeByClassName('Element_OphCiExamination_Diagnoses');
 
@@ -116,7 +84,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		//add setting_medatada dynamically
 		$settingMetadataArray = array(
 			array(
-				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_VisualAcuity'), //$element_types['Element_OphCiExamination_VisualAcuity']['id'],
+				'element_type_id' => $this->getIdOfElementTypeByClassName('Element_OphCiExamination_VisualAcuity'),
 				'field_type_id' => 2, // Dropdown
 				'key' => 'unit_id', 'name' => 'Units', 'default_value' => 2),
 			array(
