@@ -37,27 +37,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 	{
 		//disable foreign keys check
 		$this->execute("SET foreign_key_checks = 0");
-
-		// Get the event group id for "Clinical Events"
-		$group_id = $this->dbConnection->createCommand()
-			->select('id')
-			->from('event_group')
-			->where('code=:code', array(':code' => 'Ci'))
-			->queryScalar();
-
-		// Create the new Examination event_type
-		$this->insert('event_type', array(
-			'name' => 'Examination',
-			'event_group_id' => $group_id,
-			'class_name' => 'OphCiExamination'
-		));
-
-		// Get the newly created event type
-		$event_type_id = $this->dbConnection->createCommand()
-			->select('id')
-			->from('event_type')
-			->where('class_name=:class_name', array(':class_name' => 'OphCiExamination'))
-			->queryScalar();
+		Yii::app()->cache->flush();
+		$event_type_id = $this->insertOEEventType( 'Examination', 'OphCiExamination', 'Ci');
 
 		// Insert element types (in order of display)
 		$element_types = array(
@@ -1966,13 +1947,6 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 	}
 
-	private function getIdOfElementTypeByClassName($className){
-		return $this->dbConnection->createCommand()
-			->select('id')
-			->from('element_type')
-			->where('class_name=:class_name', array(':class_name' => $className))
-			->queryScalar();
-	}
 
 	private function loadPatientShortcodes(){
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
