@@ -903,7 +903,8 @@ class OphCiExamination_API extends BaseAPI
 	 * @return string
 	 * @see getLetterInjectionManagementComplexDiagnosisForSide
 	 */
-	public function getLetterInjectionManagementComplexDiagnosisLeft($patient) {
+	public function getLetterInjectionManagementComplexDiagnosisLeft($patient)
+	{
 		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'left');
 	}
 
@@ -914,7 +915,34 @@ class OphCiExamination_API extends BaseAPI
 	 * @return string
 	 * @see getLetterInjectionManagementComplexDiagnosisForSide
 	 */
-	public function getLetterInjectionManagementComplexDiagnosisRight($patient) {
+	public function getLetterInjectionManagementComplexDiagnosisRight($patient)
+	{
 		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'right');
+	}
+
+	/**
+	 * get the combined string for both eyes injection management complex diagnosis.
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getLetterInjectionManagementComplexDiagnosisBoth($patient)
+	{
+
+		$right = $this->getLetterInjectionManagementComplexDiagnosisRight($patient);
+		$left = $this->getLetterInjectionManagementComplexDiagnosisLeft($patient);
+		if ($right || $left) {
+			$res = '';
+			if ($right) {
+				$res = 'Right Eye: ' . $right;
+			}
+			if ($left) {
+				if ($right) {
+					$res .= "\n";
+				}
+				$res .= 'Left Eye: ' . $left;
+			}
+			return $res;
+		}
 	}
 }
