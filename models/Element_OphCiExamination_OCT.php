@@ -340,7 +340,7 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		}
 
 		if ($fluid = $this->getFluidString($side, false)) {
-			$res .= 'Finding:' . $fluid . "\n";
+			$res .= 'Finding: ' . $fluid . "\n";
 		}
 
 		if ($this->{$side . '_comments'}) {
