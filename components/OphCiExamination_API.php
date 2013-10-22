@@ -223,22 +223,39 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
-	* get the va from the given episode for the right side of the episode patient
-	*
-	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
-	* @return OphCiExamination_VisualAcuity_Reading
-	*/
+	 * Get the default findings string from VA in te latest examination event (if it exists)
+	 *
+	 * @param $patient
+	 * @return string|null
+	 */
+	public function getLetterVisualAcuityFindings($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'Element_OphCiExamination_VisualAcuity')) {
+				return $va->getLetter_string();
+			}
+		}
+	}
+
+	/**
+	 * get the va from the given episode for the left side of the episode patient
+	 *
+	 * @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	 * @param $episode
+	 * @return OphCiExamination_VisualAcuity_Reading
+	 */
 	public function getLetterVisualAcuityForEpisodeLeft($episode)
 	{
 		return $this->getBestVisualAcuity($episode->patient, $episode, 'left');
 	}
 
 	/**
-	* get the va from the given episode for the right side of the episode patient
-	*
-	* @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
-	* @return OphCiExamination_VisualAcuity_Reading
-	*/
+	 * get the va from the given episode for the right side of the episode patient
+	 *
+	 * @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
+	 * @param Episode $episode
+	 * @return OphCiExamination_VisualAcuity_Reading
+	 */
 	public function getLetterVisualAcuityForEpisodeRight($episode)
 	{
 		return $this->getBestVisualAcuity($episode->patient, $episode, 'right');
@@ -356,6 +373,9 @@ class OphCiExamination_API extends BaseAPI
 			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
 			}
+			else {
+				$res .= " and no evidence of photocoagulation";
+			}
 			return $res;
 		}
 	}
@@ -388,6 +408,9 @@ class OphCiExamination_API extends BaseAPI
 			$res = $dr->{$side."_nscmaculopathy"};
 			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
+			}
+			else {
+				$res .= " and no evidence of photocoagulation";
 			}
 			return $res;
 		}
@@ -728,6 +751,41 @@ class OphCiExamination_API extends BaseAPI
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get previous SFT values for the given epsiode and side. Before $before, or all available
+	 *
+	 * @param Episode $episode
+	 * @param string $side
+	 * @param date $before
+	 * @return array
+	 */
+	public function getOCTSFTHistoryForSide($episode, $side, $before=null)
+	{
+		if ($events = $this->getEventsInEpisode($episode->patient, $episode)) {
+			if ($side == 'left') {
+				$side_list = array(Eye::LEFT, Eye::BOTH);
+			} else {
+				$side_list = array(Eye::RIGHT, Eye::BOTH);
+			}
+			$res = array();
+			foreach ($events as $event) {
+				$criteria = new CDbCriteria;
+				$criteria->compare('event_id',$event->id);
+				$criteria->addInCondition('eye_id', $side_list);
+				if ($before) {
+					$criteria->addCondition('event.created_date < :edt');
+					$criteria->params[':edt'] = $before;
+				}
+
+				if ($el = Element_OphCiExamination_OCT::model()->with('event')->find($criteria)) {
+					$res[] = array('date' => $event->created_date, 'sft' => $el->{$side . '_sft'});
+				}
+			}
+			return $res;
+		}
+
 	}
 
 	/**
