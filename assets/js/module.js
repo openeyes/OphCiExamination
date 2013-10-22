@@ -606,17 +606,17 @@ $(document).ready(function() {
 		});
 
 		if (book) {
-			$('.'+element).find('#'+name+'_booking_hint').slideDown();
+			unmaskFields($('.'+element).find('#'+name+'_booking_hint'));
 		}
 		else {
-			$('.'+element).find('#'+name+'_booking_hint').slideUp();
+			maskFields($('.'+element).find('#'+name+'_booking_hint'));
 		}
 
 		if (event) {
-			$('.'+element).find('#'+name+'_event_hint').slideDown();
+			unmaskFields($('.'+element).find('#'+name+'_event_hint'));
 		}
 		else {
-			$('.'+element).find('#'+name+'_event_hint').slideUp();
+			maskFields($('.'+element).find('#'+name+'_event_hint'));
 		}
 
 
@@ -662,11 +662,9 @@ $(document).ready(function() {
 
 		if (showFields) {
 			unmaskFields($('#Element_OphCiExamination_LaserManagement_'+side+'_treatment_fields'));
-			unmaskFields($('#'+side+'laser_booking_hint'));
 		}
 		else {
 			maskFields($('#Element_OphCiExamination_LaserManagement_'+side+'_treatment_fields'));
-			maskFields($('#'+side+'laser_booking_hint'));
 		}
 
 	});
