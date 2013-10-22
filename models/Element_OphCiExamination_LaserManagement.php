@@ -23,11 +23,27 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property string $laser_status_id
- * @property string $laser_deferralreason_id
- * @property string $laser_deferralreason_other
+ * @property integer $left_laser_status_id
+ * @property integer $left_laser_deferralreason_id
+ * @property string $left_laser_deferralreason_other
+ * @property integer $left_lasertype_id
+ * @property string $left_lasertype_other
+ * @property string $left_comments
+ * @property integer $right_laser_status_id
+ * @property integer $right_laser_deferralreason_id
+ * @property string $right_laser_deferralreason_other
+ * @property integer $right_lasertype_id
+ * @property string $right_lasertype_other
+ * @property string $right_comments
  *
  * The followings are the available model relations:
+ * @property OphCiExamination_ManagementStatus $left_laser_status
+ * @property OphCiExamination_Management_DeferralReason $left_laser_deferralreason
+ * @property OphCiExamination_LaserManagement_LaserType $left_lasertype
+ * @property OphCiExamination_ManagementStatus $right_laser_status
+ * @property OphCiExamination_Management_DeferralReason $right_laser_deferralreason
+ * @property OphCiExamination_LaserManagement_LaserType $right_lasertype
+ *
  */
 
 class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
@@ -59,26 +75,32 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other, left_lasertype_id, ' .
-					'left_lasertype_other, left_comments, right_lasertype_id, right_lasertype_other, right_comments', 'safe'),
-				array('laser_status_id', 'required'),
-				array('laser_status_id', 'laserDependencyValidation'),
-				array('laser_deferralreason_id', 'laserDeferralReasonDependencyValidation'),
-				array('left_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'left'),
-				array('left_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'left', 'lasertype' => 'left_lasertype'),
-				array('right_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'right'),
-				array('right_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'right', 'lasertype' => 'right_lasertype'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, laser_status_id, laser_deferralreason_id, laser_deferralreason_other', 'safe', 'on' => 'search'),
+			array('event_id, eye_id, left_laser_status_id, left_laser_deferralreason_id, left_laser_deferralreason_other, ' .
+				'left_lasertype_id, left_lasertype_other, left_comments, right_laser_status_id, right_laser_deferralreason_id, ' .
+				'right_laser_deferralreason_other, right_lasertype_id, right_lasertype_other, right_comments', 'safe'),
+			array('left_laser_status_id', 'requiredIfSide', 'side' => 'left'),
+			array('right_laser_status_id', 'requiredIfSide', 'side' => 'right'),
+			array('left_laser_deferralreason_id', 'laserDependencyDeferralValidation', 'status' => 'left_laser_status_id'),
+			array('right_laser_deferralreason_id', 'laserDependencyDeferralValidation', 'status' => 'right_laser_status_id'),
+			array('left_laser_deferralreason_other', 'laserDeferralReasonDependencyValidation', 'deferral' => 'left_laser_deferralreason_id'),
+			array('right_laser_deferralreason_other', 'laserDeferralReasonDependencyValidation', 'deferral' => 'right_laser_deferralreason_id'),
+			array('left_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'left', 'status' => 'left_laser_status_id'),
+			array('left_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'left', 'lasertype' => 'left_lasertype'),
+			array('right_lasertype_id', 'requiredIfTreatmentNeeded', 'side' => 'right', 'status' => 'right_laser_status_id'),
+			array('right_lasertype_other', 'requiredIfLaserTypeOther', 'side' => 'right', 'lasertype' => 'right_lasertype'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, event_id, eye_id, left_laser_status_id, left_laser_deferralreason_id, left_laser_deferralreason_other, ' .
+				'left_lasertype_id, left_lasertype_other, left_comments, right_laser_status_id, right_laser_deferralreason_id, ' .
+				'right_laser_deferralreason_other, right_lasertype_id, right_lasertype_other, right_comments', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields()
 	{
-		return array('lasertype_id', 'lasertype_other', 'comments');
+		return array('laser_status_id', 'laser_deferralreason_id', 'laser_deferralreason_other', 'lasertype_id', 'lasertype_other', 'comments');
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -87,15 +109,17 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'laser_status_id'),
-				'laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'laser_deferralreason_id'),
-				'left_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
-				'right_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
+			'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+			'left_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'left_laser_status_id'),
+			'right_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'right_laser_status_id'),
+			'left_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'left_laser_deferralreason_id'),
+			'right_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'right_laser_deferralreason_id'),
+			'left_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
+			'right_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
 		);
 	}
 
@@ -105,18 +129,21 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 	public function attributeLabels()
 	{
 		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'laser_status_id' => "Laser",
-				'laser_deferralreason_id' => 'Laser deferral reason',
-				'laser_deferralreason_other' => 'Laser deferral reason',
-				'left_lasertype_id' => 'Laser type',
-				'left_lasertype_other' => 'Please provide other laser type name',
-				'left_comments' => 'Comments',
-				'right_lasertype_id' => 'Laser type',
-				'right_lasertype_other' => 'Please provide other laser type name',
-				'right_comments' => 'Comments',
-				
+			'id' => 'ID',
+			'event_id' => 'Event',
+			'left_laser_status_id' => "Laser",
+			'left_laser_deferralreason_id' => 'Laser deferral reason',
+			'left_laser_deferralreason_other' => 'Laser deferral reason',
+			'left_lasertype_id' => 'Laser type',
+			'left_lasertype_other' => 'Please provide other laser type name',
+			'left_comments' => 'Comments',
+			'right_laser_status_id' => "Laser",
+			'right_laser_deferralreason_id' => 'Laser deferral reason',
+			'right_laser_deferralreason_other' => 'Laser deferral reason',
+			'right_lasertype_id' => 'Laser type',
+			'right_lasertype_other' => 'Please provide other laser type name',
+			'right_comments' => 'Comments',
+
 		);
 	}
 
@@ -130,13 +157,16 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-
-		$criteria->compare('laser_status_id', $this->laser_status_id);
-		$criteria->compare('laser_deferralreason_id', $this->laser_deferral_reason_id);
-		$criteria->compare('laser_deferralreason_other', $this->laser_deferralreason_other);
+		$criteria->compare('eye_id', $this->eye_id, true);
+		$criteria->compare('left_laser_status_id', $this->left_laser_status_id);
+		$criteria->compare('left_laser_deferralreason_id', $this->left_laser_deferral_reason_id);
+		$criteria->compare('left_laser_deferralreason_other', $this->left_laser_deferralreason_other);
 		$criteria->compare('left_lasertype_id', $this->left_lasertype_id);
 		$criteria->compare('left_lasertype_other', $this->left_lasertype_other);
 		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('right_laser_status_id', $this->right_laser_status_id);
+		$criteria->compare('right_laser_deferralreason_id', $this->right_laser_deferral_reason_id);
+		$criteria->compare('right_laser_deferralreason_other', $this->right_laser_deferralreason_other);
 		$criteria->compare('right_lasertype_id', $this->right_lasertype_id);
 		$criteria->compare('right_lasertype_other', $this->right_lasertype_other);
 		$criteria->compare('right_comments', $this->right_comments);
@@ -146,36 +176,65 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		));
 	}
 
-	/*
+	/**
 	 * deferral reason is only required for laser status that are flagged deferred
+	 *
+	 * @param string $attribute attribute to validate
+	 * @param {key => value}[] params - status required
 	 */
-	public function laserDependencyValidation($attribute)
+	public function laserDependencyDeferralValidation($attribute, $params)
 	{
-		if ($this->laser_status && $this->laser_status->deferred) {
-			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_id'));
-			$v->validate($this);
+		$status_attribute = $params['status'];
+
+		if ($status_id = $this->$status_attribute) {
+			$status = OphCiExamination_Management_Status::model()->findByPk($status_id);
+			if ($status->deferred) {
+				$v = CValidator::createValidator('required', $this, array($attribute));
+				$v->validate($this);
+			}
 		}
 	}
 
-	/*
+	/**
 	 * only need a text "other" reason for reasons that are flagged "other"
+	 *
+	 * @param string $attribute attribute to validate
+	 * @param {key => value}[] params - deferral required
 	 */
-	public function laserDeferralReasonDependencyValidation($attribute)
+	public function laserDeferralReasonDependencyValidation($attribute, $params)
 	{
-		if ($this->laser_deferralreason && $this->laser_deferralreason->other) {
-			$v = CValidator::createValidator('required', $this, array('laser_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->laser_deferralreason));
-			$v->validate($this);
+		$deferral_attribute = $params['deferral'];
+		if ($deferral_id = $this->$deferral_attribute) {
+			$deferral = OphCiExamination_Management_DeferralReason::model()->findByPk($deferral_id);
+			if ($deferral->other) {
+				$v = CValidator::createValidator('required', $this, array($attribute), array('message' => '{attribute} required when deferral reason is ' . $deferral->name));
+				$v->validate($this);
+			}
 		}
 	}
 
+	/**
+	 * validate for status that indicate treatment required
+	 *
+	 * @param $attribute
+	 * @param {key => value}[] $params - status and side required
+	 */
 	public function requiredIfTreatmentNeeded($attribute, $params)
 	{
 		$side = $params['side'];
-		if ($this->laser_status && ($this->laser_status->book || $this->laser_status->event) ) {
-			$this->requiredIfSide($attribute, $params);
+		$status_attribute = $params['status'];
+		if ($status_id = $this->$status_attribute) {
+			$status = OphCiExamination_Management_Status::model()->findByPk($status_id);
+			if ($status->book || $status->event) {
+				$this->requiredifSide($attribute, array('side' => $side));
+			}
 		}
 	}
-	
+
+	/**
+	 * @param $attribute
+	 * @param $params
+	 */
 	public function requiredIfLaserTypeOther($attribute, $params)
 	{
 		$lasertype_attr = $params['lasertype'];
@@ -185,34 +244,47 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 			$v->validate($this);
 		}
 	}
-	
-	/*
+
+	/**
 	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
-	*
-	* @returns string
-	*/
-	public function getLaserDeferralReason()
+	 *
+	 * @param string $side
+	 * @return mixed|string
+	 * @throws Exception
+	 */
+	public function getLaserDeferralReasonForSide($side)
 	{
-		if ($this->laser_deferralreason) {
-			if ($this->laser_deferralreason->other) {
-				return $this->laser_deferralreason_other;
+		if (!in_array($side, array('left', 'right'))) {
+			throw new Exception('unrecognised side attribute ' . $side);
+		}
+
+		if (($side == 'left' && $this->hasLeft()) || $this->hasRight()) {
+			if ($this->{$side . '_laser_deferralreason'}) {
+				if ($this->{$side . '_laser_deferralreason'}->other) {
+					return $this->{$side . '_laser_deferralreason_other'};
+				} else {
+					return $this->{$side . '_laser_deferralreason'}->name;
+				}
 			} else {
-				return $this->laser_deferralreason->name;
+				// shouldn't get to this point really
+				return "N/A";
 			}
-		} else {
-			// shouldn't get to this point really
-			return "N/A";
 		}
 	}
-	
+
 	/**
 	 * returns the laser type for the given side
-	 * 
+	 *
 	 * @param string $side
+	 * @throws Exception
 	 * @return string
 	 */
 	public function getLaserTypeStringForSide($side)
 	{
+		if (!in_array($side, array('left', 'right'))) {
+			throw new Exception('unrecognised side attribute ' . $side);
+		}
+
 		if ($lt = $this->{$side . '_lasertype'}) {
 			if ($lt->other) {
 				return $this->{$side . '_lasertype_other'};
@@ -222,7 +294,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		}
 		return 'N/A';
 	}
-	
+
 	/**
 	 * Returns the laser management plan section  for use in correspondence
 	 *

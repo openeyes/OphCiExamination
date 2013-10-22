@@ -151,46 +151,33 @@ function gradeCalculator(_drawing) {
     return false;
 }
 
-//returns the number of weeks booking recommendation from the DR grades
-function getDRBookingVal() {
+//returns the number of weeks booking recommendation from the DR grades (based on nsc retinopathy value for the given side)
+function getDRBookingVal(side) {
 	var dr_grade = $('.' + dr_grade_et_class);
-	var sides = Array("left", "right");
 	var booking = null;
 
-	for (var i = 0; i < sides.length; i++) {
-		var side = sides[i],
-			val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').val();
-		$('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').find('option').each(function() {
-			if ($(this).val() == val) {
-				var b = parseInt($(this).attr("data-booking"));
-				if (b && (booking == null || b < booking)) {
-					booking = b;
-					return false;
-				}
+	var val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').val();
+	$('select#'+dr_grade_et_class+'_'+side+'_nscretinopathy_id').find('option').each(function() {
+		if ($(this).val() == val) {
+			var b = parseInt($(this).attr("data-booking"));
+			if (b && (booking == null || b < booking)) {
+				booking = b;
+				return false;
 			}
-		});
-		val = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').val();
-		$('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id').find('option').each(function() {
-			if ($(this).val() == val) {
-				var b = parseInt($(this).attr("data-booking"));
-				if (b && (booking == null || b < booking)) {
-					booking = b;
-					return false;
-				}
-			}
-		});
-	}
+		}
+	});
+
 	return booking;
 }
 
 // sets the booking hint text based on the DR grade
-function updateBookingWeeks() {
-	var weeks = getDRBookingVal();
+function updateBookingWeeks(side) {
+	var weeks = getDRBookingVal(side);
 	if (weeks){
-		$('.Element_OphCiExamination_LaserManagement').find('#laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
+		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
 	}
 	else {
-		$('.Element_OphCiExamination_LaserManagement').find('#laser_booking_hint').text('');
+		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('');
 	}
 }
 
@@ -275,7 +262,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
     dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
     dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
 
-    updateBookingWeeks();
+    updateBookingWeeks(side);
 
 }
 
@@ -492,6 +479,7 @@ $(document).ready(function() {
 		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
 			, 'change', function(e) {
 
+		var side = getSplitElementSide($(this));
 		var gradePK = $(this).val();
 		var grade = null;
 
@@ -511,7 +499,7 @@ $(document).ready(function() {
 
 		$(this).closest('.wrapper').attr('class', 'wrapper ' + $('option:selected', this).attr('class'));
 
-		updateBookingWeeks();
+		updateBookingWeeks(side);
 	})
 
 	$('body').delegate('.grade-info-all a', 'click', function(e) {
@@ -656,8 +644,10 @@ $(document).ready(function() {
 	}
 
 	// show/hide the laser deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
-		deferralFields('Element_OphCiExamination_LaserManagement', 'laser');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_left_laser_status_id, ' +
+		'#Element_OphCiExamination_LaserManagement_right_laser_status_id', 'change', function(e) {
+		var side = getSplitElementSide($(this));
+		deferralFields('Element_OphCiExamination_LaserManagement', side + '_laser');
 		var selVal = $(this).val();
 		var showFields = false;
 		$(this).find('option').each(function() {
@@ -671,10 +661,12 @@ $(document).ready(function() {
 		});
 
 		if (showFields) {
-			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').removeClass('hidden');
+			unmaskFields($('#Element_OphCiExamination_LaserManagement_'+side+'_treatment_fields'));
+			unmaskFields($('#'+side+'laser_booking_hint'));
 		}
 		else {
-			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').addClass('hidden');
+			maskFields($('#Element_OphCiExamination_LaserManagement_'+side+'_treatment_fields'));
+			maskFields($('#'+side+'laser_booking_hint'));
 		}
 
 	});
@@ -705,14 +697,16 @@ $(document).ready(function() {
 	});
 
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_deferralreason_id', 'change', function(e) {
-		var other = isDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_left_laser_deferralreason_id, ' +
+		'#Element_OphCiExamination_LaserManagement_right_laser_deferralreason_id', 'change', function(e) {
+		var side = getSplitElementSide($(this));
+		var other = isDeferralOther('Element_OphCiExamination_LaserManagement', side + '_laser');
 
 		if (other) {
-			showDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+			showDeferralOther('Element_OphCiExamination_LaserManagement', side + '_laser');
 		}
 		else {
-			hideDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
+			hideDeferralOther('Element_OphCiExamination_LaserManagement', side + '_laser');
 		}
 	});
 
@@ -1508,7 +1502,8 @@ function OphCiExamination_DRGrading_init() {
 }
 
 function OphCiExamination_Management_init() {
-	updateBookingWeeks();
+	updateBookingWeeks('left');
+	updateBookingWeeks('right');
 }
 
 /**
