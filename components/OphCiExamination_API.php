@@ -501,7 +501,7 @@ class OphCiExamination_API extends BaseAPI
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
-				return $m->getLetter_lmp();
+				return $m->getLetter_string();
 			}
 		}
 	}

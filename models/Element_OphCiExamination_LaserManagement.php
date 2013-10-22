@@ -299,18 +299,57 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 	 * Returns the laser management plan section  for use in correspondence
 	 *
 	 * @return string
+	 * @deprecated since 1.4.10 - use getLetter_string()
 	 */
 	public function getLetter_lmp()
 	{
-		$text = array();
+		return $this->getLetter_string();
+	}
 
-		if ($this->laser_status) {
-			$text[] = $this->laser_status;
-			if ($this->laser_status->deferred) {
-				$text[] = $this->getLaserDeferralReason();
-			}
+	/**
+	 * gets a string of the information contained in this element for the given side.
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	protected function getLetterStringForSide($side)
+	{
+		$res = ucfirst($side) . " Eye:\n";
+
+		$status = $this->{$side . '_laser_status'};
+		$res .= $status->name;
+		if ($status->deferred) {
+			$res .= " due to " . $this->getLaserDeferralReasonForSide($side);
 		}
 
-		return implode(', ',$text)."\n";
+
+		if ($status->book || $status->event) {
+			$res .= "\n" . $this->getAttributeLabel($side . "_lasertype_id") . ": " . $this->getLaserTypeStringForSide($side);
+ 		}
+		if ($comments = $this->{$side . "_comments"}) {
+			$res .= "\n" . $this->getAttributeLabel($side . "_comments") . ": " . $comments;
+		}
+
+		return $res;
+	}
+
+	/**
+	 * get the string of this element for use in correspondence
+	 *
+	 * @return string
+	 */
+	public function getLetter_string()
+	{
+		$res = "Laser Management:\n";
+		if ($this->hasRight()) {
+			$res .= $this->getLetterStringForSide('right');
+		}
+		if ($this->hasLeft()) {
+			if ($this->hasRight()) {
+				$res .= "\n";
+			}
+			$res .= $this->getLetterStringForSide('left');
+		}
+		return $res;
 	}
 }
