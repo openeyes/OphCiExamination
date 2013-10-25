@@ -834,20 +834,20 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .dilation_drug', 'click', function(e) {
+	$(this).delegate('.dilation_drug', 'change', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_Dilation_addTreatment(this, side);
 		e.preventDefault();
 	});
 
-	$('#event_content .Element_OphCiExamination_Dilation .dilation_drug').keypress(function(e) {
+	$('.dilation_drug').keypress(function(e) {
 		if (e.keyCode == 13) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_Dilation_addTreatment(this, side);
 		}
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .removeTreatment', 'click', function(e) {
+	$(this).delegate('.Element_OphCiExamination_Dilation .removeTreatment', 'click', function(e) {
 		var wrapper = $(this).closest('.side');
 		var side = wrapper.attr('data-side');
 		var row = $(this).closest('tr');
