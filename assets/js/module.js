@@ -347,7 +347,7 @@ $(document).ready(function() {
 	/**
 	 * Populate description from eyedraw
 	 */
-	$('#event_display').delegate('.ed_report', 'click', function(e) {
+	$(this).delegate('.ed_report', 'click', function(e) {
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -430,7 +430,7 @@ $(document).ready(function() {
 	/**
 	 * Clear eyedraw
 	 */
-	$('#event_display').delegate('.ed_clear', 'click', function(e) {
+	$(this).delegate('.ed_clear', 'click', function(e) {
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -757,14 +757,14 @@ $(document).ready(function() {
 		}
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity #visualacuity_unit_change', 'change', function(e) {
-		removeElement($(this).closest('.Element_OphCiExamination_VisualAcuity'));
-		var el = $('#inactive_elements').find('.Element_OphCiExamination_VisualAcuity');
+	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
+		removeElement($(this).closest('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"]'));
+		var el = $('.optional-elements-list').find('li[data-element-type-class="Element_OphCiExamination_VisualAcuity"]');
 		el.addClass('clicked');
 		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
+	$(this).delegate('.removeReading', 'click', function(e) {
 		var block = $(this).closest('.data');
 
 		$(this).closest('tr').remove();
@@ -780,7 +780,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_VisualAcuity .addReading', 'click', function(e) {
+	$(this).delegate('.addReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		OphCiExamination_VisualAcuity_addReading(side);
 		// VA can affect DR
@@ -867,50 +867,6 @@ $(document).ready(function() {
 	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .clearDilation', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		$(this).closest('.side').find('tr.dilationTreatment a.removeTreatment').click();
-		e.preventDefault();
-	});
-
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_unselected select', 'change', function(e) {
-		var id = $(this).val();
-		var text = $('option:selected', this).text();
-		$('#comorbidities_items :not(:selected)').attr('selected', function () {
-			return ($(this).val() == id);
-		});
-		$('option:selected', this).remove();
-		if($('#comorbidities_selected ul').length == 0) {
-			$('#comorbidities_unselected').append(' <a href="#">Remove All</a>');
-			$('#comorbidities_selected').html('<ul></ul>');
-		}
-		$('#comorbidities_selected ul').append('<li data-id="'+id+'"><span>'+text+'</span> <a href="" title="Remove Comorbidity">-</a></li>');
-		sort_ul($('#comorbidities_selected ul'));
-		e.preventDefault();
-	});
-
-	function removeComorbidity(li) {
-		var id = li.attr('data-id');
-		var text = $('span',li).text();
-		$('#comorbidities_items :selected').attr('selected', function () {
-			return ($(this).val() != id);
-		});
-		li.remove();
-		if($('#comorbidities_selected ul li').length == 0) {
-			$('#comorbidities_selected').html('<p>No comorbidities</p>');
-			$('#comorbidities_unselected a').remove();
-		}
-		$('#comorbidities_unselected select').append('<option value="'+id+'">'+text+'</option>');
-	}
-
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_selected a', 'click', function(e) {
-		removeComorbidity($(this).parent());
-		sort_selectbox($('#comorbidities_unselected select'));
-		e.preventDefault();
-	});
-
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_Comorbidities #comorbidities_unselected a', 'click', function(e) {
-		$('#comorbidities_selected li').each(function() {
-			removeComorbidity($(this));
-		});
-		sort_selectbox($('#comorbidities_unselected select'));
 		e.preventDefault();
 	});
 
@@ -1171,7 +1127,7 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 }
 
 function OphCiExamination_VisualAcuity_getNextKey() {
-	var keys = $('#event_content .Element_OphCiExamination_VisualAcuity .visualAcuityReading').map(function(index, el) {
+	var keys = $('.visualAcuityReading').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
 	if(keys.length) {
@@ -1188,8 +1144,8 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 		"side" : (side == 'right' ? 0 : 1)
 	};
 	var form = Mustache.render(template, data);
-	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .noReadings').hide();
-	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
+	$('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"] .element-eye .'+side+' .noReadings').hide();
+	var table = $('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
@@ -1703,25 +1659,6 @@ function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
 		$('#Element_OphCiExamination_ClinicOutcome_followup_period_id')
 			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_period_id']);
 
-	}
-}
-
-function OphCiExamination_Comorbidities_init() {
-	$('#comorbidities_items').hide();
-	$('#comorbidities_items').after($('<div id="comorbidities_unselected"><select><option value="">-- Add --</option></select></div>'));
-	$('#comorbidities_items option:not(:selected)').each(function() {
-		$('#comorbidities_unselected select').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
-	});
-	var selected = $('#comorbidities_items option:selected');
-	$('#comorbidities_unselected').after($('<div id="comorbidities_selected"></div>'));
-	if(selected.length > 0) {
-		$('#comorbidities_unselected').append(' <a href="#">Remove All</a>');
-		$('#comorbidities_selected').html($('<ul></ul>'));
-		$('#comorbidities_items option:selected').each(function() {
-			$('#comorbidities_selected ul').append('<li data-id="' + $(this).val() + '"><span>' + $(this).text() + '</span> <a href="#" title="Remove Comorbidity">-</a></li>');
-		});
-	} else {
-		$('#comorbidities_selected').html('<p>No comorbidities</p>');
 	}
 }
 

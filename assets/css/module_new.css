@@ -17,16 +17,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 /* line 2, ../sass/components/_event.scss */
-.event.examination {
+.event.ophciexamination {
   border-color: #fdcc56;
 }
 /* line 4, ../sass/components/_event.scss */
-.event.examination .event-content {
-  background-image: url('../img/new/watermark.png?1379063967');
+.event.ophciexamination .event-content {
+  background-image: url('../img/new/watermark.png?1382623503');
 }
 /* line 7, ../sass/components/_event.scss */
-.event.examination .event-title {
-  background-image: url('../img/new/medium.png?1379063967');
+.event.ophciexamination .event-title {
+  background-image: url('../img/new/medium.png?1382623503');
 }
 
 /* line 2, ../sass/components/_elements.scss */
@@ -72,7 +72,7 @@
 
 /* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/new/cross.gif?1379063967') no-repeat center center;
+  background: url('../img/new/cross.gif?1382623503') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
