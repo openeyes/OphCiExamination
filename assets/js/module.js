@@ -1595,8 +1595,8 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var max_id = -1;
 	var count = 0;
 
-	$('#OphCiExamination_diagnoses').children('tr').map(function() {
-		var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
+	$('.js-diagnoses').children('tr').map(function() {
+		var id = parseInt($(this).children('td.eye').find('input').attr('name').match(/[0-9]+/));
 		if (id >= max_id) {
 			max_id = id;
 		}
@@ -1613,11 +1613,29 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var checked_left = (eye_id == 1 ? 'checked="checked" ' : '');
 	var checked_principal = (count == 0 ? 'checked="checked" ' : '');
 
-	var row = '<tr><td>'+name+'</td><td><span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both</span> <span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left</span></td><td><input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/></td><td><a href="#" class="small removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a></td></tr>';
+	var row = '<tr>'+
+		'<td>'+name+'</td>'+
+		'<td class="eye">'+
+			'<label class="inline">'+
+				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
+			'</label>'+
+			'<label class="inline">'+
+				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both'+
+			'</label>'+
+			'<label class="inline">'+
+				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left'+
+			'</label>'+
+		'</td>'+
+		'<td>'+
+			'<input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/>'+
+		'</td>'+
+		'<td>'+
+			'<a href="#" class="removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a>'+
+		'</td>'+
+	'</tr>';
 
-	$('#OphCiExamination_diagnoses').append(row);
-
-	$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" />');
+	$('.js-diagnoses').append(row);
+	$('.js-diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" />');
 }
 
 function OphCiExamination_Gonioscopy_init() {
