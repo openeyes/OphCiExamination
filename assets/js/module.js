@@ -656,7 +656,7 @@ $(document).ready(function() {
 	}
 
 	// show/hide the laser deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_LaserManagement_laser_status_id', 'change', function(e) {
 		deferralFields('Element_OphCiExamination_LaserManagement', 'laser');
 		var selVal = $(this).val();
 		var showFields = false;
@@ -671,10 +671,10 @@ $(document).ready(function() {
 		});
 
 		if (showFields) {
-			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').removeClass('hidden');
+			$('.jsTreatmentFields').removeClass('hidden');
 		}
 		else {
-			$('#div_Element_OphCiExamination_LaserManagement_treatment_fields').addClass('hidden');
+			$('.jsTreatmentFields').addClass('hidden');
 		}
 
 	});
