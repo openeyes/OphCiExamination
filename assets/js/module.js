@@ -322,18 +322,23 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_display').delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
 		// Update Clinic Outcome follow up
-		var clinic_outcome_element = $('#active_elements .Element_OphCiExamination_ClinicOutcome');
+		var clinic_outcome_element = $('.js-active-elements .Element_OphCiExamination_ClinicOutcome');
 		if(clinic_outcome_element.length) {
 			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
 			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
 		}
 
 		// Change colour of dropdown background
-		$('.Element_OphCiExamination_GlaucomaRisk .risk_wrapper').attr('class', 'risk_wrapper ' + $('option:selected', this).attr('class'));
+		if (!$('.Element_OphCiExamination_GlaucomaRisk .risk').hasClass($('option:selected', this).attr('class'))) {
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('low_risk');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('moderate_risk');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('high_risk');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').addClass($('option:selected', this).attr('class'));
+		}
 	});
-	$('#event_OphCiExamination').delegate('.Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
+	$(this).delegate('.Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
 		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
 		e.preventDefault();
 	});
@@ -926,7 +931,7 @@ $(document).ready(function() {
 	}
 
 	// show/hide the followup period fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
 		var followup = isClinicOutcomeStatusFollowup();
 		if (followup) {
 			showOutcomeStatusFollowup();
@@ -1461,8 +1466,8 @@ function unmaskFields(element, ignore) {
 }
 
 function OphCiExamination_InjectionManagementComplex_check(side) {
-	if ($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment').find(':checkbox').length >0) {
-		val = $('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment').find(':checkbox')[0].checked;
+	if ($('#Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment').length >0) {
+		val = $('#Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment')[0].checked;
 	} else {
 		val = false;
 	}
@@ -1474,7 +1479,8 @@ function OphCiExamination_InjectionManagementComplex_check(side) {
 		// if we have an other selection on no treatment, need to display the text field
 		var selVal = $('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_id').find('select').val();
 		var other = false;
-		$('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_id').find('select').find('option').each(function() {
+
+		$('#Element_OphCiExamination_InjectionManagementComplex_right_no_treatment_reason_id').find('option').each(function() {
 			if ($(this).val() == selVal) {
 				if ($(this).data('other') == '1') {
 					other = true;
@@ -1484,12 +1490,10 @@ function OphCiExamination_InjectionManagementComplex_check(side) {
 		});
 		if (other) {
 			unmaskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_other'));
-		}
-		else {
+		} else {
 			maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_other'));
 		}
-	}
-	else {
+	} else {
 		maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_id'));
 		maskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_no_treatment_reason_other'));
 		unmaskFields($('#div_Element_OphCiExamination_InjectionManagementComplex_'+side+'_treatment_fields'),'[id$="eye_id"]');
@@ -1571,12 +1575,12 @@ function OphCiExamination_InjectionManagementComplex_init() {
 	OphCiExamination_InjectionManagementComplex_check('left');
 	OphCiExamination_InjectionManagementComplex_check('right');
 
-	$('.Element_OphCiExamination_InjectionManagementComplex_no_treatment').find(':checkbox').bind('change', function() {
+	$('.jsNoTreatment').find(':checkbox').bind('change', function() {
 		var side = getSplitElementSide($(this));
 		OphCiExamination_InjectionManagementComplex_check(side);
 	});
 
-	$('.Element_OphCiExamination_InjectionManagementComplex_no_treatment_reason_id').find('select').bind('change', function() {
+	$('#Element_OphCiExamination_InjectionManagementComplex_right_no_treatment_reason_id').bind('change', function() {
 		var side = getSplitElementSide($(this));
 		OphCiExamination_InjectionManagementComplex_check(side);
 	});
