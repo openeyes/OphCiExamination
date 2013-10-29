@@ -705,12 +705,12 @@ $(document).ready(function() {
 	});
 
 	// show/hide the injection deferral fields
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_status_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_InjectionManagement_injection_status_id', 'change', function(e) {
 		deferralFields('Element_OphCiExamination_InjectionManagement', 'injection');
 	});
 
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_LaserManagement_laser_deferralreason_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_LaserManagement_laser_deferralreason_id', 'change', function(e) {
 		var other = isDeferralOther('Element_OphCiExamination_LaserManagement', 'laser');
 
 		if (other) {
@@ -722,7 +722,7 @@ $(document).ready(function() {
 	});
 
 	// show/hide the deferral reason option
-	$('#event_OphCiExamination').delegate('#Element_OphCiExamination_InjectionManagement_injection_deferralreason_id', 'change', function(e) {
+	$(this).delegate('#Element_OphCiExamination_InjectionManagement_injection_deferralreason_id', 'change', function(e) {
 		var other = isDeferralOther('Element_OphCiExamination_InjectionManagement', 'injection');
 
 		if (other) {
