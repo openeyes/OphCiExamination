@@ -743,11 +743,11 @@ $(document).ready(function() {
 		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
+	$(this).delegate('#event-content .Element_OphCiExamination_Refraction .refractionType', 'change', function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_OpticDisc .opticdisc-mode', 'change', function() {
+	$(this).delegate('#event-content .Element_OphCiExamination_OpticDisc .opticdisc-mode', 'change', function() {
 		OphCiExamination_OpticDisc_updateCDRatio(this);
 	});
 
@@ -756,7 +756,7 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
+	$(this).delegate('#event-content .Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
 		if (Element_OphCiExamination_IntraocularPressure_link_instruments) {
 			$(this).closest('.element').find('.iopInstrument').val($(this).val());
 		}
@@ -869,7 +869,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$(this).delegate('#event_content .Element_OphCiExamination_Dilation .clearDilation', 'click', function(e) {
+	$(this).delegate('#event-content .Element_OphCiExamination_Dilation .clearDilation', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		$(this).closest('.side').find('tr.dilationTreatment a.removeTreatment').click();
 		e.preventDefault();
@@ -1009,7 +1009,7 @@ function enableTextMacro(select, index, option) {
 }
 
 function OphCiExamination_Dilation_getNextKey() {
-	var keys = $('#event_content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
+	var keys = $('#event-content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
 	if(keys.length) {
@@ -1032,7 +1032,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"drug_id" : drug_id
 		};
 		var form = Mustache.render(template, data);
-		var table = $('#event_content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
+		var table = $('#event-content .Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
 		table.show();
 		$(element).closest('.side').find('.timeDiv').show();
 		$('tbody', table).append(form);
@@ -1076,7 +1076,7 @@ function OphCiExamination_Refraction_updateType(field) {
 }
 
 function OphCiExamination_Refraction_init() {
-	$("#event_content .Element_OphCiExamination_Refraction .refractionType").each(function() {
+	$("#event-content .Element_OphCiExamination_Refraction .refractionType").each(function() {
 		OphCiExamination_Refraction_updateType(this);
 	});
 }
@@ -1168,7 +1168,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
  */
 function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 	var method_ids = OphCiExamination_VisualAcuity_method_ids;
-	$('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .method_id').each(function() {
+	$('#event-content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .method_id').each(function() {
 		var method_id = $(this).val();
 		method_ids = $.grep(method_ids, function(value) {
 			return value != method_id;
@@ -1178,7 +1178,7 @@ function OphCiExamination_VisualAcuity_getNextMethodId(side) {
 }
 
 function OphCiExamination_VisualAcuity_bestForSide(side) {
-	var table = $('#event_content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
+	var table = $('#event-content .Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] table');
 	if (table.is(':visible')) {
 		var best = 0;
 		table.find('tr .va-selector').each(function() {
@@ -1193,7 +1193,7 @@ function OphCiExamination_VisualAcuity_bestForSide(side) {
 
 function OphCiExamination_VisualAcuity_init() {
 	// ensure tooltip works when loading for an edit
-	$('#event_content .Element_OphCiExamination_VisualAcuity .side').each(function() {
+	$('#event-content .Element_OphCiExamination_VisualAcuity .side').each(function() {
 		$(this).find('tr.visualAcuityReading').each(function() {
 			OphCiExamination_VisualAcuity_ReadingTooltip($(this));
 		});
@@ -1653,7 +1653,7 @@ function OphCiExamination_Gonioscopy_init() {
 
 function OphCiExamination_OpticDisc_init() {
 	func = function() {
-		$('#event_content .Element_OphCiExamination_OpticDisc .opticdisc-mode').each(function() {
+		$('#event-content .Element_OphCiExamination_OpticDisc .opticdisc-mode').each(function() {
 			OphCiExamination_OpticDisc_updateCDRatio(this);
 		});
 	}
