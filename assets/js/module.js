@@ -332,9 +332,9 @@ $(document).ready(function() {
 
 		// Change colour of dropdown background
 		if (!$('.Element_OphCiExamination_GlaucomaRisk .risk').hasClass($('option:selected', this).attr('class'))) {
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('low_risk');
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('moderate_risk');
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('high_risk');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('low');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('moderate');
+			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('high');
 			$('.Element_OphCiExamination_GlaucomaRisk .risk').addClass($('option:selected', this).attr('class'));
 		}
 	});
@@ -478,7 +478,7 @@ $(document).ready(function() {
 	});
 
 	// dr grading
-	$('#event_OphCiExamination').delegate('a.drgrading_images_link', 'click', function(e) {
+	$(this).delegate('a.drgrading_images_link', 'click', function(e) {
 		$('.drgrading_images_dialog').dialog('open');
 		e.preventDefault();
 	});
@@ -486,7 +486,7 @@ $(document).ready(function() {
 	// Note. a manual change to DR grade will mark the grade as unsynced, regardless of whether the user
 	// manually syncs or not, as we are using the manual change as an indicator that we should no longer automatically
 	// update the values. Although this will not apply between saves
-	$('#event_OphCiExamination').delegate(
+	$(this).delegate(
 		'#Element_OphCiExamination_DRGrading_right_clinicalret_id, ' +
 		'#Element_OphCiExamination_DRGrading_left_clinicalret_id, ' +
 		'#Element_OphCiExamination_DRGrading_right_clinicalmac_id, ' +
@@ -527,7 +527,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('input[name="Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
+	$(this).delegate('input[name="Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
 		'input[name="Element_OphCiExamination_DRGrading[left_nscretinopathy_photocoagulation]"], ' +
 		'input[name="Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
 		'input[name="Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
@@ -535,7 +535,7 @@ $(document).ready(function() {
 		$('#drgrading_dirty').show();
 	});
 
-	$('#event_OphCiExamination').delegate('a#drgrading_dirty', 'click', function(e) {
+	$(this).delegate('a#drgrading_dirty', 'click', function(e) {
 		$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 			var drawingName = $(this).attr('data-drawing-name');
 			if (window[drawingName]) {
@@ -550,7 +550,7 @@ $(document).ready(function() {
 	});
 
 	// When VA updated we may need to update the DR Grade
-	$('#event_OphCiExamination').delegate('.va-selector', 'change', function(e) {
+	$(this).delegate('.va-selector', 'change', function(e) {
 		side = getSplitElementSide($(this));
 
 		OphCiExamination_DRGrading_update(side);
@@ -684,7 +684,7 @@ $(document).ready(function() {
 
 	});
 
-	$('#event_OphCiExamination').delegate('.lasertype select', 'change', function(e) {
+	$(this).delegate('.lasertype select', 'change', function(e) {
 		var selVal = $(this).val();
 		var showOther = false;
 		$(this).find('option').each(function() {
@@ -793,7 +793,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$('#event_OphCiExamination').delegate('a.foster_images_link', 'click', function(e) {
+	$(this).delegate('a.foster_images_link', 'click', function(e) {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		$('.foster_images_dialog[data-side="'+side+'"]').dialog('open');
 		e.preventDefault();
