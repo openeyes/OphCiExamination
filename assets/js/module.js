@@ -514,7 +514,22 @@ $(document).ready(function() {
 		dr_grade.find('#'+desc + '_' + grade.replace(/\s+/g, '')).show();
 		$('#drgrading_dirty').show();
 
-		$(this).closest('.wrapper').attr('class', 'wrapper ' + $('option:selected', this).attr('class'));
+		$(this).closest('.wrapper').removeClass('high');
+		$(this).closest('.wrapper').removeClass('severe');
+		$(this).closest('.wrapper').removeClass('high-risk');
+		$(this).closest('.wrapper').removeClass('proliferative');
+		$(this).closest('.wrapper').removeClass('maculopathy');
+		$(this).closest('.wrapper').removeClass('moderate');
+		$(this).closest('.wrapper').removeClass('pre-polif');
+		$(this).closest('.wrapper').removeClass('mild');
+		$(this).closest('.wrapper').removeClass('early');
+		$(this).closest('.wrapper').removeClass('background');
+		$(this).closest('.wrapper').removeClass('peripheral');
+		$(this).closest('.wrapper').removeClass('upgradable');
+		$(this).closest('.wrapper').removeClass('low');
+		$(this).closest('.wrapper').removeClass('none');
+
+		$(this).closest('.wrapper').addClass($('option:selected', this).attr('class'));
 
 		updateBookingWeeks();
 	})
