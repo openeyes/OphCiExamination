@@ -1713,7 +1713,7 @@ $('a.removeDiagnosis').live('click',function() {
 		new_principal = true;
 	}
 
-	$('#selected_diagnoses').children('input').map(function() {
+	$('.js-diagnoses').find('input[type="hidden"]').map(function() {
 		if ($(this).val() == disorder_id) {
 			$(this).remove();
 		}
