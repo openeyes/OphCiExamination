@@ -116,7 +116,18 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement
 	 */
 	public function getLetter_string()
 	{
-		return "Clinical management: $this->comments";
+		$res = "";
+		if ($this->comments) {
+			$res .= "Clinical management: " . $this->comments . "\n";
+		}
+
+		foreach ($this->getChildren() as $el) {
+			if (method_exists($el, 'getLetter_string')) {
+				$res .= $el->getLetter_string() . "\n";
+			}
+		}
+
+		return $res;
 	}
 
 }

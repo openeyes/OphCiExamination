@@ -24,9 +24,29 @@
 </div>
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_crt'}; ?> &micro;m</div>
+	<div class="data"><?php echo $element->{$side . '_crt'} !== null ? $element->{$side . '_crt'} . ' &micro;m' : 'Not recorded'; ?> </div>
 </div>
 <div class="eventDetail aligned">
 	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
 	<div class="data"><?php echo $element->{$side . '_sft'}; ?> &micro;m</div>
 </div>
+<div class="eventDetail aligned">
+	<div class="label"><?php echo $element->getAttributeLabel($side . '_thickness_increase') ?>:</div>
+	<div class="data"><?php
+		if ($element->{$side . '_thickness_increase'} === null) {
+			echo "Not recorded";
+		} else {
+			echo $element->{$side . '_thickness_increase'} ? 'Yes' : 'No';
+		} ?>
+	</div>
+</div>
+<div class="eventDetail aligned">
+	<div class="label">Finding:</div>
+	<div class="data"><?php echo $element->{'get' . ucfirst($side) . 'FluidString'}();?></div>
+</div>
+<?php if ($element->{$side . '_comments'}) { ?>
+	<div class="eventDetail aligned">
+		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+		<div class="data"><?php echo $element->{$side . '_comments'} ;?></div>
+	</div>
+<?php }

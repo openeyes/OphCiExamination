@@ -424,6 +424,21 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		$text = "Visual acuity:\n";
 
+		if ($this->hasRight()) {
+			if ($this->getCombined('right')) {
+				$text .= "right: ".$this->getCombined('right', $unit_id);
+			} else {
+				$text .= "right: not recorded";
+			}
+			if (trim($this->right_comments)) {
+				$text .= ", ".$this->right_comments;
+			}
+		}
+		else {
+			$text .= "right: not recorded";
+		}
+		$text .= "\n";
+		
 		if ($this->hasLeft()) {
 			if ($this->getCombined('left')) {
 				$text .= "left: ".$this->getCombined('left', $unit_id);
@@ -434,17 +449,8 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 				$text .= ", ".$this->left_comments;
 			}
 		}
-
-		if ($this->hasRight()) {
-			if ($text) $text .= "\n";
-			if ($this->getCombined('right')) {
-				$text .= "right: ".$this->getCombined('right', $unit_id);
-			} else {
-				$text .= "right: not recorded";
-			}
-			if (trim($this->right_comments)) {
-				$text .= ", ".$this->right_comments;
-			}
+		else {
+			$text .= "left: not recorded";
 		}
 
 		return $text."\n";
