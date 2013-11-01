@@ -35,6 +35,8 @@
  * @property integer $right_diagnosis2_id
  * @property integer $left_treatment_id
  * @property integer $right_treatment_id
+ * @property string $right_comments
+ * @property string $left_comments
  *
  * The followings are the available model relations:
  * @property OphCiExamination_InjectionManagementComplex_NoTreatmentReason $left_no_treatment_reason
@@ -766,5 +768,87 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				return OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->right_treatment_id);
 			}
 		}
+	}
+
+	/**
+	 * get the diagnosis string for the give side
+	 *
+	 * @param string $side - left or right
+	 * @return string string
+	 */
+	protected function getDiagnosisString($side)
+	{
+		$res = '';
+		if ($this->{$side . '_diagnosis1_id'}) {
+			$res = $this->{$side . '_diagnosis1'}->term;
+		}
+		if ($this->{$side . '_diagnosis2_id'}) {
+			$res .= ' secondary to ' . $this->{$side . '_diagnosis2'}->term;
+		}
+		return $res;
+	}
+
+	/**
+	 * get the diagnosis string for the right
+	 *
+	 * @return string
+	 */
+	public function getRightDiagnosisString()
+	{
+		if ($this->hasRight()) {
+			return $this->getDiagnosisString('right');
+		}
+	}
+
+	/**
+	 * get the diagnosis string for the left
+	 *
+	 * @return string
+	 */
+	public function getLeftDiagnosisString()
+	{
+		if ($this->hasLeft()) {
+			return $this->getDiagnosisString('left');
+		}
+	}
+
+	protected function getLetterStringForSide($side)
+	{
+		$res = ucfirst($side) . " Eye:\n";
+		if ($this->{$side . '_no_treatment'}) {
+			$res .= 'Has no treatment due to ' . $this->{'get' . ucfirst($side) . 'NoTreatmentReasonName'}() . "\n";
+		}
+		else {
+			if ($treat = $this->{$side . '_treatment'}) {
+				$res .= "Treatment: " . $treat->name . "\n";
+			}
+			$res .= "Diagnosis: " . $this->{'get' . ucfirst($side) . 'DiagnosisString'}() . "\n";
+			if ($risks = $this->{$side . '_risks'}) {
+				$res .= "Risks: ";
+				foreach ($risks as $i => $risk) {
+					if ($i > 0) {
+						$res .= ", ";
+					}
+					$res .= $risk->name;
+				}
+				$res .= "\n";
+			}
+			if ($comments = $this->{$side .'_comments'}) {
+				$res .= "Comments: " . $comments . "\n";
+			}
+		}
+		return $res;
+	}
+
+	public function getLetter_string()
+	{
+		$res = "Injection Management:\n";
+		if ($this->hasRight()) {
+			$res .= $this->getLetterStringForSide('right');
+		}
+		if ($this->hasLeft()) {
+			$res .= $this->getLetterStringForSide('left');
+		}
+		return $res;
 	}
 }
