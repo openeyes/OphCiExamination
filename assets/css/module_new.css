@@ -22,11 +22,11 @@
 }
 /* line 4, ../sass/components/_event.scss */
 .event.ophciexamination .event-content {
-  background-image: url('../img/new/watermark.png?1382623503');
+  background-image: url('../img/new/watermark.png?1382093883');
 }
 /* line 7, ../sass/components/_event.scss */
 .event.ophciexamination .event-title {
-  background-image: url('../img/new/medium.png?1382623503');
+  background-image: url('../img/new/medium.png?1382093883');
 }
 
 /* line 2, ../sass/components/_elements.scss */
@@ -70,9 +70,21 @@
   text-align: center;
 }
 
+/* line 53, ../sass/components/_elements.scss */
+.Element_OphCiExamination_Gonioscopy .eyedraw-fields,
+.Element_OphCiExamination_OpticDisc .eyedraw-fields,
+.Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
+  padding-top: 74px;
+}
+
+/* line 59, ../sass/components/_elements.scss */
+.Element_OphCiExamination_PosteriorPole .eyedraw-fields {
+  padding-top: 220px;
+}
+
 /* line 1, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/new/cross.gif?1382623503') no-repeat center center;
+  background: url('../img/new/cross.gif?1382093883') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
@@ -128,4 +140,83 @@
 /* line 47, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-inf {
   bottom: 5px;
+}
+
+/* line 92, ../../../../../sass/new/openeyes/_mixins.scss */
+.row.refraction .column.fixed {
+  width: 186px;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 102, ../../../../../sass/new/openeyes/_mixins.scss */
+  .row.refraction .column.fluid {
+    width: -moz-calc(100% - 186px);
+    width: -o-calc(100% - 186px);
+    width: -webkit-calc(100% - 186px);
+    width: calc(100% - 186px);
+  }
+}
+/* line 92, ../../../../../sass/new/openeyes/_mixins.scss */
+.row.gonioscopy .column.fixed {
+  width: 320px;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 102, ../../../../../sass/new/openeyes/_mixins.scss */
+  .row.gonioscopy .column.fluid {
+    width: -moz-calc(100% - 320px);
+    width: -o-calc(100% - 320px);
+    width: -webkit-calc(100% - 320px);
+    width: calc(100% - 320px);
+  }
+}
+/* line 92, ../../../../../sass/new/openeyes/_mixins.scss */
+.row.anterior-segment .column.fixed {
+  width: 320px;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 102, ../../../../../sass/new/openeyes/_mixins.scss */
+  .row.anterior-segment .column.fluid {
+    width: -moz-calc(100% - 320px);
+    width: -o-calc(100% - 320px);
+    width: -webkit-calc(100% - 320px);
+    width: calc(100% - 320px);
+  }
+}
+/* line 92, ../../../../../sass/new/openeyes/_mixins.scss */
+.row.optic-disc .column.fixed {
+  width: 320px;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 102, ../../../../../sass/new/openeyes/_mixins.scss */
+  .row.optic-disc .column.fluid {
+    width: -moz-calc(100% - 320px);
+    width: -o-calc(100% - 320px);
+    width: -webkit-calc(100% - 320px);
+    width: calc(100% - 320px);
+  }
+}
+/* line 92, ../../../../../sass/new/openeyes/_mixins.scss */
+.row.posterior-pole .column.fixed {
+  width: 320px;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 102, ../../../../../sass/new/openeyes/_mixins.scss */
+  .row.posterior-pole .column.fluid {
+    width: -moz-calc(100% - 320px);
+    width: -o-calc(100% - 320px);
+    width: -webkit-calc(100% - 320px);
+    width: calc(100% - 320px);
+  }
+}
+/* line 3, ../sass/components/_eyedraw.scss */
+#event-content .EyeDrawWidget canvas {
+  margin: 0;
+}
+/* line 6, ../sass/components/_eyedraw.scss */
+#event-content .EyeDrawWidget .ed_toolbar {
+  margin: 0;
 }
