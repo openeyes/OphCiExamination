@@ -1712,7 +1712,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 			'<input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/>'+
 		'</td>'+
 		'<td>'+
-			'<a href="#" class="removeDiagnosis" rel="'+disorder_id+'"><strong>Remove</strong></a>'+
+			'<a href="#" class="removeDiagnosis" rel="'+disorder_id+'">Remove</a>'+
 		'</td>'+
 	'</tr>';
 
