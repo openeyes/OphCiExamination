@@ -220,3 +220,25 @@
 #event-content .EyeDrawWidget .ed_toolbar {
   margin: 0;
 }
+
+/* line 3, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions a:hover {
+  background: none;
+}
+/* line 7, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dl {
+  margin: 0;
+}
+/* line 11, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dt, .glaucoma-risk-descriptions dt a {
+  display: block;
+}
+/* line 15, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dd {
+  margin: .7em 0 .7em 4em;
+  font-size: 0.8125em;
+}
+/* line 20, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions .pill.high a {
+  color: #fff;
+}

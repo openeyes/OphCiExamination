@@ -202,7 +202,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
     	var side = 'right';
     }
 
-    var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+    var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
     // clinical retinopathy
     var crSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalret_id');
     crSel.find('option').each(function() {
@@ -806,12 +806,12 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('.removeReading', 'click', function(e) {
-		var block = $(this).closest('.data');
+		var activeForm = $(this).closest('.active-form');
 
 		$(this).closest('tr').remove();
-		if ($('tbody', block).children('tr').length == 0) {
-			$('.noReadings', block).show();
-			$('table', block).hide();
+		if ($('tbody', activeForm).children('tr').length == 0) {
+			$('.noReadings', activeForm).show();
+			$('table', activeForm).hide();
 		}
 		else {
 			// VA can affect DR
@@ -980,7 +980,7 @@ $(document).ready(function() {
 
 
 	// perform the inits for the elements
-	$('#active_elements .element').each(function() {
+	$('.js-active-elements .element').each(function() {
 		var initFunctionName = $(this).attr('data-element-type-class').replace('Element_', '') + '_init';
 		if(typeof(window[initFunctionName]) == 'function') {
 			window[initFunctionName]();
@@ -992,15 +992,15 @@ $(document).ready(function() {
 
 function updateTextMacros() {
 	var active_element_ids = [];
-	$('#active_elements > .element, #active_elements .active_child_elements > .element').each(function() {
+	$('.js-active-elements > .element, .js-active-elements .sub-elements.active > .element').each(function() {
 		active_element_ids.push($(this).attr('data-element-type-id'));
 	});
-	$('#active_elements .textMacro option').each(function() {
+	$('.js-active-elements .textMacro option').each(function() {
 		if($(this).val() && $.inArray($(this).attr('data-element-type-id'), active_element_ids) == -1) {
 			disableTextMacro(this);
 		}
 	});
-	$('#active_elements .textMacro').each(function() {
+	$('.js-active-elements .textMacro').each(function() {
 		var sort = false;
 		if($(this).data('disabled-options')) {
 			var select = this;
@@ -1211,7 +1211,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 		"side" : (side == 'right' ? 0 : 1)
 	};
 	var form = Mustache.render(template, data);
-	$('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"] .element-eye .'+side+' .noReadings').hide();
+	$('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide();
 	var table = $('.element[data-element-type-class="Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
@@ -1373,7 +1373,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
  * @param side
  */
 function OphCiExamination_DRGrading_canUpdate(side) {
-	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .active_child_elements .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+side+'"]');
+	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .sub-elements.active .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+side+'"]');
 
 	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 		return true;
@@ -1430,7 +1430,7 @@ function OphCiExamination_DRGrading_init() {
 			if (_drawing.eye) {
 				side = 'left';
 			}
-			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.active_child_elements .' + dr_grade_et_class);
+			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
 			var dr_side = dr_grade.find('.side.eventDetail[data-side="'+side+'"]');
 
 			if (dr_side.hasClass('uninitialised')) {
