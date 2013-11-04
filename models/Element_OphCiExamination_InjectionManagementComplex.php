@@ -822,7 +822,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	{
 		$res = ucfirst($side) . " Eye:\n";
 		if ($this->{$side . '_no_treatment'}) {
-			$res .= 'Has no treatment due to ' . $this->{'get' . ucfirst($side) . 'NoTreatmentReasonName'}() . "\n";
+			$res .= 'Had no treatment due to ' . $this->{'get' . ucfirst($side) . 'NoTreatmentReasonName'}() . "\n";
 		}
 		else {
 			if ($treat = $this->{$side . '_treatment'}) {
