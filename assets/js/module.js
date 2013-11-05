@@ -174,10 +174,10 @@ function getDRBookingVal(side) {
 function updateBookingWeeks(side) {
 	var weeks = getDRBookingVal(side);
 	if (weeks){
-		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks');
+		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('Laser treatment needs to be booked within ' + weeks.toString() + ' weeks').show();
 	}
 	else {
-		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('');
+		$('.Element_OphCiExamination_LaserManagement').find('#'+side+'_laser_booking_hint').text('').hide();
 	}
 }
 
