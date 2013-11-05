@@ -496,12 +496,28 @@ class OphCiExamination_API extends BaseAPI
 	 * get the laser management plan
 	 *
 	 * @param Patient $patient
+	 * @deprecated since 1.4.10, user getLetterLaserManagementFindings($patient)
 	 */
 	public function getLetterLaserManagementPlan($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
-				return $m->getLetter_lmp();
+				return $m->getLetter_string();
+			}
+		}
+	}
+
+	/**
+	 * Get the default findings string from VA in te latest examination event (if it exists)
+	 *
+	 * @param $patient
+	 * @return string|null
+	 */
+	public function getLetterLaserManagementFindings($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'Element_OphCiExamination_LaserManagement')) {
+				return $va->getLetter_string();
 			}
 		}
 	}
@@ -903,7 +919,8 @@ class OphCiExamination_API extends BaseAPI
 	 * @return string
 	 * @see getLetterInjectionManagementComplexDiagnosisForSide
 	 */
-	public function getLetterInjectionManagementComplexDiagnosisLeft($patient) {
+	public function getLetterInjectionManagementComplexDiagnosisLeft($patient)
+	{
 		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'left');
 	}
 
@@ -914,7 +931,49 @@ class OphCiExamination_API extends BaseAPI
 	 * @return string
 	 * @see getLetterInjectionManagementComplexDiagnosisForSide
 	 */
-	public function getLetterInjectionManagementComplexDiagnosisRight($patient) {
+	public function getLetterInjectionManagementComplexDiagnosisRight($patient)
+	{
 		return $this->getLetterInjectionManagementComplexDiagnosisForSide($patient, 'right');
+	}
+
+	/**
+	 * Get the default findings string from Injection Management complex in the latest examination event (if it exists)
+	 *
+	 * @TODO: make this work with both injection management elements (i.e. if complex not being used, use basic)
+	 * @param $patient
+	 * @return string|null
+	 */
+	public function getLetterInjectionManagementComplexFindings($patient) {
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_InjectionManagementComplex')) {
+				return $el->getLetter_string();
+			}
+		}
+	}
+
+	/**
+	 * get the combined string for both eyes injection management complex diagnosis.
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getLetterInjectionManagementComplexDiagnosisBoth($patient)
+	{
+
+		$right = $this->getLetterInjectionManagementComplexDiagnosisRight($patient);
+		$left = $this->getLetterInjectionManagementComplexDiagnosisLeft($patient);
+		if ($right || $left) {
+			$res = '';
+			if ($right) {
+				$res = 'Right Eye: ' . $right;
+			}
+			if ($left) {
+				if ($right) {
+					$res .= "\n";
+				}
+				$res .= 'Left Eye: ' . $left;
+			}
+			return $res;
+		}
 	}
 }

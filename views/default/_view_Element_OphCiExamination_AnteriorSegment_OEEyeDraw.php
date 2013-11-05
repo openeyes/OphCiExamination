@@ -32,7 +32,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	<?php if ($description = $element->{$side.'_description'}) { ?>
 	<div class="description">
 		<div class="data">
-			<?php echo $description ?>
+			<?= Yii::app()->format->Ntext($description); ?>
 		</div>
 	</div>
 	<?php } ?>

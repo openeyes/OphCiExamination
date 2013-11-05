@@ -70,6 +70,20 @@ class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
 	}
 
 	/**
+	 * default the sort order
+	 *
+	 * (non-PHPdoc)
+	 * @see CActiveRecord::defaultScope()
+	 */
+	public function defaultScope()
+	{
+		$alias = $this->getTableAlias(false, false);
+		return array(
+			'order' => $alias . '.display_order ASC',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
