@@ -8,7 +8,7 @@
 				<?php if ($element->injection_status && $element->injection_status->deferred) { ?>
 					<tr>
 						<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('injection_deferralreason_id'))?></td>
-						<td><span class="big"><?php echo $element->getInjectionDeferralReason() ?></span></td>
+						<td><span class="big"><?= Yii::app()->format->Ntext($element->getInjectionDeferralReason()) ?></span></td>
 					</tr>
 				<?php }?>
 			</tbody>

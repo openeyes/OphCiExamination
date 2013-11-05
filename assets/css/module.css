@@ -57,7 +57,7 @@
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .eventDetail.left { border-right-width: 2px; text-align: right; }
 #event_content .Element_OphCiExamination_IntraocularPressure .cols2 > .reventDetail.ight { border-left-width: 2px; }
 span.OphCiExamination_eye_radio { width: 73px; display: inline-block; }
-span.hint {font-style: italic;}
+span.hint {font-style: italic; display: inline;}
 
 #div_Element_OphCiExamination_CataractManagement_city_road { padding: 5px !important; }
 #div_Element_OphCiExamination_CataractManagement_satellite { padding: 5px !important; }

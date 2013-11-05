@@ -812,6 +812,12 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		}
 	}
 
+	/**
+	 * gets a string of the information contained in this element for the given side.
+	 *
+	 * @param $side
+	 * @return string
+	 */
 	protected function getLetterStringForSide($side)
 	{
 		$res = ucfirst($side) . " Eye:\n";
@@ -840,6 +846,11 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		return $res;
 	}
 
+	/**
+	 * get the string of this element for use in correspondence
+	 *
+	 * @return string
+	 */
 	public function getLetter_string()
 	{
 		$res = "Injection Management:\n";
