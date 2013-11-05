@@ -821,8 +821,16 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	protected function getLetterStringForSide($side)
 	{
 		$res = ucfirst($side) . " Eye:\n";
-		if ($this->{$side . '_no_treatment'}) {
-			$res .= 'Had no treatment due to ' . $this->{'get' . ucfirst($side) . 'NoTreatmentReasonName'}() . "\n";
+		if ($notreatment = $this->{$side . '_no_treatment_reason'}) {
+			$res .= $notreatment->getLetter_string();
+			if ($notreatment->other) {
+				$other = trim($this->{$side . '_no_treatment_reason_other'});
+				$res .= " " . $other;
+				if (substr_compare($other, ".", strlen($other)-1) !== 0) {
+					$res .= ".";
+				}
+			}
+			$res .= "\n";
 		}
 		else {
 			if ($treat = $this->{$side . '_treatment'}) {
