@@ -58,11 +58,21 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	public function rules()
 	{
 		return array(
-				array('name, display_order, enabled, other', 'safe'),
+				array('name, letter_str, display_order, enabled, other', 'safe'),
 				array('name, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, name, display_order, enabled, other', 'safe', 'on' => 'search'),
+				array('id, name, letter_str, display_order, enabled, other', 'safe', 'on' => 'search'),
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'letter_str' => 'Correspondence Letter Text',
 		);
 	}
 
