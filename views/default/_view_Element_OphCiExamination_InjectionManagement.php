@@ -1,3 +1,4 @@
+<?php /* DEPRECATED */ ?>
 	<div class="left">
 		<table class="subtleWhite normalText">
 			<tbody>

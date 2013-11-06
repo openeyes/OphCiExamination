@@ -1,3 +1,4 @@
+<?php /* DEPRECATED */ ?>
 	<div class="eventDetail aligned">
 		<div class="label"><?php echo $element->getAttributeLabel($side . '_clinicalret_id') ?>:</div>
 		<div class="data"><?php echo $element[$side . '_clinicalret']->name ?></div>
