@@ -17,15 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-	foreach ($this->getAttributes($element, $this->firm->serviceSubspecialtyAssignment->subspecialty_id) as $attribute) {
-		$options = CHtml::listData($attribute->getAttributeOptions(), 'slug', 'label');
-		$html_options = array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro', 'delimited' => true, 'nowrapper'=>true);
-		foreach ($attribute->getAttributeOptions() as $option) {
-			$html_options['options'][(string) $option->slug] = array(
-				'data-element-type-id'=> $option->attribute_element->element_type_id,
-			);
-		}
-		echo $form->dropDownTextSelection($element, $field, $options, $html_options);
-	}
-?>
+<div class="eyedraw-fields">
+	<div class="field-row">
+		<label for="<?php echo get_class($element).'_'.$side.'_description';?>">
+			<?php echo $element->getAttributeLabel($side . '_description'); ?>:
+		</label>
+		<?php echo CHtml::activeTextArea($element, $side . '_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
+	</div>
+	<div class="field-row">
+		<button class="ed_report secondary small">Report</button>
+		<button class="ed_clear secondary small">Clear</button>
+	</div>
+</div>

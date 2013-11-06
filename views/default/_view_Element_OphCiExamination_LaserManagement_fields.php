@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,26 +17,55 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<div class="eventDetail">
-	<div class="label"><?php echo CHtml::encode($element->getAttributeLabel($side . '_laser_status_id'))?></div>
-	<div class="data"><?php echo $element->{$side . '_laser_status'} ?></div>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">
+			<?php echo CHtml::encode($element->getAttributeLabel($side . '_laser_status_id'))?>
+		</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value">
+			<?php echo $element->{$side . '_laser_status'} ?>
+		</div>
+	</div>
 </div>
-
 <?php if ($element->{$side . '_laser_status'}->deferred) { ?>
-	<div class="eventDetail">
-		<div class="label"><?php echo CHtml::encode($element->getAttributeLabel($side . '_laser_deferralreason_id'))?></div>
-		<div class="data"><?php echo Yii::app()->format->Ntext($element->getLaserDeferralReasonForSide($side)) ?></div>
+	<div class="row data-row">
+		<div class="large-4 column">
+			<div class="data-label">
+				<?php echo CHtml::encode($element->getAttributeLabel($side . '_laser_deferralreason_id'))?>
+			</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value">
+				<?php echo Yii::app()->format->Ntext($element->getLaserDeferralReasonForSide($side)) ?>
+			</div>
+		</div>
 	</div>
 <?php } else if ($element->{$side . '_laser_status'}->book || $element->{$side . '_laser_status'}->event) { ?>
-
-	<div class="eventDetail aligned">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_lasertype_id') ?>:</div>
-		<div class="data"><?php echo Yii::app()->format->Ntext($element->getLaserTypeStringForSide($side)) ?></div>
+	<div class="row data-row">
+		<div class="large-4 column">
+			<div class="data-label">
+				<?php echo $element->getAttributeLabel($side . '_lasertype_id') ?>:
+			</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value">
+				<?php echo Yii::app()->format->Ntext($element->getLaserTypeStringForSide($side)) ?>
+			</div>
+		</div>
 	</div>
-
-	<div class="eventDetail aligned">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-		<div class="data"><?php echo $element->{$side . '_comments'} ? Yii::app()->format->Ntext($element->{$side . '_comments'}) : 'None'; ?></div>
+	<div class="row data-row">
+		<div class="large-4 column">
+			<div class="data-label">
+				<?php echo $element->getAttributeLabel($side . '_comments') ?>:
+			</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value">
+				<?php echo $element->{$side . '_comments'} ? Yii::app()->format->Ntext($element->{$side . '_comments'}) : 'None'; ?>
+			</div>
+		</div>
 	</div>
 <?php }
+

@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,36 +17,75 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_method_id') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_method'}->name; ?></div>
-</div>
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_crt') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_crt'} !== null ? $element->{$side . '_crt'} . ' &micro;m' : 'Not recorded'; ?> </div>
-</div>
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_sft') ?>:</div>
-	<div class="data"><?php echo $element->{$side . '_sft'}; ?> &micro;m</div>
-</div>
-<div class="eventDetail aligned">
-	<div class="label"><?php echo $element->getAttributeLabel($side . '_thickness_increase') ?>:</div>
-	<div class="data"><?php
-		if ($element->{$side . '_thickness_increase'} === null) {
-			echo "Not recorded";
-		} else {
-			echo $element->{$side . '_thickness_increase'} ? 'Yes' : 'No';
-		} ?>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">
+			<?php echo $element->getAttributeLabel($side.'_method_id')?>:
+		</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value">
+			<?php echo $element->{$side.'_method'}->name?>
+		</div>
 	</div>
 </div>
-<div class="eventDetail aligned">
-	<div class="label">Finding:</div>
-	<div class="data"><?php echo $element->{'get' . ucfirst($side) . 'FluidString'}();?></div>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">
+			<?php echo $element->getAttributeLabel($side.'_crt')?>:
+		</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value">
+			<?php echo $element->{$side.'_crt'}?> &micro;m
+		</div>
+	</div>
+</div>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">
+			<?php echo $element->getAttributeLabel($side.'_sft')?>:
+		</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value">
+			<?php echo $element->{$side.'_sft'}?> &micro;m
+		</div>
+	</div>
+</div>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">
+			<?php echo $element->getAttributeLabel($side . '_thickness_increase') ?>:
+		</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value">
+			<?php
+				if ($element->{$side . '_thickness_increase'} === null) {
+					echo "Not recorded";
+				} else {
+					echo $element->{$side . '_thickness_increase'} ? 'Yes' : 'No';
+				}
+			?>
+		</div>
+	</div>
+</div>
+<div class="row data-row">
+	<div class="large-4 column">
+		<div class="data-label">Finding:</div>
+	</div>
+	<div class="large-8 column">
+		<div class="data-value"><?php echo $element->{'get' . ucfirst($side) . 'FluidString'}();?></div>
+	</div>
 </div>
 <?php if ($element->{$side . '_comments'}) { ?>
-	<div class="eventDetail aligned">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
-		<div class="data"><?= Yii::app()->format->Ntext($element->{"{$side}_comments"}) ?></div>
+	<div class="row data-row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value"><?= Yii::app()->format->Ntext($element->{"{$side}_comments"}) ?></div>
+		</div>
 	</div>
 <?php }

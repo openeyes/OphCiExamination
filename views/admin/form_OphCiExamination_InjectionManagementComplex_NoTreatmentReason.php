@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -19,8 +18,7 @@
 */
 ?>
 
-
-<h3><?php echo $model->isNewRecord ? 'Create' : 'Edit'; ?> No Treatment Reason</h3>
+<h2><?php echo $model->isNewRecord ? 'Create' : 'Edit'; ?> No Treatment Reason</h2>
 
 <?php echo $form->errorSummary($model); ?>
 

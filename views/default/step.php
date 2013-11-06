@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -25,7 +24,6 @@
 	(<?php echo $this->getNextStep()->name; ?>)
 </h3>
 
-<div id="event_<?php echo $this->module->name?>">
 	<?php
 		$form = $this->beginWidget('BaseEventTypeCActiveForm', array(
 				'id' => 'clinical-create',
@@ -59,10 +57,8 @@
 		</div>
 	</div>
 
-	<?php $this->displayErrors($errors)?>
+	<?php $this->displayErrors($errors, true)?>
 
-	<div class="cleartall"></div>
 	<?php $this->endWidget(); ?>
-</div>
 
 <?php $this->footer() ?>

@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -17,16 +16,19 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
+	$item_ids = @$_POST['comorbidities_items'];
+} else {
+	$item_ids = $element->getItemIds();
+}
 ?>
-<div class="clearfix eventDetail">
-	<?php
-	if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
-		$item_ids = @$_POST['comorbidities_items'];
-	} else {
-		$item_ids = $element->getItemIds();
-	}
-	?>
+<div class="sub-element-fields">
 	<?php echo CHtml::hiddenField("comorbidities_items_valid", 1, array('id' => 'comorbidities_items_valid'))?>
-	<?php echo CHtml::listBox('comorbidities_items', $item_ids, $element->getItemOptions(), array('multiple' => 'multiple')) ?>
-	<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true)) ?>
+	<div class="field-row">
+		<?php echo $form->multiSelectList($element, 'comorbidities_items', 'items', 'id', $element->getItemOptions(), array(), array('empty' => '-- Add --', 'label' => 'Comorbidities', 'nowrapper' => true), false, true, 'No comorbidities',true,true)?>
+	</div>
+	<div class="field-row">
+		<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true), false, array('placeholder' => 'Enter comments here'))?>
+	</div>
 </div>

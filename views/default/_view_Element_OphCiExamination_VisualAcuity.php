@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,51 +17,75 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="cols2 clearfix">
-	<div class="left eventDetail">
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
 		<?php if ($element->hasRight()) {?>
 			<?php if ($element->getCombined('right')) {?>
-				<div class="data">
-					<?php echo $element->unit->name ?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->unit->name?>
+					</div>
 				</div>
-				<div class="data">
-					<?php echo $element->getCombined('right') ?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->getCombined('right')?>
+					</div>
 				</div>
-			<?php } else {?>
-				<div class="data">
-					Not recorded
+			<?php }else{?>
+				<div class="data-row">
+					<div class="data-value">
+						Not recorded
+					</div>
 				</div>
 			<?php }?>
 			<?php if ($element->right_comments) {?>
-				<div class="data">
-					<?= Yii::app()->format->Ntext($element->right_comments) ?>
+				<div class="data-row">
+					<div class="data-value">
+						<?= Yii::app()->format->Ntext($element->right_comments) ?>
+					</div>
 				</div>
 			<?php }?>
-		<?php } else {?>
-			<div class="data">Not recorded</div>
+		<?php }else{?>
+			<div class="data-row">
+				<div class="data-value">
+					Not recorded
+				</div>
+			</div>
 		<?php }?>
 	</div>
-	<div class="right eventDetail">
+	<div class="element-eye left-eye column">
 		<?php if ($element->hasLeft()) {?>
 			<?php if ($element->getCombined('left')) {?>
-				<div class="data">
-					<?php echo $element->unit->name?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->unit->name?>
+					</div>
 				</div>
-				<div class="data">
-					<?php echo $element->getCombined('left')?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->getCombined('left')?>
+					</div>
 				</div>
-			<?php } else {?>
-				<div class="data">
-					Not recorded
+			<?php }else{?>
+				<div class="data-row">
+					<div class="data-value">
+						Not recorded
+					</div>
 				</div>
 			<?php }?>
 			<?php if ($element->left_comments) {?>
-				<div class="data">
-					<?= Yii::app()->format->Ntext($element->left_comments) ?>
+				<div class="data-row">
+					<div class="data-value">
+						<?= Yii::app()->format->Ntext($element->left_comments) ?>
+					</div>
 				</div>
 			<?php }?>
-		<?php } else {?>
-		<div class="data">Not recorded</div>
+		<?php }else{?>
+			<div class="data-row">
+				<div class="data-value">
+					Not recorded
+				</div>
+			</div>
 		<?php }?>
 	</div>
 </div>

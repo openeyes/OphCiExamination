@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,16 +17,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="eventDetail">
-	<?php echo $element->status ?>
-	<?php if ($element->status && $element->status->followup) { ?>
-	in
-	<?php echo $element->getFollowUp(); ?>
-	with
-	<?php echo $element->role->name; ?>
-	<?php if ($element->role_comments) { ?>
-	(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
-	<?php } ?>
-	<?php if ($element->community_patient) {?>(Community patient)<?php }?>
-	<?php } ?>
+<div class="element-data">
+	<div class="data-value">
+		<?php echo $element->status?>
+		<?php if ($element->status && $element->status->followup) {?>
+			in
+			<?php echo $element->getFollowUp()?>
+			with
+			<?php echo $element->role->name?>
+			<?php if ($element->role_comments) { ?>
+				(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
+			<?php }?>
+		<?php if ($element->community_patient) {?>(Community patient)<?php }?>
+		<?php }?>
+	</div>
 </div>

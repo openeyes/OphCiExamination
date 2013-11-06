@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,15 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<div class="element-data">
 	<?php foreach ($element->diagnoses as $diagnosis) {?>
-		<div class="eventDetail">
-			<?php if ($diagnosis->principal) {?>
-				<strong>
-			<?php }?>
-			<?php echo $diagnosis->eye->adjective; ?>
-			<?php echo $diagnosis->disorder->term; ?>
-			<?php if ($diagnosis->principal) {?>
-				</strong>
-			<?php }?>
+		<div class="data-row">
+			<div class="data-value">
+				<?php if ($diagnosis->principal) {?><strong><?php }?>
+				<?php echo $diagnosis->eye->adjective?>
+				<?php echo $diagnosis->disorder->term?>
+				<?php if ($diagnosis->principal) {?></strong><?php }?>
+			</div>
 		</div>
 	<?php }?>
+</div>

@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,54 +17,79 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<section class="<?php if (@$child) {?>sub-<?php }?>element <?php echo get_class($element)?>" data-element-type-id="<?php echo $element->elementType->id?>" data-element-type-name="<?php echo $element->elementType->name?>" data-element-display-order="<?php echo $element->elementType->display_order?>" data-element-type-class="<?php echo $element->elementType->class_name?>">
+	<header class="<?php if (@$child) {?>sub-<?php }?>element-header">
 
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="elementActions">
-		<?php if (@$child) { ?>
-		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue nano">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
-				alt="+" width="21" height="19"> </span>
-		</button>
-		<?php } else {
+		<?php if (@$child) {?>
+			<h4 class="sub-element-title"><?php echo $element->elementType->name?></h4>
+		<?php }else{?>
+			<h3 class="element-title"><?php echo $element->elementType->name?></h3>
+		<?php }?>
+
+		<div class="element-title-additional">
+			<?php
+				if (get_class($element) === 'Element_OphCiExamination_VisualAcuity') {?>
+					<?php if ($element->isNewRecord) { ?>
+						<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData($element->getUsableUnits(), 'id', 'name')); ?>
+					<?php } ?>
+					<?php if ($element->unit->information) {?>
+						<small><em><?php echo $element->unit->information ?></em></small>
+					<?php } ?>
+			<?php } ?>
+			<?php
+				if (get_class($element) === 'Element_OphCiExamination_DRGrading') {?>
+					<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {?>
+						<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+						<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+						<div class="drgrading_images_dialog" title="DR Grading Images">
+							<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
+						</div>
+					<?php }else{?>
+						<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+					<?php }?>
+				<?php }
+			?>
+		</div>
+
+		<div class="<?php if (@$child) {?>sub-<?php }?>element-actions">
+			<?php
 			$event_id = ($element->id) ? $element->event_id : null;
-			if ($this->canCopy($element->elementType->class_name, $event_id)) { ?>
-		<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
-		<?php } ?>
-		<button title="Remove <?php echo $element->elementType->name ?>" class="removeElement classy blue mini">
-			<span class="button-span icon-only"><img
-				src="<?php echo Yii::app()->createUrl('img/_elements/btns/mini-cross.png')?>"
-				alt="+" width="24" height="22"> </span>
-		</button>
-		<?php } ?>
-	</div>
-	<h4 class="elementTypeName">
-		<?php echo $element->elementType->name; ?>
-	</h4>
+			if ($this->canCopy($element->elementType->class_name, $event_id)) {?>
+				<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
+			<?php }?>
+			<?php if (!@$child && !$element->elementType->required) {?>
+				<a href="#" class="button button-icon small js-remove-element">
+					<span class="icon-button-small-mini-cross"></span>
+					<span class="hide-offscreen">Remove element</span>
+				</a>
+			<?php }?>
+			<?php if (@$child) {?>
+				<div class="sub-element-actions">
+					<a href="#" class="button button-icon small js-remove-child-element">
+						<span class="icon-button-small-mini-cross"></span>
+						<span class="hide-offscreen">Remove sub-element</span>
+					</a>
+				</div>
+			<?php }?>
+		</div>
+	</header>
 
 	<?php
 	$this->renderPartial(
 		'form_' . get_class($element),
-		array('element' => $element, 'data' => $data, 'form' => $form, 'previous_parent_id' => @$previous_parent_id),
+		array('element' => $element, 'data' => $data, 'form' => $form),
 		false, false
 	);
 	?>
 
-	<?php if (!@$child) { ?>
-	<div class="active_child_elements clearfix">
-		<?php 
-		$this->renderChildDefaultElements($element, $this->action->id, $form, $data, @$previous_parent_id);
-		?>
-	</div>
-	<div class="inactive_child_elements">
-		<?php
-		$this->renderChildOptionalElements($element, $this->action->id, $form, $data, @$previous_parent_id);
-		?>
-	</div>
-	<?php } ?>
-
-</div>
+	<?php if (!@$child) {?>
+		<div class="sub-elements active">
+			<?php $this->renderChildDefaultElements($element, $this->action->id, $form, $data)?>
+		</div>
+		<div class="sub-elements inactive">
+			<ul class="sub-elements-list">
+				<?php $this->renderChildOptionalElements($element, $this->action->id, $form, $data)?>
+			</ul>
+		</div>
+	<?php }?>
+</section>

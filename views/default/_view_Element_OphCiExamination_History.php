@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="eventDetail">
+<div class="element-data">
+	<div class="data-value">
 		<?= Yii::app()->format->Ntext($element->description) ?>
 	</div>
+</div>

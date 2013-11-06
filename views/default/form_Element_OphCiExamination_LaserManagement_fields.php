@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -59,55 +58,63 @@ if ($deferralreason && $deferralreason->other) {
 ?>
 
 <div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser"
-	 class="eventDetail">
-	<div class="label">
-		<?php echo $element->getAttributeLabel($side . '_laser_status_id') ?>:
+	 class="row field-row">
+	<div class="large-4 column">
+		<label for="<?php echo get_class($element).'_'.$side.'_laser_status_id';?>">
+			<?php echo $element->getAttributeLabel($side . '_laser_status_id') ?>:
+		</label>
 	</div>
-	<div class="data">
+	<div class="large-8 column">
 		<?php echo CHtml::activeDropDownList($element,$side .'_laser_status_id', CHtml::listData($statuses,'id','name'), $status_options)?>
-		<span id="<?php echo $side ?>_laser_booking_hint" class="hint"<?php if (!$show_booking_hint) {?> style="display:none;"<?php } ?>></span>
+		<span id="<?php echo $side ?>_laser_booking_hint" class="field-info hint"<?php if (!$show_booking_hint) {?> style="display:none;"<?php } ?>></span>
 		<?php if (Yii::app()->hasModule('OphTrLaser')) {
 			$event = EventType::model()->find("class_name = 'OphTrLaser'");
 			?>
-			<span id="<?php echo $side ?>_laser_event_hint" class="hint"<?php if (!$show_event_hint) {?> style="display:none;"<?php } ?>>Ensure a <?php echo $event->name ?> event is added for this patient when procedure is completed</span>
+			<span id="<?php echo $side ?>_laser_event_hint" class="field-info hint"<?php if (!$show_event_hint) {?> style="display:none;"<?php } ?>>Ensure a <?php echo $event->name ?> event is added for this patient when procedure is completed</span>
 		<?php }?>
 	</div>
 </div>
 
-
-
 <div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser_deferralreason"
-	 class="eventDetail"
+	 class="row field-row"
 	<?php if (!$show_deferral) { ?>
 		style="display: none;"
 	<?php }?>
 	>
-	<div class="label">
-		<?php echo $element->getAttributeLabel($side . '_laser_deferralreason_id')?>:
+	<div class="large-4 column">
+		<label for="<?php echo get_class($element).'_'.$side.'_laser_deferralreason_id';?>">
+			<?php echo $element->getAttributeLabel($side . '_laser_deferralreason_id')?>:
+		</label>
 	</div>
-	<div class="data">
+	<div class="large-8 column">
 		<?php echo CHtml::activeDropDownList($element, $side . '_laser_deferralreason_id', CHtml::listData($deferrals,'id','name'), $deferral_options)?>
 	</div>
 </div>
 
 <div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser_deferralreason_other"
-	 class="eventDetail"
+	 class="row field-row"
 	<?php if (!$show_deferral_other) { ?>
 		style="display: none;"
 	<?php } ?>
 	>
-	<div class="label">
+	<div class="large-4 column">
 		&nbsp;
 	</div>
-	<div class="data">
+	<div class="large-8 column">
 		<?php echo $form->textArea($element, $side . '_laser_deferralreason_other', array('rows' => "1", 'cols' => "40", 'class' => 'autosize', 'nowrapper' => true) ) ?>
 	</div>
 </div>
 
-<div id="<?php echo get_class($element) . '_' . $side;?>_treatment_fields"<?php if (!$show_treatment) { echo 'style="display: none;"'; }?>>
-	<div class="eventDetail lasertype">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_lasertype_id'); ?></div>
-		<div class="data"><?php echo CHtml::activeDropDownList($element,$side . '_lasertype_id', CHtml::listData($lasertypes,'id','name'), array('options' => $lasertype_options, 'empty'=>'- Please select -'))?></div>
+<div class="field-row" id="<?php echo get_class($element) . '_' . $side;?>_treatment_fields"<?php if (!$show_treatment) { echo 'style="display: none;"'; }?>>
+	<div class="row field-row lasertype">
+		<div class="large-4 column">
+			<label for="<?php echo get_class($element).'_'.$side.'_lasertype_id';?>">
+				<?php echo $element->getAttributeLabel($side . '_lasertype_id'); ?>:
+			</label>
+		</div>
+		<div class="large-8 column">
+			<?php echo CHtml::activeDropDownList($element,$side . '_lasertype_id', CHtml::listData($lasertypes,'id','name'), array('options' => $lasertype_options, 'empty'=>'- Please select -'))?>
+		</div>
 	</div>
 
 	<?php
@@ -123,13 +130,25 @@ if ($deferralreason && $deferralreason->other) {
 		}
 	?>
 
-	<div class="eventDetail lasertype_other<?php if (!$show_other) { echo " hidden"; }?>">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_lasertype_other'); ?></div>
-		<div class="data"><?php echo $form->textField($element, $side . '_lasertype_other',array('max' => 120, 'nowrapper' => true))?></div>
+	<div class="row field-row lasertype_other<?php if (!$show_other) { echo " hidden"; }?>">
+		<div class="large-4 column">
+			<label for="<?php echo get_class($element).'_'.$side.'_lasertype_other';?>">
+				<?php echo $element->getAttributeLabel($side . '_lasertype_other'); ?>:
+			</label>
+		</div>
+		<div class="large-8 column">
+			<?php echo $form->textField($element, $side . '_lasertype_other',array('max' => 120, 'nowrapper' => true))?>
+		</div>
 	</div>
 
-	<div class="eventDetail comments">
-		<div class="label"><?php echo $element->getAttributeLabel($side . '_comments'); ?></div>
-		<div class="data"><?php echo $form->textArea($element, $side . '_comments',array('rows' => 4, 'cols' => 50, 'nowrapper' => true))?></div>
+	<div class="row field-row comments">
+		<div class="large-4 column">
+			<label for="<?php echo get_class($element).'_'.$side.'_comments';?>">
+				<?php echo $element->getAttributeLabel($side . '_comments'); ?>:
+			</label>
+		</div>
+		<div class="large-8 column">
+			<?php echo $form->textArea($element, $side . '_comments',array('rows' => 4, 'nowrapper' => true))?>
+		</div>
 	</div>
 </div>

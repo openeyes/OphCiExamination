@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -18,21 +17,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<?php if ($element->hasRight()) {
-				$this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw',
-					array('side' => 'right', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
-		<div class="right eventDetail">
-			<?php if ($element->hasLeft()) {
-				$this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw',
-					array('side' => 'left', 'element' => $element));
-			} else { ?>
-			Not recorded
-			<?php } ?>
-		</div>
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
+		<?php if ($element->hasRight()) {?>
+			<div class="eyedraw-data row anterior-segment">
+				<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
+			</div>
+		<?php } else {?>
+			<div class="data-value">Not recorded</div>
+		<?php }?>
 	</div>
+	<div class="element-eye left-eye column">
+		<?php if ($element->hasLeft()) {?>
+			<div class="eyedraw-data row anterior-segment">
+				<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
+			</div>
+		<?php } else {?>
+			<div class="data-value">Not recorded</div>
+		<?php }?>
+	</div>
+</div>

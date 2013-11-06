@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -19,26 +18,28 @@
  */
 ?>
 
-<div class="report curvybox white">
+<div class="box admin">
+	<?php
+		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
+			'id'=>'OphCiExamination_adminform',
+			'enableAjaxValidation'=>false,
+			'layoutColumns' => array(
+				'label' => 2,
+				'field' => 5
+			)
+		));
 
-<div class="admin">
-<?php
-$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
-	'id'=>'OphCiExamination_adminform',
-	'enableAjaxValidation'=>false,
-));
+		$this->renderPartial('form_' . get_class($model), array(
+				'model' => $model,
+				'form' => $form,
+		));
 
-$this->renderPartial('form_' . get_class($model), array(
-		'model' => $model,
-		'form' => $form,
-));
-?>
+		echo $form->formActions(array(
+			'submit' => $model->isNewRecord ? 'Create' : 'Save',
+			'cancel' => false,
+			'delete' => false
+		));
 
-</div>
-
-<div class="row buttons">
-	<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-</div>
-
-<?php $this->endWidget(); ?>
+		$this->endWidget();
+	?>
 </div>

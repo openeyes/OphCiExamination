@@ -1,4 +1,3 @@
-<?php /* DEPRECATED */ ?>
 <?php
 /**
  * OpenEyes
@@ -19,39 +18,31 @@
  */
 ?>
 
-<div id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
+<div class="field-row" id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
 	<?php
 	$name_stub = get_class($element) . '[' . $side . '_Answer]';
-	foreach ($questions as $question) {
-		?>
-		<div class="eventDetail">
-			<div class="label">
-				<?php echo $question->question ?>
-			</div>
+	foreach ($questions as $question) {?>
+		<fieldset class="row field-row">
+			<legend class="large-3 column">
+				<?php echo $question->question?>
+			</legend>
 			<?php
 			$name = $name_stub . '[' . $question->id . ']';
 			$value = $element->getQuestionAnswer($side, $question->id);
 			// update with POST values if available
 			if (isset($_POST[get_class($element)][$side . '_Answer'][$question->id])) {
 				$value = $_POST[get_class($element)][$side . '_Answer'][$question->id];
-			}
-			?>
-			<div class="data">
-			<span class="group">
-			<?php
-			echo CHtml::radioButton($name, $value, array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_1', 'value' => 1));
-			?>
-			<label>Yes</label>
-			</span>
-
-			<span class="group">
-			<?php
-			echo CHtml::radioButton($name, (!is_null($value) && !$value), array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_0', 'value' => 0));
-			?>
-			<label>No</label>
-			</span>
+			}?>
+			<div class="large-9 column">
+				<label class="inline highlight">
+					<?php echo CHtml::radioButton($name, $value, array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_1', 'value' => 1))?>
+					Yes
+				</label>
+				<label class="inline highlight">
+					<?php echo CHtml::radioButton($name, (!is_null($value) && !$value), array('id' => get_class($element) . '_' . $side . '_Answer_' . $question->id . '_0', 'value' => 0))?>
+					No
+				</label>
 			</div>
-		</div>
-		<?php
-	}?>
+		</fieldset>
+	<?php }?>
 </div>
