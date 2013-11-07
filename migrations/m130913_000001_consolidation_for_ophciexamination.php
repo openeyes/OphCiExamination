@@ -35,6 +35,120 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 	public function up()
 	{
+		if (!$this->consolidate(
+			array(
+				"m120703_130000_initial_migration_for_ophciexamination",
+				"m120724_123004_sanitise_rule_values",
+				"m120823_091933_put_cataract_assessment_model_data_into_the_database",
+				"m120823_103423_put_cataract_assessment_nuclear_values_into_the_database",
+				"m120823_105425_put_cataract_assessment_cortical_values_into_the_database",
+				"m120823_113230_put_iop_reading_values_into_the_database",
+				"m120823_135356_put_cd_ratio_values_into_the_database",
+				"m120823_141902_put_visualacuity_method_values_into_the_database",
+				"m120823_144728_put_visualacuity_wearing_values_into_the_database",
+				"m120824_145601_put_refraction_types_into_the_database",
+				"m120828_073821_put_refraction_segmented_field_fractions_into_the_database",
+				"m120828_074417_put_refraction_integers_into_the_database",
+				"m120828_080317_put_refraction_signs_into_the_database",
+				"m120829_105859_set_default_values_for_visualacuity_method_fields",
+				"m120829_111324_set_default_values_for_visual_acuity_wearing_fields",
+				"m120925_122900_uat_changes",
+				"m121005_093511_update_diagnosis_element_to_support_multiple_diagnoses",
+				"m121009_080953_element_type_eye_rows_for_diagnoses_element",
+				"m121009_141300_more_uat_changes",
+				"m121009_162400_anterior_segment",
+				"m121012_092744_management_element",
+				"m121012_130734_set_management_element_to_be_default_for_cataract_subspecialty",
+				"m121015_122500_cataract_data",
+				"m121015_123351_add_consultant_to_suitable_dropdown_in_management_element",
+				"m121015_140200_attribute_delimiter",
+				"m121019_094213_new_adnexal_comorbidity_options",
+				"m121019_102355_add_investigation_attribute_option",
+				"m121019_102951_managaement_element_previous_refractive_surgery_boolean",
+				"m121022_144600_cataract_data_again",
+				"m121024_134239_attribute_options",
+				"m121026_115500_surely_not_cataract_data",
+				"m121030_145511_none_value_for_adnexal_comorbidity",
+				"m121108_113852_add_new_options_to_history_dropdown",
+				"m121108_125109_add_radio_boolean_for_previous_refractive_surgery",
+				"m121111_155600_glaucoma",
+				"m121116_082910_add_none_to_adnexal_comorbidity",
+				"m121127_171400_add_values_to_eyedraw_lookups",
+				"m121210_084931_dilation_element",
+				"m121211_115300_new_opticdisc_fields",
+				"m121212_155342_cataractmanagement",
+				"m121218_121700_add_fks",
+				"m130114_094914_dilation_element_eye_id_null",
+				"m130115_122300_dilation_changes",
+				"m130117_143800_add_option_to_iop",
+				"m130117_150400_subspecialty_specific_attributes",
+				"m130121_115900_anterior_segment_cct_element",
+				"m130122_124400_other_risks",
+				"m130123_160400_optic_disc_lenses",
+				"m130129_153400_new_management_element",
+				"m130205_162400_glaucoma_sets",
+				"m130215_132333_vitrectomised_eye_field",
+				"m130226_133800_rename_elements",
+				"m130226_141700_clinic_outcome_element",
+				"m130226_142600_glaucoma_risk_element",
+				"m130227_121900_rename_risk_to_comorbidities",
+				"m130228_120600_remove_previous_refractive_surgery",
+				"m130228_152100_risks_element",
+				"m130301_141001_rename_posterior_segment_to_posterior_pole",
+				"m130304_131200_workflow",
+				"m130305_143600_workflow_sets",
+				"m130305_165800_remove_cd_ratio",
+				"m130306_093800_posteriorpole_api_change",
+				"m130307_110400_clinic_outcome_template",
+				"m130308_145200_clinic_outcome_role",
+				"m130311_132000_glaucoma_risk_update",
+				"m130311_171200_gonioscopy_grade",
+				"m130319_110800_clinic_outcome_tweak",
+				"m130327_081818_visual_fields_element",
+				"m130327_085032_new_dropdown_values",
+				"m130404_114857_missing_event_id_fk",
+				"m130405_120200_attribute_elements",
+				"m130405_132505_first_second_eye_in_cataract_management_element",
+				"m130415_115500_new_pupillaryabnormalities_element",
+				"m130423_100500_optic_disc_optional_fields",
+				"m130423_153100_glaucoma_risk_update",
+				"m130521_143339_dilation_times",
+				"m130522_135033_new_va_values",
+				"m130603_135042_dr_function",
+				"m130604_134337_patient_shortcodes",
+				"m130617_104158_va_scale_update",
+				"m130619_130602_community_patient_checkbox",
+				"m130701_131445_dr_function_2",
+				"m130725_075406_dr_function_3",
+				"m130808_125115_missing_date_and_user_fields",
+				"m130808_130328_missing_fields",
+				"m130821_144333_injectionmanagement_other",
+				"m130822_125938_missing_snellen_va"
+			)
+		)
+		) {
+			$this->createTables();
+		}
+	}
+
+	public function down()
+	{
+		echo "You cannot migrate down past a consolidation migration\n";
+		return false;
+	}
+
+	public function safeUp()
+	{
+		$this->up();
+	}
+
+	public function safeDown()
+	{
+		$this->down();
+	}
+
+	protected function createTables()
+	{
 		//disable foreign keys check
 		$this->execute("SET foreign_key_checks = 0");
 		Yii::app()->cache->flush();
@@ -1793,128 +1907,6 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("SET foreign_key_checks = 1");
 	}
-
-	public function down()
-	{
-		// Remove tables
-		$tables = array(
-			'et_ophciexamination_adnexalcomorbidity',
-			'et_ophciexamination_anteriorsegment',
-			'et_ophciexamination_anteriorsegment_cct',
-			'et_ophciexamination_cataractmanagement',
-			'et_ophciexamination_clinicoutcome',
-			'et_ophciexamination_comorbidities',
-			'et_ophciexamination_conclusion',
-			'et_ophciexamination_diagnoses',
-			'et_ophciexamination_dilation',
-			'et_ophciexamination_drgrading',
-			'et_ophciexamination_glaucomarisk',
-			'et_ophciexamination_gonioscopy',
-			'et_ophciexamination_history',
-			'et_ophciexamination_injectionmanagement',
-			'et_ophciexamination_injectionmanagementcomplex',
-			'et_ophciexamination_intraocularpressure',
-			'et_ophciexamination_investigation',
-			'et_ophciexamination_lasermanagement',
-			'et_ophciexamination_management',
-			'et_ophciexamination_oct',
-			'et_ophciexamination_opticdisc',
-			'et_ophciexamination_posteriorpole',
-			'et_ophciexamination_pupillaryabnormalities',
-			'et_ophciexamination_refraction',
-			'et_ophciexamination_risks',
-			'et_ophciexamination_visual_fields',
-			'et_ophciexamination_visualacuity',
-			'ophciexamination_anteriorsegment_cct_method',
-			'ophciexamination_anteriorsegment_cortical',
-			'ophciexamination_anteriorsegment_nuclear',
-			'ophciexamination_anteriorsegment_pupil',
-			'ophciexamination_attribute',
-			'ophciexamination_attribute_element',
-			'ophciexamination_attribute_option',
-			'ophciexamination_cataractmanagement_eye',
-			'ophciexamination_cataractmanagement_suitable_for_surgeon',
-			'ophciexamination_clinicoutcome_role',
-			'ophciexamination_clinicoutcome_status',
-			'ophciexamination_clinicoutcome_template',
-			'ophciexamination_comorbidities_assignment',
-			'ophciexamination_comorbidities_item',
-			'ophciexamination_diagnosis',
-			'ophciexamination_dilation_drugs',
-			'ophciexamination_dilation_treatment',
-			'ophciexamination_drgrading_clinical',
-			'ophciexamination_drgrading_nscmaculopathy',
-			'ophciexamination_drgrading_nscretinopathy',
-			'ophciexamination_element_set',
-			'ophciexamination_element_set_item',
-			'ophciexamination_element_set_rule',
-			'ophciexamination_event_elementset_assignment',
-			'ophciexamination_glaucomarisk_risk',
-			'ophciexamination_gonioscopy_description',
-			'ophciexamination_gonioscopy_van_herick',
-			'ophciexamination_injectmanagecomplex_answer',
-			'ophciexamination_injectmanagecomplex_notreatmentreason',
-			'ophciexamination_injectmanagecomplex_question',
-			'ophciexamination_injectmanagecomplex_risk',
-			'ophciexamination_injectmanagecomplex_risk_assignment',
-			'ophciexamination_instrument',
-			'ophciexamination_intraocularpressure_reading',
-			'ophciexamination_lasermanagement_lasertype',
-			'ophciexamination_management_deferralreason',
-			'ophciexamination_management_status',
-			'ophciexamination_oct_method',
-			'ophciexamination_opticdisc_cd_ratio',
-			'ophciexamination_opticdisc_lens',
-			'ophciexamination_pupillaryabnormalities_abnormality',
-			'ophciexamination_refraction_fraction',
-			'ophciexamination_refraction_integer',
-			'ophciexamination_refraction_sign',
-			'ophciexamination_refraction_type',
-			'ophciexamination_visual_acuity_unit',
-			'ophciexamination_visual_acuity_unit_value',
-			'ophciexamination_visualacuity_method',
-			'ophciexamination_visualacuity_reading',
-			'ophciexamination_workflow'
-		);
-
-		$this->execute("SET foreign_key_checks = 0");
-
-		foreach ($tables as $table) {
-			$this->dropTable($table);
-		}
-
-		$this->deletePatientShortcodes();
-
-		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
-		$element_type = ElementType::model()->find('event_type_id=? and class_name=?',array($event_type->id,'Element_OphCiExamination_Diagnoses'));
-
-		$this->delete('element_type_eye','element_type_id='.$element_type->id);
-
-		$event_type_id = $this->dbConnection->createCommand()
-			->select('id')
-			->from('event_type')
-			->where('class_name=:class_name', array(':class_name' => 'OphCiExamination'))
-			->queryScalar();
-
-		// Remove settings
-		$element_type_ids = $this->dbConnection->createCommand()
-			->select('id')
-			->from('element_type')
-			->where('event_type_id = :event_type_id', array(':event_type_id' => $event_type_id))
-			->queryColumn();
-		$element_type_ids_string = implode("', '", $element_type_ids);
-		$this->delete('setting_metadata', "element_type_id IN ('$element_type_ids_string')");
-
-		// Delete the element types
-		$this->delete('element_type', 'event_type_id = ' . $event_type_id);
-
-		// Delete the event type
-		$this->delete('event_type', 'id = ' . $event_type_id);
-
-		$this->execute("SET foreign_key_checks = 1");
-
-	}
-
 
 	private function loadPatientShortcodes(){
 		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
