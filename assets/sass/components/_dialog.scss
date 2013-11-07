@@ -1,0 +1,24 @@
+.glaucoma-risk-descriptions {
+	a {
+		&:hover {
+			background: none;
+		}
+	}
+	dl {
+		margin: 0;
+	}
+	dt {
+		&, a {
+			display: block;
+		}
+	}
+	dd {
+		margin: .7em 0 .7em 4em;
+		font-size: $default-font-size;
+	}
+	.pill.high {
+		a {
+			color: #fff;
+		}
+	}
+}

@@ -18,26 +18,33 @@
  */
 ?>
 
-<h1><?php echo $title ? $title : "Examination Admin" ?></h1>
+<div class="box admin">
+	<header class="box-header">
+		<h2 class="box-title"><?php echo $title ? $title : "Examination Admin" ?></h2>
+		<div class="box-actions">
+			<a class="button small" href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
+		</div>
+	</header>
 
-<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>">Add New</a>
-
-<div>
-	<ul class="grid reduceheight">
-		<li class="header">
-			<span class="column_name">Name</span>
-			<span class="column_actions">Enabled</span>
-		</li>
-		<div class="sortable">
+	<table class="grid">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Enabled</th>
+			</tr>
+		</thead>
+		<tbody>
 			<?php
 			foreach ($model_list as $i => $model) {?>
-				<li class="<?php if ($i%2 == 0) {?>even<?php } else {?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="No Treatment Reason">
-					<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a></span>
-					<span class="column_actions">
+				<tr data-attr-id="<?php echo $model->id?>" data-attr-name="No Treatment Reason">
+					<td>
+						<a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a>
+					</td>
+					<td>
 						<input type="checkbox" class="model_enabled" <?php if ($model->enabled) { echo "checked"; }?> />
-					</span>
-				</li>
+					</td>
+				</tr>
 			<?php }?>
-		</div>
-	</ul>
+		</tbody>
+	</table>
 </div>

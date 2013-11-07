@@ -31,8 +31,8 @@ $(document).ready(function() {
 	});
 
 	$('input.model_enabled').bind('change', function() {
-		var model_id = $(this).parents('li').data('attr-id');
-		var model_name = $(this).parents('li').data('attr-name');
+		var model_id = $(this).parents('tr').data('attr-id');
+		var model_name = $(this).parents('tr').data('attr-name');
 
 		var enabled = 0;
 		if ($(this).attr('checked')) {

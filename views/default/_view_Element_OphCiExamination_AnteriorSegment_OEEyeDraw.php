@@ -17,8 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+<div class="eyedraw-image column fixed">
+	<?php
+	$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 		'side' => ($side == 'right') ? 'R' : 'L',
 		'mode' => 'view',
@@ -26,55 +27,54 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'height' => 200,
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
-));
-?>
-<div class="eyedrawFields view">
+	))?>
+</div>
+<div class="eyedraw-value column fluid">
 	<?php if ($description = $element->{$side.'_description'}) { ?>
-	<div class="description">
-		<div class="data">
-			<?php echo $description ?>
+		<div class="data-row description">
+			<div class="data-value">
+				<?php echo $description ?>
+			</div>
 		</div>
-	</div>
 	<?php } ?>
-	<div class="aligned">
-		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_pupil_id') ?>
-			:
+	<div class="row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
 		</div>
-		<div class="data">
-			<?php echo $element->{$side.'_pupil'}->name ?>
-		</div>
-	</div>
-	<div class="aligned">
-		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_nuclear_id') ?>
-			:
-		</div>
-		<div class="data">
-			<?php echo $element->{$side.'_nuclear'}->name ?>
+		<div class="large-8 column">
+			<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
 		</div>
 	</div>
-	<div class="aligned">
-		<div class="label">
-			<?php echo $element->getAttributeLabel($side.'_cortical_id') ?>
-			:
+	<div class="row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:</div>
 		</div>
-		<div class="data">
-			<?php echo $element->{$side.'_cortical'}->name ?>
-		</div>
-	</div>
-	<?php if ($element->{$side.'_pxe'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_pxe') ?>
+		<div class="large-8 column">
+			<div class="data-value"><?php echo $element->{$side.'_nuclear'}->name?></div>
 		</div>
 	</div>
-	<?php } ?>
-	<?php if ($element->{$side.'_phako'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->getAttributeLabel($side.'_phako') ?>
+	<div class="row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_cortical_id')?>:</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value"><?php echo $element->{$side.'_cortical'}->name?></div>
 		</div>
 	</div>
-	<?php } ?>
+	<div class="row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pxe')?>:</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value"><?php echo $element->{$side.'_pxe'} ? 'Yes' : 'No'?></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 column">
+			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_phako')?>:</div>
+		</div>
+		<div class="large-8 column">
+			<div class="data-value"><?php echo $element->{$side.'_phako'} ? 'Yes' : 'No'?></div>
+		</div>
+	</div>
 </div>

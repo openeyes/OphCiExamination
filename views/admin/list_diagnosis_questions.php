@@ -18,42 +18,58 @@
  */
 ?>
 
-<h1><?php echo $title ? $title : "Examination Admin" ?></h1>
+<div class="box admin">
 
-<?php
-echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
-?>
+	<header class="box-header">
+		<h2 class="box-title"><?php echo $title ? $title : "Examination Admin" ?></h2>
+		<div class="box-actions">
+			<a class="button small" href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>?disorder_id=<?php echo $disorder_id ?>">Add New</a>
+		</div>
+	</header>
 
-<a href="<?php echo Yii::app()->createUrl('OphCiExamination/admin/create' . $model_class); ?>?disorder_id=<?php echo $disorder_id ?>">Add New</a>
+	<div class="row field-row">
+		<div class="large-2 column">
+			<label for="question_disorder">Select disorder:</label>
+		</div>
+		<div class="large-6 column end">
+			<?php
+			echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
+			?>
+		</div>
+	</div>
 
-<?php
-if (!$disorder_id) {
-?>
-	<p><b>Please select a disorder to view the questions</b></p>
-<?php
-} elseif (count($model_list)) {
-?>
-	<div>
-		<ul class="grid reduceheight">
-			<li class="header">
-				<span class="column_name">Name</span>
-				<span class="column_actions">Enabled</span>
-			</li>
-			<div class="sortable">
+
+	<?php
+	if (!$disorder_id) {
+	?>
+		<div class="alert-box">
+			<strong>Please select a disorder to view the questions</strong>
+		</div>
+	<?php
+	} elseif (count($model_list)) {
+	?>
+		<table class="grid">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Enabled</th>
+				</tr>
+			</thead>
+			<tbody>
 				<?php
 				foreach ($model_list as $i => $model) {?>
-					<li class="<?php if ($i%2 == 0) {?>even<?php } else {?>odd<?php }?>" data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
-						<span class="column_name"><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></span>
-						<span class="column_actions">
+					<tr data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
+						<td><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></td>
+						<td>
 							<input type="checkbox" class="model_enabled" <?php if ($model->enabled) { echo "checked"; }?> />
-						</span>
-					</li>
+						</td>
+					</tr>
 				<?php }?>
-			</div>
-		</ul>
-	</div>
-<?php } else { ?>
-	<p>
-	<b>No questions set for this disorder</b>
-	</p>
-<?php } ?>
+			</tbody>
+		</table>
+	<?php } else { ?>
+		<div class="alert-box">
+			<strong>No questions set for this disorder</strong>
+		</div>
+	<?php } ?>
+</div>
