@@ -186,7 +186,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			'Element_OphCiExamination_OCT' => array('name' => 'OCT', 'parent_element_type_id' => 'Element_OphCiExamination_Investigation'),
 		);
 
-		$this->insertOEElementTypes($element_types, $event_type_id);
+		$this->insertOEElementType($element_types, $event_type_id);
 
 		$elementTypeIdForElementTypeEye = $this->getIdOfElementTypeByClassName('Element_OphCiExamination_Diagnoses');
 
