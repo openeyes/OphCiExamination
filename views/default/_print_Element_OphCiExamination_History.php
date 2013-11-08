@@ -18,4 +18,4 @@
  */
 ?>
 
-	<?php echo $element->description; ?>
+	<?= Yii::app()->format->Ntext($element->description) ?>

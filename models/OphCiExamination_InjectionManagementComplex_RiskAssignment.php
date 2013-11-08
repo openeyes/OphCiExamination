@@ -17,7 +17,7 @@
  */
 
 /**
- * This is the model class for table "ophtrintravitinjection_complicat_assignment".
+ * This is the model class for table "ophtrintravitinjection_risk_assignment".
  *
  * The followings are the available columns in table:
  * @property string $id

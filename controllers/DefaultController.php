@@ -111,7 +111,7 @@ class DefaultController extends NestedElementsEventTypeController
 	 * @param ElementType[] $elements
 	 * @return ElementType[]
 	 */
-	protected function filterElements($elements, $by_type_id = false)
+	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
@@ -425,6 +425,19 @@ class DefaultController extends NestedElementsEventTypeController
 		}
 	}
 
+	private function _POST_OCTFluidTypes($element, $side)
+	{
+		$fts = array();
+		if (isset($_POST['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
+			foreach ($_POST['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
+				if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+					$fts[] = $ft;
+				}
+			}
+		}
+		$element->{$side . '_fluidtypes'} = $fts;
+	}
+
 	/**
 	 * (non-PHPdoc)
 	 * @see BaseEventTypeController::setPOSTManyToMany()
@@ -443,6 +456,14 @@ class DefaultController extends NestedElementsEventTypeController
 			$this->_POST_DiabeticDiagnosis($element);
 		}
 
+		if ($cls == "Element_OphCiExamination_OCT") {
+			if ($element->hasLeft()) {
+				$this->_POST_OCTFluidTypes($element, 'left');
+			}
+			if ($element->hasRight()) {
+				$this->_POST_OCTFluidTypes($element, 'right');
+			}
+		}
 
 	}
 
@@ -470,6 +491,14 @@ class DefaultController extends NestedElementsEventTypeController
 				$el->updateRisks(Eye::RIGHT,
 						$el->hasRight() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
 						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+						array());
+			}
+			if (get_class($el) == 'Element_OphCiExamination_OCT') {
+				$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($_POST['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
+						$_POST['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+						array());
+				$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($_POST['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
+						$_POST['Element_OphCiExamination_OCT']['right_fluidtypes'] :
 						array());
 			}
 		}

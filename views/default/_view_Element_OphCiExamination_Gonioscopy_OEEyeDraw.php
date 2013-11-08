@@ -17,52 +17,60 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php
-$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'view',
-		'width' => 200,
-		'height' => 200,
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
-));
-?>
-<div class="eyedrawFields view">
-	<?php if ($element->{$side.'_description'}) { ?>
-	<div>
-		<div class="data">
-			<?php echo $element->{$side.'_description'} ?>
+<div class="eyedraw-image column fixed">
+	<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+			'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
+			'side' => ($side == 'right') ? 'R' : 'L',
+			'mode' => 'view',
+			'width' => 200,
+			'height' => 200,
+			'model' => $element,
+			'attribute' => $side.'_eyedraw',
+	))?>
+</div>
+<div class="eyedraw-value column fluid">
+	<?php if ($element->{$side.'_description'}) {?>
+		<div class="data-row">
+			<div class="data-value">
+				<?= Yii::app()->format->Ntext($element->{$side.'_description'}) ?>
+			</div>
 		</div>
-	</div>
-	<?php } ?>
-	<div class="shaffer_grade">
-		<div class="label">Shaffer Grade:</div>
-		<div class="data">
-			<div class="data gonioCross">
-				<div class="gonioSup">
+	<?php }?>
+	<div class="shaffer-grade">
+		<div class="data-label">Shaffer Grade:</div>
+		<div class="gonio-cross">
+			<div class="gonio-sup">
+				<span class="data-value">
 					<?php echo $element->{$side.'_gonio_sup'}->name; ?>
-				</div>
-				<div class="gonioTem">
+				</span>
+			</div>
+			<div class="gonio-tem">
+				<span class="data-value">
 					<?php echo $element->{$side.'_gonio_tem'}->name; ?>
-				</div>
-				<div class="gonioNas">
+				</span>
+			</div>
+			<div class="gonio-nas">
+				<span class="data-value">
 					<?php echo $element->{$side.'_gonio_nas'}->name; ?>
-				</div>
-				<div class="gonioInf">
+				</span>
+			</div>
+			<div class="gonio-inf">
+				<span class="data-value">
 					<?php echo $element->{$side.'_gonio_inf'}->name; ?>
-				</div>
+				</span>
 			</div>
 		</div>
 	</div>
-	<div>
-		<div class="label"><?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>:</div>
-		<div class="data">
+	<div class="data-row">
+		<span class="data-label">
+			<?php echo $element->getAttributeLabel($side.'_van_herick_id') ?>:
+		</span>
+		<span class="data-value">
 			<?php if ($van_herick = $element->{$side.'_van_herick'}) {
 				echo $van_herick->name;
 			} else {
-					echo 'NR';
-				} ?>
-		</div>
+				echo 'NR';
+			} ?>
+		</span>
 	</div>
 </div>

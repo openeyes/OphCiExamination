@@ -25,7 +25,7 @@
 	with
 	<?php echo $element->role->name; ?>
 	<?php if ($element->role_comments) { ?>
-	(<?php echo $element->role_comments; ?>)
+	(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
 	<?php } ?>
 	<?php } ?>
 </div>

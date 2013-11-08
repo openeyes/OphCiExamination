@@ -18,26 +18,27 @@
  */
 ?>
 
-<div class="report curvybox white">
+<div class="box admin">
 
-<div class="admin">
-<?php
-$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
-	'id'=>'OphCiExamination_adminform',
-	'enableAjaxValidation'=>false,
-));
+	<?php
+		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
+			'id'=>'OphCiExamination_adminform',
+			'enableAjaxValidation'=>false,
+			'layoutColumns' => array(
+				'label' => 2,
+				'field' => 5
+			)
+		));
 
-$this->renderPartial('form_' . get_class($model), array(
-		'model' => $model,
-		'form' => $form,
-));
-?>
-
-</div>
-
-<div class="row buttons">
-	<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-</div>
-
-<?php $this->endWidget(); ?>
+		$this->renderPartial('form_' . get_class($model), array(
+				'model' => $model,
+				'form' => $form,
+		));
+		echo $form->formActions(array(
+			'submit' => $model->isNewRecord ? 'Create' : 'Save',
+			'cancel' => false,
+			'delete' => false
+		));
+		$this->endWidget();
+	?>
 </div>

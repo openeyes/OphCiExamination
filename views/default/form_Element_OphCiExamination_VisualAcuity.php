@@ -21,119 +21,98 @@
 list($values, $val_options) = $element->getUnitValuesForForm();
 $methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name');
 $key = 0;
+$right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right'));
+$left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left'));
 ?>
-<?php if ($element->isNewRecord) { ?>
-<div class="clearfix">
-	<div style="margin-top:-25px; margin-left:120px;">
-		<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData($element->getUsableUnits(), 'id', 'name')); ?>
-	</div>
-</div>
-<?php } ?>
-<?php if ($element->unit->information) {?>
-<div class="clearfix">
-	<div style="margin-top:-22px; margin-left:240px; font-size: 10px;">
-		<i><?php echo $element->unit->information ?></i>
-	</div>
-</div>
-<?php } ?>
-<div class="cols2 clearfix">
+<div class="element-fields element-eyes row">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
 	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div
-		class="side left eventDetail<?php if (!$element->hasRight()) { ?> inactive<?php } ?>"
-		data-side="right">
-		<div class="activeForm">
-			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<?php $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right')); ?>
-				<table <?php if (!$right_readings) { ?> style="display: none;"
-<?php } ?>>
-					<thead>
-						<tr>
-							<th><?php echo $element->unit->name ?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($right_readings as $reading) {
-							// Adjust currently element readings to match unit steps
-							$reading->loadClosest($element->unit->id);
-							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
-								'key' => $key,
-								'reading' => $reading,
-								'side' => $reading->side,
-								'values' => $values,
-								'val_options' => $val_options,
-								'methods' => $methods,
-						));
-						$key++;
-						}?>
-					</tbody>
-				</table>
-				<div class="data noReadings" <?php if ($right_readings) { ?>
-					style="display: none;" <?php } ?>>Not recorded</div>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<table class="blank"<?php if (!$right_readings) { ?> style="display: none;" <?php } ?>>
+				<tbody>
+					<?php foreach ($right_readings as $reading) {
+						// Adjust currently element readings to match unit steps
+						$reading->loadClosest($element->unit->id);
+						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+							'key' => $key,
+							'reading' => $reading,
+							'side' => $reading->side,
+							'values' => $values,
+							'val_options' => $val_options,
+							'methods' => $methods,
+					));
+					$key++;
+					}?>
+				</tbody>
+			</table>
+			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+				<div class="data-value">Not recorded</div>
+			</div>
+			<div class="field-row">
+				<button class="button small secondary addReading">
+					Add
 				</button>
 			</div>
 			<?php if ($element->right_comments || $element->getSetting('notes')) { ?>
-			<div class="data">
-				<?php echo $form->textArea($element, 'right_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
-			</div>
+				<div class="field-row">
+					<?php echo $form->textArea($element, 'right_comments', array('rows' => 1, 'nowrapper'=>true)) ?>
+				</div>
 			<?php } ?>
 		</div>
-		<div class="inactiveForm">
-			<a href="#">Add right side</a>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add right side <span class="icon-add-side"></span>
+				</a>
+			</div>
 		</div>
 	</div>
-	<div
-		class="side right eventDetail<?php if (!$element->hasLeft()) { ?> inactive<?php } ?>"
-		data-side="left">
-		<div class="activeForm">
-			<a href="#" class="removeSide">-</a>
-			<div class="data">
-				<?php $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left')); ?>
-				<table <?php if (!$left_readings) { ?> style="display: none;"
-						<?php } ?>>
-					<thead>
-						<tr>
-							<th><?php echo $element->unit->name ?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($left_readings as $reading) {
-							// Adjust currently element readings to match unit steps
-							$reading->loadClosest($element->unit->id);
-							$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
-								'key' => $key,
-								'reading' => $reading,
-								'side' => $reading->side,
-								'values' => $values,
-								'val_options' => $val_options,
-								'methods' => $methods,
-						));
-						$key++;
-						}?>
-					</tbody>
-				</table>
-				<div class="data noReadings" <?php if ($left_readings) { ?>
-					style="display: none;" <?php } ?>>Not recorded</div>
-				<button class="addReading classy green mini" type="button">
-					<span class="button-span button-span-green">Add</span>
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<table class="blank"<?php if (!$left_readings) { ?> style="display: none;" <?php } ?>>
+				<tbody>
+					<?php foreach ($left_readings as $reading) {
+						// Adjust currently element readings to match unit steps
+						$reading->loadClosest($element->unit->id);
+						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+							'key' => $key,
+							'reading' => $reading,
+							'side' => $reading->side,
+							'values' => $values,
+							'val_options' => $val_options,
+							'methods' => $methods,
+					));
+					$key++;
+					}?>
+				</tbody>
+			</table>
+			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+				<div class="data-value">Not recorded</div>
+			</div>
+			<div class="field-row">
+				<button class="button small secondary addReading">
+					Add
 				</button>
 			</div>
 			<?php if ($element->left_comments || $element->getSetting('notes')) { ?>
-			<div class="data">
-				<?php echo $form->textArea($element, 'left_comments', array('class' => 'autosize', 'rows' => 1, 'cols' => 62, 'nowrapper'=>true)) ?>
-			</div>
+				<div class="field-data">
+					<?php echo $form->textArea($element, 'left_comments', array('rows' => 1, 'nowrapper'=>true)) ?>
+				</div>
 			<?php } ?>
 		</div>
-		<div class="inactiveForm">
-			<a href="#">Add left side</a>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add left side <span class="icon-add-side"></span>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
-
 <script id="visualacuity_reading_template" type="text/html">
 	<?php
 	$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
@@ -145,7 +124,6 @@ $key = 0;
 	));
 	?>
 </script>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		OphCiExamination_VisualAcuity_method_ids = [ <?php

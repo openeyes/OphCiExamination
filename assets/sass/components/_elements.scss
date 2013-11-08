@@ -1,0 +1,62 @@
+.Element_OphCiExamination_IntraocularPressure {
+	.element-data, .element-fields {
+		border-top: 4px solid #000;
+		.element-eye {
+			border-right: 2px solid #000;
+			&:last-child {
+				border: 0;
+			}
+		}
+		.right-eye {
+			text-align: right;
+		}
+	}
+}
+.Element_OphCiExamination_Diagnoses {
+	.panel {
+		margin-bottom: 10px;
+	}
+	.panel:last-child {
+		margin-bottom: 0;
+	}
+	table {
+		&.blank {
+			width: 100%;
+		}
+		th {
+			// color: #aaa;
+		}
+		td {
+			// padding: emCalc(5px) 0;
+			&.eye {
+				label {
+					display: inline-block;
+					padding-right: emCalc(8px);
+				}
+			}
+		}
+	}
+}
+
+.Element_OphCiExamination_Dilation  {
+	table {
+		.input-time {
+			width: 4em;
+			text-align: center;
+		}
+	}
+}
+
+.Element_OphCiExamination_Gonioscopy,
+.Element_OphCiExamination_OpticDisc,
+.Element_OphCiExamination_AnteriorSegment {
+	.eyedraw-fields {
+		padding-top: 74px;
+	}
+}
+
+.Element_OphCiExamination_PosteriorPole {
+	.eyedraw-fields {
+		padding-top: 220px;
+	}
+}
