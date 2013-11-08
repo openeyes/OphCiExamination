@@ -1,5 +1,5 @@
-id,name,display_order,last_modified_user_id,last_modified_date,created_user_id,created_date,value
-1,"None",1,1,"2013-10-09 13:08:27",1,"1900-01-01 00:00:00",""
-2,"Mild",2,1,"2013-10-09 13:08:27",1,"1900-01-01 00:00:00","Mild"
-3,"Moderate",3,1,"2013-10-09 13:08:27",1,"1900-01-01 00:00:00","Moderate"
-4,"White",4,1,"2013-10-09 13:08:27",1,"1900-01-01 00:00:00","White"
+id,name,display_order,value
+1,"None",1,""
+2,"Mild",2,"Mild"
+3,"Moderate",3,"Moderate"
+4,"White",4,"White"

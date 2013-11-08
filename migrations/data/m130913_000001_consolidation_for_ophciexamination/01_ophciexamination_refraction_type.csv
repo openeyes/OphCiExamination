@@ -1,5 +1,5 @@
-id,name,display_order,last_modified_user_id,last_modified_date,created_user_id,created_date
-1,"Auto-refraction",1,1,"1900-01-01 00:00:00",1,"1900-01-01 00:00:00"
-2,"Ophthalmologist",2,1,"1900-01-01 00:00:00",1,"1900-01-01 00:00:00"
-3,"Optometrist",3,1,"1900-01-01 00:00:00",1,"1900-01-01 00:00:00"
-5,"Own Glasses",4,1,"1900-01-01 00:00:00",1,"1900-01-01 00:00:00"
+id,name,display_order
+1,"Auto-refraction",1
+2,"Ophthalmologist",2
+3,"Optometrist",3
+5,"Own Glasses",4
