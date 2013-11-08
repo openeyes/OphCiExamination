@@ -244,8 +244,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `left_description` text COLLATE utf8_bin,
-			  `right_description` text COLLATE utf8_bin,
+			  `left_description` text,
+			  `right_description` text,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_adnexalcomorbidity_e_id_fk` (`event_id`),
@@ -266,20 +266,20 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `left_eyedraw` text COLLATE utf8_bin,
+			  `left_eyedraw` text,
 			  `left_pupil_id` int(10) unsigned DEFAULT NULL,
 			  `left_nuclear_id` int(10) unsigned DEFAULT NULL,
 			  `left_cortical_id` int(10) unsigned DEFAULT NULL,
 			  `left_pxe` tinyint(1) DEFAULT NULL,
 			  `left_phako` tinyint(1) DEFAULT NULL,
-			  `left_description` text COLLATE utf8_bin,
-			  `right_eyedraw` text COLLATE utf8_bin,
+			  `left_description` text,
+			  `right_eyedraw` text,
 			  `right_pupil_id` int(10) unsigned DEFAULT NULL,
 			  `right_nuclear_id` int(10) unsigned DEFAULT NULL,
 			  `right_cortical_id` int(10) unsigned DEFAULT NULL,
 			  `right_pxe` tinyint(1) DEFAULT NULL,
 			  `right_phako` tinyint(1) DEFAULT NULL,
-			  `right_description` text COLLATE utf8_bin,
+			  `right_description` text,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_anteriorsegment_cui_fk` (`created_user_id`),
@@ -375,7 +375,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `role_id` int(10) unsigned DEFAULT NULL,
-			  `role_comments` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+			  `role_comments` varchar(255) DEFAULT NULL,
 			  `community_patient` tinyint(1) unsigned NOT NULL DEFAULT '0',
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_clinicoutcome_lmui_fk` (`last_modified_user_id`),
@@ -400,7 +400,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `comments` text COLLATE utf8_bin,
+			  `comments` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_risks_e_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_risks_c_u_id_fk` (`created_user_id`),
@@ -418,7 +418,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `description` text COLLATE utf8_bin,
+			  `description` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_conclusion_e_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_conclusion_c_u_id_fk` (`created_user_id`),
@@ -546,10 +546,10 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `right_gonio_inf_id` int(10) unsigned DEFAULT NULL,
 			  `left_van_herick_id` int(10) unsigned DEFAULT NULL,
 			  `right_van_herick_id` int(10) unsigned DEFAULT NULL,
-			  `left_description` text COLLATE utf8_bin,
-			  `right_description` text COLLATE utf8_bin,
-			  `left_eyedraw` text COLLATE utf8_bin,
-			  `right_eyedraw` text COLLATE utf8_bin,
+			  `left_description` text,
+			  `right_description` text,
+			  `left_eyedraw` text,
+			  `right_eyedraw` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_gonioscopy_e_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_gonioscopy_c_u_id_fk` (`created_user_id`),
@@ -589,7 +589,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `description` text COLLATE utf8_bin,
+			  `description` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_history_e_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_history_c_u_id_fk` (`created_user_id`),
@@ -605,7 +605,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `event_id` int(10) unsigned NOT NULL,
 			  `injection_status_id` int(10) unsigned NOT NULL,
 			  `injection_deferralreason_id` int(10) unsigned DEFAULT NULL,
-			  `injection_deferralreason_other` text COLLATE utf8_bin,
+			  `injection_deferralreason_other` text,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -634,13 +634,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `right_diagnosis1_id` int(10) unsigned DEFAULT NULL,
 			  `left_diagnosis2_id` int(10) unsigned DEFAULT NULL,
 			  `right_diagnosis2_id` int(10) unsigned DEFAULT NULL,
-			  `left_comments` text COLLATE utf8_bin,
-			  `right_comments` text COLLATE utf8_bin,
+			  `left_comments` text,
+			  `right_comments` text,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `no_treatment_reason_other` text COLLATE utf8_bin,
+			  `no_treatment_reason_other` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_injectionmanagementcomplex_lmui_fk` (`last_modified_user_id`),
 			  KEY `et_ophciexamination_injectionmanagementcomplex_cui_fk` (`created_user_id`),
@@ -700,7 +700,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `description` text COLLATE utf8_bin,
+			  `description` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_investigation_e_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_investigation_c_u_id_fk` (`created_user_id`),
@@ -716,18 +716,18 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `event_id` int(10) unsigned NOT NULL,
 			  `laser_status_id` int(10) unsigned NOT NULL,
 			  `laser_deferralreason_id` int(10) unsigned DEFAULT NULL,
-			  `laser_deferralreason_other` text COLLATE utf8_bin,
+			  `laser_deferralreason_other` text,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `eye_id` int(10) unsigned DEFAULT '3',
 			  `left_lasertype_id` int(10) unsigned DEFAULT NULL,
-			  `left_lasertype_other` varchar(128) COLLATE utf8_bin DEFAULT NULL,
-			  `left_comments` text COLLATE utf8_bin,
+			  `left_lasertype_other` varchar(128) DEFAULT NULL,
+			  `left_comments` text,
 			  `right_lasertype_id` int(10) unsigned DEFAULT NULL,
-			  `right_lasertype_other` varchar(128) COLLATE utf8_bin DEFAULT NULL,
-			  `right_comments` text COLLATE utf8_bin,
+			  `right_lasertype_other` varchar(128) DEFAULT NULL,
+			  `right_comments` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_lasermanagement_lmui_fk` (`last_modified_user_id`),
 			  KEY `et_ophciexamination_lasermanagement_cui_fk` (`created_user_id`),
@@ -749,7 +749,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		$this->execute("CREATE TABLE `et_ophciexamination_management` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `event_id` int(10) unsigned NOT NULL,
-			  `comments` text COLLATE utf8_bin,
+			  `comments` text,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -802,12 +802,12 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
-			  `left_description` text COLLATE utf8_bin,
-			  `right_description` text COLLATE utf8_bin,
+			  `left_description` text,
+			  `right_description` text,
 			  `left_diameter` float(2,1) DEFAULT NULL,
 			  `right_diameter` float(2,1) DEFAULT NULL,
-			  `left_eyedraw` text COLLATE utf8_bin,
-			  `right_eyedraw` text COLLATE utf8_bin,
+			  `left_eyedraw` text,
+			  `right_eyedraw` text,
 			  `left_cd_ratio_id` int(10) unsigned DEFAULT NULL,
 			  `right_cd_ratio_id` int(10) unsigned DEFAULT NULL,
 			  `left_lens_id` int(10) unsigned DEFAULT NULL,
@@ -839,10 +839,10 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `left_eyedraw` text COLLATE utf8_bin,
-			  `left_description` text COLLATE utf8_bin,
-			  `right_eyedraw` text COLLATE utf8_bin,
-			  `right_description` text COLLATE utf8_bin,
+			  `left_eyedraw` text,
+			  `left_description` text,
+			  `right_eyedraw` text,
+			  `right_description` text,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_posteriorpole_e_id_fk` (`event_id`),
@@ -890,15 +890,15 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `left_sphere` decimal(5,2) DEFAULT NULL,
 			  `left_cylinder` decimal(5,2) DEFAULT NULL,
 			  `left_axis` int(3) DEFAULT NULL,
-			  `left_axis_eyedraw` text COLLATE utf8_bin,
+			  `left_axis_eyedraw` text,
 			  `left_type_id` int(10) unsigned DEFAULT NULL,
 			  `right_sphere` decimal(5,2) DEFAULT NULL,
 			  `right_cylinder` decimal(5,2) DEFAULT NULL,
 			  `right_axis` int(3) DEFAULT NULL,
-			  `right_axis_eyedraw` text COLLATE utf8_bin,
+			  `right_axis_eyedraw` text,
 			  `right_type_id` int(10) unsigned DEFAULT NULL,
-			  `left_type_other` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-			  `right_type_other` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+			  `left_type_other` varchar(100) DEFAULT NULL,
+			  `right_type_other` varchar(100) DEFAULT NULL,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_refraction_e_id_fk` (`event_id`),
@@ -923,7 +923,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-			  `comments` text COLLATE utf8_bin,
+			  `comments` text,
 			  PRIMARY KEY (`id`),
 			  KEY `et_ophciexamination_risks_event_id_fk` (`event_id`),
 			  KEY `et_ophciexamination_risks_last_modified_user_id_fk` (`last_modified_user_id`),
@@ -937,10 +937,10 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		$this->execute("CREATE TABLE `et_ophciexamination_visual_fields` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `event_id` int(10) unsigned NOT NULL,
-			  `left_eyedraw` text COLLATE utf8_bin,
-			  `right_eyedraw` text COLLATE utf8_bin,
-			  `left_description` text COLLATE utf8_bin,
-			  `right_description` text COLLATE utf8_bin,
+			  `left_eyedraw` text,
+			  `right_eyedraw` text,
+			  `left_description` text,
+			  `right_description` text,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -965,8 +965,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
-			  `left_comments` text COLLATE utf8_bin,
-			  `right_comments` text COLLATE utf8_bin,
+			  `left_comments` text,
+			  `right_comments` text,
 			  `eye_id` int(10) unsigned NOT NULL DEFAULT '3',
 			  `unit_id` int(10) unsigned NOT NULL,
 			  PRIMARY KEY (`id`),
@@ -985,7 +985,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_anteriorsegment_cct_method` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(255) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1001,13 +1001,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_anteriorsegment_cortical` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(128) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-			  `value` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+			  `value` varchar(64) DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `ophciexamination_anteriorsegment_cortical_lmui_fk` (`last_modified_user_id`),
 			  KEY `ophciexamination_anteriorsegment_cortical_cui_fk` (`created_user_id`),
@@ -1018,13 +1018,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_anteriorsegment_nuclear` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(128) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-			  `value` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+			  `value` varchar(64) DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `ophciexamination_anteriorsegment_nuclear_lmui_fk` (`last_modified_user_id`),
 			  KEY `ophciexamination_anteriorsegment_nuclear_cui_fk` (`created_user_id`),
@@ -1035,13 +1035,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_anteriorsegment_pupil` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(128) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-			  `value` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+			  `value` varchar(64) DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `ophciexamination_anteriorsegment_pupil_lmui_fk` (`last_modified_user_id`),
 			  KEY `ophciexamination_anteriorsegment_pupil_cui_fk` (`created_user_id`),
@@ -1052,8 +1052,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_attribute` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(40) COLLATE utf8_bin NOT NULL,
-			  `label` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(40) NOT NULL,
+			  `label` varchar(255) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1088,12 +1088,12 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_attribute_option` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `value` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `value` varchar(255) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-			  `delimiter` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ',',
+			  `delimiter` varchar(255) NOT NULL DEFAULT ',',
 			  `subspecialty_id` int(10) unsigned DEFAULT NULL,
 			  `attribute_element_id` int(10) unsigned NOT NULL,
 			  PRIMARY KEY (`id`),
@@ -1110,7 +1110,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_cataractmanagement_eye` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(64) NOT NULL,
 			  `display_order` tinyint(1) unsigned NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1126,7 +1126,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_cataractmanagement_suitable_for_surgeon` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(64) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1142,7 +1142,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_clinicoutcome_role` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(64) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '10',
 			  `requires_comment` int(1) unsigned NOT NULL DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1159,7 +1159,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_clinicoutcome_status` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `followup` tinyint(1) NOT NULL DEFAULT '0',
 			  `episode_status_id` int(10) unsigned NOT NULL,
@@ -1220,7 +1220,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_comorbidities_item` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(64) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
@@ -1260,7 +1260,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_dilation_drugs` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(64) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1299,10 +1299,10 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_drgrading_clinical` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
-			  `description` text COLLATE utf8_bin,
+			  `name` varchar(128) NOT NULL,
+			  `description` text,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
-			  `class` varchar(16) COLLATE utf8_bin NOT NULL,
+			  `class` varchar(16) NOT NULL,
 			  `booking_weeks` int(2) unsigned DEFAULT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
@@ -1318,11 +1318,11 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_drgrading_nscmaculopathy` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
-			  `description` text COLLATE utf8_bin,
+			  `name` varchar(128) NOT NULL,
+			  `description` text,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `booking_weeks` int(2) unsigned DEFAULT NULL,
-			  `class` varchar(16) COLLATE utf8_bin NOT NULL,
+			  `class` varchar(16) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1337,11 +1337,11 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_drgrading_nscretinopathy` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
-			  `description` text COLLATE utf8_bin,
+			  `name` varchar(128) NOT NULL,
+			  `description` text,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `booking_weeks` int(2) unsigned DEFAULT NULL,
-			  `class` varchar(16) COLLATE utf8_bin NOT NULL,
+			  `class` varchar(16) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1356,7 +1356,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_element_set` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(40) DEFAULT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1396,8 +1396,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		$this->execute("CREATE TABLE `ophciexamination_element_set_rule` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `parent_id` int(10) unsigned DEFAULT NULL,
-			  `clause` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-			  `value` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+			  `clause` varchar(255) DEFAULT NULL,
+			  `value` varchar(255) DEFAULT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1438,12 +1438,12 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_glaucomarisk_risk` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(48) COLLATE utf8_bin NOT NULL,
-			  `description` text COLLATE utf8_bin,
-			  `follow_up` varchar(48) COLLATE utf8_bin DEFAULT NULL,
-			  `review` varchar(48) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(48) NOT NULL,
+			  `description` text,
+			  `follow_up` varchar(48) DEFAULT NULL,
+			  `review` varchar(48) DEFAULT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
-			  `class` varchar(16) COLLATE utf8_bin DEFAULT NULL,
+			  `class` varchar(16) DEFAULT NULL,
 			  `clinicoutcome_template_id` int(10) unsigned NOT NULL,
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1461,7 +1461,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_gonioscopy_description` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(40) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(40) NOT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1478,7 +1478,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_gonioscopy_van_herick` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(40) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(40) NOT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1518,7 +1518,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_injectmanagecomplex_notreatmentreason` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `enabled` tinyint(1) NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1537,7 +1537,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		$this->execute("CREATE TABLE `ophciexamination_injectmanagecomplex_question` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `disorder_id` int(10) unsigned NOT NULL,
-			  `question` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `question` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `enabled` tinyint(1) NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1556,7 +1556,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_injectmanagecomplex_risk` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(256) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(256) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `enabled` tinyint(1) NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1596,7 +1596,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_instrument` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(255) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1612,7 +1612,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_intraocularpressure_reading` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(3) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(3) DEFAULT NULL,
 			  `value` int(10) unsigned DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1629,7 +1629,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_lasermanagement_lasertype` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `other` tinyint(1) NOT NULL DEFAULT '0',
 			  `enabled` tinyint(1) NOT NULL DEFAULT '1',
@@ -1647,7 +1647,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_management_deferralreason` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `other` tinyint(1) NOT NULL DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1664,7 +1664,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_management_status` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(128) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `deferred` tinyint(1) NOT NULL DEFAULT '0',
 			  `book` tinyint(1) NOT NULL DEFAULT '0',
@@ -1683,7 +1683,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_oct_method` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(255) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1699,7 +1699,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_opticdisc_cd_ratio` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(64) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
@@ -1715,7 +1715,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_opticdisc_lens` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(255) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL,
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1731,7 +1731,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_pupillaryabnormalities_abnormality` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(255) NOT NULL,
 			  `display_order` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1747,8 +1747,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_refraction_fraction` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(4) COLLATE utf8_bin DEFAULT NULL,
-			  `value` varchar(3) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(4) DEFAULT NULL,
+			  `value` varchar(3) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1764,7 +1764,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_refraction_integer` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `value` varchar(4) COLLATE utf8_bin DEFAULT NULL,
+			  `value` varchar(4) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1780,8 +1780,8 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_refraction_sign` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(4) COLLATE utf8_bin DEFAULT NULL,
-			  `value` varchar(4) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(4) DEFAULT NULL,
+			  `value` varchar(4) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1797,7 +1797,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_refraction_type` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(32) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1813,13 +1813,13 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_visual_acuity_unit` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(40) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(40) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `tooltip` tinyint(1) NOT NULL DEFAULT '0',
-			  `information` text COLLATE utf8_bin,
+			  `information` text,
 			  PRIMARY KEY (`id`),
 			  KEY `ophciexamination_visual_acuity_unit_lmuid_fk` (`last_modified_user_id`),
 			  KEY `ophciexamination_visual_acuity_unit_cuid_fk` (`created_user_id`),
@@ -1831,7 +1831,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 		$this->execute("CREATE TABLE `ophciexamination_visual_acuity_unit_value` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `unit_id` int(10) unsigned NOT NULL,
-			  `value` varchar(255) COLLATE utf8_bin NOT NULL,
+			  `value` varchar(255) NOT NULL,
 			  `base_value` int(10) unsigned NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1850,7 +1850,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_visualacuity_method` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+			  `name` varchar(32) DEFAULT NULL,
 			  `display_order` tinyint(3) unsigned DEFAULT '0',
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -1888,7 +1888,7 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->execute("CREATE TABLE `ophciexamination_workflow` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+			  `name` varchar(64) NOT NULL,
 			  `last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 			  `last_modified_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 			  `created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -1900,7 +1900,6 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 			  CONSTRAINT `ophciexamination_workflow_created_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 		");
-
 
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
