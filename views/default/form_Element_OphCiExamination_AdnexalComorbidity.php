@@ -25,7 +25,9 @@
 			<div class="field-row textMacros">
 				<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'right_description', 'form' => $form))?>
 			</div>
-			<?php echo $form->textArea($element, 'right_description', array('class' => 'autosize', 'nowrapper'=>true))?>
+			<div class="field-row">
+				<?php echo $form->textArea($element, 'right_description', array('class' => 'autosize', 'nowrapper'=>true))?>
+			</div>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
@@ -41,7 +43,9 @@
 			<div class="field-row textMacros">
 				<?php $this->renderPartial('_attributes', array('element' => $element, 'field' => 'left_description', 'form' => $form))?>
 			</div>
-			<?php echo $form->textArea($element, 'left_description', array('class' => 'autosize', 'nowrapper'=>true))?>
+			<div class="field-row">
+				<?php echo $form->textArea($element, 'left_description', array('class' => 'autosize', 'nowrapper'=>true))?>
+			</div>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">

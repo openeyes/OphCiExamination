@@ -18,7 +18,7 @@
  */
 ?>
 <div class="element-fields">
-	<div class="field-row" id="div_<?php echo get_class($element)?>_status">
+	<div id="div_<?php echo get_class($element)?>_status">
 		<div class="field-row row">
 			<div class="large-3 column">
 				<label for="<?php echo get_class($element).'_status_id';?>">
@@ -36,7 +36,7 @@
 		</div>
 	</div>
 
-	<div class="field-row" id="div_<?php echo get_class($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
+	<div id="div_<?php echo get_class($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
 			<legend class="large-3 column">
 					<?php echo $element->getAttributeLabel('followup_quantity')?>:
@@ -56,7 +56,7 @@
 		</fieldset>
 	</div>
 
-	<div class="field-row" id="div_<?php echo get_class($element)?>_role"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
+	<div id="div_<?php echo get_class($element)?>_role"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
 			<legend class="large-3 column">
 				<?php echo $element->getAttributeLabel('role')?>:

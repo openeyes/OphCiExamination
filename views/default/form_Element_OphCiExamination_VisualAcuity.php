@@ -49,7 +49,7 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 				</tbody>
 			</table>
 			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
-				<div class="data-value">Not recorded</div>
+				Not recorded
 			</div>
 			<div class="field-row">
 				<button class="button small secondary addReading">
@@ -91,7 +91,7 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 				</tbody>
 			</table>
 			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
-				<div class="data-value">Not recorded</div>
+				Not recorded
 			</div>
 			<div class="field-row">
 				<button class="button small secondary addReading">
