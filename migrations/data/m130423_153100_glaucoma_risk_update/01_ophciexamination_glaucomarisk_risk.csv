@@ -1,4 +1,0 @@
-id,name,class,display_order,description,follow_up,review,clinicoutcome_template_id
-2,Low,low_risk,10,"Early glaucoma with an IOP less than target, and with no evidence of progression",12 months,Annual review,2
-3,Moderate,moderate_risk,20,"Moderate to advanced glaucoma with an IOP maintained as less than target for the last 12 months, and with no evidence of progression",6 months,Routine review,3
-4,High,high_risk,30,IOP greater than target and/or evidence of actual or possible progression,6 weeks,Early review,4
