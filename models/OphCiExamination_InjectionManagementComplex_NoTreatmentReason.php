@@ -23,6 +23,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property string $name
+ * @property string $letter_str
  * @property boolean $enabled
  * @property boolean $other - flag to indicate whether this reason would need an other description
  *
@@ -31,8 +32,11 @@
 
 class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord
 {
+	const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
+
 	/**
 	 * Returns the static model of the specified AR class.
+	 *
 	 * @return the static model class
 	 */
 	public static function model($className = __CLASS__)
@@ -54,12 +58,38 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 	public function rules()
 	{
 		return array(
-				array('name, display_order, enabled, other', 'safe'),
+				array('name, letter_str, display_order, enabled, other', 'safe'),
 				array('name, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, name, display_order, enabled, other', 'safe', 'on' => 'search'),
+				array('id, name, letter_str, display_order, enabled, other', 'safe', 'on' => 'search'),
 		);
 	}
 
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'letter_str' => 'Correspondence Letter Text',
+		);
+	}
+
+	/**
+	 * Get the string to be used in correspondence for this no treatment reason
+	 *
+	 * @return string
+	 */
+	public function getLetter_string()
+	{
+		$res = $this::DEFAULT_LETTER_STRING;
+		if ($this->letter_str) {
+			$res = $this->letter_str;
+		}
+		elseif (!$this->other) {
+			$res .= " " . $this->name . ".";
+		}
+		return $res;
+	}
 }

@@ -23,3 +23,5 @@
 <?php echo $form->errorSummary($model); ?>
 
 <?php echo $form->textField($model,'name'); ?>
+
+<?php echo $form->textField($model,'letter_str'); ?>
