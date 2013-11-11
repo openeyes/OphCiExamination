@@ -28,7 +28,10 @@
 				array('side' => 'right', 'element' => $element)); ?>
 		</div>
 		<div class="inactive-form">
-			<a href="#">Add right side</a>
+			<a href="#">
+				Add right side
+				<span class="icon-add-side"></span>
+			</a>
 		</div>
 	</div>
 	<div
@@ -40,7 +43,10 @@
 				array('side' => 'left', 'element' => $element)); ?>
 		</div>
 		<div class="inactive-form">
-			<a href="#">Add left side</a>
+			<a href="#">
+				Add left side
+				<span class="icon-add-side"></span>
+			</a>
 		</div>
 	</div>
 </div>
