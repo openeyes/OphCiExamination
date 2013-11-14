@@ -89,7 +89,7 @@ class DefaultController extends BaseEventTypeController
 	/**
 	 * Sets up jsvars for editing
 	 */
-	protected function editInit()
+	protected function initEdit()
 	{
 		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
@@ -101,20 +101,20 @@ class DefaultController extends BaseEventTypeController
 	/**
 	 * Call editInit to set up jsVars
 	 */
-	public function createInit()
+	public function initActionCreate()
 	{
-		parent::createInit();
-		$this->editInit();
+		parent::initActionCreate();
+		$this->initEdit();
 	}
 
 	/**
 	 * Call editInit to setup jsVars
 	 * @param $id
 	 */
-	public function updateInit($id)
+	public function initActionUpdate()
 	{
-		parent::updateInit($id);
-		$this->editInit();
+		parent::initActionUpdate();
+		$this->initEdit();
 	}
 
 	/**
