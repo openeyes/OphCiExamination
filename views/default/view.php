@@ -30,5 +30,6 @@ if ($this->editable && $next_step = $this->getNextStep()) {
 }
 ?>
 
-<?php $this->renderDefaultElements($this->action->id)?>
+<?php $this->renderOpenElements($this->action->id)?>
+
 <?php $this->endContent() ;?>

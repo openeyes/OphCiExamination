@@ -21,8 +21,18 @@
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
  */
 
-class DefaultController extends NestedElementsEventTypeController
+class DefaultController extends BaseEventTypeController
 {
+	// if set to true, we are advancing the current event step
+	private $step = false;
+
+	/**
+	 * Need split event files
+	 * @TODO: determine if this should be defined by controller property
+	 *
+	 * @param CAction $action
+	 * @return bool
+	 */
 	protected function beforeAction($action)
 	{
 		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
@@ -32,83 +42,32 @@ class DefaultController extends NestedElementsEventTypeController
 		return parent::beforeAction($action);
 	}
 
-	public function actionCreate()
+	/**
+	 * Applies workflow and filtering to the element retrieval
+	 *
+	 * @return BaseEventTypeElement[]
+	 */
+	protected function getEventElements()
 	{
-		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
-
-		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
-			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
-		}
-		parent::actionCreate();
-	}
-
-	public function actionUpdate($id)
-	{
-		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
-		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
-			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
-		}
-
-		parent::actionUpdate($id);
-	}
-
-	public function actionView($id)
-	{
-		parent::actionView($id);
-	}
-
-	public function actionPrint($id)
-	{
-		parent::actionPrint($id);
-	}
-
-	public function actionStep($id)
-	{
-		// This is the same as update, but with a few extras, so we call the update code and then pick up on the action later
-		$this->actionUpdate($id);
-	}
-
-	protected function setElementOptions($element, $action)
-	{
-		parent::setElementOptions($element, $action);
-		if ($action == 'step') {
-			$element->setUpdateOptions();
-		}
-	}
-
-	protected function afterUpdateElements($event)
-	{
-		if ($this->action->id == 'step') {
-			// Advance the workflow
-			if (!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
-				// Create initial workflow assignment if event hasn't already got one
-				$assignment = new OphCiExamination_Event_ElementSet_Assignment();
-				$assignment->event_id = $event->id;
-			}
-			if (!$next_step = $this->getNextStep($event)) {
-				throw new CException('No next step available');
-			}
-			$assignment->step_id = $next_step->id;
-			if (!$assignment->save()) {
-				throw new CException('Cannot save assignment');
+		if ($this->event) {
+			$elements = $this->event->getElements();
+			if ($this->step) {
+				$elements = $this->mergeNextStep($elements);
 			}
 		}
-	}
+		else {
+			$elements = $this->getElementsByWorkflow(null, $this->episode);
+		}
 
-	protected function afterCreateElements($event)
-	{
-	}
-
-	protected function getCleanDefaultElements($event_type_id)
-	{
-		return $this->getElementsByWorkflow(null, $this->episode);
+		return $this->filterElements($elements);
 	}
 
 	/**
 	 * filters elements based on coded dependencies
 	 *
-	 * @param ElementType[] $elements
-	 * @return ElementType[]
+	 * @TODO: need to ensure that we don't filter out elements that do exist when configuration changes
+	 * @param BaseEventTypeElement[] $elements
+	 * @return BaseEventTypeElement[]
 	 */
 	protected function filterElements($elements)
 	{
@@ -128,14 +87,71 @@ class DefaultController extends NestedElementsEventTypeController
 	}
 
 	/**
-	 * extends standard method to provide workflow functionality
-	 *
-	 * (non-PHPdoc)
-	 * @see NestedElementsEventTypeController::getCleanChildDefaultElements()
+	 * Sets up jsvars for editing
 	 */
-	protected function getCleanChildDefaultElements($parent, $event_type_id)
+	protected function editInit()
 	{
-		return $this->getElementsByWorkflow(null, $this->episode, $parent->id);
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+
+		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
+			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
+		}
+	}
+
+	/**
+	 * Call editInit to set up jsVars
+	 */
+	public function createInit()
+	{
+		parent::createInit();
+		$this->editInit();
+	}
+
+	/**
+	 * Call editInit to setup jsVars
+	 * @param $id
+	 */
+	public function updateInit($id)
+	{
+		parent::updateInit($id);
+		$this->editInit();
+	}
+
+	/**
+	 * Action to move the workflow forward a step on the given event
+	 *
+	 * @param $id
+	 */
+	public function actionStep($id)
+	{
+		$this->step = true;
+		// This is the same as update, but with a few extras, so we call the update code and then pick up on the action later
+		$this->actionUpdate($id);
+	}
+
+	/**
+	 * Advance the workflow step for the event if requested
+	 *
+	 * @param Event $event
+	 * @throws CException
+	 */
+	protected function afterUpdateElements($event)
+	{
+		if ($this->step) {
+			// Advance the workflow
+			if (!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+				// Create initial workflow assignment if event hasn't already got one
+				$assignment = new OphCiExamination_Event_ElementSet_Assignment();
+				$assignment->event_id = $event->id;
+			}
+			if (!$next_step = $this->getNextStep($event)) {
+				throw new CException('No next step available');
+			}
+			$assignment->step_id = $next_step->id;
+			if (!$assignment->save()) {
+				throw new CException('Cannot save assignment');
+			}
+		}
 	}
 
 	/**
@@ -144,20 +160,22 @@ class DefaultController extends NestedElementsEventTypeController
 	 * (non-PHPdoc)
 	 * @see NestedElementsEventTypeController::getChildOptionalElements()
 	 */
-	public function getChildOptionalElements($parent_class, $action, $previous_parent_id = null)
+	public function getChildOptionalElements($parent_type)
 	{
-		$elements = parent::getChildOptionalElements($parent_class, $action, $previous_parent_id);
+		$elements = parent::getChildOptionalElements($parent_type);
 		return $this->filterElements($elements);
 	}
 
 	/**
 	 * Get the first workflow step using rules
+	 *
+	 * @TODO: examine what this is being used for as opposed to getting elements by workflow ...
 	 * @return OphCiExamination_ElementSet
 	 */
 	protected function getFirstStep()
 	{
 		$site_id = Yii::app()->session['selected_site_id'];
-		$firm_id = $this->firm->id;
+		$subspecialty_id = $this->firm->getSubspecialtyID();
 		$status_id = $this->episode->episode_status_id;
 		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
 	}
@@ -179,29 +197,24 @@ class DefaultController extends NestedElementsEventTypeController
 		return $step->getNextStep();
 	}
 
-	protected function getSavedElements($action, $event, $parent = null)
-	{
-		$elements = parent::getSavedElements($action, $event, $parent);
-		if ($action == 'step') {
-			$elements = $this->mergeNextStep($elements, $event, $parent);
-		}
-		return $elements;
-	}
-
 	/**
 	 * Merge workflow next step elements into existing elements
 	 * @param array $elements
-	 * @param Event $event
 	 * @param ElementType $parent
 	 * @throws CException
 	 * @return array
 	 */
-	protected function mergeNextStep($elements, $event, $parent = null)
+	protected function mergeNextStep($elements, $parent = null)
 	{
+		if (!$event = $this->event) {
+			throw new CException('No event set for step merging');
+		}
 		if (!$next_step = $this->getNextStep($event)) {
 			throw new CException('No next step available');
 		}
+
 		$parent_id = ($parent) ? $parent->id : null;
+		//TODO: should we be passing episode here?
 		$extra_elements = $this->getElementsByWorkflow($next_step, $this->episode, $parent_id);
 		$extra_by_etid = array();
 
@@ -238,9 +251,11 @@ class DefaultController extends NestedElementsEventTypeController
 
 	/**
 	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
+	 *
 	 * @param OphCiExamination_ElementSet $set
 	 * @param Episode $episode
 	 * @param integer $parent_id
+	 * @return ElementType[]
 	 */
 	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null)
 	{
@@ -248,6 +263,7 @@ class DefaultController extends NestedElementsEventTypeController
 		if (!$set) {
 			$site_id = Yii::app()->session['selected_site_id'];
 			$firm_id = $this->firm->id;
+			$subspecialty_id = $this->firm->getSubspecialtyID();
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
 			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
 		}
@@ -294,8 +310,7 @@ class DefaultController extends NestedElementsEventTypeController
 	}
 
 	/**
-	 * ajax action to load the questions for a side and disorder_id
-	 *
+	 * Ajax action to load the questions for a side and disorder_id
 	 */
 	public function actionLoadInjectionQuestions()
 	{
