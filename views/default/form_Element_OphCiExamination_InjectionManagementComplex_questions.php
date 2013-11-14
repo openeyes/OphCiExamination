@@ -18,7 +18,7 @@
  */
 ?>
 
-<div class="field-row" id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
+<div class="hidden" id="<?php echo get_class($element)?>_<?php echo $side?>_Questions">
 	<?php
 	$name_stub = get_class($element) . '[' . $side . '_Answer]';
 	foreach ($questions as $question) {?>

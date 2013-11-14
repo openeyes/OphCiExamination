@@ -81,25 +81,29 @@ $layoutColumns = array(
 		))?>
 	</div>
 
-	<?php
-	$l2_attrs =  array('empty'=>'- Please select -');
-	$l2_opts = array();
-	if (array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders)) {
-		$l2_opts = $l2_disorders[$element->{$side . '_diagnosis1_id'}];
-		// this is used in the javascript for checking the second level list is correct.
-		$l2_attrs['data-parent_id'] = $element->{$side . '_diagnosis1_id'};
-	}?>
+	<div class="<?php if (!array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders) ) { echo "hidden"; }?>" id="<?php echo $side ?>_diagnosis2_wrapper">
+		<?php
+			$l2_attrs =  array('empty'=>'- Please select -');
+			$l2_opts = array();
+			if (array_key_exists($element->{$side . '_diagnosis1_id'}, $l2_disorders)) {
+				$l2_opts = $l2_disorders[$element->{$side . '_diagnosis1_id'}];
+				// this is used in the javascript for checking the second level list is correct.
+				$l2_attrs['data-parent_id'] = $element->{$side . '_diagnosis1_id'};
+			}?>
 
-	<?php $form->widget('application.widgets.DiagnosisSelection',array(
-			'field' => $side . '_diagnosis2_id',
-			'element' => $element,
-			'options' => CHtml::listData($l2_opts,'id','term'),
-			'layout' => 'search',
-			'default' => false,
-			'dropdownOptions' => $l2_attrs,
-			'label' => true,
-			'layoutColumns' => $layoutColumns
-	))?>
+			<?php $form->widget('application.widgets.DiagnosisSelection',array(
+					'field' => $side . '_diagnosis2_id',
+					'element' => $element,
+					'options' => CHtml::listData($l2_opts,'id','term'),
+					'layout' => 'search',
+					'default' => false,
+					'dropdownOptions' => $l2_attrs,
+					'label' => true,
+					'layoutColumns' => $layoutColumns
+			))
+		?>
+	</div>
+
 	<?php
 	$questions = $element->getInjectionQuestionsForSide($side);
 
