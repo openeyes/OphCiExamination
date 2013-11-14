@@ -16,141 +16,73 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-/**
- * OpenEyes
- *
- * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2013
- * This file is part of OpenEyes.
- * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
- *
- * @package OpenEyes
- * @link http://www.openeyes.org.uk
- * @author OpenEyes <info@openeyes.org.uk>
- * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
- * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
- */
-/**
- * OpenEyes
- *
- * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2013
- * This file is part of OpenEyes.
- * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
- *
- * @package OpenEyes
- * @link http://www.openeyes.org.uk
- * @author OpenEyes <info@openeyes.org.uk>
- * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
- * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
- */
-/**
- * OpenEyes
- *
- * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2013
- * This file is part of OpenEyes.
- * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
- *
- * @package OpenEyes
- * @link http://www.openeyes.org.uk
- * @author OpenEyes <info@openeyes.org.uk>
- * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
- * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
- */
-/**
- * OpenEyes
- *
- * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
- * (C) OpenEyes Foundation, 2011-2013
- * This file is part of OpenEyes.
- * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
- *
- * @package OpenEyes
- * @link http://www.openeyes.org.uk
- * @author OpenEyes <info@openeyes.org.uk>
- * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
- * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
- * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
- */
-/* line 1, ../sass/components/_event.scss */
+/* line 17, ../sass/components/_event.scss */
 .event {
   border-color: #fdcc56;
 }
-/* line 3, ../sass/components/_event.scss */
+/* line 19, ../sass/components/_event.scss */
 .event .event-content {
   background-image: url('../img/watermark.png?1384433912');
 }
-/* line 6, ../sass/components/_event.scss */
+/* line 22, ../sass/components/_event.scss */
 .event .event-title {
   background-image: url('../img/medium.png?1383822301');
 }
 
-/* line 2, ../sass/components/_elements.scss */
+/* line 18, ../sass/components/_elements.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data, .Element_OphCiExamination_IntraocularPressure .element-fields {
   border-top: 4px solid #000;
 }
-/* line 4, ../sass/components/_elements.scss */
+/* line 20, ../sass/components/_elements.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .element-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
   border-right: 2px solid #000;
 }
-/* line 6, ../sass/components/_elements.scss */
+/* line 22, ../sass/components/_elements.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
   border: 0;
 }
-/* line 10, ../sass/components/_elements.scss */
+/* line 26, ../sass/components/_elements.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .right-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
   text-align: right;
 }
 
-/* line 16, ../sass/components/_elements.scss */
+/* line 32, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel {
   margin-bottom: 10px;
 }
-/* line 19, ../sass/components/_elements.scss */
+/* line 35, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel:last-child {
   margin-bottom: 0;
 }
-/* line 23, ../sass/components/_elements.scss */
+/* line 39, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table.blank {
   width: 100%;
 }
-/* line 32, ../sass/components/_elements.scss */
+/* line 48, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table td.eye label {
   display: inline-block;
   padding-right: 0.5em;
 }
 
-/* line 43, ../sass/components/_elements.scss */
+/* line 59, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Dilation table .input-time {
   width: 4em;
   text-align: center;
 }
 
-/* line 53, ../sass/components/_elements.scss */
+/* line 69, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Gonioscopy .eyedraw-fields,
 .Element_OphCiExamination_OpticDisc .eyedraw-fields,
 .Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
   padding-top: 74px;
 }
 
-/* line 59, ../sass/components/_elements.scss */
+/* line 75, ../sass/components/_elements.scss */
 .Element_OphCiExamination_PosteriorPole .eyedraw-fields {
   padding-top: 220px;
 }
 
-/* line 1, ../sass/components/_gonio-cross.scss */
+/* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
   background: url('../img/cross.gif?1383822301') no-repeat center center;
   height: 110px;
@@ -158,65 +90,65 @@
   position: relative;
   width: 160px;
 }
-/* line 7, ../sass/components/_gonio-cross.scss */
+/* line 23, ../sass/components/_gonio-cross.scss */
 .gonio-cross div {
   position: absolute;
   text-align: center;
 }
-/* line 11, ../sass/components/_gonio-cross.scss */
+/* line 27, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-sup {
   top: 5px;
   width: 100%;
 }
-/* line 15, ../sass/components/_gonio-cross.scss */
+/* line 31, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-tem {
   height: 20px;
   left: 5px;
   margin-top: -10px;
   top: 50%;
 }
-/* line 21, ../sass/components/_gonio-cross.scss */
+/* line 37, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-nas {
   height: 20px;
   margin-top: -10px;
   right: 5px;
   top: 50%;
 }
-/* line 27, ../sass/components/_gonio-cross.scss */
+/* line 43, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-inf {
   bottom: 5px;
   width: 100%;
 }
 
-/* line 35, ../sass/components/_gonio-cross.scss */
+/* line 51, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross {
   height: 80px;
   width: 120px;
 }
-/* line 38, ../sass/components/_gonio-cross.scss */
+/* line 54, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-sup {
   top: 5px;
 }
-/* line 41, ../sass/components/_gonio-cross.scss */
+/* line 57, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-tem {
   left: 15px;
 }
-/* line 44, ../sass/components/_gonio-cross.scss */
+/* line 60, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-nas {
   right: 15px;
 }
-/* line 47, ../sass/components/_gonio-cross.scss */
+/* line 63, ../sass/components/_gonio-cross.scss */
 .event.view .gonio-cross .gonio-inf {
   bottom: 5px;
 }
 
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .row.refraction .column.fixed {
   width: 186px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .row.refraction .column.fluid {
     width: -moz-calc(100% - 186px);
     width: -o-calc(100% - 186px);
@@ -224,13 +156,13 @@
     width: calc(100% - 186px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .row.gonioscopy .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .row.gonioscopy .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -238,13 +170,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .row.anterior-segment .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .row.anterior-segment .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -252,13 +184,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .row.optic-disc .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .row.optic-disc .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -266,13 +198,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .row.posterior-pole .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .row.posterior-pole .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -280,12 +212,12 @@
     width: calc(100% - 320px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fixed, .view .row .anterior-segment .column.fixed, .view .row .optic-disc .column.fixed, .view .row .posterior-pole .column.fixed {
   width: 220px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
     width: -moz-calc(100% - 220px);
     width: -o-calc(100% - 220px);
@@ -293,12 +225,12 @@
     width: calc(100% - 220px);
   }
 }
-/* line 110, ../../../../../sass/openeyes/_mixins.scss */
+/* line 108, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.refraction .column.fixed {
   width: 120px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 120, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
   .view .row.refraction .column.fluid {
     width: -moz-calc(100% - 120px);
     width: -o-calc(100% - 120px);
@@ -307,39 +239,39 @@
   }
 }
 
-/* line 3, ../sass/components/_eyedraw.scss */
+/* line 19, ../sass/components/_eyedraw.scss */
 #event-content .EyeDrawWidget canvas {
   margin: 0;
   border: 1px solid #ccc;
 }
-/* line 7, ../sass/components/_eyedraw.scss */
+/* line 23, ../sass/components/_eyedraw.scss */
 #event-content .EyeDrawWidget .ed_toolbar {
   margin: 0;
 }
 
-/* line 3, ../sass/components/_dialog.scss */
+/* line 19, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions a:hover {
   background: none;
 }
-/* line 7, ../sass/components/_dialog.scss */
+/* line 23, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions dl {
   margin: 0;
 }
-/* line 11, ../sass/components/_dialog.scss */
+/* line 27, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions dt, .glaucoma-risk-descriptions dt a {
   display: block;
 }
-/* line 15, ../sass/components/_dialog.scss */
+/* line 31, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions dd {
   margin: .7em 0 .7em 4em;
   font-size: 0.8125em;
 }
-/* line 20, ../sass/components/_dialog.scss */
+/* line 36, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions .pill.high a {
   color: #fff;
 }
 
-/* line 1, ../sass/components/_hints.scss */
+/* line 17, ../sass/components/_hints.scss */
 .hint {
   padding: .5em 0 0 0;
 }
