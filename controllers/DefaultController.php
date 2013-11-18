@@ -23,6 +23,12 @@
 
 class DefaultController extends BaseEventTypeController
 {
+	static protected $action_types = array(
+		'step' => self::ACTION_TYPE_EDIT,
+		'getDisorderTableRow' => self::ACTION_TYPE_FORM,
+		'loadInjectionQuestions' => self::ACTION_TYPE_FORM
+	);
+
 	// if set to true, we are advancing the current event step
 	private $step = false;
 
@@ -35,7 +41,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function beforeAction($action)
 	{
-		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !(in_array($action->id,$this->printActions())) ) {
+		if (!Yii::app()->getRequest()->getIsAjaxRequest() && !$this->isPrintAction($action->id)) {
 			Yii::app()->getClientScript()->registerScriptFile(Yii::app()->createUrl('js/spliteventtype.js'));
 		}
 
