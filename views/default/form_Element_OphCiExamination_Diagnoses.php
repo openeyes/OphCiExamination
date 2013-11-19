@@ -41,7 +41,7 @@
 				<th>Actions</th>
 			</tr>
 		</thead>
-		<tbody class="js-diagnoses">
+		<tbody class="js-diagnoses" id="OphCiExamination_diagnoses">
 			<?php foreach ($element->getFormDiagnoses() as $i => $diagnosis) {?>
 				<tr>
 					<td><?php echo $diagnosis['disorder']->term?></td>

@@ -277,18 +277,18 @@ class DefaultController extends NestedElementsEventTypeController
 		echo '<tr><td>'.$disorder->term.'</td><td>';
 
 		foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
-			echo '<span class="OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'.$id.']" value="'.$eye->id.'"';
+			echo '<label class="inline OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'.$id.']" value="'.$eye->id.'"';
 			if ($eye->id == $the_eye->id) {
 				echo 'checked="checked" ';
 			}
-			echo '/> '.$eye->name.'</span> ';
+			echo '/> '.$eye->name.'</label> ';
 		}
 
 		echo '</td><td><input type="radio" name="principal_diagnosis" value="'.$disorder->id.'"';
 		if ($id == 0) {
 			echo 'checked="checked" ';
 		}
-		echo '/></td><td><a href="#" class="small removeDiagnosis" rel="'.$disorder->id.'"><strong>Remove</strong></a></td></tr>';
+		echo '/></td><td><a href="#" class="removeDiagnosis" rel="'.$disorder->id.'">Remove</a></td></tr>';
 	}
 
 	public function actionDilationDrops()

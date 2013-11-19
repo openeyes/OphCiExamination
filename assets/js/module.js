@@ -1657,8 +1657,8 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var max_id = -1;
 	var count = 0;
 
-	$('.js-diagnoses').children('tr').map(function() {
-		var id = parseInt($(this).children('td.eye').find('input').attr('name').match(/[0-9]+/));
+	$('#OphCiExamination_diagnoses').children('tr').map(function() {
+		var id = parseInt($(this).children('td:nth-child(2)').children('label:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
 		if (id >= max_id) {
 			max_id = id;
 		}
