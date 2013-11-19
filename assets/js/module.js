@@ -969,7 +969,7 @@ $(document).ready(function() {
 
 function updateTextMacros() {
 	var active_element_ids = [];
-	$('.js-active-elements > .element, .js-active-elements .sub-elements.active > .element').each(function() {
+	$('.js-active-elements > .element, .js-active-elements .sub-elements.active > .sub-element').each(function() {
 		active_element_ids.push($(this).attr('data-element-type-id'));
 	});
 	$('.js-active-elements .textMacro option').each(function() {
