@@ -33,20 +33,23 @@
 						<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData($element->getUsableUnits(), 'id', 'name')); ?>
 					<?php } ?>
 					<?php if ($element->unit->information) {?>
-						<small><em><?php echo $element->unit->information ?></em></small>
+						<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>
 					<?php } ?>
 			<?php } ?>
 			<?php
 				if (get_class($element) === 'Element_OphCiExamination_DRGrading') {?>
-					<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {?>
-						<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
-						<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
-						<div class="drgrading_images_dialog" title="DR Grading Images">
-							<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
-						</div>
-					<?php }else{?>
-						<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
-					<?php }?>
+					<div class="info">
+						<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {?>
+								<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+								<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+								<div class="drgrading_images_dialog" title="DR Grading Images">
+									<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
+								</div>
+							</div>
+						<?php }else{?>
+							<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+						<?php }?>
+					</div>
 				<?php }
 			?>
 		</div>
