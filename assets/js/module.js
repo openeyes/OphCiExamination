@@ -339,6 +339,9 @@ $(document).ready(function() {
 	 * Populate description from eyedraw
 	 */
 	$(this).delegate('.ed_report', 'click', function(e) {
+
+		e.preventDefault();
+
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -380,7 +383,7 @@ $(document).ready(function() {
 			var existing_id = null;
 
 			$('#OphCiExamination_diagnoses').children('tr').map(function() {
-				var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
+				var id = parseInt($(this).find('.eye input:first').attr('name').match(/[0-9]+/));
 				if (id >= max_id) {
 					max_id = id;
 				}
@@ -414,8 +417,6 @@ $(document).ready(function() {
 				});
 			}
 		}
-
-		e.preventDefault();
 	});
 
 	/**
