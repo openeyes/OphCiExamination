@@ -274,7 +274,7 @@ class DefaultController extends NestedElementsEventTypeController
 
 		$id = $_GET['id'];
 
-		echo '<tr><td>'.$disorder->term.'</td><td>';
+		echo '<tr><td>'.$disorder->term.'</td><td class="eye">';
 
 		foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
 			echo '<label class="inline OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'.$id.']" value="'.$eye->id.'"';

@@ -17,12 +17,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h4>IOP</h4>
-<div class="episodeMetadata">
-	<div>
-		<span>Right: <?php echo $iop->right_reading->name != 'NR' ? $iop->right_reading->name.' mmHg ('.$iop->right_instrument->name.')' : 'Not recorded'?></span>
+<h3 class="data-title">IOP:</h3>
+<div class="row data-row">
+	<div class="large-1 column">
+		<div class="data-label">Right:</div>
 	</div>
-	<div>
-		<span>Left: <?php echo $iop->left_reading->name != 'NR' ? $iop->left_reading->name.' mmHg ('.$iop->left_instrument->name.')' : 'Not recorded'?></span>
+	<div class="large-11 column">
+		<div class="data-value"><?php echo $iop->right_reading->name != 'NR' ? $iop->right_reading->name.' mmHg ('.$iop->right_instrument->name.')' : 'Not recorded'?></div>
+	</div>
+</div>
+<div class="row data-row">
+	<div class="large-1 column">
+		<div class="data-label">Left:</div>
+	</div>
+	<div class="large-11 column">
+		<div class="data-value"><?php echo $iop->left_reading->name != 'NR' ? $iop->left_reading->name.' mmHg ('.$iop->left_instrument->name.')' : 'Not recorded'?></div>
 	</div>
 </div>

@@ -339,6 +339,9 @@ $(document).ready(function() {
 	 * Populate description from eyedraw
 	 */
 	$(this).delegate('.ed_report', 'click', function(e) {
+
+		e.preventDefault();
+
 		var element = $(this).closest('.element');
 
 		// Get side (if set)
@@ -380,7 +383,7 @@ $(document).ready(function() {
 			var existing_id = null;
 
 			$('#OphCiExamination_diagnoses').children('tr').map(function() {
-				var id = parseInt($(this).children('td:nth-child(2)').children('span:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
+				var id = parseInt($(this).find('.eye input:first').attr('name').match(/[0-9]+/));
 				if (id >= max_id) {
 					max_id = id;
 				}
@@ -414,8 +417,6 @@ $(document).ready(function() {
 				});
 			}
 		}
-
-		e.preventDefault();
 	});
 
 	/**
@@ -749,7 +750,7 @@ $(document).ready(function() {
 
 	// end of management
 
-	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
+	$('#event-content').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
 		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
@@ -764,7 +765,7 @@ $(document).ready(function() {
 		OphCiExamination_OpticDisc_updateCDRatio(this);
 	});
 
-	$('#event_display').delegate('.element .segmented select', 'change', function() {
+	$('#event-content').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
