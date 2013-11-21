@@ -749,7 +749,7 @@ $(document).ready(function() {
 
 	// end of management
 
-	$('#event_display').delegate('.element input[name$="_pxe]"]', 'change', function() {
+	$('#event-content').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
 		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
@@ -764,7 +764,7 @@ $(document).ready(function() {
 		OphCiExamination_OpticDisc_updateCDRatio(this);
 	});
 
-	$('#event_display').delegate('.element .segmented select', 'change', function() {
+	$('#event-content').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
