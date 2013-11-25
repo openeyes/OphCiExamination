@@ -56,7 +56,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		</div>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>;
+<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">

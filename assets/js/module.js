@@ -182,34 +182,35 @@ function updateBookingWeeks(side) {
 }
 
 function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo, clinicalret, clinicalmac) {
-		if (_drawing.eye) {
-			var side = 'left';
-		}
-		else {
-			var side = 'right';
-		}
 
-		var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
-		// clinical retinopathy
-		var crSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalret_id');
-		crSel.find('option').each(function() {
-			if ($(this).attr('data-val') == clinicalret) {
-				crSel.val($(this).val());
-				crSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
-				return false;
-			}
-		});
+	if (_drawing.eye) {
+		var side = 'left';
+	}
+	else {
+		var side = 'right';
+	}
 
-		// description
-		dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinicalret_desc').hide();
-		dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinicalret_desc_' + clinicalret.replace(/\s+/g, '')).show();
+	var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
+	// clinical retinopathy
+	var crSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalret_id');
+	crSel.find('option').each(function() {
+		if ($(this).attr('data-val') == clinicalret) {
+			crSel.val($(this).val());
+			crSel.closest('.wrapper').attr('class', 'wrapper field-highlight inline ' + $(this).attr('class'));
+			return false;
+		}
+	});
+
+	// description
+	dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_clinicalret_desc').hide();
+	dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_clinicalret_desc_' + clinicalret.replace(/\s+/g, '')).show();
 
 	// clinical maculopathy
 	var cmSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalmac_id');
 	cmSel.find('option').each(function() {
 		if ($(this).attr('data-val') == clinicalmac) {
 			cmSel.val($(this).val());
-			cmSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+			cmSel.closest('.wrapper').attr('class', 'wrapper field-highlight inline ' + $(this).attr('class'));
 			return false;
 		}
 	});
@@ -223,7 +224,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
   retSel.find('option').each(function() {
   	if ($(this).attr('data-val') == retinopathy) {
   		retSel.val($(this).val());
-  		retSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+  		retSel.closest('.wrapper').attr('class', 'wrapper field-highlight inline ' + $(this).attr('class'));
   		return false;
   	}
   });
@@ -244,7 +245,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
   var macSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_id');
   macSel.find('option').each(function() {
   	if ($(this).attr('data-val') == maculopathy) {
-  		macSel.closest('.wrapper').attr('class', 'wrapper ' + $(this).attr('class'));
+  		macSel.closest('.wrapper').attr('class', 'wrapper field-highlight inline ' + $(this).attr('class'));
   		macSel.val($(this).val());
   		return false;
   	}
@@ -257,6 +258,8 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
   else {
   	dr_grade.find('input#' + mac_photo_id + '0').attr('checked', 'checked');
   }
+
+  console.log(dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc')[0]);
 
   // display description
   dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
@@ -525,7 +528,7 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('a#drgrading_dirty', 'click', function(e) {
-		$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+		$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 			var drawingName = $(this).attr('data-drawing-name');
 			if (window[drawingName]) {
 				// the posterior segment drawing is available to sync values with
@@ -1342,7 +1345,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
 		if (dirty) {
 			$('#drgrading_dirty').show();
 		}
-	dr_grade.find('.side.eventDetail[data-side="'+side+'"]').removeClass('uninitialised');
+	dr_grade.find('.side[data-side="'+side+'"]').removeClass('uninitialised');
 }
 
 /**
@@ -1351,7 +1354,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
  * @param side
  */
 function OphCiExamination_DRGrading_canUpdate(side) {
-	var dr_side = $("div.Element_OphCiExamination_PosteriorPole .sub-elements.active .Element_OphCiExamination_DRGrading").find('.side.eventDetail[data-side="'+side+'"]');
+	var dr_side = $(".Element_OphCiExamination_PosteriorPole .sub-elements.active .Element_OphCiExamination_DRGrading").find('.side[data-side="'+side+'"]');
 
 	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 		return true;
@@ -1370,7 +1373,7 @@ function OphCiExamination_DRGrading_update(side) {
 		physical_side = 'right';
 	}
 	if (OphCiExamination_DRGrading_canUpdate(side)) {
-		var cv = $('div.Element_OphCiExamination_PosteriorPole').find('.eventDetail.' + physical_side).find('canvas');
+		var cv = $('.Element_OphCiExamination_PosteriorPole').find('.side.' + physical_side).find('canvas');
 		var drawingName = cv.data('drawing-name');
 		var drawing = window[drawingName];
 		var grades = gradeCalculator(drawing);
@@ -1399,7 +1402,7 @@ function OphCiExamination_DRGrading_init() {
 		});
 	});
 
-	$('div.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+	$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 
 		var drawingName = $(this).attr('data-drawing-name');
 
@@ -1410,7 +1413,7 @@ function OphCiExamination_DRGrading_init() {
 				side = 'left';
 			}
 			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
-			var dr_side = dr_grade.find('.side.eventDetail[data-side="'+side+'"]');
+			var dr_side = dr_grade.find('.side[data-side="'+side+'"]');
 
 			if (dr_side.hasClass('uninitialised')) {
 				OphCiExamination_DRGrading_dirtyCheck(_drawing);
