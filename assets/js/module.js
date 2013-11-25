@@ -413,8 +413,10 @@ $(document).ready(function() {
 					'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code[i]+'&side='+side+'&id='+id,
 					'success': function(html) {
 						if (html.length > 0) {
+							// Add the table row
 							$('#OphCiExamination_diagnoses').append(html);
-							$('#selected_diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+code[i]+'">');
+							// Add a hidden input to the diagnosis name cell.
+							$('#OphCiExamination_diagnoses').find('tr:last td:first').append('<input type="hidden" name="selected_diagnoses[]" value="'+code[i]+'" />');
 						}
 					}
 				});

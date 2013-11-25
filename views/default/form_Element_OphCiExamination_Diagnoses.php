@@ -44,7 +44,10 @@
 		<tbody class="js-diagnoses" id="OphCiExamination_diagnoses">
 			<?php foreach ($element->getFormDiagnoses() as $i => $diagnosis) {?>
 				<tr>
-					<td><?php echo $diagnosis['disorder']->term?></td>
+					<td>
+						<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis['disorder']->id?>" />
+						<?php echo $diagnosis['disorder']->term?>
+					</td>
 					<td class="eye">
 						<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
 							<label class="inline">
@@ -61,7 +64,6 @@
 						</a>
 					</td>
 				</tr>
-				<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis['disorder']->id?>" />
 			<?php }?>
 		</tbody>
 	</table>
