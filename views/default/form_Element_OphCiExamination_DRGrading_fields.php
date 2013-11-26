@@ -18,6 +18,19 @@
  */
 $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->findAll(array('order'=>'display_order'));
 ?>
+<?php
+$info_link_preview_data = array();
+$info_link_content ='<dl>';
+$html_options = array('options' => array());
+
+foreach ($clinical_retinopathys as $clinical) {
+	$html_options['options'][(string) $clinical->id] = array('data-val' => $clinical->name, 'class' => $clinical->class);
+	$info_link_preview_data[]=array($clinical->id,$clinical->description);
+	$info_link_content.="<dt class=\"".$clinical->class."\"><a href=\"#\" data-id=\"".$clinical->id."\">".$clinical->name."</a></dt>";
+	$info_link_content.="<dd class=\"".$clinical->class."\">".nl2br($clinical->description)."</dd>";
+}
+$info_link_content.="</dl>";
+?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_clinicalret_id';?>">
@@ -27,36 +40,21 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 	<div class="large-8 column">
 		<div class="wrapper field-highlight inline<?php if ($element->{$side.'_clinicalret'}) {?> <?php echo $element->{$side . '_clinicalret'}->class?><?php }else{?> none<?php }?>">
 			<?php
-				$html_options = array('options' => array());
-				foreach ($clinical_retinopathys as $clinical) {
-					$html_options['options'][(string) $clinical->id] = array('data-val' => $clinical->name, 'class' => $clinical->class);
-				}
-				echo CHtml::activeDropDownList($element, $side . '_clinicalret_id', CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
+			echo CHtml::activeDropDownList($element, $side . '_clinicalret_id', CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
+			$info_link_preview = SwitchDiv::BindOnChange('Element_OphCiExamination_DRGrading_'.$side.'_clinicalret_id',$info_link_preview_data);
 			?>
 		</div>
-		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
-		<div class="quicklook grade-info" style="display: none;">
-			<?php
-			$selected_value = (CHtml::resolveValue($element,$side . '_clinicalret_id'));
-			foreach ($clinical_retinopathys as $clinical) {
-				$show_div = false;
-				if((reset($clinical_retinopathys)==$clinical && !isset($selected_value)) || $selected_value==$clinical->id) {
-					$show_div = true;
-				}
-				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_clinicalret_desc" id="' . get_class($element). '_' . $side . '_clinicalret_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
-			} ?>
-		</div>
-		<div id="<?php echo get_class($element). '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalret_id'; ?>">
-			<dl>
-				<?php foreach ($clinical_retinopathys as $clinical) { ?>
-				<dt class="<?php echo $clinical->class ?>"><a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a></dt>
-				<dd class="<?php echo $clinical->class ?>"><?php echo nl2br($clinical->description) ?></dd>
-				<?php } ?>
-			</dl>
-		</div>
+		<?php
+		echo $form->infoLink($info_link_preview ,$info_link_content);
+		?>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>;
+
+
+
+
+
+<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">
@@ -65,13 +63,13 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 	</div>
 	<div class="large-8 column">
 		<div class="wrapper field-highlight inline<?php if ($element->{$side.'_nscretinopathy'}) {?> <?php echo $element->{$side.'_nscretinopathy'}->class?><?php }else{?> none<?php }?>">
-		<?php
+			<?php
 			$nscretinopathy_html_options = array('options' => array());
 			foreach ($nsc_retinopathys as $retin) {
 				$nscretinopathy_html_options['options'][(string) $retin->id] = array('data-val' => $retin->name, 'data-booking' => $retin->booking_weeks, 'class' => $retin->class);
 			}
 			echo CHtml::activeDropDownList($element, $side.'_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
-		?>
+			?>
 		</div>
 		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
