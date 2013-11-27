@@ -14,12 +14,8 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-
-@import "elements/intraocular-pressure";
-@import "elements/diagnoses";
-@import "elements/dilation";
-@import "elements/gonioscopy";
-@import "elements/optic-disc";
-@import "elements/anterior-segment";
-@import "elements/posterior-pole";
-@import "elements/visual-acuity";
+.Element_OphCiExamination_AnteriorSegment {
+	.eyedraw-fields {
+		padding-top: 74px;
+	}
+}

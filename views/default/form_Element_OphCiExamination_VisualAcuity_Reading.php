@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading" data-key="<?php echo $key?>">
+<tr class="visualAcuityReading visual-acuity-reading" data-key="<?php echo $key?>">
 	<td>
 		<?php if (isset($reading) && $reading->id) {?>
 			<input type="hidden" name="visualacuity_reading[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />

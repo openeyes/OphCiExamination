@@ -25,7 +25,7 @@
 					<?php echo $element->getAttributeLabel('status_id')?>:
 				</label>
 			</div>
-			<div class="large-9 column">
+			<div class="large-3 column end">
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
 				foreach (OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
