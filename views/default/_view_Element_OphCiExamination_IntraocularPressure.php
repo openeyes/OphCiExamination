@@ -19,7 +19,7 @@
 ?>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<div class="eyedraw-data">
+		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->right_reading->name != 'NR') { ?>
 				<?php echo $element->right_reading->name ?> mmHg
@@ -27,13 +27,13 @@
 						echo '('.$element->right_instrument->name.')';
 				} ?>
 				<?php } else { ?>
-				Not Recorded
+					Not Recorded
 				<?php }?>
 			</div>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
-		<div class="eyedraw-data">
+		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->left_reading->name != 'NR') { ?>
 				<?php echo $element->left_reading->name ?> mmHg
@@ -41,7 +41,7 @@
 						echo '('.$element->left_instrument->name.')';
 				} ?>
 				<?php } else { ?>
-				Not Recorded
+					Not Recorded
 				<?php }?>
 			</div>
 		</div>

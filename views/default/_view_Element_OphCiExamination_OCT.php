@@ -22,14 +22,18 @@
 		<?php if ($element->hasRight()) {
 			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'right', 'element' => $element));
 		} else {?>
-			<div class="data-value">Not recorded</div>
+			<div class="data-row">
+				<div class="data-value">Not recorded</div>
+			</div>
 		<?php }?>
 	</div>
 	<div class="element-eye left-eye column">
 		<?php if ($element->hasLeft()) {
 			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'left', 'element' => $element));
 		} else {?>
-			<div class="data-value">Not recorded</div>
+			<div class="data-row">
+				<div class="data-value">Not recorded</div>
+			</div>
 		<?php }?>
 	</div>
 </div>

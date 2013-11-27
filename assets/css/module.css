@@ -22,62 +22,71 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1384433912');
+  background-image: url('../img/watermark.png?1385546715');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
   background-image: url('../img/medium.png?1383822301');
 }
 
-/* line 18, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data, .Element_OphCiExamination_IntraocularPressure .element-fields {
+/* line 19, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data,
+.Element_OphCiExamination_IntraocularPressure .element-fields {
   border-top: 4px solid #000;
 }
-/* line 20, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .element-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
+/* line 21, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
+.Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
   border-right: 2px solid #000;
 }
-/* line 22, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
+/* line 23, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child,
+.Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
   border: 0;
 }
-/* line 26, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .right-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
+/* line 27, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
+.Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
   text-align: right;
 }
+/* line 30, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .unit,
+.Element_OphCiExamination_IntraocularPressure .element-fields .unit {
+  font-size: 0.8125em;
+}
 
-/* line 32, ../sass/components/_elements.scss */
+/* line 36, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel {
   margin-bottom: 10px;
 }
-/* line 35, ../sass/components/_elements.scss */
+/* line 39, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel:last-child {
   margin-bottom: 0;
 }
-/* line 39, ../sass/components/_elements.scss */
+/* line 43, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table.blank {
   width: 100%;
 }
-/* line 48, ../sass/components/_elements.scss */
+/* line 52, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table td.eye label {
   display: inline-block;
   padding-right: 0.5em;
 }
 
-/* line 59, ../sass/components/_elements.scss */
+/* line 63, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Dilation table .input-time {
   width: 4em;
   text-align: center;
 }
 
-/* line 69, ../sass/components/_elements.scss */
+/* line 73, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Gonioscopy .eyedraw-fields,
 .Element_OphCiExamination_OpticDisc .eyedraw-fields,
 .Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
   padding-top: 74px;
 }
 
-/* line 75, ../sass/components/_elements.scss */
+/* line 79, ../sass/components/_elements.scss */
 .Element_OphCiExamination_PosteriorPole .eyedraw-fields {
   padding-top: 220px;
 }
@@ -142,13 +151,13 @@
   bottom: 5px;
 }
 
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.refraction .column.fixed {
   width: 186px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .row.refraction .column.fluid {
     width: -moz-calc(100% - 186px);
     width: -o-calc(100% - 186px);
@@ -156,13 +165,13 @@
     width: calc(100% - 186px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.gonioscopy .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .row.gonioscopy .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -170,13 +179,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.anterior-segment .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .row.anterior-segment .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -184,13 +193,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.optic-disc .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .row.optic-disc .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -198,13 +207,13 @@
     width: calc(100% - 320px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.posterior-pole .column.fixed {
   width: 320px;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .row.posterior-pole .column.fluid {
     width: -moz-calc(100% - 320px);
     width: -o-calc(100% - 320px);
@@ -212,12 +221,12 @@
     width: calc(100% - 320px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fixed, .view .row .anterior-segment .column.fixed, .view .row .optic-disc .column.fixed, .view .row .posterior-pole .column.fixed {
   width: 220px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
     width: -moz-calc(100% - 220px);
     width: -o-calc(100% - 220px);
@@ -225,12 +234,12 @@
     width: calc(100% - 220px);
   }
 }
-/* line 108, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.refraction .column.fixed {
   width: 120px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../../../../sass/openeyes/_mixins.scss */
+  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
   .view .row.refraction .column.fluid {
     width: -moz-calc(100% - 120px);
     width: -o-calc(100% - 120px);
@@ -249,25 +258,55 @@
   margin: 0;
 }
 
-/* line 19, ../sass/components/_dialog.scss */
-.glaucoma-risk-descriptions a:hover {
+/* line 20, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions a:hover,
+.grade-info-all a:hover {
   background: none;
 }
-/* line 23, ../sass/components/_dialog.scss */
-.glaucoma-risk-descriptions dl {
+/* line 24, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dl,
+.grade-info-all dl {
   margin: 0;
 }
 /* line 27, ../sass/components/_dialog.scss */
-.glaucoma-risk-descriptions dt, .glaucoma-risk-descriptions dt a {
+.glaucoma-risk-descriptions dt,
+.grade-info-all dt {
+  font-weight: normal;
+}
+/* line 29, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dt, .glaucoma-risk-descriptions dt a,
+.grade-info-all dt,
+.grade-info-all dt a {
   display: block;
 }
-/* line 31, ../sass/components/_dialog.scss */
-.glaucoma-risk-descriptions dd {
-  margin: .7em 0 .7em 4em;
+/* line 33, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dd,
+.grade-info-all dd {
   font-size: 0.8125em;
+  margin: .7em 0 .7em 3.5em;
 }
 /* line 36, ../sass/components/_dialog.scss */
-.glaucoma-risk-descriptions .pill.high a {
+.glaucoma-risk-descriptions dd ul,
+.grade-info-all dd ul {
+  margin: .5em 0 .5em 2em;
+}
+/* line 39, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions dd li,
+.grade-info-all dd li {
+  font-size: 1em;
+}
+/* line 54, ../sass/components/_dialog.scss */
+.glaucoma-risk-descriptions .pill.high a, .glaucoma-risk-descriptions .pill.high-risk a, .glaucoma-risk-descriptions .pill.mild a, .glaucoma-risk-descriptions .pill.severe a, .glaucoma-risk-descriptions .pill.early a, .glaucoma-risk-descriptions .pill.maculopathy a, .glaucoma-risk-descriptions .pill.ungradable a, .glaucoma-risk-descriptions .pill.background a, .glaucoma-risk-descriptions .pill.peripheral a, .glaucoma-risk-descriptions .pill.proliferative a,
+.grade-info-all .pill.high a,
+.grade-info-all .pill.high-risk a,
+.grade-info-all .pill.mild a,
+.grade-info-all .pill.severe a,
+.grade-info-all .pill.early a,
+.grade-info-all .pill.maculopathy a,
+.grade-info-all .pill.ungradable a,
+.grade-info-all .pill.background a,
+.grade-info-all .pill.peripheral a,
+.grade-info-all .pill.proliferative a {
   color: #fff;
 }
 
