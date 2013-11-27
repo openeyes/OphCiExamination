@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	<?php } ?>
-	<div class="row">
+	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
 		</div>
@@ -45,7 +45,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:</div>
 		</div>
@@ -53,7 +53,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_nuclear'}->name?></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_cortical_id')?>:</div>
 		</div>
@@ -61,7 +61,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_cortical'}->name?></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pxe')?>:</div>
 		</div>
@@ -69,7 +69,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_pxe'} ? 'Yes' : 'No'?></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_phako')?>:</div>
 		</div>
