@@ -241,8 +241,10 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		if ($curr_sd && $curr_sd->disorder_id != $this->secondarydiagnosis_disorder_id) {
 			// looks like this is an edit and the previous secondary diagnosis should be removed
 			// so we can set the correct value
+			$curr_disorder = $curr_sd->disorder;
 			$curr_sd->delete();
 			$curr_sd = null;
+			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $curr_disorder->term . "' has been removed because DR Grading diagnosis was updated.");
 		}
 
 		if (!$curr_sd) {
@@ -279,6 +281,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 				$sd->save();
 				Audit::add("SecondaryDiagnosis",'add',serialize($sd->attributes), false, array('patient_id' => $patient->id));
 				$this->secondarydiagnosis_id = $sd->id;
+				Yii::app()->user->setFlash('info.info', "Disorder '" . $sd->disorder->term . "' has been added to patient by DR Grading.");
 			}
 		}
 		return parent::beforeSave();

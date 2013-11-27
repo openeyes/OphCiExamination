@@ -23,6 +23,8 @@
 	<?php echo $this->event_type->name ?>
 </h3>
 
+<?php $this->renderPartial('//base/_messages'); ?>
+
 <?php
 	// Event actions
 	if ($this->canPrint()) {
