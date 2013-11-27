@@ -23,5 +23,6 @@ return array(
 			'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
 			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
 		),
+		'ophciexamination_drgrading_type_required' => false,
 	),
 );
