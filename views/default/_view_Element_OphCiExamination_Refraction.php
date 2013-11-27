@@ -19,21 +19,25 @@
 ?>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($element->hasRight()) {?>
-			<div class="eyedraw-data row refraction">
-				<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
-			</div>
-		<?php } else {?>
-			<div class="data-value">Not recorded</div>
-		<?php }?>
+		<div class="data-row">
+			<?php if ($element->hasRight()) {?>
+				<div class="row refraction">
+					<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
+				</div>
+			<?php } else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
+		</div>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($element->hasLeft()) {?>
-			<div class="eyedraw-data row refraction">
-				<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
-			</div>
-		<?php } else {?>
-			<div class="data-value">Not recorded</div>
-		<?php }?>
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {?>
+				<div class="row refraction">
+					<?php $this->renderPartial('_view_' . get_class($element) . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
+				</div>
+			<?php } else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
+		</div>
 	</div>
 </div>

@@ -29,55 +29,64 @@
   background-image: url('../img/medium.png?1383822301');
 }
 
-/* line 18, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data, .Element_OphCiExamination_IntraocularPressure .element-fields {
+/* line 19, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data,
+.Element_OphCiExamination_IntraocularPressure .element-fields {
   border-top: 4px solid #000;
 }
-/* line 20, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .element-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
+/* line 21, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
+.Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
   border-right: 2px solid #000;
 }
-/* line 22, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child, .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
+/* line 23, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child,
+.Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
   border: 0;
 }
-/* line 26, ../sass/components/_elements.scss */
-.Element_OphCiExamination_IntraocularPressure .element-data .right-eye, .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
+/* line 27, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
+.Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
   text-align: right;
 }
+/* line 30, ../sass/components/_elements.scss */
+.Element_OphCiExamination_IntraocularPressure .element-data .unit,
+.Element_OphCiExamination_IntraocularPressure .element-fields .unit {
+  font-size: 0.8125em;
+}
 
-/* line 32, ../sass/components/_elements.scss */
+/* line 36, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel {
   margin-bottom: 10px;
 }
-/* line 35, ../sass/components/_elements.scss */
+/* line 39, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses .panel:last-child {
   margin-bottom: 0;
 }
-/* line 39, ../sass/components/_elements.scss */
+/* line 43, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table.blank {
   width: 100%;
 }
-/* line 48, ../sass/components/_elements.scss */
+/* line 52, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Diagnoses table td.eye label {
   display: inline-block;
   padding-right: 0.5em;
 }
 
-/* line 59, ../sass/components/_elements.scss */
+/* line 63, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Dilation table .input-time {
   width: 4em;
   text-align: center;
 }
 
-/* line 69, ../sass/components/_elements.scss */
+/* line 73, ../sass/components/_elements.scss */
 .Element_OphCiExamination_Gonioscopy .eyedraw-fields,
 .Element_OphCiExamination_OpticDisc .eyedraw-fields,
 .Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
   padding-top: 74px;
 }
 
-/* line 75, ../sass/components/_elements.scss */
+/* line 79, ../sass/components/_elements.scss */
 .Element_OphCiExamination_PosteriorPole .eyedraw-fields {
   padding-top: 220px;
 }
