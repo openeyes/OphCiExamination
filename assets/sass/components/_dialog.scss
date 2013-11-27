@@ -14,7 +14,8 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-.glaucoma-risk-descriptions {
+.glaucoma-risk-descriptions,
+.grade-info-all {
 	a {
 		&:hover {
 			background: none;
@@ -24,17 +25,35 @@
 		margin: 0;
 	}
 	dt {
+		font-weight: normal;
 		&, a {
 			display: block;
 		}
 	}
 	dd {
-		margin: .7em 0 .7em 4em;
 		font-size: $default-font-size;
+		margin: .7em 0 .7em 3.5em;
+		ul {
+			margin: .5em 0 .5em 2em;
+		}
+		li {
+			font-size: 1em;
+		}
 	}
-	.pill.high {
-		a {
-			color: #fff;
+	.pill {
+		&.high,
+		&.high-risk,
+		&.mild,
+		&.severe,
+		&.early,
+		&.maculopathy,
+		&.ungradable,
+		&.background,
+		&.peripheral,
+		&.proliferative {
+			a {
+				color: #fff;
+			}
 		}
 	}
 }

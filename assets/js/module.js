@@ -259,8 +259,6 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
   	dr_grade.find('input#' + mac_photo_id + '0').attr('checked', 'checked');
   }
 
-  console.log(dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc')[0]);
-
   // display description
   dr_grade.find('div .'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc').hide();
   dr_grade.find('div#'+dr_grade_et_class+'_'+side+'_nscmaculopathy_desc_' + maculopathy).show();
