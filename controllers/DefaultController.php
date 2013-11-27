@@ -182,6 +182,7 @@ class DefaultController extends BaseEventTypeController
 
 	/**
 	 * Get the next workflow step
+	 * @param Event $event
 	 * @return OphCiExamination_ElementSet
 	 */
 	protected function getNextStep($event = null)
@@ -279,6 +280,9 @@ class DefaultController extends BaseEventTypeController
 	/**
 	 * Ajax function for quick disorder lookup
 	 *
+	 * Used when eyedraw elements have doodles that are associated with disorders
+	 *
+	 * @TODO: change this to integrate fully with the diagnosis element and use the same display functions
 	 * @throws Exception
 	 */
 	public function actionGetDisorder()
@@ -291,22 +295,6 @@ class DefaultController extends BaseEventTypeController
 		header('Content-type: application/json');
 		echo json_encode(array('id' => $disorder->id, 'name' => $disorder->term));
 		Yii::app()->end();
-	}
-
-	public function actionDilationDrops()
-	{
-		if (!$drug = OphCiExamination_Dilation_Drugs::model()->findByPk(@$_GET['drug_id'])) {
-			throw new Exception('Dilation drug not found: '.@$_GET['drug_id']);
-		}
-		if (!in_array(@$_GET['side'],array('left','right'))) {
-			throw new Exception('Unknown side: '.@$_GET['side']);
-		}
-		$drug = new OphCiExamination_Dilation_Drug;
-		$drug->side_id = $_GET['side'] == 'left' ? 1 : 2;
-		$drug->drug_id = $_GET['drug_id'];
-		$drug->drops = 1;
-
-		$this->renderPartial('_dilation_drug_item',array('drug'=>$drug));
 	}
 
 	/**
@@ -351,7 +339,9 @@ class DefaultController extends BaseEventTypeController
 
 	/**
 	 * Get all the attributes for an element
+	 *
 	 * @param BaseEventTypeElement $element
+	 * @param integer $subspecialty_id
 	 * @return OphCiExamination_Attribute[]
 	 */
 	public function getAttributes($element, $subspecialty_id = null)
@@ -365,15 +355,16 @@ class DefaultController extends BaseEventTypeController
 	 * validation
 	 *
 	 * @param Element_OphCiExamination_InjectionManagementComplex $element
+	 * @param array $data
 	 * @param string $side
 	 */
-	private function _POST_InjectionAnswers($element, $side)
+	private function _set_InjectionAnswers($element, $data, $side)
 	{
 		$answers = array();
 		$checker = 'has' . ucfirst($side);
 		if ($element->$checker()) {
-			if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
-				foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
+			if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
+				foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
 					$answer = new OphCiExamination_InjectionManagementComplex_Answer();
 					$answer->question_id = $id;
 					$answer->answer = $p_ans;
@@ -390,19 +381,20 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
-	 * associate the risks from the POST submission with the Element_OphCiExamination_InjectionManagementComplex element for
+	 * associate the risks in the structured data with the Element_OphCiExamination_InjectionManagementComplex element for
 	 * validation
 	 *
 	 * @param Element_OphCiExamination_InjectionManagementComplex $element
+	 * @param array $data
 	 * @param string $side
 	 */
-	private function _POST_InjectionRisks($element, $side)
+	private function _set_InjectionRisks($element, $data, $side)
 	{
 		$risks = array();
 		$checker = 'has' . ucfirst($side);
 		if ($element->$checker()) {
-			if (isset($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
-				foreach ($_POST['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
+			if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
+				foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
 					if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
 						$risks[] = $risk;
 					}
@@ -413,10 +405,13 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
-	 * use the POST to process setting the diabetes type on the dr grading element
-	 * @param $element
+	 * If the Patient does not currently have a diabetic diagnosis, specify that it's required
+	 * so the validation rules can check for it being set in the given element (typically DR Grading)
+	 *
+	 * @param BaseEventTypeElement $element
+	 * @param array $data
 	 */
-	private function _POST_DiabeticDiagnosis($element)
+	private function _set_DiabeticDiagnosis($element, $data)
 	{
 		if (isset(Yii::app()->params['ophciexamination_drgrading_type_required'])
 			&& Yii::app()->params['ophciexamination_drgrading_type_required']
@@ -427,13 +422,23 @@ class DefaultController extends BaseEventTypeController
 		}
 	}
 
-	private function _POST_OCTFluidTypes($element, $side)
+	/**
+	 * Set the OCT Fluid types for validation for the given side
+	 *
+	 * @param Element_OphCiExamination_OCT $element
+	 * @param array $data
+	 * @param string $side
+	 */
+	private function _set_OCTFluidTypes($element, $data, $side)
 	{
 		$fts = array();
-		if (isset($_POST['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
-			foreach ($_POST['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
-				if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
-					$fts[] = $ft;
+		$checker = 'has' . ucfirst($side);
+		if ($element->$checker()) {
+			if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
+				foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
+					if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+						$fts[] = $ft;
+					}
 				}
 			}
 		}
@@ -442,93 +447,65 @@ class DefaultController extends BaseEventTypeController
 
 	/**
 	 * (non-PHPdoc)
-	 * @see BaseEventTypeController::setPOSTManyToMany()
+	 * @see BaseEventTypeController::setElementComplexAttributesFromData($element, $data, $index)
 	 */
-	protected function setPOSTManyToMany($element)
+	protected function setElementComplexAttributesFromData($element, $data, $index = null)
 	{
 		$cls = get_class($element);
 		if ($cls == "Element_OphCiExamination_InjectionManagementComplex") {
-			$this->_POST_InjectionAnswers($element, 'left');
-			$this->_POST_InjectionAnswers($element, 'right');
-			$this->_POST_InjectionRisks($element, 'left');
-			$this->_POST_InjectionRisks($element, 'right');
+			$this->_set_InjectionAnswers($element, $data, 'left');
+			$this->_set_InjectionAnswers($element, $data, 'right');
+			$this->_set_InjectionRisks($element, $data, 'left');
+			$this->_set_InjectionRisks($element, $data, 'right');
 		}
 
 		if ($cls == "Element_OphCiExamination_DRGrading") {
-			$this->_POST_DiabeticDiagnosis($element);
+			$this->_set_DiabeticDiagnosis($element, $data);
 		}
 
 		if ($cls == "Element_OphCiExamination_OCT") {
-			if ($element->hasLeft()) {
-				$this->_POST_OCTFluidTypes($element, 'left');
-			}
-			if ($element->hasRight()) {
-				$this->_POST_OCTFluidTypes($element, 'right');
-			}
+			$this->_set_OCTFluidTypes($element, $data, 'left');
+			$this->_set_OCTFluidTypes($element, $data, 'right');
 		}
 
 	}
 
 	/**
-	* similar to setPOSTManyToMany, but will actually call methods on the elements that will create database entries
-	* should be called on create and update.
-	*
-	*/
-	protected function storePOSTManyToMany($elements)
+	 * Carrying out the required many to many relationship setting calls for examination elements
+	 *
+	 * (non-PHPdoc)
+	 * @see BaseEventTypeController::saveEventComplexAttributesFromData($data)
+
+	 */
+	protected function saveEventComplexAttributesFromData($data)
 	{
-		foreach ($elements as $el) {
+		foreach ($this->open_elements as $el) {
 			if (get_class($el) == 'Element_OphCiExamination_InjectionManagementComplex') {
 				$el->updateQuestionAnswers(Eye::LEFT,
-						$el->hasLeft() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
-								$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
+						$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
+								$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
 								array());
 				$el->updateQuestionAnswers(Eye::RIGHT,
-						$el->hasRight() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
-						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+						$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
+						$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
 						array());
 				$el->updateRisks(Eye::LEFT,
-						$el->hasLeft() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
-						$_POST['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+						$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
+						$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
 						array());
 				$el->updateRisks(Eye::RIGHT,
-						$el->hasRight() && isset($_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
-						$_POST['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+						$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
+						$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
 						array());
 			}
 			if (get_class($el) == 'Element_OphCiExamination_OCT') {
-				$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($_POST['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
-						$_POST['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+				$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
+						$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
 						array());
-				$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($_POST['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
-						$_POST['Element_OphCiExamination_OCT']['right_fluidtypes'] :
+				$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
+						$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
 						array());
 			}
 		}
 	}
-
-	/**
-	 *
-	 * ensures Many Many fields processed for elements
-	 */
-	public function createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)
-	{
-		if ($response = parent::createElements($elements, $data, $firm, $patientId, $userId, $eventTypeId)) {
-			// creating has been successful, need to save many to many
-			$this->storePOSTManyToMany($elements);
-		}
-		return $response;
-	}
-
-	/**
-	 * ensures Many Many fields processed for elements
-	 */
-	public function updateElements($elements, $data, $event)
-	{
-		if ($response = parent::updateElements($elements, $data, $event)) {
-			// update has been successful, now need to deal with many to many changes
-			$this->storePOSTManyToMany($elements);
-		}
-		return $response;
-	}
-
 }
