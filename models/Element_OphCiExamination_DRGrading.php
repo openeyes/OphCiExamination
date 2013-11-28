@@ -61,6 +61,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 
 	/**
 	 * Returns the static model of the specified AR class.
+	 * @param string $className
 	 * @return the static model class
 	 */
 	public static function model($className = __CLASS__)
@@ -101,6 +102,11 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		);
 	}
 
+	/**
+	 * @return array
+	 * (non-phpdoc)
+	 * @see parent::sidedFields()
+	 */
 	public function sidedFields()
 	{
 		return array('nscretinopathy_id', 'nscmaculopathy_id','nscretinopathy_photocoagulation','nscmaculopathy_photocoagulation','clinicalret_id', 'clinicalmac_id');
@@ -157,6 +163,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
+	 *
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
@@ -210,7 +217,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	}
 
 	/**
-	 * because the secondary diagnosis may or may not exist we have a function to check for it.
+	 * Because the secondary diagnosis may or may not exist we have a function to check for it.
 	 *
 	 * @return SecondaryDiagnosis|null
 	 */
@@ -229,23 +236,54 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	 */
 	public function beforeSave()
 	{
+		$curr_sd = $this->_getSecondaryDiagnosis();
 
-		if (!$this->_getSecondaryDiagnosis() && $this->secondarydiagnosis_disorder_id) {
+		if ($this->secondarydiagnosis_disorder_id
+			&& $curr_sd
+			&& $curr_sd->disorder_id != $this->secondarydiagnosis_disorder_id) {
+			// looks like this is an edit and the previous secondary diagnosis should be removed
+			// so we can set the correct value
+			$curr_disorder = $curr_sd->disorder;
+			$curr_sd->delete();
+			$curr_sd = null;
+			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $curr_disorder->term . "' has been removed because DR Grading diagnosis was updated.");
+		}
+
+		if (!$curr_sd) {
+			// need to determine if we are setting a specific disorder on the patient, or a generic diabetes
+			// diagnosis (which is implied by recording DR)
 			$patient = $this->event->episode->patient;
-			// final check to ensure nothing has changed whilst processing
-			if ( !$patient->hasDisorderTypeByIds(array_merge(Disorder::$SNOMED_DIABETES_TYPE_I_SET, Disorder::$SNOMED_DIABETES_TYPE_II_SET) ) ) {
+			$sd = null;
+
+			if ($this->secondarydiagnosis_disorder_id) {
+				// no secondary diagnosis has been set by this element yet but one has been
+				// assigned (i.e. the element is being created with a diabetes type)
+
+				// final check to ensure nothing has changed whilst processing
+				if ( !$patient->hasDisorderTypeByIds(array_merge(Disorder::$SNOMED_DIABETES_TYPE_I_SET, Disorder::$SNOMED_DIABETES_TYPE_II_SET) ) ) {
+					$sd = new SecondaryDiagnosis();
+					$sd->patient_id = $patient->id;
+					$sd->disorder_id = $this->secondarydiagnosis_disorder_id;
+				}
+				else {
+					// clear out the secondarydiagnosis_disorder_id
+					$this->secondarydiagnosis_disorder_id = null;
+					// reset required flag as patient now has a diabetes type
+					$this->secondarydiagnosis_disorder_required = false;
+				}
+			}
+			elseif (!$patient->hasDisorderTypeByIds(Disorder::$SNOMED_DIABETES_SET)) {
+				// Set the patient to have diabetes
 				$sd = new SecondaryDiagnosis();
 				$sd->patient_id = $patient->id;
-				$sd->disorder_id = $this->secondarydiagnosis_disorder_id;
-				$sd->save();
-				Audit::add("SecondaryDiagnosis",'add',serialize($sd->attributes), false, array('patient_id' => $this->event->episode->patient_id));
-				$this->secondarydiagnosis_id = $sd->id;
+				$sd->disorder_id = Disorder::SNOMED_DIABETES;
 			}
-			else {
-				// clear out the secondarydiagnosis_disorder_id
-				$this->secondarydiagnosis_disorder_id = null;
-				// reset required flag as patient now has a diabetes type
-				$this->secondarydiagnosis_disorder_required = false;
+
+			if ($sd !== null) {
+				$sd->save();
+				Audit::add("SecondaryDiagnosis",'add',serialize($sd->attributes), false, array('patient_id' => $patient->id));
+				$this->secondarydiagnosis_id = $sd->id;
+				Yii::app()->user->setFlash('info.info', "Disorder '" . $sd->disorder->term . "' has been added to patient by DR Grading.");
 			}
 		}
 		return parent::beforeSave();
@@ -253,19 +291,20 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 
 	/**
 	 * if this element is linked to a secondary diagnosis that still exists, it will be removed.
-	 *
 	 */
 	protected function cleanUpSecondaryDiagnosis()
 	{
 		if ($sd = $this->_getSecondaryDiagnosis()) {
+			$disorder = $sd->disorder;
 			$audit_data = serialize($sd->attributes);
 			$sd->delete();
-			Audit::add("SecondaryDiagnosis", 'delete', $audit_data, false, array('patient_id' => $this->event->episode->patient_id));
+			Audit::add("SecondaryDiagnosis", 'delete', $audit_data, false, array('patient_id' => $sd->patient_id));
+			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $disorder->term . "' has been removed because DR Grading was deleted.");
 		}
 	}
 
 	/**
-	 *
+	 * (non-phpdoc)
 	 * @see cleanUpSecondaryDiagnosis()
 	 * @see parent::softDelete()
 	 */
