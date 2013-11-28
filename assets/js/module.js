@@ -49,7 +49,7 @@ function gradeCalculator(_drawing) {
     var maculopathy = "M0";
     var retinopathy_photocoagulation = false;
     var maculopathy_photocoagulation = false;
-    var clinicalret = "None";
+    var clinicalret = "No retinopathy";
 	var clinicalmac = "No macular oedema";
     var dnv_within = false;
 
