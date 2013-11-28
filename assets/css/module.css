@@ -104,6 +104,11 @@
   width: auto;
 }
 
+/* line 18, ../sass/components/elements/_comorbidities.scss */
+.comorbidities-multi-select select {
+  width: auto;
+}
+
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
   background: url('../img/cross.gif?1383822301') no-repeat center center;
