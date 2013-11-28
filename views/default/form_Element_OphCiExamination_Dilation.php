@@ -29,7 +29,7 @@ $key = 0;
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
 				<button class="small secondary clearDilation">
 					Clear
 				</button>
@@ -69,7 +69,7 @@ $key = 0;
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
 				<button class="small secondary clearDilation">
 					Clear
 				</button>

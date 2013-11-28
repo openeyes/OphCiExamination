@@ -25,7 +25,7 @@
 					<?php echo $element->getAttributeLabel('status_id')?>:
 				</label>
 			</div>
-			<div class="large-9 column">
+			<div class="large-3 column end">
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
 				foreach (OphCiExamination_ClinicOutcome_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
@@ -41,13 +41,13 @@
 			<legend class="large-3 column">
 					<?php echo $element->getAttributeLabel('followup_quantity')?>:
 			</legend>
-			<div class="large-9 column">
+			<div class="large-9 column end">
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
-				echo CHtml::activeDropDownList($element,'followup_quantity', $element->getFollowUpQuantityOptions(), $html_options)?>
+				echo CHtml::activeDropDownList($element,'followup_quantity', $element->getFollowUpQuantityOptions(), array_merge($html_options, array('class'=>'inline')))?>
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
-				echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+				echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), array_merge($html_options, array('class'=>'inline')))?>
 				<label class="inline">
 					<?php echo CHtml::activeCheckBox($element,'community_patient')?>
 					<?php echo $element->getAttributeLabel('community_patient')?>
@@ -61,7 +61,7 @@
 			<legend class="large-3 column">
 				<?php echo $element->getAttributeLabel('role')?>:
 			</legend>
-			<div class="large-9 column">
+			<div class="large-9 column end">
 				<div class="row">
 					<div class="large-3 column">
 						<?php

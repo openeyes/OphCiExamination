@@ -22,7 +22,7 @@
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<?php echo $form->dropDownList($element, 'right_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --'), false, array('label' => 3, 'field' => 9)); ?>
+			<?php echo $form->dropDownList($element, 'right_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --'), false, array('label' => 3, 'field' => 6)); ?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
@@ -35,7 +35,7 @@
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<?php echo $form->dropDownList($element, 'left_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --'), false, array('label' => 3, 'field' => 9)) ?>
+			<?php echo $form->dropDownList($element, 'left_abnormality_id', $element->getAbnormalityOptions(), array('empty' => '-- Select --'), false, array('label' => 3, 'field' => 6)) ?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">

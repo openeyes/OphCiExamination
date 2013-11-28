@@ -99,7 +99,7 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 				</button>
 			</div>
 			<?php if ($element->left_comments || $element->getSetting('notes')) { ?>
-				<div class="field-data">
+				<div class="field-row">
 					<?php echo $form->textArea($element, 'left_comments', array('rows' => 1, 'nowrapper'=>true)) ?>
 				</div>
 			<?php } ?>

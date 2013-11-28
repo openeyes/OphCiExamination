@@ -17,7 +17,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php echo CHtml::dropDownList(get_class($element).'_'.$field.'_sign', ($element->$field > 0) ? 1 : -1, CHtml::listData(OphCiExamination_Refraction_Sign::model()->findAll(array('order'=>'display_order')), 'name', 'value'))?>
-<?php echo CHtml::dropDownList(get_class($element).'_'.$field.'_integer', abs((int) $element->$field), CHtml::listData(OphCiExamination_Refraction_Integer::model()->findAll(array('order'=>'display_order')),'value','value'))?>
-<?php echo CHtml::dropDownList(get_class($element).'_'.$field.'_fraction', number_format(abs($element->$field) - (abs((int) $element->$field)),2), CHtml::listData(OphCiExamination_Refraction_Fraction::model()->findAll(array('order'=>'display_order')),'name','value'))?>
+<?php echo CHtml::dropDownList(
+	get_class($element).'_'.$field.'_sign',
+	($element->$field > 0) ? 1 : -1,
+	CHtml::listData(OphCiExamination_Refraction_Sign::model()->findAll(array('order'=>'display_order')), 'name', 'value'),
+	array('class'=>'inline')
+)?>
+<?php echo CHtml::dropDownList(
+	get_class($element).'_'.$field.'_integer',
+	abs((int) $element->$field),
+	CHtml::listData(OphCiExamination_Refraction_Integer::model()->findAll(array('order'=>'display_order')),'value','value'),
+	array('class'=>'inline')
+)?>
+<?php echo CHtml::dropDownList(
+	get_class($element).'_'.$field.'_fraction',
+	number_format(abs($element->$field) - (abs((int) $element->$field)),2),
+	CHtml::listData(OphCiExamination_Refraction_Fraction::model()->findAll(array('order'=>'display_order')),'name','value'),
+	array('class'=>'inline')
+)?>
 <?php echo CHtml::activeHiddenField($element, $field)?>

@@ -614,7 +614,9 @@ $(document).ready(function() {
 		});
 
 		if (book) {
-			unmaskFields($('.'+element).find('#'+name+'_booking_hint'));
+			if ($('.'+element).find('#'+name+'_booking_hint').contents().length) {
+				unmaskFields($('.'+element).find('#'+name+'_booking_hint'));
+			}
 		}
 		else {
 			maskFields($('.'+element).find('#'+name+'_booking_hint'));

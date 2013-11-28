@@ -29,7 +29,7 @@
 				</div>
 				<div class="large-10 column">
 					<div class="postfix align field-info">
-						&micro;m, using <?php echo $form->dropDownList($element, 'right_method_id', $methods, array('nowrapper' => true)) ?>
+						&micro;m, using <?php echo $form->dropDownList($element, 'right_method_id', $methods, array('nowrapper' => true, 'class'=>'inline')) ?>
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 				</div>
 				<div class="large-10 column">
 					<div class="postfix align field-info">
-						&micro;m, using <?php echo $form->dropDownList($element, 'left_method_id', $methods, array('nowrapper' => true)) ?>
+						&micro;m, using <?php echo $form->dropDownList($element, 'left_method_id', $methods, array('nowrapper' => true,'class'=>'inline')) ?>
 					</div>
 				</div>
 			</div>

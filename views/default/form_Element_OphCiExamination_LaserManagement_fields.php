@@ -65,7 +65,11 @@ if ($deferralreason && $deferralreason->other) {
 		</label>
 	</div>
 	<div class="large-8 column">
-		<?php echo CHtml::activeDropDownList($element,$side .'_laser_status_id', CHtml::listData($statuses,'id','name'), $status_options)?>
+		<div class="row">
+			<div class="large-9 column end">
+				<?php echo CHtml::activeDropDownList($element,$side .'_laser_status_id', CHtml::listData($statuses,'id','name'), $status_options)?>
+			</div>
+		</div>
 		<span id="<?php echo $side ?>_laser_booking_hint" class="field-info hint"<?php if (!$show_booking_hint) {?> style="display:none;"<?php } ?>></span>
 		<?php if (Yii::app()->hasModule('OphTrLaser')) {
 			$event = EventType::model()->find("class_name = 'OphTrLaser'");
@@ -86,7 +90,7 @@ if ($deferralreason && $deferralreason->other) {
 			<?php echo $element->getAttributeLabel($side . '_laser_deferralreason_id')?>:
 		</label>
 	</div>
-	<div class="large-8 column">
+	<div class="large-6 column end">
 		<?php echo CHtml::activeDropDownList($element, $side . '_laser_deferralreason_id', CHtml::listData($deferrals,'id','name'), $deferral_options)?>
 	</div>
 </div>
@@ -112,7 +116,7 @@ if ($deferralreason && $deferralreason->other) {
 				<?php echo $element->getAttributeLabel($side . '_lasertype_id'); ?>:
 			</label>
 		</div>
-		<div class="large-8 column">
+		<div class="large-6 column end">
 			<?php echo CHtml::activeDropDownList($element,$side . '_lasertype_id', CHtml::listData($lasertypes,'id','name'), array('options' => $lasertype_options, 'empty'=>'- Please select -'))?>
 		</div>
 	</div>
