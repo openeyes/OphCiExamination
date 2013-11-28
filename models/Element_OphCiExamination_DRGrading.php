@@ -238,7 +238,9 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	{
 		$curr_sd = $this->_getSecondaryDiagnosis();
 
-		if ($curr_sd && $curr_sd->disorder_id != $this->secondarydiagnosis_disorder_id) {
+		if ($this->secondarydiagnosis_disorder_id
+			&& $curr_sd
+			&& $curr_sd->disorder_id != $this->secondarydiagnosis_disorder_id) {
 			// looks like this is an edit and the previous secondary diagnosis should be removed
 			// so we can set the correct value
 			$curr_disorder = $curr_sd->disorder;
