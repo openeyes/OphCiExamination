@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="eyedraw-data row optic-disc">
+<div class="row optic-disc">
 	<div class="eyedraw-image column fixed">
 		<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 				'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,

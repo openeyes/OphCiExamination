@@ -21,7 +21,7 @@
 	<div class="element-eye right-eye column">
 		<div class="field-row">
 			<?php echo $form->dropDownList($element, 'right_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
-			mmHg,
+			<span class="unit">mmHg,</span>
 			<?php if ($element->getSetting('show_instruments')) {
 				echo $form->dropDownList($element, 'right_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
 			} else {
@@ -32,7 +32,7 @@
 	<div class="element-eye left-eye column">
 		<div class="field-row">
 			<?php echo $form->dropDownList($element, 'left_reading_id', CHtml::listData(OphCiExamination_IntraocularPressure_Reading::model()->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'iopReading', 'nowrapper'=>true))?>
-			mmHg,
+			<span class="unit">mmHg,</span>
 			<?php if ($element->getSetting('show_instruments')) {
 				echo $form->dropDownList($element, 'left_instrument_id', $element->getInstrumentValues(), array('class' => 'iopInstrument', 'nowrapper'=>true));
 			} else {

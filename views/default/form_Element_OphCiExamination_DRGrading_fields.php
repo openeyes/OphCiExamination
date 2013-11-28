@@ -49,14 +49,18 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		<div id="<?php echo get_class($element). '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalret_id'; ?>">
 			<dl>
 				<?php foreach ($clinical_retinopathys as $clinical) { ?>
-				<dt class="<?php echo $clinical->class ?>"><a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a></dt>
-				<dd class="<?php echo $clinical->class ?>"><?php echo nl2br($clinical->description) ?></dd>
+					<dt class="pill <?php echo $clinical->class ?>">
+						<a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a>
+					</dt>
+					<dd class="<?php echo $clinical->class ?>">
+						<?php echo nl2br($clinical->description) ?>
+					</dd>
 				<?php } ?>
 			</dl>
 		</div>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>;
+<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">
@@ -88,8 +92,12 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		<div id="<?php echo get_class($element). '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
 			<dl>
 				<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {?>
-					<dt class="<?php echo $retin->class ?>"><a href="#" data-id="<?php echo $retin->id ?>"><?php echo $retin->name ?></a></dt>
-					<dd class="<?php echo $retin->class ?>"><?php echo nl2br($retin->description) ?></dd>
+					<dt class="pill <?php echo $retin->class ?>">
+						<a href="#" data-id="<?php echo $retin->id ?>"><?php echo $retin->name ?></a>
+					</dt>
+					<dd class="<?php echo $retin->class ?>">
+						<?php echo nl2br($retin->description) ?>
+					</dd>
 				<?php } ?>
 			</dl>
 		</div>
@@ -171,8 +179,12 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		<div id="<?php echo get_class($element) . '_'. $side.'_all_maculopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscmaculopathy_id'; ?>">
 			<dl>
 				<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) { ?>
-				<dt class="<?php echo $macu->class ?>"><a href="#" data-id="<?php echo $macu->id ?>"><?php echo $macu->name ?></a></dt>
-				<dd class="<?php echo $macu->class ?>"><?php echo nl2br($macu->description) ?></dd>
+				<dt class="pill <?php echo $macu->class ?>">
+					<a href="#" data-id="<?php echo $macu->id ?>"><?php echo $macu->name ?></a>
+				</dt>
+				<dd class="<?php echo $macu->class ?>">
+					<?php echo nl2br($macu->description) ?>
+				</dd>
 				<?php } ?>
 			</dl>
 		</div>

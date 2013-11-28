@@ -18,17 +18,19 @@
  */
 ?>
 <div class="element-data">
-	<div class="data-value">
-		<?php echo $element->status?>
-		<?php if ($element->status && $element->status->followup) {?>
-			in
-			<?php echo $element->getFollowUp()?>
-			with
-			<?php echo $element->role->name?>
-			<?php if ($element->role_comments) { ?>
-				(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
+	<div class="data-row">
+		<div class="data-value">
+			<?php echo $element->status?>
+			<?php if ($element->status && $element->status->followup) {?>
+				in
+				<?php echo $element->getFollowUp()?>
+				with
+				<?php echo $element->role->name?>
+				<?php if ($element->role_comments) { ?>
+					(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
+				<?php }?>
+			<?php if ($element->community_patient) {?>(Community patient)<?php }?>
 			<?php }?>
-		<?php if ($element->community_patient) {?>(Community patient)<?php }?>
-		<?php }?>
+		</div>
 	</div>
 </div>
