@@ -35,7 +35,7 @@
 		); ?>
 		<?php if (!@$child) { ?>
 		<div class="child_elements">
-			<?php $this->renderChildDefaultElements($element, 'print', $form, $data); ?>
+			<?php $this->renderChildOpenElements($element, 'print', $form, $data); ?>
 		</div>
 	<?php } ?>
 	</div>
