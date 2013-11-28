@@ -417,7 +417,9 @@ class DefaultController extends NestedElementsEventTypeController
 	 */
 	private function _POST_DiabeticDiagnosis($element)
 	{
-		if (!$this->patient->getDiabetesType()) {
+		if (isset(Yii::app()->params['ophciexamination_drgrading_type_required'])
+			&& Yii::app()->params['ophciexamination_drgrading_type_required']
+			&& !$this->patient->getDiabetesType()) {
 			if (!$element->secondarydiagnosis_disorder_id) {
 				$element->secondarydiagnosis_disorder_required = true;
 			}

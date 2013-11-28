@@ -20,135 +20,134 @@ var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 var examination_print_url, module_css_path;
 
 function gradeCalculator(_drawing) {
-		var doodleArray = _drawing.doodleArray;
+    var doodleArray = _drawing.doodleArray;
 
-		var side = 'right';
-		if (_drawing.eye) {
-			side = 'left';
-		}
+    var side = 'right';
+    if (_drawing.eye) {
+        side = 'left';
+    }
 
-		// Array to store counts of doodles of relevant classes
-		var countArray = new Array();
-		countArray['Microaneurysm'] = 0;
-		countArray['HardExudate'] = 0;
-		countArray['Circinate'] = 0;
-		countArray['BlotHaemorrhage'] = 0;
-		countArray['PreRetinalHaemorrhage'] = 0;
-		countArray['CottonWoolSpot'] = 0;
-		countArray['DiabeticNV'] = 0;
-		countArray['FibrousProliferation'] = 0;
-		countArray['LaserSpot'] = 0;
-		countArray['FocalLaser'] = 0;
-		countArray['MacularGrid'] = 0;
-		countArray['SectorPRPPostPole'] = 0;
-		countArray['PRPPostPole'] = 0;
-		countArray['IRMA'] = 0;
-		countArray['TractionRetinalDetachment'] = 0;
+    // Array to store counts of doodles of relevant classes
+    var countArray = new Array();
+    countArray['Microaneurysm'] = 0;
+    countArray['HardExudate'] = 0;
+    countArray['Circinate'] = 0;
+    countArray['BlotHaemorrhage'] = 0;
+    countArray['PreRetinalHaemorrhage'] = 0;
+    countArray['CottonWoolSpot'] = 0;
+    countArray['DiabeticNV'] = 0;
+    countArray['FibrousProliferation'] = 0;
+    countArray['LaserSpot'] = 0;
+    countArray['FocalLaser'] = 0;
+    countArray['MacularGrid'] = 0;
+    countArray['SectorPRPPostPole'] = 0;
+    countArray['PRPPostPole'] = 0;
+    countArray['IRMA'] = 0;
+    countArray['TractionRetinalDetachment'] = 0;
 
-		var retinopathy = "R0";
-		var maculopathy = "M0";
-		var retinopathy_photocoagulation = false;
-		var maculopathy_photocoagulation = false;
-		var clinicalret = "No retinopathy";
+    var retinopathy = "R0";
+    var maculopathy = "M0";
+    var retinopathy_photocoagulation = false;
+    var maculopathy_photocoagulation = false;
+    var clinicalret = "None";
 	var clinicalmac = "No macular oedema";
-		var dnv_within = false;
+    var dnv_within = false;
 
-		// Get reference to PostPole doodle
-		var postPole = _drawing.lastDoodleOfClass('PostPole');
+    // Get reference to PostPole doodle
+    var postPole = _drawing.lastDoodleOfClass('PostPole');
 
-		if (postPole)
-		{
-				// Iterate through doodles counting, and checking location
-				for (var i = 0; i < doodleArray.length; i++)
-				{
-						var doodle = doodleArray[i];
-						countArray[doodle.className]++;
+    if (postPole)
+    {
+        // Iterate through doodles counting, and checking location
+        for (var i = 0; i < doodleArray.length; i++)
+        {
+                var doodle = doodleArray[i];
+                countArray[doodle.className]++;
 
-						// Exudates within one disk diameter of fovea
-						if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
-						{
-								if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1A';
-						}
-						//TODO: needs to check against optic disc, not Fovea
-						/*
-						if (doodle.className == 'DiabeticNV') {
-							if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
-						}
-						*/
-						if (doodle.className == 'LaserSpot' || doodle.className == 'FocalLaser') {
-							if (postPole.isWithinArcades(doodle)) {
-								retinopathy_photocoagulation = true;
-							}
-							else {
-								maculopathy_photocoagulation = true;
-							}
-						}
-				}
+                // Exudates within one disk diameter of fovea
+                if (doodle.className == 'HardExudate' || doodle.className == 'Circinate')
+                {
+                        if (postPole.isWithinDiscDiametersOfFovea(doodle, 1)) maculopathy = 'M1A';
+                }
+                //TODO: needs to check against optic disc, not Fovea
+                /*
+                if (doodle.className == 'DiabeticNV') {
+                    if (postPole.isWithinDiscDiametersOfFovea(doodle,1)) dnv_within = true;
+                }
+                */
+                if (doodle.className == 'LaserSpot' || doodle.className == 'FocalLaser') {
+                    if (postPole.isWithinArcades(doodle)) {
+                        retinopathy_photocoagulation = true;
+                    }
+                    else {
+                        maculopathy_photocoagulation = true;
+                    }
+                }
+        }
 
-				if (countArray['Microaneurysm'] > 0) {
-					clinicalret = 'Mild nonproliferative retinopathy';
-				}
+        if (countArray['Microaneurysm'] > 0) {
+            clinicalret = 'Mild nonproliferative retinopathy';
+        }
 
-				if (countArray['BlotHaemorrhage'] > 0 || countArray['IRMA'] > 0 || countArray['PreRetinalHaemorrhage']) {
-					clinicalret = 'Moderate nonproliferative retinopathy';
-				}
+        if (countArray['BlotHaemorrhage'] > 0 || countArray['IRMA'] > 0 || countArray['PreRetinalHaemorrhage']) {
+            clinicalret = 'Moderate nonproliferative retinopathy';
+        }
 
-				if ((countArray['PreRetinalHaemorrhage'] || countArray['BlotHaemorrhage'] > 0) && countArray['IRMA'] > 0) {
-					clinicalret = 'Severe nonproliferative retinopathy';
-				}
+        if ((countArray['PreRetinalHaemorrhage'] || countArray['BlotHaemorrhage'] > 0) && countArray['IRMA'] > 0) {
+            clinicalret = 'Severe nonproliferative retinopathy';
+        }
 
-				if (countArray['DiabeticNV'] > 0) {
-					clinicalret = 'Early proliferative retinopathy';
-					if (dnv_within || countArray['PreRetinalHaemorrhage']) {
-						clinicalret = 'High-risk proliferative retinopathy';
-					}
+        if (countArray['DiabeticNV'] > 0) {
+            clinicalret = 'Early proliferative retinopathy';
+            if (dnv_within || countArray['PreRetinalHaemorrhage']) {
+                clinicalret = 'High-risk proliferative retinopathy';
+            }
 
-				}
+        }
 
-				if (countArray['BlotHaemorrhage'] > 0 || countArray['Microaneurysm'] > 0) {
-					var bestVa = OphCiExamination_VisualAcuity_bestForSide(side);
+        if (countArray['BlotHaemorrhage'] > 0 || countArray['Microaneurysm'] > 0) {
+            var bestVa = OphCiExamination_VisualAcuity_bestForSide(side);
 
-					if (bestVa !== null && bestVa <= 95) {
-						maculopathy = 'M1A';
-					}
-				}
+            if (bestVa !== null && bestVa <= 95) {
+                maculopathy = 'M1A';
+            }
+        }
 
-				// R1 (Background)
-				if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 ||
-						countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
-				{
-						retinopathy = "R1";
-				}
+        // R1 (Background)
+        if (countArray['Microaneurysm'] > 0 || countArray['BlotHaemorrhage'] > 0 || countArray['HardExudate'] > 0 ||
+                countArray['CottonWoolSpot'] > 0 || countArray['Circinate'] > 0)
+        {
+                retinopathy = "R1";
+        }
 
-				// R2
-				if (countArray['BlotHaemorrhage'] >= 2 || countArray['IRMA'] > 0)
-				{
-						retinopathy = "R2";
-				}
+        // R2
+        if (countArray['BlotHaemorrhage'] >= 2 || countArray['IRMA'] > 0)
+        {
+                retinopathy = "R2";
+        }
 
-				// R3
-				if (countArray['PRPPostPole'] > 0)
-				{
-						retinopathy = "R3S";
-						retinopathy_photocoagulation = true;
-				}
-				if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0 ||
-				countArray['TractionRetinalDetachment'] > 0)
-				{
-						retinopathy = "R3A";
-				}
+        // R3
+        if (countArray['PRPPostPole'] > 0)
+        {
+                retinopathy = "R3S";
+                retinopathy_photocoagulation = true;
+        }
+        if (countArray['DiabeticNV'] > 0 || countArray['PreRetinalHaemorrhage'] > 0 || countArray['FibrousProliferation'] > 0 ||
+        countArray['TractionRetinalDetachment'] > 0)
+        {
+                retinopathy = "R3A";
+        }
 
-				if (countArray['SectorPRPPostPole'] > 0 || countArray['MacularGrid'] > 0) {
-					maculopathy_photocoagulation = true;
-				}
+        if (countArray['SectorPRPPostPole'] > 0 || countArray['MacularGrid'] > 0) {
+            maculopathy_photocoagulation = true;
+        }
 
-		// basic default setting for clincal maculopathy at the moment:
-		if (maculopathy == 'M1A') clinicalmac = 'Clinically significant macular oedema';
+        // basic default setting for clincal maculopathy at the moment:
+        if (maculopathy == 'M1A') clinicalmac = 'Clinically significant macular oedema';
 
-				return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation, clinicalret, clinicalmac];
-
-		}
-		return false;
+        return [retinopathy, maculopathy, retinopathy_photocoagulation, maculopathy_photocoagulation, clinicalret, clinicalmac];
+    }
+    return false;
 }
 
 //returns the number of weeks booking recommendation from the DR grades (based on nsc retinopathy value for the given side)

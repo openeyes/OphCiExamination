@@ -20,6 +20,8 @@
 $this->beginContent('//patient/event_container');
 ?>
 
+<?php $this->renderPartial('//base/_messages'); ?>
+
 <?php
 // Event actions
 if ($this->canPrint()) {
