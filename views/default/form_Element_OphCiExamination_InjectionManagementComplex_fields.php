@@ -50,7 +50,7 @@ $layoutColumns = array(
 			<?php echo $element->getAttributeLabel($side . '_no_treatment_reason_id')?>:
 		</label>
 	</div>
-	<div class="large-9 column">
+	<div class="large-8 column end">
 		<?php echo $form->dropDownlist($element, $side . '_no_treatment_reason_id', CHtml::listData($no_treatment_reasons,'id','name'), $no_treatment_reasons_opts, array('nowrapper' => true))?>
 	</div>
 </div>
@@ -77,7 +77,10 @@ $layoutColumns = array(
 				'default' => false,
 				'dropdownOptions' => array('empty'=>'- Please select -', 'options' => $l1_opts),
 				'label' => true,
-				'layoutColumns' => $layoutColumns
+				'layoutColumns' => array(
+					'label' => 3,
+					'field' => 9
+				)
 		))?>
 	</div>
 
@@ -99,7 +102,10 @@ $layoutColumns = array(
 					'default' => false,
 					'dropdownOptions' => $l2_attrs,
 					'label' => true,
-					'layoutColumns' => $layoutColumns
+					'layoutColumns' => array(
+						'label' => 3,
+						'field' => 9
+					)
 			))
 		?>
 	</div>
@@ -110,7 +116,7 @@ $layoutColumns = array(
 	$this->renderPartial('form_' . get_class($element) . '_questions', array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions))?>
 
 	<?php if ($treatments = $element->getInjectionTreatments($side)) {?>
-		<?php echo $form->dropDownList($element, $side . '_treatment_id', CHtml::listData($treatments,'id','name'), array('empty'=>'- Please select -'), false, array('label' => 3, 'field' => 9))?>
+		<?php echo $form->dropDownList($element, $side . '_treatment_id', CHtml::listData($treatments,'id','name'), array('empty'=>'- Please select -'), false, array('label' => 3, 'field' =>6))?>
 	<?php }?>
 
 	<?php
@@ -123,7 +129,7 @@ $layoutColumns = array(
 		foreach ($risks as $risk) {
 			$html_options['options'][(string) $risk->id] = array('data-order' => $risk->display_order);
 		}
-		echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 9))?>
+		echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 6))?>
 
 	<?php echo $form->textArea($element, $side . '_comments', array(), false, array('placeholder' => 'Enter comments'), array('label' => 3, 'field' => 9))?>
 </div>

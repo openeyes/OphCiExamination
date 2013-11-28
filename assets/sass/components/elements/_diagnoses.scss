@@ -14,13 +14,24 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-
-@import "elements/intraocular-pressure";
-@import "elements/diagnoses";
-@import "elements/dilation";
-@import "elements/gonioscopy";
-@import "elements/optic-disc";
-@import "elements/anterior-segment";
-@import "elements/posterior-pole";
-@import "elements/visual-acuity";
-@import "elements/comorbidities";
+.Element_OphCiExamination_Diagnoses {
+	.panel {
+		margin-bottom: 10px;
+	}
+	.panel:last-child {
+		margin-bottom: 0;
+	}
+	table {
+		&.blank {
+			width: 100%;
+		}
+		td {
+			&.eye {
+				label {
+					display: inline-block;
+					padding-right: emCalc(8px);
+				}
+			}
+		}
+	}
+}

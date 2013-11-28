@@ -38,7 +38,7 @@ else {
 }
 ?>
 
-<?php echo $form->dropDownList($element, $side . '_method_id', CHtml::listData(OphCiExamination_OCT_Method::model()->findAll(array('order' => 'display_order')),'id','name'), array(), false, array('label'=>4,'field'=>8)) ?>
+<?php echo $form->dropDownList($element, $side . '_method_id', CHtml::listData(OphCiExamination_OCT_Method::model()->findAll(array('order' => 'display_order')),'id','name'), array(), false, array('label'=>4,'field'=>3)) ?>
 
 <?php echo $form->textField($element, $side . '_crt', array('append-text' => '&micro;m'),null,array('label'=>4,'field'=>'3','append-text'=>'4')) ?>
 
@@ -85,15 +85,15 @@ else {
 	foreach ($fts as $ft) {
 		$html_options['options'][(string) $ft->id] = array('data-order' => $ft->display_order);
 	}
-	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>8));
+	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>6));
 	?>
-	<div class="row field-row">
+	<div class="row">
 		<div class="large-4 column">
 			<label for="<?php echo get_class($element).'_'.$side.'_fluidstatus_id';?>">
 				Finding Type:
 			</label>
 		</div>
-		<div class="large-8 column">
+		<div class="large-6 column end">
 			<?php echo $form->dropDownList($element, $side . '_fluidstatus_id', CHtml::listData(OphCiExamination_OCT_FluidStatus::model()->findAll(),'id','name'), array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?>
 		</div>
 	</div>

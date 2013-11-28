@@ -52,7 +52,7 @@
 			</div>
 			<div class="large-9 column">
 				<div class="field-info postfix align">
-					mm (lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', $element->getLensOptions(), array('empty' => '--')) ?>)
+					mm (lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', $element->getLensOptions(), array('empty' => '--','class'=>'inline')) ?>)
 				</div>
 			</div>
 		</div>
