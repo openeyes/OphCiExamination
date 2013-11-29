@@ -1685,13 +1685,13 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 		'<td class="eye">'+
 			'<label class="inline">'+
 				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
-			'</label>'+
+			'</label> '+
 			'<label class="inline">'+
 				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both'+
-			'</label>'+
+			'</label> '+
 			'<label class="inline">'+
 				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left'+
-			'</label>'+
+			'</label> '+
 		'</td>'+
 		'<td>'+
 			'<input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/>'+
