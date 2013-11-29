@@ -14,7 +14,7 @@ $(document).ready(function() {
 					YII_CSRF_TOKEN: YII_CSRF_TOKEN
 				},
 				'success': function(data) {
-					new OpenEyes.Dialog.Alert({
+					new OpenEyes.UI.Dialog.Alert({
 						content: 'Questions reordered'
 					}).open();
 				}
@@ -48,12 +48,12 @@ $(document).ready(function() {
 			},
 			'success': function() {
 				if (enabled) {
-					new OpenEyes.Dialog.Alert({
+					new OpenEyes.UI.Dialog.Alert({
 						content: model_name + ' enabled'
 					}).open();
 				}
 				else {
-					new OpenEyes.Dialog.Alert({
+					new OpenEyes.UI.Dialog.Alert({
 						content: model_name + ' disabled'
 					}).open();
 				}
