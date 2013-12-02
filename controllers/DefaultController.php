@@ -109,12 +109,53 @@ class DefaultController extends BaseEventTypeController
 
 	/**
 	 * Call editInit to setup jsVars
-	 * @param $id
 	 */
 	public function initActionUpdate()
 	{
 		parent::initActionUpdate();
 		$this->initEdit();
+	}
+
+	protected function setElementDefaultOptions($element, $action)
+	{
+		parent::setElementDefaultOptions($element, $action);
+		if ($action != "create") {
+			return;
+		}
+		if (get_class($element) == 'Element_OphCiExamination_Diagnoses') {
+			// set the diagnoses to match the current patient diagnoses for the episode
+			// and any other ophthalmic secondary diagnoses the patient has
+			$diagnoses = array();
+			if ($principal = $this->episode->diagnosis) {
+				$d = new OphCiExamination_Diagnosis();
+				$d->disorder_id = $principal->id;
+				$d->principal = true;
+				$d->eye_id = $this->episode->eye_id;
+				$diagnoses[] = $d;
+			}
+			foreach ($this->patient->getOphthalmicDiagnoses() as $sd) {
+				$d = new OphCiExamination_Diagnosis();
+				$d->disorder_id = $sd->disorder_id;
+				$d->eye_id = $sd->eye_id;
+				$diagnoses[] = $d;
+			}
+
+			// ensure unique
+			$_diagnoses = array();
+			foreach ($diagnoses as $d) {
+				$already_in = false;
+				foreach ($_diagnoses as $ad) {
+					if ($d->disorder_id == $ad->disorder_id && $d->eye_id == $ad->eye_id && $d->principal == $ad->principal) {
+						$already_in = true;
+						break;
+					}
+				}
+				if (!$already_in) {
+					$_diagnoses[] = $d;
+				}
+			}
+			$element->diagnoses = $_diagnoses;
+		}
 	}
 
 	/**
@@ -175,7 +216,7 @@ class DefaultController extends BaseEventTypeController
 	protected function getFirstStep()
 	{
 		$site_id = Yii::app()->session['selected_site_id'];
-		$subspecialty_id = $this->firm->getSubspecialtyID();
+		$firm_id = $this->firm->id;
 		$status_id = $this->episode->episode_status_id;
 		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
 	}
@@ -445,29 +486,46 @@ class DefaultController extends BaseEventTypeController
 		$element->{$side . '_fluidtypes'} = $fts;
 	}
 
+	private function _set_Diagnoses($element, $data)
+	{
+		$diagnoses = array();
+		if (is_array(@$data['selected_diagnoses'])) {
+			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
+				$diagnosis = new OphCiExamination_Diagnosis();
+				$diagnosis->eye_id = @$data['Element_OphCiExamination_Diagnoses']['eye_id_' . $i];
+				$diagnosis->disorder_id = $disorder_id;
+				$diagnosis->principal = (@$data['principal_diagnosis'] == $disorder_id);
+				$diagnoses[] = $diagnosis;
+			}
+		}
+		$element->diagnoses = $diagnoses;
+	}
+
 	/**
 	 * (non-PHPdoc)
 	 * @see BaseEventTypeController::setElementComplexAttributesFromData($element, $data, $index)
 	 */
 	protected function setElementComplexAttributesFromData($element, $data, $index = null)
 	{
-		$cls = get_class($element);
-		if ($cls == "Element_OphCiExamination_InjectionManagementComplex") {
-			$this->_set_InjectionAnswers($element, $data, 'left');
-			$this->_set_InjectionAnswers($element, $data, 'right');
-			$this->_set_InjectionRisks($element, $data, 'left');
-			$this->_set_InjectionRisks($element, $data, 'right');
-		}
+		switch (get_class($element)) {
+			case "Element_OphCiExamination_InjectionManagementComplex":
+				$this->_set_InjectionAnswers($element, $data, 'left');
+				$this->_set_InjectionAnswers($element, $data, 'right');
+				$this->_set_InjectionRisks($element, $data, 'left');
+				$this->_set_InjectionRisks($element, $data, 'right');
+				break;
+			case "Element_OphCiExamination_DRGrading":
+				$this->_set_DiabeticDiagnosis($element, $data);
+				break;
+			case "Element_OphCiExamination_OCT":
+				$this->_set_OCTFluidTypes($element, $data, 'left');
+				$this->_set_OCTFluidTypes($element, $data, 'right');
+				break;
+			case "Element_OphCiExamination_Diagnoses":
+				$this->_set_Diagnoses($element, $data);
+				break;
 
-		if ($cls == "Element_OphCiExamination_DRGrading") {
-			$this->_set_DiabeticDiagnosis($element, $data);
 		}
-
-		if ($cls == "Element_OphCiExamination_OCT") {
-			$this->_set_OCTFluidTypes($element, $data, 'left');
-			$this->_set_OCTFluidTypes($element, $data, 'right');
-		}
-
 	}
 
 	/**
@@ -480,31 +538,46 @@ class DefaultController extends BaseEventTypeController
 	protected function saveEventComplexAttributesFromData($data)
 	{
 		foreach ($this->open_elements as $el) {
-			if (get_class($el) == 'Element_OphCiExamination_InjectionManagementComplex') {
-				$el->updateQuestionAnswers(Eye::LEFT,
-						$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
-								$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
-								array());
-				$el->updateQuestionAnswers(Eye::RIGHT,
-						$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
-						$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
-						array());
-				$el->updateRisks(Eye::LEFT,
-						$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
-						$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
-						array());
-				$el->updateRisks(Eye::RIGHT,
-						$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
-						$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
-						array());
-			}
-			if (get_class($el) == 'Element_OphCiExamination_OCT') {
-				$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
-						$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
-						array());
-				$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
-						$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
-						array());
+			switch (get_class($el)) {
+				case 'Element_OphCiExamination_InjectionManagementComplex':
+					$el->updateQuestionAnswers(Eye::LEFT,
+							$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
+									$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
+									array());
+					$el->updateQuestionAnswers(Eye::RIGHT,
+							$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
+							$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+							array());
+					$el->updateRisks(Eye::LEFT,
+							$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
+							$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+							array());
+					$el->updateRisks(Eye::RIGHT,
+							$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
+							$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+							array());
+					break;
+				case 'Element_OphCiExamination_OCT':
+					$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
+							$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+							array());
+					$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
+							$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
+							array());
+					break;
+				case "Element_OphCiExamination_Diagnoses":
+					// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
+					$diagnoses = array();
+					$eyes = isset($_POST['Element_OphCiExamination_Diagnoses']) ? array_values($_POST['Element_OphCiExamination_Diagnoses']) : array();
+
+					foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
+						$diagnoses[] = array(
+							'eye_id' => $eyes[$i],
+							'disorder_id' => $disorder_id,
+							'principal' => (@$data['principal_diagnosis'] == $disorder_id)
+						);
+					}
+					$el->updateDiagnoses($diagnoses);
 			}
 		}
 	}
