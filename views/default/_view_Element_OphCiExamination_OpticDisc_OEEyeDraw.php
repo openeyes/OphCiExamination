@@ -18,7 +18,7 @@
  */
 ?>
 <div class="row optic-disc">
-	<div class="eyedraw-image column fixed">
+	<div class="column fixed">
 		<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 				'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
 				'side' => ($side == 'right') ? 'R' : 'L',
@@ -29,7 +29,7 @@
 				'attribute' => $side.'_eyedraw',
 		))?>
 	</div>
-	<div class="eyedraw-value column fluid">
+	<div class="column fluid">
 		<?php if ($element->{$side.'_description'}) {?>
 			<div class="data-row">
 				<div class="data-value">
