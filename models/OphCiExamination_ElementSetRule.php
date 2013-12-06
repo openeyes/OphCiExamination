@@ -70,14 +70,18 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord
 	/**
 	 * Finds the best matching workflow
 	 * @param integer $site_id
-	 * @param integer $subspecialty_id
+	 * @param integer $firm_id
 	 * @param integer $status_id
 	 * @return OphCiExamination_Workflow
 	 */
-	public static function findWorkflow($site_id, $subspecialty_id, $status_id)
+	public static function findWorkflow($site_id, $firm_id, $status_id)
 	{
+		$subspecialty_id = null;
+		if($firm = Firm::model()->findByPk($firm_id)) {
+			$subspecialty_id = ($firm->serviceSubspecialtyAssignment) ? $firm->serviceSubspecialtyAssignment->subspecialty_id : null;
+		}
 		if ($rule = self::model()->find('parent_id IS NULL')) {
-			return $rule->processClause($site_id, $subspecialty_id, $status_id);
+			return $rule->processClause($site_id, $firm_id, $subspecialty_id, $status_id);
 		} else {
 			throw new CException('Cannot find root ExaminationSetRule');
 		}
@@ -88,7 +92,14 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord
 		return $this->find('parent_id = :id AND value = :value', array(':id' => $this->id, ':value' => $value));
 	}
 
-	protected function processClause($site_id, $subspecialty_id, $status_id)
+	/**
+	 * @param integer $site_id
+	 * @param integer $firm_id
+	 * @param integer $subspecialty_id
+	 * @param integer $status_id
+	 * @return OphCiExamination_Workflow
+	 */
+	protected function processClause($site_id, $firm_id, $subspecialty_id, $status_id)
 	{
 		// Check to see if the current rule has a clause
 		if ($this->clause) {
@@ -99,7 +110,7 @@ class OphCiExamination_ElementSetRule extends BaseActiveRecord
 			if ($rule = $this->findChild($value)) {
 
 				// Process next rule
-				return $rule->processClause($site_id, $subspecialty_id, $status_id);
+				return $rule->processClause($site_id, $firm_id, $subspecialty_id, $status_id);
 
 			} else {
 

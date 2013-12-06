@@ -157,9 +157,9 @@ class DefaultController extends NestedElementsEventTypeController
 	protected function getFirstStep()
 	{
 		$site_id = Yii::app()->session['selected_site_id'];
-		$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+		$firm_id = $this->firm->id;
 		$status_id = $this->episode->episode_status_id;
-		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
+		return OphCiExamination_ElementSetRule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
 	}
 
 	/**
@@ -247,9 +247,9 @@ class DefaultController extends NestedElementsEventTypeController
 		$elements = array();
 		if (!$set) {
 			$site_id = Yii::app()->session['selected_site_id'];
-			$subspecialty_id = $this->firm->serviceSubspecialtyAssignment->subspecialty_id;
+			$firm_id = $this->firm->id;
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
-			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $subspecialty_id, $status_id)->getFirstStep();
+			$set = OphCiExamination_ElementSetRule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
 		}
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
