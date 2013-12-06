@@ -304,16 +304,6 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	}
 
 	/**
-	 * (non-phpdoc)
-	 * @see cleanUpSecondaryDiagnosis()
-	 * @see parent::softDelete()
-	 */
-	public function softDelete()
-	{
-		$this->cleanUpSecondaryDiagnosis();
-		return parent::softDelete();
-	}
-	/**
 	 *
 	 * @see cleanUpSecondaryDiagnosis()
 	 * @see parent::delete()
