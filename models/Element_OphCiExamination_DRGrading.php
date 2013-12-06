@@ -281,7 +281,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 
 			if ($sd !== null) {
 				$sd->save();
-				Audit::add("SecondaryDiagnosis",'add',serialize($sd->attributes), false, array('patient_id' => $patient->id));
+				Audit::add("SecondaryDiagnosis",'add',$sd->id,null,array('patient_id' => $patient->id));
 				$this->secondarydiagnosis_id = $sd->id;
 				Yii::app()->user->setFlash('info.info', "Disorder '" . $sd->disorder->term . "' has been added to patient by DR Grading.");
 			}
@@ -298,7 +298,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 			$disorder = $sd->disorder;
 			$audit_data = serialize($sd->attributes);
 			$sd->delete();
-			Audit::add("SecondaryDiagnosis", 'delete', $audit_data, false, array('patient_id' => $sd->patient_id));
+			Audit::add("SecondaryDiagnosis", 'delete', $sd->id, null, array('patient_id' => $sd->patient_id));
 			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $disorder->term . "' has been removed because DR Grading was deleted.");
 		}
 	}

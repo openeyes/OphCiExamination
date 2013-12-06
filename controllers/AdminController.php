@@ -32,7 +32,7 @@ class AdminController extends ModuleAdminController
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
 		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
 
-		Audit::add('admin','list',null,false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
+		Audit::add('admin','list',null,null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
 
 		$this->render('list',array(
 				'model_list'=>$model_list,
@@ -60,7 +60,7 @@ class AdminController extends ModuleAdminController
 			$model->display_order = $display_order;
 
 			if ($model->save()) {
-				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
+				Audit::add('admin','create',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
 				Yii::app()->user->setFlash('success', 'Injection Management No Treatment reason added');
 
 				$this->redirect(array('ViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
@@ -85,7 +85,7 @@ class AdminController extends ModuleAdminController
 			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_NoTreatmentReason'];
 
 			if ($model->save()) {
-				Audit::add('admin','update',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
+				Audit::add('admin','update',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
 				Yii::app()->user->setFlash('success', 'Injection Management No Treatment reason updated');
 
 				$this->redirect(array('ViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
@@ -134,7 +134,7 @@ class AdminController extends ModuleAdminController
 				throw new Exception("Unable to set reason status: " . print_r($model->getErrors(), true));
 			}
 
-			Audit::add('admin','set-reason-status',serialize($_POST),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
+			Audit::add('admin','set-reason-status',@$_POST['id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
 
 		} else {
 			throw new Exception('Cannot find reason with id' . @$_POST['id']);
@@ -165,7 +165,7 @@ class AdminController extends ModuleAdminController
 			$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
 		}
 
-		Audit::add('admin','list-for-disorder',serialize($_GET),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
+		Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
 
 		$this->render('list_diagnosis_questions',array(
 				'disorder_id'=>$disorder_id,
@@ -203,7 +203,7 @@ class AdminController extends ModuleAdminController
 				$model->display_order = $display_order;
 
 				if ($model->save()) {
-					Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
+					Audit::add('admin','create',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
 					Yii::app()->user->setFlash('success', 'Injection Management Disorder Question added');
 
 					$this->redirect(array('ViewOphCiExamination_InjectionManagementComplex_Question', 'disorder_id' => $model->disorder_id));
@@ -233,7 +233,7 @@ class AdminController extends ModuleAdminController
 			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_Question'];
 
 			if ($model->save()) {
-				Audit::add('admin','update',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
+				Audit::add('admin','update',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
 				Yii::app()->user->setFlash('success', 'Injection Management Disorder Question updated');
 
 				$this->redirect(array('ViewOphCiExamination_InjectionManagementComplex_Question', 'disorder_id' => $model->disorder_id));
@@ -282,7 +282,7 @@ class AdminController extends ModuleAdminController
 				throw new Exception("Unable to set question status: " . print_r($model->getErrors(), true));
 			}
 
-			Audit::add('admin','set-question-status',serialize($_POST),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
+			Audit::add('admin','set-question-status',$_POST['id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
 		} else {
 			throw new Exception('Cannot find question with id' . @$_POST['id']);
 		}
