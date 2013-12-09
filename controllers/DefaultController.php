@@ -388,62 +388,45 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
-	 * associate the answers from the POST submission with the Element_OphCiExamination_InjectionManagementComplex element for
+	 * associate the answers and risks from the data with the Element_OphCiExamination_InjectionManagementComplex element for
 	 * validation
 	 *
 	 * @param Element_OphCiExamination_InjectionManagementComplex $element
 	 * @param array $data
-	 * @param string $side
+	 * @param $index
 	 */
-	private function _set_InjectionAnswers($element, $data, $side)
+	protected function setComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		$answers = array();
-		$checker = 'has' . ucfirst($side);
-		if ($element->$checker()) {
-			if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
-				foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
-					$answer = new OphCiExamination_InjectionManagementComplex_Answer();
-					$answer->question_id = $id;
-					$answer->answer = $p_ans;
-					if ($side == 'left') {
-						$answer->eye_id = Eye::LEFT;
-					} else {
-						$answer->eye_id = Eye::RIGHT;
+		foreach (array('left' => Eye::LEFT, 'right' => Eye::RIGHT) as $side => $eye_id) {
+			$answers = array();
+			$risks = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
+					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
+						$answer = new OphCiExamination_InjectionManagementComplex_Answer();
+						$answer->question_id = $id;
+						$answer->answer = $p_ans;
+						$answer->eye_id = $eye_id;
+						$answers[] = $answer;
 					}
-					$answers[] = $answer;
 				}
-			}
-		}
-		$element->{$side . '_answers'} = $answers;
-	}
-
-	/**
-	 * associate the risks in the structured data with the Element_OphCiExamination_InjectionManagementComplex element for
-	 * validation
-	 *
-	 * @param Element_OphCiExamination_InjectionManagementComplex $element
-	 * @param array $data
-	 * @param string $side
-	 */
-	private function _set_InjectionRisks($element, $data, $side)
-	{
-		$risks = array();
-		$checker = 'has' . ucfirst($side);
-		if ($element->$checker()) {
-			if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
-				foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
-					if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
-						$risks[] = $risk;
+				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
+					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
+						if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+							$risks[] = $risk;
+						}
 					}
 				}
 			}
+			$element->{$side . '_answers'} = $answers;
+			$element->{$side . '_risks'} = $risks;
 		}
-		$element->{$side . '_risks'} = $risks;
 	}
 
 	/**
 	 * If the Patient does not currently have a diabetic diagnosis, specify that it's required
-	 * so the validation rules can check for it being set in the given element (typically DR Grading)
+	 * so the validation rules can check for it being set in the given element (currently only DR Grading)
 	 *
 	 * @param BaseEventTypeElement $element
 	 * @param array $data
@@ -460,29 +443,47 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
+	 * Wrapper to set validation rules on DR Grading element
+	 *
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_DRGrading($element, $data, $index)
+	{
+		$this->_set_DiabeticDiagnosis($element, $data);
+	}
+
+	/**
 	 * Set the OCT Fluid types for validation for the given side
 	 *
 	 * @param Element_OphCiExamination_OCT $element
 	 * @param array $data
-	 * @param string $side
+	 * @param integer $index
 	 */
-	private function _set_OCTFluidTypes($element, $data, $side)
+	protected function setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
-		$fts = array();
-		$checker = 'has' . ucfirst($side);
-		if ($element->$checker()) {
-			if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
-				foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
-					if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
-						$fts[] = $ft;
+		foreach (array('left', 'right') as $side) {
+			$fts = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
+					foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
+						if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+							$fts[] = $ft;
+						}
 					}
 				}
 			}
+			$element->{$side . '_fluidtypes'} = $fts;
 		}
-		$element->{$side . '_fluidtypes'} = $fts;
 	}
 
-	private function _set_Diagnoses($element, $data)
+	/**
+	 * Set the diagnoses against the Element_OphCiExamination_Diagnoses element
+	 *
+	 * @param Element_OphCiExamination_Diagnoses $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_Diagnoses($element, $data, $index)
 	{
 		$diagnoses = array();
 		if (is_array(@$data['selected_diagnoses'])) {
@@ -498,83 +499,70 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see BaseEventTypeController::setElementComplexAttributesFromData($element, $data, $index)
+	 * Save question answers and risks
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
 	 */
-	protected function setElementComplexAttributesFromData($element, $data, $index = null)
+	protected function saveComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		switch (get_class($element)) {
-			case "Element_OphCiExamination_InjectionManagementComplex":
-				$this->_set_InjectionAnswers($element, $data, 'left');
-				$this->_set_InjectionAnswers($element, $data, 'right');
-				$this->_set_InjectionRisks($element, $data, 'left');
-				$this->_set_InjectionRisks($element, $data, 'right');
-				break;
-			case "Element_OphCiExamination_DRGrading":
-				$this->_set_DiabeticDiagnosis($element, $data);
-				break;
-			case "Element_OphCiExamination_OCT":
-				$this->_set_OCTFluidTypes($element, $data, 'left');
-				$this->_set_OCTFluidTypes($element, $data, 'right');
-				break;
-			case "Element_OphCiExamination_Diagnoses":
-				$this->_set_Diagnoses($element, $data);
-				break;
-
-		}
+		$element->updateQuestionAnswers(Eye::LEFT,
+			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
+			$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
+			array());
+		$element->updateQuestionAnswers(Eye::RIGHT,
+			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
+			$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+			array());
+		$element->updateRisks(Eye::LEFT,
+			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
+			$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+			array());
+		$element->updateRisks(Eye::RIGHT,
+			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
+			$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+			array());
 	}
 
 	/**
-	 * Carrying out the required many to many relationship setting calls for examination elements
+	 * Save fluid types
 	 *
-	 * (non-PHPdoc)
-	 * @see BaseEventTypeController::saveEventComplexAttributesFromData($data)
-
+	 * @param $element
+	 * @param $data
+	 * @param $index
 	 */
-	protected function saveEventComplexAttributesFromData($data)
+	protected function saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
-		foreach ($this->open_elements as $el) {
-			switch (get_class($el)) {
-				case 'Element_OphCiExamination_InjectionManagementComplex':
-					$el->updateQuestionAnswers(Eye::LEFT,
-							$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
-									$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
-									array());
-					$el->updateQuestionAnswers(Eye::RIGHT,
-							$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
-							$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
-							array());
-					$el->updateRisks(Eye::LEFT,
-							$el->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
-							$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
-							array());
-					$el->updateRisks(Eye::RIGHT,
-							$el->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
-							$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
-							array());
-					break;
-				case 'Element_OphCiExamination_OCT':
-					$el->updateFluidTypes(Eye::LEFT, $el->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
-							$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
-							array());
-					$el->updateFluidTypes(Eye::RIGHT, $el->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
-							$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
-							array());
-					break;
-				case "Element_OphCiExamination_Diagnoses":
-					// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
-					$diagnoses = array();
-					$eyes = isset($_POST['Element_OphCiExamination_Diagnoses']) ? array_values($_POST['Element_OphCiExamination_Diagnoses']) : array();
-
-					foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
-						$diagnoses[] = array(
-							'eye_id' => $eyes[$i],
-							'disorder_id' => $disorder_id,
-							'principal' => (@$data['principal_diagnosis'] == $disorder_id)
-						);
-					}
-					$el->updateDiagnoses($diagnoses);
-			}
-		}
+		$element->updateFluidTypes(Eye::LEFT, $element->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
+				$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+				array());
+		$element->updateFluidTypes(Eye::RIGHT, $element->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
+				$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
+				array());
 	}
+
+	/**
+	 * Save diagnoses
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_Diagnoses($element, $data, $index)
+	{
+		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
+		$diagnoses = array();
+		$eyes = isset($data['Element_OphCiExamination_Diagnoses']) ? array_values($data['Element_OphCiExamination_Diagnoses']) : array();
+
+		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
+			$diagnoses[] = array(
+				'eye_id' => $eyes[$i],
+				'disorder_id' => $disorder_id,
+				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
+			);
+		}
+		$element->updateDiagnoses($diagnoses);
+	}
+
 }
