@@ -116,13 +116,9 @@ class DefaultController extends BaseEventTypeController
 		$this->initEdit();
 	}
 
-	protected function setElementDefaultOptions($element, $action)
+	protected function setElementDefaultOptions_Element_OphCiExamination_Diagnoses($element, $action)
 	{
-		parent::setElementDefaultOptions($element, $action);
-		if ($action != "create") {
-			return;
-		}
-		if (get_class($element) == 'Element_OphCiExamination_Diagnoses') {
+		if ($action == 'create') {
 			// set the diagnoses to match the current patient diagnoses for the episode
 			// and any other ophthalmic secondary diagnoses the patient has
 			$diagnoses = array();
