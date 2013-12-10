@@ -75,9 +75,10 @@ class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
 	 * (non-PHPdoc)
 	 * @see CActiveRecord::defaultScope()
 	 */
-	public function defaultScope()
+	public function defaultScope($scope=array())
 	{
 		$alias = $this->getTableAlias(false, false);
+
 		return array(
 			'order' => $alias . '.display_order ASC',
 		);

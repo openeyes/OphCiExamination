@@ -38,10 +38,9 @@ class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecord
 	
 	public function defaultScope()
 	{
-		
 		return array(
 			'order' => 'display_order ASC',
-			'condition' => $this->getTableAlias(false, false) . '.enabled = true'
+			'condition' => $this->getTableAlias(false, false) . '.enabled = true',
 		);
 	}
 	
@@ -58,5 +57,4 @@ class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecord
 				array('id, name, display_order, other', 'safe', 'on' => 'search'),
 		);
 	}
-
 }
