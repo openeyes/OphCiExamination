@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="eyedraw-image column fixed">
+<div class="column fixed">
 	<?php
 	$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
@@ -29,7 +29,7 @@
 		'attribute' => $side.'_eyedraw',
 	))?>
 </div>
-<div class="eyedraw-value column fluid">
+<div class="column fluid">
 	<?php if ($description = $element->{$side.'_description'}) { ?>
 		<div class="data-row description">
 			<div class="data-value">

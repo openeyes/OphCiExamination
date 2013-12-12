@@ -22,7 +22,7 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1385560170');
+  background-image: url('../img/watermark.png?1385733426');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
@@ -174,96 +174,87 @@
   width: 186px;
 }
 
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .row.refraction .column.fluid {
-    width: -moz-calc(100% - 186px);
-    width: -o-calc(100% - 186px);
-    width: -webkit-calc(100% - 186px);
-    width: calc(100% - 186px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.row.refraction .column.fluid {
+  width: -moz-calc(100% - 186px);
+  width: -o-calc(100% - 186px);
+  width: -webkit-calc(100% - 186px);
+  width: calc(100% - 186px);
 }
+
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.gonioscopy .column.fixed {
   width: 320px;
 }
 
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .row.gonioscopy .column.fluid {
-    width: -moz-calc(100% - 320px);
-    width: -o-calc(100% - 320px);
-    width: -webkit-calc(100% - 320px);
-    width: calc(100% - 320px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.row.gonioscopy .column.fluid {
+  width: -moz-calc(100% - 320px);
+  width: -o-calc(100% - 320px);
+  width: -webkit-calc(100% - 320px);
+  width: calc(100% - 320px);
 }
+
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.anterior-segment .column.fixed {
   width: 320px;
 }
 
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .row.anterior-segment .column.fluid {
-    width: -moz-calc(100% - 320px);
-    width: -o-calc(100% - 320px);
-    width: -webkit-calc(100% - 320px);
-    width: calc(100% - 320px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.row.anterior-segment .column.fluid {
+  width: -moz-calc(100% - 320px);
+  width: -o-calc(100% - 320px);
+  width: -webkit-calc(100% - 320px);
+  width: calc(100% - 320px);
 }
+
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.optic-disc .column.fixed {
   width: 320px;
 }
 
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .row.optic-disc .column.fluid {
-    width: -moz-calc(100% - 320px);
-    width: -o-calc(100% - 320px);
-    width: -webkit-calc(100% - 320px);
-    width: calc(100% - 320px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.row.optic-disc .column.fluid {
+  width: -moz-calc(100% - 320px);
+  width: -o-calc(100% - 320px);
+  width: -webkit-calc(100% - 320px);
+  width: calc(100% - 320px);
 }
+
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .row.posterior-pole .column.fixed {
   width: 320px;
 }
 
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .row.posterior-pole .column.fluid {
-    width: -moz-calc(100% - 320px);
-    width: -o-calc(100% - 320px);
-    width: -webkit-calc(100% - 320px);
-    width: calc(100% - 320px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.row.posterior-pole .column.fluid {
+  width: -moz-calc(100% - 320px);
+  width: -o-calc(100% - 320px);
+  width: -webkit-calc(100% - 320px);
+  width: calc(100% - 320px);
 }
+
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fixed, .view .row .anterior-segment .column.fixed, .view .row .optic-disc .column.fixed, .view .row .posterior-pole .column.fixed {
   width: 220px;
 }
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
-    width: -moz-calc(100% - 220px);
-    width: -o-calc(100% - 220px);
-    width: -webkit-calc(100% - 220px);
-    width: calc(100% - 220px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
+  width: -moz-calc(100% - 220px);
+  width: -o-calc(100% - 220px);
+  width: -webkit-calc(100% - 220px);
+  width: calc(100% - 220px);
 }
 /* line 115, ../../../../../sass/openeyes/_mixins.scss */
 .view .row.refraction .column.fixed {
   width: 120px;
 }
-@media only screen and (min-width: 768px) {
-  /* line 125, ../../../../../sass/openeyes/_mixins.scss */
-  .view .row.refraction .column.fluid {
-    width: -moz-calc(100% - 120px);
-    width: -o-calc(100% - 120px);
-    width: -webkit-calc(100% - 120px);
-    width: calc(100% - 120px);
-  }
+/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+.view .row.refraction .column.fluid {
+  width: -moz-calc(100% - 120px);
+  width: -o-calc(100% - 120px);
+  width: -webkit-calc(100% - 120px);
+  width: calc(100% - 120px);
 }
 
 /* line 19, ../sass/components/_eyedraw.scss */
