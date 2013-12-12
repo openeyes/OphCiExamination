@@ -260,35 +260,21 @@ class DefaultController extends NestedElementsEventTypeController
 		return $this->filterElements($elements);
 	}
 
-	public function actionGetDisorderTableRow()
+	/**
+	 * Ajax function for quick disorder lookup
+	 *
+	 * @throws Exception
+	 */
+	public function actionGetDisorder()
 	{
-		if (@$_GET['disorder_id'] == '0') return;
-
+		if (!@$_GET['disorder_id']) return;
 		if (!$disorder = Disorder::model()->findByPk(@$_GET['disorder_id'])) {
 			throw new Exception('Unable to find disorder: '.@$_GET['disorder_id']);
 		}
 
-		if (!$the_eye = Eye::model()->find('name=?',array(ucfirst(@$_GET['side'])))) {
-			throw new Exception('Unable to find eye: '.@$_GET['side']);
-		}
-
-		$id = $_GET['id'];
-
-		echo '<tr><td>'.$disorder->term.'</td><td class="eye">';
-
-		foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
-			echo '<label class="inline OphCiExamination_eye_radio"><input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'.$id.']" value="'.$eye->id.'"';
-			if ($eye->id == $the_eye->id) {
-				echo 'checked="checked" ';
-			}
-			echo '/> '.$eye->name.'</label> ';
-		}
-
-		echo '</td><td><input type="radio" name="principal_diagnosis" value="'.$disorder->id.'"';
-		if ($id == 0) {
-			echo 'checked="checked" ';
-		}
-		echo '/></td><td><a href="#" class="removeDiagnosis" rel="'.$disorder->id.'">Remove</a></td></tr>';
+		header('Content-type: application/json');
+		echo json_encode(array('id' => $disorder->id, 'name' => $disorder->term));
+		Yii::app()->end();
 	}
 
 	public function actionDilationDrops()

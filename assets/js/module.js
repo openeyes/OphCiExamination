@@ -403,20 +403,13 @@ $(document).ready(function() {
 				}
 
 			} else {
-				var id = max_id + 1 + parseInt(i);
-
-				$.ajax({
-					'type': 'GET',
-					'url': baseUrl+'/OphCiExamination/default/getDisorderTableRow?disorder_id='+code[i]+'&side='+side+'&id='+id,
-					'success': function(html) {
-						if (html.length > 0) {
-							// Add the table row
-							$('#OphCiExamination_diagnoses').append(html);
-							// Add a hidden input to the diagnosis name cell.
-							$('#OphCiExamination_diagnoses').find('tr:last td:first').append('<input type="hidden" name="selected_diagnoses[]" value="'+code[i]+'" />');
-						}
-					}
-				});
+                $.ajax({
+                    'type': 'GET',
+                    'url': baseUrl+'/OphCiExamination/default/getDisorder?disorder_id='+code[i],
+                    'success': function(json) {
+                        OphCiExamination_AddDiagnosis(json.id, json.name);
+                    }
+                });
 			}
 		}
 	});
@@ -1681,7 +1674,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	var checked_principal = (count == 0 ? 'checked="checked" ' : '');
 
 	var row = '<tr>'+
-		'<td>'+name+'</td>'+
+		'<td><input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" /> '+name+' </td>'+
 		'<td class="eye">'+
 			'<label class="inline">'+
 				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
@@ -1702,7 +1695,6 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 	'</tr>';
 
 	$('.js-diagnoses').append(row);
-	$('.js-diagnoses').append('<input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" />');
 }
 
 function OphCiExamination_Gonioscopy_init() {
