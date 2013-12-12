@@ -395,10 +395,10 @@ $(document).ready(function() {
 				}
 			});
 
-			if (already_in_list) {
-				var side_n = side == 'right' ? 2 : 1;
+			var eye_id = side == 'right' ? 2 : 1;
 
-				if ((side_n == 1 && list_eye_id == 2) || (side_n == 2 && list_eye_id == 1)) {
+			if (already_in_list) {
+				if (eye_id != list_eye_id) {
 					$('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
 				}
 
@@ -407,7 +407,7 @@ $(document).ready(function() {
                     'type': 'GET',
                     'url': baseUrl+'/OphCiExamination/default/getDisorder?disorder_id='+code[i],
                     'success': function(json) {
-                        OphCiExamination_AddDiagnosis(json.id, json.name);
+                        OphCiExamination_AddDiagnosis(json.id, json.name, eye_id);
                     }
                 });
 			}
@@ -1651,7 +1651,7 @@ function OphCiExamination_InjectionManagementComplex_init() {
 
 // END InjectionManagementComplex
 
-function OphCiExamination_AddDiagnosis(disorder_id, name) {
+function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	var max_id = -1;
 	var count = 0;
 
@@ -1665,8 +1665,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name) {
 
 	var id = max_id + 1;
 
-	var eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
-	var eye_text = $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').next('label');
+	eye_id = eye_id || $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
 
 	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
 	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');
