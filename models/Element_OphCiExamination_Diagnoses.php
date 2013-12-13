@@ -227,7 +227,13 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
 				if (!$episode || $sd->disorder_id != $episode->disorder_id || $episode->eye_id != $sd->eye_id) {
 					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
-						$diagnoses[] = array(
+						if (isset($diagnoses[$sd->disorder_id])) {
+							if ($sd->eye_id != $diagnoses[$sd->disorder_id]['eye_id']) {
+								$sd->eye_id = Eye::model()->find('name=?',array('Both'))->id;
+							}
+						}
+
+						$diagnoses[$sd->disorder_id] = array(
 							'disorder' => $sd->disorder,
 							'eye_id' => $sd->eye_id,
 							'principal' => false,
