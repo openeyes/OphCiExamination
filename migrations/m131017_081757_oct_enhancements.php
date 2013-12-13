@@ -6,7 +6,7 @@ class m131017_081757_oct_enhancements extends CDbMigration
 	{
 		$this->createTable('ophciexamination_oct_fluidstatus', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'name' => 'varchar(128) NOT NULL',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'enabled' => 'boolean NOT NULL DEFAULT true',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -26,7 +26,7 @@ class m131017_081757_oct_enhancements extends CDbMigration
 
 		$this->createTable('ophciexamination_oct_fluidtype', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'name' => 'varchar(128) NOT NULL',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'enabled' => 'boolean NOT NULL DEFAULT true',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
