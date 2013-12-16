@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveRecord
+class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Refraction_Fraction extends BaseActiveRecord
+class OphCiExamination_Refraction_Fraction extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

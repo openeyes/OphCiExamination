@@ -30,7 +30,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord
+class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecordVersioned
 {
 	const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
 

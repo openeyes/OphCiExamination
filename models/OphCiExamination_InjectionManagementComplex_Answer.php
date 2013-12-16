@@ -34,7 +34,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecord
+class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

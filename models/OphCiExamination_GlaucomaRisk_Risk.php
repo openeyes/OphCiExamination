@@ -28,7 +28,7 @@
  * @property integer $display_order
  * @property OphCiExamination_ClinicOutcome_Template $clinicoutcome_template
  */
-class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord
+class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

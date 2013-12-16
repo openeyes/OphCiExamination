@@ -27,7 +27,7 @@
  * @property boolean $principal
 
  */
-class OphCiExamination_Diagnosis extends BaseActiveRecord
+class OphCiExamination_Diagnosis extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

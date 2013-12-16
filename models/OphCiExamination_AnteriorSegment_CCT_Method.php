@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecord
+class OphCiExamination_AnteriorSegment_CCT_Method extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

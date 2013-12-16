@@ -25,7 +25,7 @@
  * @property integer $followup_quantity
  * @property Period $followup_period
  */
-class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord
+class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

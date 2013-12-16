@@ -33,7 +33,7 @@
  * @property User $usermodified
  */
 
-class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseActiveRecord
+class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -27,7 +27,7 @@
  * @property OphCiExamination_ElementSetItem[] $items
 
  */
-class OphCiExamination_ElementSet extends BaseActiveRecord
+class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -28,7 +28,7 @@
  */
 
 
-class OphCiExamination_OCT_FluidType extends BaseActiveRecord
+class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

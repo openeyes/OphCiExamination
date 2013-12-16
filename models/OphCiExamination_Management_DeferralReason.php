@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
+class OphCiExamination_Management_DeferralReason extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

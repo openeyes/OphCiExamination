@@ -25,7 +25,7 @@
  * @property OphCiExamination_Workflow_Step[] $steps
 
  */
-class OphCiExamination_Workflow extends BaseActiveRecord
+class OphCiExamination_Workflow extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

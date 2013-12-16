@@ -27,7 +27,7 @@
  * @property integer $drops
  *
  */
-class OphCiExamination_Dilation_Treatment extends BaseActiveRecord
+class OphCiExamination_Dilation_Treatment extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

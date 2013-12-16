@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Gonioscopy_Van_Herick extends BaseActiveRecord
+class OphCiExamination_Gonioscopy_Van_Herick extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

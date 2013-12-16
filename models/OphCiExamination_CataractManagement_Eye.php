@@ -24,7 +24,7 @@
  * @property string $name
  * @property integer $display_order
  */
-class OphCiExamination_CataractManagement_Eye extends BaseActiveRecord
+class OphCiExamination_CataractManagement_Eye extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

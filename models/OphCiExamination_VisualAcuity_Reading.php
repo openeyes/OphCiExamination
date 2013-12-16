@@ -27,7 +27,7 @@
  * @property integer $method_id
 
  */
-class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
+class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -26,7 +26,7 @@
  * @property OphCiExamination_AttributeElement[] $attribute_elements
 
  */
-class OphCiExamination_Attribute extends BaseActiveRecord
+class OphCiExamination_Attribute extends BaseActiveRecordVersioned
 {
 	protected $attribute_options = array();
 

@@ -33,7 +33,7 @@
  * @property User $usermodified
  */
 
-class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecord
+class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -25,7 +25,7 @@
  * @property integer $item_id
 
  */
-class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecord
+class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

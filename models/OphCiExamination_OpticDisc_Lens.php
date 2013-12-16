@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_OpticDisc_Lens extends BaseActiveRecord
+class OphCiExamination_OpticDisc_Lens extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

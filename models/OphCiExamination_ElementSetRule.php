@@ -27,7 +27,7 @@
  * @property OphCiExamination_Workflow $workflow
 
  */
-class OphCiExamination_ElementSetRule extends BaseActiveRecord
+class OphCiExamination_ElementSetRule extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

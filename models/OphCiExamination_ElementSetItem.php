@@ -26,7 +26,7 @@
  * @property ElementType $element_type
  * @property integer $default
  */
-class OphCiExamination_ElementSetItem extends BaseActiveRecord
+class OphCiExamination_ElementSetItem extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

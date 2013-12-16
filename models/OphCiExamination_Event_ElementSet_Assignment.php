@@ -25,7 +25,7 @@
  * @property OphCiExamination_ElementSet $step
 
  */
-class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord
+class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

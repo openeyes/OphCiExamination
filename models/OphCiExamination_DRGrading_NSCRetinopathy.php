@@ -27,7 +27,7 @@
  * @property integer $booking_weeks
 
  */
-class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecord
+class OphCiExamination_DRGrading_NSCRetinopathy extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

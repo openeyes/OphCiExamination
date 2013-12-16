@@ -27,7 +27,7 @@
  * @property string $value
  * @property string $delimiter
  */
-class OphCiExamination_AttributeOption extends BaseActiveRecord
+class OphCiExamination_AttributeOption extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

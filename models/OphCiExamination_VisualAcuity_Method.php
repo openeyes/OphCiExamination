@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_VisualAcuity_Method extends BaseActiveRecord
+class OphCiExamination_VisualAcuity_Method extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

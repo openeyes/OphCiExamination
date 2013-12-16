@@ -25,7 +25,7 @@
  * @property integer $display_order
  * @property EpisodeStatus $episode_status
  */
-class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecord
+class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -25,7 +25,7 @@
  * @property ElementType $element_type
  * @property OphCiExamination_AttributeOption[] $options
  */
-class OphCiExamination_AttributeElement extends BaseActiveRecord
+class OphCiExamination_AttributeElement extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

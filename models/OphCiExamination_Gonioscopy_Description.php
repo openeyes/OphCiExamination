@@ -25,7 +25,7 @@
  * @property integer $display_order
  * @property boolean $seen
  */
-class OphCiExamination_Gonioscopy_Description extends BaseActiveRecord
+class OphCiExamination_Gonioscopy_Description extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
