@@ -1572,7 +1572,6 @@ function OphCiExamination_InjectionManagementComplex_loadQuestions(side) {
 			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').find('input:radio:checked').each(function() {
 				answers[$(this).attr('id')] = $(this).val();
 			});
-			html = $(html).show();
 			$('#Element_OphCiExamination_InjectionManagementComplex_' + side + '_Questions').replaceWith(html);
 			for (var ans in answers) {
 				if (answers.hasOwnProperty(ans)) {
