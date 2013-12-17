@@ -22,14 +22,8 @@
 	<?php
 		$this->breadcrumbs=array($this->module->id);
 		$this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'clinical-create'));
+		$this->title .= '('.$this->getNextStep()->name.')';
 	?>
-
-	<h2 class="event-title">
-		<?php echo $this->event_type->name ?>
-		(<?php echo $this->getNextStep()->name; ?>)
-	</h2>
-
-	<?php $this->renderPartial('//base/_messages'); ?>
 
 	<?php $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
 		'id'=>'clinical-create',

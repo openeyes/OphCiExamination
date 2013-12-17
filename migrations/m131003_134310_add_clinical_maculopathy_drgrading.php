@@ -19,7 +19,7 @@ class m131003_134310_add_clinical_maculopathy_drgrading extends CDbMigration
 
 		$this->createTable('ophciexamination_drgrading_clinicalmaculopathy', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'name' => 'varchar(128) COLLATE utf8_bin NOT NULL',
+				'name' => 'varchar(128) NOT NULL',
 				'description' => 'text',
 				'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'class' => 'varchar(16) NOT NULL',

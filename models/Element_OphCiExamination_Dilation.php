@@ -155,6 +155,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			$sides = array(0 => false, 1 => false);
 			foreach ($_POST['dilation_treatment'] as $dilation_treatment) {
 				$sides[$dilation_treatment['side']] = true;
+
+				if (!$treatment_time = strtotime($dilation_treatment['treatment_time'])) {
+					$this->addError('dilation_treatment','Invalid treatment time');
+				}
 			}
 			if ($this->hasLeft() && !$sides[1]) {
 				$this->addError('dilation_treatment','Please select at least one treatment, or remove the left side');
@@ -163,9 +167,6 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 				$this->addError('dilation_treatment','Please select at least one treatment, or remove the right side');
 			}
 
-			if (!$treatment_time = strtotime($dilation_treatment['treatment_time'])) {
-				$this->addError('dilation_treatment','Invalid treatment time');
-			}
 		}
 
 		return parent::beforeValidate();
