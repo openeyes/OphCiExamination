@@ -8,6 +8,7 @@ class m131217_122048_exam_episode_summary_items extends OEMigration
 
 		$this->insert('episode_summary_item', array('event_type_id' => $event_type_id, 'name' => 'CCT'));
 		$this->insert('episode_summary_item', array('event_type_id' => $event_type_id, 'name' => 'IOP'));
+		$this->insert('episode_summary_item', array('event_type_id' => $event_type_id, 'name' => 'Medical Retinal History'));
 	}
 
 	public function down()
@@ -16,5 +17,6 @@ class m131217_122048_exam_episode_summary_items extends OEMigration
 
 		$this->delete('episode_summary_item', 'event_type_id = ? and name = ?', array($event_type_id, 'CCT'));
 		$this->delete('episode_summary_item', 'event_type_id = ? and name = ?', array($event_type_id, 'IOP'));
+		$this->delete('episode_summary_item', 'event_type_id = ? and name = ?', array($event_type_id, 'Medical Retinal History'));
 	}
 }
