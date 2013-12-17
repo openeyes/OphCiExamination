@@ -28,7 +28,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AdditionalComments extends BaseEventTypeElement
+class Element_OphCiExamination_Conclusion extends BaseEventTypeElement
 {
 	public $service;
 
@@ -46,7 +46,7 @@ class Element_OphCiExamination_AdditionalComments extends BaseEventTypeElement
 	 */
 	public function tableName()
 	{
-		return 'et_ophciexamination_additionalcomments';
+		return 'et_ophciexamination_conclusion';
 	}
 
 	/**
@@ -115,6 +115,6 @@ class Element_OphCiExamination_AdditionalComments extends BaseEventTypeElement
 
 	public function getLetter_string()
 	{
-		return "Additional comments: $this->description\n";
+		return "Conclusion: $this->description\n";
 	}
 }

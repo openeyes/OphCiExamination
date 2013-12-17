@@ -283,23 +283,17 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
-	Deprecated use getLetterAdditionalComments
+	 * get the conclusion text from the most recent examination in the patient examination that has a conclusion element
+	 *
+	 * @param Patient $patient
+	 * @param unknown $episode
+	 * @return string
 	 */
 	public function getLetterConclusion($patient)
 	{
-		return getLetterAdditionalComments($patient);
-	}
-
-	/**
-	* get the additional comments from the most recent examination in the patient examination that has an additional comments element
-	*
-	* @param Patient $patient
-	 * */
-	public function getLetterAdditionalComments($patient)
-	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($comments = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_AdditionalComments')) {
-				return $comments->description;
+			if ($conclusion = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Conclusion')) {
+				return $conclusion->description;
 			}
 		}
 	}
