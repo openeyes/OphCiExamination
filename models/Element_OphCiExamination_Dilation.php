@@ -155,8 +155,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			$sides = array(0 => false, 1 => false);
 			foreach ($_POST['dilation_treatment'] as $dilation_treatment) {
 				$sides[$dilation_treatment['side']] = true;
-
-				if (!$treatment_time = strtotime($dilation_treatment['treatment_time'])) {
+				if (!preg_match("/^(([01]?[0-9])|(2[0-3])):?[0-5][0-9]$/", $dilation_treatment['treatment_time'])) {
 					$this->addError('dilation_treatment','Invalid treatment time');
 				}
 			}
