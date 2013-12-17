@@ -117,4 +117,9 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 	{
 		return "History: $this->description\n";
 	}
+
+	public function canCopy()
+	{
+		return true;
+	}
 }

@@ -128,4 +128,9 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement
 	{
 		return "Adnexal comorbidity:\nleft: ".$this->left_description."\nright: ".$this->right_description."\n";
 	}
+
+	public function canCopy()
+	{
+		return true;
+	}
 }

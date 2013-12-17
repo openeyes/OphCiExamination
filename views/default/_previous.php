@@ -61,12 +61,14 @@
 					on <?php echo $element->event->NHSDate('last_modified_date') ?>
 					at <?php echo date('H:i', strtotime($element->event->last_modified_date)) ?></span>
 			</div>
-			<div class="actions">
-				<button name="copy" class="copy_element small"
-					data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo $element->elementType->class_name ?>">
-					Copy
-				</button>
-			</div>
+			<?php if ($element->canCopy()) {?>
+				<div class="actions">
+					<button name="copy" class="copy_element small"
+						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo $element->elementType->class_name ?>">
+						Copy
+					</button>
+				</div>
+			<?php }?>
 		</div>
 	<?php } ?>
 </div>
