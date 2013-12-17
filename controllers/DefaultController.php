@@ -319,7 +319,6 @@ class DefaultController extends BaseEventTypeController
 	 *
 	 * Used when eyedraw elements have doodles that are associated with disorders
 	 *
-	 * @TODO: change this to integrate fully with the diagnosis element and use the same display functions
 	 * @throws Exception
 	 */
 	public function actionGetDisorder()
