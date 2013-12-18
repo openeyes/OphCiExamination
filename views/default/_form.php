@@ -45,7 +45,6 @@
 								<div class="drgrading_images_dialog" title="DR Grading Images">
 									<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 								</div>
-							</div>
 						<?php }else{?>
 							<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
 						<?php }?>
