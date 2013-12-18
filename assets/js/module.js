@@ -1377,7 +1377,7 @@ function OphCiExamination_DRGrading_update(side) {
 	}
 }
 
-function OphCiExamination_DRGrading_init() {
+function OphCiExamination_DRGrading_init(previous_id) {
 
 	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
 		autoOpen: false,
@@ -1413,8 +1413,11 @@ function OphCiExamination_DRGrading_init() {
 				OphCiExamination_DRGrading_dirtyCheck(_drawing);
 			}
 
-			if (!$('#drgrading_dirty').is(":visible")) {
+			if (previous_id) {
+				$('#drgrading_dirty').show();
+			}
 
+			if (!$('#drgrading_dirty').is(":visible")) {
 				var grades = gradeCalculator(_drawing);
 
 				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
