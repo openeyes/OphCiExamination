@@ -128,8 +128,10 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 				if (@$_POST['principal_diagnosis'] == $disorder_id) {
-					$eye_id = isset($_POST['Element_OphCiExamination_Diagnoses']) ? $_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i] : Eye::BOTH;
-					$principal_eye = $eye_id;
+					if (isset($_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i])) {
+						$eye_id = isset($_POST['Element_OphCiExamination_Diagnoses']) ? $_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i] : Eye::BOTH;
+						$principal_eye = $eye_id;
+					}
 				}
 			}
 		}
@@ -140,33 +142,35 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
-				$eye_id = isset($_POST['Element_OphCiExamination_Diagnoses']) ? $_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i] : Eye::BOTH;
+				if (isset($_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i])) {
+					$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
+					$eye_id = isset($_POST['Element_OphCiExamination_Diagnoses']) ? $_POST['Element_OphCiExamination_Diagnoses']['eye_id_' . $i] : Eye::BOTH;
 
-				if (!$diagnosis) {
-					$diagnosis = new OphCiExamination_Diagnosis;
-					$diagnosis->element_diagnoses_id = $this->id;
-					$diagnosis->disorder_id = $disorder_id;
+					if (!$diagnosis) {
+						$diagnosis = new OphCiExamination_Diagnosis;
+						$diagnosis->element_diagnoses_id = $this->id;
+						$diagnosis->disorder_id = $disorder_id;
+					}
+
+					$diagnosis->eye_id = $eye_id;
+
+					if (@$_POST['principal_diagnosis'] == $disorder_id) {
+						$diagnosis->principal = true;
+					} else {
+						$diagnosis->principal = false;
+					}
+
+					if (!$diagnosis->save()) {
+						throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
+					}
+
+					if (@$_POST['principal_diagnosis'] != $disorder_id) {
+						$this->event->episode->patient->addDiagnosis($disorder_id, $eye_id, substr($this->event->created_date,0,10));
+						$secondary_diagnosis_ids[] = $disorder_id;
+					}
+
+					$disorder_ids[] = $disorder_id;
 				}
-
-				$diagnosis->eye_id = $eye_id;
-
-				if (@$_POST['principal_diagnosis'] == $disorder_id) {
-					$diagnosis->principal = true;
-				} else {
-					$diagnosis->principal = false;
-				}
-
-				if (!$diagnosis->save()) {
-					throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
-				}
-
-				if (@$_POST['principal_diagnosis'] != $disorder_id) {
-					$this->event->episode->patient->addDiagnosis($disorder_id, $eye_id, substr($this->event->created_date,0,10));
-					$secondary_diagnosis_ids[] = $disorder_id;
-				}
-
-				$disorder_ids[] = $disorder_id;
 			}
 		}
 
