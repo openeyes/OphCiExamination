@@ -116,6 +116,13 @@ class DefaultController extends BaseEventTypeController
 		$this->initEdit();
 	}
 
+	/**
+	 * Pulls in the diagnosis from the episode and ophthalmic diagnoses from the patient, and sets an appropriate list
+	 * of unique diagnoses
+	 *
+	 * @param $element
+	 * @param $action
+	 */
 	protected function setElementDefaultOptions_Element_OphCiExamination_Diagnoses($element, $action)
 	{
 		if ($action == 'create') {
@@ -141,8 +148,13 @@ class DefaultController extends BaseEventTypeController
 			foreach ($diagnoses as $d) {
 				$already_in = false;
 				foreach ($_diagnoses as $ad) {
-					if ($d->disorder_id == $ad->disorder_id && $d->eye_id == $ad->eye_id && $d->principal == $ad->principal) {
+					if ($d->disorder_id == $ad->disorder_id) {
 						$already_in = true;
+						// set the eye correctly (The principal diagnosis for the episode is the first diagnosis, so
+						// no need to check that.
+						if ($d->eye_id != $ad->eye_id) {
+							$ad->eye_id = Eye::BOTH;
+						}
 						break;
 					}
 				}
@@ -485,10 +497,20 @@ class DefaultController extends BaseEventTypeController
 	protected function setComplexAttributes_Element_OphCiExamination_Diagnoses($element, $data, $index)
 	{
 		$diagnoses = array();
+		$diagnosis_eyes = array();
+
+		if (isset($data['Element_OphCiExamination_Diagnoses'])) {
+			foreach ($data['Element_OphCiExamination_Diagnoses'] as $key => $value) {
+				if (preg_match('/^eye_id_[0-9]+$/',$key)) {
+					$diagnosis_eyes[] = $value;
+				}
+			}
+		}
+
 		if (is_array(@$data['selected_diagnoses'])) {
 			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
 				$diagnosis = new OphCiExamination_Diagnosis();
-				$diagnosis->eye_id = @$data['Element_OphCiExamination_Diagnoses']['eye_id_' . $i];
+				$diagnosis->eye_id = $diagnosis_eyes[$i];
 				$diagnosis->disorder_id = $disorder_id;
 				$diagnosis->principal = (@$data['principal_diagnosis'] == $disorder_id);
 				$diagnoses[] = $diagnosis;
