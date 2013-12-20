@@ -26,7 +26,7 @@
 		<?php echo $form->checkbox($element, 'satellite', array('nowrapper'=>true))?>
 		<?php echo $form->checkbox($element, 'fast_track', array('nowrapper'=>true))?>
 	</div>
-	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-20,'max'=>20,'step'=>0.5), array(), array('label' => 3, 'field' => 6))?>
+	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-10,'max'=>10,'step'=>0.25), array(), array('label' => 3, 'field' => 6))?>
 	<?php echo $form->radioBoolean($element, 'correction_discussed', array(), array('label' => 3, 'field' => 9))?>
 	<div class="row field-row">
 		<div class="large-3 column">
