@@ -35,7 +35,7 @@
 			</label>
 		</div>
 		<div class="large-9 column">
-			<?php echo CHtml::activeDropDownList($element,'suitable_for_surgeon_id', CHtml::listData(OphCiExamination_SuitableForSurgeon::model()->findAll(array('order'=>'display_order')),'id','name'),array('class'=>'inline','empty'=>'- Please select -'))?>
+			<?php echo CHtml::activeDropDownList($element,'suitable_for_surgeon_id', CHtml::listData(OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon::model()->findAll(array('order'=>'display_order')),'id','name'),array('class'=>'inline','empty'=>'- Please select -'))?>
 			<label class="inline">
 				<?php echo $form->checkbox($element, 'supervised', array('nowrapper' => true, 'no-label'=>true))?>
 				<?php echo $element->getAttributeLabel('supervised')?>

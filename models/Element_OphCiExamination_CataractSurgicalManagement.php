@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "et_ophciexamination_cataractmanagement".
+ * This is the model class for table "et_ophciexamination_cataractsurgicalmanagement".
  *
  * The followings are the available columns in table:
  * @property string $id
@@ -27,13 +27,13 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
+class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeElement
 {
 	public $service;
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_CataractManagement the static model class
+	 * @return Element_OphCiExamination_CataractSurgicalManagement the static model class
 	 */
 	public static function model($className = __CLASS__)
 	{
@@ -45,7 +45,7 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
 	 */
 	public function tableName()
 	{
-		return 'et_ophciexamination_cataractmanagement';
+		return 'et_ophciexamination_cataractsurgicalmanagement';
 	}
 
 	/**
@@ -76,8 +76,8 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_SuitableForSurgeon', 'suitable_for_surgeon_id'),
-				'eye' => array(self::BELONGS_TO, 'OphCiExamination_CataractManagement_Eye', 'eye_id'),
+				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
+				'eye' => array(self::BELONGS_TO, 'OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
 		);
 	}
 
@@ -149,7 +149,7 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
 
 	public function getFormOptions($table=null)
 	{
-		return CHtml::listData(OphCiExamination_CataractManagement_Eye::model()->findAll(array('order'=>'display_order')),'id','name');
+		return CHtml::listData(OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(array('order'=>'display_order')),'id','name');
 	}
 
 	public function setDefaultOptions()
@@ -161,9 +161,9 @@ class Element_OphCiExamination_CataractManagement extends BaseEventTypeElement
 				}
 
 				if ($api->getOpnoteWithCataractElementInCurrentEpisode($patient)) {
-					$this->eye_id = OphCiExamination_CataractManagement_Eye::model()->find('name=?',array('Second eye'))->id;
+					$this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?',array('Second eye'))->id;
 				} else {
-					$this->eye_id = OphCiExamination_CataractManagement_Eye::model()->find('name=?',array('First eye'))->id;
+					$this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?',array('First eye'))->id;
 				}
 			}
 		}
