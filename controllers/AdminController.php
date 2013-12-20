@@ -123,7 +123,6 @@ class AdminController extends ModuleAdminController
 			if (!array_key_exists('enabled', $_POST)) {
 				throw new Exception('cannot determine status for reason');
 			}
-			error_log('cack' . $_POST['enabled']);
 
 			if ($_POST['enabled']) {
 				$model->enabled = true;
@@ -271,7 +270,6 @@ class AdminController extends ModuleAdminController
 			if (!array_key_exists('enabled', $_POST)) {
 				throw new Exception('cannot determine status for question');
 			}
-			error_log('cack' . $_POST['enabled']);
 
 			if ($_POST['enabled']) {
 				$model->enabled = true;
