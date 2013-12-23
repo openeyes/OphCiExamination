@@ -22,11 +22,11 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1385733426');
+  background-image: url('../img/watermark.png?1385625849');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1383822301');
+  background-image: url('../img/medium.png?1380798578');
 }
 
 /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
@@ -103,6 +103,14 @@
 .Element_OphCiExamination_VisualAcuity .visual-acuity-reading select {
   width: auto;
 }
+/* line 23, ../sass/components/elements/_visual-acuity.scss */
+.Element_OphCiExamination_VisualAcuity .noReadings {
+  width: 33em;
+}
+/* line 25, ../sass/components/elements/_visual-acuity.scss */
+.Element_OphCiExamination_VisualAcuity .noReadings label {
+  display: inline-block;
+}
 
 /* line 18, ../sass/components/elements/_comorbidities.scss */
 .comorbidities-multi-select select {
@@ -111,7 +119,7 @@
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1383822301') no-repeat center center;
+  background: url('../img/cross.gif?1376463845') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
