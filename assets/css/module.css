@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -23,11 +22,11 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1387554709');
+  background-image: url('../img/watermark.png?1387554124');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1384769135');
+  background-image: url('../img/medium.png?1387554124');
 }
 
 /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
@@ -112,7 +111,7 @@
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1384769135') no-repeat center center;
+  background: url('../img/cross.gif?1387554124') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
@@ -148,25 +147,25 @@
   width: 100%;
 }
 
-/* line 50, ../sass/components/_gonio-cross.scss */
-.Element_OphCiExamination_Gonioscopy .gonio-cross {
+/* line 52, ../sass/components/_gonio-cross.scss */
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross {
   height: 80px;
   width: 120px;
 }
-/* line 53, ../sass/components/_gonio-cross.scss */
-.Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-sup {
+/* line 55, ../sass/components/_gonio-cross.scss */
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-sup {
   top: 5px;
 }
-/* line 56, ../sass/components/_gonio-cross.scss */
-.Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-tem {
+/* line 58, ../sass/components/_gonio-cross.scss */
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-tem {
   left: 15px;
 }
-/* line 59, ../sass/components/_gonio-cross.scss */
-.Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-nas {
+/* line 61, ../sass/components/_gonio-cross.scss */
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-nas {
   right: 15px;
 }
-/* line 62, ../sass/components/_gonio-cross.scss */
-.Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-inf {
+/* line 64, ../sass/components/_gonio-cross.scss */
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-inf {
   bottom: 5px;
 }
 
