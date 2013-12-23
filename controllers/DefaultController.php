@@ -116,6 +116,11 @@ class DefaultController extends BaseEventTypeController
 		$this->initEdit();
 	}
 
+	public function initActionStep()
+	{
+		$this->initActionUpdate();
+	}
+
 	/**
 	 * Pulls in the diagnosis from the episode and ophthalmic diagnoses from the patient, and sets an appropriate list
 	 * of unique diagnoses
