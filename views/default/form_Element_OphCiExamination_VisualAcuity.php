@@ -48,13 +48,12 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 					}?>
 				</tbody>
 			</table>
-			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
-				<div class="large-6 column">
-					Not recorded
+			<div class="field-row row noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+				<div class="large-4 column">
+					<div class="field-info">Not recorded</div>
 				</div>
-				<div class="large-6 column">
+				<div class="large-8 column end">
 					<?php echo $form->checkBox($element,'right_unable_to_assess',array('text-align'=>'right','nowrapper'=>true))?>
-					&nbsp;&nbsp;&nbsp;
 					<?php echo $form->checkBox($element,'right_eye_missing',array('text-align'=>'right','nowrapper'=>true))?>
 				</div>
 			</div>
@@ -97,13 +96,12 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 					}?>
 				</tbody>
 			</table>
-			<div class="field-row field-info noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
-				<div class="large-6 column">
-					Not recorded
+			<div class="field-row row noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+				<div class="large-4 column">
+					<div class="field-info">Not recorded</div>
 				</div>
-				<div class="large-6 column">
+				<div class="large-8 column">
 					<?php echo $form->checkBox($element,'left_unable_to_assess',array('text-align'=>'right','nowrapper'=>true))?>
-					&nbsp;&nbsp;&nbsp;
 					<?php echo $form->checkBox($element,'left_eye_missing',array('text-align'=>'right','nowrapper'=>true))?>
 				</div>
 			</div>

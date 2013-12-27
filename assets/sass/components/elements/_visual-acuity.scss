@@ -21,9 +21,9 @@
 		}
 	}
 	.noReadings {
-		width: 33em;
 		label {
 			display: inline-block;
+			padding: 0 emCalc(10px) 0 0;
 		}
 	}
 }
