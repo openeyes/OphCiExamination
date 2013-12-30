@@ -179,7 +179,7 @@ function updateDRGrades(_drawing, retinopathy, maculopathy, ret_photo, mac_photo
 		var side = 'right';
 	}
 
-	var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
+	var dr_grade = $('.js-active-elements .' + dr_grade_et_class);
 	// clinical retinopathy
 	var crSel = dr_grade.find('select#'+dr_grade_et_class+'_'+side+'_clinicalret_id');
 	crSel.find('option').each(function() {
@@ -1338,7 +1338,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
  * @param side
  */
 function OphCiExamination_DRGrading_canUpdate(side) {
-	var dr_side = $(".Element_OphCiExamination_PosteriorPole .sub-elements.active .Element_OphCiExamination_DRGrading").find('.side[data-side="'+side+'"]');
+	var dr_side = $(".js-active-elements .Element_OphCiExamination_DRGrading").find('.side[data-side="'+side+'"]');
 
 	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 		return true;
