@@ -24,5 +24,6 @@ return array(
 			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
 		),
 		'ophciexamination_drgrading_type_required' => false,
+		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',
 	),
 );

@@ -402,16 +402,15 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 */
 	public function getLetter_string()
 	{
-		$unit_id = null;
-		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
-			$unit_id = $unit->id;
+		if (!$unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array(Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']))) {
+			throw new Exception("Configured visual acuity correspondence unit was not found: ".Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']);
 		}
 
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
 			if ($this->getCombined('right')) {
-				$text .= "Right Eye: ".$this->getCombined('right', $unit_id);
+				$text .= "Right Eye: ".$this->getCombined('right', $unit->id);
 			} else {
 				$text .= "Right Eye: not recorded";
 			}
@@ -426,7 +425,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		if ($this->hasLeft()) {
 			if ($this->getCombined('left')) {
-				$text .= "Left Eye: ".$this->getCombined('left', $unit_id);
+				$text .= "Left Eye: ".$this->getCombined('left', $unit->id);
 			} else {
 				$text .= "Left Eye: not recorded";
 			}
