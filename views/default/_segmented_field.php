@@ -17,6 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<div class="segmented">
 <?php echo CHtml::dropDownList(
 	get_class($element).'_'.$field.'_sign',
 	($element->$field > 0) ? 1 : -1,
@@ -36,3 +37,4 @@
 	array('class'=>'inline')
 )?>
 <?php echo CHtml::activeHiddenField($element, $field)?>
+</div>

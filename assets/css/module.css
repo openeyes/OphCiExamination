@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -22,11 +23,11 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1387445455');
+  background-image: url('../img/watermark.png?1387459788');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1383822301');
+  background-image: url('../img/medium.png?1369757890');
 }
 
 /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
@@ -116,7 +117,7 @@
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1383822301') no-repeat center center;
+  background: url('../img/cross.gif?1369757890') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
@@ -153,24 +154,24 @@
 }
 
 /* line 51, ../sass/components/_gonio-cross.scss */
-.event.view .gonio-cross {
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross {
   height: 80px;
   width: 120px;
 }
 /* line 54, ../sass/components/_gonio-cross.scss */
-.event.view .gonio-cross .gonio-sup {
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-sup {
   top: 5px;
 }
 /* line 57, ../sass/components/_gonio-cross.scss */
-.event.view .gonio-cross .gonio-tem {
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-tem {
   left: 15px;
 }
 /* line 60, ../sass/components/_gonio-cross.scss */
-.event.view .gonio-cross .gonio-nas {
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-nas {
   right: 15px;
 }
 /* line 63, ../sass/components/_gonio-cross.scss */
-.event.view .gonio-cross .gonio-inf {
+.view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-inf {
   bottom: 5px;
 }
 
