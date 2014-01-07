@@ -20,7 +20,7 @@
 <div class="page" id="OphCiExamination_print">
 	<div class="header">
 		<div class="title middle">
-			<img src="<?php echo Yii::app()->createUrl('img/_print/letterhead_seal.jpg')?>" alt="letterhead_seal" class="seal" width="100" height="83"/>
+			<img src="<?php echo Yii::app()->assetManager->createUrl('img/_print/letterhead_seal.jpg')?>" alt="letterhead_seal" class="seal" width="100" height="83"/>
 			<h1>Examination</h1>
 		</div>
 		<div class="headerInfo">

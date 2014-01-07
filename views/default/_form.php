@@ -58,7 +58,7 @@
 			$event_id = ($element->id) ? $element->event_id : null;
 
 			if ($this->canCopy($element) || $this->canViewPrevious($element)) {?>
-				<a href="#" title="View Previous" class="viewPrevious<?php if (@$child) {?> subElement<?php }?>"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
+				<a href="#" title="View Previous" class="viewPrevious<?php if (@$child) {?> subElement<?php }?>"><img src="<?php echo Yii::app()->assetManager->createUrl('img/_elements/btns/load.png')?>" /></a>
 			<?php }?>
 			<?php if (!@$child && !$element->elementType->required) {?>
 				<a href="#" class="button button-icon small js-remove-element">
