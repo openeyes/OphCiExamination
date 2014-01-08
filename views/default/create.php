@@ -35,7 +35,7 @@
 		<?php $this->displayErrors($errors)?>
 
 		<div class="js-active-elements">
-			<?php $this->renderDefaultElements($this->action->id, $form)?>
+			<?php $this->renderOpenElements($this->action->id, $form)?>
 		</div>
 		<section class="optional-elements">
 			<header class="optional-elements-header">

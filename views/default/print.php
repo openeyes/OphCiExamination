@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="body">
-		<?php $this->renderDefaultElements('print'); ?>
+		<?php $this->renderOpenElements('print'); ?>
 		<div class="metaData clear">
 			<span class="info">Examination created by <span class="user"><?php echo $this->event->user->fullname ?></span>
 				on <?php echo $this->event->NHSDate('created_date') ?>

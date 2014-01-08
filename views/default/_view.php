@@ -23,6 +23,6 @@
 	</header>
 	<?php $this->renderPartial('_view_' . $element->view_view, array('element' => $element, 'data' => $data, 'form' => $form))?>
 	<div class="sub-elements">
-		<?php $this->renderChildDefaultElements($element, 'view', $form, $data)?>
+		<?php $this->renderChildOpenElements($element, 'view', $form, $data)?>
 	</div>
 </section>
