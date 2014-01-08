@@ -17,33 +17,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<div class="box admin">
-	<?php
-		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
-			'id'=>'OphCiExamination_adminform',
-			'enableAjaxValidation'=>false,
-			'layoutColumns' => array(
-				'label' => 2,
-				'field' => 5
-			)
-		));
-
-		$this->renderPartial('form_' . get_class($model), array(
-				'model' => $model,
-				'form' => $form,
-		));
-		echo $form->formActions(array(
-			'submit' => $model->isNewRecord ? 'Create' : 'Save',
-			'cancel' => 'Cancel',
-			'delete' => false,
-			'cancel-uri' => @$cancel_uri,
-		));
-		$this->endWidget();
-	?>
+<div class="field-row">
+	<h2>Edit workflow rule</h2>
 </div>
-<?php if (@$related_view) {
-	$this->renderPartial($related_view, array(
-			'model' => $model,
-	))?>
-<?php }?>
+<?php echo $form->errorSummary($model)?>
+<?php echo $form->dropDownList($model, 'subspecialty_id', CHtml::listData(Subspecialty::model()->findAll(array('order'=>'name asc')),'id','name'), array('empty' => '- All -'))?>
+<?php echo $form->dropDownList($model, 'episode_status_id', CHtml::listData(EpisodeStatus::model()->findAll(array('order'=>'name asc')),'id','name'), array('empty' => '- All -'))?>
+<?php echo $form->dropDownList($model, 'workflow_id', CHtml::listData(OphCiExamination_Workflow::model()->findAll(array('order'=>'name asc')),'id','name'))?>

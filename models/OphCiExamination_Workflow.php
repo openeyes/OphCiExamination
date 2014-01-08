@@ -61,9 +61,11 @@ class OphCiExamination_Workflow extends BaseActiveRecord
 	public function relations()
 	{
 		return array(
-				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id'),
+				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id',
+					'order' => 'position',
+				),
 				'first_step' => array(self::HAS_ONE, 'OphCiExamination_ElementSet', 'workflow_id',
-						'order' => 'first_step.position, first_step.id',
+					'order' => 'first_step.position, first_step.id',
 				),
 		);
 	}

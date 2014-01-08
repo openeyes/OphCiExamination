@@ -17,33 +17,36 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
 <div class="box admin">
-	<?php
-		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
-			'id'=>'OphCiExamination_adminform',
-			'enableAjaxValidation'=>false,
-			'layoutColumns' => array(
-				'label' => 2,
-				'field' => 5
-			)
-		));
-
-		$this->renderPartial('form_' . get_class($model), array(
-				'model' => $model,
-				'form' => $form,
-		));
-		echo $form->formActions(array(
-			'submit' => $model->isNewRecord ? 'Create' : 'Save',
-			'cancel' => 'Cancel',
-			'delete' => false,
-			'cancel-uri' => @$cancel_uri,
-		));
-		$this->endWidget();
-	?>
+	<h2>Steps</h2>
+	<form id="admin_workflow_steps">
+		<table class="grid">
+			<thead>
+				<tr>
+					<th>Position</th>
+					<th>Step</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody class="sortable">
+				<?php
+				foreach ($model->steps as $i => $step) {?>
+					<tr class="selectable" data-id="<?php echo $step->id?>">
+						<td><?php echo $step->position?></td>
+						<td><?php echo $step->name?></td>
+						<td><a href="#" class="removeElementSet" rel="<?php echo $step->id?>">Remove</a></td>
+					</tr>
+				<?php }?>
+			</tbody>
+			<tfoot class="pagination-container">
+				<tr>
+					<td colspan="3">
+						<?php echo EventAction::button('Add step', 'add_step', null, array('class' => 'small'))->toHtml()?>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</form>
 </div>
-<?php if (@$related_view) {
-	$this->renderPartial($related_view, array(
-			'model' => $model,
-	))?>
-<?php }?>
+<div class="box_admin" id="step_element_types">
+</div>

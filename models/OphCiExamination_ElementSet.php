@@ -66,7 +66,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecord
 				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
 				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
 						'with' => 'element_type',
-						'order' => 'element_type.display_order',
+						'order' => 'element_type.name',
 				),
 		);
 	}
