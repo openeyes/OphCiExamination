@@ -326,7 +326,7 @@ class DefaultController extends BaseEventTypeController
 			$firm_id = $this->firm->id;
 			$subspecialty_id = $this->firm->getSubspecialtyID();
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
-			$set = OphCiExamination_Workflow_Rule::findWorkflow($site_id, $firm_id, $status_id)->getFirstStep();
+			$set = OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
