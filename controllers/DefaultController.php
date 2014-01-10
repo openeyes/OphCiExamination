@@ -75,7 +75,7 @@ class DefaultController extends BaseEventTypeController
 	 * @param BaseEventTypeElement[] $elements
 	 * @return BaseEventTypeElement[]
 	 */
-	protected function filterElements($elements)
+	protected function filterElements($elements, $open_elements=array())
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
@@ -83,12 +83,18 @@ class DefaultController extends BaseEventTypeController
 			$remove = array('Element_OphCiExamination_InjectionManagementComplex');
 		}
 
+		$open_element_classes = array();
+		foreach ($open_elements as $open_element) {
+			$open_element_classes[] = get_class($open_element);
+		}
+
 		$final = array();
 		foreach ($elements as $el) {
-			if (!in_array(get_class($el), $remove) ) {
+			if (!in_array(get_class($el), $remove) && !in_array(get_class($el),$open_element_classes)) {
 				$final[] = $el;
 			}
 		}
+
 		return $final;
 	}
 
@@ -215,6 +221,17 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
+	 * Get the open child elements for the given ElementType
+	 *
+	 * @param ElementType $parent_type
+	 * @return BaseEventTypeElement[] $open_elements
+	 */
+	public function getChildElements($parent_type)
+	{
+		return $this->getElementsByWorkflow(null, $this->episode, $parent_type->id);
+	}
+
+	/**
 	 * extends standard method to filter elements
 	 *
 	 * (non-PHPdoc)
@@ -223,7 +240,9 @@ class DefaultController extends BaseEventTypeController
 	public function getChildOptionalElements($parent_type)
 	{
 		$elements = parent::getChildOptionalElements($parent_type);
-		return $this->filterElements($elements);
+		$open_elements = $this->getChildElements($parent_type);
+
+		return $this->filterElements($elements, $open_elements);
 	}
 
 	/**
