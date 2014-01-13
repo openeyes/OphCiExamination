@@ -4,9 +4,9 @@ class m131015_140752_add_findings_shortcodes extends CDbMigration
 {
 	public function up()
 	{
-		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
+		$event_type = $this->dbConnection->createCommand()->select("*")->from("event_type")->where("class_name = :class_name",array(":class_name" => "OphCiExamination"))->queryRow();
 
-		$event_type->registerShortcode('vaf','getLetterVisualAcuityFindings','Visual acuity findings from latest examination');
+		$this->registerShortcode($event_type,'vaf','getLetterVisualAcuityFindings','Visual acuity findings from latest examination');
 	}
 
 	public function down()
@@ -14,14 +14,30 @@ class m131015_140752_add_findings_shortcodes extends CDbMigration
 		$this->delete('patient_shortcode','code = :sc',array(':sc'=>'vaf'));
 	}
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
+	public function registerShortcode($event_type, $code, $method, $description)
 	{
-	}
+		if (!preg_match('/^[a-zA-Z]{3}$/',$code)) {
+			throw new Exception("Invalid shortcode: $code");
+		}
 
-	public function safeDown()
-	{
+		$default_code = $code;
+
+		if ($this->dbConnection->createCommand()->select("*")->from("patient_shortcode")->where("code = :code",array(":code" => strtolower($code)))->queryRow()) {
+			$n = '00';
+			while ($this->dbConnection->createCommand()->select("*")->from("patient_shortcode")->where("code = :code",array(":code" => 'z'.$n))->queryRow()) {
+				$n = str_pad((int) $n + 1, 2, '0', STR_PAD_LEFT);
+			}
+			$code = "z$n";
+
+			echo "Warning: attempt to register duplicate shortcode '$default_code', replaced with 'z$n'\n";
+		}
+
+		$this->insert('patient_shortcode',array(
+			'event_type_id' => $event_type['id'],
+			'code' => $code,
+			'default_code' => $default_code,
+			'method' => $method,
+			'description' => $description,
+		));
 	}
-	*/
 }
