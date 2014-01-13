@@ -252,7 +252,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 * Get the best reading for the given side
 	 *
 	 * @param string $side
-	 * @return Ambigous <null, integer>
+	 * @return OphCiExamination_VisualAcuity_Reading|null
 	 */
 	public function getBestReading($side)
 	{
