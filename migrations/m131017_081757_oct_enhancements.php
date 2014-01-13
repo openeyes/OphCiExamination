@@ -18,7 +18,7 @@ class m131017_081757_oct_enhancements extends CDbMigration
 				'KEY `ophciexamination_oct_fluidstatus_cui_fk` (`created_user_id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidstatus_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidstatus_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 		$this->insert('ophciexamination_oct_fluidstatus', array('name'=>'New', 'display_order' => '1'));
 		$this->insert('ophciexamination_oct_fluidstatus', array('name'=>'Improving', 'display_order' => '2'));
@@ -38,7 +38,7 @@ class m131017_081757_oct_enhancements extends CDbMigration
 				'KEY `ophciexamination_oct_fluidtype_cui_fk` (`created_user_id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidtype_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidtype_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 		$this->insert('ophciexamination_oct_fluidtype', array('name'=>'IRF', 'display_order' => '1'));
 		$this->insert('ophciexamination_oct_fluidtype', array('name'=>'SRF', 'display_order' => '2'));
@@ -75,7 +75,7 @@ class m131017_081757_oct_enhancements extends CDbMigration
 				'CONSTRAINT `ophciexamination_oct_fluidtype_assignment_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidtype_assignment_fti_fk` FOREIGN KEY (`fluidtype_id`) REFERENCES `ophciexamination_oct_fluidtype` (`id`)',
 				'CONSTRAINT `ophciexamination_oct_fluidtype_assignment_ei_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_oct` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 	}
 
 	public function down()

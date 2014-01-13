@@ -33,7 +33,7 @@ class m131003_134310_add_clinical_maculopathy_drgrading extends CDbMigration
 				'KEY `ophciexamination_drgrading_clinicalm_cui_fk` (`created_user_id`)',
 				'CONSTRAINT `ophciexamination_drgrading_clinicalm_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophciexamination_drgrading_clinicalm_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 		$this->insert('ophciexamination_drgrading_clinicalmaculopathy', array('name'=>'No macular oedema', 'display_order' => '1', 'class' => 'none'));
 		$this->insert('ophciexamination_drgrading_clinicalmaculopathy', array('name'=>'Diabetic macular oedema not clinically significant', 'display_order' => '2', 'class' => 'mild'));

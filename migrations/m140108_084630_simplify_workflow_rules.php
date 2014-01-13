@@ -61,8 +61,8 @@ class m140108_084630_simplify_workflow_rules extends CDbMigration
 		}
 
 		$this->addColumn('ophciexamination_workflow_rule','parent_id','int(10) unsigned null');
-		$this->addColumn('ophciexamination_workflow_rule','clause','varchar(255) COLLATE utf8_bin DEFAULT NULL');
-		$this->addColumn('ophciexamination_workflow_rule','value','varchar(255) COLLATE utf8_bin DEFAULT NULL');
+		$this->addColumn('ophciexamination_workflow_rule','clause','varchar(255) DEFAULT NULL');
+		$this->addColumn('ophciexamination_workflow_rule','value','varchar(255) DEFAULT NULL');
 
 		$this->dropForeignKey('ophciexamination_workflow_rule_episode_status_id_fk','ophciexamination_workflow_rule');
 		$this->dropForeignKey('ophciexamination_workflow_rule_subspecialty_id_fk','ophciexamination_workflow_rule');

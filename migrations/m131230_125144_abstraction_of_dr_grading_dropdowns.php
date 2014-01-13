@@ -4,10 +4,10 @@ class m131230_125144_abstraction_of_dr_grading_dropdowns extends CDbMigration
 {
 	public function up()
 	{
-		$this->addColumn('ophciexamination_drgrading_clinicalmaculopathy','code','varchar(2) collate utf8_bin not null');
-		$this->addColumn('ophciexamination_drgrading_clinicalretinopathy','code','varchar(2) collate utf8_bin not null');
-		$this->addColumn('ophciexamination_drgrading_nscmaculopathy','code','varchar(2) collate utf8_bin not null');
-		$this->addColumn('ophciexamination_drgrading_nscretinopathy','code','varchar(2) collate utf8_bin not null');
+		$this->addColumn('ophciexamination_drgrading_clinicalmaculopathy','code','varchar(2) NOT NULL');
+		$this->addColumn('ophciexamination_drgrading_clinicalretinopathy','code','varchar(2) NOT NULL');
+		$this->addColumn('ophciexamination_drgrading_nscmaculopathy','code','varchar(2) NOT NULL');
+		$this->addColumn('ophciexamination_drgrading_nscretinopathy','code','varchar(2) NOT NULL');
 
 		$this->update('ophciexamination_drgrading_clinicalmaculopathy',array('code'=>'NM'),"name = 'No macular oedema'");
 		$this->update('ophciexamination_drgrading_clinicalmaculopathy',array('code'=>'DN'),"name = 'Diabetic macular oedema not clinically significant'");
