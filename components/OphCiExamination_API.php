@@ -341,23 +341,6 @@ class OphCiExamination_API extends BaseAPI
 		}
 	}
 
-	public function getEpisodeHTML($episode_id)
-	{
-		$event_type = EventType::model()->find('class_name=?',array('OphCiExamination'));
-
-		$return = '';
-
-		if ($cct = $this->getMostRecentElementInEpisode($episode_id, $event_type->id, 'Element_OphCiExamination_AnteriorSegment_CCT')) {
-			$return .= Yii::app()->getController()->renderPartial('application.modules.OphCiExamination.views.default._episode_cct',array('cct'=>$cct));
-		}
-
-		if ($iop = $this->getMostRecentElementInEpisode($episode_id, $event_type->id, 'Element_OphCiExamination_IntraocularPressure')) {
-			$return .= Yii::app()->getController()->renderPartial('application.modules.OphCiExamination.views.default._episode_iop',array('iop'=>$iop));
-		}
-
-		return $return;
-	}
-
 	/**
 	 * Get the NSC Retinopathy grade
 	 *
