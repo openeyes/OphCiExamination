@@ -45,7 +45,6 @@
 								<div class="drgrading_images_dialog" title="DR Grading Images">
 									<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 								</div>
-							</div>
 						<?php }else{?>
 							<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
 						<?php }?>
@@ -57,8 +56,9 @@
 		<div class="<?php if (@$child) {?>sub-<?php }?>element-actions">
 			<?php
 			$event_id = ($element->id) ? $element->event_id : null;
-			if ($this->canCopy($element->elementType->class_name, $event_id)) {?>
-				<a href="#" title="View Previous" class="viewPrevious"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
+
+			if ($this->canCopy($element) || $this->canViewPrevious($element)) {?>
+				<a href="#" title="View Previous" class="viewPrevious<?php if (@$child) {?> subElement<?php }?>"><img src="<?php echo Yii::app()->createUrl('img/_elements/btns/load.png')?>" /></a>
 			<?php }?>
 			<?php if (!@$child && !$element->elementType->required) {?>
 				<a href="#" class="button button-icon small js-remove-element">
@@ -67,12 +67,10 @@
 				</a>
 			<?php }?>
 			<?php if (@$child) {?>
-				<div class="sub-element-actions">
-					<a href="#" class="button button-icon small js-remove-child-element">
-						<span class="icon-button-small-mini-cross"></span>
-						<span class="hide-offscreen">Remove sub-element</span>
-					</a>
-				</div>
+				<a href="#" class="button button-icon small js-remove-child-element">
+					<span class="icon-button-small-mini-cross"></span>
+					<span class="hide-offscreen">Remove sub-element</span>
+				</a>
 			<?php }?>
 		</div>
 	</header>
@@ -87,7 +85,7 @@
 
 	<?php if (!@$child) {?>
 		<div class="sub-elements active">
-			<?php $this->renderChildDefaultElements($element, $this->action->id, $form, $data)?>
+			<?php $this->renderChildOpenElements($element, ($this->action->id == 'ElementForm' ? 'create' : $this->action->id), $form, $data)?>
 		</div>
 		<div class="sub-elements inactive">
 			<ul class="sub-elements-list">

@@ -18,17 +18,16 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_cataractmanagement_eye".
+ * This is the model class for table "ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon".
  *
  * @property integer $id
  * @property string $name
- * @property integer $display_order
  */
-class OphCiExamination_CataractManagement_Eye extends BaseActiveRecordVersioned
+class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_CataractManagement_Eye the static model class
+	 * @return OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -40,17 +39,17 @@ class OphCiExamination_CataractManagement_Eye extends BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_cataractmanagement_eye';
+		return 'ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon';
 	}
 
 	/**
-	 * @return array validation rules for model cataractmanagement_eyes.
+	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
 	{
 		return array(
 				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 

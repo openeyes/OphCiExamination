@@ -17,13 +17,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h3 class="data-title">CCT:</h3>
 <div class="row data-row">
 	<div class="large-1 column">
 		<div class="data-label">Right:</div>
 	</div>
 	<div class="large-11 column">
-		<div class="data-value"><?php echo $cct->hasRight() ? $cct->right_value.' &micro;m ('.$cct->right_method->name.')' : 'Not recorded'?></div>
+		<div class="data-value"><?= $this->renderReading($iop, 'right') ?></div>
 	</div>
 </div>
 <div class="row data-row">
@@ -31,6 +30,6 @@
 		<div class="data-label">Left:</div>
 	</div>
 	<div class="large-11 column">
-		<div class="data-value"><?php echo $cct->hasLeft() ? $cct->left_value.' &micro;m ('.$cct->left_method->name.')' : 'Not recorded'?></div>
+		<div class="data-value"><?= $this->renderReading($iop, 'left') ?></div>
 	</div>
 </div>

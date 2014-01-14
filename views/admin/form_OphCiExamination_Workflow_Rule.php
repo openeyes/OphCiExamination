@@ -17,20 +17,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<h3 class="data-title">IOP:</h3>
-<div class="row data-row">
-	<div class="large-1 column">
-		<div class="data-label">Right:</div>
-	</div>
-	<div class="large-11 column">
-		<div class="data-value"><?php echo $iop->right_reading->name != 'NR' ? $iop->right_reading->name.' mmHg ('.$iop->right_instrument->name.')' : 'Not recorded'?></div>
-	</div>
+<div class="field-row">
+	<h2>Edit workflow rule</h2>
 </div>
-<div class="row data-row">
-	<div class="large-1 column">
-		<div class="data-label">Left:</div>
-	</div>
-	<div class="large-11 column">
-		<div class="data-value"><?php echo $iop->left_reading->name != 'NR' ? $iop->left_reading->name.' mmHg ('.$iop->left_instrument->name.')' : 'Not recorded'?></div>
-	</div>
-</div>
+<?php echo $form->errorSummary($model)?>
+<?php echo $form->dropDownList($model, 'subspecialty_id', CHtml::listData(Subspecialty::model()->findAll(array('order'=>'name asc')),'id','name'), array('empty' => '- All -'))?>
+<?php echo $form->dropDownList($model, 'episode_status_id', CHtml::listData(EpisodeStatus::model()->findAll(array('order'=>'name asc')),'id','name'), array('empty' => '- All -'))?>
+<?php echo $form->dropDownList($model, 'workflow_id', CHtml::listData(OphCiExamination_Workflow::model()->findAll(array('order'=>'name asc')),'id','name'))?>

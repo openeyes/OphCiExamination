@@ -19,7 +19,6 @@
 ?>
 
 <div class="box admin">
-
 	<?php
 		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
 			'id'=>'OphCiExamination_adminform',
@@ -36,9 +35,15 @@
 		));
 		echo $form->formActions(array(
 			'submit' => $model->isNewRecord ? 'Create' : 'Save',
-			'cancel' => false,
-			'delete' => false
+			'cancel' => 'Cancel',
+			'delete' => false,
+			'cancel-uri' => @$cancel_uri,
 		));
 		$this->endWidget();
 	?>
 </div>
+<?php if (@$related_view) {
+	$this->renderPartial($related_view, array(
+			'model' => $model,
+	))?>
+<?php }?>

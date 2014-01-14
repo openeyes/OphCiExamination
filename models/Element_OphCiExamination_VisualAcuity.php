@@ -26,6 +26,10 @@
  * @property integer $eye_id
  * @property string $left_comments
  * @property string $right_comments
+ * @property boolean $left_unable_to_assess
+ * @property boolean $right_unable_to_assess
+ * @property boolean $left_eye_missing
+ * @property boolean $right_eye_missing
  *
  * The followings are the available model relations:
  * @property OphCiExamination_VisualAcuityUnit $unit
@@ -68,7 +72,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, eye_id, unit_id', 'safe'),
+				array('event_id, left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -88,15 +92,15 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
-				'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
-				'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
-				'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
+			'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+			'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
+			'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
+			'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
+			'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
 		);
 	}
 
@@ -106,10 +110,14 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	public function attributeLabels()
 	{
 		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'left_comments' => 'Comments',
-				'right_comments' => 'Comments',
+			'id' => 'ID',
+			'event_id' => 'Event',
+			'left_comments' => 'Comments',
+			'right_comments' => 'Comments',
+			'left_unable_to_assess' => 'Unable to assess',
+			'right_unable_to_assess' => 'Unable to assess',
+			'left_eye_missing' => 'Eye missing',
+			'right_eye_missing' => 'Eye missing',
 		);
 	}
 
@@ -244,7 +252,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 * Get the best reading for the given side
 	 *
 	 * @param string $side
-	 * @return Ambigous <null, integer>
+	 * @return OphCiExamination_VisualAcuity_Reading|null
 	 */
 	public function getBestReading($side)
 	{
@@ -384,29 +392,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		parent::afterSave();
 	}
 
-	protected function afterValidate()
-	{
-		$reading_count = array(
-				'left' => 0,
-				'right' => 0,
-		);
-		if (isset($_POST['visualacuity_reading'])) {
-			foreach ($_POST['visualacuity_reading'] as $reading) {
-				if ($reading['side'] == 0) {
-					$reading_count['right']++;
-				} else {
-					$reading_count['left']++;
-				}
-			}
-		}
-		foreach (array(1 => 'left', 2 => 'right') as $side_id => $side_string) {
-			if (($this->eye_id == 3 || $this->eye_id == $side_id) && $reading_count[$side_string] == 0 && !$this->{$side_string.'_comments'}) {
-				$this->addError('visualacuity_reading',"Please enter at least one reading or comment for $side_string side");
-			}
-		}
-		return parent::afterValidate();
-	}
-
 	/**
 	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
 	 * as this is assumed to be the standard for correspondence.
@@ -417,16 +402,15 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 */
 	public function getLetter_string()
 	{
-		$unit_id = null;
-		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
-			$unit_id = $unit->id;
+		if (!$unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array(Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']))) {
+			throw new Exception("Configured visual acuity correspondence unit was not found: ".Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']);
 		}
 
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
 			if ($this->getCombined('right')) {
-				$text .= "Right Eye: ".$this->getCombined('right', $unit_id);
+				$text .= "Right Eye: ".$this->getCombined('right', $unit->id);
 			} else {
 				$text .= "Right Eye: not recorded";
 			}
@@ -441,7 +425,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		if ($this->hasLeft()) {
 			if ($this->getCombined('left')) {
-				$text .= "Left Eye: ".$this->getCombined('left', $unit_id);
+				$text .= "Left Eye: ".$this->getCombined('left', $unit->id);
 			} else {
 				$text .= "Left Eye: not recorded";
 			}

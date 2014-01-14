@@ -328,4 +328,9 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 			$this->addError($attribute, $this->getAttributeLabel($attribute) . " is required");
 		}
 	}
+
+	public function canCopy()
+	{
+		return true;
+	}
 }

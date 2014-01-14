@@ -35,6 +35,11 @@
 				<div class="data-row">
 					<div class="data-value">
 						Not recorded
+						<?php if ($element->right_unable_to_assess) {?>
+							(Unable to assess<?php if ($element->right_eye_missing) {?>, eye missing<?php }?>)
+						<?php } elseif ($element->right_eye_missing) {?>
+							(Eye missing)
+						<?php }?>
 					</div>
 				</div>
 			<?php }?>
@@ -70,6 +75,11 @@
 				<div class="data-row">
 					<div class="data-value">
 						Not recorded
+						<?php if ($element->left_unable_to_assess) {?>
+							(Unable to assess<?php if ($element->left_eye_missing) {?>, eye missing<?php }?>)
+						<?php } elseif ($element->left_eye_missing) {?>
+							(Eye missing)
+						<?php }?>
 					</div>
 				</div>
 			<?php }?>

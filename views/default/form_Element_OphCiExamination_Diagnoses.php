@@ -42,24 +42,24 @@
 			</tr>
 		</thead>
 		<tbody class="js-diagnoses" id="OphCiExamination_diagnoses">
-			<?php foreach ($element->getFormDiagnoses() as $i => $diagnosis) {?>
+			<?php foreach ($element->diagnoses as $i => $diagnosis) {?>
 				<tr>
 					<td>
-						<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis['disorder']->id?>" />
-						<?php echo $diagnosis['disorder']->term?>
+						<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis->disorder->id?>" />
+						<?php echo $diagnosis->disorder->term?>
 					</td>
 					<td class="eye">
 						<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
 							<label class="inline">
-								<input type="radio" name="<?php echo get_class($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis['eye_id'] == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?>
+								<input type="radio" name="<?php echo get_class($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?>
 							</label>
 						<?php }?>
 					</td>
 					<td>
-						<input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis['principal']) {?>checked="checked" <?php }?>/>
+						<input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis->principal) {?>checked="checked" <?php }?>/>
 					</td>
 					<td>
-						<a href="#" class="removeDiagnosis" rel="<?php echo $diagnosis['disorder']->id?>">
+						<a href="#" class="removeDiagnosis" rel="<?php echo $diagnosis->disorder->id?>">
 							Remove
 						</a>
 					</td>
