@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -23,11 +22,11 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1387459788');
+  background-image: url('../img/watermark.png?1387445455');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1369757890');
+  background-image: url('../img/medium.png?1383822301');
 }
 
 /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
@@ -117,11 +116,7 @@
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-<<<<<<< HEAD
-  background: url('../img/cross.gif?1376463845') no-repeat center center;
-=======
-  background: url('../img/cross.gif?1369757890') no-repeat center center;
->>>>>>> 853a9067cc75138f9fa0cc08b23b629b52437f40
+  background: url('../img/cross.gif?1383822301') no-repeat center center;
   height: 110px;
   margin: 0 0 0.625em 0;
   position: relative;
@@ -179,12 +174,12 @@
   bottom: 5px;
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.refraction .column.fixed {
   width: 186px;
 }
 
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.refraction .column.fluid {
   width: -moz-calc(100% - 186px);
   width: -o-calc(100% - 186px);
@@ -192,12 +187,12 @@
   width: calc(100% - 186px);
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.gonioscopy .column.fixed {
   width: 320px;
 }
 
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.gonioscopy .column.fluid {
   width: -moz-calc(100% - 320px);
   width: -o-calc(100% - 320px);
@@ -205,12 +200,12 @@
   width: calc(100% - 320px);
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.anterior-segment .column.fixed {
   width: 320px;
 }
 
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.anterior-segment .column.fluid {
   width: -moz-calc(100% - 320px);
   width: -o-calc(100% - 320px);
@@ -218,12 +213,12 @@
   width: calc(100% - 320px);
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.optic-disc .column.fixed {
   width: 320px;
 }
 
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.optic-disc .column.fluid {
   width: -moz-calc(100% - 320px);
   width: -o-calc(100% - 320px);
@@ -231,12 +226,12 @@
   width: calc(100% - 320px);
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.posterior-pole .column.fixed {
   width: 320px;
 }
 
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .row.posterior-pole .column.fluid {
   width: -moz-calc(100% - 320px);
   width: -o-calc(100% - 320px);
@@ -244,22 +239,22 @@
   width: calc(100% - 320px);
 }
 
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fixed, .view .row .anterior-segment .column.fixed, .view .row .optic-disc .column.fixed, .view .row .posterior-pole .column.fixed {
   width: 220px;
 }
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
   width: -moz-calc(100% - 220px);
   width: -o-calc(100% - 220px);
   width: -webkit-calc(100% - 220px);
   width: calc(100% - 220px);
 }
-/* line 115, ../../../../../sass/openeyes/_mixins.scss */
+/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .view .row.refraction .column.fixed {
   width: 120px;
 }
-/* line 125, ../../../../../sass/openeyes/_mixins.scss */
+/* line 125, ../../../../assets/sass/openeyes/_mixins.scss */
 .view .row.refraction .column.fluid {
   width: -moz-calc(100% - 120px);
   width: -o-calc(100% - 120px);
