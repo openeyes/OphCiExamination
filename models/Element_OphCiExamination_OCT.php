@@ -366,4 +366,10 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		}
 		return $res;
 	}
+
+	protected function beforeDelete()
+	{
+		OphCiExamination_OCT_FluidTypeAssignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
+		return parent::beforeDelete();
+	}
 }
