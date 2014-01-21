@@ -17,7 +17,7 @@
 .gonio-cross {
 	background: image-url("cross.gif") no-repeat center center;
 	height: 110px;
-	margin: 0 0 emCalc(10px) 0;
+	margin: 0 0 rem-calc(10px) 0;
 	position: relative;
 	width: 160px;
 	div {
@@ -47,22 +47,22 @@
 }
 
 .view {
-    .Element_OphCiExamination_Gonioscopy {
-        .gonio-cross {
-            height: 80px;
-            width: 120px;
-            .gonio-sup {
-                top: 5px;
-            }
-            .gonio-tem {
-                left: 15px;
-            }
-            .gonio-nas {
-                right: 15px;
-            }
-            .gonio-inf {
-                bottom: 5px;
-            }
-        }
-    }
+	.Element_OphCiExamination_Gonioscopy {
+		.gonio-cross {
+			height: 80px;
+			width: 120px;
+			.gonio-sup {
+				top: 5px;
+			}
+			.gonio-tem {
+				left: 15px;
+			}
+			.gonio-nas {
+				right: 15px;
+			}
+			.gonio-inf {
+				bottom: 5px;
+			}
+		}
+	}
 }
