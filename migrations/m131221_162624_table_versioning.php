@@ -1,6 +1,6 @@
 <?php
 
-class m131204_162624_table_versioning extends CDbMigration
+class m131221_162624_table_versioning extends CDbMigration
 {
 	public function up()
 	{
