@@ -1,6 +1,6 @@
 <?php
 
-class m131221_162624_table_versioning extends CDbMigration
+class m140110_084630_table_versioning extends CDbMigration
 {
 	public function up()
 	{
@@ -140,7 +140,7 @@ CREATE TABLE `et_ophciexamination_anteriorsegment_cct_version` (
 		$this->alterColumn('et_ophciexamination_anteriorsegment_cct_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
-CREATE TABLE `et_ophciexamination_cataractmanagement_version` (
+CREATE TABLE `et_ophciexamination_cataractsurgicalmanagement_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`event_id` int(10) unsigned NOT NULL,
 	`city_road` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -158,30 +158,30 @@ CREATE TABLE `et_ophciexamination_cataractmanagement_version` (
 	`vitrectomised_eye` tinyint(1) unsigned NOT NULL DEFAULT '0',
 	`eye_id` int(10) unsigned DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	KEY `acv_et_ophciexamination_management_event_id_fk` (`event_id`),
-	KEY `acv_et_ophciexamination_management_suitable_for_surgeon_id_fk` (`suitable_for_surgeon_id`),
-	KEY `acv_et_ophciexamination_management_last_modified_user_id_fk` (`last_modified_user_id`),
-	KEY `acv_et_ophciexamination_management_created_user_id_fk` (`created_user_id`),
-	KEY `acv_et_ophciexamination_cataractmanagement_eye_id_fk` (`eye_id`),
-	CONSTRAINT `acv_et_ophciexamination_cataractmanagement_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `ophciexamination_cataractmanagement_eye` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_catmanagement_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_catmanagement_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_catmanagement_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_catmanagement_suitable_for_surgeon_id_fk` FOREIGN KEY (`suitable_for_surgeon_id`) REFERENCES `ophciexamination_cataractmanagement_suitable_for_surgeon` (`id`)
+	KEY `acv_et_ophciexamination_csm_event_id_fk` (`event_id`),
+	KEY `acv_et_ophciexamination_csm_suitable_for_surgeon_id_fk` (`suitable_for_surgeon_id`),
+	KEY `acv_et_ophciexamination_csm_last_modified_user_id_fk` (`last_modified_user_id`),
+	KEY `acv_et_ophciexamination_csm_created_user_id_fk` (`created_user_id`),
+	KEY `acv_et_ophciexamination_csm_eye_id_fk` (`eye_id`),
+	CONSTRAINT `acv_et_ophciexamination_csm_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `ophciexamination_cataractsurgicalmanagement_eye` (`id`),
+	CONSTRAINT `acv_et_ophciexamination_csm_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `acv_et_ophciexamination_csm_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
+	CONSTRAINT `acv_et_ophciexamination_csm_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `acv_et_ophciexamination_csm_suitable_for_surgeon_id_fk` FOREIGN KEY (`suitable_for_surgeon_id`) REFERENCES `ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
-		$this->alterColumn('et_ophciexamination_cataractmanagement_version','id','int(10) unsigned NOT NULL');
-		$this->dropPrimaryKey('id','et_ophciexamination_cataractmanagement_version');
+		$this->alterColumn('et_ophciexamination_cataractsurgicalmanagement_version','id','int(10) unsigned NOT NULL');
+		$this->dropPrimaryKey('id','et_ophciexamination_cataractsurgicalmanagement_version');
 
-		$this->createIndex('et_ophciexamination_cataractmanagement_aid_fk','et_ophciexamination_cataractmanagement_version','id');
-		$this->addForeignKey('et_ophciexamination_cataractmanagement_aid_fk','et_ophciexamination_cataractmanagement_version','id','et_ophciexamination_cataractmanagement','id');
+		$this->createIndex('et_ophciexamination_cataractsurgicalmanagement_aid_fk','et_ophciexamination_cataractsurgicalmanagement_version','id');
+		$this->addForeignKey('et_ophciexamination_cataractsurgicalmanagement_aid_fk','et_ophciexamination_cataractsurgicalmanagement_version','id','et_ophciexamination_cataractsurgicalmanagement','id');
 
-		$this->addColumn('et_ophciexamination_cataractmanagement_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
+		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
-		$this->addColumn('et_ophciexamination_cataractmanagement_version','version_id','int(10) unsigned NOT NULL');
-		$this->addPrimaryKey('version_id','et_ophciexamination_cataractmanagement_version','version_id');
-		$this->alterColumn('et_ophciexamination_cataractmanagement_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
+		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement_version','version_id','int(10) unsigned NOT NULL');
+		$this->addPrimaryKey('version_id','et_ophciexamination_cataractsurgicalmanagement_version','version_id');
+		$this->alterColumn('et_ophciexamination_cataractsurgicalmanagement_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
 CREATE TABLE `et_ophciexamination_clinicoutcome_version` (
@@ -1313,7 +1313,7 @@ CREATE TABLE `ophciexamination_attribute_option_version` (
 		$this->alterColumn('ophciexamination_attribute_option_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
-CREATE TABLE `ophciexamination_cataractmanagement_eye_version` (
+CREATE TABLE `ophciexamination_cataractsurgicalmanagement_eye_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(64) NOT NULL,
 	`display_order` tinyint(1) unsigned NOT NULL,
@@ -1322,27 +1322,27 @@ CREATE TABLE `ophciexamination_cataractmanagement_eye_version` (
 	`created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 	`created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 	PRIMARY KEY (`id`),
-	KEY `acv_ophciexamination_cataractmanagement_eye_lmui_fk` (`last_modified_user_id`),
-	KEY `acv_ophciexamination_cataractmanagement_eye_cui_fk` (`created_user_id`),
-	CONSTRAINT `acv_ophciexamination_cataractmanagement_eye_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_cataractmanagement_eye_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
+	KEY `acv_ophciexamination_cataractsmanagement_eye_lmui_fk` (`last_modified_user_id`),
+	KEY `acv_ophciexamination_cataractsmanagement_eye_cui_fk` (`created_user_id`),
+	CONSTRAINT `acv_ophciexamination_cataractsmanagement_eye_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `acv_ophciexamination_cataractsmanagement_eye_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
-		$this->alterColumn('ophciexamination_cataractmanagement_eye_version','id','int(10) unsigned NOT NULL');
-		$this->dropPrimaryKey('id','ophciexamination_cataractmanagement_eye_version');
+		$this->alterColumn('ophciexamination_cataractsurgicalmanagement_eye_version','id','int(10) unsigned NOT NULL');
+		$this->dropPrimaryKey('id','ophciexamination_cataractsurgicalmanagement_eye_version');
 
-		$this->createIndex('ophciexamination_cataractmanagement_eye_aid_fk','ophciexamination_cataractmanagement_eye_version','id');
-		$this->addForeignKey('ophciexamination_cataractmanagement_eye_aid_fk','ophciexamination_cataractmanagement_eye_version','id','ophciexamination_cataractmanagement_eye','id');
+		$this->createIndex('ophciexamination_cataractsurgicalmanagement_eye_aid_fk','ophciexamination_cataractsurgicalmanagement_eye_version','id');
+		$this->addForeignKey('ophciexamination_cataractsurgicalmanagement_eye_aid_fk','ophciexamination_cataractsurgicalmanagement_eye_version','id','ophciexamination_cataractsurgicalmanagement_eye','id');
 
-		$this->addColumn('ophciexamination_cataractmanagement_eye_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
-		$this->addColumn('ophciexamination_cataractmanagement_eye_version','version_id','int(10) unsigned NOT NULL');
-		$this->addPrimaryKey('version_id','ophciexamination_cataractmanagement_eye_version','version_id');
-		$this->alterColumn('ophciexamination_cataractmanagement_eye_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye_version','version_id','int(10) unsigned NOT NULL');
+		$this->addPrimaryKey('version_id','ophciexamination_cataractsurgicalmanagement_eye_version','version_id');
+		$this->alterColumn('ophciexamination_cataractsurgicalmanagement_eye_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
-CREATE TABLE `ophciexamination_cataractmanagement_suitable_for_surgeon_version` (
+CREATE TABLE `ophciexamination_cataractsurgicalmanagement_sfsurgeon_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(64) DEFAULT NULL,
 	`display_order` tinyint(3) unsigned NOT NULL DEFAULT '1',
@@ -1358,17 +1358,17 @@ CREATE TABLE `ophciexamination_cataractmanagement_suitable_for_surgeon_version` 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
-		$this->alterColumn('ophciexamination_cataractmanagement_suitable_for_surgeon_version','id','int(10) unsigned NOT NULL');
-		$this->dropPrimaryKey('id','ophciexamination_cataractmanagement_suitable_for_surgeon_version');
+		$this->alterColumn('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','id','int(10) unsigned NOT NULL');
+		$this->dropPrimaryKey('id','ophciexamination_cataractsurgicalmanagement_sfsurgeon_version');
 
-		$this->createIndex('ophciexamination_cataractmanagement_suitable_for_surgeon_aid_fk','ophciexamination_cataractmanagement_suitable_for_surgeon_version','id');
-		$this->addForeignKey('ophciexamination_cataractmanagement_suitable_for_surgeon_aid_fk','ophciexamination_cataractmanagement_suitable_for_surgeon_version','id','ophciexamination_cataractmanagement_suitable_for_surgeon','id');
+		$this->createIndex('ophciexamination_cataractsurgicalmanagement_sfsurgeon_aid_fk','ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','id');
+		$this->addForeignKey('ophciexamination_cataractsurgicalmanagement_sfsurgeon_aid_fk','ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','id','ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon','id');
 
-		$this->addColumn('ophciexamination_cataractmanagement_suitable_for_surgeon_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
-		$this->addColumn('ophciexamination_cataractmanagement_suitable_for_surgeon_version','version_id','int(10) unsigned NOT NULL');
-		$this->addPrimaryKey('version_id','ophciexamination_cataractmanagement_suitable_for_surgeon_version','version_id');
-		$this->alterColumn('ophciexamination_cataractmanagement_suitable_for_surgeon_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','version_id','int(10) unsigned NOT NULL');
+		$this->addPrimaryKey('version_id','ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','version_id');
+		$this->alterColumn('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
 CREATE TABLE `ophciexamination_clinicoutcome_role_version` (
@@ -1825,7 +1825,7 @@ CREATE TABLE `ophciexamination_element_set_item_version` (
 		$this->alterColumn('ophciexamination_element_set_item_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
-CREATE TABLE `ophciexamination_element_set_rule_version` (
+CREATE TABLE `ophciexamination_workflow_rule_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`parent_id` int(10) unsigned DEFAULT NULL,
 	`clause` varchar(255) DEFAULT NULL,
@@ -1836,28 +1836,28 @@ CREATE TABLE `ophciexamination_element_set_rule_version` (
 	`created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 	`workflow_id` int(10) unsigned DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	KEY `acv_ophciexamination_element_set_rule_parent_id_fk` (`parent_id`),
-	KEY `acv_ophciexamination_element_set_rule_last_modified_user_id_fk` (`last_modified_user_id`),
-	KEY `acv_ophciexamination_element_set_rule_created_user_id_fk` (`created_user_id`),
-	KEY `acv_ophciexamination_element_set_rule_workflow_id_fk` (`workflow_id`),
-	CONSTRAINT `acv_ophciexamination_element_set_rule_workflow_id_fk` FOREIGN KEY (`workflow_id`) REFERENCES `ophciexamination_workflow` (`id`),
-	CONSTRAINT `acv_ophciexamination_element_set_rule_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_element_set_rule_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_element_set_rule_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `ophciexamination_element_set_rule` (`id`)
+	KEY `acv_ophciexamination_workflow_rule_parent_id_fk` (`parent_id`),
+	KEY `acv_ophciexamination_workflow_rule_last_modified_user_id_fk` (`last_modified_user_id`),
+	KEY `acv_ophciexamination_workflow_rule_created_user_id_fk` (`created_user_id`),
+	KEY `acv_ophciexamination_workflow_rule_workflow_id_fk` (`workflow_id`),
+	CONSTRAINT `acv_ophciexamination_workflow_rule_workflow_id_fk` FOREIGN KEY (`workflow_id`) REFERENCES `ophciexamination_workflow` (`id`),
+	CONSTRAINT `acv_ophciexamination_workflow_rule_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `acv_ophciexamination_workflow_rule_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `acv_ophciexamination_workflow_rule_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `ophciexamination_workflow_rule` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
-		$this->alterColumn('ophciexamination_element_set_rule_version','id','int(10) unsigned NOT NULL');
-		$this->dropPrimaryKey('id','ophciexamination_element_set_rule_version');
+		$this->alterColumn('ophciexamination_workflow_rule_version','id','int(10) unsigned NOT NULL');
+		$this->dropPrimaryKey('id','ophciexamination_workflow_rule_version');
 
-		$this->createIndex('ophciexamination_element_set_rule_aid_fk','ophciexamination_element_set_rule_version','id');
-		$this->addForeignKey('ophciexamination_element_set_rule_aid_fk','ophciexamination_element_set_rule_version','id','ophciexamination_element_set_rule','id');
+		$this->createIndex('ophciexamination_workflow_rule_aid_fk','ophciexamination_workflow_rule_version','id');
+		$this->addForeignKey('ophciexamination_workflow_rule_aid_fk','ophciexamination_workflow_rule_version','id','ophciexamination_workflow_rule','id');
 
-		$this->addColumn('ophciexamination_element_set_rule_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
+		$this->addColumn('ophciexamination_workflow_rule_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
-		$this->addColumn('ophciexamination_element_set_rule_version','version_id','int(10) unsigned NOT NULL');
-		$this->addPrimaryKey('version_id','ophciexamination_element_set_rule_version','version_id');
-		$this->alterColumn('ophciexamination_element_set_rule_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
+		$this->addColumn('ophciexamination_workflow_rule_version','version_id','int(10) unsigned NOT NULL');
+		$this->addPrimaryKey('version_id','ophciexamination_workflow_rule_version','version_id');
+		$this->alterColumn('ophciexamination_workflow_rule_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
 		$this->execute("
 CREATE TABLE `ophciexamination_event_elementset_assignment_version` (
@@ -2799,8 +2799,8 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('et_ophciexamination_anteriorsegment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_anteriorsegment_cct','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_anteriorsegment_cct_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_cataractmanagement','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_cataractmanagement_version','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_clinicoutcome','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_clinicoutcome_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('et_ophciexamination_comorbidities','deleted','tinyint(1) unsigned not null');
@@ -2860,10 +2860,10 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_attribute_element_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_attribute_option','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_attribute_option_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_cataractmanagement_eye','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_cataractmanagement_eye_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_cataractmanagement_suitable_for_surgeon','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_cataractmanagement_suitable_for_surgeon_version','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye_version','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_clinicoutcome_role','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_clinicoutcome_role_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_clinicoutcome_status','deleted','tinyint(1) unsigned not null');
@@ -2892,8 +2892,8 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_element_set_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_element_set_item','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_element_set_item_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set_rule','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set_rule_version','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_workflow_rule','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_workflow_rule_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_event_elementset_assignment','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_event_elementset_assignment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_glaucomarisk_risk','deleted','tinyint(1) unsigned not null');
@@ -2965,8 +2965,8 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropColumn('ophciexamination_attribute','deleted');
 		$this->dropColumn('ophciexamination_attribute_element','deleted');
 		$this->dropColumn('ophciexamination_attribute_option','deleted');
-		$this->dropColumn('ophciexamination_cataractmanagement_eye','deleted');
-		$this->dropColumn('ophciexamination_cataractmanagement_suitable_for_surgeon','deleted');
+		$this->dropColumn('ophciexamination_cataractsurgicalmanagement_eye','deleted');
+		$this->dropColumn('ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon','deleted');
 		$this->dropColumn('ophciexamination_clinicoutcome_role','deleted');
 		$this->dropColumn('ophciexamination_clinicoutcome_status','deleted');
 		$this->dropColumn('ophciexamination_clinicoutcome_template','deleted');
@@ -3043,7 +3043,7 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropTable('et_ophciexamination_adnexalcomorbidity_version');
 		$this->dropTable('et_ophciexamination_anteriorsegment_version');
 		$this->dropTable('et_ophciexamination_anteriorsegment_cct_version');
-		$this->dropTable('et_ophciexamination_cataractmanagement_version');
+		$this->dropTable('et_ophciexamination_cataractsurgicalmanagement_version');
 		$this->dropTable('et_ophciexamination_clinicoutcome_version');
 		$this->dropTable('et_ophciexamination_comorbidities_version');
 		$this->dropTable('et_ophciexamination_conclusion_version');
@@ -3073,8 +3073,8 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropTable('ophciexamination_attribute_version');
 		$this->dropTable('ophciexamination_attribute_element_version');
 		$this->dropTable('ophciexamination_attribute_option_version');
-		$this->dropTable('ophciexamination_cataractmanagement_eye_version');
-		$this->dropTable('ophciexamination_cataractmanagement_suitable_for_surgeon_version');
+		$this->dropTable('ophciexamination_cataractsurgicalmanagement_eye_version');
+		$this->dropTable('ophciexamination_cataractsurgicalmanagement_sfsurgeon_version');
 		$this->dropTable('ophciexamination_clinicoutcome_role_version');
 		$this->dropTable('ophciexamination_clinicoutcome_status_version');
 		$this->dropTable('ophciexamination_clinicoutcome_template_version');
