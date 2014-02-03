@@ -260,7 +260,7 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		if ($this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
 			!$this->$attribute) {
 			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
-				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
+				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .	' is no');
 		}
 	}
 
@@ -365,5 +365,17 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 			$res .= $this->getLetterStringForSide('left');
 		}
 		return $res;
+	}
+
+	/* Deletes any associated findings */
+	protected function beforeDelete()
+	{
+		foreach ($this->fluidtype_assignments as $curr) {
+			if (!$curr->delete()) {
+				throw new Exception("Unable to delete fluidtype assignment: ".print_r($curr->getErrors(),true));
+			}
+		}
+
+		return parent::beforeDelete();
 	}
 }
