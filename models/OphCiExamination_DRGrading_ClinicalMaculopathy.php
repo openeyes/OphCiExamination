@@ -27,7 +27,7 @@
  * @property integer $booking_weeks
 
  */
-class OphCiExamination_DRGrading_ClinicalMaculopathy extends BaseActiveRecordVersioned
+class OphCiExamination_DRGrading_ClinicalMaculopathy extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

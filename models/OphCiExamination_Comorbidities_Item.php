@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersioned
+class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

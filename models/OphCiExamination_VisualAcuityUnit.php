@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersioned
+class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

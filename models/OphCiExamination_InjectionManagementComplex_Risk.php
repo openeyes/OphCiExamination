@@ -30,7 +30,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecordVersioned
+class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

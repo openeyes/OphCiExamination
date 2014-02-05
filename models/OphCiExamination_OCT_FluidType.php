@@ -28,7 +28,7 @@
  */
 
 
-class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersioned
+class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

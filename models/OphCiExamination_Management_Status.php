@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Management_Status extends BaseActiveRecordVersioned
+class OphCiExamination_Management_Status extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

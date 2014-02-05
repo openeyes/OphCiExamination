@@ -25,7 +25,7 @@
  * @property integer $display_order
  * @property boolean $requires_comment
  */
-class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersioned
+class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

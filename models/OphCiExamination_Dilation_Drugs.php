@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Dilation_Drugs extends BaseActiveRecordVersioned
+class OphCiExamination_Dilation_Drugs extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

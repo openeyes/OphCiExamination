@@ -26,7 +26,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_AnteriorSegment_Pupil extends BaseActiveRecordVersioned
+class OphCiExamination_AnteriorSegment_Pupil extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

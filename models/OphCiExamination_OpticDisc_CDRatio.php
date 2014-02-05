@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_OpticDisc_CDRatio extends BaseActiveRecordVersioned
+class OphCiExamination_OpticDisc_CDRatio extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.
