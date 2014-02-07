@@ -225,7 +225,13 @@ class DefaultController extends BaseEventTypeController
 	 */
 	public function getChildElements($parent_type)
 	{
-		return $this->getElementsByWorkflow(null, $this->episode, $parent_type->id);
+		$open_elements = parent::getChildElements($parent_type);
+
+		if ($this->step) {
+			return array_merge($open_elements, $this->getElementsByWorkflow(null, $this->episode, $parent_type->id, $open_elements));
+		}
+
+		return $open_elements;
 	}
 
 	/**
@@ -332,9 +338,10 @@ class DefaultController extends BaseEventTypeController
 	 * @param OphCiExamination_ElementSet $set
 	 * @param Episode $episode
 	 * @param integer $parent_id
+	 * @param ElementType $open_elements
 	 * @return ElementType[]
 	 */
-	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null)
+	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null, $open_elements = array())
 	{
 		$elements = array();
 		if (!$set) {
@@ -344,13 +351,17 @@ class DefaultController extends BaseEventTypeController
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
 			$set = OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
+
+		$elements = $open_elements;
+
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
 			if ((!$parent_id && !$element_type->parent_element_type_id) || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
 				$elements[$element_type->id] = new $element_type->class_name;
 			}
 		}
-		return $this->filterElements($elements);
+
+		return $this->filterElements($elements, $open_elements);
 	}
 
 	/**
