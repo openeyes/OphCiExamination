@@ -21,7 +21,7 @@
  <header class="<?php if (@$child) {?>sub-<?php }?>element-header">
 		<h3 class="<?php if (@$child) {?>sub-<?php }?>element-title"><?php echo $element->elementType->name?></h3>
 	</header>
-	<?php $this->renderPartial('_view_' . $element->view_view, array('element' => $element, 'data' => $data, 'form' => $form))?>
+	<?php $this->renderPartial('_' . $element->view_view, array('element' => $element, 'data' => $data, 'form' => $form))?>
 	<div class="sub-elements">
 		<?php $this->renderChildOpenElements($element, 'view', $form, $data)?>
 	</div>

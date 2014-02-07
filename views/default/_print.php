@@ -30,7 +30,7 @@
 	<?php } ?>
 	<div class="details">
 		<?php $this->renderPartial(
-			'_print_' . $element->view_view,
+			'_' . $element->print_view,
 			array('element' => $element, 'data' => $data, 'form' => $form)
 		); ?>
 		<?php if (!@$child) { ?>
