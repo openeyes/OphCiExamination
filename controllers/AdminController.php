@@ -299,7 +299,7 @@ class AdminController extends ModuleAdminController
 
 	public function actionEditWorkflow($id)
 	{
-		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1, YII_DEBUG);
+		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
 		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
 
 		$model = OphCiExamination_Workflow::model()->findByPk((int) $id);
@@ -490,7 +490,7 @@ class AdminController extends ModuleAdminController
 			throw new Exception("Workflow rule not found: $id");
 		}
 
-		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1, YII_DEBUG);
+		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
 		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
 
 		if (isset($_POST['OphCiExamination_Workflow_Rule'])) {
@@ -515,7 +515,7 @@ class AdminController extends ModuleAdminController
 	{
 		$model = new OphCiExamination_Workflow_Rule;
 
-		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1, YII_DEBUG);
+		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
 		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
 
 		if (isset($_POST['OphCiExamination_Workflow_Rule'])) {
