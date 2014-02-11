@@ -66,13 +66,13 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
-	 * filters elements based on coded dependencies
+	 * Filters elements based on coded dependencies
 	 *
 	 * @TODO: need to ensure that we don't filter out elements that do exist when configuration changes
 	 * @param BaseEventTypeElement[] $elements
 	 * @return BaseEventTypeElement[]
 	 */
-	protected function filterElements($elements, $open_elements=array())
+	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$remove = array('Element_OphCiExamination_InjectionManagement');
@@ -80,14 +80,9 @@ class DefaultController extends BaseEventTypeController
 			$remove = array('Element_OphCiExamination_InjectionManagementComplex');
 		}
 
-		$open_element_classes = array();
-		foreach ($open_elements as $open_element) {
-			$open_element_classes[] = get_class($open_element);
-		}
-
 		$final = array();
 		foreach ($elements as $el) {
-			if (!in_array(get_class($el), $remove) && !in_array(get_class($el),$open_element_classes)) {
+			if (!in_array(get_class($el), $remove)) {
 				$final[] = $el;
 			}
 		}
@@ -225,7 +220,21 @@ class DefaultController extends BaseEventTypeController
 	 */
 	public function getChildElements($parent_type)
 	{
-		return $this->getElementsByWorkflow(null, $this->episode, $parent_type->id);
+		$open_child_elements = parent::getChildElements($parent_type);
+
+		if ($this->step) {
+			$current_child_types = array();
+			foreach ($open_child_elements as $open) {
+				$current_child_types[] = $open->getElementType();
+			}
+			foreach ($this->getElementsByWorkflow(null, $this->episode, $parent_type->id) as $new_child_element) {
+				if (!in_array($new_child_element->getElementType(), $current_child_types)) {
+					$open_child_elements[] = $new_child_element;
+				}
+			}
+		}
+
+		return $open_child_elements;
 	}
 
 	/**
@@ -332,7 +341,7 @@ class DefaultController extends BaseEventTypeController
 	 * @param OphCiExamination_ElementSet $set
 	 * @param Episode $episode
 	 * @param integer $parent_id
-	 * @return ElementType[]
+	 * @return BaseEventTypeElement[]
 	 */
 	protected function getElementsByWorkflow($set = null, $episode = null, $parent_id = null)
 	{
@@ -344,12 +353,14 @@ class DefaultController extends BaseEventTypeController
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
 			$set = OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
+
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
 			if ((!$parent_id && !$element_type->parent_element_type_id) || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
-				$elements[$element_type->id] = new $element_type->class_name;
+				$elements[$element_type->id] = $element_type->getInstance();
 			}
 		}
+
 		return $this->filterElements($elements);
 	}
 

@@ -37,6 +37,7 @@
 				<tr>
 					<th><input type="checkbox" name="selectall" id="selectall" /></th>
 					<th>Subspecialty</th>
+					<th>Firm</th>
 					<th>Episode status</th>
 					<th>Workflow</th>
 				</tr>
@@ -47,6 +48,9 @@
 						<td><input type="checkbox" name="workflowrules[]" value="<?php echo $model->id?>" /></td>
 						<td>
 							<?php echo $model->subspecialty ? $model->subspecialty->name : 'All'?>
+						</td>
+						<td>
+							<?php echo $model->firm ? $model->firm->name : 'All'?>
 						</td>
 						<td>
 							<?php echo $model->episode_status ? $model->episode_status->name : 'All'?>
