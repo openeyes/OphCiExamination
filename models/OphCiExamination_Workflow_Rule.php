@@ -52,7 +52,7 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-			array('subspecialty_id, episode_status_id, workflow_id', 'safe'),
+			array('subspecialty_id, firm_id, episode_status_id, workflow_id', 'safe'),
 			array('id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -67,6 +67,7 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 			'parent' => array(self::BELONGS_TO, 'OphCiExamination_Workflow_Rule', 'parent_id'),
 			'children' => array(self::HAS_MANY, 'OphCiExamination_Workflow_Rule', 'parent_id'),
 			'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
+			'firm' => array(self::BELONGS_TO, 'Firm', 'firm_id'),
 			'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id'),
 		);
 	}
@@ -83,6 +84,10 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 
 		if ($firm = Firm::model()->findByPk($firm_id)) {
 			$subspecialty_id = ($firm->serviceSubspecialtyAssignment) ? $firm->serviceSubspecialtyAssignment->subspecialty_id : null;
+		}
+
+		if ($rule = OphCiExamination_Workflow_Rule::model()->find('subspecialty_id=? and firm_id=? and episode_status_id=?',array($subspecialty_id,$firm_id,$status_id))) {
+			return $rule->workflow;
 		}
 
 		if ($rule = OphCiExamination_Workflow_Rule::model()->find('subspecialty_id=? and episode_status_id=?',array($subspecialty_id,$status_id))) {
@@ -108,6 +113,7 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 		return array(
 			'id' => 'ID',
 			'subspecialty_id' => 'Subspecialty',
+			'firm_id' => 'Firm',
 			'episode_status_id' => 'Episode status',
 			'workflow_id' => 'Workflow',
 		);
