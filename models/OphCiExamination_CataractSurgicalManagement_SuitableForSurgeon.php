@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the model class for table "ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon".
+ * This is the model class for table "ophciexamination_cataractsurgicalmanagement_sfsurgeon".
  *
  * @property integer $id
  * @property string $name
@@ -39,7 +39,7 @@ class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends Bas
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon';
+		return 'ophciexamination_cataractsurgicalmanagement_sfsurgeon';
 	}
 
 	/**
