@@ -20,7 +20,7 @@
 		</div>
 		<div class="column small-3">
 			<div class="row field-row">
-				<form>
+				<form action="#OphCiExamination_Episode_MedicalRetinalHistory">
 					<label for="mr_history_va_unit_id">Visual Acuity unit</label>
 					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(Element_OphCiExamination_VisualAcuity::model()->getUsableUnits(), 'id', 'name')); ?>
 				</form>
