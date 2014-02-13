@@ -113,7 +113,7 @@ $layoutColumns = array(
 	<?php
 	$questions = $element->getInjectionQuestionsForSide($side);
 
-	$this->renderPartial('form_' . get_class($element) . '_questions', array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions))?>
+	$this->renderPartial($element->form_view . '_questions', array('side' => $side, 'element' => $element, 'form' => $form, 'questions' => $questions))?>
 
 	<?php if ($treatments = $element->getInjectionTreatments($side)) {?>
 		<?php echo $form->dropDownList($element, $side . '_treatment_id', CHtml::listData($treatments,'id','name'), array('empty'=>'- Please select -'), false, array('label' => 3, 'field' =>6))?>

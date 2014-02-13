@@ -17,26 +17,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element <?php echo $element->elementType->class_name ?>"
-	data-element-id="<?php echo $element->id ?>"
-	data-element-type-id="<?php echo $element->elementType->id ?>"
-	data-element-type-class="<?php echo $element->elementType->class_name ?>"
-	data-element-type-name="<?php echo $element->elementType->name ?>"
-	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<?php if (!@$child) { ?>
-	<h2><?php echo $element->elementType->name; ?></h2>
-	<?php } else { ?>
-	<h3><?php echo $element->elementType->name; ?></h3>
-	<?php } ?>
-	<div class="details">
-		<?php $this->renderPartial(
-			'_' . $element->print_view,
-			array('element' => $element, 'data' => $data, 'form' => $form)
-		); ?>
-		<?php if (!@$child) { ?>
-		<div class="child_elements">
-			<?php $this->renderChildOpenElements($element, 'print', $form, $data); ?>
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
+		<div class="data-row">
+			<?php if ($element->hasRight()) {
+				$this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element));
+			} else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
 		</div>
-	<?php } ?>
+	</div>
+	<div class="element-eye left-eye column">
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {
+				$this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element));
+			} else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
+		</div>
 	</div>
 </div>

@@ -20,6 +20,10 @@
 	margin: 0 0 10px 0;
 	position: relative;
 	width: 160px;
+	@media print {
+		-webkit-print-color-adjust: exact;
+		background: image-url("cross_print.gif") no-repeat center center !important;
+	}
 	div {
 		position: absolute;
 		text-align: center;

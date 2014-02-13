@@ -14,10 +14,5 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-@include grid-fixed-fluid(".refraction", 186px);
-@include grid-fixed-fluid(".gonioscopy,.anterior-segment,.optic-disc,.posterior-pole", 320px);
-
-.view {
-	@include grid-fixed-fluid(".refraction", 120px);
-	@include grid-fixed-fluid(".gonioscopy,.anterior-segment,.optic-disc,.posterior-pole", 220px);
-}
+@import "openeyes/module";
+@import "openeyes/components/print/event";

@@ -17,23 +17,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="sub-element-data sub-element-eyes row">
+<div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($element->hasRight()) {
-			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'right', 'element' => $element));
-		} else {?>
-			<div class="data-row">
+		<div class="data-row">
+			<?php if ($element->hasRight()) {?>
+				<div class="row gonioscopy">
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
+				</div>
+			<?php } else {?>
 				<div class="data-value">Not recorded</div>
-			</div>
-		<?php }?>
+			<?php }?>
+		</div>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($element->hasLeft()) {
-			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'left', 'element' => $element));
-		} else {?>
-			<div class="data-row">
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {?>
+				<div class="row gonioscopy">
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
+				</div>
+			<?php } else {?>
 				<div class="data-value">Not recorded</div>
-			</div>
-		<?php }?>
+			<?php }?>
+		</div>
 	</div>
 </div>

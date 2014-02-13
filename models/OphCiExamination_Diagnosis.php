@@ -93,5 +93,4 @@ class OphCiExamination_Diagnosis extends BaseActiveRecordVersioned
 				'criteria'=>$criteria,
 		));
 	}
-
 }

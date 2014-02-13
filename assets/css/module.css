@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -23,7 +22,7 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1391005464');
+  background-image: url('../img/watermark.png?1392372887');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
@@ -35,22 +34,43 @@
 .Element_OphCiExamination_IntraocularPressure .element-fields {
   border-top: 4px solid #000;
 }
-/* line 21, ../sass/components/elements/_intraocular-pressure.scss */
+@media print {
+  /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
+  .Element_OphCiExamination_IntraocularPressure .element-data,
+  .Element_OphCiExamination_IntraocularPressure .element-fields {
+    border-top-width: 1px;
+  }
+}
+/* line 24, ../sass/components/elements/_intraocular-pressure.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
 .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
   border-right: 2px solid #000;
 }
-/* line 23, ../sass/components/elements/_intraocular-pressure.scss */
+@media print {
+  /* line 24, ../sass/components/elements/_intraocular-pressure.scss */
+  .Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
+  .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
+    border-right: 0;
+  }
+}
+/* line 29, ../sass/components/elements/_intraocular-pressure.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child,
 .Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
   border: 0;
 }
-/* line 27, ../sass/components/elements/_intraocular-pressure.scss */
+/* line 33, ../sass/components/elements/_intraocular-pressure.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
 .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
   text-align: right;
 }
-/* line 30, ../sass/components/elements/_intraocular-pressure.scss */
+@media print {
+  /* line 33, ../sass/components/elements/_intraocular-pressure.scss */
+  .Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
+  .Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
+    text-align: left;
+  }
+}
+/* line 39, ../sass/components/elements/_intraocular-pressure.scss */
 .Element_OphCiExamination_IntraocularPressure .element-data .unit,
 .Element_OphCiExamination_IntraocularPressure .element-fields .unit {
   font-size: 0.8125rem;
@@ -123,54 +143,61 @@
   position: relative;
   width: 160px;
 }
-/* line 23, ../sass/components/_gonio-cross.scss */
+@media print {
+  /* line 17, ../sass/components/_gonio-cross.scss */
+  .gonio-cross {
+    -webkit-print-color-adjust: exact;
+    background: url('../img/cross_print.gif?1383822301') no-repeat center center !important;
+  }
+}
+/* line 27, ../sass/components/_gonio-cross.scss */
 .gonio-cross div {
   position: absolute;
   text-align: center;
 }
-/* line 27, ../sass/components/_gonio-cross.scss */
+/* line 31, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-sup {
   top: 5px;
   width: 100%;
 }
-/* line 31, ../sass/components/_gonio-cross.scss */
+/* line 35, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-tem {
   height: 20px;
   left: 5px;
   margin-top: -10px;
   top: 50%;
 }
-/* line 37, ../sass/components/_gonio-cross.scss */
+/* line 41, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-nas {
   height: 20px;
   margin-top: -10px;
   right: 5px;
   top: 50%;
 }
-/* line 43, ../sass/components/_gonio-cross.scss */
+/* line 47, ../sass/components/_gonio-cross.scss */
 .gonio-cross .gonio-inf {
   bottom: 5px;
   width: 100%;
 }
 
-/* line 51, ../sass/components/_gonio-cross.scss */
+/* line 55, ../sass/components/_gonio-cross.scss */
 .view .Element_OphCiExamination_Gonioscopy .gonio-cross {
   height: 80px;
   width: 120px;
 }
-/* line 54, ../sass/components/_gonio-cross.scss */
+/* line 58, ../sass/components/_gonio-cross.scss */
 .view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-sup {
   top: 5px;
 }
-/* line 57, ../sass/components/_gonio-cross.scss */
+/* line 61, ../sass/components/_gonio-cross.scss */
 .view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-tem {
   left: 15px;
 }
-/* line 60, ../sass/components/_gonio-cross.scss */
+/* line 64, ../sass/components/_gonio-cross.scss */
 .view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-nas {
   right: 15px;
 }
-/* line 63, ../sass/components/_gonio-cross.scss */
+/* line 67, ../sass/components/_gonio-cross.scss */
 .view .Element_OphCiExamination_Gonioscopy .gonio-cross .gonio-inf {
   bottom: 5px;
 }
@@ -186,55 +213,51 @@
   width: -webkit-calc(100% - 186px);
   width: calc(100% - 186px);
 }
+@media print {
+  /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
+  .row.refraction .column.fluid {
+    margin-top: 1em;
+    width: 100%;
+  }
+}
 
 /* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.gonioscopy .column.fixed {
+.row.gonioscopy .column.fixed, .row .anterior-segment .column.fixed, .row .optic-disc .column.fixed, .row .posterior-pole .column.fixed {
   width: 320px;
 }
 /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.gonioscopy .column.fluid {
+.row.gonioscopy .column.fluid, .row .anterior-segment .column.fluid, .row .optic-disc .column.fluid, .row .posterior-pole .column.fluid {
   width: -moz-calc(100% - 320px);
   width: -o-calc(100% - 320px);
   width: -webkit-calc(100% - 320px);
   width: calc(100% - 320px);
 }
-
-/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.anterior-segment .column.fixed {
-  width: 320px;
-}
-/* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.anterior-segment .column.fluid {
-  width: -moz-calc(100% - 320px);
-  width: -o-calc(100% - 320px);
-  width: -webkit-calc(100% - 320px);
-  width: calc(100% - 320px);
+@media print {
+  /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
+  .row.gonioscopy .column.fluid, .row .anterior-segment .column.fluid, .row .optic-disc .column.fluid, .row .posterior-pole .column.fluid {
+    margin-top: 1em;
+    width: 100%;
+  }
 }
 
 /* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.optic-disc .column.fixed {
-  width: 320px;
+.view .row.refraction .column.fixed {
+  width: 120px;
 }
 /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.optic-disc .column.fluid {
-  width: -moz-calc(100% - 320px);
-  width: -o-calc(100% - 320px);
-  width: -webkit-calc(100% - 320px);
-  width: calc(100% - 320px);
+.view .row.refraction .column.fluid {
+  width: -moz-calc(100% - 120px);
+  width: -o-calc(100% - 120px);
+  width: -webkit-calc(100% - 120px);
+  width: calc(100% - 120px);
 }
-
-/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.posterior-pole .column.fixed {
-  width: 320px;
+@media print {
+  /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
+  .view .row.refraction .column.fluid {
+    margin-top: 1em;
+    width: 100%;
+  }
 }
-/* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
-.row.posterior-pole .column.fluid {
-  width: -moz-calc(100% - 320px);
-  width: -o-calc(100% - 320px);
-  width: -webkit-calc(100% - 320px);
-  width: calc(100% - 320px);
-}
-
 /* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
 .view .row.gonioscopy .column.fixed, .view .row .anterior-segment .column.fixed, .view .row .optic-disc .column.fixed, .view .row .posterior-pole .column.fixed {
   width: 220px;
@@ -246,16 +269,12 @@
   width: -webkit-calc(100% - 220px);
   width: calc(100% - 220px);
 }
-/* line 115, ../../../../assets/sass/openeyes/_mixins.scss */
-.view .row.refraction .column.fixed {
-  width: 120px;
-}
-/* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
-.view .row.refraction .column.fluid {
-  width: -moz-calc(100% - 120px);
-  width: -o-calc(100% - 120px);
-  width: -webkit-calc(100% - 120px);
-  width: calc(100% - 120px);
+@media print {
+  /* line 118, ../../../../assets/sass/openeyes/_mixins.scss */
+  .view .row.gonioscopy .column.fluid, .view .row .anterior-segment .column.fluid, .view .row .optic-disc .column.fluid, .view .row .posterior-pole .column.fluid {
+    margin-top: 1em;
+    width: 100%;
+  }
 }
 
 /* line 19, ../sass/components/_eyedraw.scss */
@@ -320,23 +339,23 @@
   padding: .5em 0 0 0;
 }
 
-/* line 18, ../sass/components/admin.scss */
+/* line 18, ../sass/components/_admin.scss */
 #admin_workflow_steps .selectable {
   cursor: pointer;
 }
-/* line 20, ../sass/components/admin.scss */
+/* line 20, ../sass/components/_admin.scss */
 #admin_workflow_steps .selectable:hover {
   background: #3665ff;
 }
-/* line 22, ../sass/components/admin.scss */
+/* line 22, ../sass/components/_admin.scss */
 #admin_workflow_steps .selectable:hover td {
   color: #fff;
 }
-/* line 27, ../sass/components/admin.scss */
+/* line 27, ../sass/components/_admin.scss */
 #admin_workflow_steps .selected {
   background: #3665ff;
 }
-/* line 29, ../sass/components/admin.scss */
+/* line 29, ../sass/components/_admin.scss */
 #admin_workflow_steps .selected td {
   color: #fff;
 }

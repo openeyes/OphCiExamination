@@ -18,6 +18,20 @@
  */
 ?>
 
+<?php $this->beginClip('element-title-additional');?>
+<div class="info">
+	<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {?>
+			<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
+			<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+			<div class="drgrading_images_dialog" title="DR Grading Images">
+				<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
+			</div>
+	<?php }else{?>
+		<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+	<?php }?>
+</div>
+<?php $this->endClip('element-title-additional');?>
+
 <div class="sub-element-fields">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField'))?>
 	<fieldset class="field-row row">
@@ -38,7 +52,7 @@
 <div class="sub-element-fields element-eyes row">
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="right">
 		<div class="active-form">
-			<?php $this->renderPartial('form_' . get_class($element) . '_fields', array('side' => 'right', 'element' => $element, 'form' => $form))?>
+			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'right', 'element' => $element, 'form' => $form))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
@@ -48,7 +62,7 @@
 	</div>
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="left">
 		<div class="active-form">
-			<?php $this->renderPartial('form_' . get_class($element) . '_fields', array('side' => 'left', 'element' => $element, 'form' => $form))?>
+			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'left', 'element' => $element, 'form' => $form))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
