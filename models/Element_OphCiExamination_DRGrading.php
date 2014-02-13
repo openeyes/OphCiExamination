@@ -195,25 +195,12 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		));
 	}
 
-	/**
-	 * override to provide support for the ids for diabetes type
-	 *
-	 * @param $table
-	 * @return array
-	 */
-	public function getFormOptions($table)
+	public function getDiabetesTypes()
 	{
-		if ($table == 'diabetes_types') {
-			// override to manage the list of disorders for diabetes
-			$options = array(
-				Disorder::SNOMED_DIABETES_TYPE_I => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_I)->term,
-				Disorder::SNOMED_DIABETES_TYPE_II => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_II)->term
-			);
-			return $options;
-		}
-		else {
-			return parent::getFormOptions($table);
-		}
+		return array(
+			Disorder::SNOMED_DIABETES_TYPE_I => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_I)->term,
+			Disorder::SNOMED_DIABETES_TYPE_II => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_II)->term
+		);
 	}
 
 	/**

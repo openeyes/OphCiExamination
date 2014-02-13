@@ -19,7 +19,7 @@
 ?>
 <div class="sub-element-fields">
 	<div class="field-row">
-		<?php echo $form->radioButtons($element, 'eye_id', 'ophciexamination_cataractmanagement_eye',null,false,false,false,false,array('nowrapper'=>true))?>
+		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(array('order'=>'id asc')),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
 	</div>
 	<div class="field-row">
 		<?php echo $form->checkbox($element, 'city_road', array('nowrapper'=>true))?>

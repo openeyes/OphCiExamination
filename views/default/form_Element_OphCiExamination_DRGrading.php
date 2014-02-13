@@ -29,7 +29,7 @@
 				if ($diabetes = $this->patient->getDiabetesType()) {
 					echo '<span class="data-value">'.$diabetes->term.'</span>';
 				} else {
-					$form->radioButtons($element, 'secondarydiagnosis_disorder_id', 'diabetes_types', null, false, false, false, false, array('nowrapper' => true));
+					$form->radioButtons($element, 'secondarydiagnosis_disorder_id', $element->getDiabetesTypes(), null, false, false, false, false, array('nowrapper' => true));
 				}
 			?>
 		</div>
