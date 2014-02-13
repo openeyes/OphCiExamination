@@ -31,7 +31,6 @@ CREATE TABLE `et_ophciexamination_adnexalcomorbidity_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_adnexalcomorbidity_version');
 
 		$this->createIndex('et_ophciexamination_adnexalcomorbidity_aid_fk','et_ophciexamination_adnexalcomorbidity_version','id');
-		$this->addForeignKey('et_ophciexamination_adnexalcomorbidity_aid_fk','et_ophciexamination_adnexalcomorbidity_version','id','et_ophciexamination_adnexalcomorbidity','id');
 
 		$this->addColumn('et_ophciexamination_adnexalcomorbidity_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -90,7 +89,6 @@ CREATE TABLE `et_ophciexamination_anteriorsegment_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_anteriorsegment_version');
 
 		$this->createIndex('et_ophciexamination_anteriorsegment_aid_fk','et_ophciexamination_anteriorsegment_version','id');
-		$this->addForeignKey('et_ophciexamination_anteriorsegment_aid_fk','et_ophciexamination_anteriorsegment_version','id','et_ophciexamination_anteriorsegment','id');
 
 		$this->addColumn('et_ophciexamination_anteriorsegment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -131,7 +129,6 @@ CREATE TABLE `et_ophciexamination_anteriorsegment_cct_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_anteriorsegment_cct_version');
 
 		$this->createIndex('et_ophciexamination_anteriorsegment_cct_aid_fk','et_ophciexamination_anteriorsegment_cct_version','id');
-		$this->addForeignKey('et_ophciexamination_anteriorsegment_cct_aid_fk','et_ophciexamination_anteriorsegment_cct_version','id','et_ophciexamination_anteriorsegment_cct','id');
 
 		$this->addColumn('et_ophciexamination_anteriorsegment_cct_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -175,7 +172,6 @@ CREATE TABLE `et_ophciexamination_cataractsurgicalmanagement_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_cataractsurgicalmanagement_version');
 
 		$this->createIndex('et_ophciexamination_cataractsurgicalmanagement_aid_fk','et_ophciexamination_cataractsurgicalmanagement_version','id');
-		$this->addForeignKey('et_ophciexamination_cataractsurgicalmanagement_aid_fk','et_ophciexamination_cataractsurgicalmanagement_version','id','et_ophciexamination_cataractsurgicalmanagement','id');
 
 		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -217,7 +213,6 @@ CREATE TABLE `et_ophciexamination_clinicoutcome_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_clinicoutcome_version');
 
 		$this->createIndex('et_ophciexamination_clinicoutcome_aid_fk','et_ophciexamination_clinicoutcome_version','id');
-		$this->addForeignKey('et_ophciexamination_clinicoutcome_aid_fk','et_ophciexamination_clinicoutcome_version','id','et_ophciexamination_clinicoutcome','id');
 
 		$this->addColumn('et_ophciexamination_clinicoutcome_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -248,7 +243,6 @@ CREATE TABLE `et_ophciexamination_comorbidities_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_comorbidities_version');
 
 		$this->createIndex('et_ophciexamination_comorbidities_aid_fk','et_ophciexamination_comorbidities_version','id');
-		$this->addForeignKey('et_ophciexamination_comorbidities_aid_fk','et_ophciexamination_comorbidities_version','id','et_ophciexamination_comorbidities','id');
 
 		$this->addColumn('et_ophciexamination_comorbidities_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -279,7 +273,6 @@ CREATE TABLE `et_ophciexamination_conclusion_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_conclusion_version');
 
 		$this->createIndex('et_ophciexamination_conclusion_aid_fk','et_ophciexamination_conclusion_version','id');
-		$this->addForeignKey('et_ophciexamination_conclusion_aid_fk','et_ophciexamination_conclusion_version','id','et_ophciexamination_conclusion','id');
 
 		$this->addColumn('et_ophciexamination_conclusion_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -309,7 +302,6 @@ CREATE TABLE `et_ophciexamination_diagnoses_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_diagnoses_version');
 
 		$this->createIndex('et_ophciexamination_diagnoses_aid_fk','et_ophciexamination_diagnoses_version','id');
-		$this->addForeignKey('et_ophciexamination_diagnoses_aid_fk','et_ophciexamination_diagnoses_version','id','et_ophciexamination_diagnoses','id');
 
 		$this->addColumn('et_ophciexamination_diagnoses_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -342,7 +334,6 @@ CREATE TABLE `et_ophciexamination_dilation_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_dilation_version');
 
 		$this->createIndex('et_ophciexamination_dilation_aid_fk','et_ophciexamination_dilation_version','id');
-		$this->addForeignKey('et_ophciexamination_dilation_aid_fk','et_ophciexamination_dilation_version','id','et_ophciexamination_dilation','id');
 
 		$this->addColumn('et_ophciexamination_dilation_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -405,7 +396,6 @@ CREATE TABLE `et_ophciexamination_drgrading_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_drgrading_version');
 
 		$this->createIndex('et_ophciexamination_drgrading_aid_fk','et_ophciexamination_drgrading_version','id');
-		$this->addForeignKey('et_ophciexamination_drgrading_aid_fk','et_ophciexamination_drgrading_version','id','et_ophciexamination_drgrading','id');
 
 		$this->addColumn('et_ophciexamination_drgrading_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -438,7 +428,6 @@ CREATE TABLE `et_ophciexamination_glaucomarisk_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_glaucomarisk_version');
 
 		$this->createIndex('et_ophciexamination_glaucomarisk_aid_fk','et_ophciexamination_glaucomarisk_version','id');
-		$this->addForeignKey('et_ophciexamination_glaucomarisk_aid_fk','et_ophciexamination_glaucomarisk_version','id','et_ophciexamination_glaucomarisk','id');
 
 		$this->addColumn('et_ophciexamination_glaucomarisk_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -505,7 +494,6 @@ CREATE TABLE `et_ophciexamination_gonioscopy_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_gonioscopy_version');
 
 		$this->createIndex('et_ophciexamination_gonioscopy_aid_fk','et_ophciexamination_gonioscopy_version','id');
-		$this->addForeignKey('et_ophciexamination_gonioscopy_aid_fk','et_ophciexamination_gonioscopy_version','id','et_ophciexamination_gonioscopy','id');
 
 		$this->addColumn('et_ophciexamination_gonioscopy_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -536,7 +524,6 @@ CREATE TABLE `et_ophciexamination_history_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_history_version');
 
 		$this->createIndex('et_ophciexamination_history_aid_fk','et_ophciexamination_history_version','id');
-		$this->addForeignKey('et_ophciexamination_history_aid_fk','et_ophciexamination_history_version','id','et_ophciexamination_history','id');
 
 		$this->addColumn('et_ophciexamination_history_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -573,7 +560,6 @@ CREATE TABLE `et_ophciexamination_injectionmanagement_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_injectionmanagement_version');
 
 		$this->createIndex('et_ophciexamination_injectionmanagement_aid_fk','et_ophciexamination_injectionmanagement_version','id');
-		$this->addForeignKey('et_ophciexamination_injectionmanagement_aid_fk','et_ophciexamination_injectionmanagement_version','id','et_ophciexamination_injectionmanagement','id');
 
 		$this->addColumn('et_ophciexamination_injectionmanagement_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -628,7 +614,6 @@ CREATE TABLE `et_ophciexamination_injectionmanagementcomplex_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_injectionmanagementcomplex_version');
 
 		$this->createIndex('et_ophciexamination_injectionmanagementcomplex_aid_fk','et_ophciexamination_injectionmanagementcomplex_version','id');
-		$this->addForeignKey('et_ophciexamination_injectionmanagementcomplex_aid_fk','et_ophciexamination_injectionmanagementcomplex_version','id','et_ophciexamination_injectionmanagementcomplex','id');
 
 		$this->addColumn('et_ophciexamination_injectionmanagementcomplex_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -673,7 +658,6 @@ CREATE TABLE `et_ophciexamination_intraocularpressure_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_intraocularpressure_version');
 
 		$this->createIndex('et_ophciexamination_intraocularpressure_aid_fk','et_ophciexamination_intraocularpressure_version','id');
-		$this->addForeignKey('et_ophciexamination_intraocularpressure_aid_fk','et_ophciexamination_intraocularpressure_version','id','et_ophciexamination_intraocularpressure','id');
 
 		$this->addColumn('et_ophciexamination_intraocularpressure_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -704,7 +688,6 @@ CREATE TABLE `et_ophciexamination_investigation_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_investigation_version');
 
 		$this->createIndex('et_ophciexamination_investigation_aid_fk','et_ophciexamination_investigation_version','id');
-		$this->addForeignKey('et_ophciexamination_investigation_aid_fk','et_ophciexamination_investigation_version','id','et_ophciexamination_investigation','id');
 
 		$this->addColumn('et_ophciexamination_investigation_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -759,7 +742,6 @@ CREATE TABLE `et_ophciexamination_lasermanagement_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_lasermanagement_version');
 
 		$this->createIndex('et_ophciexamination_lasermanagement_aid_fk','et_ophciexamination_lasermanagement_version','id');
-		$this->addForeignKey('et_ophciexamination_lasermanagement_aid_fk','et_ophciexamination_lasermanagement_version','id','et_ophciexamination_lasermanagement','id');
 
 		$this->addColumn('et_ophciexamination_lasermanagement_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -790,7 +772,6 @@ CREATE TABLE `et_ophciexamination_management_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_management_version');
 
 		$this->createIndex('et_ophciexamination_management_aid_fk','et_ophciexamination_management_version','id');
-		$this->addForeignKey('et_ophciexamination_management_aid_fk','et_ophciexamination_management_version','id','et_ophciexamination_management','id');
 
 		$this->addColumn('et_ophciexamination_management_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -845,7 +826,6 @@ CREATE TABLE `et_ophciexamination_oct_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_oct_version');
 
 		$this->createIndex('et_ophciexamination_oct_aid_fk','et_ophciexamination_oct_version','id');
-		$this->addForeignKey('et_ophciexamination_oct_aid_fk','et_ophciexamination_oct_version','id','et_ophciexamination_oct','id');
 
 		$this->addColumn('et_ophciexamination_oct_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -896,7 +876,6 @@ CREATE TABLE `et_ophciexamination_opticdisc_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_opticdisc_version');
 
 		$this->createIndex('et_ophciexamination_opticdisc_aid_fk','et_ophciexamination_opticdisc_version','id');
-		$this->addForeignKey('et_ophciexamination_opticdisc_aid_fk','et_ophciexamination_opticdisc_version','id','et_ophciexamination_opticdisc','id');
 
 		$this->addColumn('et_ophciexamination_opticdisc_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -933,7 +912,6 @@ CREATE TABLE `et_ophciexamination_posteriorpole_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_posteriorpole_version');
 
 		$this->createIndex('et_ophciexamination_posteriorpole_aid_fk','et_ophciexamination_posteriorpole_version','id');
-		$this->addForeignKey('et_ophciexamination_posteriorpole_aid_fk','et_ophciexamination_posteriorpole_version','id','et_ophciexamination_posteriorpole','id');
 
 		$this->addColumn('et_ophciexamination_posteriorpole_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -970,7 +948,6 @@ CREATE TABLE `et_ophciexamination_pupillaryabnormalities_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_pupillaryabnormalities_version');
 
 		$this->createIndex('et_ophciexamination_pupillaryabnormalities_aid_fk','et_ophciexamination_pupillaryabnormalities_version','id');
-		$this->addForeignKey('et_ophciexamination_pupillaryabnormalities_aid_fk','et_ophciexamination_pupillaryabnormalities_version','id','et_ophciexamination_pupillaryabnormalities','id');
 
 		$this->addColumn('et_ophciexamination_pupillaryabnormalities_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1019,7 +996,6 @@ CREATE TABLE `et_ophciexamination_refraction_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_refraction_version');
 
 		$this->createIndex('et_ophciexamination_refraction_aid_fk','et_ophciexamination_refraction_version','id');
-		$this->addForeignKey('et_ophciexamination_refraction_aid_fk','et_ophciexamination_refraction_version','id','et_ophciexamination_refraction','id');
 
 		$this->addColumn('et_ophciexamination_refraction_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1050,7 +1026,6 @@ CREATE TABLE `et_ophciexamination_risks_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_risks_version');
 
 		$this->createIndex('et_ophciexamination_risks_aid_fk','et_ophciexamination_risks_version','id');
-		$this->addForeignKey('et_ophciexamination_risks_aid_fk','et_ophciexamination_risks_version','id','et_ophciexamination_risks','id');
 
 		$this->addColumn('et_ophciexamination_risks_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1088,7 +1063,6 @@ CREATE TABLE `et_ophciexamination_visualacuity_version` (
 		$this->dropPrimaryKey('id','et_ophciexamination_visualacuity_version');
 
 		$this->createIndex('et_ophciexamination_visualacuity_aid_fk','et_ophciexamination_visualacuity_version','id');
-		$this->addForeignKey('et_ophciexamination_visualacuity_aid_fk','et_ophciexamination_visualacuity_version','id','et_ophciexamination_visualacuity','id');
 
 		$this->addColumn('et_ophciexamination_visualacuity_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1236,7 +1210,6 @@ CREATE TABLE `ophciexamination_attribute_version` (
 		$this->dropPrimaryKey('id','ophciexamination_attribute_version');
 
 		$this->createIndex('ophciexamination_attribute_aid_fk','ophciexamination_attribute_version','id');
-		$this->addForeignKey('ophciexamination_attribute_aid_fk','ophciexamination_attribute_version','id','ophciexamination_attribute','id');
 
 		$this->addColumn('ophciexamination_attribute_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1269,7 +1242,6 @@ CREATE TABLE `ophciexamination_attribute_element_version` (
 		$this->dropPrimaryKey('id','ophciexamination_attribute_element_version');
 
 		$this->createIndex('ophciexamination_attribute_element_aid_fk','ophciexamination_attribute_element_version','id');
-		$this->addForeignKey('ophciexamination_attribute_element_aid_fk','ophciexamination_attribute_element_version','id','ophciexamination_attribute_element','id');
 
 		$this->addColumn('ophciexamination_attribute_element_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1304,7 +1276,6 @@ CREATE TABLE `ophciexamination_attribute_option_version` (
 		$this->dropPrimaryKey('id','ophciexamination_attribute_option_version');
 
 		$this->createIndex('ophciexamination_attribute_option_aid_fk','ophciexamination_attribute_option_version','id');
-		$this->addForeignKey('ophciexamination_attribute_option_aid_fk','ophciexamination_attribute_option_version','id','ophciexamination_attribute_option','id');
 
 		$this->addColumn('ophciexamination_attribute_option_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1459,7 +1430,6 @@ CREATE TABLE `ophciexamination_clinicoutcome_template_version` (
 		$this->dropPrimaryKey('id','ophciexamination_clinicoutcome_template_version');
 
 		$this->createIndex('ophciexamination_clinicoutcome_template_aid_fk','ophciexamination_clinicoutcome_template_version','id');
-		$this->addForeignKey('ophciexamination_clinicoutcome_template_aid_fk','ophciexamination_clinicoutcome_template_version','id','ophciexamination_clinicoutcome_template','id');
 
 		$this->addColumn('ophciexamination_clinicoutcome_template_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1492,7 +1462,6 @@ CREATE TABLE `ophciexamination_comorbidities_assignment_version` (
 		$this->dropPrimaryKey('id','ophciexamination_comorbidities_assignment_version');
 
 		$this->createIndex('ophciexamination_comorbidities_assignment_aid_fk','ophciexamination_comorbidities_assignment_version','id');
-		$this->addForeignKey('ophciexamination_comorbidities_assignment_aid_fk','ophciexamination_comorbidities_assignment_version','id','ophciexamination_comorbidities_assignment','id');
 
 		$this->addColumn('ophciexamination_comorbidities_assignment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1558,7 +1527,6 @@ CREATE TABLE `ophciexamination_diagnosis_version` (
 		$this->dropPrimaryKey('id','ophciexamination_diagnosis_version');
 
 		$this->createIndex('ophciexamination_diagnosis_aid_fk','ophciexamination_diagnosis_version','id');
-		$this->addForeignKey('ophciexamination_diagnosis_aid_fk','ophciexamination_diagnosis_version','id','ophciexamination_diagnosis','id');
 
 		$this->addColumn('ophciexamination_diagnosis_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1623,7 +1591,6 @@ CREATE TABLE `ophciexamination_dilation_treatment_version` (
 		$this->dropPrimaryKey('id','ophciexamination_dilation_treatment_version');
 
 		$this->createIndex('ophciexamination_dilation_treatment_aid_fk','ophciexamination_dilation_treatment_version','id');
-		$this->addForeignKey('ophciexamination_dilation_treatment_aid_fk','ophciexamination_dilation_treatment_version','id','ophciexamination_dilation_treatment','id');
 
 		$this->addColumn('ophciexamination_dilation_treatment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1783,7 +1750,6 @@ CREATE TABLE `ophciexamination_element_set_version` (
 		$this->dropPrimaryKey('id','ophciexamination_element_set_version');
 
 		$this->createIndex('ophciexamination_element_set_aid_fk','ophciexamination_element_set_version','id');
-		$this->addForeignKey('ophciexamination_element_set_aid_fk','ophciexamination_element_set_version','id','ophciexamination_element_set','id');
 
 		$this->addColumn('ophciexamination_element_set_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1816,7 +1782,6 @@ CREATE TABLE `ophciexamination_element_set_item_version` (
 		$this->dropPrimaryKey('id','ophciexamination_element_set_item_version');
 
 		$this->createIndex('ophciexamination_element_set_item_aid_fk','ophciexamination_element_set_item_version','id');
-		$this->addForeignKey('ophciexamination_element_set_item_aid_fk','ophciexamination_element_set_item_version','id','ophciexamination_element_set_item','id');
 
 		$this->addColumn('ophciexamination_element_set_item_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1851,7 +1816,6 @@ CREATE TABLE `ophciexamination_workflow_rule_version` (
 		$this->dropPrimaryKey('id','ophciexamination_workflow_rule_version');
 
 		$this->createIndex('ophciexamination_workflow_rule_aid_fk','ophciexamination_workflow_rule_version','id');
-		$this->addForeignKey('ophciexamination_workflow_rule_aid_fk','ophciexamination_workflow_rule_version','id','ophciexamination_workflow_rule','id');
 
 		$this->addColumn('ophciexamination_workflow_rule_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1885,7 +1849,6 @@ CREATE TABLE `ophciexamination_event_elementset_assignment_version` (
 		$this->dropPrimaryKey('id','ophciexamination_event_elementset_assignment_version');
 
 		$this->createIndex('ophciexamination_event_elementset_assignment_aid_fk','ophciexamination_event_elementset_assignment_version','id');
-		$this->addForeignKey('ophciexamination_event_elementset_assignment_aid_fk','ophciexamination_event_elementset_assignment_version','id','ophciexamination_event_elementset_assignment','id');
 
 		$this->addColumn('ophciexamination_event_elementset_assignment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1921,7 +1884,6 @@ CREATE TABLE `ophciexamination_glaucomarisk_risk_version` (
 		$this->dropPrimaryKey('id','ophciexamination_glaucomarisk_risk_version');
 
 		$this->createIndex('ophciexamination_glaucomarisk_risk_aid_fk','ophciexamination_glaucomarisk_risk_version','id');
-		$this->addForeignKey('ophciexamination_glaucomarisk_risk_aid_fk','ophciexamination_glaucomarisk_risk_version','id','ophciexamination_glaucomarisk_risk','id');
 
 		$this->addColumn('ophciexamination_glaucomarisk_risk_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -1951,7 +1913,6 @@ CREATE TABLE `ophciexamination_gonioscopy_description_version` (
 		$this->dropPrimaryKey('id','ophciexamination_gonioscopy_description_version');
 
 		$this->createIndex('ophciexamination_gonioscopy_description_aid_fk','ophciexamination_gonioscopy_description_version','id');
-		$this->addForeignKey('ophciexamination_gonioscopy_description_aid_fk','ophciexamination_gonioscopy_description_version','id','ophciexamination_gonioscopy_description','id');
 
 		$this->addColumn('ophciexamination_gonioscopy_description_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2017,7 +1978,6 @@ CREATE TABLE `ophciexamination_injectmanagecomplex_answer_version` (
 		$this->dropPrimaryKey('id','ophciexamination_injectmanagecomplex_answer_version');
 
 		$this->createIndex('ophciexamination_injectmanagecomplex_answer_aid_fk','ophciexamination_injectmanagecomplex_answer_version','id');
-		$this->addForeignKey('ophciexamination_injectmanagecomplex_answer_aid_fk','ophciexamination_injectmanagecomplex_answer_version','id','ophciexamination_injectmanagecomplex_answer','id');
 
 		$this->addColumn('ophciexamination_injectmanagecomplex_answer_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2148,7 +2108,6 @@ CREATE TABLE `ophciexamination_injectmanagecomplex_risk_assignment_version` (
 		$this->dropPrimaryKey('id','ophciexamination_injectmanagecomplex_risk_assignment_version');
 
 		$this->createIndex('ophciexamination_injectmanagecomplex_risk_assignment_aid_fk','ophciexamination_injectmanagecomplex_risk_assignment_version','id');
-		$this->addForeignKey('ophciexamination_injectmanagecomplex_risk_assignment_aid_fk','ophciexamination_injectmanagecomplex_risk_assignment_version','id','ophciexamination_injectmanagecomplex_risk_assignment','id');
 
 		$this->addColumn('ophciexamination_injectmanagecomplex_risk_assignment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2207,7 +2166,6 @@ CREATE TABLE `ophciexamination_intraocularpressure_reading_version` (
 		$this->dropPrimaryKey('id','ophciexamination_intraocularpressure_reading_version');
 
 		$this->createIndex('ophciexamination_intraocularpressure_reading_aid_fk','ophciexamination_intraocularpressure_reading_version','id');
-		$this->addForeignKey('ophciexamination_intraocularpressure_reading_aid_fk','ophciexamination_intraocularpressure_reading_version','id','ophciexamination_intraocularpressure_reading','id');
 
 		$this->addColumn('ophciexamination_intraocularpressure_reading_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2396,7 +2354,6 @@ CREATE TABLE `ophciexamination_oct_fluidtype_assignment_version` (
 		$this->dropPrimaryKey('id','ophciexamination_oct_fluidtype_assignment_version');
 
 		$this->createIndex('ophciexamination_oct_fluidtype_assignment_aid_fk','ophciexamination_oct_fluidtype_assignment_version','id');
-		$this->addForeignKey('ophciexamination_oct_fluidtype_assignment_aid_fk','ophciexamination_oct_fluidtype_assignment_version','id','ophciexamination_oct_fluidtype_assignment','id');
 
 		$this->addColumn('ophciexamination_oct_fluidtype_assignment_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2757,7 +2714,6 @@ CREATE TABLE `ophciexamination_visualacuity_reading_version` (
 		$this->dropPrimaryKey('id','ophciexamination_visualacuity_reading_version');
 
 		$this->createIndex('ophciexamination_visualacuity_reading_aid_fk','ophciexamination_visualacuity_reading_version','id');
-		$this->addForeignKey('ophciexamination_visualacuity_reading_aid_fk','ophciexamination_visualacuity_reading_version','id','ophciexamination_visualacuity_reading','id');
 
 		$this->addColumn('ophciexamination_visualacuity_reading_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2793,59 +2749,6 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addPrimaryKey('version_id','ophciexamination_workflow_version','version_id');
 		$this->alterColumn('ophciexamination_workflow_version','version_id','int(10) unsigned NOT NULL AUTO_INCREMENT');
 
-		$this->addColumn('et_ophciexamination_adnexalcomorbidity','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_adnexalcomorbidity_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_anteriorsegment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_anteriorsegment_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_anteriorsegment_cct','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_anteriorsegment_cct_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_cataractsurgicalmanagement_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_clinicoutcome','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_clinicoutcome_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_comorbidities','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_comorbidities_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_conclusion','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_conclusion_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_diagnoses','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_diagnoses_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_dilation','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_dilation_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_drgrading','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_drgrading_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_glaucomarisk','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_glaucomarisk_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_gonioscopy_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_history','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_history_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_injectionmanagement','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_injectionmanagement_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_injectionmanagementcomplex','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_injectionmanagementcomplex_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_intraocularpressure','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_intraocularpressure_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_investigation','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_investigation_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_lasermanagement','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_lasermanagement_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_management','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_management_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_oct','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_oct_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_opticdisc','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_opticdisc_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_posteriorpole','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_posteriorpole_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_pupillaryabnormalities','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_pupillaryabnormalities_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_refraction','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_refraction_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_risks','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_risks_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_visualacuity','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('et_ophciexamination_visualacuity_version','deleted','tinyint(1) unsigned not null');
-
 		$this->addColumn('ophciexamination_anteriorsegment_cct_method','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_anteriorsegment_cct_method_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_anteriorsegment_cortical','deleted','tinyint(1) unsigned not null');
@@ -2854,12 +2757,6 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_anteriorsegment_nuclear_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_anteriorsegment_pupil','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_anteriorsegment_pupil_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute_element','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute_element_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute_option','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_attribute_option_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_cataractsurgicalmanagement_eye_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon','deleted','tinyint(1) unsigned not null');
@@ -2868,18 +2765,10 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_clinicoutcome_role_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_clinicoutcome_status','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_clinicoutcome_status_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_clinicoutcome_template','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_clinicoutcome_template_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_comorbidities_assignment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_comorbidities_assignment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_comorbidities_item','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_comorbidities_item_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_diagnosis','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_diagnosis_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_dilation_drugs','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_dilation_drugs_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_dilation_treatment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_dilation_treatment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_drgrading_clinicalmaculopathy','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_drgrading_clinicalmaculopathy_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_drgrading_clinicalretinopathy','deleted','tinyint(1) unsigned not null');
@@ -2888,34 +2777,16 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_drgrading_nscmaculopathy_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_drgrading_nscretinopathy','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_drgrading_nscretinopathy_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set_item','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_element_set_item_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_workflow_rule','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_workflow_rule_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_event_elementset_assignment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_event_elementset_assignment_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_glaucomarisk_risk','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_glaucomarisk_risk_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_gonioscopy_description','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_gonioscopy_description_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_gonioscopy_van_herick','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_gonioscopy_van_herick_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_injectmanagecomplex_answer','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_injectmanagecomplex_answer_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_notreatmentreason','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_notreatmentreason_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_question','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_question_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_risk','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_injectmanagecomplex_risk_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_injectmanagecomplex_risk_assignment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_injectmanagecomplex_risk_assignment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_instrument','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_instrument_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_intraocularpressure_reading','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_intraocularpressure_reading_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_lasermanagement_lasertype','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_lasermanagement_lasertype_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_management_deferralreason','deleted','tinyint(1) unsigned not null');
@@ -2926,8 +2797,6 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_oct_fluidstatus_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_oct_fluidtype','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_oct_fluidtype_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_oct_fluidtype_assignment','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_oct_fluidtype_assignment_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_oct_method','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_oct_method_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_opticdisc_cd_ratio','deleted','tinyint(1) unsigned not null');
@@ -2950,8 +2819,6 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_visual_acuity_unit_value_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_visualacuity_method','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_visualacuity_method_version','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_visualacuity_reading','deleted','tinyint(1) unsigned not null');
-		$this->addColumn('ophciexamination_visualacuity_reading_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_workflow','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_workflow_version','deleted','tinyint(1) unsigned not null');
 	}
@@ -2962,43 +2829,26 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropColumn('ophciexamination_anteriorsegment_cortical','deleted');
 		$this->dropColumn('ophciexamination_anteriorsegment_nuclear','deleted');
 		$this->dropColumn('ophciexamination_anteriorsegment_pupil','deleted');
-		$this->dropColumn('ophciexamination_attribute','deleted');
-		$this->dropColumn('ophciexamination_attribute_element','deleted');
-		$this->dropColumn('ophciexamination_attribute_option','deleted');
 		$this->dropColumn('ophciexamination_cataractsurgicalmanagement_eye','deleted');
 		$this->dropColumn('ophciexamination_cataractsurgicalmanagement_suitable_for_surgeon','deleted');
 		$this->dropColumn('ophciexamination_clinicoutcome_role','deleted');
 		$this->dropColumn('ophciexamination_clinicoutcome_status','deleted');
-		$this->dropColumn('ophciexamination_clinicoutcome_template','deleted');
-		$this->dropColumn('ophciexamination_comorbidities_assignment','deleted');
 		$this->dropColumn('ophciexamination_comorbidities_item','deleted');
-		$this->dropColumn('ophciexamination_diagnosis','deleted');
 		$this->dropColumn('ophciexamination_dilation_drugs','deleted');
-		$this->dropColumn('ophciexamination_dilation_treatment','deleted');
 		$this->dropColumn('ophciexamination_drgrading_clinicalmaculopathy','deleted');
 		$this->dropColumn('ophciexamination_drgrading_clinicalretinopathy','deleted');
 		$this->dropColumn('ophciexamination_drgrading_nscmaculopathy','deleted');
 		$this->dropColumn('ophciexamination_drgrading_nscretinopathy','deleted');
-		$this->dropColumn('ophciexamination_element_set','deleted');
-		$this->dropColumn('ophciexamination_element_set_item','deleted');
-		$this->dropColumn('ophciexamination_element_set_rule','deleted');
-		$this->dropColumn('ophciexamination_event_elementset_assignment','deleted');
-		$this->dropColumn('ophciexamination_glaucomarisk_risk','deleted');
-		$this->dropColumn('ophciexamination_gonioscopy_description','deleted');
 		$this->dropColumn('ophciexamination_gonioscopy_van_herick','deleted');
-		$this->dropColumn('ophciexamination_injectmanagecomplex_answer','deleted');
 		$this->dropColumn('ophciexamination_injectmanagecomplex_notreatmentreason','deleted');
 		$this->dropColumn('ophciexamination_injectmanagecomplex_question','deleted');
 		$this->dropColumn('ophciexamination_injectmanagecomplex_risk','deleted');
-		$this->dropColumn('ophciexamination_injectmanagecomplex_risk_assignment','deleted');
 		$this->dropColumn('ophciexamination_instrument','deleted');
-		$this->dropColumn('ophciexamination_intraocularpressure_reading','deleted');
 		$this->dropColumn('ophciexamination_lasermanagement_lasertype','deleted');
 		$this->dropColumn('ophciexamination_management_deferralreason','deleted');
 		$this->dropColumn('ophciexamination_management_status','deleted');
 		$this->dropColumn('ophciexamination_oct_fluidstatus','deleted');
 		$this->dropColumn('ophciexamination_oct_fluidtype','deleted');
-		$this->dropColumn('ophciexamination_oct_fluidtype_assignment','deleted');
 		$this->dropColumn('ophciexamination_oct_method','deleted');
 		$this->dropColumn('ophciexamination_opticdisc_cd_ratio','deleted');
 		$this->dropColumn('ophciexamination_opticdisc_lens','deleted');
@@ -3010,35 +2860,7 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropColumn('ophciexamination_visual_acuity_unit','deleted');
 		$this->dropColumn('ophciexamination_visual_acuity_unit_value','deleted');
 		$this->dropColumn('ophciexamination_visualacuity_method','deleted');
-		$this->dropColumn('ophciexamination_visualacuity_reading','deleted');
 		$this->dropColumn('ophciexamination_workflow','deleted');
-
-		$this->dropColumn('et_ophciexamination_adnexalcomorbidity','deleted');
-		$this->dropColumn('et_ophciexamination_anteriorsegment','deleted');
-		$this->dropColumn('et_ophciexamination_anteriorsegment_cct','deleted');
-		$this->dropColumn('et_ophciexamination_cataractmanagement','deleted');
-		$this->dropColumn('et_ophciexamination_clinicoutcome','deleted');
-		$this->dropColumn('et_ophciexamination_comorbidities','deleted');
-		$this->dropColumn('et_ophciexamination_conclusion','deleted');
-		$this->dropColumn('et_ophciexamination_diagnoses','deleted');
-		$this->dropColumn('et_ophciexamination_dilation','deleted');
-		$this->dropColumn('et_ophciexamination_drgrading','deleted');
-		$this->dropColumn('et_ophciexamination_glaucomarisk','deleted');
-		$this->dropColumn('et_ophciexamination_gonioscopy','deleted');
-		$this->dropColumn('et_ophciexamination_history','deleted');
-		$this->dropColumn('et_ophciexamination_injectionmanagement','deleted');
-		$this->dropColumn('et_ophciexamination_injectionmanagementcomplex','deleted');
-		$this->dropColumn('et_ophciexamination_intraocularpressure','deleted');
-		$this->dropColumn('et_ophciexamination_investigation','deleted');
-		$this->dropColumn('et_ophciexamination_lasermanagement','deleted');
-		$this->dropColumn('et_ophciexamination_management','deleted');
-		$this->dropColumn('et_ophciexamination_oct','deleted');
-		$this->dropColumn('et_ophciexamination_opticdisc','deleted');
-		$this->dropColumn('et_ophciexamination_posteriorpole','deleted');
-		$this->dropColumn('et_ophciexamination_pupillaryabnormalities','deleted');
-		$this->dropColumn('et_ophciexamination_refraction','deleted');
-		$this->dropColumn('et_ophciexamination_risks','deleted');
-		$this->dropColumn('et_ophciexamination_visualacuity','deleted');
 
 		$this->dropTable('et_ophciexamination_adnexalcomorbidity_version');
 		$this->dropTable('et_ophciexamination_anteriorsegment_version');
