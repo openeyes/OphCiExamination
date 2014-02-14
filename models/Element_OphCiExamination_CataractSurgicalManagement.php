@@ -147,11 +147,6 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 		return "Cataract management: ".implode(', ',$text)."\n";
 	}
 
-	public function getFormOptions($table=null)
-	{
-		return CHtml::listData(OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(array('order'=>'display_order')),'id','name');
-	}
-
 	public function setDefaultOptions()
 	{
 		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {
