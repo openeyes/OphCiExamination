@@ -204,13 +204,6 @@ class m130913_000001_consolidation_for_ophciexamination extends OEMigration
 
 		$this->insertOEElementType($element_types, $event_type_id);
 
-		$elementTypeIdForElementTypeEye = $this->getIdOfElementTypeByClassName('Element_OphCiExamination_Diagnoses');
-
-		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>2,'display_order'=>1));
-		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>3,'display_order'=>2));
-		$this->insert('element_type_eye',array('element_type_id' => $elementTypeIdForElementTypeEye ,'eye_id'=>1,'display_order'=>3));
-
-
 		//add setting_medatada dynamically
 		$settingMetadataArray = array(
 			array(
