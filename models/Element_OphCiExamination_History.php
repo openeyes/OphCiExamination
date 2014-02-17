@@ -93,6 +93,21 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 	}
 
 	/**
+	 * Set default values for forms on create
+	 */
+	public function setDefaultOptions() {
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+				if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+					if ($element=$api->getHistory($episode->id)) {
+						$this->description = $element;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
