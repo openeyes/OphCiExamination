@@ -182,7 +182,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	protected function getSnellenUnitId()
 	{
-		if ($unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array('Snellen Metre'))) {
+		if ($unit = OphCiExamination_VisualAcuityUnit::notDeleted()->model()->find('name = ?', array('Snellen Metre'))) {
 			return $unit->id;
 		}
 		return null;
@@ -274,7 +274,7 @@ class OphCiExamination_API extends BaseAPI
 		$criteria->addCondition('name = :nm');
 		$criteria->params = array(':nm' => 'Snellen Metre');
 
-		$unit = OphCiExamination_VisualAcuityUnit::model()->find($criteria);
+		$unit = OphCiExamination_VisualAcuityUnit::model()->notDeleted()->find($criteria);
 		$res = array();
 		foreach ($unit->selectableValues as $uv) {
 			$res[$uv->base_value] = $uv->value;

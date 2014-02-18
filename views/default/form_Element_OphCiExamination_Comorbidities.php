@@ -26,7 +26,7 @@ if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_va
 <div class="sub-element-fields">
 	<?php echo CHtml::hiddenField("comorbidities_items_valid", 1, array('id' => 'comorbidities_items_valid'))?>
 	<div class="field-row comorbidities-multi-select">
-		<?php echo $form->multiSelectList($element, 'comorbidities_items', 'items', 'id', $element->getItemOptions(), array(), array('empty' => '-- Add --', 'label' => 'Comorbidities', 'nowrapper' => true), false, true, 'No comorbidities',true,true)?>
+		<?php echo $form->multiSelectList($element, 'comorbidities_items', 'items', 'id', CHtml::encodeArray(CHtml::listData(OphCiExamination_Comorbidities_Item::model()->notDeletedOrPk($element->comorbidityItemValues)->findAll(array('order'=>'name')), 'id', 'name')), array(), array('empty' => '-- Add --', 'label' => 'Comorbidities', 'nowrapper' => true), false, true, 'No comorbidities',true,true)?>
 	</div>
 	<div class="field-row">
 		<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true), false, array('placeholder' => 'Enter comments here'))?>

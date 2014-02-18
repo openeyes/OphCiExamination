@@ -30,7 +30,7 @@
 			<?php
 				if (get_class($element) === 'Element_OphCiExamination_VisualAcuity') {?>
 					<?php if ($element->isNewRecord) { ?>
-						<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData($element->getUsableUnits(), 'id', 'name'), array('class'=>'inline')); ?>
+						<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->notDeletedOrPk(@$element->unit_id)->findAll(array('condition'=>'tooltip=:tt','params'=>array(':tt' => true),'order' => 'name asc')),'id','name'), array('class'=>'inline')); ?>
 					<?php } ?>
 					<?php if ($element->unit->information) {?>
 						<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>

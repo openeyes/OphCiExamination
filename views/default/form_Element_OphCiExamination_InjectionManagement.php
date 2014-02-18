@@ -27,11 +27,12 @@
 		</div>
 		<div class="large-9 column">
 			<?php
+			$options = OphCiExamination_Management_Status::model()->notDeletedOrPk($element->injection_status_id)->findAll(array('order'=>'display_order'));
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
-			foreach (OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')) as $opt) {
+			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
 			}
-			echo CHtml::activeDropDownList($element,'injection_status_id', CHtml::listData(OphCiExamination_Management_Status::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+			echo CHtml::activeDropDownList($element,'injection_status_id', CHtml::listData($options,'id','name'), $html_options)?>
 		</div>
 	</div>
 </div>
@@ -45,11 +46,12 @@
 		</div>
 		<div class="large-9 column">
 			<?php
+			$options = OphCiExamination_Management_DeferralReason::model()->notDeletedOrPk($element->injection_deferralreason_id)->findAll(array('order'=>'display_order'));
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
-			foreach (OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')) as $opt) {
+			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
 			}
-			echo CHtml::activeDropDownList($element,'injection_deferralreason_id', CHtml::listData(OphCiExamination_Management_DeferralReason::model()->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+			echo CHtml::activeDropDownList($element,'injection_deferralreason_id', CHtml::listData($options,'id','name'), $html_options)?>
 		</div>
 	</div>
 </div>

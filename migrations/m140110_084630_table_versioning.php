@@ -2166,6 +2166,7 @@ CREATE TABLE `ophciexamination_intraocularpressure_reading_version` (
 		$this->dropPrimaryKey('id','ophciexamination_intraocularpressure_reading_version');
 
 		$this->createIndex('ophciexamination_intraocularpressure_reading_aid_fk','ophciexamination_intraocularpressure_reading_version','id');
+		$this->addForeignKey('ophciexamination_intraocularpressure_reading_aid_fk','ophciexamination_intraocularpressure_reading_version','id','ophciexamination_intraocularpressure_reading','id');
 
 		$this->addColumn('ophciexamination_intraocularpressure_reading_version','version_date',"datetime not null default '1900-01-01 00:00:00'");
 
@@ -2787,6 +2788,8 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->addColumn('ophciexamination_injectmanagecomplex_risk_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_instrument','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_instrument_version','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_intraocularpressure_reading','deleted','tinyint(1) unsigned not null');
+		$this->addColumn('ophciexamination_intraocularpressure_reading_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_lasermanagement_lasertype','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_lasermanagement_lasertype_version','deleted','tinyint(1) unsigned not null');
 		$this->addColumn('ophciexamination_management_deferralreason','deleted','tinyint(1) unsigned not null');
@@ -2843,6 +2846,7 @@ CREATE TABLE `ophciexamination_workflow_version` (
 		$this->dropColumn('ophciexamination_injectmanagecomplex_notreatmentreason','deleted');
 		$this->dropColumn('ophciexamination_injectmanagecomplex_question','deleted');
 		$this->dropColumn('ophciexamination_injectmanagecomplex_risk','deleted');
+		$this->dropColumn('ophciexamination_intraocularpressure_reading','deleted');
 		$this->dropColumn('ophciexamination_instrument','deleted');
 		$this->dropColumn('ophciexamination_lasermanagement_lasertype','deleted');
 		$this->dropColumn('ophciexamination_management_deferralreason','deleted');

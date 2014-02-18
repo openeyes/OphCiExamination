@@ -114,7 +114,7 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
 		$criteria->condition = 'unit_id = :unit_id';
 		$criteria->params = array(':unit_id' => $unit_id, ':base_value' => $base_value);
 		$criteria->order = 'delta';
-		$value = OphCiExamination_VisualAcuityUnitValue::model()->find($criteria);
+		$value = OphCiExamination_VisualAcuityUnitValue::model()->notDeleted()->find($criteria);
 		return $value;
 	}
 

@@ -24,10 +24,10 @@
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Pupil::model()->findAll(array('order'=>'display_order')) as $option) {
+			foreach (OphCiExamination_AnteriorSegment_Pupil::model()->activeOrPk($element->{$side.'_pupil_id'})->findAll(array('order'=>'display_order')) as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo CHtml::activeDropDownList($element, $side.'_pupil_id', CHtml::listData(OphCiExamination_AnteriorSegment_Pupil::model()->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
+			echo CHtml::activeDropDownList($element, $side.'_pupil_id', CHtml::listData(OphCiExamination_AnteriorSegment_Pupil::model()->activeOrPk($element->{$side.'_pupil_id'})->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
 		?>
 	</div>
 	<div class="field-row">
@@ -36,10 +36,10 @@
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Nuclear::model()->findAll(array('order'=>'display_order')) as $option) {
+			foreach (OphCiExamination_AnteriorSegment_Nuclear::model()->activeOrPk($element->{$side.'_nuclear_id'})->findAll(array('order'=>'display_order')) as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo CHtml::activeDropDownList($element, $side.'_nuclear_id', CHtml::listData(OphCiExamination_AnteriorSegment_Nuclear::model()->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
+			echo CHtml::activeDropDownList($element, $side.'_nuclear_id', CHtml::listData(OphCiExamination_AnteriorSegment_Nuclear::model()->activeOrPk($element->{$side.'_nuclear_id'})->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
 		?>
 	</div>
 	<div class="field-row">
@@ -48,10 +48,10 @@
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Cortical::model()->findAll(array('order'=>'display_order')) as $option) {
+			foreach (OphCiExamination_AnteriorSegment_Cortical::model()->activeOrPk($element->{$side.'_cortical_id'})->findAll(array('order'=>'display_order')) as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo CHtml::activeDropDownList($element, $side.'_cortical_id', CHtml::listData(OphCiExamination_AnteriorSegment_Cortical::model()->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
+			echo CHtml::activeDropDownList($element, $side.'_cortical_id', CHtml::listData(OphCiExamination_AnteriorSegment_Cortical::model()->activeOrPk($element->{$side.'_cortical_id'})->findAll(array('order'=>'display_order')), 'id','name'), array('options' => $html_options));
 		?>
 	</div>
 	<div class="field-row">

@@ -104,10 +104,17 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		));
 	}
 
-	public function getItemOptions()
+	public function getComorbidityItemValues()
 	{
-		$items = OphCiExamination_Comorbidities_Item::model()->findAll(array('order'=>'name'));
-		return CHtml::encodeArray(CHtml::listData($items, 'id', 'name'));
+		$item_values = array();
+
+		if ($this->id) {
+			foreach (OphCiExamination_Comorbidities_Assignment::model()->findAll('element_id=?',array($this->id)) as $ca) {
+				$item_values[] = $ca->item_id;
+			}
+		}
+
+		return $item_values;
 	}
 
 	public function getItemIds()

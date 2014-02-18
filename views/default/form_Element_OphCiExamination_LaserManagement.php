@@ -18,25 +18,24 @@
  */
 ?>
 <?php
-	$statuses = OphCiExamination_Management_Status::model()->findAll();
-	$status_options = array('empty'=>'- Please select -', 'options' => array());
-	foreach ($statuses as $opt) {
-		$status_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
-	}
+$statuses = OphCiExamination_Management_Status::model()->notDeletedOrPk(array($element->right_laser_status_id,$element->left_laser_status_id))->findAll();
+$status_options = array('empty'=>'- Please select -', 'options' => array());
+foreach ($statuses as $opt) {
+	$status_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
+}
 
-	$deferrals = OphCiExamination_Management_DeferralReason::model()->findAll();
-	$deferral_options = array('empty'=>'- Please select -', 'options' => array());
-	foreach ($deferrals as $opt) {
-		$deferral_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
-	}
+$deferrals = OphCiExamination_Management_DeferralReason::model()->findAll();
+$deferral_options = array('empty'=>'- Please select -', 'options' => array());
+foreach ($deferrals as $opt) {
+	$deferral_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
+}
 
-	$lasertypes = OphCiExamination_LaserManagement_LaserType::model()->findAll();
-	$lasertype_options = array();
+$lasertypes = OphCiExamination_LaserManagement_LaserType::model()->notDeletedOrPk(array($element->right_lasertype_id,$element->left_lasertype_id))->findAll();
+$lasertype_options = array();
 
-	foreach ($lasertypes as $lt) {
-		$lasertype_options[(string)$lt->id] = array('data-other' => $lt->other);
-	}
-
+foreach ($lasertypes as $lt) {
+	$lasertype_options[(string)$lt->id] = array('data-other' => $lt->other);
+}
 ?>
 
 <div class="element-eyes sub-element-fields jsTreatmentFields" id="div_<?php echo get_class($element)?>_treatment_fields">

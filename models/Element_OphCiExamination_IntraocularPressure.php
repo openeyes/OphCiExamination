@@ -100,11 +100,6 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement
 		);
 	}
 
-	public function getInstrumentValues()
-	{
-		return CHtml::listData(OphCiExamination_Instrument::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
-	}
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

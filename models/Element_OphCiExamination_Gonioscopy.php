@@ -185,16 +185,6 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 				->findAll(array('order'=>'display_order')),'id','name');
 	}
 
-	/**
-	 *
-	 * @return array
-	 */
-	public function getVanHerickOptions()
-	{
-		return array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()
-				->findAll(array('order'=>'display_order')),'id','name');
-	}
-
 	public function sidedDefaults()
 	{
 		$defaults = array();

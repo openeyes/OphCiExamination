@@ -103,11 +103,6 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 		);
 	}
 
-	public function getAbnormalityOptions()
-	{
-		return CHtml::listData(OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
-	}
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

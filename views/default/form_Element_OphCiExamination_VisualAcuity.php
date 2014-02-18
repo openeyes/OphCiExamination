@@ -19,7 +19,7 @@
 ?>
 <?php
 list($values, $val_options) = $element->getUnitValuesForForm();
-$methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(array('order'=>'display_order')),'id','name');
+$methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->notDeleted($element->methodValues)->findAll(array('order'=>'display_order')),'id','name');
 $key = 0;
 $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right'));
 $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left'));

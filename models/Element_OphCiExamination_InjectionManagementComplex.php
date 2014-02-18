@@ -411,7 +411,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		$criteria->condition = 'enabled = true';
 		$criteria->order = 'display_order asc';
 
-		$risks = OphCiExamination_InjectionManagementComplex_Risk::model()->findAll($criteria);
+		$risks = OphCiExamination_InjectionManagementComplex_Risk::model()->notDeletedOrPk($this->riskValues)->findAll($criteria);
 
 		$all_risks = array();
 		$r_ids = array();
@@ -431,6 +431,20 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	}
 
 	/**
+	 * get the risk ids currently in use by the element
+	 */
+	public function getRiskValues()
+	{
+		$risk_values = array();
+
+		foreach ($this->risk_assignments as $risk_assignment) {
+			$risk_values[] = $risk_assignment->risk_id;
+		}
+
+		return $risk_values;
+	}
+
+	/**
 	 * get the list of no treatment reasons that should be used for this element
 	 *
 	 * @return OphCiExamination_InjectionManagementComplex_NoTreatmentReason[]
@@ -441,7 +455,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		$criteria->condition = 'enabled = true';
 		$criteria->order = 'display_order asc';
 
-		$reasons = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll($criteria);
+		$reasons = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->notDeleted()->findAll($criteria);
 
 		if ($this->left_no_treatment_reason || $this->right_no_treatment_reason) {
 			$all_reasons = array();
@@ -473,16 +487,22 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	{
 		// need to get the questions for the set disorders. And then check if there are already answers on the side
 		// if there are, then check for any missing questions, in case they've been disabled since
+		$answered_question_ids = array();
+
+		foreach ($this->{$side.'_answers'} as $answer) {
+			$answered_question_ids[] = $answer->question_id;
+		}
+
 		$questions = array();
 		$qids = array();
 		if ($did = $this->{$side . '_diagnosis1_id'}) {
-			foreach ($this->getInjectionQuestionsForDisorderId($did) as $question) {
+			foreach ($this->getInjectionQuestionsForDisorderId($did,$answered_question_ids) as $question) {
 				$questions[] = $question;
 				$qids[] = $question->id;
 			}
 		}
 		if ($did = $this->{$side . '_diagnosis2_id'}) {
-			foreach ($this->getInjectionQuestionsForDisorderId($did) as $question) {
+			foreach ($this->getInjectionQuestionsForDisorderId($did,$answered_question_ids) as $question) {
 				$questions[] = $question;
 				$qids[] = $question->id;
 			}
@@ -501,9 +521,10 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * return the questions for a given disorder id
 	 *
 	 * @param integer $disorder_id
+	 * @param array $answered_question_ids
 	 * @throws Exception
 	 */
-	public function getInjectionQuestionsForDisorderId($disorder_id)
+	public function getInjectionQuestionsForDisorderId($disorder_id,$answered_question_ids)
 	{
 		if (!$disorder_id) {
 			throw new Exception('Disorder id required for injection questions');
@@ -515,7 +536,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		$criteria->order = 'display_order asc';
 
 		// get the questions
-		return OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
+		return OphCiExamination_InjectionManagementComplex_Question::model()->notDeletedOrPk($answered_question_ids)->findAll($criteria);
 	}
 
 	/**

@@ -50,7 +50,7 @@
 		</label>
 	</div>
 	<div class="large-6 column end">
-		<?php echo CHtml::activeDropDownList($element, $side.'_type_id', OphCiExamination_Refraction_Type::model()->getOptions(), array('class' => 'refractionType'))?>
+		<?php echo CHtml::activeDropDownList($element, $side.'_type_id', OphCiExamination_Refraction_Type::model()->notDeletedOrPk($element->{$side.'_type_id'})->getOptions(), array('class' => 'refractionType'))?>
 		<?php echo CHtml::activeTextField($element, $side.'_type_other')?>
 	</div>
 </div>

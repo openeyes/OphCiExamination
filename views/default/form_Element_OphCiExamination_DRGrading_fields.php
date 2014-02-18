@@ -16,7 +16,7 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->findAll(array('order'=>'display_order'));
+$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->notDeletedOrPk($element->{$side.'_clinicalret_id'})->findAll(array('order'=>'display_order'));
 ?>
 <div class="row field-row">
 	<div class="large-4 column">
@@ -63,7 +63,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		</div>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order'))?>
+<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->notDeletedOrPk($element->{$side.'_nscretinopathy_id'})->findAll(array('order'=>'display_order'))?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">
@@ -81,7 +81,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 					'data-code' => $retin->code,
 				);
 			}
-			echo CHtml::activeDropDownList($element, $side.'_nscretinopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscretinopathy_html_options);
+			echo CHtml::activeDropDownList($element, $side.'_nscretinopathy_id', CHtml::listData($nsc_retinopathys,'id','name'), $nscretinopathy_html_options);
 		?>
 		</div>
 		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
@@ -98,7 +98,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		</div>
 		<div id="<?php echo get_class($element). '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
 			<dl>
-				<?php foreach (OphCiExamination_DRGrading_NSCRetinopathy::model()->findAll(array('order'=>'display_order')) as $retin) {?>
+				<?php foreach ($nsc_retinopathys as $retin) {?>
 					<dt class="pill <?php echo $retin->class ?>">
 						<a href="#" data-id="<?php echo $retin->id ?>"><?php echo $retin->name ?></a>
 					</dt>
@@ -111,7 +111,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 	</div>
 </div>
 <?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation',array(),array('label'=>4,'field'=>8));
-$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->findAll(array('order'=>'display_order'));
+$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->notDeletedOrPk($element->{$side.'_clinicalmac_id'})->findAll(array('order'=>'display_order'));
 $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac'} : @$clinical_maculopathys[0];
 ?>
 <div class="row field-row">
@@ -154,7 +154,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		-->
 	</div>
 </div>
-<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order'));?>
+<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->notDeletedOrPk($element->{$side.'_nscmaculopathy_id'})->findAll(array('order'=>'display_order'));?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscmaculopathy_id';?>">
@@ -172,7 +172,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 					'data-code' => $macu->code,
 				);
 			}
-			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData(OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')),'id','name'), $nscmaculopathy_html_options);
+			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData($nsc_maculopathys,'id','name'), $nscmaculopathy_html_options);
 
 		?>
 		</div>
@@ -192,7 +192,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		<!-- div containing the full list of descriptions for nsc maculopathy -->
 		<div id="<?php echo get_class($element) . '_'. $side.'_all_maculopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscmaculopathy_id'; ?>">
 			<dl>
-				<?php foreach (OphCiExamination_DRGrading_NSCMaculopathy::model()->findAll(array('order'=>'display_order')) as $macu) { ?>
+				<?php foreach ($nsc_maculopathys as $macu) { ?>
 				<dt class="pill <?php echo $macu->class ?>">
 					<a href="#" data-id="<?php echo $macu->id ?>"><?php echo $macu->name ?></a>
 				</dt>

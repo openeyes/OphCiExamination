@@ -22,7 +22,7 @@
 			<div class="row field-row">
 				<form>
 					<label for="mr_history_va_unit_id">Visual Acuity unit</label>
-					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(Element_OphCiExamination_VisualAcuity::model()->getUsableUnits(), 'id', 'name')); ?>
+					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->notDeletedOrPk($va_unit->id)->findAll(array('condition'=>'tooltip=:tt','params'=>array(':tt' => true),'order' => 'name asc')),'id','name'))?>
 				</form>
 			</div>
 			<div class="row">

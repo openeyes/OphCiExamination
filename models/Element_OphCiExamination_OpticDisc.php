@@ -167,18 +167,11 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
 		}
 		return array_combine($range,$range);
 	}
-	public function getLensOptions()
-	{
-		$options = OphCiExamination_OpticDisc_Lens::model()->findAll(array('order' => 'display_order'));
-		return CHtml::listData($options, 'id', 'name');
-	}
 
 	public function sidedDefaults()
 	{
-		$cd_ratio = OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'));
 		return array(
-				'cd_ratio_id' => $cd_ratio->id
+			'cd_ratio_id' => OphCiExamination_OpticDisc_CDRatio::model()->notDeleted()->findByAttributes(array('name' => '0.3'))->id,
 		);
 	}
-
 }

@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecordVersioned
+class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.
