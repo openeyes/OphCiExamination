@@ -128,17 +128,14 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		}
 		// if there is a previous cataract referral in the current episode, use it's visual acuity values as the default
 		else if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
-			if ($patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
-				if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-					if ($element=$api->getVisualAcuityElement($episode->id)) {
-						return $element[$side.'_readings'];
-					}
+			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
+				if ($readings = $api->getVisualAcuityReadingsForLatestCataractReferralInEpisode($episode->id)) {
+					return $readings[$side.'_readings'];
 				}
 			}
 		}
-		else {
-			return array();
-		}
+
+		return array();
 	}
 	
 
