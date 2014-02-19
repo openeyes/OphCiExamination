@@ -60,7 +60,7 @@
 			if ($this->canCopy($element) || $this->canViewPrevious($element)) {?>
 				<a href="#" title="View Previous" class="viewPrevious<?php if (@$child) {?> subElement<?php }?>"><img src="<?php echo Yii::app()->assetManager->createUrl('img/_elements/btns/load.png')?>" /></a>
 			<?php }?>
-			<?php if (!@$child && !$element->elementType->required) {?>
+			<?php if (!@$child && !$this->isRequired($element)) {?>
 				<a href="#" class="button button-icon small js-remove-element">
 					<span class="icon-button-small-mini-cross"></span>
 					<span class="hide-offscreen">Remove element</span>
