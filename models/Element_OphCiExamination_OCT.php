@@ -156,8 +156,8 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 			'right_dry' => 'Dry',
 			'left_fluidtypes' => 'Findings',
 			'right_fluidtypes' => 'Findings',
-			'left_fluidstatus_id' => 'Fluid Status',
-			'right_fluidstatus_id' => 'Fluid Status',
+			'left_fluidstatus_id' => 'Findings Type',
+			'right_fluidstatus_id' => 'Findings Type',
 			'left_comments' => 'Comments',
 			'right_comments' => 'Comments',
 		);
