@@ -90,7 +90,7 @@ else {
 	<div class="row">
 		<div class="large-4 column">
 			<label for="<?php echo get_class($element).'_'.$side.'_fluidstatus_id';?>">
-				Finding Type:
+				<?php echo $element->getAttributeLabel($side . '_fluidstatus_id'); ?>:
 			</label>
 		</div>
 		<div class="large-6 column end">
