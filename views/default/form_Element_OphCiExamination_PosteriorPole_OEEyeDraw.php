@@ -25,7 +25,6 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 			array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
 			array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
 			array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
-			array('RRD','UTear','RoundHole','Dialysis','GRT','MacularHole','StarFold','AntPVR','Lattice','Cryo','LaserCircle','Buckle','Retinoschisis','OuterLeafBreak','InnerLeafBreak'),
 		),
 		'onReadyCommandArray' => array(
 			array('addDoodle', array('PostPole')),
