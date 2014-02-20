@@ -137,7 +137,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		return array();
 	}
-	
 
 	/**
 	 * Get the measurement unit

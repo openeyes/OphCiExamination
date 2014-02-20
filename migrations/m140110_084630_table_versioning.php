@@ -1833,7 +1833,6 @@ CREATE TABLE `ophciexamination_event_elementset_assignment_version` (
 	`created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 	`created_date` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `ophciexamination_event_ea_event_id_unique` (`event_id`),
 	KEY `acv_ophciexamination_event_ea_step_id_fk` (`step_id`),
 	KEY `acv_ophciexamination_event_ea_event_id_fk` (`event_id`),
 	KEY `acv_ophciexamination_event_ea_last_modified_user_id_fk` (`last_modified_user_id`),
