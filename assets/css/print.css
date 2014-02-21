@@ -240,7 +240,7 @@ h3{
 .data-label { padding-right: 10px }
 .data-row { clear: both; }
 
-.gonio-cross { display: inline-block; width: 80px; height: 120px; background: url(../img/cross_print.gif) no-repeat center center !important; overflow: hidden; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
+.gonio-cross { display: inline-block; width: 80px; height: 120px; background: url(../img/cross_print.gif?bust=1) no-repeat center center !important; overflow: hidden; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
 .gonio-cross div { position: absolute; text-align: center; }
 .gonio-cross .gonio-sup { top: 15px; width: 100%; }
 .gonio-cross .gonio-tem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
