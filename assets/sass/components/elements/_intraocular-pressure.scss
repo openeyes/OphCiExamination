@@ -18,17 +18,27 @@
 	.element-data,
 	.element-fields {
 		border-top: 4px solid #000;
+		@media print {
+			border-top-width: 1px;
+		}
 		.element-eye {
 			border-right: 2px solid #000;
+			@media print {
+				border-right: 0;
+			}
 			&:last-child {
 				border: 0;
 			}
 		}
 		.right-eye {
 			text-align: right;
+			@media print {
+				text-align: left;
+			}
 		}
 		.unit {
 			font-size: $default-font-size;
 		}
 	}
 }
+

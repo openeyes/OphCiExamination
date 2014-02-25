@@ -15,236 +15,71 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+@media print {
+  /* line 20, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  h2 {
+    margin: 20px 0 10px 0;
+  }
 
-.clearfix:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+  /* line 23, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  h3 {
+    margin: 10px 0 5px 0;
+  }
+
+  /* line 26, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .header {
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #000;
+  }
+
+  /* line 30, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .title {
+    margin: 0 auto;
+    text-align: center;
+  }
+  /* line 33, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .title img {
+    float: right;
+  }
+  /* line 36, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .title h1 {
+    margin: 30px 0 15px 0;
+    display: inline-block;
+  }
+
+  /* line 41, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .patient {
+    border: 1px solid #000;
+    padding: 5px 10px;
+  }
+
+  /* line 46, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .element-title {
+    padding: 0;
+    margin: 20px 0 10px 0;
+  }
+  /* line 50, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .element {
+    border: 0;
+    margin: 0;
+  }
+  /* line 53, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .element .details {
+    padding: 10px;
+    border: 1px solid #000;
+  }
+  /* line 58, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .sub-element {
+    border: 0;
+  }
+  /* line 60, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .sub-element .sub-element-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  /* line 65, ../../../../assets/sass/openeyes/components/print/_event.scss */
+  .event .metadata {
+    padding: 10px 0;
+    margin: 10px 0;
+  }
 }
-
-.page{
-	padding: 0 30px;
-	font-size: 12pt;
-	width: 1000px;
-}
-
-h2{
-	margin: 20px 0 10px 0;
-	font-size: 1.3em;
-}
-
-h3{
-	margin: 10px 0 5px 0;
-	font-size: 1.1em;
-}
-
-.procedureContainer{
-	margin-bottom: 15px;
-	border-bottom: 1px dotted #666;
-	padding-bottom: 10px;
-}
-
-.procedureContainer.last{
-	margin-bottom: 0;
-	padding-bottom: 0;
-	border-bottom: none;
-}
-
-.body{
-	width: 92%;
-	float: right;
-	clear: both;
-}
-
-.leftHalf{
-	width: 48.5%;
-	margin-right: 1%;
-}
-
-.rightHalf{
-	float: right;
-	width: 48.5%;
-	margin-left: 1%;
-}
-
-.header{
-	clear: both;
-	padding: 0 0 10px 0;
-	border-bottom: 1px solid #000;
-	margin-bottom: 15px;
-}
-
-.headerInfo{
-	position: relative;
-}
-
-.seal{
-	float: right;
-	clear: both;
-}
-
-.label{
-	display: inline-block;
-	text-align: right;
-}
-
-.detailRow{
-	position: relative;
-	margin-bottom: 3px;
-	page-break-inside: avoid;
-}
-
-.detailRow.grouped{
-	border: 1px solid #000;
-	margin-bottom: 10px;
-}
-
-.detailRow.grouped .value{
-	width: auto;
-	padding: 5px 5px;
-	text-align: left;
-	margin: 0;
-}
-
-.detailRow .label{
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 200px;
-}
-
-.detailRow .value{
-	width: auto;
-	margin-left: 205px;
-	/* font-weight: bold; */
-}
-
-.detailRow .value.noBorder{
-	border: none !important;
-}
-
-.detailRow.inline{
-	display: inline-block;
-	width: 19%;
-	margin-right: 0.5%;
-}
-
-.detailRow.inline .label{
-	width: auto;
-	text-align: left;
-	position: relative;
-}
-
-.detailRow.inline .value{
-	width: auto;
-	float: left;
-	margin: 5px 0 0 0;
-}
-
-.detailRow.leftAlign .label{
-	text-align: left;
-}
-
-.detailRow .value.pronounced{
-	font-size: 15px;
-	font-style: italic;
-	/* font-weight: bold; */
-}
-
-.detailRow.clearVal{
-	margin-bottom: 10px;
-}
-
-.detailRow.clearVal .label{
-	position: relative;
-	text-align: left;
-	margin: 10px 0 5px 0;
-	width: 50%;
-}
-
-.detailRow.clearVal .value{
-	border: 1px solid #000;
-	padding: 10px 5px;
-	margin: 0;
-	width: auto;
-}
-
-.title h1{
-	margin: 30px 0 15px 0;
-	display: inline-block;
-}
-
-.middle{
-	margin: 0 auto;
-	text-align: center;
-}
-
-.patientDetails{
-	border: 1px solid #000;
-	padding: 5px 10px;
-	display: inline-block;
-	width: 350px;
-}
-
-.headerDetails{
-	display: inline-block;
-	position: absolute;
-	top: 10px;
-	left: 40%;
-	font-size: 15px;
-}
-
-.noteDates{
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-.surgeonList{
-	margin-top: 15px;
-}
-
-.surgeonList div{
-	width: 33%;
-	display: inline-block;
-	text-align: center;
-}
-
-.details{
-	border: 1px solid #000;
-	padding: 10px;
-}
-
-.metaData {
-	margin: 15px 0;
-}
-
-.anaestheticDetails{
-	position: relative;
-}
-
-.footer{
-	margin-top: 20px;
-}
-
-#OphCiExamination_print .left { clear: left; float: left; width: 48%; position: relative; }
-#OphCiExamination_print .right { clear: right; float: right; width: 48%; position: relative; }
-
-.data { display: inline-block; }
-
-.data-row .column {display: inline-block; float: left; }
-.data-label { padding-right: 10px }
-.data-row { clear: both; }
-
-.gonio-cross { display: inline-block; width: 80px; height: 120px; background: url(../img/cross_print.gif) no-repeat center center !important; overflow: hidden; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
-.gonio-cross div { position: absolute; text-align: center; }
-.gonio-cross .gonio-sup { top: 15px; width: 100%; }
-.gonio-cross .gonio-tem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
-.gonio-cross .gonio-nas { right: 5px; top: 50%; height: 20px; margin-top: -10px; }
-.gonio-cross .gonio-inf { bottom: 15px; width: 100%; }
-
-div.dilation_table table { width: 90% }

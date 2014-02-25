@@ -147,6 +147,11 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 		return "Cataract management: ".implode(', ',$text)."\n";
 	}
 
+	public function getPrint_view()
+	{
+		return 'print_'.$this->getDefaultView();
+	}
+
 	public function setDefaultOptions()
 	{
 		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {

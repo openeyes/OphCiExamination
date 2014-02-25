@@ -28,7 +28,7 @@
 				data-element-display-order="<?php echo $element->elementType->display_order ?>">
 
 				<?php $this->renderPartial(
-					'_view_' . $element->view_view,
+					$element->view_view,
 					array('element' => $element)
 				); ?>
 
@@ -45,7 +45,7 @@
 									<?php echo $child->elementType->name; ?>
 								</h4>
 								<?php $this->renderPartial(
-									'_view_' . $child->view_view,
+									$child->view_view,
 									array('element' => $child)
 								); ?>
 							</div>
