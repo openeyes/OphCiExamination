@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -26,7 +27,7 @@
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1383822301');
+  background-image: url('../img/medium.png?1369854359');
 }
 
 /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
@@ -137,7 +138,7 @@
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1383822301') no-repeat center center;
+  background: url('../img/cross.gif?1369854359') no-repeat center center;
   height: 110px;
   margin: 0 0 10px 0;
   position: relative;
