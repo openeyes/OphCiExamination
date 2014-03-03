@@ -145,7 +145,7 @@ class DefaultController extends BaseEventTypeController
 				$d->eye_id = $this->episode->eye_id;
 				$diagnoses[] = $d;
 			}
-			foreach ($this->patient->getOphthalmicDiagnoses() as $sd) {
+			foreach ($this->patient->ophthalmicDiagnoses as $sd) {
 				$d = new OphCiExamination_Diagnosis();
 				$d->disorder_id = $sd->disorder_id;
 				$d->eye_id = $sd->eye_id;
