@@ -17,4 +17,31 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<?= Yii::app()->format->Ntext($element->description) ?>
+<div class="element-data row">
+	<ul>
+		<li><?php echo $element->eye ? $element->eye->name : 'Eye no specified'?></li>
+		<?php if ($element->city_road) {?>
+			<li>At City Road</li>
+		<?php }?>
+		<?php if ($element->satellite) {?>
+			<li>At satellite</li>
+		<?php }?>
+		<?php if ($element->fast_track) {?>
+			<li>Suitable for fast-track</li>
+		<?php }?>
+		<li>
+			Target post-op refractive correction is <?php echo $element->target_postop_refraction?> Dioptres
+		</li>
+		<?php if ($element->correction_discussed) {?>
+			<li>Post-op refractive correction has been discussed with the patient</li>
+		<?php } else {?>
+			<li>Post-op refractive correction has not been discussed with the patient</li>
+		<?php }?>
+		<li>
+			Suitable for <?php echo $element->suitable_for_surgeon->name?> surgeon (<?php echo $element->supervised ? 'supervised' : 'unsupervised'?>)
+		</li>
+		<li>
+			<?php echo $element->vitrectomised_eye ? 'Vitrectomised eye' : 'Non-vitrectomised eye'?>
+		</li>
+	</ul>
+</div>

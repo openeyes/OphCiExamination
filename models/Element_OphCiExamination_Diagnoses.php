@@ -460,4 +460,9 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		$this->addError('diagnoses','Principal diagnosis required.');
 	}
 
+	public function getPrint_view()
+	{
+		return 'print_'.$this->getDefaultView();
+	}
+
 }

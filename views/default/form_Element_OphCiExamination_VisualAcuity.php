@@ -24,6 +24,20 @@ $key = 0;
 $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right'));
 $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left'));
 ?>
+
+
+<?php
+$this->beginClip('element-title-additional');
+if ($element->isNewRecord) { ?>
+	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->notDeletedOrPk(@$element->unit_id)->findAll(array('condition'=>'tooltip=:tt','params'=>array(':tt' => true),'order' => 'name asc')),'id','name'), array('class'=>'inline')); ?>
+<?php } ?>
+<?php if ($element->unit->information) {?>
+	<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>
+<?php }
+$this->endClip('element-title-additional');
+?>
+
+
 <div class="element-fields element-eyes row">
 	<input type="hidden" name="visualacuity_readings_valid" value="1" />
 	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>

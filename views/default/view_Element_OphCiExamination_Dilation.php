@@ -17,23 +17,57 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="sub-element-data sub-element-eyes row">
+<div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($element->hasRight()) {
-			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'right', 'element' => $element));
-		} else {?>
+		<?php if ($element->hasRight()) {?>
 			<div class="data-row">
-				<div class="data-value">Not recorded</div>
+				<table class="element-table">
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Drug</th>
+							<th>Drops</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($element->right_treatments as $treatment) {?>
+							<tr>
+								<td><?php echo date('H:i', strtotime($treatment->treatment_time))?></td>
+								<td><?php echo $treatment->drug->name?></td>
+								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {?>s<?php }?></td>
+							</tr>
+						<?php }?>
+					</tbody>
+				</table>
 			</div>
+		<?php } else {?>
+			<div class="data-value">Not recorded</div>
 		<?php }?>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($element->hasLeft()) {
-			$this->renderPartial('_view_' . get_class($element) . '_fields', array('side' => 'left', 'element' => $element));
-		} else {?>
+		<?php if ($element->hasLeft()) {?>
 			<div class="data-row">
-				<div class="data-value">Not recorded</div>
+				<table class="element-table">
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Drug</th>
+							<th>Drops</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($element->left_treatments as $treatment) {?>
+							<tr>
+								<td><?php echo date('H:i', strtotime($treatment->treatment_time))?></td>
+								<td><?php echo $treatment->drug->name?></td>
+								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {?>s<?php }?></td>
+							</tr>
+						<?php }?>
+					</tbody>
+				</table>
 			</div>
+		<?php } else {?>
+			<div class="data-value">Not recorded</div>
 		<?php }?>
 	</div>
 </div>

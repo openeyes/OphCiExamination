@@ -43,7 +43,7 @@ foreach ($lasertypes as $lt) {
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) { ?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+			<?php $this->renderPartial($element->form_view . '_fields',
 				array('side' => 'right', 'element' => $element, 'form' => $form,
 					'statuses' => $statuses, 'status_options' => $status_options,
 					'deferrals' => $deferrals, 'deferral_options' => $deferral_options,
@@ -60,7 +60,7 @@ foreach ($lasertypes as $lt) {
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) { ?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<?php $this->renderPartial('form_' . get_class($element) . '_fields',
+			<?php $this->renderPartial($element->form_view . '_fields',
 				array('side' => 'left', 'element' => $element, 'form' => $form,
 					'statuses' => $statuses, 'status_options' => $status_options,
 					'deferrals' => $deferrals, 'deferral_options' => $deferral_options,

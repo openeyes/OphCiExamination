@@ -17,29 +17,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-	<div class="cols2 clearfix">
-		<div class="left eventDetail">
-			<div class="data">
-				<?php if ($element->right_reading->name != 'NR') { ?>
-				<?php echo $element->right_reading->name ?>
-				<?php if ($element->right_instrument) {
-						echo '('.$element->right_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-				Not Recorded
-				<?php }?>
-			</div>
-		</div>
-		<div class="right eventDetail">
-			<div class="data">
-				<?php if ($element->left_reading->name != 'NR') { ?>
-				<?php echo $element->left_reading->name ?>
-				<?php if ($element->left_instrument) {
-						echo '('.$element->left_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-				Not Recorded
-				<?php }?>
-			</div>
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
+		<div class="data-row">
+			<?php if ($element->hasRight()) {?>
+				<div class="row gonioscopy">
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
+				</div>
+			<?php } else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
 		</div>
 	</div>
+	<div class="element-eye left-eye column">
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {?>
+				<div class="row gonioscopy">
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
+				</div>
+			<?php } else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
+		</div>
+	</div>
+</div>

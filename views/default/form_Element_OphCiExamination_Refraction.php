@@ -24,10 +24,10 @@
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="eyedraw-row row refraction">
 				<div class="fixed column">
-					<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw', array('side' => 'right', 'element' => $element))?>
+					<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element))?>
 				</div>
 				<div class="fluid column">
-					<?php echo $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw_fields', array('side' => 'right', 'element' => $element))?>
+					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'right', 'element' => $element))?>
 				</div>
 			</div>
 		</div>
@@ -44,10 +44,10 @@
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="eyedraw-row row refraction">
 				<div class="fixed column">
-					<?php $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw', array('side' => 'left', 'element' => $element))?>
+					<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element))?>
 				</div>
 				<div class="fluid column">
-					<?php echo $this->renderPartial('form_' . get_class($element) . '_OEEyeDraw_fields', array('side' => 'left', 'element' => $element))?>
+					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'left', 'element' => $element))?>
 				</div>
 			</div>
 		</div>

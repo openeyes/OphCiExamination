@@ -15,12 +15,9 @@
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
 @include grid-fixed-fluid(".refraction", 186px);
-@include grid-fixed-fluid(".gonioscopy", 320px);
-@include grid-fixed-fluid(".anterior-segment", 320px);
-@include grid-fixed-fluid(".optic-disc", 320px);
-@include grid-fixed-fluid(".posterior-pole", 320px);
+@include grid-fixed-fluid(".gonioscopy,.anterior-segment,.optic-disc,.posterior-pole", 320px);
 
 .view {
-	@include grid-fixed-fluid(".gonioscopy,.anterior-segment,.optic-disc,.posterior-pole", 220px);
 	@include grid-fixed-fluid(".refraction", 120px);
+	@include grid-fixed-fluid(".gonioscopy,.anterior-segment,.optic-disc,.posterior-pole", 220px);
 }
