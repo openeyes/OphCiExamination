@@ -419,8 +419,7 @@ CREATE TABLE `et_ophciexamination_glaucomarisk_version` (
 	KEY `acv_et_ophciexamination_glaucomarisk_risk_id_fk` (`risk_id`),
 	CONSTRAINT `acv_et_ophciexamination_glaucomarisk_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_et_ophciexamination_glaucomarisk_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_glaucomarisk_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_glaucomarisk_risk_id_fk` FOREIGN KEY (`risk_id`) REFERENCES `ophciexamination_glaucomarisk_risk` (`id`)
+	CONSTRAINT `acv_et_ophciexamination_glaucomarisk_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
@@ -477,16 +476,8 @@ CREATE TABLE `et_ophciexamination_gonioscopy_version` (
 	CONSTRAINT `acv_et_ophciexamination_gonioscopy_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_et_ophciexamination_gonioscopy_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`),
 	CONSTRAINT `acv_et_ophciexamination_gonioscopy_e_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_left_gonio_inf_id_fk` FOREIGN KEY (`left_gonio_inf_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_left_gonio_nas_id_fk` FOREIGN KEY (`left_gonio_nas_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_left_gonio_sup_id_fk` FOREIGN KEY (`left_gonio_sup_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_left_gonio_tem_id_fk` FOREIGN KEY (`left_gonio_tem_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
 	CONSTRAINT `acv_et_ophciexamination_gonioscopy_left_van_herick_id_fk` FOREIGN KEY (`left_van_herick_id`) REFERENCES `ophciexamination_gonioscopy_van_herick` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_right_gonio_inf_id_fk` FOREIGN KEY (`right_gonio_inf_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_right_gonio_nas_id_fk` FOREIGN KEY (`right_gonio_nas_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_right_gonio_sup_id_fk` FOREIGN KEY (`right_gonio_sup_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`),
-	CONSTRAINT `acv_et_ophciexamination_gonioscopy_right_gonio_tem_id_fk` FOREIGN KEY (`right_gonio_tem_id`) REFERENCES `ophciexamination_gonioscopy_description` (`id`)
+	CONSTRAINT `acv_et_ophciexamination_gonioscopy_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
@@ -1231,7 +1222,6 @@ CREATE TABLE `ophciexamination_attribute_element_version` (
 	KEY `acv_ophciexamination_attribute_element_et_fk` (`element_type_id`),
 	KEY `acv_ophciexamination_attribute_element_lmui_fk` (`last_modified_user_id`),
 	KEY `acv_ophciexamination_attribute_cui_fk` (`created_user_id`),
-	CONSTRAINT `acv_ophciexamination_attribute_element_a_fk` FOREIGN KEY (`attribute_id`) REFERENCES `ophciexamination_attribute` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_element_et_fk` FOREIGN KEY (`element_type_id`) REFERENCES `element_type` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_element_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)
@@ -1265,7 +1255,6 @@ CREATE TABLE `ophciexamination_attribute_option_version` (
 	KEY `acv_ophciexamination_attribute_option_created_user_id_fk` (`created_user_id`),
 	KEY `acv_ophciexamination_attribute_option_ssi_fk` (`subspecialty_id`),
 	KEY `acv_ophciexamination_attribute_option_aei_fk` (`attribute_element_id`),
-	CONSTRAINT `acv_ophciexamination_attribute_option_aei_fk` FOREIGN KEY (`attribute_element_id`) REFERENCES `ophciexamination_attribute_element` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_option_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_option_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_attribute_option_ssi_fk` FOREIGN KEY (`subspecialty_id`) REFERENCES `subspecialty` (`id`)
@@ -1452,7 +1441,6 @@ CREATE TABLE `ophciexamination_comorbidities_assignment_version` (
 	KEY `acv_ophciexamination_risks_assign_c_u_id_fk` (`created_user_id`),
 	KEY `acv_ophciexamination_risks_assign_l_m_u_id_fk` (`last_modified_user_id`),
 	CONSTRAINT `acv_ophciexamination_comorbidities_assign_i_id_fk` FOREIGN KEY (`item_id`) REFERENCES `ophciexamination_comorbidities_item` (`id`),
-	CONSTRAINT `acv_ophciexamination_comorbidities_assign_e_id_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_comorbidities` (`id`),
 	CONSTRAINT `acv_ophciexamination_risks_assign_c_u_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_risks_assign_l_m_u_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -1515,7 +1503,6 @@ CREATE TABLE `ophciexamination_diagnosis_version` (
 	KEY `acv_ophciexamination_diagnosis_eye_id_fk` (`eye_id`),
 	KEY `acv_ophciexamination_diagnosis_last_modified_user_id_fk` (`last_modified_user_id`),
 	KEY `acv_ophciexamination_diagnosis_created_user_id_fk` (`created_user_id`),
-	CONSTRAINT `acv_ophciexamination_diagnosis_element_diagnoses_id_fk` FOREIGN KEY (`element_diagnoses_id`) REFERENCES `et_ophciexamination_diagnoses` (`id`),
 	CONSTRAINT `acv_ophciexamination_diagnosis_disorder_id_fk` FOREIGN KEY (`disorder_id`) REFERENCES `disorder` (`id`),
 	CONSTRAINT `acv_ophciexamination_diagnosis_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`),
 	CONSTRAINT `acv_ophciexamination_diagnosis_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
@@ -1582,8 +1569,7 @@ CREATE TABLE `ophciexamination_dilation_treatment_version` (
 	KEY `acv_ophciexamination_dilation_treatment_drug_id_fk` (`drug_id`),
 	CONSTRAINT `acv_ophciexamination_dilation_treatment_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_dilation_treatment_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_dilation_treatment_drug_id_fk` FOREIGN KEY (`drug_id`) REFERENCES `ophciexamination_dilation_drugs` (`id`),
-	CONSTRAINT `acv_ophciexamination_dilation_treatment_element_id_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_dilation` (`id`)
+	CONSTRAINT `acv_ophciexamination_dilation_treatment_drug_id_fk` FOREIGN KEY (`drug_id`) REFERENCES `ophciexamination_dilation_drugs` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
@@ -1771,7 +1757,6 @@ CREATE TABLE `ophciexamination_element_set_item_version` (
 	KEY `acv_ophciexamination_element_set_item_element_type_id_fk` (`element_type_id`),
 	KEY `acv_ophciexamination_element_set_item_last_modified_user_id_fk` (`last_modified_user_id`),
 	KEY `acv_ophciexamination_element_set_item_created_user_id_fk` (`created_user_id`),
-	CONSTRAINT `acv_ophciexamination_element_set_item_set_id_fk` FOREIGN KEY (`set_id`) REFERENCES `ophciexamination_element_set` (`id`),
 	CONSTRAINT `acv_ophciexamination_element_set_item_element_type_id_fk` FOREIGN KEY (`element_type_id`) REFERENCES `element_type` (`id`),
 	CONSTRAINT `acv_ophciexamination_element_set_item_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_element_set_item_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)
@@ -1839,8 +1824,7 @@ CREATE TABLE `ophciexamination_event_elementset_assignment_version` (
 	KEY `acv_ophciexamination_event_ea_created_user_id_fk` (`created_user_id`),
 	CONSTRAINT `acv_ophciexamination_event_ea_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_event_ea_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_event_ea_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-	CONSTRAINT `acv_ophciexamination_event_ea_step_id_fk` FOREIGN KEY (`step_id`) REFERENCES `ophciexamination_element_set` (`id`)
+	CONSTRAINT `acv_ophciexamination_event_ea_event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
@@ -1873,7 +1857,6 @@ CREATE TABLE `ophciexamination_glaucomarisk_risk_version` (
 	KEY `acv_ophciexamination_glaucomarisk_risk_coti_fk` (`clinicoutcome_template_id`),
 	KEY `acv_ophciexamination_glaucomarisk_risk_cui_fk` (`created_user_id`),
 	KEY `acv_ophciexamination_glaucomarisk_risk_lmui_fk` (`last_modified_user_id`),
-	CONSTRAINT `acv_ophciexamination_glaucomarisk_risk_coti_fk` FOREIGN KEY (`clinicoutcome_template_id`) REFERENCES `ophciexamination_clinicoutcome_template` (`id`),
 	CONSTRAINT `acv_ophciexamination_glaucomarisk_risk_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_glaucomarisk_risk_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -1967,7 +1950,6 @@ CREATE TABLE `ophciexamination_injectmanagecomplex_answer_version` (
 	KEY `acv_ophciexamination_injectmanagecomplex_answer_qi_fk` (`question_id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_answer_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_answer_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_answer_eli_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_injectionmanagementcomplex` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_answer_eyei_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_answer_qi_fk` FOREIGN KEY (`question_id`) REFERENCES `ophciexamination_injectmanagecomplex_question` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -2097,7 +2079,6 @@ CREATE TABLE `ophciexamination_injectmanagecomplex_risk_assignment_version` (
 	KEY `acv_ophciexamination_injectmanagecomplex_risk_assignment_lku_fk` (`risk_id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_risk_assignment_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_risk_assignment_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_risk_assignment_ele_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_injectionmanagementcomplex` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_risk_assign_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`),
 	CONSTRAINT `acv_ophciexamination_injectmanagecomplex_risk_assignment_lku_fk` FOREIGN KEY (`risk_id`) REFERENCES `ophciexamination_injectmanagecomplex_risk` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -2345,8 +2326,7 @@ CREATE TABLE `ophciexamination_oct_fluidtype_assignment_version` (
 	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`),
-	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_fti_fk` FOREIGN KEY (`fluidtype_id`) REFERENCES `ophciexamination_oct_fluidtype` (`id`),
-	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_ei_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_oct` (`id`)
+	CONSTRAINT `acv_ophciexamination_oct_fluidtype_assignment_fti_fk` FOREIGN KEY (`fluidtype_id`) REFERENCES `ophciexamination_oct_fluidtype` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
@@ -2703,7 +2683,6 @@ CREATE TABLE `ophciexamination_visualacuity_reading_version` (
 	KEY `acv_ophciexamination_visualacuity_reading_method_id_fk` (`method_id`),
 	KEY `acv_iexamination_visualacuity_reading_last_modified_user_id_fk` (`last_modified_user_id`),
 	KEY `acv_ophciexamination_visualacuity_reading_created_user_id_fk` (`created_user_id`),
-	CONSTRAINT `acv_ophciexamination_visualacuity_reading_element_id_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophciexamination_visualacuity` (`id`),
 	CONSTRAINT `acv_ophciexamination_visualacuity_reading_method_id_fk` FOREIGN KEY (`method_id`) REFERENCES `ophciexamination_visualacuity_method` (`id`),
 	CONSTRAINT `acv_iexamination_visualacuity_reading_last_modified_user_id_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophciexamination_visualacuity_reading_created_user_id_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)
