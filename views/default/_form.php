@@ -46,7 +46,7 @@
 									<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 								</div>
 						<?php }else{?>
-							<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
+							<a href="#" id="drgrading_dirty" style="display: none;">sync with Posterior Pole</a>
 						<?php }?>
 					</div>
 				<?php }
