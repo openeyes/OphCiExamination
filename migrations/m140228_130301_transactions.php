@@ -31,6 +31,7 @@ class m140228_130301_transactions extends CDbMigration
 			$this->dropForeignKey($table.'_tid',$table);
 			$this->dropIndex($table.'_tid',$table);
 			$this->dropColumn($table,'transaction_id');
+			$this->dropColumn($table,'conflicted');
 
 			$this->dropColumn($table.'_version','hash');
 			$this->dropForeignKey($table.'_vtid',$table.'_version');
@@ -39,6 +40,7 @@ class m140228_130301_transactions extends CDbMigration
 			$this->dropForeignKey($table.'_dtid',$table.'_version');
 			$this->dropIndex($table.'_dtid',$table.'_version');
 			$this->dropColumn($table.'_version','deleted_transaction_id');
+			$this->dropColumn($table.'_version','conflicted');
 		}
 	}
 }
