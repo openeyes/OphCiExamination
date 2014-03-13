@@ -64,8 +64,8 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 				array('event_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
 				array('left_eyedraw', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw', 'requiredIfSide', 'side' => 'right'),
-				array('left_description', 'requiredIfSide', 'message' => '{attribute} cannot be blank when there are no child elements', 'on' => 'formHasNoChildren', 'side' => 'left'),
-				array('right_description', 'requiredIfSide', 'message' => '{attribute} cannot be blank when there are no child elements', 'on' => 'formHasNoChildren', 'side' => 'right'),
+				array('left_description', 'requiredIfSide', 'side' => 'left'),
+				array('right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_eyedraw, right_eyedraw, left_description, right_description, eye_id', 'safe', 'on' => 'search'),
