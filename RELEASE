@@ -3,6 +3,22 @@ Release History
 
 This document is intended to summarise the changes made for each release. It should be noted that this document was only introduced with version 1.4, and therefore doesn't cover earlier releases.
 
+1.6.0
+-----
++ Flash messages are not displaying on some pages
++ Visual Acuity Correspondence units should be configurable
++ DR Grading values hardcoded in javascript
++ Asset refactoring
++ Add additional fields to visual acuity drop down menu
++ Make green 'View Previous' icon available for all elements
++ Move order of 'Pupillary Abnormalities element in Examination event
++ Change scale on post operative refraction target slider
++ Re-label Cataract Management daughter element
++ Support child elements in workflow sets
++ Basic Medical Retina episode summary
++ Rationalise db character set and collation
++ Create admin system for examination workflow rules
+
 1.5.2
 -----
 + removed extraneous debug logging
