@@ -22,6 +22,10 @@
 	<?php
 		$this->breadcrumbs=array($this->module->id);
 		$this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'examination-update'));
+
+		if ($this->event->conflict) {
+			$this->event_actions[] = EventAction::button('Save and resolve conflict', 'save_resolve', array('level' => 'save'), array('form'=>'examination-update'));
+		}
 	?>
 	<?php $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
 		'id'=>'examination-update',
@@ -29,7 +33,8 @@
 		'layoutColumns' => array(
 			'label' => 4,
 			'field' => 8
-		)
+		),
+		'transaction_id' => $this->event->transaction_id,
 	));
 	?>
 		<?php $this->displayErrors($errors)?>

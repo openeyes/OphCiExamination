@@ -275,6 +275,10 @@ $(document).ready(function() {
 	 */
 	handleButton($('#et_save'));
 
+	handleButton($('#et_save_resolve'),function(e) {
+		$('#resolve_conflict').val(1);
+	});
+
 	handleButton($('#et_print'),function(e) {
 		OphCiExamination_do_print();
 		e.preventDefault();
