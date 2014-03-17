@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_OpticDisc_CDRatio extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_OpticDisc_CDRatio extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_OpticDisc_CDRatio extends BaseActiveRecordVersionedSoftDe
 	public function tableName()
 	{
 		return 'ophciexamination_opticdisc_cd_ratio';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

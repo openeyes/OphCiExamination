@@ -24,7 +24,7 @@
  * @property string $name
  * @property integer $display_order
  */
-class OphCiExamination_Instrument extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Instrument extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,6 +41,11 @@ class OphCiExamination_Instrument extends BaseActiveRecordVersionedSoftDelete
 	public function tableName()
 	{
 		return 'ophciexamination_instrument';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -60,6 +65,13 @@ class OphCiExamination_Instrument extends BaseActiveRecordVersionedSoftDelete
 	public function relations()
 	{
 		return array();
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
 	}
 
 	/**

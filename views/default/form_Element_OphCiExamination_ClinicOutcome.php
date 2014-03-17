@@ -28,10 +28,10 @@
 			<div class="large-3 column end">
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
-				foreach (OphCiExamination_ClinicOutcome_Status::model()->notDeletedOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
+				foreach (OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
 					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
 				}
-				echo CHtml::activeDropDownList($element,'status_id', CHtml::listData(OphCiExamination_ClinicOutcome_Status::model()->notDeletedOrPk($element->status_id)->findAll(array('order'=>'display_order')),'id','name'), $html_options)?>
+				echo $form->dropDownList($element, 'status_id', 'OphCiExamination_ClinicOutcome_Status', $html_options)?>
 			</div>
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 					<div class="large-3 column">
 						<?php
 						$html_options = array('empty'=>'- Please select -', 'options' => array());
-						echo CHtml::activeDropDownList($element, 'role_id', CHtml::listData(OphCiExamination_ClinicOutcome_Role::model()->notDeletedOrPk($element->role_id)->findAll(array('order'=>'display_order')),'id', 'name'), $html_options) ?>
+						echo $form->dropDownList($element, 'role_id', 'OphCiExamination_ClinicOutcome_Role', $html_options) ?>
 					</div>
 					<div class="large-3 column end">
 						<?php echo CHtml::activeTextField($element, 'role_comments')?>

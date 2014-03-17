@@ -1,6 +1,6 @@
 <?php
 
-class m140115_124111_rename_cataract_management_element_version_tables extends CDbMigration
+class m140110_000000_rename_cataract_management_element_version_tables extends CDbMigration
 {
 	public function up()
 	{

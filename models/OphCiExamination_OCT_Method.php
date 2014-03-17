@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_OCT_Method extends BaseActiveRecordVersionedSoftDelete 
+class OphCiExamination_OCT_Method extends BaseActiveRecordVersioned 
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_OCT_Method extends BaseActiveRecordVersionedSoftDelete
 	public function tableName() 
 	{
 		return 'ophciexamination_oct_method';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -61,6 +66,13 @@ class OphCiExamination_OCT_Method extends BaseActiveRecordVersionedSoftDelete
 	public function relations()
 	{
 		return array(
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

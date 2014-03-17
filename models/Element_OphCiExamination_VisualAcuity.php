@@ -185,8 +185,8 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$unit_values = $unit->selectableValues;
 
 		$criteria = new CDbCriteria();
-		$criteria->condition = 'id <> :unit_id AND tooltip = :tt';
-		$criteria->params = array(':unit_id' => $unit->id, ':tt' => true);
+		$criteria->condition = 'id <> :unit_id AND active = 1';
+		$criteria->params = array(':unit_id' => $unit->id);
 		$criteria->order = 'name';
 		$tooltip_units = OphCiExamination_VisualAcuityUnit::model()->findAll($criteria);
 

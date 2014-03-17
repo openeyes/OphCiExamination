@@ -462,14 +462,7 @@ $(document).ready(function() {
 
 		var side = getSplitElementSide($(this));
 		var gradePK = $(this).val();
-		var grade = null;
-
-		$(this).find('option').each(function() {
-			if ($(this).attr('value') == gradePK) {
-				grade = $(this).attr('data-code');
-				return false;
-			}
-		});
+		var grade = $(this).find('option:selected').text();
 
 		var id = $(this).attr('id');
 		var dr_grade = $(this).parents('.element');
@@ -1653,7 +1646,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 
 	var id = max_id + 1;
 
-	eye_id = eye_id || $('input[name="Element_OphCiExamination_Diagnoses[eye_id]"]:checked').val();
+	eye_id = eye_id || $('input[name="OphCiExamination_Diagnosis[eye_id]"]:checked').val();
 
 	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
 	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');

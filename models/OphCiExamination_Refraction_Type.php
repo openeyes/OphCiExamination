@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Refraction_Type extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Refraction_Type extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

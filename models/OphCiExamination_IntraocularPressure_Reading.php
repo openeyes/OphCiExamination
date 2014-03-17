@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_IntraocularPressure_Reading extends BaseActiveRecordVersi
 	public function tableName()
 	{
 		return 'ophciexamination_intraocularpressure_reading';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

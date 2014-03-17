@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Refraction_Fraction extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Refraction_Fraction extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,6 +40,11 @@ class OphCiExamination_Refraction_Fraction extends BaseActiveRecordVersionedSoft
 	public function tableName()
 	{
 		return 'ophciexamination_refraction_fraction';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

@@ -28,7 +28,7 @@ class AdminController extends ModuleAdminController
 	 */
 	public function actionViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason()
 	{
-		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->notDeleted()->findAll(array('order' => 'display_order asc'));
+		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order' => 'display_order asc'));
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
 		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
 
@@ -125,9 +125,9 @@ class AdminController extends ModuleAdminController
 			}
 
 			if ($_POST['enabled']) {
-				$model->enabled = true;
+				$model->active = true;
 			} else {
-				$model->enabled = false;
+				$model->active = false;
 			}
 			if (!$model->save()) {
 				throw new Exception("Unable to set reason status: " . print_r($model->getErrors(), true));
@@ -159,12 +159,12 @@ class AdminController extends ModuleAdminController
 			$criteria->condition = "disorder_id = :disorder_id";
 			$criteria->params = array(':disorder_id' => (int) $_GET['disorder_id']);
 
-			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->notDeleted()->findAll($criteria);
+			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
 
 			$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
-		}
 
-		Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
+			Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
+		}
 
 		$this->render('list_diagnosis_questions',array(
 				'disorder_id'=>$disorder_id,
@@ -272,9 +272,9 @@ class AdminController extends ModuleAdminController
 			}
 
 			if ($_POST['enabled']) {
-				$model->enabled = true;
+				$model->active = true;
 			} else {
-				$model->enabled = false;
+				$model->active = false;
 			}
 			if (!$model->save()) {
 				throw new Exception("Unable to set question status: " . print_r($model->getErrors(), true));
@@ -292,7 +292,7 @@ class AdminController extends ModuleAdminController
 
 		$this->render('list_OphCiExamination_Workflow', array(
 				'model_class' => 'OphCiExamination_Workflow',
-				'model_list' => OphCiExamination_Workflow::model()->notDeleted()->findAll(array('order'=>'name asc')),
+				'model_list' => OphCiExamination_Workflow::model()->findAll(array('order'=>'name asc')),
 				'title' => 'Workflows',
 		));
 	}

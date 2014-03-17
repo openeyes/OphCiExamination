@@ -28,7 +28,7 @@
  */
 
 
-class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -47,6 +47,11 @@ class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersionedSoftDelete
 		return 'ophciexamination_oct_fluidtype';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -61,4 +66,10 @@ class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersionedSoftDelete
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

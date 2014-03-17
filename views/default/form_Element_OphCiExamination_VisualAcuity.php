@@ -19,7 +19,7 @@
 ?>
 <?php
 list($values, $val_options) = $element->getUnitValuesForForm();
-$methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->notDeleted($element->methodValues)->findAll(array('order'=>'display_order')),'id','name');
+$methods = CHtml::listData(OphCiExamination_VisualAcuity_Method::model()->findAll(),'id','name');
 $key = 0;
 $right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right'));
 $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left'));
@@ -29,7 +29,7 @@ $left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->conve
 <?php
 $this->beginClip('element-title-additional');
 if ($element->isNewRecord) { ?>
-	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->notDeletedOrPk(@$element->unit_id)->findAll(array('condition'=>'tooltip=:tt','params'=>array(':tt' => true),'order' => 'name asc')),'id','name'), array('class'=>'inline')); ?>
+	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->activeOrPk(@$element->unit_id)->findAll(),'id','name'), array('class'=>'inline')); ?>
 <?php } ?>
 <?php if ($element->unit->information) {?>
 	<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>

@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Management_Status extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Management_Status extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -80,6 +80,13 @@ class OphCiExamination_Management_Status extends BaseActiveRecordVersionedSoftDe
 		$alias = $this->getTableAlias(false, false);
 		return array(
 			'order' => $alias . '.display_order ASC',
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

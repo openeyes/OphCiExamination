@@ -38,7 +38,7 @@ else {
 }
 ?>
 
-<?php echo $form->dropDownList($element, $side . '_method_id', CHtml::listData(OphCiExamination_OCT_Method::model()->notDeletedOrPk($element->{$side.'_method_id'})->findAll(array('order' => 'display_order')),'id','name'), array(), false, array('label'=>4,'field'=>3)) ?>
+<?php echo $form->dropDownList($element, $side . '_method_id', 'OphCiExamination_OCT_Method', array(), false, array('label'=>4,'field'=>3)) ?>
 
 <?php echo $form->textField($element, $side . '_crt', array('append-text' => '&micro;m'),null,array('label'=>4,'field'=>'3','append-text'=>'4')) ?>
 
@@ -81,7 +81,7 @@ else {
 		'empty' => '- Please select -',
 		'div_id' =>  get_class($element) . '_' . $side . '_fluidtypes',
 		'label' => 'Findings');
-	$fts = OphCiExamination_OCT_FluidType::model()->notDeletedOrPk($element->fluidTypeValues)->findAll();
+	$fts = OphCiExamination_OCT_FluidType::model()->activeOrPk($element->fluidTypeValues)->findAll();
 	foreach ($fts as $ft) {
 		$html_options['options'][(string) $ft->id] = array('data-order' => $ft->display_order);
 	}
@@ -94,7 +94,7 @@ else {
 			</label>
 		</div>
 		<div class="large-6 column end">
-			<?php echo $form->dropDownList($element, $side . '_fluidstatus_id', CHtml::listData(OphCiExamination_OCT_FluidStatus::model()->notDeletedOrPk($element->{$side.'_fluidstatus_id'})->findAll(),'id','name'), array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?>
+			<?php echo $form->dropDownList($element, $side . '_fluidstatus_id', 'OphCiExamination_OCT_FluidStatus', array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?>
 		</div>
 	</div>
 </div>

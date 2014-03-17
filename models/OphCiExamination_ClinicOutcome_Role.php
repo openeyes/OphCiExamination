@@ -25,7 +25,7 @@
  * @property integer $display_order
  * @property boolean $requires_comment
  */
-class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,6 +39,11 @@ class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersionedSoftD
 	public function __toString()
 	{
 		return $this->name;
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -66,6 +71,13 @@ class OphCiExamination_ClinicOutcome_Role extends BaseActiveRecordVersionedSoftD
 	public function relations()
 	{
 		return array(
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_PupillaryAbnormalities_Abnormality extends BaseActiveReco
 	public function tableName()
 	{
 		return 'ophciexamination_pupillaryabnormalities_abnormality';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

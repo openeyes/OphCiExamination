@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersionedSoftD
 	public function tableName()
 	{
 		return 'ophciexamination_comorbidities_item';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -64,6 +69,13 @@ class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersionedSoftD
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -78,5 +90,4 @@ class OphCiExamination_Comorbidities_Item extends BaseActiveRecordVersionedSoftD
 				'criteria'=>$criteria,
 		));
 	}
-
 }

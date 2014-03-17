@@ -18,7 +18,7 @@
  */
 ?>
 <div class="element-fields">
-	<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(Eye::model()->findAll(array('order'=>'display_order asc')),'id','name'), ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
+	<?php echo $form->radioButtons(new OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
 	<?php $this->widget('application.widgets.DiagnosisSelection', array(
 		'field' => 'disorder_id',
 		'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),

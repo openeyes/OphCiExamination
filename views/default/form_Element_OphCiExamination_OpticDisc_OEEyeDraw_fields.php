@@ -35,7 +35,7 @@
 			<?php echo $element->getAttributeLabel($side.'_cd_ratio_id')?>:
 		</label>
 		<?php
-		$options = OphCiExamination_OpticDisc_CDRatio::model()->notDeletedOrPk($element->{$side.'_cd_ratio_id'})->findAll(array('order'=>'display_order'));
+		$options = OphCiExamination_OpticDisc_CDRatio::model()->findAll();
 		$cd_ratio_html_options = array('class' => 'cd-ratio', 'options' => array());
 		foreach ($options as $ratio) {
 			$cd_ratio_html_options['options'][(string) $ratio->id] = array('data-value'=> $ratio->name);
@@ -53,7 +53,7 @@
 			</div>
 			<div class="large-9 column">
 				<div class="field-info postfix align">
-					mm (lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', CHtml::listData(OphCiExamination_OpticDisc_Lens::model()->activeOrPk($element->{$side.'_lens_id'})->findAll(array('order' => 'display_order')),'id','name'), array('empty' => '--','class'=>'inline')) ?>)
+					mm (lens <?= $form->dropDownList($element, $side.'_lens_id', 'OphCiExamination_OpticDisc_Lens', array('empty' => '--', 'class' => 'inline' ,'nowrapper' => true)) ?>)
 				</div>
 			</div>
 		</div>

@@ -171,7 +171,7 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
 	public function sidedDefaults()
 	{
 		return array(
-			'cd_ratio_id' => OphCiExamination_OpticDisc_CDRatio::model()->notDeleted()->findByAttributes(array('name' => '0.3'))->id,
+			'cd_ratio_id' => OphCiExamination_OpticDisc_CDRatio::model()->findByAttributes(array('name' => '0.3'))->id,
 		);
 	}
 }

@@ -407,27 +407,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function getRisksForSide($side)
 	{
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'enabled = true';
-		$criteria->order = 'display_order asc';
-
-		$risks = OphCiExamination_InjectionManagementComplex_Risk::model()->notDeletedOrPk($this->riskValues)->findAll($criteria);
-
-		$all_risks = array();
-		$r_ids = array();
-
-		foreach ($risks as $risk) {
-			$all_risks[] = $risk;
-			$r_ids[] = $risk->id;
-		}
-
-		foreach ($this->{$side . '_risks'} as $curr) {
-			if (!in_array($curr->id, $r_ids)) {
-				$all_risks[] = $curr;
-			}
-		}
-
-		return $all_risks;
+		return OphCiExamination_InjectionManagementComplex_Risk::model()->activeOrPk($this->riskValues)->findAll();
 	}
 
 	/**
@@ -451,30 +431,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function getNoTreatmentReasons()
 	{
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'enabled = true';
-		$criteria->order = 'display_order asc';
-
-		$reasons = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->notDeleted()->findAll($criteria);
-
-		if ($this->left_no_treatment_reason || $this->right_no_treatment_reason) {
-			$all_reasons = array();
-			$all_reason_ids = array();
-			foreach ($reasons as $r) {
-				$all_reasons[] = $r;
-				$all_reason_ids[] = $r->id;
-			}
-			if ($this->left_no_treatment_reason && !in_array($this->left_no_treatment_reason->id, $all_reason_ids)) {
-				$all_reasons[] = $this->left_no_treatment_reason;
-				$all_reason_ids[] = $this->left_no_treatment_reason_id;
-			}
-			if ($this->right_no_treatment_reason && !in_array($this->right_no_treatment_reason->id, $all_reason_ids)) {
-				$all_reasons[] = $this->right_no_treatment_reason;
-			}
-			$reasons = $all_reasons;
-		}
-		return $reasons;
-
+		return OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->activeOrPk(
+			array($this->left_no_treatment_reason_id, $this->right_no_treatment_reason_id)
+		)->findAll();
 	}
 
 	/**
@@ -524,19 +483,19 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 * @param array $answered_question_ids
 	 * @throws Exception
 	 */
-	public function getInjectionQuestionsForDisorderId($disorder_id,$answered_question_ids)
+	public function getInjectionQuestionsForDisorderId($disorder_id, $answered_question_ids = null)
 	{
 		if (!$disorder_id) {
 			throw new Exception('Disorder id required for injection questions');
 		}
 
 		$criteria = new CDbCriteria;
-		$criteria->condition = 'disorder_id = :disorder_id AND enabled = true';
+		$criteria->condition = 'disorder_id = :disorder_id';
 		$criteria->params = array(':disorder_id' => $disorder_id);
 		$criteria->order = 'display_order asc';
 
 		// get the questions
-		return OphCiExamination_InjectionManagementComplex_Question::model()->notDeletedOrPk($answered_question_ids)->findAll($criteria);
+		return OphCiExamination_InjectionManagementComplex_Question::model()->activeOrPk($answered_question_ids)->findAll($criteria);
 	}
 
 	/**
@@ -742,7 +701,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	public function getInjectionTreatments($side)
 	{
 		if ($this->injectionInstalled()) {
-			$treatments = OphTrIntravitrealinjection_Treatment_Drug::model()->availableScope()->findAll();
+			$treatments = OphTrIntravitrealinjection_Treatment_Drug::model()->active()->findAll();
 			if ($current_id = $this->{$side . '_treatment_id'}) {
 				$treatment_list = array();
 

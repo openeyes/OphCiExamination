@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Management_DeferralReason extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Management_DeferralReason extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -81,6 +81,13 @@ class OphCiExamination_Management_DeferralReason extends BaseActiveRecordVersion
 
 		return array(
 			'order' => $alias . '.display_order ASC',
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

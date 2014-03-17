@@ -16,7 +16,7 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->notDeletedOrPk($element->{$side.'_clinicalret_id'})->findAll(array('order'=>'display_order'));
+$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->activeOrPk($element->{$side.'_clinicalret_id'})->findAll();
 ?>
 <div class="row field-row">
 	<div class="large-4 column">
@@ -63,7 +63,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		</div>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->notDeletedOrPk($element->{$side.'_nscretinopathy_id'})->findAll(array('order'=>'display_order'))?>
+<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->activeOrPk($element->{$side.'_nscretinopathy_id'})->findAll()?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">
@@ -111,7 +111,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 	</div>
 </div>
 <?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation',array(),array('label'=>4,'field'=>8));
-$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->notDeletedOrPk($element->{$side.'_clinicalmac_id'})->findAll(array('order'=>'display_order'));
+$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->activeOrPk($element->{$side.'_clinicalmac_id'})->findAll();
 $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac'} : @$clinical_maculopathys[0];
 ?>
 <div class="row field-row">
@@ -154,7 +154,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		-->
 	</div>
 </div>
-<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->notDeletedOrPk($element->{$side.'_nscmaculopathy_id'})->findAll(array('order'=>'display_order'));?>
+<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->activeOrPk($element->{$side.'_nscmaculopathy_id'})->findAll();?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo get_class($element).'_'.$side.'_nscmaculopathy_id';?>">

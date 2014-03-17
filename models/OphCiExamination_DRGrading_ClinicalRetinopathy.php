@@ -28,7 +28,7 @@
  * @property integer $booking_weeks
 
  */
-class OphCiExamination_DRGrading_ClinicalRetinopathy extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_DRGrading_ClinicalRetinopathy extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -52,6 +52,11 @@ class OphCiExamination_DRGrading_ClinicalRetinopathy extends BaseActiveRecordVer
 		return 'ophciexamination_drgrading_clinicalretinopathy';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -69,6 +74,13 @@ class OphCiExamination_DRGrading_ClinicalRetinopathy extends BaseActiveRecordVer
 	public function relations()
 	{
 		return array(
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

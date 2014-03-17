@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -35,15 +35,12 @@ class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecordVersion
 	{
 		return 'ophciexamination_lasermanagement_lasertype';
 	}
-	
+
 	public function defaultScope()
 	{
-		return array(
-			'order' => 'display_order ASC',
-			'condition' => $this->getTableAlias(false, false) . '.enabled = true',
-		);
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
-	
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -55,6 +52,13 @@ class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecordVersion
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, name, display_order, other', 'safe', 'on' => 'search'),
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 }
