@@ -35,6 +35,7 @@
 			'field' => 8
 		),
 		'transaction_id' => $this->event->transaction_id,
+		'episode_transaction_id' => $this->episode->transaction_id,
 	));
 	?>
 		<?php $this->displayErrors($errors)?>

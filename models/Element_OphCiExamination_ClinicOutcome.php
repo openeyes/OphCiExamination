@@ -189,12 +189,11 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
 		if ($this->status) {
 			if ($this->event->isLatestOfTypeInEpisode()) {
 				$this->event->episode->episode_status_id = $this->status->episode_status_id;
-				if (!$this->event->episode->save()) {
+				if (!$this->event->episode->basedOnTransactionID($_POST['episode_transaction_id'])->save()) {
 					throw new Exception('Unable to save episode status: '.print_r($this->event->episode->getErrors(),true));
 				}
 			}
 		}
 		parent::afterSave();
 	}
-
 }
