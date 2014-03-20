@@ -220,7 +220,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function delete()
 	{
-		$transaction = $this->dbConnection->beginTransaction();
+		if (!Yii::app()->db->getCurrentTransaction()) {
+			$transaction = $this->beginTransaction('Delete');
+		}
 		try {
 			foreach ($this->risk_assignments as $riska) {
 				$riska->delete();
@@ -229,14 +231,18 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 				$answer->delete();
 			}
 			if (parent::delete()) {
-				$transaction->commit();
+				if (isset($transaction)) {
+					$transaction->commit();
+				}
 			}
 			else {
 				throw new Exception('unable to delete');
 			}
 		}
 		catch (Exception $e) {
-			$transaction->rollback();
+			if (isset($transaction)) {
+				$transaction->rollback();
+			}
 			throw $e;
 		}
 

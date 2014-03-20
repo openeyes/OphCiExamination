@@ -34,8 +34,7 @@
 			'label' => 4,
 			'field' => 8
 		),
-		'transaction_id' => $this->event->transaction_id,
-		'episode_transaction_id' => $this->episode->transaction_id,
+		'transaction_id' => $this->patient->latestTransaction->id,
 	));
 	?>
 		<?php $this->displayErrors($errors)?>

@@ -32,7 +32,9 @@ class AdminController extends ModuleAdminController
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
 		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
 
-		$transaction = Yii::app()->db->beginTransaction('List','No treatment reasons');
+		$transaction = Yii::app()->db->beginTransaction('List');
+
+		$transaction->setModel(new OphCiExamination_InjectionManagementComplex_NoTreatmentReason);
 
 		Audit::add('admin','list',null,null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_NoTreatmentReason'));
 
@@ -63,11 +65,12 @@ class AdminController extends ModuleAdminController
 			}
 			$model->display_order = $display_order;
 
-			$transaction = Yii::app()->db->beginTransaction('Create','No treatment reason');
+			$transaction = Yii::app()->db->beginTransaction('Create');
 
 			if ($model->save()) {
 				Audit::add('admin','create',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
 
+				$transaction->setModel($model);
 				$transaction->commit();
 
 				Yii::app()->user->setFlash('success', 'Injection Management No Treatment reason added');
@@ -95,7 +98,7 @@ class AdminController extends ModuleAdminController
 		if (isset($_POST['OphCiExamination_InjectionManagementComplex_NoTreatmentReason'])) {
 			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_NoTreatmentReason'];
 
-			$transaction = Yii::app()->db->beginTransaction('Update','No treatment reason');
+			$transaction = $model->beginTransaction('Update');
 
 			if ($model->save()) {
 				Audit::add('admin','update',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_NoTreatmentReason'));
@@ -121,20 +124,20 @@ class AdminController extends ModuleAdminController
 	public function actionSortNoTreatmentReasons()
 	{
 		if (!empty($_POST['order'])) {
-			$transaction = Yii::app()->db->beginTransaction('Sort','No treatment reasons');
-
 			foreach ($_POST['order'] as $i => $id) {
 				if ($drug = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk($id)) {
+					$transaction = $drug->beginTransaction('Sort');
+
 					$drug->display_order = $i+1;
 					if (!$drug->save()) {
 						$transaction->rollback();
 
 						throw new Exception("Unable to save drug: ".print_r($drug->getErrors(),true));
 					}
+
+					$transaction->commit();
 				}
 			}
-
-			$transaction->commit();
 		}
 	}
 
@@ -148,7 +151,7 @@ class AdminController extends ModuleAdminController
 				throw new Exception('cannot determine status for reason');
 			}
 
-			$transaction = Yii::app()->db->beginTransaction(($_POST['enabled'] ? 'Enable' : 'Disable'), 'No treatment reason');
+			$transaction = $model->beginTransaction(($_POST['enabled'] ? 'Enable' : 'Disable'));
 
 			if ($_POST['enabled']) {
 				$model->enabled = true;
@@ -194,10 +197,11 @@ class AdminController extends ModuleAdminController
 			$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
 		}
 
-		$transaction = Yii::app()->db->beginTransaction('List','Injection management complex questions');
+		$transaction = Yii::app()->db->beginTransaction('List');
 
 		Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
 
+		$transaction->setModel(new OphCiExamination_InjectionManagementComplex_Question);
 		$transaction->commit();
 
 		$this->render('list_diagnosis_questions',array(
@@ -235,11 +239,12 @@ class AdminController extends ModuleAdminController
 				}
 				$model->display_order = $display_order;
 
-				$transaction = Yii::app()->db->beginTransaction('Create','Injection management complex question');
+				$transaction = Yii::app()->db->beginTransaction('Create');
 
 				if ($model->save()) {
 					Audit::add('admin','create',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
 
+					$transaction->setModel($model);
 					$transaction->commit();
 
 					Yii::app()->user->setFlash('success', 'Injection Management Disorder Question added');
@@ -270,7 +275,7 @@ class AdminController extends ModuleAdminController
 			// process submission
 			$model->attributes = $_POST['OphCiExamination_InjectionManagementComplex_Question'];
 
-			$transaction = Yii::app()->db->beginTransaction('Update','Injection management complex question');
+			$transaction = $model->beginTransaction('Update');
 
 			if ($model->save()) {
 				Audit::add('admin','update',$model->id,null,array('module'=>'OphCiExamination','model'=>'InjectionManagementComplex_Question'));
@@ -296,20 +301,20 @@ class AdminController extends ModuleAdminController
 	public function actionSortQuestions()
 	{
 		if (!empty($_POST['order'])) {
-			$transaction = Yii::app()->db->beginTransaction('Sort','Injection management complex questions');
-
 			foreach ($_POST['order'] as $i => $id) {
 				if ($question = OphCiExamination_InjectionManagementComplex_Question::model()->findByPk($id)) {
+					$transaction = $question->beginTransaction('Sort');
+
 					$question->display_order = $i+1;
 					if (!$question->save()) {
 						$transaction->rollback();
 
 						throw new Exception("Unable to save question: ".print_r($question->getErrors(),true));
 					}
+
+					$transaction->commit();
 				}
 			}
-
-			$transaction->commit();
 		}
 	}
 
@@ -323,7 +328,7 @@ class AdminController extends ModuleAdminController
 				throw new Exception('cannot determine status for question');
 			}
 
-			$transaction = Yii::app()->db->beginTransaction('Set status','Injection management complex question');
+			$transaction = $model->beginTransaction('Set status');
 
 			if ($_POST['enabled']) {
 				$model->enabled = true;
@@ -347,10 +352,11 @@ class AdminController extends ModuleAdminController
 
 	public function actionViewWorkflows()
 	{
-		$transaction = Yii::app()->db->beginTransaction('List','Workflows');
+		$transaction = Yii::app()->db->beginTransaction('List');
 
 		Audit::add('admin','list',null,false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_Workflow'));
 
+		$transaction->setModel(new OphCiExamination_Workflow);
 		$transaction->commit();
 
 		$this->render('list_OphCiExamination_Workflow', array(
@@ -370,7 +376,7 @@ class AdminController extends ModuleAdminController
 		if (isset($_POST['OphCiExamination_ElementSet'])) {
 			$model->attributes = $_POST['OphCiExamination_ElementSet'];
 
-			$transaction = Yii::app()->db->beginTransaction('Edit','Workflow');
+			$transaction = $model->beginTransaction('Update');
 
 			if ($model->save()) {
 				Audit::add('admin','update',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_ElementSet'));
@@ -441,6 +447,7 @@ class AdminController extends ModuleAdminController
 		}
 
 		if (isset($transaction)) {
+			$transaction->setModel(new OphCiExamination_ElementSet);
 			$transaction->commit();
 		}
 
@@ -460,7 +467,7 @@ class AdminController extends ModuleAdminController
 		}
 
 		if (!OphCiExamination_ElementSetItem::model()->find('set_id=? and element_type_id=?',array($step->id,$element_type->id))) {
-			$transaction = Yii::app()->db->beginTransaction('Create','Element type to workflow step');
+			$transaction = Yii::app()->db->beginTransaction('Create');
 
 			$item = new OphCiExamination_ElementSetItem;
 			$item->set_id = $step->id;
@@ -470,6 +477,7 @@ class AdminController extends ModuleAdminController
 				throw new Exception("Unable to save element set item: ".print_r($item->getErrors(),true));
 			}
 
+			$transaction->setModel($item);
 			$transaction->commit();
 		}
 
@@ -482,7 +490,7 @@ class AdminController extends ModuleAdminController
 			throw new Exception("Element set item not found: ".@$_POST['element_type_item_id']." in set ".@$_POST['step_id']);
 		}
 
-		$transaction = Yii::app()->db->beginTransaction('Delete','Element type to workflow step');
+		$transaction = $item->beginTransaction('Delete');
 
 		if (!$item->delete()) {
 			$transaction->rollback();
@@ -513,7 +521,7 @@ class AdminController extends ModuleAdminController
 			$current_last_position = 0;
 		}
 
-		$transaction = Yii::app()->db->beginTransaction('Create','Workflow step');
+		$transaction = Yii::app()->db->beginTransaction('Create');
 
 		$set = new OphCiExamination_ElementSet;
 		$set->workflow_id = $workflow->id;
@@ -526,6 +534,7 @@ class AdminController extends ModuleAdminController
 			throw new Exception("Unable to save element set: ".print_r($set->getErrors(),true));
 		}
 
+		$transaction->setModel($set);
 		$transaction->commit();
 
 		echo json_encode(array(
@@ -545,7 +554,7 @@ class AdminController extends ModuleAdminController
 		$criteria->addCondition('set_id = :set_id');
 		$criteria->params[':set_id'] = $step->id;
 
-		$transaction = Yii::app()->db->beginTransaction('Delete','Workflow step');
+		$transaction = $step->beginTransaction('Delete');
 
 		OphCiExamination_ElementSetItem::model()->deleteAll($criteria);
 
@@ -566,7 +575,7 @@ class AdminController extends ModuleAdminController
 			throw new Exception("Unknown element set ".@$_POST['element_set_id']." for workflow ".@$_POST['workflow_id']);
 		}
 
-		$transaction = Yii::app()->db->beginTransaction('Update','Workflow step');
+		$transaction = $step->beginTransaction('Update');
 
 		$step->name = @$_POST['step_name'];
 
@@ -583,10 +592,11 @@ class AdminController extends ModuleAdminController
 
 	public function actionViewWorkflowRules()
 	{
-		$transaction = Yii::app()->db->beginTransaction('List','Workflow rules');
+		$transaction = Yii::app()->db->beginTransaction('List');
 
 		Audit::add('admin','list',null,false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_Workflow_Rule'));
 
+		$transaction->setModel(new OphCiExamination_Workflow_Rule);
 		$transaction->commit();
 
 		$this->render('list_OphCiExamination_Workflow_Rules', array(
@@ -606,7 +616,7 @@ class AdminController extends ModuleAdminController
 		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
 
 		if (isset($_POST['OphCiExamination_Workflow_Rule'])) {
-			$transaction = Yii::app()->db->beginTransaction('Update','Workflow rule');
+			$transaction = $model->beginTransaction('Update');
 
 			$model->attributes = $_POST['OphCiExamination_Workflow_Rule'];
 
@@ -638,13 +648,14 @@ class AdminController extends ModuleAdminController
 		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
 
 		if (isset($_POST['OphCiExamination_Workflow_Rule'])) {
-			$transaction = Yii::app()->db->beginTransaction('Create','Workflow rule');
+			$transaction = Yii::app()->db->beginTransaction('Create');
 
 			$model->attributes = $_POST['OphCiExamination_Workflow_Rule'];
 
 			if ($model->save()) {
 				Audit::add('admin','update',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_Workflow_Rule'));
 
+				$transaction->setModel($model);
 				$transaction->commit();
 
 				Yii::app()->user->setFlash('success', 'Workflow rule updated');
@@ -665,18 +676,18 @@ class AdminController extends ModuleAdminController
 	public function actionDeleteWorkflowRules()
 	{
 		if (is_array(@$_POST['workflowrules'])) {
-			$transaction = Yii::app()->db->beginTransaction('Delete','Workflow rules');
-
 			foreach ($_POST['workflowrules'] as $rule_id) {
 				if ($rule = OphCiExamination_Workflow_Rule::model()->findByPk($rule_id)) {
+					$transaction = $rule->beginTransaction('Delete');
+
 					if (!$rule->delete()) {
 						$transaction->rollback();
 						throw new Exception("Unable to delete workflow rule: ".print_r($rule->getErrors(),true));
 					}
+
+					$transaction->commit();
 				}
 			}
-
-			$transaction->commit();
 		}
 
 		echo "1";

@@ -167,7 +167,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 			else {
 				//add a secondary diagnosis
 				// Note that this may be creating duplicate diagnoses, but that is okay as the dates on them will differ
-				$this->event->episode->patient->addDiagnosis($u_disorder['disorder_id'],
+				$this->event->episode->patient->basedOnTransactionID($_POST['based_on_transaction_id'])->addDiagnosis($u_disorder['disorder_id'],
 					$u_disorder['eye_id'], substr($this->event->created_date,0,10));
 				// and track
 				$secondary_disorder_ids[] = $u_disorder['disorder_id'];
@@ -187,7 +187,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
 			if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
 				if (!in_array($sd->disorder_id,$secondary_disorder_ids)) {
-					$this->event->episode->patient->removeDiagnosis($sd->id);
+					$this->event->episode->patient->basedOnTransactionID($_POST['based_on_transaction_id'])->removeDiagnosis($sd->id);
 				}
 			}
 		}
