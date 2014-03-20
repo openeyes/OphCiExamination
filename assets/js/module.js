@@ -476,7 +476,9 @@ $(document).ready(function() {
 		var desc = id.substr(0,id.length-2) + 'desc';
 		dr_grade.find('.'+desc).hide();
 		dr_grade.find('#'+desc + '_' + grade.replace(/\s+/g, '')).show();
-		$('#drgrading_dirty').show();
+		if ($('.js-active-elements .Element_OphCiExamination_PosteriorPole').length) {
+			$('#drgrading_dirty').show();
+		}
 
 		$(this).closest('.wrapper').removeClass('high severe high-risk proliferative maculopathy moderate pre-prolif mild early background peripheral ungradable low none');
 		$(this).closest('.wrapper').addClass($('option:selected', this).attr('class'));
@@ -497,7 +499,9 @@ $(document).ready(function() {
 		'input[name="Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
 		'input[name="Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
 			, 'change', function(e) {
-		$('#drgrading_dirty').show();
+				if ($('.js-active-elements .Element_OphCiExamination_PosteriorPole').length) {
+					$('#drgrading_dirty').show();
+				}
 	});
 
 	$(this).delegate('a#drgrading_dirty', 'click', function(e) {
@@ -1361,7 +1365,42 @@ function OphCiExamination_DRGrading_update(side) {
 	}
 }
 
-function OphCiExamination_DRGrading_init(previous_id) {
+function OphCiExamination_PosteriorPole_init() {
+	$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+
+		var drawingName = $(this).attr('data-drawing-name');
+
+		var func = function() {
+			var _drawing = window[drawingName];
+			var side = 'right';
+			if (_drawing.eye) {
+				side = 'left';
+			}
+			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.' + dr_grade_et_class);
+			var dr_side = dr_grade.find('.side[data-side="'+side+'"]');
+
+			OphCiExamination_DRGrading_dirtyCheck(_drawing);
+
+			if (!$('#drgrading_dirty').is(":visible")) {
+				var grades = gradeCalculator(_drawing);
+
+				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
+			}
+		};
+
+		//if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
+		if (window[drawingName]) {
+			func();
+		}
+		else {
+			edChecker = getOEEyeDrawChecker();
+			edChecker.registerForReady(func);
+		}
+		//}
+	});
+}
+
+function OphCiExamination_DRGrading_init() {
 
 	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
 		autoOpen: false,
@@ -1380,44 +1419,7 @@ function OphCiExamination_DRGrading_init(previous_id) {
 		});
 	});
 
-	$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
-
-		var drawingName = $(this).attr('data-drawing-name');
-
-		var func = function() {
-			var _drawing = window[drawingName];
-			var side = 'right';
-			if (_drawing.eye) {
-				side = 'left';
-			}
-			var dr_grade = $('#' + _drawing.canvas.id).closest('.element').find('.sub-elements.active .' + dr_grade_et_class);
-			var dr_side = dr_grade.find('.side[data-side="'+side+'"]');
-
-			if (dr_side.hasClass('uninitialised')) {
-				OphCiExamination_DRGrading_dirtyCheck(_drawing);
-			}
-
-			if (previous_id) {
-				$('#drgrading_dirty').show();
-			}
-
-			if (!$('#drgrading_dirty').is(":visible")) {
-				var grades = gradeCalculator(_drawing);
-
-				updateDRGrades(_drawing, grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
-			}
-		};
-
-		//if (!$("." + dr_grade_et_class).hasClass('uninitialised')) {
-			if (window[drawingName]) {
-				func();
-			}
-			else {
-				edChecker = getOEEyeDrawChecker();
-				edChecker.registerForReady(func);
-			}
-		//}
-	});
+	OphCiExamination_PosteriorPole_init();
 
 	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
 		var quick = $(this);
