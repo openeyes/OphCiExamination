@@ -20,7 +20,7 @@
 <?php $methods = CHtml::listData(OphCiExamination_AnteriorSegment_CCT_Method::model()->activeOrPk(array($element->right_method_id,$element->left_method_id))->findAll(array('order' => 'display_order')),'id','name') ?>
 <div class="element-eyes sub-element-fields">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField'))?>
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-attr="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row collapse field-row">
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-attr="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row collapse field-row">

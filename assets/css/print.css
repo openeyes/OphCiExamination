@@ -83,21 +83,3 @@
     margin: 10px 0;
   }
 }
-
-#OphCiExamination_print .left { clear: left; float: left; width: 48%; position: relative; }
-#OphCiExamination_print .right { clear: right; float: right; width: 48%; position: relative; }
-
-.data { display: inline-block; }
-
-.data-row .column {display: inline-block; float: left; }
-.data-label { padding-right: 10px }
-.data-row { clear: both; }
-
-.gonio-cross { display: inline-block; width: 80px; height: 120px; background: url(../img/cross_print.gif?bust=1) no-repeat center center !important; overflow: hidden; position: relative; margin-top: 5px; -webkit-print-color-adjust:exact;}
-.gonio-cross div { position: absolute; text-align: center; }
-.gonio-cross .gonio-sup { top: 15px; width: 100%; }
-.gonio-cross .gonio-tem { left: 5px; top: 50%; height: 20px; margin-top: -10px; }
-.gonio-cross .gonio-nas { right: 5px; top: 50%; height: 20px; margin-top: -10px; }
-.gonio-cross .gonio-inf { bottom: 15px; width: 100%; }
-
-div.dilation_table table { width: 90% }

@@ -366,6 +366,31 @@ class AdminController extends ModuleAdminController
 		));
 	}
 
+	public function actionAddWorkflow()
+	{
+		$model = new OphCiExamination_Workflow();
+		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
+		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
+
+		if (isset($_POST['OphCiExamination_Workflow'])) {
+			$model->attributes = $_POST['OphCiExamination_Workflow'];
+
+			if ($model->save()) {
+				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_Workflow'));
+				Yii::app()->user->setFlash('success', 'Workflow added');
+
+				$this->redirect(array('viewWorkflowRules'));
+			}
+		}
+
+		$this->render('update', array(
+						'model' => $model,
+						'title' => 'Add workflow',
+						'cancel_uri' => '/OphCiExamination/admin/viewWorkflows',
+				));
+	}
+
+
 	public function actionEditWorkflow($id)
 	{
 		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);

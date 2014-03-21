@@ -46,7 +46,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 				if((reset($clinical_retinopathys)==$clinical && !isset($selected_value)) || $selected_value==$clinical->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_clinicalret_desc" id="' . get_class($element). '_' . $side . '_clinicalret_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
+				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_clinicalret_desc" id="' . get_class($element). '_' . $side . '_clinicalret_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
 			} ?>
 		</div>
 		<div id="<?php echo get_class($element). '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalret_id'; ?>">
@@ -93,7 +93,7 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 				if((reset($nsc_retinopathys)== $retin && !isset($selected_value)) || $selected_value==$retin->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div?' ':'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_nscretinopathy_desc" id="' . get_class($element). '_' . $side . '_nscretinopathy_desc_' . $retin->name . '">' . $retin->description . '</div>';
+				echo '<div '.($show_div?' ':'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_nscretinopathy_desc" id="' . get_class($element). '_' . $side . '_nscretinopathy_desc_' . $retin->code . '">' . $retin->description . '</div>';
 			}?>
 		</div>
 		<div id="<?php echo get_class($element). '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
@@ -138,7 +138,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php foreach ($clinical_maculopathys as $clinical) {
-				echo '<div style="display: none;" class="' . get_class($element). '_'. $side.'_clinicalmac_desc" id="' . get_class($element). '_' . $side . '_clinicalmac_desc_' . preg_replace('/\s+/', '', $clinical->name) . '">' . $clinical->description . '</div>';
+				echo '<div style="display: none;" class="' . get_class($element). '_'. $side.'_clinicalmac_desc" id="' . get_class($element). '_' . $side . '_clinicalmac_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
 			}
 			?>
 		</div>
@@ -185,7 +185,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 				if((reset($nsc_maculopathys)==$macu && !isset($selected_value)) || $selected_value==$macu->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc desc" id="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc_' . $macu->name . '">' . $macu->description . '</div>';
+				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc desc" id="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc_' . $macu->code . '">' . $macu->description . '</div>';
 			}
 			?>
 		</div>

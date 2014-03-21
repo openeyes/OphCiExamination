@@ -19,8 +19,8 @@
 ?>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($element->hasRight()) {?>
-			<div class="data-row">
+		<div class="data-row">
+			<?php if ($element->hasRight()) {?>
 				<table class="element-table">
 					<thead>
 						<tr>
@@ -39,14 +39,14 @@
 						<?php }?>
 					</tbody>
 				</table>
-			</div>
-		<?php } else {?>
-			<div class="data-value">Not recorded</div>
-		<?php }?>
+			<?php } else {?>
+				<div class="data-value">None given</div>
+			<?php }?>
+		</div>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($element->hasLeft()) {?>
-			<div class="data-row">
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {?>
 				<table class="element-table">
 					<thead>
 						<tr>
@@ -65,9 +65,9 @@
 						<?php }?>
 					</tbody>
 				</table>
-			</div>
-		<?php } else {?>
-			<div class="data-value">Not recorded</div>
-		<?php }?>
+			<?php } else {?>
+				<div class="data-value">None given</div>
+			<?php }?>
+		</div>
 	</div>
 </div>

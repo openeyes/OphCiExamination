@@ -94,6 +94,8 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 	}
 
 	public function setDefaultOptions() {
+		$this->left_axis = 0;
+		$this->right_axis = 0;
 		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
 			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
 				if ($refraction = $api->getRefractionForLatestCataractReferralInEpisode($episode->id)) {
