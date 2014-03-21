@@ -52,14 +52,14 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function getEventElements()
 	{
-		if ($this->event) {
+		if (!$this->event || $this->event->isNewRecord) {
+			$elements = $this->getElementsByWorkflow(null, $this->episode);
+		}
+		else  {
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
 			}
-		}
-		else {
-			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
 
 		return $this->filterElements($elements);
