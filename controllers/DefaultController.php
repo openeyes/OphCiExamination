@@ -616,7 +616,7 @@ class DefaultController extends BaseEventTypeController
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
 			$diagnoses[] = array(
-				'eye_id' => $eyes[$i],
+				'eye_id' => $eyes[$i+1],
 				'disorder_id' => $disorder_id,
 				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
 			);
