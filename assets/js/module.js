@@ -82,7 +82,7 @@ function gradeCalculator(_drawing) {
 			}
 		}
 
-		if (countArray['Microaneurysm'] > 0) {
+		if (countArray['Microaneurysm'] > 0 || countArray['HardExudate'] > 0) {
 			clinicalret = 'MN';
 		}
 
