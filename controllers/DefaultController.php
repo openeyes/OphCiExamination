@@ -52,14 +52,14 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function getEventElements()
 	{
-		if ($this->event) {
+		if (!$this->event || $this->event->isNewRecord) {
+			$elements = $this->getElementsByWorkflow(null, $this->episode);
+		}
+		else  {
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
 			}
-		}
-		else {
-			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
 
 		return $this->filterElements($elements);
@@ -616,7 +616,7 @@ class DefaultController extends BaseEventTypeController
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
 			$diagnoses[] = array(
-				'eye_id' => $eyes[$i],
+				'eye_id' => $eyes[$i+1],
 				'disorder_id' => $disorder_id,
 				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
 			);
