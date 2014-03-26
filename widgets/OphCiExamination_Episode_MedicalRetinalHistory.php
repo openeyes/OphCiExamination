@@ -31,15 +31,15 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 		}
 
 		$va_axis = "Visual Acuity ({$va_unit->name})";
-		$crt_axis = "Maximum CRT (µm)";
+		$sft_axis = "Central SFT (µm)";
 
 		$chart = $this->createWidget('FlotChart', array('chart_id' => 'mr-history-chart', 'legend_id' => 'mr-history-legend'))
-			->configureYAxis($crt_axis, array('position' => 'right', 'min' => 250, 'max' => 600))
+			->configureYAxis($sft_axis, array('position' => 'right', 'min' => 50, 'max' => 1500))
 			->configureYAxis($va_axis, array('position' => 'left', 'min' => 1, 'max' => 150, 'ticks' => $va_ticks))
 			->configureSeries('Visual Acuity (right)', array('yaxis' => $va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
 			->configureSeries('Visual Acuity (left)', array('yaxis' => $va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
-			->configureSeries('Maximum CRT (right)', array('yaxis' => $crt_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
-			->configureSeries('Maximum CRT (left)', array('yaxis' => $crt_axis, 'lines' => array('show' => true), 'points' => array('show' => true)));
+			->configureSeries('Central SFT (right)', array('yaxis' => $sft_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
+			->configureSeries('Central SFT (left)', array('yaxis' => $sft_axis, 'lines' => array('show' => true), 'points' => array('show' => true)));
 
 		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
 
@@ -52,8 +52,8 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 
 		foreach ($events as $event) {
 			if (($oct = $event->getElementByClass('Element_OphCiExamination_OCT'))) {
-				if ($oct->hasRight()) $this->addCrtReading($chart, $oct, 'right');
-				if ($oct->hasLeft()) $this->addCrtReading($chart, $oct, 'left');
+				if ($oct->hasRight()) $this->addSftReading($chart, $oct, 'right');
+				if ($oct->hasLeft()) $this->addSftReading($chart, $oct, 'left');
 			}
 		}
 
@@ -109,11 +109,11 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 	 * @param Element_OphCiExamination_OCT $oct
 	 * @param string $side
 	 */
-	protected function addCrtReading(FlotChart $chart, Element_OphCiExamination_OCT $oct, $side)
+	protected function addSftReading(FlotChart $chart, Element_OphCiExamination_OCT $oct, $side)
 	{
-		$series_name = "Maximum CRT ({$side})";
-		$crt = $oct->{"{$side}_crt"};
-		$chart->addPoint($series_name, Helper::mysqlDate2JsTimestamp($oct->last_modified_date), $crt, "{$series_name}\n{$crt} µm");
+		$series_name = "Central SFT ({$side})";
+		$sft = $oct->{"{$side}_sft"};
+		$chart->addPoint($series_name, Helper::mysqlDate2JsTimestamp($oct->last_modified_date), $sft, "{$series_name}\n{$sft} µm");
 	}
 
 	/**
