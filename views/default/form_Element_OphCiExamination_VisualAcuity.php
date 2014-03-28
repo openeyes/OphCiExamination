@@ -110,7 +110,7 @@ $this->endClip('element-title-additional');
 					}?>
 				</tbody>
 			</table>
-			<div class="field-row row noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+			<div class="field-row row noReadings"<?php if ($left_readings) { ?> style="display: none;" <?php } ?>>
 				<div class="large-4 column">
 					<div class="field-info">Not recorded</div>
 				</div>
