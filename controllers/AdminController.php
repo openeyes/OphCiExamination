@@ -28,7 +28,7 @@ class AdminController extends ModuleAdminController
 	 */
 	public function actionViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason()
 	{
-		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->notDeleted()->findAll(array('order' => 'display_order asc'));
+		$model_list = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findAll(array('order' => 'display_order asc'));
 		$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
 		$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
 
@@ -154,9 +154,9 @@ class AdminController extends ModuleAdminController
 			$transaction = $model->beginTransaction(($_POST['enabled'] ? 'Enable' : 'Disable'));
 
 			if ($_POST['enabled']) {
-				$model->enabled = true;
+				$model->active = true;
 			} else {
-				$model->enabled = false;
+				$model->active = false;
 			}
 			if (!$model->save()) {
 				$transaction->rollback();
@@ -192,14 +192,14 @@ class AdminController extends ModuleAdminController
 			$criteria->condition = "disorder_id = :disorder_id";
 			$criteria->params = array(':disorder_id' => (int) $_GET['disorder_id']);
 
-			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->notDeleted()->findAll($criteria);
+			$model_list = OphCiExamination_InjectionManagementComplex_Question::model()->findAll($criteria);
 
 			$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortQuestions');
+
+			$transaction = Yii::app()->db->beginTransaction('List');
+
+			Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
 		}
-
-		$transaction = Yii::app()->db->beginTransaction('List');
-
-		Audit::add('admin','list-for-disorder',$_GET['disorder_id'],null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_InjectionManagementComplex_Question'));
 
 		$transaction->setModel(new OphCiExamination_InjectionManagementComplex_Question);
 		$transaction->commit();
@@ -331,9 +331,9 @@ class AdminController extends ModuleAdminController
 			$transaction = $model->beginTransaction('Set status');
 
 			if ($_POST['enabled']) {
-				$model->enabled = true;
+				$model->active = true;
 			} else {
-				$model->enabled = false;
+				$model->active = false;
 			}
 			if (!$model->save()) {
 				$transaction->rollback();
@@ -361,7 +361,7 @@ class AdminController extends ModuleAdminController
 
 		$this->render('list_OphCiExamination_Workflow', array(
 				'model_class' => 'OphCiExamination_Workflow',
-				'model_list' => OphCiExamination_Workflow::model()->notDeleted()->findAll(array('order'=>'name asc')),
+				'model_list' => OphCiExamination_Workflow::model()->findAll(array('order'=>'name asc')),
 				'title' => 'Workflows',
 		));
 	}

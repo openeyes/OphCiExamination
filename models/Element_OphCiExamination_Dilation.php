@@ -144,7 +144,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 		$drug_ids = CHtml::listData($treatments, 'id', 'drug_id');
 		$criteria->addNotInCondition('id',$drug_ids);
 		$criteria->order = 'display_order asc';
-		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->notDeleted()->findAll($criteria),'id','name');
+		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
 	}
 
 	protected function beforeValidate()

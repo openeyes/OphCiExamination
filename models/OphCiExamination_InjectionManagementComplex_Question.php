@@ -24,7 +24,7 @@
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $disorder_id
- * @property boolean $enabled
+ * @property boolean $active
  *
  * The followings are the available model relations:
  * @property Disorder $disorder
@@ -32,7 +32,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Question extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_InjectionManagementComplex_Question extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -57,12 +57,18 @@ class OphCiExamination_InjectionManagementComplex_Question extends BaseActiveRec
 	public function rules()
 	{
 		return array(
-				array('disorder_id, question, display_order, enabled', 'safe'),
+				array('disorder_id, question, display_order, active', 'safe'),
 				array('disorder_id, question, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, disorder_id, question, display_order, enabled', 'safe', 'on' => 'search'),
+				array('id, disorder_id, question, display_order, active', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

@@ -26,7 +26,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_AnteriorSegment_Pupil extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_AnteriorSegment_Pupil extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -43,6 +43,11 @@ class OphCiExamination_AnteriorSegment_Pupil extends BaseActiveRecordVersionedSo
 	public function tableName()
 	{
 		return 'ophciexamination_anteriorsegment_pupil';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

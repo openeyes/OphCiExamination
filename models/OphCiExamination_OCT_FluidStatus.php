@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_OCT_FluidStatus extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_OCT_FluidStatus extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -34,6 +34,11 @@ class OphCiExamination_OCT_FluidStatus extends BaseActiveRecordVersionedSoftDele
 	public function tableName()
 	{
 		return 'ophciexamination_oct_fluidstatus';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -53,6 +58,13 @@ class OphCiExamination_OCT_FluidStatus extends BaseActiveRecordVersionedSoftDele
 	public function relations()
 	{
 		return array(
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

@@ -25,7 +25,7 @@
  * @property integer $display_order
  * @property EpisodeStatus $episode_status
  */
-class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -49,6 +49,11 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecordVersionedSof
 		return 'ophciexamination_clinicoutcome_status';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model
 	 */
@@ -67,6 +72,13 @@ class OphCiExamination_ClinicOutcome_Status extends BaseActiveRecordVersionedSof
 	{
 		return array(
 				'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id')
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

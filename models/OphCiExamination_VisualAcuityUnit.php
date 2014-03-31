@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,6 +40,11 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersionedSoftDel
 	public function tableName()
 	{
 		return 'ophciexamination_visual_acuity_unit';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.name');
 	}
 
 	/**
@@ -61,6 +66,13 @@ class OphCiExamination_VisualAcuityUnit extends BaseActiveRecordVersionedSoftDel
 		return array(
 				'values' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'order' => 'base_value DESC'),
 				'selectableValues' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuityUnitValue', 'unit_id', 'on' => 'selectableValues.selectable = true', 'order' => 'base_value DESC'),
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 

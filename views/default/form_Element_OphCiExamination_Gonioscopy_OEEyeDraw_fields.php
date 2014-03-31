@@ -75,7 +75,7 @@ foreach (OphCiExamination_Gonioscopy_Description::model()->findAll() as $option)
 			<?php echo CHtml::link('images', '#', array('class' => 'foster_images_link')); ?>
 			):
 		</label>
-		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()->notDeletedOrPk($element->{$side.'_van_herick_id'})->findAll(array('order'=>'display_order')),'id','name'), array('class' => 'inline clearWithEyedraw')); ?>
+		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()->findAll(),'id','name'), array('class' => 'inline clearWithEyedraw')); ?>
 		<div data-side="<?php echo $side?>" class="foster_images_dialog"
 			title="Foster Images">
 			<img usemap="#<?php echo $side ?>_foster_images_map"

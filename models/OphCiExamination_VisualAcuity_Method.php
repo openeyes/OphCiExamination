@@ -25,7 +25,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_VisualAcuity_Method extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_VisualAcuity_Method extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,6 +42,11 @@ class OphCiExamination_VisualAcuity_Method extends BaseActiveRecordVersionedSoft
 	public function tableName()
 	{
 		return 'ophciexamination_visualacuity_method';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

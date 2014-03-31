@@ -24,7 +24,7 @@
  * @property string $name
  * @property integer $display_order
  */
-class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,6 +41,11 @@ class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecordVe
 	public function tableName()
 	{
 		return 'ophciexamination_cataractsurgicalmanagement_eye';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

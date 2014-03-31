@@ -27,7 +27,7 @@
 		</div>
 		<div class="large-9 column">
 			<?php
-			$options = OphCiExamination_Management_Status::model()->notDeletedOrPk($element->injection_status_id)->findAll(array('order'=>'display_order'));
+			$options = OphCiExamination_Management_Status::model()->activeOrPk($element->injection_status_id)->findAll();
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
 			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
@@ -46,7 +46,7 @@
 		</div>
 		<div class="large-9 column">
 			<?php
-			$options = OphCiExamination_Management_DeferralReason::model()->notDeletedOrPk($element->injection_deferralreason_id)->findAll(array('order'=>'display_order'));
+			$options = OphCiExamination_Management_DeferralReason::model()->activeOrPk($element->injection_deferralreason_id)->findAll();
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
 			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-other' => $opt->other);

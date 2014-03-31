@@ -52,14 +52,14 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function getEventElements()
 	{
-		if ($this->event) {
+		if (!$this->event || $this->event->isNewRecord) {
+			$elements = $this->getElementsByWorkflow(null, $this->episode);
+		}
+		else  {
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
 			}
-		}
-		else {
-			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
 
 		return $this->filterElements($elements);
@@ -225,10 +225,10 @@ class DefaultController extends BaseEventTypeController
 		if ($this->step) {
 			$current_child_types = array();
 			foreach ($open_child_elements as $open) {
-				$current_child_types[] = $open->getElementType();
+				$current_child_types[] = $open->getElementType()->class_name;
 			}
 			foreach ($this->getElementsByWorkflow(null, $this->episode, $parent_type->id) as $new_child_element) {
-				if (!in_array($new_child_element->getElementType(), $current_child_types)) {
+				if (!in_array($new_child_element->getElementType()->class_name, $current_child_types)) {
 					$open_child_elements[] = $new_child_element;
 				}
 			}
@@ -245,10 +245,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	public function getChildOptionalElements($parent_type)
 	{
-		$elements = parent::getChildOptionalElements($parent_type);
-		$open_elements = $this->getChildElements($parent_type);
-
-		return $this->filterElements($elements, $open_elements);
+		return $this->filterElements(parent::getChildOptionalElements($parent_type));
 	}
 
 	/**
@@ -337,6 +334,7 @@ class DefaultController extends BaseEventTypeController
 
 	/**
 	 * Get the array of elements for the current site, subspecialty, episode status and workflow position
+	 * If $parent_id is provided, restrict to children of that element_type id
 	 *
 	 * @param OphCiExamination_ElementSet $set
 	 * @param Episode $episode
@@ -356,7 +354,7 @@ class DefaultController extends BaseEventTypeController
 
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
-			if ((!$parent_id && !$element_type->parent_element_type_id) || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
+			if (!$parent_id || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
 				$elements[$element_type->id] = $element_type->getInstance();
 			}
 		}

@@ -21,19 +21,19 @@
 <?php echo CHtml::dropDownList(
 	get_class($element).'_'.$field.'_sign',
 	($element->$field > 0) ? 1 : -1,
-	CHtml::listData(OphCiExamination_Refraction_Sign::model()->notDeleted()->findAll(array('order'=>'display_order')), 'name', 'value'),
+	CHtml::listData(OphCiExamination_Refraction_Sign::model()->findAll(), 'name', 'value'),
 	array('class'=>'inline')
 )?>
 <?php echo CHtml::dropDownList(
 	get_class($element).'_'.$field.'_integer',
 	abs((int) $element->$field),
-	CHtml::listData(OphCiExamination_Refraction_Integer::model()->notDeleted()->findAll(array('order'=>'display_order')),'value','value'),
+	CHtml::listData(OphCiExamination_Refraction_Integer::model()->findAll(),'value','value'),
 	array('class'=>'inline')
 )?>
 <?php echo CHtml::dropDownList(
 	get_class($element).'_'.$field.'_fraction',
 	number_format(abs($element->$field) - (abs((int) $element->$field)),2),
-	CHtml::listData(OphCiExamination_Refraction_Fraction::model()->notDeleted()->findAll(array('order'=>'display_order')),'name','value'),
+	CHtml::listData(OphCiExamination_Refraction_Fraction::model()->findAll(),'name','value'),
 	array('class'=>'inline')
 )?>
 <?php echo CHtml::activeHiddenField($element, $field)?>

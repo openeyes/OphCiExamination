@@ -27,7 +27,7 @@
 					<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element))?>
 				</div>
 				<div class="fluid column">
-					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'right', 'element' => $element))?>
+					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'right', 'element' => $element, 'form' => $form))?>
 				</div>
 			</div>
 		</div>
@@ -47,7 +47,7 @@
 					<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element))?>
 				</div>
 				<div class="fluid column">
-					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'left', 'element' => $element))?>
+					<?php echo $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array('side' => 'left', 'element' => $element, 'form' => $form))?>
 				</div>
 			</div>
 		</div>

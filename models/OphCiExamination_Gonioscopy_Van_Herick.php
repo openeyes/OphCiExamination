@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Gonioscopy_Van_Herick extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_Gonioscopy_Van_Herick extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,6 +40,11 @@ class OphCiExamination_Gonioscopy_Van_Herick extends BaseActiveRecordVersionedSo
 	public function tableName()
 	{
 		return 'ophciexamination_gonioscopy_van_herick';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**

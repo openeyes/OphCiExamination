@@ -23,7 +23,7 @@
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends BaseActiveRecordVersionedSoftDelete
+class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,6 +40,11 @@ class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends Bas
 	public function tableName()
 	{
 		return 'ophciexamination_cataractsurgicalmanagement_sfsurgeon';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -59,6 +64,13 @@ class OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon extends Bas
 	public function relations()
 	{
 		return array();
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
 	}
 
 	/**
