@@ -32,11 +32,11 @@
 				))?>
 				<br>
 				<br>
-				Hospital No: <strong><?php echo $this->patient->hos_num ?></strong>
+				<?php echo $this->patient->getAttributeLabel('hos_num')?>: <strong><?php echo $this->patient->hos_num ?></strong>
 				<br>
-				NHS No: <strong><?php echo $this->patient->nhsnum ?></strong>
+				<?php echo $this->patient->getAttributeLabel('nhs_num')?>: <strong><?php echo $this->patient->nhsnum ?></strong>
 				<br>
-				DOB: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
+				<?php echo $this->patient->getAttributeLabel('dob')?>: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
 			</div>
 			<div class="headerDetails">
 				<?php if ($consultant = $this->event->episode->firm->consultant) { ?>
