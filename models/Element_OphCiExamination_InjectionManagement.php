@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_injectionmanagement".
  *
@@ -30,7 +32,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement
+class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 {
 	public $service;
 
@@ -78,11 +80,11 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement
 		// class name for the relations automatically generated below.
 		return array(
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'injection_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'injection_status_id'),
-				'injection_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'injection_deferralreason_id'),
+				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'injection_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'injection_status_id'),
+				'injection_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'injection_deferralreason_id'),
 		);
 	}
 
@@ -106,7 +108,7 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);

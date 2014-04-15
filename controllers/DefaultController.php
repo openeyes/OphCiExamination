@@ -17,11 +17,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\controllers;
+use Yii;
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
  */
 
-class DefaultController extends BaseEventTypeController
+class DefaultController extends \BaseEventTypeController
 {
 	static protected $action_types = array(
 		'step' => self::ACTION_TYPE_EDIT,
@@ -41,7 +43,8 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function beforeAction($action)
 	{
-		Yii::app()->assetManager->registerScriptFile('js/spliteventtype.js', null, null, AssetManager::OUTPUT_SCREEN);
+		Yii::app()->assetManager->registerScriptFile('js/spliteventtype.js', null, null, \AssetManager::OUTPUT_SCREEN);
+		$this->jsVars['OE_MODEL_PREFIX'] = 'OEModule_OphCiExamination_models_';
 		return parent::beforeAction($action);
 	}
 
@@ -75,9 +78,9 @@ class DefaultController extends BaseEventTypeController
 	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
-			$remove = array('Element_OphCiExamination_InjectionManagement');
+			$remove = array('\\OEModule\\OphCiExamination\\models\\Element_OphCiExamination_InjectionManagement');
 		} else {
-			$remove = array('Element_OphCiExamination_InjectionManagementComplex');
+			$remove = array('\\OEModule\\OphCiExamination\\models\\Element_OphCiExamination_InjectionManagementComplex');
 		}
 
 		$final = array();
@@ -95,7 +98,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function initEdit()
 	{
-		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = \OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
@@ -139,14 +142,14 @@ class DefaultController extends BaseEventTypeController
 			// and any other ophthalmic secondary diagnoses the patient has
 			$diagnoses = array();
 			if ($principal = $this->episode->diagnosis) {
-				$d = new OphCiExamination_Diagnosis();
+				$d = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $principal->id;
 				$d->principal = true;
 				$d->eye_id = $this->episode->eye_id;
 				$diagnoses[] = $d;
 			}
 			foreach ($this->patient->getOphthalmicDiagnoses() as $sd) {
-				$d = new OphCiExamination_Diagnosis();
+				$d = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $sd->disorder_id;
 				$d->eye_id = $sd->eye_id;
 				$diagnoses[] = $d;
@@ -215,9 +218,9 @@ class DefaultController extends BaseEventTypeController
 	{
 		if ($this->step) {
 			// Advance the workflow
-			if (!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+			if (!$assignment = \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 				// Create initial workflow assignment if event hasn't already got one
-				$assignment = new OphCiExamination_Event_ElementSet_Assignment();
+				$assignment = new \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment();
 				$assignment->event_id = $event->id;
 			}
 			if (!$next_step = $this->getNextStep($event)) {
@@ -277,7 +280,7 @@ class DefaultController extends BaseEventTypeController
 		$firm_id = $this->firm->id;
 		$status_id = $this->episode->episode_status_id;
 
-		return OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+		return \OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 	}
 
 	/**
@@ -290,7 +293,7 @@ class DefaultController extends BaseEventTypeController
 		if (!$event) {
 			$event = $this->event;
 		}
-		if ($assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+		if ($assignment = \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 			$step = $assignment->step;
 		} else {
 			$step = $this->getFirstStep();
@@ -367,7 +370,7 @@ class DefaultController extends BaseEventTypeController
 			$firm_id = $this->firm->id;
 			$subspecialty_id = $this->firm->getSubspecialtyID();
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
-			$set = OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$set = \OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
 
 		$element_types = $set->DefaultElementTypes;
@@ -414,7 +417,7 @@ class DefaultController extends BaseEventTypeController
 		$questions = array();
 		foreach (@$_GET['disorders'] as $did) {
 			if ((int) $did) {
-				foreach (Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
+				foreach (\OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
 					$questions[] = $q;
 				}
 			}
@@ -427,7 +430,7 @@ class DefaultController extends BaseEventTypeController
 				'htmlOptions' => array('class' => 'sliding'),
 		));
 
-		$element = new Element_OphCiExamination_InjectionManagementComplex();
+		$element = new \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex();
 
 		// and now render
 		$this->renderPartial(
@@ -448,7 +451,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	public function getAttributes($element, $subspecialty_id = null)
 	{
-		$attributes = OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
+		$attributes = \OEModule\OphCiExamination\models\OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
 		return $attributes;
 	}
 
@@ -469,7 +472,7 @@ class DefaultController extends BaseEventTypeController
 			if ($element->$checker()) {
 				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
 					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
-						$answer = new OphCiExamination_InjectionManagementComplex_Answer();
+						$answer = new \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Answer();
 						$answer->question_id = $id;
 						$answer->answer = $p_ans;
 						$answer->eye_id = $eye_id;
@@ -478,7 +481,7 @@ class DefaultController extends BaseEventTypeController
 				}
 				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
 					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
-						if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+						if ($risk = \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
 							$risks[] = $risk;
 						}
 					}
@@ -531,7 +534,7 @@ class DefaultController extends BaseEventTypeController
 			if ($element->$checker()) {
 				if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
 					foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
-						if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+						if ($ft = \OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
 							$fts[] = $ft;
 						}
 					}

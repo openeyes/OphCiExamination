@@ -18,6 +18,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_element_set_item".
  *
@@ -26,7 +28,7 @@
  * @property ElementType $element_type
  * @property integer $default
  */
-class OphCiExamination_ElementSetItem extends BaseActiveRecordVersioned
+class OphCiExamination_ElementSetItem extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -61,7 +63,7 @@ class OphCiExamination_ElementSetItem extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'set' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'set_id'),
+				'set' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'set_id'),
 				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
 		);
 	}
@@ -82,7 +84,7 @@ class OphCiExamination_ElementSetItem extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,

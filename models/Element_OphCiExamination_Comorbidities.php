@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * The followings are the available columns in table 'et_ophciexamination_comorbidities':
  * @property integer $id
@@ -26,7 +28,7 @@
  * @property Event $event
  * @property OphCiExamination_Comorbidities_Item[] $items
  */
-class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
+class Element_OphCiExamination_Comorbidities extends \BaseEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -68,11 +70,11 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'items' => array(self::MANY_MANY, 'OphCiExamination_Comorbidities_Item', 'ophciexamination_comorbidities_assignment(element_id, item_id)', 'order' => 'display_order, name'),
+				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'items' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item', 'ophciexamination_comorbidities_assignment(element_id, item_id)', 'order' => 'display_order, name'),
 		);
 	}
 
@@ -94,7 +96,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -119,7 +121,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 
 	public function getItemIds()
 	{
-		return CHtml::listData($this->items, 'id', 'id');
+		return \CHtml::listData($this->items, 'id', 'id');
 	}
 
 	public function getSummary()

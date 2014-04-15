@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_diagnoses". It's worth noting that this Element was originally
  * designed to provide a shortcut interface to setting patient diagnoses. Recording the specifics in the element as well
@@ -31,7 +33,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
+class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 {
 	public $service;
 
@@ -76,11 +78,11 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'diagnoses' => array(self::HAS_MANY, 'OphCiExamination_Diagnosis', 'element_diagnoses_id',
+				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'diagnoses' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Diagnosis', 'element_diagnoses_id',
 					'order' => 'principal desc',
 				),
 		);
@@ -108,7 +110,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -125,7 +127,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 	 * Update the diagnoses for this element using a hash structure of
 	 * [{
 	 * 		'disorder_id' => integer,
-	 * 		'eye_id' => Eye::LEFT|Eye::RIGHT|Eye::BOTH,
+	 * 		'eye_id' => \Eye::LEFT|\Eye::RIGHT|\Eye::BOTH,
 	 * 		'principal' => boolean
 	 * }, ... ]
 	 *
@@ -212,7 +214,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 				if (@$_POST['principal_diagnosis'] == $disorder_id) {
-					$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : Eye::BOTH;
+					$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH;
 					$principal_eye = $eye_id;
 				}
 			}
@@ -225,7 +227,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 		if (isset($_POST['selected_diagnoses'])) {
 			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 				$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
-				$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : Eye::BOTH;
+				$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH;
 
 				if (!$diagnosis) {
 					$diagnosis = new OphCiExamination_Diagnosis;
@@ -294,7 +296,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 				foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
 					$diagnoses[] = array(
 						'disorder' => Disorder::model()->findByPk($disorder_id),
-						'eye_id' => isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : Eye::BOTH,
+						'eye_id' => isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH,
 						'principal' => (@$_POST['principal_diagnosis'] == $disorder_id),
 					);
 				}
@@ -322,7 +324,7 @@ class Element_OphCiExamination_Diagnoses extends BaseEventTypeElement
 					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
 						if (isset($diagnoses[$sd->disorder_id])) {
 							if ($sd->eye_id != $diagnoses[$sd->disorder_id]['eye_id']) {
-								$sd->eye_id = Eye::model()->find('name=?',array('Both'))->id;
+								$sd->eye_id = \Eye::model()->find('name=?',array('Both'))->id;
 							}
 						}
 

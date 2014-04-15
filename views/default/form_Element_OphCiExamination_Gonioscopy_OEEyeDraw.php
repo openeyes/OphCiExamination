@@ -29,7 +29,7 @@ $onReadyCommandArray = array(
 	array('addDoodle', array('Gonioscopy'))
 );
 foreach (array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
-	$bindingArray[$doodleClass]['grade'] = array('id' => 'Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
+	$bindingArray[$doodleClass]['grade'] = array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
 	if (!$expert) {
 		$bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
 	}

@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_injectmanagecomplex_notreatmentreason". It is used to define a lookup of reasons for not providing an injection treatment
  *
@@ -29,8 +31,7 @@
  *
  */
 
-
-class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecordVersioned
+class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends \BaseActiveRecordVersioned
 {
 	const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
 

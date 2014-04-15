@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
 /**
  * This is the model class for table "et_ophciexamination_visualacuity".
  *
@@ -43,7 +46,7 @@
  * @property Event $event
  */
 
-class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
+class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -92,15 +95,15 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
+			'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
-			'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
-			'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
-			'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
+			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+			'unit' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit', 'unit_id'),
+			'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading', 'element_id'),
+			'right_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
+			'left_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
 		);
 	}
 
@@ -168,9 +171,9 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			$unit = $this->unit;
 		}
 		if ($selectable) {
-			return CHtml::listData($unit->selectableValues, 'base_value', 'value');
+			return \CHtml::listData($unit->selectableValues, 'base_value', 'value');
 		} else {
-			return CHtml::listData($unit->values, 'base_value', 'value');
+			return \CHtml::listData($unit->values, 'base_value', 'value');
 		}
 	}
 
@@ -184,7 +187,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 
 		$unit_values = $unit->selectableValues;
 
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->condition = 'id <> :unit_id AND active = 1';
 		$criteria->params = array(':unit_id' => $unit->id);
 		$criteria->order = 'name';
@@ -219,10 +222,10 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 				}
 			}
 			// need to JSONify the options data
-			$options[$idx]['data-tooltip'] = CJSON::encode($options[$idx]['data-tooltip']);
+			$options[$idx]['data-tooltip'] = \CJSON::encode($options[$idx]['data-tooltip']);
 		}
 
-		return array(CHtml::listData($unit_values, 'base_value', 'value'), $options);
+		return array(\CHtml::listData($unit_values, 'base_value', 'value'), $options);
 
 	}
 
@@ -307,7 +310,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -339,11 +342,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			}
 		}
 		return $return;
-	}
-
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
 	}
 
 	protected function beforeDelete()

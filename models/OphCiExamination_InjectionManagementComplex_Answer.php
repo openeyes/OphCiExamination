@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during
  * an examination for any given diagnosis
@@ -34,7 +36,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecordVersioned
+class OphCiExamination_InjectionManagementComplex_Answer extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -75,7 +77,7 @@ class OphCiExamination_InjectionManagementComplex_Answer extends BaseActiveRecor
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'question' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_Question', 'question_id'),
+			'question' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Question', 'question_id'),
 		);
 	}
 

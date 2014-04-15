@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_oct_fluidtype".
  *
@@ -26,9 +28,7 @@
  * @properity integer $display_order
  *
  */
-
-
-class OphCiExamination_OCT_FluidType extends BaseActiveRecordVersioned
+class OphCiExamination_OCT_FluidType extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

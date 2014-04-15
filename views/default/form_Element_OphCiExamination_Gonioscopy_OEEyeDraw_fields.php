@@ -20,7 +20,7 @@
 <?php
 $expert = $element->getSetting('expert');
 $html_options = array();
-foreach (OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
+foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
 	$html_options[(string) $option->id] = array('data-value'=> $option->name);
 }
 ?>
@@ -69,13 +69,13 @@ foreach (OphCiExamination_Gonioscopy_Description::model()->findAll() as $option)
 	<?php } ?>
 
 	<div class="van_herick field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_van_herick_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_van_herick_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_van_herick_id'); ?>
 			(
 			<?php echo CHtml::link('images', '#', array('class' => 'foster_images_link')); ?>
 			):
 		</label>
-		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OphCiExamination_Gonioscopy_Van_Herick::model()->findAll(),'id','name'), array('class' => 'inline clearWithEyedraw')); ?>
+		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Van_Herick::model()->findAll(),'id','name'), array('class' => 'inline clearWithEyedraw')); ?>
 		<div data-side="<?php echo $side?>" class="foster_images_dialog"
 			title="Foster Images">
 			<img usemap="#<?php echo $side ?>_foster_images_map"
@@ -92,7 +92,7 @@ foreach (OphCiExamination_Gonioscopy_Description::model()->findAll() as $option)
 	</div>
 
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_description';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_description';?>">
 			<?php echo $element->getAttributeLabel($side.'_description'); ?>:
 		</label>
 		<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'class' => 'autosize clearWithEyedraw')) ?>

@@ -17,7 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_LaserManagement_LaserType extends BaseActiveRecordVersioned
+namespace OEModule\OphCiExamination\models;
+
+class OphCiExamination_LaserManagement_LaserType extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

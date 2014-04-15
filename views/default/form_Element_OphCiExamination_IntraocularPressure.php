@@ -20,10 +20,10 @@
 <div class="element-fields element-eyes row">
 	<div class="element-eye right-eye column">
 		<div class="field-row">
-			<?php echo $form->dropDownList($element, 'right_reading_id', 'OphCiExamination_IntraocularPressure_Reading', array('class' => 'inline iopReading', 'nowrapper'=>true))?>
+			<?php echo $form->dropDownList($element, 'right_reading_id', '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', array('class' => 'inline iopReading', 'nowrapper'=>true))?>
 			<span class="unit">mmHg,</span>
 			<?php if ($element->getSetting('show_instruments')) {
-				echo $form->dropDownList($element, 'right_instrument_id', 'OphCiExamination_Instrument', array('class' => 'inline iopInstrument', 'nowrapper'=>true));
+				echo $form->dropDownList($element, 'right_instrument_id', '\OEModule\OphCiExamination\models\OphCiExamination_Instrument', array('class' => 'inline iopInstrument', 'nowrapper'=>true));
 			} else {
 				echo $form->hiddenField($element, 'right_instrument_id');
 			}?>
@@ -31,10 +31,10 @@
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="field-row">
-			<?php echo $form->dropDownList($element, 'left_reading_id', 'OphCiExamination_IntraocularPressure_Reading', array('class' => 'inline iopReading', 'nowrapper'=>true))?>
+			<?php echo $form->dropDownList($element, 'left_reading_id', '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', array('class' => 'inline iopReading', 'nowrapper'=>true))?>
 			<span class="unit">mmHg,</span>
 			<?php if ($element->getSetting('show_instruments')) {
-				echo $form->dropDownList($element, 'left_instrument_id', 'OphCiExamination_Instrument', array('class' => 'inline iopInstrument', 'nowrapper'=>true));
+				echo $form->dropDownList($element, 'left_instrument_id', '\OEModule\OphCiExamination\models\OphCiExamination_Instrument', array('class' => 'inline iopInstrument', 'nowrapper'=>true));
 			} else {
 				echo $form->hiddenField($element, 'left_instrument_id');
 			}?>

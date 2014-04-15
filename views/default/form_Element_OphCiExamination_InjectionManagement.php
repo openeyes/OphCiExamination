@@ -18,7 +18,7 @@
  */
 ?>
 
-<div class="sub-element-fields" id="div_<?php echo get_class($element)?>_injection">
+<div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection">
 	<div class="row field-row">
 		<div class="large-3 column">
 			<label>
@@ -27,7 +27,7 @@
 		</div>
 		<div class="large-9 column">
 			<?php
-			$options = OphCiExamination_Management_Status::model()->activeOrPk($element->injection_status_id)->findAll();
+			$options = \OEModule\OphCiExamination\models\OphCiExamination_Management_Status::model()->activeOrPk($element->injection_status_id)->findAll();
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
 			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
@@ -37,7 +37,7 @@
 	</div>
 </div>
 
-<div class="sub-element-fields" id="div_<?php echo get_class($element)?>_injection_deferralreason"<?php if (!($element->injection_status && $element->injection_status->deferred)) {?> style="display: none;"<?php }?>>
+<div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection_deferralreason"<?php if (!($element->injection_status && $element->injection_status->deferred)) {?> style="display: none;"<?php }?>>
 	<div class="row field-row">
 		<div class="large-3 column">
 			<label>
@@ -46,7 +46,7 @@
 		</div>
 		<div class="large-9 column">
 			<?php
-			$options = OphCiExamination_Management_DeferralReason::model()->activeOrPk($element->injection_deferralreason_id)->findAll();
+			$options = \OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason::model()->activeOrPk($element->injection_deferralreason_id)->findAll();
 			$html_options = array('empty'=>'- Please select -', 'options' => array());
 			foreach ($options as $opt) {
 				$html_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
@@ -56,7 +56,7 @@
 	</div>
 </div>
 
-<div class="sub-element-fields" id="div_<?php echo get_class($element)?>_injection_deferralreason_other"<?php if (!($element->injection_deferralreason && $element->injection_deferralreason->other)) {?> style="display: none;"<?php }?>>
+<div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection_deferralreason_other"<?php if (!($element->injection_deferralreason && $element->injection_deferralreason->other)) {?> style="display: none;"<?php }?>>
 	<div class="row field-row">
 		<div class="large-3 column">
 			<label>

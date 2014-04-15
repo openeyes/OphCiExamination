@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_opticdisc".
  *
@@ -38,7 +40,7 @@
  * @property OphCiExamination_OpticDisc_CDRatio $left_cd_ratio
  * @property OphCiExamination_OpticDisc_CDRatio $right_cd_ratio
  */
-class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
+class Element_OphCiExamination_OpticDisc extends \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -104,15 +106,15 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'left_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_CDRatio', 'left_cd_ratio_id'),
-				'right_cd_ratio' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_CDRatio', 'right_cd_ratio_id'),
-				'left_lens' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_Lens', 'left_lens_id'),
-				'right_lens' => array(self::BELONGS_TO, 'OphCiExamination_OpticDisc_Lens', 'right_lens_id'),
+				'left_cd_ratio' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_CDRatio', 'left_cd_ratio_id'),
+				'right_cd_ratio' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_CDRatio', 'right_cd_ratio_id'),
+				'left_lens' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_Lens', 'left_lens_id'),
+				'right_lens' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_Lens', 'right_lens_id'),
 		);
 	}
 
@@ -143,7 +145,7 @@ class Element_OphCiExamination_OpticDisc extends SplitEventTypeElement
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);

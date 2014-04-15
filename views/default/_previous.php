@@ -20,10 +20,10 @@
 <div id="previous_elements" class="event previous-elements">
 	<?php foreach ($elements as $element) { ?>
 		<div class="element-container">
-			<section class="element <?php echo $element->elementType->class_name ?>"
+			<section class="element <?php echo CHtml::modelName($element) ?>"
 				data-element-id="<?php echo $element->id ?>"
 				data-element-type-id="<?php echo $element->elementType->id ?>"
-				data-element-type-class="<?php echo $element->elementType->class_name ?>"
+				data-element-type-class="<?php echo CHtml::modelName($element) ?>"
 				data-element-type-name="<?php echo $element->elementType->name ?>"
 				data-element-display-order="<?php echo $element->elementType->display_order ?>">
 
@@ -44,7 +44,7 @@
 			<?php if ($element->canCopy()) {?>
 				<div class="actions">
 					<button name="copy" class="copy_element small"
-						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo $element->elementType->class_name ?>">
+						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo CHtml::modelName($element) ?>">
 						Copy
 					</button>
 				</div>

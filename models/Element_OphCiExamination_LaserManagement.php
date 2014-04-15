@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_lasermanagement".
  *
@@ -46,7 +48,7 @@
  *
  */
 
-class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
+class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -110,16 +112,16 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		// class name for the relations automatically generated below.
 		return array(
 			'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+			'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'left_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'left_laser_status_id'),
-			'right_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'right_laser_status_id'),
-			'left_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'left_laser_deferralreason_id'),
-			'right_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'right_laser_deferralreason_id'),
-			'left_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
-			'right_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
+			'left_laser_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'left_laser_status_id'),
+			'right_laser_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'right_laser_status_id'),
+			'left_laser_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'left_laser_deferralreason_id'),
+			'right_laser_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'right_laser_deferralreason_id'),
+			'left_lasertype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
+			'right_lasertype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
 		);
 	}
 
@@ -153,7 +155,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);

@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_visualacuity_reading".
  *
@@ -27,7 +29,7 @@
  * @property integer $method_id
 
  */
-class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
+class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -64,8 +66,8 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_VisualAcuity', 'element_id'),
-				'method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'method_id'),
+				'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity', 'element_id'),
+				'method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method', 'method_id'),
 		);
 	}
 
@@ -75,7 +77,7 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);
 		$criteria->compare('method_id',$this->method_id,true);
@@ -109,7 +111,7 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecordVersioned
 		if (!$unit_id) {
 			$unit_id = $this->element->unit_id;
 		}
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');
 		$criteria->condition = 'unit_id = :unit_id';
 		$criteria->params = array(':unit_id' => $unit_id, ':base_value' => $base_value);

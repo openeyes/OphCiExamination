@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_oct_method".
  *
@@ -25,7 +27,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_OCT_Method extends BaseActiveRecordVersioned 
+class OphCiExamination_OCT_Method extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,7 +41,7 @@ class OphCiExamination_OCT_Method extends BaseActiveRecordVersioned
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() 
+	public function tableName()
 	{
 		return 'ophciexamination_oct_method';
 	}
@@ -82,7 +84,7 @@ class OphCiExamination_OCT_Method extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);

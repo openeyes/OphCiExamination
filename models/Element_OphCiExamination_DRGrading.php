@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_drgrading".
  *
@@ -54,7 +56,7 @@
  *
  */
 
-class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
+class Element_OphCiExamination_DRGrading extends \SplitEventTypeElement
 {
 	public $service;
 	public $secondarydiagnosis_disorder_required = false;
@@ -121,19 +123,19 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		// class name for the relations automatically generated below.
 		return array(
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
-				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
-				'left_clinicalret' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalRetinopathy', 'left_clinicalret_id'),
-				'left_clinicalmac' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalMaculopathy', 'left_clinicalmac_id'),
-				'right_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
-				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
-				'right_clinicalret' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalRetinopathy', 'right_clinicalret_id'),
-				'right_clinicalmac' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalMaculopathy', 'right_clinicalmac_id'),
+				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'left_nscretinopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
+				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
+				'left_clinicalret' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalRetinopathy', 'left_clinicalret_id'),
+				'left_clinicalmac' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalMaculopathy', 'left_clinicalmac_id'),
+				'right_nscretinopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
+				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
+				'right_clinicalret' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalRetinopathy', 'right_clinicalret_id'),
+				'right_clinicalmac' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalMaculopathy', 'right_clinicalmac_id'),
 		);
 	}
 
@@ -171,7 +173,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
