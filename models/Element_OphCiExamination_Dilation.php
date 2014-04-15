@@ -79,8 +79,8 @@ class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
 			'treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id'),
-			'right_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = ' . Eye::RIGHT),
-			'left_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = ' . Eye::LEFT),
+			'right_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = ' . \Eye::RIGHT),
+			'left_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = ' . \Eye::LEFT),
 		);
 	}
 
