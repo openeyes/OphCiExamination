@@ -1720,10 +1720,10 @@ function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
 }
 
 function OphCiExamination_OpticDisc_updateCDRatio(field) {
-	var cdratio_field = $(field).closest('.eyedrawFields').find('.cd-ratio');
+	var cdratio_field = $(field).closest('.eyedraw-fields').find('.cd-ratio');
 	var _drawing = window[$(field).closest('.side').find('canvas').first().attr('data-drawing-name')];
 	if($(field).val() == 'Basic') {
-		$(field).closest('.eyedrawFields').find('.cd-ratio-readonly').remove();
+		$(field).closest('.eyedraw-fields').find('.cd-ratio-readonly').remove();
 		_drawing.unRegisterForNotifications(this);
 		cdratio_field.show();
 	} else {

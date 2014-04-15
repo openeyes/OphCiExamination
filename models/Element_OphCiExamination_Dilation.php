@@ -216,7 +216,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			$t_obj->treatment_time = $treatment_time;
 			$save[] = $t_obj;
 		}
-		
+
 		foreach ($save as $s) {
 			if (!$s->save()) {
 				throw new Exception('unable to save treatment:' . print_r($s->getErrors(), true));

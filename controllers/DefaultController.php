@@ -25,8 +25,8 @@ class DefaultController extends BaseEventTypeController
 {
 	static protected $action_types = array(
 		'step' => self::ACTION_TYPE_EDIT,
-		'getDisorderTableRow' => self::ACTION_TYPE_FORM,
-		'loadInjectionQuestions' => self::ACTION_TYPE_FORM
+		'getDisorder' => self::ACTION_TYPE_FORM,
+		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
