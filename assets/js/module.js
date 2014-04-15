@@ -1005,7 +1005,7 @@ function enableTextMacro(select, index, option) {
 }
 
 function OphCiExamination_Dilation_getNextKey() {
-	var keys = $('#event-content .Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
+	var keys = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_Dilation .dilationTreatment').map(function(index, el) {
 		return parseInt($(el).attr('data-key'));
 	}).get();
 	if(keys.length) {
