@@ -556,6 +556,37 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
+	 * set the dilation treatments against the element from the provided data
+	 *
+	 * @param Element_OphCiExamination_Dilation $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_Dilation(Element_OphCiExamination_Dilation $element, $data, $index)
+	{
+		$model_name = CHtml::modelName($element);
+		foreach (array('left' => Eye::LEFT, 'right' => Eye::RIGHT) as $side => $eye_id) {
+			$dilations = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_treatments'])) {
+					foreach ($data[$model_name][$side . '_treatments'] as $idx => $p_treat) {
+						if (@$p_treat['id']) {
+							$dilation = OphCiExamination_Dilation_Treatment::model()->findByPk($p_treat['id']);
+						}
+						else {
+							$dilation = new OphCiExamination_Dilation_Treatment();
+						}
+						$dilation->attributes = $p_treat;
+						$dilations[] = $dilation;
+					}
+				}
+				$element->{$side . '_treatments'} = $dilations;
+			}
+		}
+	}
+
+	/**
 	 * Save question answers and risks
 	 *
 	 * @param $element
@@ -621,5 +652,24 @@ class DefaultController extends BaseEventTypeController
 		}
 		$element->updateDiagnoses($diagnoses);
 	}
+
+	/**
+	 * Save the dilation treatments
+	 *
+	 * @param Element_OphCiExamination_Dilation $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_Dilation(Element_OphCiExamination_Dilation $element, $data, $index)
+	{
+		$model_name = CHtml::modelName($element);
+		$element->updateTreatments(Eye::LEFT, $element->hasLeft() ?
+				@$data[$model_name]['left_treatments'] :
+				array());
+		$element->updateTreatments(Eye::RIGHT, $element->hasRight() ?
+						@$data[$model_name]['right_treatments'] :
+						array());
+	}
+
 
 }

@@ -18,8 +18,6 @@
  */
 ?>
 <?php
-$left_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'left') : $element->left_treatments);
-$right_treatments = (isset($_POST['dilation_treatments_valid']) ? $element->convertTreatments(@$_POST['dilation_treatment'], 'right') : $element->right_treatments);
 $key = 0;
 ?>
 <div class="element-fields element-eyes row">
@@ -34,7 +32,7 @@ $key = 0;
 					Clear
 				</button>
 			</div>
-			<table class="plain grid dilation_table"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
+			<table class="plain grid dilation_table"<?php if (!$element->right_treatments) {?> style="display: none;"<?php }?>>
 				<thead>
 					<tr>
 						<th>Time</th>
@@ -44,8 +42,9 @@ $key = 0;
 					</tr>
 				</thead>
 				<tbody class="plain" id="dilation_right">
-					<?php foreach ($right_treatments as $treatment) {
+					<?php foreach ($element->right_treatments as $treatment) {
 							$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment',array(
+								'name_stub' => CHtml::modelName($element) . '[right_treatments]',
 								'treatment' => $treatment,
 								'key' => $key,
 								'side' => $treatment->side,
@@ -74,7 +73,7 @@ $key = 0;
 					Clear
 				</button>
 			</div>
-			<table class="plain grid dilation_table"<?php if (!$right_treatments) {?> style="display: none;"<?php }?>>
+			<table class="plain grid dilation_table"<?php if (!$element->left_treatments) {?> style="display: none;"<?php }?>>
 				<thead>
 					<tr>
 						<th>Time</th>
@@ -84,8 +83,9 @@ $key = 0;
 					</tr>
 				</thead>
 				<tbody class="plain" id="dilation_left">
-					<?php foreach ($left_treatments as $treatment) {
+					<?php foreach ($element->left_treatments as $treatment) {
 							$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment',array(
+								'name_stub' => CHtml::modelName($element) . '[left_treatments]',
 								'treatment' => $treatment,
 								'key' => $key,
 								'side' => $treatment->side,
@@ -109,6 +109,7 @@ $key = 0;
 <script id="dilation_treatment_template" type="text/html">
 	<?php
 	$this->renderPartial('form_Element_OphCiExamination_Dilation_Treatment', array(
+			'name_stub' => CHtml::modelName($element) . '[{{side}}_treatments]',
 			'key' => '{{key}}',
 			'side' => '{{side}}',
 			'drug_name' => '{{drug_name}}',

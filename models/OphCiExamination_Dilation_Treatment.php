@@ -53,6 +53,7 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecordVersioned
 	{
 		return array(
 				array('side, drug_id, drops, element_id, treatment_time', 'safe'),
+				array('treatment_time', 'isValidTimeValue'),
 				array('id, side, drug_id, drops, element_id, treatment_time', 'safe', 'on'=>'search'),
 		);
 	}
@@ -84,5 +85,18 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecordVersioned
 		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Checks that the field is a valid time.
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function isValidTimeValue($attribute, $params)
+	{
+		if (!preg_match("/^(([01]?[0-9])|(2[0-3])):?[0-5][0-9]$/", $this->$attribute)) {
+			$this->addError($attribute,'Invalid treatment time');
+		}
 	}
 }

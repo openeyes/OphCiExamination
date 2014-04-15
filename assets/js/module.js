@@ -1016,7 +1016,7 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 		var template = $('#dilation_treatment_template').html();
 		var data = {
 			"key" : OphCiExamination_Dilation_getNextKey(),
-			"side" : (side == 'right' ? 0 : 1),
+			"side" : side,
 			"drug_name" : drug_name,
 			"drug_id" : drug_id
 		};
