@@ -30,7 +30,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterHistory($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($history = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_History')) {
+			if ($history = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_History')) {
 				return strtolower($history->description);
 			}
 		}
@@ -48,7 +48,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterIOPReadingBoth($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_IntraocularPressure')) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure')) {
 				return $iop->getLetter_reading('right')." on the right, and ".$iop->getLetter_reading('left')." on the left";
 			}
 		}
@@ -57,7 +57,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterIOPReadingLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_IntraocularPressure')) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure')) {
 				return $iop->getLetter_reading('left');
 			}
 		}
@@ -66,7 +66,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterIOPReadingRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_IntraocularPressure')) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure')) {
 				return $iop->getLetter_reading('right');
 			}
 		}
@@ -93,7 +93,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterAnteriorSegmentLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($as = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_AnteriorSegment')) {
+			if ($as = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment')) {
 				return $as->left_description;
 			}
 		}
@@ -102,7 +102,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterAnteriorSegmentRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($as = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_AnteriorSegment')) {
+			if ($as = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment')) {
 				return $as->right_description;
 			}
 		}
@@ -129,7 +129,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterPosteriorPoleLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($ps = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_PosteriorPole')) {
+			if ($ps = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_PosteriorPole')) {
 				return $ps->left_description;
 			}
 		}
@@ -138,7 +138,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterPosteriorPoleRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($ps = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_PosteriorPole')) {
+			if ($ps = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_PosteriorPole')) {
 				return $ps->right_description;
 			}
 		}
@@ -165,7 +165,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getBestVisualAcuity($patient, $episode, $side)
 	{
-		if ($va = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_VisualAcuity')) {
+		if ($va = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')) {
 			switch ($side) {
 				case 'left':
 					return $va->getBestReading('left');
@@ -231,7 +231,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterVisualAcuityFindings($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'Element_OphCiExamination_VisualAcuity')) {
+			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')) {
 				return $va->getLetter_string();
 			}
 		}
@@ -325,7 +325,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterConclusion($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($conclusion = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Conclusion')) {
+			if ($conclusion = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_Conclusion')) {
 				return $conclusion->description;
 			}
 		}
@@ -342,7 +342,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterManagement($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($management = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Management')) {
+			if ($management = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_Management')) {
 				return $management->comments;
 			}
 		}
@@ -359,7 +359,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterAdnexalComorbidityRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($ac = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_AdnexalComorbidity')) {
+			if ($ac = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_AdnexalComorbidity')) {
 				return $ac->right_description;
 			}
 		}
@@ -368,7 +368,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterAdnexalComorbidityLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($ac = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_AdnexalComorbidity')) {
+			if ($ac = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_AdnexalComorbidity')) {
 				return $ac->left_description;
 			}
 		}
@@ -384,7 +384,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getLetterDRRetinopathy($patient, $episode, $side)
 	{
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_DRGrading')) {
 			$res = $dr->{$side."_nscretinopathy"};
 			if ($dr->{$side."_nscretinopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
@@ -420,7 +420,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getDRMaculopathy($patient, $episode, $side)
 	{
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_DRGrading')) {
 			$res = $dr->{$side."_nscmaculopathy"};
 			if ($dr->{$side."_nscmaculopathy_photocoagulation"}) {
 				$res .= " and evidence of photocoagulation";
@@ -456,7 +456,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getDRClinicalRet($patient, $episode, $side)
 	{
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_DRGrading')) {
 			if ($ret = $dr->{$side."_clinicalret"}) {
 				return $ret->name;
 			};
@@ -487,7 +487,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getDRClinicalMac($patient, $episode, $side)
 	{
-		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_DRGrading')) {
+		if ($dr = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_DRGrading')) {
 			if ($mac = $dr->{$side."_clinicalmac"}) {
 				return $mac->name;
 			}
@@ -517,7 +517,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterLaserManagementPlan($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_LaserManagement')) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_LaserManagement')) {
 				return $m->getLetter_string();
 			}
 		}
@@ -532,7 +532,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterLaserManagementFindings($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'Element_OphCiExamination_LaserManagement')) {
+			if ($va = $this->getElementForLatestEventInEpisode($patient, $episode,'\OEModule\OphCiExamination\models\Element_OphCiExamination_LaserManagement')) {
 				return $va->getLetter_string();
 			}
 		}
@@ -547,7 +547,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterLaserManagementComments($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Management')) {
+			if ($m = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_Management')) {
 				return $m->comments;
 			}
 		}
@@ -562,7 +562,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterOutcomeFollowUpPeriod($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_ClinicOutcome')) {
+			if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_ClinicOutcome')) {
 				if ($o->followup_quantity) {
 					return $o->followup_quantity . " " . $o->followup_period;
 				}
@@ -587,7 +587,7 @@ class OphCiExamination_API extends BaseAPI
 				$criteria = new CDbCriteria;
 				$criteria->compare('event_id',$event->id);
 
-				$diagnoses_el = Element_OphCiExamination_Diagnoses::model()->find($criteria);
+				$diagnoses_el = \OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses::model()->find($criteria);
 				if ($diagnoses_el) {
 					foreach ($diagnoses_el->diagnoses as $diagnosis) {
 						$disorders[] = array('disorder_id' => $diagnosis->disorder_id, 'eye_id' => $diagnosis->eye_id);
@@ -653,7 +653,7 @@ class OphCiExamination_API extends BaseAPI
 	 * @param Episode $episode
 	 * @param string $side
 	 *
-	 * @return Element_OphCiExamination_InjectionManagementComplex
+	 * @return \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex
 	 */
 	public function getInjectionManagementComplexInEpisodeForSide($patient, $episode, $side)
 	{
@@ -670,7 +670,7 @@ class OphCiExamination_API extends BaseAPI
 			$criteria->compare('event_id', $event->id);
 			$criteria->addInCondition('eye_id', $eye_vals);
 
-			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+			if ($el = \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
 				return $el;
 			}
 		}
@@ -688,7 +688,7 @@ class OphCiExamination_API extends BaseAPI
 	 * @param int $disorder1_id
 	 * @param int $disorder2_id
 	 *
-	 * @return Element_OphCiExamination_InjectionManagementComplex
+	 * @return \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex
 	 */
 	public function getInjectionManagementComplexInEpisodeForDisorder($patient, $episode, $side, $disorder1_id, $disorder2_id)
 	{
@@ -706,7 +706,7 @@ class OphCiExamination_API extends BaseAPI
 					$criteria->addCondition($side . '_diagnosis2_id IS NULL');
 				}
 
-				if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+				if ($el = \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
 					return $el;
 				}
 			}
@@ -722,7 +722,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getInjectionManagementQuestionsForDisorder($disorder_id)
 	{
 		try {
-			Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
+			\OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($disorder_id);
 		} catch (Exception $e) {
 			return array();
 		}
@@ -747,7 +747,7 @@ class OphCiExamination_API extends BaseAPI
 				$criteria->addCondition('created_date > ?');
 				$criteria->params[] = $after->format('Y-m-d H:i:s');
 			}
-			if ($el = Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
+			if ($el = \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->find($criteria)) {
 				return $el;
 			}
 		}
@@ -778,7 +778,7 @@ class OphCiExamination_API extends BaseAPI
 				$criteria->compare('event_id',$event->id);
 				$criteria->addInCondition('eye_id', $side_list);
 
-				if ($el = Element_OphCiExamination_OCT::model()->find($criteria)) {
+				if ($el = \OEModule\OphCiExamination\models\Element_OphCiExamination_OCT::model()->find($criteria)) {
 					return array($el->{$side . '_crt'}, $el->{$side . '_sft'});
 				}
 			}
@@ -811,7 +811,7 @@ class OphCiExamination_API extends BaseAPI
 					$criteria->params[':edt'] = $before;
 				}
 
-				if ($el = Element_OphCiExamination_OCT::model()->with('event')->find($criteria)) {
+				if ($el = \OEModule\OphCiExamination\models\Element_OphCiExamination_OCT::model()->with('event')->find($criteria)) {
 					$res[] = array('date' => $event->created_date, 'sft' => $el->{$side . '_sft'});
 				}
 			}
@@ -829,7 +829,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterInvestigationDescription($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_Investigation')) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_Investigation')) {
 				return $el->description;
 			}
 		}
@@ -845,7 +845,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterMaxCRTForSide($patient, $side) {
 
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_OCT')) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_OCT')) {
 				return $el->{$side . '_crt'} . 'um';
 			}
 		}
@@ -879,7 +879,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getLetterCentralSFTForSide($patient, $side) {
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_OCT')) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_OCT')) {
 				return $el->{$side . '_sft'} . 'um';
 			}
 		}
@@ -916,7 +916,7 @@ class OphCiExamination_API extends BaseAPI
 	public function getLetterInjectionManagementComplexDiagnosisForSide($patient, $side)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_InjectionManagementComplex')) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex')) {
 				if ($d = $el->{$side . '_diagnosis1'}) {
 					$res = $d->term;
 					if ($d2 = $el->{$side . '_diagnosis2'}) {
@@ -961,7 +961,7 @@ class OphCiExamination_API extends BaseAPI
 	 */
 	public function getLetterInjectionManagementComplexFindings($patient) {
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'Element_OphCiExamination_InjectionManagementComplex')) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex')) {
 				return $el->getLetter_string();
 			}
 		}

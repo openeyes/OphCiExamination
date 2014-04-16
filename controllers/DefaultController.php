@@ -19,6 +19,7 @@
 
 namespace OEModule\OphCiExamination\controllers;
 use Yii;
+
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
  */
@@ -528,12 +529,13 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
+		$model_name = \CHtml::modelName($element);
 		foreach (array('left', 'right') as $side) {
 			$fts = array();
 			$checker = 'has' . ucfirst($side);
 			if ($element->$checker()) {
-				if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
-					foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
+				if (isset($data[$model_name][$side . '_fluidtypes'])) {
+					foreach ($data[$model_name][$side . '_fluidtypes'] as $ft_id) {
 						if ($ft = \OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
 							$fts[] = $ft;
 						}
@@ -643,11 +645,12 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
-		$element->updateFluidTypes(Eye::LEFT, $element->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
-				$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+		$model_name = \CHtml::modelName($element);
+		$element->updateFluidTypes(\Eye::LEFT, $element->hasLeft() && isset($data[$model_name]['left_fluidtypes']) ?
+				$data[$model_name]['left_fluidtypes'] :
 				array());
-		$element->updateFluidTypes(Eye::RIGHT, $element->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
-				$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
+		$element->updateFluidTypes(\Eye::RIGHT, $element->hasRight() && isset($data[$model_name]['right_fluidtypes']) ?
+				$data[$model_name]['right_fluidtypes'] :
 				array());
 	}
 

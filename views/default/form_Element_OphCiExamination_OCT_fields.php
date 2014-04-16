@@ -26,8 +26,8 @@ if ($event = $element->event) {
 	$event_date = $event->created_date;
 }
 $hide_fluid = true;
-if (@$_POST[get_class($element)]) {
-	if ($_POST[get_class($element)][$side . '_dry'] == '0') {
+if (@$_POST[CHtml::modelName($element)]) {
+	if ($_POST[CHtml::modelName($element)][$side . '_dry'] == '0') {
 		$hide_fluid = false;
 	}
 }
@@ -38,13 +38,13 @@ else {
 }
 ?>
 
-<?php echo $form->dropDownList($element, $side . '_method_id', 'OphCiExamination_OCT_Method', array(), false, array('label'=>4,'field'=>3)) ?>
+<?php echo $form->dropDownList($element, $side . '_method_id', '\OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', array(), false, array('label'=>4,'field'=>3)) ?>
 
 <?php echo $form->textField($element, $side . '_crt', array('append-text' => '&micro;m'),null,array('label'=>4,'field'=>'3','append-text'=>'4')) ?>
 
 <div class="data-row row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_sft';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_sft';?>">
 			<?php echo $element->getAttributeLabel($side . '_sft') ?>:
 		</label>
 	</div>
@@ -73,28 +73,28 @@ else {
 <?php echo $form->radioBoolean($element, $side . '_thickness_increase',array(),array('label'=>4,'field'=>8))?>
 <?php echo $form->radioBoolean($element, $side . '_dry',array(),array('label'=>4,'field'=>8)) ?>
 
-<div class="field-row" id="<?php echo get_class($element) . '_' . $side; ?>_fluid_fields"<?php if ($hide_fluid) { echo ' style="display: none;"'; }?>>
+<div class="field-row" id="<?php echo CHtml::modelName($element) . '_' . $side; ?>_fluid_fields"<?php if ($hide_fluid) { echo ' style="display: none;"'; }?>>
 	<?php
 	$html_options = array(
 		'style' => 'margin-bottom: 10px; width: 240px;',
 		'options' => array(),
 		'empty' => '- Please select -',
-		'div_id' =>  get_class($element) . '_' . $side . '_fluidtypes',
+		'div_id' =>  CHtml::modelName($element) . '_' . $side . '_fluidtypes',
 		'label' => 'Findings');
-	$fts = OphCiExamination_OCT_FluidType::model()->activeOrPk($element->fluidTypeValues)->findAll();
+	$fts = \OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType::model()->activeOrPk($element->fluidTypeValues)->findAll();
 	foreach ($fts as $ft) {
 		$html_options['options'][(string) $ft->id] = array('data-order' => $ft->display_order);
 	}
-	echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>6));
+	echo $form->multiSelectList($element, CHtml::modelName($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>6));
 	?>
 	<div class="row">
 		<div class="large-4 column">
-			<label for="<?php echo get_class($element).'_'.$side.'_fluidstatus_id';?>">
+			<label for="<?php echo CHtml::modelName($element).'_'.$side.'_fluidstatus_id';?>">
 				<?php echo $element->getAttributeLabel($side . '_fluidstatus_id'); ?>:
 			</label>
 		</div>
 		<div class="large-6 column end">
-			<?php echo $form->dropDownList($element, $side . '_fluidstatus_id', 'OphCiExamination_OCT_FluidStatus', array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?>
+			<?php echo $form->dropDownList($element, $side . '_fluidstatus_id', '\OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', array('nowrapper' => true, 'empty' => ' - Please Select - ')) ?>
 		</div>
 	</div>
 </div>
