@@ -372,7 +372,7 @@ $(document).ready(function() {
 
 				if ($(this).children('td:nth-child(4)').children('a:first').attr('rel') == code[i]) {
 					already_in_list = true;
-					list_eye_id = $('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']"]:checked').val();
+					list_eye_id = $('input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+id+']"]:checked').val();
 					existing_id = id;
 				}
 			});
@@ -381,7 +381,7 @@ $(document).ready(function() {
 
 			if (already_in_list) {
 				if (eye_id != list_eye_id) {
-					$('input[name="Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
+					$('input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+existing_id+']"][value="3"]').attr('checked','checked');
 				}
 			} else {
 				$.ajax({
