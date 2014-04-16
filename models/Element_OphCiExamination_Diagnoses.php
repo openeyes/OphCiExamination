@@ -185,7 +185,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		// ensure secondary diagnoses are consistent
 		// FIXME: ongoing discussion as to whether we should be removing diagnosis from the patient here
 		// particularly if this is a save of an older examination record.
-		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
+		foreach (\SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
 			if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
 				if (!in_array($sd->disorder_id,$secondary_disorder_ids)) {
 					$this->event->episode->patient->removeDiagnosis($sd->id);
@@ -194,190 +194,6 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		}
 
 	}
-
-	/*
-	protected function afterSave()
-	{
-		$disorder_ids = array();
-		$secondary_diagnosis_ids = array();
-
-		$diagnosis_eyes = array();
-
-		if (isset($_POST['Element_OphCiExamination_Diagnoses'])) {
-			foreach ($_POST['Element_OphCiExamination_Diagnoses'] as $key => $value) {
-				if (preg_match('/^eye_id_[0-9]+$/',$key)) {
-					$diagnosis_eyes[] = $value;
-				}
-			}
-		}
-
-		if (isset($_POST['selected_diagnoses'])) {
-			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-				if (@$_POST['principal_diagnosis'] == $disorder_id) {
-					$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH;
-					$principal_eye = $eye_id;
-				}
-			}
-		}
-
-		if (isset($_POST['principal_diagnosis'])) {
-			$this->event->episode->setPrincipalDiagnosis($_POST['principal_diagnosis'], $principal_eye);
-		}
-
-		if (isset($_POST['selected_diagnoses'])) {
-			foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnosis = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and disorder_id=?',array($this->id,$disorder_id));
-				$eye_id = isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH;
-
-				if (!$diagnosis) {
-					$diagnosis = new OphCiExamination_Diagnosis;
-					$diagnosis->element_diagnoses_id = $this->id;
-					$diagnosis->disorder_id = $disorder_id;
-				}
-
-				$diagnosis->eye_id = $eye_id;
-
-				if (@$_POST['principal_diagnosis'] == $disorder_id) {
-					$diagnosis->principal = true;
-				} else {
-					$diagnosis->principal = false;
-				}
-
-				if (!$diagnosis->save()) {
-					throw new Exception('Unable to save diagnosis: '.print_r($diagnosis->getErrors(),true));
-				}
-
-				if (@$_POST['principal_diagnosis'] != $disorder_id) {
-					$this->event->episode->patient->addDiagnosis($disorder_id, $eye_id, substr($this->event->created_date,0,10));
-					$secondary_diagnosis_ids[] = $disorder_id;
-				}
-
-				$disorder_ids[] = $disorder_id;
-			}
-		}
-
-		foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=?',array($this->id)) as $diagnosis) {
-			if (!in_array($diagnosis->disorder_id,$disorder_ids)) {
-				if (!$diagnosis->delete()) {
-					throw new Exception('Unable to delete diagnosis: '.print_r($diagnosis->getErrors(),true));
-				}
-			}
-		}
-
-		foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($this->event->episode->patient_id)) as $sd) {
-			if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
-				if (!in_array($sd->disorder_id,$secondary_diagnosis_ids)) {
-					$this->event->episode->patient->removeDiagnosis($sd->id);
-				}
-			}
-		}
-
-		parent::afterSave();
-	}
-
-	public function getFormDiagnoses()
-	{
-		$diagnoses = array();
-
-		$episode = Yii::app()->getController()->episode;
-
-		$diagnosis_eyes = array();
-
-		if (isset($_POST['Element_OphCiExamination_Diagnoses'])) {
-			foreach ($_POST['Element_OphCiExamination_Diagnoses'] as $key => $value) {
-				if (preg_match('/^eye_id_[0-9]+$/',$key)) {
-					$diagnosis_eyes[] = $value;
-				}
-			}
-		}
-
-		if (!empty($_POST)) {
-			if (isset($_POST['selected_diagnoses'])) {
-				foreach ($_POST['selected_diagnoses'] as $i => $disorder_id) {
-					$diagnoses[] = array(
-						'disorder' => Disorder::model()->findByPk($disorder_id),
-						'eye_id' => isset($diagnosis_eyes[$i]) ? $diagnosis_eyes[$i] : \Eye::BOTH,
-						'principal' => (@$_POST['principal_diagnosis'] == $disorder_id),
-					);
-				}
-			}
-		} elseif ($this->event) {
-			foreach ($this->diagnoses as $i => $diagnosis) {
-				$diagnoses[] = array(
-					'disorder' => $diagnosis->disorder,
-					'eye_id' => $diagnosis->eye_id,
-					'principal' => $diagnosis->principal,
-				);
-			}
-		} else {
-			if ($episode && $episode->diagnosis) {
-				$diagnoses[] = array(
-					'disorder' => $episode->diagnosis,
-					'eye_id' => $episode->eye_id,
-					'principal' => true,
-				);
-			}
-
-			$patient_id = Yii::app()->controller->patient->id;
-			foreach (SecondaryDiagnosis::model()->findAll('patient_id=?',array($patient_id)) as $sd) {
-				if (!$episode || $sd->disorder_id != $episode->disorder_id || $episode->eye_id != $sd->eye_id) {
-					if ($sd->disorder->specialty && $sd->disorder->specialty->code == 130) {
-						if (isset($diagnoses[$sd->disorder_id])) {
-							if ($sd->eye_id != $diagnoses[$sd->disorder_id]['eye_id']) {
-								$sd->eye_id = \Eye::model()->find('name=?',array('Both'))->id;
-							}
-						}
-
-						$diagnoses[$sd->disorder_id] = array(
-							'disorder' => $sd->disorder,
-							'eye_id' => $sd->eye_id,
-							'principal' => false,
-						);
-					}
-				}
-			}
-		}
-
-		$principal = false;
-
-		foreach ($diagnoses as $diagnosis) {
-			if ($diagnosis['principal']) {
-				$principal = true;
-			}
-		}
-
-		if (!$principal && isset($diagnosis[0])) {
-			$diagnoses[0]['principal'] = true;
-		}
-
-		return $this->uniqueDiagnoses($diagnoses);
-	}
-
-
-	public function uniqueDiagnoses($diagnoses)
-	{
-		$_diagnoses = array();
-
-		foreach ($diagnoses as $diagnosis) {
-			if (!$this->diagnosisInArray($diagnosis,$_diagnoses)) {
-				$_diagnoses[] = $diagnosis;
-			}
-		}
-
-		return $_diagnoses;
-	}
-
-	public function diagnosisInArray($diagnosis, $diagnoses)
-	{
-		foreach ($diagnoses as $_diagnosis) {
-			if ($diagnosis['disorder']->id == $_diagnosis['disorder']->id && $diagnosis['eye_id'] == $_diagnosis['eye_id'] && $diagnosis['principal'] == $_diagnosis['principal']) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-	*/
 
 	/**
 	 * Returns the disorder ids for the element diagnoses
@@ -408,7 +224,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 
 		$disorders = array();
 
-		foreach (CommonOphthalmicDisorder::getList(Firm::model()->findByPk($firm_id)) as $id => $disorder) {
+		foreach (\CommonOphthalmicDisorder::getList(\Firm::model()->findByPk($firm_id)) as $id => $disorder) {
 			if (!in_array($id,$disorder_ids)) {
 				$disorders[$id] = $disorder;
 			}

@@ -1651,7 +1651,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 
 	var id = max_id + 1;
 
-	eye_id = eye_id || $('input[name="OphCiExamination_Diagnosis[eye_id]"]:checked').val();
+	eye_id = eye_id || $('input[name="'+OE_MODEL_PREFIX+'OphCiExamination_Diagnosis[eye_id]"]:checked').val();
 
 	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
 	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');
@@ -1662,13 +1662,13 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 		'<td><input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" /> '+name+' </td>'+
 		'<td class="eye">'+
 			'<label class="inline">'+
-				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
+				'<input type="radio" name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
 			'</label> '+
 			'<label class="inline">'+
-				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both'+
+				'<input type="radio" name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="3" '+checked_both+'/> Both'+
 			'</label> '+
 			'<label class="inline">'+
-				'<input type="radio" name="Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left'+
+				'<input type="radio" name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="1" '+checked_left+'/> Left'+
 			'</label> '+
 		'</td>'+
 		'<td>'+

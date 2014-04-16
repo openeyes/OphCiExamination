@@ -557,9 +557,10 @@ class DefaultController extends \BaseEventTypeController
 	{
 		$diagnoses = array();
 		$diagnosis_eyes = array();
+		$model_name = \CHtml::modelName($element);
 
-		if (isset($data['Element_OphCiExamination_Diagnoses'])) {
-			foreach ($data['Element_OphCiExamination_Diagnoses'] as $key => $value) {
+		if (isset($data[$model_name])) {
+			foreach ($data[$model_name] as $key => $value) {
 				if (preg_match('/^eye_id_[0-9]+$/',$key)) {
 					$diagnosis_eyes[] = $value;
 				}
@@ -568,7 +569,7 @@ class DefaultController extends \BaseEventTypeController
 
 		if (is_array(@$data['selected_diagnoses'])) {
 			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnosis = new OphCiExamination_Diagnosis();
+				$diagnosis = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
 				$diagnosis->eye_id = $diagnosis_eyes[$i];
 				$diagnosis->disorder_id = $disorder_id;
 				$diagnosis->principal = (@$data['principal_diagnosis'] == $disorder_id);
@@ -664,8 +665,9 @@ class DefaultController extends \BaseEventTypeController
 	protected function saveComplexAttributes_Element_OphCiExamination_Diagnoses($element, $data, $index)
 	{
 		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
+		$model_name = \CHtml::modelName($element);
 		$diagnoses = array();
-		$eyes = isset($data['Element_OphCiExamination_Diagnoses']) ? array_values($data['Element_OphCiExamination_Diagnoses']) : array();
+		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
 			$diagnoses[] = array(
