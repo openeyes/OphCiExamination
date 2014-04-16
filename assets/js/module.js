@@ -450,14 +450,14 @@ $(document).ready(function() {
 	// manually syncs or not, as we are using the manual change as an indicator that we should no longer automatically
 	// update the values. Although this will not apply between saves
 	$(this).delegate(
-		'#Element_OphCiExamination_DRGrading_right_clinicalret_id, ' +
-		'#Element_OphCiExamination_DRGrading_left_clinicalret_id, ' +
-		'#Element_OphCiExamination_DRGrading_right_clinicalmac_id, ' +
-		'#Element_OphCiExamination_DRGrading_left_clinicalmac_id, ' +
-		'#Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
-		'#Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' +
-		'#Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
-		'#Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_right_clinicalret_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_left_clinicalret_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_right_clinicalmac_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_left_clinicalmac_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_right_nscretinopathy_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_left_nscretinopathy_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_right_nscmaculopathy_id, ' +
+		'#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_left_nscmaculopathy_id'
 			, 'change', function(e) {
 
 		var side = getSplitElementSide($(this));
@@ -476,7 +476,7 @@ $(document).ready(function() {
 		var desc = id.substr(0,id.length-2) + 'desc';
 		drGradeEl.find('.'+desc).hide();
 		drGradeEl.find('#'+desc + '_' + gradeCode).show();
-		if ($('.js-active-elements .Element_OphCiExamination_PosteriorPole').length) {
+		if ($('.js-active-elements .'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').length) {
 			$('#drgrading_dirty').show();
 		}
 
@@ -494,10 +494,10 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$(this).delegate('input[name="Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
-		'input[name="Element_OphCiExamination_DRGrading[left_nscretinopathy_photocoagulation]"], ' +
-		'input[name="Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
-		'input[name="Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
+	$(this).delegate('input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading[right_nscretinopathy_photocoagulation]"], ' +
+		'input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading[left_nscretinopathy_photocoagulation]"], ' +
+		'input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading[right_nscmaculopathy_photocoagulation]"], ' +
+		'input[name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading[left_nscmaculopathy_photocoagulation]"]'
 			, 'change', function(e) {
 				if ($('.js-active-elements .Element_OphCiExamination_PosteriorPole').length) {
 					$('#drgrading_dirty').show();
@@ -505,7 +505,7 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('a#drgrading_dirty', 'click', function(e) {
-		$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+		$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 			var drawingName = $(this).attr('data-drawing-name');
 			if (window[drawingName]) {
 				// the posterior segment drawing is available to sync values with
@@ -1336,7 +1336,7 @@ function OphCiExamination_DRGrading_dirtyCheck(_drawing) {
  * @param side
  */
 function OphCiExamination_DRGrading_canUpdate(side) {
-	var dr_side = $(".js-active-elements .Element_OphCiExamination_DRGrading").find('.side[data-side="'+side+'"]');
+	var dr_side = $(".js-active-elements ."+OE_MODEL_PREFIX+"Element_OphCiExamination_DRGrading").find('.side[data-side="'+side+'"]');
 
 	if (dr_side.length && !dr_side.hasClass('uninitialised') && !$('#drgrading_dirty').is(":visible")) {
 		return true;
@@ -1355,7 +1355,7 @@ function OphCiExamination_DRGrading_update(side) {
 		physical_side = 'right';
 	}
 	if (OphCiExamination_DRGrading_canUpdate(side)) {
-		var cv = $('.Element_OphCiExamination_PosteriorPole').find('.side.' + physical_side).find('canvas');
+		var cv = $('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').find('.side.' + physical_side).find('canvas');
 		var drawingName = cv.data('drawing-name');
 		var drawing = window[drawingName];
 		var grades = gradeCalculator(drawing);
@@ -1366,7 +1366,7 @@ function OphCiExamination_DRGrading_update(side) {
 }
 
 function OphCiExamination_PosteriorPole_init() {
-	$('.Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
+	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 
 		var drawingName = $(this).attr('data-drawing-name');
 
@@ -1400,14 +1400,14 @@ function OphCiExamination_PosteriorPole_init() {
 
 function OphCiExamination_DRGrading_init() {
 
-	$(".Element_OphCiExamination_DRGrading").find(".drgrading_images_dialog").dialog({
+	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading').find('.drgrading_images_dialog').dialog({
 		autoOpen: false,
 		modal: true,
 		resizable: false,
 		width: 480
 	});
 
-	$(".Element_OphCiExamination_DRGrading").find(".grade-info-all").each(function() {
+	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading').find('.grade-info-all').each(function() {
 		$(this).dialog({
 			title: 'Grade Definitions',
 			autoOpen: false,
@@ -1419,7 +1419,7 @@ function OphCiExamination_DRGrading_init() {
 
 	OphCiExamination_PosteriorPole_init();
 
-	$(".Element_OphCiExamination_DRGrading").find('.grade-info').each(function(){
+	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading').find('.grade-info').each(function(){
 		var quick = $(this);
 		var iconHover = $(this).parent().find('.grade-info-icon');
 
@@ -1442,7 +1442,7 @@ function OphCiExamination_DRGrading_init() {
 		});
 	});
 
-	$('.Element_OphCiExamination_DRGrading').delegate('.grade-info-icon', 'click', function(e) {
+	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading').delegate('.grade-info-icon', 'click', function(e) {
 		var side = getSplitElementSide($(this));
 		var info_type = $(this).data('info-type');
 		$('#Element_OphCiExamination_DRGrading_' + side + '_all_' + info_type + '_desc').dialog('open');

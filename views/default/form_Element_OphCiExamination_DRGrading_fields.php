@@ -160,7 +160,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		-->
 	</div>
 </div>
-<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->activeOrPk($element->{$side.'_nscmaculopathy_id'})->findAll();?>
+<?php $nsc_maculopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy::model()->activeOrPk($element->{$side.'_nscmaculopathy_id'})->findAll();?>
 <div class="row field-row">
 	<div class="large-4 column">
 		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_nscmaculopathy_id';?>">
@@ -191,6 +191,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 			}
 			foreach ($nsc_maculopathys as $macu) {
 				$show_div = false;
+
 				if ($selected_value==$macu->id) {
 					$show_div = true;
 				}
