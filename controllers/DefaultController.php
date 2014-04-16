@@ -79,9 +79,9 @@ class DefaultController extends \BaseEventTypeController
 	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
-			$remove = array('\\OEModule\\OphCiExamination\\models\\Element_OphCiExamination_InjectionManagement');
+			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagement');
 		} else {
-			$remove = array('\\OEModule\\OphCiExamination\\models\\Element_OphCiExamination_InjectionManagementComplex');
+			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex');
 		}
 
 		$final = array();
