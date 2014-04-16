@@ -466,13 +466,14 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		foreach (array('left' => Eye::LEFT, 'right' => Eye::RIGHT) as $side => $eye_id) {
+		$model_name = \CHtml::modelName($element);
+		foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT) as $side => $eye_id) {
 			$answers = array();
 			$risks = array();
 			$checker = 'has' . ucfirst($side);
 			if ($element->$checker()) {
-				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
-					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
+				if (isset($data[$model_name][$side . '_Answer']) ) {
+					foreach ($data[$model_name][$side . '_Answer'] as $id => $p_ans) {
 						$answer = new \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Answer();
 						$answer->question_id = $id;
 						$answer->answer = $p_ans;
@@ -480,8 +481,8 @@ class DefaultController extends \BaseEventTypeController
 						$answers[] = $answer;
 					}
 				}
-				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
-					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
+				if (isset($data[$model_name][$side . '_risks']) ) {
+					foreach ($data[$model_name][$side . '_risks'] as $risk_id) {
 						if ($risk = \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
 							$risks[] = $risk;
 						}
@@ -619,21 +620,22 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		$element->updateQuestionAnswers(Eye::LEFT,
-			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
+		$model_name = \CHtml::modelName($element);
+		$element->updateQuestionAnswers(\Eye::LEFT,
+			$element->hasLeft() && isset($data[$model_name]['left_Answer']) ?
+			$data[$model_name]['left_Answer'] :
 			array());
-		$element->updateQuestionAnswers(Eye::RIGHT,
-			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+		$element->updateQuestionAnswers(\Eye::RIGHT,
+			$element->hasRight() && isset($data[$model_name]['right_Answer']) ?
+			$data[$model_name]['right_Answer'] :
 			array());
-		$element->updateRisks(Eye::LEFT,
-			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+		$element->updateRisks(\Eye::LEFT,
+			$element->hasLeft() && isset($data[$model_name]['left_risks']) ?
+			$data[$model_name]['left_risks'] :
 			array());
-		$element->updateRisks(Eye::RIGHT,
-			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+		$element->updateRisks(\Eye::RIGHT,
+			$element->hasRight() && isset($data[$model_name]['right_risks']) ?
+			$data[$model_name]['right_risks'] :
 			array());
 	}
 

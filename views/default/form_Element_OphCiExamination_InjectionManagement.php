@@ -44,7 +44,7 @@
 				<?php echo $element->getAttributeLabel('injection_deferralreason_id')?>:
 			</label>
 		</div>
-		<div class="large-9 column">
+		<div class="large-4 column ">
 			<?php
 			$options = \OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason::model()->activeOrPk($element->injection_deferralreason_id)->findAll();
 			$html_options = array('empty'=>'- Please select -', 'options' => array());

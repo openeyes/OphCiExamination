@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
+use Yii;
 
 /**
  * This is the model class for table "et_ophciexamination_injectionmanagement".
@@ -709,7 +710,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 	public function getInjectionTreatments($side)
 	{
 		if ($this->injectionInstalled()) {
-			$treatments = OphTrIntravitrealinjection_Treatment_Drug::model()->active()->findAll();
+			# Note that this will namespaced to modules at some point.
+			$treatments = \OphTrIntravitrealinjection_Treatment_Drug::model()->active()->findAll();
 			if ($current_id = $this->{$side . '_treatment_id'}) {
 				$treatment_list = array();
 
@@ -737,7 +739,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 	{
 		if ($this->injectionInstalled()) {
 			if ($this->hasLeft() && $this->left_treatment_id) {
-				return OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->left_treatment_id);
+				return \OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->left_treatment_id);
 			}
 		}
 	}
@@ -753,7 +755,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 	{
 		if ($this->injectionInstalled()) {
 			if ($this->hasRight() && $this->right_treatment_id) {
-				return OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->right_treatment_id);
+				return \OphTrIntravitrealinjection_Treatment_Drug::model()->findByPk($this->right_treatment_id);
 			}
 		}
 	}

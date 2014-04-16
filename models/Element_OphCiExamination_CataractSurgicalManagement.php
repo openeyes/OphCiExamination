@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
+use Yii;
 
 /**
  * This is the model class for table "et_ophciexamination_cataractsurgicalmanagement".
@@ -120,7 +121,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 
 		$criteria->compare('description', $this->description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -158,7 +159,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 	{
 		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {
 			if ($api = Yii::app()->moduleAPI->get('OphTrOperationnote')) {
-				if (!$patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+				if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
 					throw new Exception("Patient not found: ".@$_GET['patient_id']);
 				}
 
