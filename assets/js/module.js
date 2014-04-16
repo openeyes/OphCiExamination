@@ -462,13 +462,20 @@ $(document).ready(function() {
 
 		var side = getSplitElementSide($(this));
 		var gradePK = $(this).val();
-		var grade = $(this).find('option:selected').text();
+		var gradeCode = null;
+
+		$(this).find('option').each(function() {
+			if ($(this).attr('value') == gradePK) {
+				gradeCode = $(this).attr('data-code');
+				return false;
+			}
+		});
 
 		var id = $(this).attr('id');
-		var dr_grade = $(this).parents('.element');
+		var drGradeEl = $(this).parents('.element');
 		var desc = id.substr(0,id.length-2) + 'desc';
-		dr_grade.find('.'+desc).hide();
-		dr_grade.find('#'+desc + '_' + grade.replace(/\s+/g, '')).show();
+		drGradeEl.find('.'+desc).hide();
+		drGradeEl.find('#'+desc + '_' + gradeCode).show();
 		if ($('.js-active-elements .Element_OphCiExamination_PosteriorPole').length) {
 			$('#drgrading_dirty').show();
 		}

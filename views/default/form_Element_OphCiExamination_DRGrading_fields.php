@@ -40,10 +40,13 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
-			$selected_value = (CHtml::resolveValue($element,$side . '_clinicalret_id'));
+			$selected_value = CHtml::resolveValue($element,$side . '_clinicalret_id');
+			if (!$selected_value && count($clinical_retinopathys)) {
+				$selected_value = $clinical_retinopathys[0]->id;
+			}
 			foreach ($clinical_retinopathys as $clinical) {
 				$show_div = false;
-				if((reset($clinical_retinopathys)==$clinical && !isset($selected_value)) || $selected_value==$clinical->id) {
+				if($selected_value==$clinical->id) {
 					$show_div = true;
 				}
 				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_clinicalret_desc" id="' . get_class($element). '_' . $side . '_clinicalret_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
@@ -88,9 +91,12 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_nscretinopathy_id');
+			if (!$selected_value && count($nsc_retinopathys)) {
+				$selected_value = $nsc_retinopathys[0]->id;
+			}
 			foreach ($nsc_retinopathys as $retin) {
 				$show_div = false;
-				if((reset($nsc_retinopathys)== $retin && !isset($selected_value)) || $selected_value==$retin->id) {
+				if($selected_value==$retin->id) {
 					$show_div = true;
 				}
 				echo '<div '.($show_div?' ':'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_nscretinopathy_desc" id="' . get_class($element). '_' . $side . '_nscretinopathy_desc_' . $retin->code . '">' . $retin->description . '</div>';
@@ -179,10 +185,13 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		<span class="grade-info-icon" data-info-type="maculopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
-			$selected_value = (CHtml::resolveValue($element,$side . '_nscmaculopathy_id'));
+			$selected_value = CHtml::resolveValue($element,$side . '_nscmaculopathy_id');
+			if (!$selected_value && count($nsc_maculopathys)) {
+				$selected_value = $nsc_maculopathys[0]->id;
+			}
 			foreach ($nsc_maculopathys as $macu) {
 				$show_div = false;
-				if((reset($nsc_maculopathys)==$macu && !isset($selected_value)) || $selected_value==$macu->id) {
+				if ($selected_value==$macu->id) {
 					$show_div = true;
 				}
 				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc desc" id="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc_' . $macu->code . '">' . $macu->description . '</div>';
