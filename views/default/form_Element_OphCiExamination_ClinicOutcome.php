@@ -27,7 +27,7 @@
 			</div>
 			<div class="large-3 column end">
 				<?php
-				$html_options = array('empty'=>'- Please select -', 'options' => array());
+				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
 				foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
 					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
 				}

@@ -129,13 +129,14 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	}
 
 	/**
-	 * Follow up data is only required for status status that are flagged for follow up
+	 * Follow up data is only required for status that are flagged for follow up
+	 * 
 	 * @property string $attribute
 	 */
 	public function statusDependencyValidation($attribute)
 	{
 		if ($this->status_id && $this->status->followup) {
-			$v = CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
+			$v = \CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
 			$v->validate($this);
 		}
 	}

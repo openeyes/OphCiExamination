@@ -290,30 +290,30 @@ $(document).ready(function() {
 	 */
 	handleButton($('#et_canceldelete'));
 
-	$(this).delegate('#Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
+	$(this).delegate('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
 		// Update Clinic Outcome follow up
-		var clinic_outcome_element = $('.js-active-elements .Element_OphCiExamination_ClinicOutcome');
+		var clinic_outcome_element = $('.js-active-elements .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome');
 		if(clinic_outcome_element.length) {
 			var template_id = $('option:selected', this).attr('data-clinicoutcome-template-id');
 			OphCiExamination_ClinicOutcome_LoadTemplate(template_id);
 		}
 
 		// Change colour of dropdown background
-		if (!$('.Element_OphCiExamination_GlaucomaRisk .risk').hasClass($('option:selected', this).attr('class'))) {
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('low');
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('moderate');
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').removeClass('high');
-			$('.Element_OphCiExamination_GlaucomaRisk .risk').addClass($('option:selected', this).attr('class'));
+		if (!$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk .risk').hasClass($('option:selected', this).attr('class'))) {
+			$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk .risk').removeClass('low');
+			$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk .risk').removeClass('moderate');
+			$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk .risk').removeClass('high');
+			$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk .risk').addClass($('option:selected', this).attr('class'));
 		}
 	});
-	$(this).delegate('.Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
-		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
+	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk a.descriptions_link', 'click', function(e) {
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('open');
 		e.preventDefault();
 	});
-	$('body').delegate('#Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function(e) {
+	$('body').delegate('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_descriptions a', 'click', function(e) {
 		var value = $(this).attr('data-risk-id');
-		$('#Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
-		$('#Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_descriptions').dialog('close');
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_risk_id').val(value).trigger('change');
 		e.preventDefault();
 	});
 
@@ -873,10 +873,10 @@ $(document).ready(function() {
 
 	// clinic outcome functions
 	function isClinicOutcomeStatusFollowup() {
-		var statusPK = $('#Element_OphCiExamination_ClinicOutcome_status_id').val();
+		var statusPK = $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id').val();
 		var followup = false;
 
-		$('#Element_OphCiExamination_ClinicOutcome_status_id').find('option').each(function() {
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id').find('option').each(function() {
 			if ($(this).attr('value') == statusPK) {
 				if ($(this).attr('data-followup') == "1") {
 					followup = true;
@@ -890,44 +890,44 @@ $(document).ready(function() {
 
 	function showOutcomeStatusFollowup() {
 		// Retrieve any previously stashed values
-		if ($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
+		if ($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
 			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val($('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value'));
 		}
-		if ($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value')) {
-			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val($('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value'));
+		if ($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value')) {
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').val($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value'));
 		}
-		if ($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value')) {
-			$('#Element_OphCiExamination_ClinicOutcome_role_id').val($('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value'));
+		if ($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').data('store-value')) {
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').val($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').data('store-value'));
 		}
-		if ($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value')) {
-			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val($('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value'));
+		if ($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value')) {
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').val($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value'));
 		}
 
-		$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideDown();
-		$('#div_Element_OphCiExamination_ClinicOutcome_role').slideDown();
+		$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup').slideDown();
+		$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role').slideDown();
 
 	}
 
 	function hideOutcomeStatusFollowup() {
 		if ($('#div_Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
 			// only do hiding and storing if currently showing something.
-			$('#div_Element_OphCiExamination_ClinicOutcome_role').slideUp();
-			$('#div_Element_OphCiExamination_ClinicOutcome_followup').slideUp();
+			$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role').slideUp();
+			$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup').slideUp();
 
 			// Stash current values as data in case we need them again and to avoid saving them
-			$('#Element_OphCiExamination_ClinicOutcome_role_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_id').val());
-			$('#Element_OphCiExamination_ClinicOutcome_role_id').val('');
-			$('#Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_role_comments').val());
-			$('#Element_OphCiExamination_ClinicOutcome_role_comments').val('');
-			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val());
-			$('#Element_OphCiExamination_ClinicOutcome_followup_quantity').val('');
-			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value', $('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val());
-			$('#Element_OphCiExamination_ClinicOutcome_followup_period_id').val('');
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').data('store-value', $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').val());
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_id').val('');
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').data('store-value', $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').val());
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role_comments').val('');
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value', $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity').val());
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity').val('');
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').data('store-value', $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').val());
+			$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id').val('');
 		}
 	}
 
 	// show/hide the followup period fields
-	$(this).delegate('#Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
+	$(this).delegate('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
 		var followup = isClinicOutcomeStatusFollowup();
 		if (followup) {
 			showOutcomeStatusFollowup();
@@ -1704,7 +1704,7 @@ function OphCiExamination_OpticDisc_init() {
 }
 
 function OphCiExamination_GlaucomaRisk_init() {
-	$("#Element_OphCiExamination_GlaucomaRisk_descriptions").dialog({
+	$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_descriptions').dialog({
 		title: 'Glaucoma Risk Stratifications',
 		autoOpen: false,
 		modal: true,
@@ -1715,12 +1715,12 @@ function OphCiExamination_GlaucomaRisk_init() {
 
 function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
 	if(Element_OphCiExamination_ClinicOutcome_templates[template_id]) {
-		$('#Element_OphCiExamination_ClinicOutcome_status_id')
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id')
 			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['clinic_outcome_status_id'])
 			.trigger('change');
-		$('#Element_OphCiExamination_ClinicOutcome_followup_quantity')
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity')
 			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_quantity']);
-		$('#Element_OphCiExamination_ClinicOutcome_followup_period_id')
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_period_id')
 			.val(Element_OphCiExamination_ClinicOutcome_templates[template_id]['followup_period_id']);
 
 	}
