@@ -57,6 +57,7 @@ $this->endClip('element-title-additional');
 							'values' => $values,
 							'val_options' => $val_options,
 							'methods' => $methods,
+							'asset_path' => $this->getAssetPathForElement($element)
 					));
 					$key++;
 					}?>
@@ -105,6 +106,7 @@ $this->endClip('element-title-additional');
 							'values' => $values,
 							'val_options' => $val_options,
 							'methods' => $methods,
+							'asset_path' => $this->getAssetPathForElement($element)
 					));
 					$key++;
 					}?>
@@ -147,6 +149,7 @@ $this->endClip('element-title-additional');
 			'values' => $values,
 			'val_options' => $val_options,
 			'methods' => $methods,
+			'asset_path' => $this->getAssetPathForElement($element)
 	));
 	?>
 </script>

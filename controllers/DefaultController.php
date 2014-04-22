@@ -259,6 +259,12 @@ class DefaultController extends \BaseEventTypeController
 		return $open_child_elements;
 	}
 
+	public function getOptionalElements()
+	{
+		$elements = parent::getOptionalElements();
+		return $this->filterElements($elements);
+	}
+
 	/**
 	 * extends standard method to filter elements
 	 *

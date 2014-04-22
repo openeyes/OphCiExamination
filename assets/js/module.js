@@ -1445,7 +1445,7 @@ function OphCiExamination_DRGrading_init() {
 	$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading').delegate('.grade-info-icon', 'click', function(e) {
 		var side = getSplitElementSide($(this));
 		var info_type = $(this).data('info-type');
-		$('#Element_OphCiExamination_DRGrading_' + side + '_all_' + info_type + '_desc').dialog('open');
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_DRGrading_' + side + '_all_' + info_type + '_desc').dialog('open');
 		// remove hovering:
 		$(this).trigger('mouseleave');
 		e.preventDefault();

@@ -37,7 +37,7 @@ $clinical_retinopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGr
 				echo  CHtml::activeDropDownList($element, $side . '_clinicalret_id',  CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
 			?>
 		</div>
-		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_clinicalret_id');
@@ -87,7 +87,7 @@ $clinical_retinopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGr
 			echo  CHtml::activeDropDownList($element, $side.'_nscretinopathy_id',  CHtml::listData($nsc_retinopathys,'id','name'), $nscretinopathy_html_options);
 		?>
 		</div>
-		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_nscretinopathy_id');
@@ -141,7 +141,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		</div>
 		<!-- REMOVED UNTIL WE ARE PROVIDED WITH APPROPRIATE TEXT FOR THE DESCRIPTIONS
 		TODO: code to auto detect when there are no descriptions, so that this works dynamically based on the data.
-		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php foreach ($clinical_maculopathys as $clinical) {
 				echo '<div style="display: none;" class="' .  CHtml::modelName($element). '_'. $side.'_clinicalmac_desc" id="' .  CHtml::modelName($element). '_' . $side . '_clinicalmac_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
@@ -182,7 +182,7 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 
 		?>
 		</div>
-		<span class="grade-info-icon" data-info-type="maculopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="maculopathy"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_nscmaculopathy_id');
