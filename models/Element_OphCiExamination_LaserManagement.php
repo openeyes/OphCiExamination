@@ -75,7 +75,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('event_id, eye_id, left_laser_status_id, left_laser_deferralreason_id, left_laser_deferralreason_other, ' .
+			array('eye_id, left_laser_status_id, left_laser_deferralreason_id, left_laser_deferralreason_other, ' .
 				'left_lasertype_id, left_lasertype_other, left_comments, right_laser_status_id, right_laser_deferralreason_id, ' .
 				'right_laser_deferralreason_other, right_lasertype_id, right_lasertype_other, right_comments', 'safe'),
 			array('left_laser_status_id', 'requiredIfSide', 'side' => 'left'),

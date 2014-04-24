@@ -58,7 +58,7 @@ class Element_OphCiExamination_IntraocularPressure extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe'),
+				array('left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe', 'on' => 'search'),

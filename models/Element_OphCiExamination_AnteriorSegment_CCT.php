@@ -59,7 +59,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id', 'safe'),
+				array('eye_id', 'safe'),
 				array('left_method_id ,left_value', 'requiredIfSide', 'side' => 'left'),
 				array('right_method_id, right_value', 'requiredIfSide', 'side' => 'right'),
 				array('left_value', 'numerical', 'integerOnly' => true, 'max' => 1000, 'min' => 0),

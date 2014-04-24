@@ -56,7 +56,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'safe'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'safe'),
 				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
