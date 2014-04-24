@@ -128,6 +128,18 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		}
 	}
 
+	public function canCopy()
+	{
+		return true;
+	}
+
+	public function loadFromExisting($element)
+	{
+		parent::loadFromExisting($element);
+
+		$this->items = $element->items;
+	}
+
 	protected function beforeDelete()
 	{
 		OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
