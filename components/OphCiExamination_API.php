@@ -1,6 +1,5 @@
 <?php
-use OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading;
-
+namespace OEModule\OphCiExamination\components;
 /**
  * OpenEyes
  *
@@ -19,7 +18,7 @@ use OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading;
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_API extends BaseAPI
+class OphCiExamination_API extends \BaseAPI
 {
 	/**
 	 * Get the patient history for the given episode. This is from the most recent
