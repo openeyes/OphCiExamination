@@ -100,4 +100,38 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 			$this->assertNull($api->$method($episode, false));
 		}
 	}
+
+	public function testgetLetterVisualAcuityForEpisodeBoth()
+	{
+		$api = $this->getMockBuilder('OphCiExamination_API')
+				->disableOriginalConstructor()
+				->setMethods(array('getLetterVisualAcuityForEpisodeLeft', 'getLetterVisualAcuityForEpisodeRight'))
+				->getMock();
+
+		$episode = new Episode();
+
+		$api->expects($this->at(0))
+			->method('getLetterVisualAcuityForEpisodeLeft')
+			->with($this->equalTo($episode), true)
+			->will($this->returnValue('Left VA'));
+
+		$api->expects($this->at(1))
+				->method('getLetterVisualAcuityForEpisodeRight')
+				->with($this->equalTo($episode), true)
+				->will($this->returnValue('Right VA'));
+
+		$this->assertEquals('Right VA on the right and Left VA on the left', $api->getLetterVisualAcuityForEpisodeBoth($episode, true));
+
+		$api->expects($this->at(2))
+				->method('getLetterVisualAcuityForEpisodeLeft')
+				->with($this->equalTo($episode), false)
+				->will($this->returnValue('Left VA'));
+		$api->expects($this->at(3))
+				->method('getLetterVisualAcuityForEpisodeRight')
+				->with($this->equalTo($episode), false)
+				->will($this->returnValue(null));
+
+		$this->assertEquals('not recorded on the right and Left VA on the left', $api->getLetterVisualAcuityForEpisodeBoth($episode, false));
+
+	}
 }

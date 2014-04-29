@@ -280,6 +280,21 @@ class OphCiExamination_API extends BaseAPI
 	}
 
 	/**
+	 * Get the VA string for both sides
+	 *
+	 * @param $episode
+	 * @param bool $include_nr_values flag to indicate whether NR flag values should be used for the text
+	 * @return string
+	 */
+	public function getLetterVisualAcuityForEpisodeBoth($episode, $include_nr_values = false)
+	{
+		$left = $this->getLetterVisualAcuityForEpisodeLeft($episode, $include_nr_values);
+		$right = $this->getLetterVisualAcuityForEpisodeRight($episode, $include_nr_values);
+
+		return ($right ? $right : "not recorded")." on the right and ". ($left ? $left : "not recorded")." on the left";
+	}
+
+	/**
 	 * get the list of possible unit values for Visual Acuity
 	 *
 	 * currently operates on the assumption there is always Snellen Metre available as a VA unit, and provides this
