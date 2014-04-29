@@ -75,7 +75,7 @@ class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCa
 			$test->left_eye_missing = $left_eye[2];
 			$test->left_comments = $left_eye[3];
 			$combined = $left_eye[0];
-			
+
 			$test->expects($this->at($combined_at))
 					->method('getCombined')
 					->with('left')
@@ -91,4 +91,36 @@ class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCa
 		$this->assertEquals($res, $test->getLetter_string());
 	}
 
+	public function getTextForSide_Provider()
+	{
+		return array(
+			array('left', false, true, true, 'Unable to assess, Eye missing'),
+			array('right', false, true, true, 'Unable to assess, Eye missing'),
+			array('left', false, true, false, 'Unable to assess'),
+			array('left', false, false, true, 'Eye missing'),
+			array('left', false, false, false, 'not recorded'),
+			array('left', true, false, false, null),
+		);
+	}
+
+	/**
+	 * @dataProvider getTextForSide_Provider
+	 */
+	public function testgetTextForSide($side, $readings, $unable, $eye_missing, $res)
+	{
+		$test = new Element_OphCiExamination_VisualAcuity();
+		if ($side == 'left') {
+			$test->eye_id = Eye::LEFT;
+		} else {
+			$test->eye_id = Eye::RIGHT;
+		}
+		if ($readings) {
+			$test->{$side . '_readings'} = array(new OphCiExamination_VisualAcuity_Reading());
+		}
+		$test->{$side . '_unable_to_assess'} = $unable;
+		$test->{$side . '_eye_missing'} = $eye_missing;
+
+		$this->assertEquals($res, $test->getTextForSide($side));
+
+	}
 }

@@ -279,6 +279,32 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	}
 
 	/**
+	 * Convenience function for generating string of why a reading wasn't recorded for a side.
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	public function getTextForSide($side)
+	{
+		$checkFunc = 'has' . ucfirst($side);
+		if ($this->$checkFunc() && !$this->{$side . '_readings'}) {
+			if ($this->{$side . '_unable_to_assess'}) {
+				$text = $this->getAttributeLabel($side . '_unable_to_assess');
+				if ($this->{$side . '_eye_missing'}) {
+					$text .= ", " . $this->getAttributeLabel($side . '_eye_missing');
+				}
+				return $text;
+			}
+			elseif ($this->{$side . '_eye_missing'}) {
+				return $this->getAttributeLabel($side . '_eye_missing');
+			}
+			else {
+				return "not recorded";
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -413,18 +439,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			if ($this->getCombined('right')) {
 				$text .= $this->getCombined('right', $unit->id);
 			} else {
-				if ($this->right_unable_to_assess) {
-					$text .= $this->getAttributeLabel('right_unable_to_assess');
-					if ($this->right_eye_missing) {
-						$text .= ", " . $this->getAttributeLabel('right_eye_missing');
-					}
-				}
-				elseif ($this->right_eye_missing) {
-					$text .= $this->getAttributeLabel('right_eye_missing');
-				}
-				else {
-					$text .= "not recorded";
-				}
+				$text .= $this->getTextForSide('right');
 			}
 
 			if (trim($this->right_comments)) {
@@ -441,18 +456,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			if ($this->getCombined('left')) {
 				$text .= $this->getCombined('left', $unit->id);
 			} else {
-				if ($this->left_unable_to_assess) {
-					$text .= $this->getAttributeLabel('left_unable_to_assess');
-					if ($this->left_eye_missing) {
-						$text .= ", " . $this->getAttributeLabel('left_eye_missing');
-					}
-				}
-				elseif ($this->left_eye_missing) {
-					$text .= $this->getAttributeLabel('left_eye_missing');
-				}
-				else {
-					$text .= "not recorded";
-				}
+				$text .= $this->getTextForSide('left');
 			}
 			if (trim($this->left_comments)) {
 				$text .= ", ".$this->left_comments;

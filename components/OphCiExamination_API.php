@@ -240,25 +240,43 @@ class OphCiExamination_API extends BaseAPI
 	/**
 	 * get the va from the given episode for the left side of the episode patient
 	 *
-	 * @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
-	 * @param $episode
+	 * @param Episode $episode
+	 * @param boolean $include_nr_values
 	 * @return OphCiExamination_VisualAcuity_Reading
 	 */
-	public function getLetterVisualAcuityForEpisodeLeft($episode)
+	public function getLetterVisualAcuityForEpisodeLeft($episode, $include_nr_values = false)
 	{
-		return $this->getBestVisualAcuity($episode->patient, $episode, 'left');
+		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, 'Element_OphCiExamination_VisualAcuity')) {
+			if ($va->hasLeft()) {
+				if ($best = $va->getBestReading('left')) {
+					return $best->convertTo($best->value, $this->getSnellenUnitId());
+				}
+				elseif ($include_nr_values) {
+					return $va->getTextForSide('left');
+				}
+			}
+		}
 	}
 
 	/**
 	 * get the va from the given episode for the right side of the episode patient
 	 *
-	 * @TODO: merge with getLetterVisualAcuityLeft - this is here as a temporary fix to not be checking the session episode
-	 * @param Episode $episode
+   * @param Episode $episode
+	 * @param boolean $include_nr_values
 	 * @return OphCiExamination_VisualAcuity_Reading
 	 */
-	public function getLetterVisualAcuityForEpisodeRight($episode)
+	public function getLetterVisualAcuityForEpisodeRight($episode, $include_nr_values = false)
 	{
-		return $this->getBestVisualAcuity($episode->patient, $episode, 'right');
+		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, 'Element_OphCiExamination_VisualAcuity')) {
+			if ($va->hasRight()) {
+				if ($best = $va->getBestReading('right')) {
+					return $best->convertTo($best->value, $this->getSnellenUnitId());
+				}
+				elseif ($include_nr_values) {
+					return $va->getTextForSide('right');
+				}
+			}
+		}
 	}
 
 	/**
