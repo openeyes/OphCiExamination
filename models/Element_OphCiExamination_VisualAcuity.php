@@ -409,11 +409,24 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
+			$text .= "Right Eye: ";
 			if ($this->getCombined('right')) {
-				$text .= "Right Eye: ".$this->getCombined('right', $unit->id);
+				$text .= $this->getCombined('right', $unit->id);
 			} else {
-				$text .= "Right Eye: not recorded";
+				if ($this->right_unable_to_assess) {
+					$text .= $this->getAttributeLabel('right_unable_to_assess');
+					if ($this->right_eye_missing) {
+						$text .= ", " . $this->getAttributeLabel('right_eye_missing');
+					}
+				}
+				elseif ($this->right_eye_missing) {
+					$text .= $this->getAttributeLabel('right_eye_missing');
+				}
+				else {
+					$text .= "not recorded";
+				}
 			}
+
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
@@ -424,10 +437,22 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text .= "\n";
 
 		if ($this->hasLeft()) {
+			$text .= "Left Eye: ";
 			if ($this->getCombined('left')) {
-				$text .= "Left Eye: ".$this->getCombined('left', $unit->id);
+				$text .= $this->getCombined('left', $unit->id);
 			} else {
-				$text .= "Left Eye: not recorded";
+				if ($this->left_unable_to_assess) {
+					$text .= $this->getAttributeLabel('left_unable_to_assess');
+					if ($this->left_eye_missing) {
+						$text .= ", " . $this->getAttributeLabel('left_eye_missing');
+					}
+				}
+				elseif ($this->left_eye_missing) {
+					$text .= $this->getAttributeLabel('left_eye_missing');
+				}
+				else {
+					$text .= "not recorded";
+				}
 			}
 			if (trim($this->left_comments)) {
 				$text .= ", ".$this->left_comments;
