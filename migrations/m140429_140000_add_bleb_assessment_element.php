@@ -71,17 +71,29 @@ class m140429_140000_add_bleb_assessment_element extends OEMigration
 			'CONSTRAINT `et_ophciexamination_bleb_assessment_right_vasc_id_fk` FOREIGN KEY (`right_vasc_id`) REFERENCES `ophciexamination_bleb_assessment_vascularity` (`id`)',
 		));
 
+		$this->versionExistingTable('ophciexamination_bleb_assessment_central_area');
+		$this->versionExistingTable('ophciexamination_bleb_assessment_max_area');
+		$this->versionExistingTable('ophciexamination_bleb_assessment_height');
+		$this->versionExistingTable('ophciexamination_bleb_assessment_vascularity');
+		$this->versionExistingTable('et_ophciexamination_bleb_assessment');
+
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
 	{
-		$this->dropTable('et_ophciexamination_bleb_assessment');
-		$this->dropTable('ophciexamination_bleb_assessment_vascularity');
-		$this->dropTable('ophciexamination_bleb_assessment_height');
-		$this->dropTable('ophciexamination_bleb_assessment_max_area');
-		$this->dropTable('ophciexamination_bleb_assessment_central_area');
+		$tables = array(
+			'et_ophciexamination_bleb_assessment',
+			'ophciexamination_bleb_assessment_vascularity',
+			'ophciexamination_bleb_assessment_height',
+			'ophciexamination_bleb_assessment_max_area',
+			'ophciexamination_bleb_assessment_central_area'
+		);
+		foreach($tables as $table){
+			$this->dropTable($table);
+			$this->dropTable($table .'_version');
+		}
 
 		$this->delete('element_type','name = :name', array(':name'=>'Bleb Assessment'));
 	}
