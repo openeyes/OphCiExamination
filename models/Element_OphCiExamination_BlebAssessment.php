@@ -28,29 +28,14 @@
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property integer $secondarydiagnosis_id
- * @property integer $secondarydiagnosis_disorder_id
- * @property string $left_nscretinopathy_id
- * @property string $left_nscmaculopathy_id
- * @property string $right_nscretionopathy_id
- * @property string $right_nscmaculopathy_id
- * @property boolean $left_nscretinopathy_photocoagulation
- * @property boolean $left_nscmaculopathy_photocoagulation
- * @property boolean $right_nscretinopathy_photocoagulation
- * @property boolean $right_nscmaculopathy_photocoagulation
- * @property integer $left_clinicalret_id
- * @property integer $right_clinicalret_id
- * @property integer $left_clinicalmac_id
- * @property integer $right_clinicalmac_id
- * The followings are the available model relations:
- * @property OphCiExamination_NSCRetinopathy $left_nscretinopathy
- * @property OphCiExamination_NSCRetinopathy $right_nscretinopathy
- * @property OphCiExamination_NSCMaculopathy $left_nscmaculopathy
- * @property OphCiExamination_NSCMaculopathy $right_nscmaculopathy
- * @property OphCiExamination_ClinicalRetinopathy $left_clinicalret
- * @property OphCiExamination_ClinicalRetinopathy $right_clinicalret
- * @property OphCiExamination_ClinicalMaculopathy $left_clinicalmac
- * @property OphCiExamination_ClinicalMaculopathy $right_clinicalretmac
+ * @property integer $left_central_area_id
+ * @property integer $left_max_area_id
+ * @property integer $left_height_id
+ * @property integer $left_vasc_id
+ * @property integer $right_central_area_id
+ * @property integer $right_max_area_id
+ * @property integer $right_height_id
+ * @property integer $right_vasc_id
  *
  */
 
@@ -84,18 +69,6 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		/*
-		 * 'event_id' => 'int(10) unsigned NOT NULL',
-			'eye_id' => "int(10) unsigned NOT NULL DEFAULT '3'",
-			'left_central_area_id' => 'int(10) unsigned DEFAULT NULL',
-			'left_max_area_id' => 'int(10) unsigned DEFAULT NULL',
-			'left_height_id' => 'int(10) unsigned DEFAULT NULL',
-			'left_vasc_id' => 'int(10) unsigned DEFAULT NULL',
-			'right_central_area_id' => 'int(10) unsigned DEFAULT NULL',
-			'right_max_area_id' => 'int(10) unsigned DEFAULT NULL',
-			'right_height_id' => 'int(10) unsigned DEFAULT NULL',
-			'right_vasc_id' => 'int(10) unsigned DEFAULT NULL',
-		 */
 		return array(
 				array('event_id, eye_id, left_central_area_id, left_max_area_id, left_height_id, left_vasc_id,
 					right_central_area_id, right_max_area_id, right_height_id, right_vasc_id', 'safe'),
@@ -189,70 +162,6 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 				'criteria' => $criteria,
 		));
 	}
-
-
-	/**
-	 * if a secondary diagnosis disorder id has been set, we need to ensure its created on the patient
-	 *
-	 * @see parent::beforeSave()
-
-	public function beforeSave()
-	{
-		$curr_sd = $this->_getSecondaryDiagnosis();
-
-		if ($this->secondarydiagnosis_disorder_id
-			&& $curr_sd
-			&& $curr_sd->disorder_id != $this->secondarydiagnosis_disorder_id) {
-			// looks like this is an edit and the previous secondary diagnosis should be removed
-			// so we can set the correct value
-			$curr_disorder = $curr_sd->disorder;
-			$curr_sd->delete();
-			$curr_sd = null;
-			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $curr_disorder->term . "' has been removed because DR Grading diagnosis was updated.");
-		}
-
-		if (!$curr_sd) {
-			// need to determine if we are setting a specific disorder on the patient, or a generic diabetes
-			// diagnosis (which is implied by recording DR)
-			$patient = $this->event->episode->patient;
-			$sd = null;
-
-			if ($this->secondarydiagnosis_disorder_id) {
-				// no secondary diagnosis has been set by this element yet but one has been
-				// assigned (i.e. the element is being created with a diabetes type)
-
-				// final check to ensure nothing has changed whilst processing
-				if ( !$patient->hasDisorderTypeByIds(array_merge(Disorder::$SNOMED_DIABETES_TYPE_I_SET, Disorder::$SNOMED_DIABETES_TYPE_II_SET) ) ) {
-					$sd = new SecondaryDiagnosis();
-					$sd->patient_id = $patient->id;
-					$sd->disorder_id = $this->secondarydiagnosis_disorder_id;
-				}
-				else {
-					// clear out the secondarydiagnosis_disorder_id
-					$this->secondarydiagnosis_disorder_id = null;
-					// reset required flag as patient now has a diabetes type
-					$this->secondarydiagnosis_disorder_required = false;
-				}
-			}
-			elseif (!$patient->hasDisorderTypeByIds(Disorder::$SNOMED_DIABETES_SET)) {
-				// Set the patient to have diabetes
-				$sd = new SecondaryDiagnosis();
-				$sd->patient_id = $patient->id;
-				$sd->disorder_id = Disorder::SNOMED_DIABETES;
-			}
-
-			if ($sd !== null) {
-				$sd->save();
-				Audit::add("SecondaryDiagnosis",'add',$sd->id,null,array('patient_id' => $patient->id));
-				$this->secondarydiagnosis_id = $sd->id;
-				Yii::app()->user->setFlash('info.info', "Disorder '" . $sd->disorder->term . "' has been added to patient by DR Grading.");
-			}
-		}
-		return parent::beforeSave();
-	}
-	 */
-
-
 
 	public function canCopy()
 	{
