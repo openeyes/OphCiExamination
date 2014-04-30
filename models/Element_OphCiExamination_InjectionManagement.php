@@ -59,7 +59,7 @@ class Element_OphCiExamination_InjectionManagement extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe'),
+				array('injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe'),
 				array('injection_status_id', 'required'),
 				array('injection_status_id', 'injectionDependencyValidation'),
 				array('injection_deferralreason_id', 'injectionDeferralReasonDependencyValidation'),

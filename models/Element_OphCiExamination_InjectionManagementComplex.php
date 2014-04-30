@@ -95,7 +95,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
+				array('eye_id, left_no_treatment, right_no_treatment, left_no_treatment_reason_id, right_no_treatment_reason_id,
 						left_no_treatment_reason_other, right_no_treatment_reason_other, left_diagnosis1_id,
 						right_diagnosis1_id, left_diagnosis2_id, right_diagnosis2_id, left_comments, right_comments,
 						left_treatment_id, right_treatment_id', 'safe'),
