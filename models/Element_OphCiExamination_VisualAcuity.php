@@ -72,7 +72,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
+				array('left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -273,6 +273,32 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	}
 
 	/**
+	 * Convenience function for generating string of why a reading wasn't recorded for a side.
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	public function getTextForSide($side)
+	{
+		$checkFunc = 'has' . ucfirst($side);
+		if ($this->$checkFunc() && !$this->{$side . '_readings'}) {
+			if ($this->{$side . '_unable_to_assess'}) {
+				$text = $this->getAttributeLabel($side . '_unable_to_assess');
+				if ($this->{$side . '_eye_missing'}) {
+					$text .= ", " . $this->getAttributeLabel($side . '_eye_missing');
+				}
+				return $text;
+			}
+			elseif ($this->{$side . '_eye_missing'}) {
+				return $this->getAttributeLabel($side . '_eye_missing');
+			}
+			else {
+				return "not recorded";
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -403,11 +429,13 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
+			$text .= "Right Eye: ";
 			if ($this->getCombined('right')) {
-				$text .= "Right Eye: ".$this->getCombined('right', $unit->id);
+				$text .= $this->getCombined('right', $unit->id);
 			} else {
-				$text .= "Right Eye: not recorded";
+				$text .= $this->getTextForSide('right');
 			}
+
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
@@ -418,10 +446,11 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text .= "\n";
 
 		if ($this->hasLeft()) {
+			$text .= "Left Eye: ";
 			if ($this->getCombined('left')) {
-				$text .= "Left Eye: ".$this->getCombined('left', $unit->id);
+				$text .= $this->getCombined('left', $unit->id);
 			} else {
-				$text .= "Left Eye: not recorded";
+				$text .= $this->getTextForSide('left');
 			}
 			if (trim($this->left_comments)) {
 				$text .= ", ".$this->left_comments;

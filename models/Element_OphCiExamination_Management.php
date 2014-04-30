@@ -54,7 +54,7 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
+				array('comments', 'safe'),
 				array('comments', 'required', 'message' => '{attribute} cannot be blank when there are no child elements', 'on' => 'formHasNoChildren'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
