@@ -6,7 +6,7 @@ class m140429_140000_add_bleb_assessment_element extends OEMigration
 		$event_type_id = $this->dbConnection->createCommand()->select("id")->from("event_type")->where("class_name = :class_name",array(":class_name" => "OphCiExamination"))->queryScalar();
 
 		$element_types = array(
-			'Element_OphCiExamination_Bleb_Assessment' => array('name' => 'Bleb Assessment', 'display_order' => 110),
+			'Element_OphCiExamination_BlebAssessment' => array('name' => 'Bleb Assessment', 'display_order' => 110),
 		);
 		$this->insertOEElementType($element_types, $event_type_id);
 

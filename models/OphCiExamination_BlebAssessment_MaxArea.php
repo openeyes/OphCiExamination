@@ -88,4 +88,11 @@ class OphCiExamination_BlebAssessment_MaxArea extends BaseActiveRecordVersioned
 		));
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
+
 }

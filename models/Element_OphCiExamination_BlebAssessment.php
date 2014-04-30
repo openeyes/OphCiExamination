@@ -99,7 +99,6 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 		return array(
 				array('event_id, eye_id, left_central_area_id, left_max_area_id, left_height_id, left_vasc_id,
 					right_central_area_id, right_max_area_id, right_height_id, right_vasc_id', 'safe'),
-				array('secondarydiagnosis_disorder_id', 'flagRequired', 'flag' => 'secondarydiagnosis_disorder_required'),
 				array('left_central_area_id, left_max_area_id, left_height_id, left_vasc_id', 'requiredIfSide', 'side' => 'left'),
 				array('right_central_area_id, right_max_area_id, right_height_id, right_vasc_id', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().

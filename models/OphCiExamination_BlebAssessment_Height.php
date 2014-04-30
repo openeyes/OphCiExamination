@@ -88,4 +88,11 @@ class OphCiExamination_BlebAssessment_Height extends BaseActiveRecordVersioned
 		));
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
+
 }

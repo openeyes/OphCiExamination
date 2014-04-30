@@ -88,4 +88,11 @@ class OphCiExamination_BlebAssessment_Vascularity extends BaseActiveRecordVersio
 		));
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
+
 }
