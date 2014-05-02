@@ -20,6 +20,16 @@
 <div class="element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<script type="text/javascript">
+		var idToImagesArr = {
+			'Element_OphCiExamination_BlebAssessment_left_central_area_id':'centralArea',
+			'Element_OphCiExamination_BlebAssessment_right_central_area_id':'centralArea',
+			'Element_OphCiExamination_BlebAssessment_left_max_area_id':'maxArea',
+			'Element_OphCiExamination_BlebAssessment_right_max_area_id':'maxArea',
+			'Element_OphCiExamination_BlebAssessment_left_height_id':'height',
+			'Element_OphCiExamination_BlebAssessment_right_height_id':'height',
+			'Element_OphCiExamination_BlebAssessment_left_vasc_id':'vascularity',
+			'Element_OphCiExamination_BlebAssessment_right_vasc_id':'vascularity'
+		};
 		var FieldImages = <?php
 			$fieldImages = array(
 				'height'=>OphCiExamination_BlebAssessment_Height::model()->getFieldImages(),
@@ -28,7 +38,11 @@
 				'vascularity'=>OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages()
 			);
 			echo json_encode($fieldImages) ;
-			 ?>
+			 ?>;
+		var oeFieldImages = new OpenEyes.UI.FieldImages({idToImages:idToImagesArr,images:FieldImages});
+		$(document).ready(function() {
+			oeFieldImages.setFieldButtons();
+		});
 	</script>
 	<?php
 
