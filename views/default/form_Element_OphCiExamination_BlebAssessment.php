@@ -19,7 +19,19 @@
 ?>
 <div class="element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<script type="text/javascript">
+		var FieldImages = <?php
+			$fieldImages = array(
+				'height'=>OphCiExamination_BlebAssessment_Height::model()->getFieldImages(),
+				'maxArea'=>OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages(),
+				'centralArea'=>OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages(),
+				'vascularity'=>OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages()
+			);
+			echo json_encode($fieldImages) ;
+			 ?>
+	</script>
 	<?php
+
 		$centralAreas = CHtml::listData(
 			OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
 				array($element->right_central_area_id,$element->left_central_area_id))->findAll(array('order' => 'display_order')
@@ -64,7 +76,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -72,7 +84,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
@@ -80,7 +92,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_height_id', $heights
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
@@ -88,14 +100,12 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_vasc_id', $vascularities
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 				</tr>
 				</tbody>
 			</table>
-
-			<?php //echo $form->dropDownList($element, 'right_abnormality_id', 'OphCiExamination_PupillaryAbnormalities_Abnormality', array('empty' => '-- Select --'), false, array('label' => 3, 'field' => 6)); ?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">

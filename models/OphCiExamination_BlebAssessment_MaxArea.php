@@ -92,7 +92,11 @@ class OphCiExamination_BlebAssessment_MaxArea extends BaseActiveRecordVersioned
 	{
 		return array(
 			'LookupTable' => 'LookupTable',
+			'FieldImages' => 'FieldImages'
 		);
 	}
 
+	public function fieldImages(){
+		return array('area');
+	}
 }

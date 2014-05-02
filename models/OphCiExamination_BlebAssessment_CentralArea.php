@@ -92,7 +92,11 @@ class OphCiExamination_BlebAssessment_CentralArea extends BaseActiveRecordVersio
 	{
 		return array(
 			'LookupTable' => 'LookupTable',
+			'FieldImages' => 'FieldImages'
 		);
 	}
 
+	public function fieldImages(){
+		return array('area');
+	}
 }
