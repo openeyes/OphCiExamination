@@ -71,35 +71,33 @@
 				</thead>
 				<tbody>
 				<tr>
-
 					<!-- Area (Central) -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
+						echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
 							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
-
 					<!-- Area (Maximal) -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
+						echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
 					<!-- Height -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'left_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
+						echo $form->dropDownList($element, 'right_height_id', $heights
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
 					<!-- Vascularity -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'left_vasc_id', $vascularities
+						echo $form->dropDownList($element, 'right_vasc_id', $vascularities
 							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
@@ -129,11 +127,10 @@
 				</thead>
 				<tbody>
 				<tr>
-
 					<!-- Area (Central) -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
+						echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
 							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
@@ -141,23 +138,23 @@
 					<!-- Area (Maximal) -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+						echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
 					<!-- Height -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'right_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+						echo $form->dropDownList($element, 'left_height_id', $heights
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
 					<!-- Vascularity -->
 					<td>
 						<?php
-						echo $form->dropDownList($element, 'right_vasc_id', $vascularities
+						echo $form->dropDownList($element, 'left_vasc_id', $vascularities
 							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
