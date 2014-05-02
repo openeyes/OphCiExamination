@@ -134,7 +134,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -142,7 +142,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -150,7 +150,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_height_id', $heights
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -158,7 +158,7 @@
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_vasc_id', $vascularities
-							, array('empty' => 'NR'), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 				</tr>
