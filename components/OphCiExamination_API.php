@@ -304,7 +304,7 @@ class OphCiExamination_API extends \BaseAPI
 	 */
 	public function getVAList()
 	{
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->addCondition('name = :nm');
 		$criteria->params = array(':nm' => 'Snellen Metre');
 
@@ -583,7 +583,7 @@ class OphCiExamination_API extends \BaseAPI
 
 		if ($events) {
 			foreach (@$events as $event) {
-				$criteria = new CDbCriteria;
+				$criteria = new \CDbCriteria;
 				$criteria->compare('event_id',$event->id);
 
 				$diagnoses_el = \OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses::model()->find($criteria);
@@ -600,10 +600,10 @@ class OphCiExamination_API extends \BaseAPI
 
 	public function getLetterStringForModel($patient, $episode, $element_type_id)
 	{
-		if (!$element_type = ElementType::model()->findByPk($element_type_id)) {
+		if (!$element_type = \ElementType::model()->findByPk($element_type_id)) {
 			throw new Exception("Unknown element type: $element_type_id");
 		}
-
+		error_log("i think we should be here:" . $element_type->class_name);
 		if ($element = $this->getElementForLatestEventInEpisode($patient, $episode, $element_type->class_name)) {
 			return $element->letter_string;
 		}
@@ -613,22 +613,22 @@ class OphCiExamination_API extends \BaseAPI
 	 *
 	 * returns all the elements from the most recent examination of the patient in the given episode
 	 *
-	 * @param Patient $patient
-	 * @param Episode $episode
-	 * @return ElementType[] - array of various different element type objects
+	 * @param \Patient $patient
+	 * @param \Episode $episode
+	 * @return \ElementType[] - array of various different element type objects
 	 */
 	public function getElementsForLatestEventInEpisode($patient, $episode)
 	{
 		$element_types = array();
 
-		$event_type = \EventType::model()->find('class_name=?',array('OphCiExamination'));
+		$event_type = $this->getEventType();
 
 		if ($event_type && $event = $this->getMostRecentEventInEpisode($episode->id, $event_type->id)) {
-			$criteria = new CDbCriteria;
+			$criteria = new \CDbCriteria;
 			$criteria->compare('event_type_id',$event_type->id);
 			$criteria->order = 'display_order';
 
-			foreach (ElementType::model()->findAll($criteria) as $element_type) {
+			foreach (\ElementType::model()->findAll($criteria) as $element_type) {
 				$class = $element_type->class_name;
 
 				if ($element = $class::model()->find('event_id=?',array($event->id))) {
@@ -802,7 +802,7 @@ class OphCiExamination_API extends \BaseAPI
 			}
 			$res = array();
 			foreach ($events as $event) {
-				$criteria = new CDbCriteria;
+				$criteria = new \CDbCriteria;
 				$criteria->compare('event_id',$event->id);
 				$criteria->addInCondition('eye_id', $side_list);
 				if ($before) {
