@@ -658,11 +658,11 @@ class OphCiExamination_API extends \BaseAPI
 	{
 		$events = $this->getEventsInEpisode($patient, $episode);
 
-		$eye_vals = array(\SplitEventTypeElement::BOTH);
+		$eye_vals = array(\Eye::BOTH);
 		if ($side == 'left') {
-			$eye_vals[] = \SplitEventTypeElement::LEFT;
+			$eye_vals[] = \Eye::LEFT;
 		} else {
-			$eye_vals[] = \SplitEventTypeElement::RIGHT;
+			$eye_vals[] = \Eye::RIGHT;
 		}
 		foreach (@$events as $event) {
 			$criteria = new \CDbCriteria;
