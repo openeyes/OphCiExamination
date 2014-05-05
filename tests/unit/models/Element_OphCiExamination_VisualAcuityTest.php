@@ -33,7 +33,7 @@ class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCa
 	 * @dataProvider letter_stringProvider
 	 */
 	public function testgetLetter_String($right_eye, $left_eye, $res) {
-		$test = $this->getMockBuilder('Element_OphCiExamination_VisualAcuity')
+		$test = $this->getMockBuilder('\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')
 				->disableOriginalConstructor()
 				->setMethods(array('getCombined'))
 				->getMock();
@@ -108,14 +108,14 @@ class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCa
 	 */
 	public function testgetTextForSide($side, $readings, $unable, $eye_missing, $res)
 	{
-		$test = new Element_OphCiExamination_VisualAcuity();
+		$test = new \OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity();
 		if ($side == 'left') {
 			$test->eye_id = Eye::LEFT;
 		} else {
 			$test->eye_id = Eye::RIGHT;
 		}
 		if ($readings) {
-			$test->{$side . '_readings'} = array(new OphCiExamination_VisualAcuity_Reading());
+			$test->{$side . '_readings'} = array(new \OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading());
 		}
 		$test->{$side . '_unable_to_assess'} = $unable;
 		$test->{$side . '_eye_missing'} = $eye_missing;

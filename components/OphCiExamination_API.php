@@ -247,7 +247,7 @@ class OphCiExamination_API extends \BaseAPI
 	 */
 	public function getLetterVisualAcuityForEpisodeLeft($episode, $include_nr_values = false)
 	{
-		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, 'Element_OphCiExamination_VisualAcuity')) {
+		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')) {
 			if ($va->hasLeft()) {
 				if ($best = $va->getBestReading('left')) {
 					return $best->convertTo($best->value, $this->getSnellenUnitId());
@@ -268,7 +268,7 @@ class OphCiExamination_API extends \BaseAPI
 	 */
 	public function getLetterVisualAcuityForEpisodeRight($episode, $include_nr_values = false)
 	{
-		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, 'Element_OphCiExamination_VisualAcuity')) {
+		if ($va = $this->getElementForLatestEventInEpisode($episode->patient, $episode, '\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')) {
 			if ($va->hasRight()) {
 				if ($best = $va->getBestReading('right')) {
 					return $best->convertTo($best->value, $this->getSnellenUnitId());
@@ -292,7 +292,7 @@ class OphCiExamination_API extends \BaseAPI
 		$left = $this->getLetterVisualAcuityForEpisodeLeft($episode, $include_nr_values);
 		$right = $this->getLetterVisualAcuityForEpisodeRight($episode, $include_nr_values);
 
-		return ($right ? $right : "not recorded")." on the right and ". ($left ? $left : "not recorded")." on the left";
+		return  ($right ? $right : "not recorded")." on the right and ". ($left ? $left : "not recorded")." on the left";
 	}
 
 	/**
