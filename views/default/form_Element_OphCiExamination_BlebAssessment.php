@@ -17,25 +17,69 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<?php
+
+$centralAreas = CHtml::listData(
+	OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
+		array($element->right_central_area_id,$element->left_central_area_id))->findAll(array('order' => 'display_order')
+		)
+	,'id','area'
+);
+$centralAreaFieldImages = OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages();
+
+$maxAreas = CHtml::listData(
+	OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
+		array($element->right_max_area_id,$element->left_max_area_id))->findAll(array('order' => 'display_order')
+		)
+	,'id','area'
+);
+$maxAreaFieldImages = OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages();
+
+$heights = CHtml::listData(
+	OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
+		array($element->right_height_id,$element->left_height_id))->findAll(array('order' => 'display_order')
+		)
+	,'id','height'
+);
+$heightFieldImages = OphCiExamination_BlebAssessment_Height::model()->getFieldImages();
+
+$vascularities = CHtml::listData(
+	OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
+		array($element->right_vasc_id,$element->left_vasc_id))->findAll(array('order' => 'display_order')
+		)
+	,'id','vascularity'
+);
+$vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages();
+
+?>
 <div class="element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<script type="text/javascript">
 		var idToImagesArr = {
-			'Element_OphCiExamination_BlebAssessment_left_central_area_id':'centralArea',
-			'Element_OphCiExamination_BlebAssessment_right_central_area_id':'centralArea',
-			'Element_OphCiExamination_BlebAssessment_left_max_area_id':'maxArea',
-			'Element_OphCiExamination_BlebAssessment_right_max_area_id':'maxArea',
-			'Element_OphCiExamination_BlebAssessment_left_height_id':'height',
-			'Element_OphCiExamination_BlebAssessment_right_height_id':'height',
-			'Element_OphCiExamination_BlebAssessment_left_vasc_id':'vascularity',
-			'Element_OphCiExamination_BlebAssessment_right_vasc_id':'vascularity'
+			'Element_OphCiExamination_BlebAssessment_left_central_area_id':
+				{id:'centralArea',selects:<?php echo json_encode($centralAreas) ;?>},
+			'Element_OphCiExamination_BlebAssessment_right_central_area_id':
+				{id:'centralArea',selects:<?php echo json_encode($centralAreas) ;?>},
+			'Element_OphCiExamination_BlebAssessment_left_max_area_id':
+				{id:'maxArea',selects:<?php echo json_encode($maxAreas) ;?>},
+			'Element_OphCiExamination_BlebAssessment_right_max_area_id':
+				{id:'maxArea',selects:<?php echo json_encode($maxAreas) ;?>},
+			'Element_OphCiExamination_BlebAssessment_left_height_id':
+				{id:'height',selects:<?php echo json_encode($heights) ;?>},
+			'Element_OphCiExamination_BlebAssessment_right_height_id':
+				{id:'height',selects:<?php echo json_encode($heights) ;?>},
+			'Element_OphCiExamination_BlebAssessment_left_vasc_id':
+				{id:'vascularities',selects:<?php echo json_encode($vascularities) ;?>},
+			'Element_OphCiExamination_BlebAssessment_right_vasc_id':
+				{id:'vascularities',selects:<?php echo json_encode($vascularities) ;?>}
 		};
 		var FieldImages = <?php
+			//var_dump(OphCiExamination_BlebAssessment_Height::model()->getAttributes(array('height')));
 			$fieldImages = array(
-				'height'=>OphCiExamination_BlebAssessment_Height::model()->getFieldImages(),
-				'maxArea'=>OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages(),
-				'centralArea'=>OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages(),
-				'vascularity'=>OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages()
+				'height'=>$heightFieldImages,
+				'maxArea'=>$maxAreaFieldImages,
+				'centralArea'=>$centralAreaFieldImages,
+				'vascularity'=>$vascularitiesFieldImages
 			);
 			echo json_encode($fieldImages) ;
 			 ?>;
@@ -44,33 +88,7 @@
 			oeFieldImages.setFieldButtons();
 		});
 	</script>
-	<?php
 
-		$centralAreas = CHtml::listData(
-			OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
-				array($element->right_central_area_id,$element->left_central_area_id))->findAll(array('order' => 'display_order')
-				)
-			,'id','area'
-		);
-		$maxAreas = CHtml::listData(
-			OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
-				array($element->right_max_area_id,$element->left_max_area_id))->findAll(array('order' => 'display_order')
-				)
-			,'id','area'
-		);
-		$heights = CHtml::listData(
-			OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
-				array($element->right_height_id,$element->left_height_id))->findAll(array('order' => 'display_order')
-				)
-			,'id','height'
-		);
-		$vascularities = CHtml::listData(
-			OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
-				array($element->right_vasc_id,$element->left_vasc_id))->findAll(array('order' => 'display_order')
-				)
-			,'id','vascularity'
-		);
-	?>
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
