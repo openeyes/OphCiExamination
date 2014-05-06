@@ -188,6 +188,24 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
+	 * Override action value when action is step to be update.
+	 *
+	 * @param BaseEventTypeElement $element
+	 * @param string $action
+	 * @param BaseCActiveBaseEventTypeCActiveForm $form
+	 * @param array $data
+	 * @param array $view_data
+	 * @param bool $return
+	 * @param bool $processOutput
+	 */
+	protected function renderElement($element, $action, $form, $data, $view_data=array(), $return=false, $processOutput=false)
+	{
+		if ($action == 'step') {
+			$action = 'update';
+		}
+		parent::renderElement($element, $action, $form, $data, $view_data, $return, $processOutput);
+	}
+	/**
 	 * Advance the workflow step for the event if requested
 	 *
 	 * @param Event $event
