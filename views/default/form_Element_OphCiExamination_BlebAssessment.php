@@ -69,9 +69,9 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 			'Element_OphCiExamination_BlebAssessment_right_height_id':
 				{id:'height',selects:<?php echo json_encode($heights) ;?>},
 			'Element_OphCiExamination_BlebAssessment_left_vasc_id':
-				{id:'vascularities',selects:<?php echo json_encode($vascularities) ;?>},
+				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>},
 			'Element_OphCiExamination_BlebAssessment_right_vasc_id':
-				{id:'vascularities',selects:<?php echo json_encode($vascularities) ;?>}
+				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>}
 		};
 		var FieldImages = <?php
 			//var_dump(OphCiExamination_BlebAssessment_Height::model()->getAttributes(array('height')));
