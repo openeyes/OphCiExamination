@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_bleb_assessment_height".
  *
@@ -25,7 +27,7 @@
  * @property boolean $active
 
  */
-class OphCiExamination_BlebAssessment_Height extends BaseActiveRecordVersioned
+class OphCiExamination_BlebAssessment_Height extends \BaseActiveRecordVersioned
 {
 	protected $attribute_options = array();
 
@@ -80,10 +82,10 @@ class OphCiExamination_BlebAssessment_Height extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('height',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_bleb_assessment".
  *
@@ -39,7 +41,7 @@
  *
  */
 
-class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
+class Element_OphCiExamination_BlebAssessment extends \SplitEventTypeElement
 {
 	public $service;
 	public $secondarydiagnosis_disorder_required = false;
@@ -104,14 +106,14 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_central_area' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_CentralArea', 'left_central_area_id'),
-				'left_max_area' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_MaxArea', 'left_max_area_id'),
-				'left_height' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_Height', 'left_height_id'),
-				'left_vasc' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_Vascularity', 'left_vasc_id'),
-				'right_central_area' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_CentralArea', 'right_central_area_id'),
-				'right_max_area' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_MaxArea', 'right_max_area_id'),
-				'right_height' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_Height', 'right_height_id'),
-				'right_vasc' => array(self::BELONGS_TO, 'OphCiExamination_BlebAssessment_Vascularity', 'right_vasc_id'),
+				'left_central_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'left_central_area_id'),
+				'left_max_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'left_max_area_id'),
+				'left_height' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'left_height_id'),
+				'left_vasc' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'left_vasc_id'),
+				'right_central_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'right_central_area_id'),
+				'right_max_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'right_max_area_id'),
+				'right_height' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'right_height_id'),
+				'right_vasc' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'right_vasc_id'),
 		);
 	}
 
@@ -144,7 +146,7 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -158,7 +160,7 @@ class Element_OphCiExamination_BlebAssessment extends SplitEventTypeElement
 		$criteria->compare('right_height_id', $this->right_height_id);
 		$criteria->compare('right_vasc_id', $this->right_vasc_id);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

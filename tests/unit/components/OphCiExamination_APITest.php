@@ -50,7 +50,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 
 			$api->expects($this->once())
 				->method('getElementForLatestEventInEpisode')
-				->with($this->equalTo($patient), $this->equalTo($episode), '\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')
+				->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 				->will($this->returnValue($va));
 
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
@@ -93,7 +93,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 
 			$api->expects($this->exactly(2))
 					->method('getElementForLatestEventInEpisode')
-					->with($this->equalTo($patient), $this->equalTo($episode), '\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')
+					->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 					->will($this->returnValue($va));
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
 			$this->assertEquals('Expected Result', $api->$method($episode, true));

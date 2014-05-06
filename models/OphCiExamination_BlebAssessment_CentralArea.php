@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_bleb_assessment_central_area".
  *
@@ -25,7 +27,7 @@
  * @property boolean $active
 
  */
-class OphCiExamination_BlebAssessment_CentralArea extends BaseActiveRecordVersioned
+class OphCiExamination_BlebAssessment_CentralArea extends \BaseActiveRecordVersioned
 {
 	protected $attribute_options = array();
 

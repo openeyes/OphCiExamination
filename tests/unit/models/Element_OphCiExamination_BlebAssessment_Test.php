@@ -32,7 +32,7 @@ class Element_OphCiExamination_BlebAssessment_Test extends CDbTestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->model = new Element_OphCiExamination_BlebAssessment;
+		$this->model = new \OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment;
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Element_OphCiExamination_BlebAssessment_Test extends CDbTestCase {
 	 * @covers Element_OphCiExamination_BlebAssessment::model
 	 */
 	public function testModel() {
-		$this->assertEquals('Element_OphCiExamination_BlebAssessment', get_class($this->model), 'Class name should match model.');
+		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment', get_class($this->model), 'Class name should match model.');
 		$this->assertTrue(is_subclass_of($this->model, 'SplitEventTypeElement'));
 	}
 

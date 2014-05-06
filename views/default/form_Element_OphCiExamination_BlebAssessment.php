@@ -20,36 +20,36 @@
 <?php
 
 $centralAreas = CHtml::listData(
-	OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
+	\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
 		array($element->right_central_area_id,$element->left_central_area_id))->findAll(array('order' => 'display_order')
 		)
 	,'id','area'
 );
-$centralAreaFieldImages = OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages();
+$centralAreaFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages();
 
 $maxAreas = CHtml::listData(
-	OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
+		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
 		array($element->right_max_area_id,$element->left_max_area_id))->findAll(array('order' => 'display_order')
 		)
 	,'id','area'
 );
-$maxAreaFieldImages = OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages();
+$maxAreaFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages();
 
 $heights = CHtml::listData(
-	OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
+		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
 		array($element->right_height_id,$element->left_height_id))->findAll(array('order' => 'display_order')
 		)
 	,'id','height'
 );
-$heightFieldImages = OphCiExamination_BlebAssessment_Height::model()->getFieldImages();
+$heightFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model()->getFieldImages();
 
 $vascularities = CHtml::listData(
-	OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
+		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
 		array($element->right_vasc_id,$element->left_vasc_id))->findAll(array('order' => 'display_order')
 		)
 	,'id','vascularity'
 );
-$vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages();
+$vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages();
 
 ?>
 <div class="element-fields element-eyes row">

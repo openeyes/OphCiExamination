@@ -32,7 +32,7 @@ class OphCiExamination_BlebAssessment_Vascularity_Test extends CDbTestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->model = new OphCiExamination_BlebAssessment_Vascularity;
+		$this->model = new \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity;
 	}
 
 	/**
@@ -46,7 +46,7 @@ class OphCiExamination_BlebAssessment_Vascularity_Test extends CDbTestCase {
 	 * @covers OphCiExamination_BlebAssessment_Vascularity::model
 	 */
 	public function testModel() {
-		$this->assertEquals('OphCiExamination_BlebAssessment_Vascularity', get_class($this->model), 'Class name should match model.');
+		$this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', get_class($this->model), 'Class name should match model.');
 	}
 
 	/**
