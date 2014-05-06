@@ -107,14 +107,14 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 					<!-- Area (Maximal) -->
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -122,7 +122,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -130,7 +130,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'right_vasc_id', $vascularities
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 				</tr>
@@ -163,7 +163,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 
@@ -171,7 +171,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
@@ -179,7 +179,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 4)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
 						); ?>
 					</td>
 
@@ -187,7 +187,7 @@ $vascularitiesFieldImages = OphCiExamination_BlebAssessment_Vascularity::model()
 					<td>
 						<?php
 						echo $form->dropDownList($element, 'left_vasc_id', $vascularities
-							, array('empty' => 'NR', 'nowrapper' => true), false, array('label' => 0, 'field' => 6)
+							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
 						); ?>
 					</td>
 				</tr>
