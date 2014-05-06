@@ -103,7 +103,7 @@ class OphCiExamination_Management_DeferralReason extends \BaseActiveRecordVersio
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

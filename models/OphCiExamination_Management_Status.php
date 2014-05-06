@@ -103,7 +103,7 @@ class OphCiExamination_Management_Status extends \BaseActiveRecordVersioned
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
 		$criteria->compare('deferred',$this->deferred,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

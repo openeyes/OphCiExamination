@@ -123,14 +123,14 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 		$criteria->compare('role_id', $this->role_id);
 		$criteria->compare('role_comments', $this->role_comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
 	/**
 	 * Follow up data is only required for status that are flagged for follow up
-	 * 
+	 *
 	 * @property string $attribute
 	 */
 	public function statusDependencyValidation($attribute)

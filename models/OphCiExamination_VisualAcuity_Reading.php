@@ -83,7 +83,7 @@ class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 		$criteria->compare('method_id',$this->method_id,true);
 		$criteria->compare('element_id',$this->element_id,true);
 		$criteria->compare('side',$this->side,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

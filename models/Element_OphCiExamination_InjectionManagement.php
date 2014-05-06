@@ -117,7 +117,7 @@ class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 		$criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
 		$criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

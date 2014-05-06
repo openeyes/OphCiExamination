@@ -90,7 +90,7 @@ class OphCiExamination_AttributeOption extends \BaseActiveRecordVersioned
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);
 		$criteria->compare('delimiter',$this->delimiter,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

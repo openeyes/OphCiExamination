@@ -134,7 +134,7 @@ class Element_OphCiExamination_PosteriorPole extends \SplitEventTypeElement
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

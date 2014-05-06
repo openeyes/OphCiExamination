@@ -131,7 +131,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends \SplitEventTypeElemen
 		$criteria->compare('right_method_id', $this->right_method_id);
 
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

@@ -106,7 +106,7 @@ class OphCiExamination_OCT_FluidTypeAssignment extends \BaseActiveRecordVersione
 
 		$criteria->compare('id', $this->id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 		));
 	}

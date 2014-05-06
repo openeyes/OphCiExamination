@@ -210,7 +210,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 		$criteria->compare('right_comments', $this->right_comments);
 
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

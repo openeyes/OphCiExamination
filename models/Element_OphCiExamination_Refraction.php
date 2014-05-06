@@ -190,7 +190,7 @@ class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 		$criteria->compare('right_type_id', $this->right_type_id);
 		$criteria->compare('right_type_other', $this->right_type_other);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

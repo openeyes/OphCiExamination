@@ -96,7 +96,7 @@ class OphCiExamination_DRGrading_NSCMaculopathy extends \BaseActiveRecordVersion
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('booking_weeks',$this->booking_weeks,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

@@ -175,7 +175,7 @@ class Element_OphCiExamination_AnteriorSegment extends \SplitEventTypeElement
 		$criteria->compare('right_phako', $this->right_phako);
 		$criteria->compare('right_description', $this->right_description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

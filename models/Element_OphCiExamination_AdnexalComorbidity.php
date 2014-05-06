@@ -121,7 +121,7 @@ class Element_OphCiExamination_AdnexalComorbidity extends \SplitEventTypeElement
 		$criteria->compare('left_description', $this->left_description);
 		$criteria->compare('right_description', $this->right_description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

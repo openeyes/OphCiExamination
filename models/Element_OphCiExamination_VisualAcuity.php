@@ -317,7 +317,7 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		$criteria->compare('left_comments', $this->left_comments);
 		$criteria->compare('right_comments', $this->right_comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

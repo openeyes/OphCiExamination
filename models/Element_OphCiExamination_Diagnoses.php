@@ -118,7 +118,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		$criteria->compare('eye_id', $this->eye_id);
 		$criteria->compare('disorder_id', $this->disorder_id);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

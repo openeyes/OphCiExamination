@@ -172,7 +172,7 @@ class Element_OphCiExamination_Gonioscopy extends \SplitEventTypeElement
 		$criteria->compare('left_eyedraw', $this->left_eyedraw, true);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

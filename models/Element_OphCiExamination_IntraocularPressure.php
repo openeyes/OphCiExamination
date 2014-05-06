@@ -121,7 +121,7 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 		$criteria->compare('right_instrument_id', $this->right_instrument_id);
 		$criteria->compare('right_reading_id', $this->right_reading_id);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

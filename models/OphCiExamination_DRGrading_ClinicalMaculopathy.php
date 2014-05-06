@@ -95,7 +95,7 @@ class OphCiExamination_DRGrading_ClinicalMaculopathy extends \BaseActiveRecordVe
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

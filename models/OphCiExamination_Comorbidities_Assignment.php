@@ -77,7 +77,7 @@ class OphCiExamination_Comorbidities_Assignment extends \BaseActiveRecordVersion
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('element_id',$this->element_id,true);
 		$criteria->compare('item_id',$this->item_id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

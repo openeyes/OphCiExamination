@@ -110,7 +110,7 @@ class Element_OphCiExamination_Conclusion extends \BaseEventTypeElement
 
 		$criteria->compare('description', $this->description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

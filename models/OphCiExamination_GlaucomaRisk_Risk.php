@@ -79,7 +79,7 @@ class OphCiExamination_GlaucomaRisk_Risk extends \BaseActiveRecordVersioned
 		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}
