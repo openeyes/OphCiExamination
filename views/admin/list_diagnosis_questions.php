@@ -33,7 +33,7 @@
 		</div>
 		<div class="large-6 column end">
 			<?php
-			echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
+			echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
 			?>
 		</div>
 	</div>
@@ -59,7 +59,7 @@
 				<?php
 				foreach ($model_list as $i => $model) {?>
 					<tr data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
-						<td><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . get_class($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></td>
+						<td><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . Helper::getNSShortname($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></td>
 						<td>
 							<input type="checkbox" class="model_enabled" <?php if ($model->active) { echo "checked"; }?> />
 						</td>

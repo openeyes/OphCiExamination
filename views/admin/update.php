@@ -29,7 +29,7 @@
 			)
 		));
 
-		$this->renderPartial('form_' . get_class($model), array(
+		$this->renderPartial('form_' . Helper::getNSShortname($model), array(
 				'model' => $model,
 				'form' => $form,
 		));

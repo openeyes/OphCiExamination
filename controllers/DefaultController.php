@@ -19,6 +19,7 @@
 
 namespace OEModule\OphCiExamination\controllers;
 use Yii;
+use \OEModule\OphCiExamination\models;
 
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
@@ -99,7 +100,7 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function initEdit()
 	{
-		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = \OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = models\Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
@@ -143,14 +144,14 @@ class DefaultController extends \BaseEventTypeController
 			// and any other ophthalmic secondary diagnoses the patient has
 			$diagnoses = array();
 			if ($principal = $this->episode->diagnosis) {
-				$d = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
+				$d = new models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $principal->id;
 				$d->principal = true;
 				$d->eye_id = $this->episode->eye_id;
 				$diagnoses[] = $d;
 			}
 			foreach ($this->patient->getOphthalmicDiagnoses() as $sd) {
-				$d = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
+				$d = new models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $sd->disorder_id;
 				$d->eye_id = $sd->eye_id;
 				$diagnoses[] = $d;
@@ -219,9 +220,9 @@ class DefaultController extends \BaseEventTypeController
 	{
 		if ($this->step) {
 			// Advance the workflow
-			if (!$assignment = \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+			if (!$assignment = models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 				// Create initial workflow assignment if event hasn't already got one
-				$assignment = new \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment();
+				$assignment = new models\OphCiExamination_Event_ElementSet_Assignment();
 				$assignment->event_id = $event->id;
 			}
 			if (!$next_step = $this->getNextStep($event)) {
@@ -287,7 +288,7 @@ class DefaultController extends \BaseEventTypeController
 		$firm_id = $this->firm->id;
 		$status_id = $this->episode->episode_status_id;
 
-		return \OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+		return models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 	}
 
 	/**
@@ -300,7 +301,7 @@ class DefaultController extends \BaseEventTypeController
 		if (!$event) {
 			$event = $this->event;
 		}
-		if ($assignment = \OEModule\OphCiExamination\models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+		if ($assignment = models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 			$step = $assignment->step;
 		} else {
 			$step = $this->getFirstStep();
@@ -377,7 +378,7 @@ class DefaultController extends \BaseEventTypeController
 			$firm_id = $this->firm->id;
 			$subspecialty_id = $this->firm->getSubspecialtyID();
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
-			$set = \OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
 
 		$element_types = $set->DefaultElementTypes;
@@ -424,7 +425,7 @@ class DefaultController extends \BaseEventTypeController
 		$questions = array();
 		foreach (@$_GET['disorders'] as $did) {
 			if ((int) $did) {
-				foreach (\OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
+				foreach (models\Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
 					$questions[] = $q;
 				}
 			}
@@ -437,7 +438,7 @@ class DefaultController extends \BaseEventTypeController
 				'htmlOptions' => array('class' => 'sliding'),
 		));
 
-		$element = new \OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex();
+		$element = new models\Element_OphCiExamination_InjectionManagementComplex();
 
 		// and now render
 		$this->renderPartial(
@@ -458,7 +459,7 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	public function getAttributes($element, $subspecialty_id = null)
 	{
-		$attributes = \OEModule\OphCiExamination\models\OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
+		$attributes = models\OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
 		return $attributes;
 	}
 
@@ -480,7 +481,7 @@ class DefaultController extends \BaseEventTypeController
 			if ($element->$checker()) {
 				if (isset($data[$model_name][$side . '_Answer']) ) {
 					foreach ($data[$model_name][$side . '_Answer'] as $id => $p_ans) {
-						$answer = new \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Answer();
+						$answer = new models\OphCiExamination_InjectionManagementComplex_Answer();
 						$answer->question_id = $id;
 						$answer->answer = $p_ans;
 						$answer->eye_id = $eye_id;
@@ -489,7 +490,7 @@ class DefaultController extends \BaseEventTypeController
 				}
 				if (isset($data[$model_name][$side . '_risks']) ) {
 					foreach ($data[$model_name][$side . '_risks'] as $risk_id) {
-						if ($risk = \OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+						if ($risk = models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
 							$risks[] = $risk;
 						}
 					}
@@ -543,7 +544,7 @@ class DefaultController extends \BaseEventTypeController
 			if ($element->$checker()) {
 				if (isset($data[$model_name][$side . '_fluidtypes'])) {
 					foreach ($data[$model_name][$side . '_fluidtypes'] as $ft_id) {
-						if ($ft = \OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+						if ($ft = models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
 							$fts[] = $ft;
 						}
 					}
@@ -576,7 +577,7 @@ class DefaultController extends \BaseEventTypeController
 
 		if (is_array(@$data['selected_diagnoses'])) {
 			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnosis = new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis();
+				$diagnosis = new models\OphCiExamination_Diagnosis();
 				$diagnosis->eye_id = $diagnosis_eyes[$i];
 				$diagnosis->disorder_id = $disorder_id;
 				$diagnosis->principal = (@$data['principal_diagnosis'] == $disorder_id);
@@ -589,11 +590,11 @@ class DefaultController extends \BaseEventTypeController
 	/**
 	 * set the dilation treatments against the element from the provided data
 	 *
-	 * @param \OEModule\OphCiExamination\models\Element_OphCiExamination_Dilation $element
+	 * @param models\Element_OphCiExamination_Dilation $element
 	 * @param $data
 	 * @param $index
 	 */
-	protected function setComplexAttributes_Element_OphCiExamination_Dilation(\OEModule\OphCiExamination\models\Element_OphCiExamination_Dilation $element, $data, $index)
+	protected function setComplexAttributes_Element_OphCiExamination_Dilation(models\Element_OphCiExamination_Dilation $element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 		foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT) as $side => $eye_id) {
@@ -603,10 +604,10 @@ class DefaultController extends \BaseEventTypeController
 				if (isset($data[$model_name][$side . '_treatments'])) {
 					foreach ($data[$model_name][$side . '_treatments'] as $idx => $p_treat) {
 						if (@$p_treat['id']) {
-							$dilation = \OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment::model()->findByPk($p_treat['id']);
+							$dilation = models\OphCiExamination_Dilation_Treatment::model()->findByPk($p_treat['id']);
 						}
 						else {
-							$dilation = new \OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment();
+							$dilation = new models\OphCiExamination_Dilation_Treatment();
 						}
 						$dilation->attributes = $p_treat;
 						$dilations[] = $dilation;
@@ -690,11 +691,11 @@ class DefaultController extends \BaseEventTypeController
 	/**
 	 * Save the dilation treatments
 	 *
-	 * @param \OEModule\OphCiExamination\models\Element_OphCiExamination_Dilation $element
+	 * @param models\Element_OphCiExamination_Dilation $element
 	 * @param $data
 	 * @param $index
 	 */
-	protected function saveComplexAttributes_Element_OphCiExamination_Dilation(\OEModule\OphCiExamination\models\Element_OphCiExamination_Dilation $element, $data, $index)
+	protected function saveComplexAttributes_Element_OphCiExamination_Dilation(models\Element_OphCiExamination_Dilation $element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 		$element->updateTreatments(\Eye::LEFT, $element->hasLeft() ?
