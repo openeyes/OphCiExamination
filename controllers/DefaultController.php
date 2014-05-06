@@ -811,5 +811,32 @@ class DefaultController extends \BaseEventTypeController
 				array());
 	}
 
+	protected function setComplexAttributes_Element_OphCiExamination_IntraocularPressure(models\Element_OphCiExamination_IntraocularPressure $element, $data)
+	{
+		$model_name = \CHtml::modelName(models\OphCiExamination_IntraocularPressure_Value::model());
 
+		foreach (array('left', 'right') as $side) {
+			$values = array();
+			if (isset($data[$model_name]["{$side}_values"])) {
+				foreach ($data[$model_name]["{$side}_values"] as $attrs) {
+					$value = new models\OphCiExamination_IntraocularPressure_Value;
+					$value->attributes = $attrs;
+					$values[] = $value;
+				}
+			}
+			$element->{"{$side}_values"} = $values;
+		}
+	}
+
+	protected function saveComplexAttributes_Element_OphCiExamination_IntraocularPressure(models\Element_OphCiExamination_IntraocularPressure $element, $data)
+	{
+		models\OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($element->id));
+
+		foreach (array('left', 'right') as $side) {
+			foreach ($element->{"{$side}_values"} as $value) {
+				$value->element_id = $element->id;
+				$value->save();
+			}
+		}
+	}
 }
