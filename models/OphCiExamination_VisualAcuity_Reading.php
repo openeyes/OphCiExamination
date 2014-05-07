@@ -31,6 +31,9 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 {
+	const LEFT = 1;
+	const RIGHT = 0;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_VisualAcuity_Reading the static model class
@@ -54,9 +57,9 @@ class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-				array('id', 'safe'),
-				array('value, method_id, element_id, side', 'required'),
-				array('id, value, method_id, element_id, side', 'safe', 'on'=>'search'),
+			array('id', 'safe'),
+			array('value, method_id, side', 'required'),
+			array('id, value, method_id, element_id, side', 'safe', 'on'=>'search'),
 		);
 	}
 

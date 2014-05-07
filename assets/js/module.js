@@ -1168,10 +1168,13 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
-		"side" : (side == 'right' ? 0 : 1)
+		"side" : side
 	};
 	var form = Mustache.render(template, data);
-	$('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide();
+
+	$('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
+		$(this).attr('checked', false);
+	});
 	var table = $('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);

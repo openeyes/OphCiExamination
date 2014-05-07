@@ -21,8 +21,6 @@
 list($values, $val_options) = $element->getUnitValuesForForm();
 $methods = CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method::model()->findAll(),'id','name');
 $key = 0;
-$right_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'right') : $element->getFormReadings('right'));
-$left_readings = (isset($_POST['visualacuity_readings_valid']) ? $element->convertReadings(@$_POST['visualacuity_reading'], 'left') : $element->getFormReadings('left'));
 ?>
 
 
@@ -45,12 +43,13 @@ $this->endClip('element-title-additional');
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table class="blank"<?php if (!$right_readings) { ?> style="display: none;" <?php } ?>>
+			<table class="blank"<?php if (!$element->right_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
-					<?php foreach ($right_readings as $reading) {
+					<?php foreach ($element->right_readings as $reading) {
 						// Adjust currently element readings to match unit steps
 						$reading->loadClosest($element->unit->id);
 						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+							'name_stub' => CHtml::modelName($element) . '[right_readings]',
 							'key' => $key,
 							'reading' => $reading,
 							'side' => $reading->side,
@@ -63,7 +62,7 @@ $this->endClip('element-title-additional');
 					}?>
 				</tbody>
 			</table>
-			<div class="field-row row noReadings"<?php if ($right_readings) { ?> style="display: none;" <?php } ?>>
+			<div class="field-row row noReadings"<?php if ($element->right_readings) { ?> style="display: none;" <?php } ?>>
 				<div class="large-4 column">
 					<div class="field-info">Not recorded</div>
 				</div>
@@ -94,12 +93,13 @@ $this->endClip('element-title-additional');
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table class="blank"<?php if (!$left_readings) { ?> style="display: none;" <?php } ?>>
+			<table class="blank"<?php if (!$element->left_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
-					<?php foreach ($left_readings as $reading) {
+					<?php foreach ($element->left_readings as $reading) {
 						// Adjust currently element readings to match unit steps
 						$reading->loadClosest($element->unit->id);
 						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+							'name_stub' => CHtml::modelName($element) . '[left_readings]',
 							'key' => $key,
 							'reading' => $reading,
 							'side' => $reading->side,
@@ -112,7 +112,7 @@ $this->endClip('element-title-additional');
 					}?>
 				</tbody>
 			</table>
-			<div class="field-row row noReadings"<?php if ($left_readings) { ?> style="display: none;" <?php } ?>>
+			<div class="field-row row noReadings"<?php if ($element->left_readings) { ?> style="display: none;" <?php } ?>>
 				<div class="large-4 column">
 					<div class="field-info">Not recorded</div>
 				</div>
@@ -144,6 +144,7 @@ $this->endClip('element-title-additional');
 <script id="visualacuity_reading_template" type="text/html">
 	<?php
 	$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+			'name_stub' => CHtml::modelName($element) . '[{{side}}_readings]',
 			'key' => '{{key}}',
 			'side' => '{{side}}',
 			'values' => $values,

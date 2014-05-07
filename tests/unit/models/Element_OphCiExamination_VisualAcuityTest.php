@@ -6,6 +6,8 @@
  * Time: 12:20
  */
 
+use OEModule\OphCiExamination\models;
+
 class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCase {
 
 
@@ -108,19 +110,62 @@ class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCa
 	 */
 	public function testgetTextForSide($side, $readings, $unable, $eye_missing, $res)
 	{
-		$test = new \OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity();
+		$test = new models\Element_OphCiExamination_VisualAcuity();
 		if ($side == 'left') {
 			$test->eye_id = Eye::LEFT;
 		} else {
 			$test->eye_id = Eye::RIGHT;
 		}
 		if ($readings) {
-			$test->{$side . '_readings'} = array(new \OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading());
+			$test->{$side . '_readings'} = array(new models\OphCiExamination_VisualAcuity_Reading());
 		}
 		$test->{$side . '_unable_to_assess'} = $unable;
 		$test->{$side . '_eye_missing'} = $eye_missing;
 
 		$this->assertEquals($res, $test->getTextForSide($side));
+	}
 
+	public function validate_Provider()
+	{
+		return array(
+			array(
+				array('eye_id' => Eye::LEFT, 'left_readings' => array(new models\OphCiExamination_VisualAcuity_Reading()), 'left_unable_to_assess' => true),
+				false
+			),
+			array(
+					array('eye_id' => Eye::RIGHT, 'left_readings' => array(new models\OphCiExamination_VisualAcuity_Reading())),
+					false
+			),
+			array(
+					array('eye_id' => Eye::RIGHT),
+					false
+			),
+			array(
+					array('eye_id' => Eye::LEFT, 'left_unable_to_assess' => true),
+					true
+			),
+			array(
+				array('eye_id' => Eye::LEFT, 'right_readings' => array(new models\OphCiExamination_VisualAcuity_Reading())),
+				false
+			),
+			array(
+					array('eye_id' => Eye::LEFT, 'left_readings' => array(new models\OphCiExamination_VisualAcuity_Reading()), 'left_eye_missing' => true),
+					false
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider validate_Provider
+	 */
+	public function testValidate(array $attributes, $should_be_valid)
+	{
+		$test = new models\Element_OphCiExamination_VisualAcuity();
+		foreach ($attributes as $attr => $v) {
+			$test->$attr = $v;
+		}
+
+		$this->assertEquals($should_be_valid, $test->validate());
 	}
 }
