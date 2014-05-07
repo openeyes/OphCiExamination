@@ -31,6 +31,9 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_Dilation_Treatment extends \BaseActiveRecordVersioned
 {
+	const LEFT = 1;
+	const RIGHT = 0;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Dilation_Treatment the static model class

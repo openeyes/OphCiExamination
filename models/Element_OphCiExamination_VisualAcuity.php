@@ -371,7 +371,7 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 	 */
 	public function updateReadings($side, $readings)
 	{
-		if ($side == Eye::LEFT) {
+		if ($side == \Eye::LEFT) {
 			$side = OphCiExamination_VisualAcuity_Reading::LEFT;
 		}
 		else {

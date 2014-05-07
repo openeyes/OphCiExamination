@@ -18,7 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
-
+use Yii;
 /**
  * This is the model class for table "et_ophciexamination_dilation".
  *
@@ -195,6 +195,13 @@ class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 	 */
 	public function updateTreatments($side, $treatments)
 	{
+		if ($side == \Eye::LEFT) {
+			$side = OphCiExamination_Dilation_Treatment::LEFT;
+		}
+		else {
+			$side = OphCiExamination_Dilation_Treatment::RIGHT;
+		}
+
 		$curr_by_id = array();
 		$save = array();
 
@@ -211,6 +218,7 @@ class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 				$t_obj = $curr_by_id[$treat['drug_id']];
 				unset($curr_by_id[$treat['drug_id']]);
 			}
+
 			$t_obj->attributes = $treat;
 			$t_obj->element_id = $this->id;
 			$t_obj->side = $side;
