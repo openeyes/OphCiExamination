@@ -167,7 +167,7 @@ class DefaultController extends \BaseEventTypeController
 						// set the eye correctly (The principal diagnosis for the episode is the first diagnosis, so
 						// no need to check that.
 						if ($d->eye_id != $ad->eye_id) {
-							$ad->eye_id = Eye::BOTH;
+							$ad->eye_id = \Eye::BOTH;
 						}
 						break;
 					}
@@ -226,11 +226,11 @@ class DefaultController extends \BaseEventTypeController
 				$assignment->event_id = $event->id;
 			}
 			if (!$next_step = $this->getNextStep($event)) {
-				throw new CException('No next step available');
+				throw new \CException('No next step available');
 			}
 			$assignment->step_id = $next_step->id;
 			if (!$assignment->save()) {
-				throw new CException('Cannot save assignment');
+				throw new \CException('Cannot save assignment');
 			}
 		}
 	}
@@ -319,10 +319,10 @@ class DefaultController extends \BaseEventTypeController
 	protected function mergeNextStep($elements, $parent = null)
 	{
 		if (!$event = $this->event) {
-			throw new CException('No event set for step merging');
+			throw new \CException('No event set for step merging');
 		}
 		if (!$next_step = $this->getNextStep($event)) {
-			throw new CException('No next step available');
+			throw new \CException('No next step available');
 		}
 
 		$parent_id = ($parent) ? $parent->id : null;
@@ -402,7 +402,7 @@ class DefaultController extends \BaseEventTypeController
 	{
 		if (!@$_GET['disorder_id']) return;
 		if (!$disorder = \Disorder::model()->findByPk(@$_GET['disorder_id'])) {
-			throw new Exception('Unable to find disorder: '.@$_GET['disorder_id']);
+			throw new \Exception('Unable to find disorder: '.@$_GET['disorder_id']);
 		}
 
 		header('Content-type: application/json');
@@ -418,7 +418,7 @@ class DefaultController extends \BaseEventTypeController
 		// need a side specification for the form element names
 		$side = @$_GET['side'];
 		if (!in_array($side, array('left', 'right'))) {
-			throw Exception('Invalid side argument');
+			throw new \Exception('Invalid side argument');
 		}
 
 		// disorder id verification
@@ -627,7 +627,7 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
 	{
-		$model_name = CHtml::modelName($element);
+		$model_name = \CHtml::modelName($element);
 
 		foreach (array('left' => models\OphCiExamination_VisualAcuity_Reading::LEFT, 'right' => models\OphCiExamination_VisualAcuity_Reading::RIGHT) as $side => $side_id) {
 			$readings = array();
@@ -660,11 +660,11 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
 	{
-		$model_name = CHtml::modelName($element);
-		$element->updateReadings(Eye::LEFT, $element->hasLeft() ?
+		$model_name = \CHtml::modelName($element);
+		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
 						@$data[$model_name]['left_readings'] :
 						array());
-		$element->updateReadings(Eye::RIGHT, $element->hasRight() ?
+		$element->updateReadings(\Eye::RIGHT, $element->hasRight() ?
 						@$data[$model_name]['right_readings'] :
 						array());
 	}
