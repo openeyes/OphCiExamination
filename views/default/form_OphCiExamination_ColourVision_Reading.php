@@ -19,20 +19,22 @@
 ?>
 <tr class="colourvisionReading" data-key="<?php echo $key ?>">
 	<td>
-		<?php if (isset($treatment) && $treatment->id) {?>
+		<?php if (isset($reading) && $reading->id) {?>
 			<input type="hidden" name="<?= $name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
 		<?php }?>
 		<span class="methodName"><?php echo $method_name ?></span>
-		<input type="hidden" name="<?= $name_stub ?>[<?php echo $key ?>][method_id]" value="<?php echo @$method_id ?>" />
+		<input type="hidden" name="<?= $name_stub ?>[<?php echo $key ?>][method_id]" class="methodId" value="<?php echo @$method_id ?>" />
 	</td>
 	<td>
-		<select name="<?= $name_stub ?>[<?php echo $key ?>][value]">
-			<?php for ($i=1;$i<=10;$i++) {?>
-				<option value="<?php echo $i?>"<?php if ($i == @$treatment->drops) {?> selected="selected"<?php }?>><?php echo $i?></option>
-			<?php }?>
+		<select name="<?= $name_stub ?>[<?php echo $key ?>][value_id]">
+			<?php if (isset($reading)) {
+				foreach ($reading->method->values as $v) { ?>
+					<option value="<?php echo $v->id?>"<?php if ($v->id == @$reading->value_id) {?> selected="selected"<?php }?>><?php echo $v->name?></option>
+				<?php }
+			}?>
 		</select>
 	</td>
-	<td class="treatmentActions">
-		<a href="#" class="removeTreatment">Remove</a>
+	<td class="readingActions">
+		<a href="#" class="removeCVReading">Remove</a>
 	</td>
 </tr>

@@ -1,11 +1,18 @@
 <?php
 
-class m140428_094523_colour_vision_element extends OEMigration
+class m140507_094523_colour_vision_element extends OEMigration
 {
 	public function up()
 	{
 		$event_type_id = $this->insertOEEventType( 'Examination', 'OphCiExamination', 'Ci');
-		$this->insertOEElementType(array('Element_OphCiExamination_ColourVision' => array('name' => 'Colour Vision' , 'parent_element_type_id' => 'Element_OphCiExamination_VisualAcuity', 'display_order' => 10, 'required' => false)), $event_type_id);
+		$this->insertOEElementType(array('OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision' =>
+						array(
+								'name' => 'Colour Vision' ,
+								'parent_element_type_id' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity',
+								'display_order' => 10,
+								'required' => false
+						)), $event_type_id);
+
 		$this->createTable('ophciexamination_colourvision_method', array(
 				'id' => 'pk',
 				'name' => 'string NOT NULL',
@@ -35,6 +42,7 @@ class m140428_094523_colour_vision_element extends OEMigration
 				'created_user_id' => 'int(10) unsigned  DEFAULT 1',
 				'created_date' => "datetime DEFAULT '1900-01-01 00:00:00'"
 		), 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
+
 		$this->addForeignKey('ophciexamination_colourvision_value_lmui_fk',
 				'ophciexamination_colourvision_value',
 				'last_modified_user_id', 'user', 'id');
@@ -48,7 +56,7 @@ class m140428_094523_colour_vision_element extends OEMigration
 		$this->createTable('et_ophciexamination_colourvision', array(
 				'id' => 'pk',
 				'event_id' => 'int(10) unsigned NOT NULL',
-				'eye_id' => 'int(10) unsigned NOT NULL',
+				'eye_id' => 'int(10) unsigned NOT NULL DEFAULT 3',
 				'last_modified_user_id' => 'int(10) unsigned DEFAULT 1',
 				'last_modified_date' => "datetime DEFAULT '1900-01-01 00:00:00'",
 				'created_user_id' => 'int(10) unsigned  DEFAULT 1',
@@ -99,6 +107,9 @@ class m140428_094523_colour_vision_element extends OEMigration
 		$this->versionExistingTable('ophciexamination_colourvision_value');
 		$this->versionExistingTable('et_ophciexamination_colourvision');
 		$this->versionExistingTable('ophciexamination_colourvision_reading');
+
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
@@ -111,6 +122,6 @@ class m140428_094523_colour_vision_element extends OEMigration
 		$this->dropTable('et_ophciexamination_colourvision');
 		$this->dropTable('ophciexamination_colourvision_value');
 		$this->dropTable('ophciexamination_colourvision_method');
-		$this->delete('element_type', 'class_name = ?', array('Element_OphCiExamination_ColourVision'));
+		$this->delete('element_type', 'class_name = ?', array('OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision'));
 	}
 }

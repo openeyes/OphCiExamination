@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_colourvision_reading".
  *
@@ -28,11 +30,11 @@
  * The followings are the available model relations:
  *
  * @property Element_OphCiExamination_ColourVision $element
- * @property Eye $eye
+ * @property \Eye $eye
  * @property OphCiExamination_ColourVision_Value $value
  * @property OphCiExamination_ColourVision_Method $method
  */
-class OphCiExamination_ColourVision_Reading extends BaseActiveRecordVersioned
+class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -58,7 +60,7 @@ class OphCiExamination_ColourVision_Reading extends BaseActiveRecordVersioned
 	{
 		return array(
 				array('eye_id, value_id, element_id', 'safe'),
-				array('id, eye_id, drug_id, drops, element_id, treatment_time', 'safe', 'on'=>'search'),
+				array('id, eye_id, value_id, element_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,20 +75,15 @@ class OphCiExamination_ColourVision_Reading extends BaseActiveRecordVersioned
 		);
 	}
 
-	public function setDefaultOptions()
-	{
-		$this->treatment_time = date('H:i');
-	}
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

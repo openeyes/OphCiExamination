@@ -765,7 +765,7 @@ $(document).ready(function() {
 		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
 	});
 
-	$(this).delegate('.removeReading', 'click', function(e) {
+	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
 		var activeForm = $(this).closest('.active-form');
 
 		$(this).closest('tr').remove();
@@ -821,6 +821,34 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	/**
+	 * colour vision behaviours
+	 */
+	$(this).delegate('.colourvision_method', 'change', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		OphCiExamination_ColourVision_addReading(this, side);
+		e.preventDefault();
+	});
+
+	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .removeCVReading', 'click', function(e) {
+		var wrapper = $(this).closest('.side');
+		var side = wrapper.attr('data-side');
+		var row = $(this).closest('tr');
+		var id = $('.methodId', row).val();
+		var name = $('.methodName', row).text();
+		row.remove();
+		var method_select = wrapper.find('.colourvision_method');
+		method_select.append('<option value="'+id+'">'+name+'</option>');
+		sort_selectbox(method_select);
+		if ($('.colourvision_table tbody tr', wrapper).length == 0) {
+			$('.colourvision_table', wrapper).hide();
+		}
+		e.preventDefault();
+	});
+
+	/**
+	 * Dilation hooks
+	 */
 	$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_Dilation_time_right').die('keypress').live('keypress',function(e) {
 		if (e.keyCode == 13) {
 			return false;
@@ -1002,6 +1030,37 @@ function enableTextMacro(select, index, option) {
 	var disabled_options = $(select).data('disabled-options');
 	$(select).append(option);
 	disabled_options.splice(index,1);
+}
+
+function OphCiExamination_ColourVision_getNextKey(side) {
+	var keys = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvisionReading').map(function(index, el) {
+		return parseInt($(el).attr('data-key'));
+	}).get();
+	if(keys.length) {
+		return Math.max.apply(null, keys) + 1;
+	} else {
+		return 0;
+	}
+}
+
+function OphCiExamination_ColourVision_addReading(element, side) {
+	var method_id = $('option:selected', element).val();
+	if (method_id) {
+		var method_name = $('option:selected', element).text();
+		$('option:selected', element).remove();
+		var template = $('#colourvision_reading_template').html();
+		var data = {
+			"key" : OphCiExamination_ColourVision_getNextKey(side),
+			"side": side,
+			"method_name": method_name,
+			"method_id": method_id
+		};
+		var form = Mustache.render(template, data);
+		
+		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
+		table.show();
+		$('tbody', table).append(form);
+	}
 }
 
 function OphCiExamination_Dilation_getNextKey() {
