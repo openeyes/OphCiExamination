@@ -14,6 +14,7 @@
  * @copyright Copyright (c) 2014, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
 use OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_VisualAcuityTest extends PHPUnit_Framework_TestCase {

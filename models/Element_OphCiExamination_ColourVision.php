@@ -87,7 +87,7 @@ class Element_OphCiExamination_ColourVision extends \SplitEventTypeElement
 			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
-			'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id'),
+			'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id'),
 			'right_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id', 'on' => 'right_readings.eye_id = ' . \Eye::RIGHT),
 			'left_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id', 'on' => 'left_readings.eye_id = ' . \Eye::LEFT),
 		);
@@ -162,7 +162,9 @@ class Element_OphCiExamination_ColourVision extends \SplitEventTypeElement
 		$criteria = new \CDbCriteria;
 		$curr = array();
 		foreach ($readings as $reading) {
-			$curr[] = $reading->method_id;
+			if ($meth = $reading->method) {
+				$curr[] = $meth->id;
+			}
 		}
 
 		$criteria->addNotInCondition('id',$curr);
@@ -235,22 +237,25 @@ class Element_OphCiExamination_ColourVision extends \SplitEventTypeElement
 		$curr_by_id = array();
 		$save = array();
 
-		foreach ($this->readings as $t) {
-			if ($t->side == $side) {
-				$curr_by_id[$t->method_id] = $t;
+		foreach ($this->readings as $r) {
+			if ($r->eye_id == $side) {
+				$curr_by_id[$r->method->id] = $r;
 			}
 		}
 
 		foreach ($readings as $reading) {
-			if (!array_key_exists($reading['method_id'], $curr_by_id)) {
+			if (!$method_id = $reading['method_id']) {
+				$method_id = OphCiExamination_ColourVision_Value::model()->findByPk($reading['value_id'])->method->id;
+			}
+			if (!array_key_exists($method_id, $curr_by_id)) {
 				$obj = new OphCiExamination_ColourVision_Reading();
 			} else {
-				$obj = $curr_by_id[$reading['method_id']];
-				unset($curr_by_id[$reading['method_id']]);
+				$obj = $curr_by_id[$method_id];
+				unset($curr_by_id[$method_id]);
 			}
 			$obj->attributes = $reading;
 			$obj->element_id = $this->id;
-			$obj->side = $side;
+			$obj->eye_id = $side;
 			$save[] = $obj;
 		}
 

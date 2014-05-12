@@ -52,7 +52,7 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 				<tbody class="plain" id="colourvision_right">
 					<?php foreach ($element->right_readings as $reading) {
 							$this->renderPartial('form_OphCiExamination_ColourVision_Reading',array(
-								'name_stub' => CHtml::modelName($element) . '[right_treatments]',
+								'name_stub' => CHtml::modelName($element) . '[right_readings]',
 								'reading' => $reading,
 								'key' => $key,
 								'side' => 'right',
@@ -120,5 +120,6 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 			'side' => '{{side}}',
 			'method_name' => '{{method_name}}',
 			'method_id' => '{{method_id}}',
+			'method_values' => '{{& method_values}}'
 	))?>
 </script>

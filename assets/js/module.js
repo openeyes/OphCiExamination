@@ -1049,14 +1049,23 @@ function OphCiExamination_ColourVision_addReading(element, side) {
 		var method_name = $('option:selected', element).text();
 		$('option:selected', element).remove();
 		var template = $('#colourvision_reading_template').html();
+		var method_values = '';
+		if (colourVisionMethodValues[method_id]) {
+			for (var id in colourVisionMethodValues[method_id]) {
+				if (colourVisionMethodValues[method_id].hasOwnProperty(id)) {
+					method_values += '<option value="'+id+'">'+colourVisionMethodValues[method_id][id]+'</option>';
+				}
+			}
+		}
 		var data = {
 			"key" : OphCiExamination_ColourVision_getNextKey(side),
 			"side": side,
 			"method_name": method_name,
-			"method_id": method_id
+			"method_id": method_id,
+			"method_values": method_values
 		};
 		var form = Mustache.render(template, data);
-		
+
 		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
 		table.show();
 		$('tbody', table).append(form);
@@ -1234,7 +1243,7 @@ function OphCiExamination_VisualAcuity_addReading(side) {
 	$('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
 		$(this).attr('checked', false);
 	});
-	var table = $('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table');
+	var table = $('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table.va_readings');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);

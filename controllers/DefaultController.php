@@ -670,6 +670,60 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
+	 * Set the colour vision readings against the Element_OphCiExamination_ColourVision element
+	 *
+	 * @param Element_OphCiExamination_ColourVision $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_ColourVision($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+
+		foreach (array('left' => \Eye::LEFT,
+								 'right' => \Eye::RIGHT) as $side => $eye_id) {
+			$readings = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_readings'])) {
+					foreach ($data[$model_name][$side . '_readings'] as $p_read) {
+						if (@$p_read['id']) {
+							if (!$reading = models\OphCiExamination_ColourVision_Reading::model()->findByPk($p_read['id'])) {
+								$reading = new models\OphCiExamination_ColourVision_Reading();
+							}
+						}
+						else {
+							$reading = new models\OphCiExamination_ColourVision_Reading();
+						}
+						$reading->attributes = $p_read;
+						$reading->eye_id = $eye_id;
+						$readings[] = $reading;
+					}
+				}
+			}
+			$element->{$side . '_readings'} = $readings;
+		}
+	}
+
+	/**
+	 * Save Colour Vision readings
+	 *
+	 * @param Element_OphCiExamination_ColourVision $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_ColourVision($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
+						@$data[$model_name]['left_readings'] :
+						array());
+		$element->updateReadings(\Eye::RIGHT, $element->hasRight() ?
+						@$data[$model_name]['right_readings'] :
+						array());
+	}
+
+	/**
 	 * Save question answers and risks
 	 *
 	 * @param $element

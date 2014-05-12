@@ -36,6 +36,9 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 {
+	const LEFT = 1;
+	const RIGHT = 0;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Dilation_Treatment the static model class
@@ -70,8 +73,9 @@ class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_ColourVision', 'element_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision', 'element_id'),
+			'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
+			'value' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Value', 'value_id'),
 		);
 	}
 
@@ -88,5 +92,16 @@ class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 		));
 	}
 
+	/**
+	 * Get the method for this reading if it has one
+	 *
+	 * @return OphCiExamination_ColourVision_Method
+	 */
+	public function getMethod()
+	{
+		if ($val = $this->value) {
+			return $val->method;
+		}
+	}
 
 }

@@ -43,7 +43,7 @@ $this->endClip('element-title-additional');
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table class="blank"<?php if (!$element->right_readings) { ?> style="display: none;" <?php } ?>>
+			<table class="blank va_readings"<?php if (!$element->right_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
 					<?php foreach ($element->right_readings as $reading) {
 						// Adjust currently element readings to match unit steps
@@ -93,7 +93,7 @@ $this->endClip('element-title-additional');
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table class="blank"<?php if (!$element->left_readings) { ?> style="display: none;" <?php } ?>>
+			<table class="blank va_readings"<?php if (!$element->left_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
 					<?php foreach ($element->left_readings as $reading) {
 						// Adjust currently element readings to match unit steps

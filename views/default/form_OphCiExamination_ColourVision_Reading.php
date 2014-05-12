@@ -31,6 +31,8 @@
 				foreach ($reading->method->values as $v) { ?>
 					<option value="<?php echo $v->id?>"<?php if ($v->id == @$reading->value_id) {?> selected="selected"<?php }?>><?php echo $v->name?></option>
 				<?php }
+			} else {
+				echo $method_values;
 			}?>
 		</select>
 	</td>

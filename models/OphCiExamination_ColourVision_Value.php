@@ -68,7 +68,7 @@ class OphCiExamination_ColourVision_Value extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'method' => array(self::BELONGS_TO, 'OphCiExamination_ColourVision_Method', 'method_id'),
+			'method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method', 'method_id'),
 		);
 	}
 
