@@ -19,20 +19,26 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array('PeripapillaryAtrophy', 'DiscPallor', 'DiscHaemorrhage', 'NerveFibreDefect', 'OpticDiscPit', 'Papilloedema'),
-		'onReadyCommandArray' => array(
-				array('addDoodle', array('OpticDisc', array('mode' => 'Basic'))),
-				array('deselectDoodles', array()),
+	'doodleToolBarArray' => array('PeripapillaryAtrophy', 'DiscPallor', 'DiscHaemorrhage', 'NerveFibreDefect', 'OpticDiscPit', 'Papilloedema'),
+	'onReadyCommandArray' => array(
+		array('addDoodle', array('OpticDisc', array('mode' => 'Basic'))),
+		array('deselectDoodles', array()),
+	),
+	'bindingArray' => array(
+		'OpticDisc' => array(
+			'mode' => array('id' => $side.'_opticdisc_mode', 'attribute' => 'data-value'),
+			'cdRatio' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
 		),
-		'bindingArray' => array(
-			'OpticDisc' => array(
-					'mode' => array('id' => $side.'_opticdisc_mode', 'attribute' => 'data-value'),
-					'cdRatio' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
-			),
-		),
-		'idSuffix' => $side.'_'.$element->elementType->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'edit',
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
+	),
+	'idSuffix' => $side.'_'.$element->elementType->id,
+	'side' => ($side == 'right') ? 'R' : 'L',
+	'mode' => 'edit',
+	'model' => $element,
+	'attribute' => $side.'_eyedraw',
+	'template' => 'OEEyeDrawWidget_InlineToolbar',
+	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+		'form' => $form,
+		'side' => $side,
+		'element' => $element
+	), true)
 ))?>
