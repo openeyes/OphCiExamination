@@ -266,7 +266,7 @@ class Element_OphCiExamination_DRGrading extends \SplitEventTypeElement
 				// Set the patient to have diabetes
 				$sd = new \SecondaryDiagnosis();
 				$sd->patient_id = $patient->id;
-				$sd->disorder_id = Disorder::SNOMED_DIABETES;
+				$sd->disorder_id = \Disorder::SNOMED_DIABETES;
 			}
 
 			if ($sd !== null) {
