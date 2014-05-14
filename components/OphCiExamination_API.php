@@ -23,6 +23,22 @@ use OEModule\OphCiExamination\models;
 class OphCiExamination_API extends \BaseAPI
 {
 	/**
+	 * Extends parent method to prepend model namespace
+	 *
+	 * @param \Patient $patient
+	 * @param \Episode $episode
+	 * @param string $kls
+	 * @return \BaseEventTypeElement
+	 */
+	public function getElementForLatestEventInEpisode($patient, $episode, $kls)
+	{
+		if (strpos($kls, "models") == 0) {
+			$kls = 'OEModule\OphCiExamination\\' . $kls;
+		}
+		return parent::getElementForLatestEventInEpisode($patient, $episode, $kls);
+	}
+
+	/**
 	 * Get the patient history for the given episode. This is from the most recent
 	 * examination that has an history element
 	 *
