@@ -32,7 +32,7 @@ class Element_OphCiExamination_BlebAssessment_Test extends CDbTestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->model = new \OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment;
+		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment;
 	}
 
 	/**
