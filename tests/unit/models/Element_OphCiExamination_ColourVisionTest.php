@@ -18,11 +18,11 @@
 class Element_OphCiExamination_ColourVisionTest extends CDbTestCase {
 
 	public $fixtures = array(
-			'methods' => 'OphCiExamination_ColourVision_Method',
+			'methods' => 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method',
 	);
 
 	public function testValidation_validatesReadings() {
-		$lreading = $this->getMockBuilder('OphCiExamination_ColourVision_Reading')
+		$lreading = $this->getMockBuilder('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading')
 				->disableOriginalConstructor()
 				->setMethods(array('validate'))
 				->getMock();
@@ -31,7 +31,7 @@ class Element_OphCiExamination_ColourVisionTest extends CDbTestCase {
 			->method('validate')
 			->will($this->returnValue(false));
 
-		$test = $this->getMockBuilder('Element_OphCiExamination_ColourVision')
+		$test = $this->getMockBuilder('OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision')
 			->disableOriginalConstructor()
 			->setMethods(array('hasLeft', 'hasRight'))
 			->getMock();
@@ -47,8 +47,8 @@ class Element_OphCiExamination_ColourVisionTest extends CDbTestCase {
 	}
 
 	public function testGetUnusedReadingMethods() {
-		$test = new Element_OphCiExamination_ColourVision();
-		$test->left_readings = array(ComponentStubGenerator::generate('OphCiExamination_ColourVision_Reading', array('method_id' => $this->methods('method1')->id)));
+		$test = new OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision();
+		$test->left_readings = array(ComponentStubGenerator::generate('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', array('method' => $this->methods('method1'))));
 
 		$this->assertEquals(array($this->methods('method2')), $test->getUnusedReadingMethods('left'), 'Left methods should be restricted');
 		$this->assertEquals(array($this->methods('method1'), $this->methods('method2')), $test->getUnusedReadingMethods('right'), 'Right should return both methods');
