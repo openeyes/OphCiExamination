@@ -189,8 +189,8 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$this->dropTable('ophciexamination_managementsurgery');
 		$this->dropTable('ophciexamination_managementsurgery_version');
 
-		$this->delete('element_type', 'class_name="Element_OphCiExamination_OverallManagementPlan"');
-		$this->delete('element_type', 'class_name="Element_OphCiExamination_CurrentManagementPlan"');
+		$this->delete('element_type', 'class_name = ?', array('OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'));
+		$this->delete('element_type', 'class_name = ?', array('OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan'));
 	}
 }
 
