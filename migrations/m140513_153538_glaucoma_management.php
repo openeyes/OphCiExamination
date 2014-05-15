@@ -6,9 +6,8 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$event_type = $this->dbConnection->createCommand()->select('id')->from('event_type')->where('class_name=:class_name', array(':class_name'=>'OphCiExamination'))->queryRow();
 
 		$element_types = array(
-			'Element_OphCiExamination_OverallManagementPlan' => array('name' => 'Overall Management Plan'),
-			'Element_OphCiExamination_CurrentManagementPlan' => array('name' => 'Current Management Plan'),
-			'Element_OphCiExamination_ClinicOutcome' => array('name' => 'Clinic Outcome'),
+			'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan' => array('name' => 'Overall Management Plan'),
+			'OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan' => array('name' => 'Current Management Plan'),
 		);
 
 		$this->insertOEElementType($element_types,$event_type['id'] );
@@ -95,18 +94,6 @@ class m140513_153538_glaucoma_management extends OEMigration
 				'CONSTRAINT `et_ophciexamination_currentmanagementplan_surgery_id_fk` FOREIGN KEY (`surgery_id`) REFERENCES `gender` (`id`)',
 			), true);
 
-
-
-		$this->createOETable('et_ophciexamination_clinicoutcome', array(
-				'id' => 'pk',
-				'event_id' => 'int(10) unsigned NOT NULL',
-				'status_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
-				'KEY `et_ophciexamination_et_exam_clinicoutcome_ev_fk` (`event_id`)',
-				'KEY `et_ophciexamination_et_exam_clinicoutcome_status_id_fk` (`status_id`)',
-				'CONSTRAINT `et_ophciexamination_et_exam_clinicoutcome_ev_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
-				'CONSTRAINT `et_ophciexamination_et_exam_clinicoutcome_status_id_fk` FOREIGN KEY (`status_id`) REFERENCES `gender` (`id`)',
-			), true);
-
 	}
 
 	public function down()
@@ -115,12 +102,9 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$this->dropTable('et_ophciexamination_overallmanagementplan_version');
 		$this->dropTable('et_ophciexamination_currentmanagementplan');
 		$this->dropTable('et_ophciexamination_currentmanagementplan_version');
-		$this->dropTable('et_ophciexamination_clinicoutcome');
-		$this->dropTable('et_ophciexamination_clinicoutcome_version');
 
 		$this->delete('element_type', 'class_name="Element_OphCiExamination_OverallManagementPlan"');
 		$this->delete('element_type', 'class_name="Element_OphCiExamination_CurrentManagementPlan"');
-		$this->delete('element_type', 'class_name="Element_OphCiExamination_ClinicOutcome"');
 	}
 }
 
