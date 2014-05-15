@@ -752,12 +752,6 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
-	$(this).delegate('#event-content .' + OE_MODEL_PREFIX + 'Element_OphCiExamination_IntraocularPressure .iopInstrument', 'change', function() {
-		if (Element_OphCiExamination_IntraocularPressure_link_instruments) {
-			$(this).closest('.element').find('.iopInstrument').val($(this).val());
-		}
-	});
-
 	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
 		removeElement($(this).closest('.element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'));
 		var el = $('.optional-elements-list').find('li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');

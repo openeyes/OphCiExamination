@@ -57,13 +57,8 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-				array('left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_instrument_id, left_reading_id, right_instrument_id, right_reading_id, eye_id', 'safe', 'on' => 'search'),
+			array('eye_id, left_comments, right_comments', 'safe'),
 		);
 	}
 
@@ -72,88 +67,55 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
-				'left_instrument' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', 'left_instrument_id'),
-				'right_instrument' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', 'right_instrument_id'),
-				'left_reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', 'left_reading_id'),
-				'right_reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', 'right_reading_id'),
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\Ophciexamination_Intraocularpressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
+			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\Ophciexamination_Intraocularpressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
+	public function afterValidate()
 	{
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'left_instrument_id' => 'Instrument',
-				'left_reading_id' => 'Reading',
-				'right_instrument_id' => 'Instrument',
-				'right_reading_id' => 'Reading',
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria = new \CDbCriteria;
-
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-
-		$criteria->compare('left_instrument_id', $this->left_instrument_id);
-		$criteria->compare('left_reading_id', $this->left_reading_id);
-		$criteria->compare('right_instrument_id', $this->right_instrument_id);
-		$criteria->compare('right_reading_id', $this->right_reading_id);
-
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
-
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions()
-	{
-		// Default instrument
-		if ($default_instrument_id = $this->getSetting('default_instrument_id')) {
-			$this->left_instrument_id = $default_instrument_id;
-			$this->right_instrument_id = $default_instrument_id;
-		}
-
-		// Show instruments
-		if (!$this->getSetting('show_instruments')) {
-			$this->left_instrument_id = null;
-			$this->right_instrument_id = null;
+		foreach (array('right', 'left') as $side) {
+			if ($this->{"{$side}_values"}) {
+				foreach ($this->{"{$side}_values"} as $value) {
+					if (!$value->validate()) {
+						foreach ($value->getErrors() as $field => $errors) {
+							foreach ($errors as $error) {
+								$this->addError("{$side}_values.{$field}", $error);
+							}
+						}
+					}
+				}
+			} else {
+				if (!$this->{"{$side}_comments"}) {
+					$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+				}
+			}
 		}
 	}
 
-	protected function beforeSave()
+	public function beforeDelete()
 	{
-		return parent::beforeSave();
+		OphCiExamination_Intraocularpressure_Value::model()->deleteAll("element_id = ?", array($this->id));
+
+		return parent::beforeDelete();
 	}
 
 	public function getLetter_reading($side)
 	{
-		$segment = $side.'_reading';
-		$reading = $this->$segment->name;
-		return $reading == 'NR' ? 'Not recorded' : $reading.' mmHg';
+		$values = $this->{"{$side}_values"};
+
+		if (!$values) return 'Not recorded';
+
+		$sum = 0;
+		foreach ($values as $value) {
+			$sum += $value->reading->value;
+		}
+		return round($sum / count($values)) . ' mmHg';
 	}
 
 	public function getLetter_string()
