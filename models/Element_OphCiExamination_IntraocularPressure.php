@@ -72,8 +72,8 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\Ophciexamination_Intraocularpressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
-			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\Ophciexamination_Intraocularpressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
+			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Intraocularpressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
+			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Intraocularpressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
 		);
 	}
 
