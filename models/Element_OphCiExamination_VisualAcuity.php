@@ -49,7 +49,75 @@ use Yii;
 class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 {
 	public $service;
+	protected $_updated_relations = array();
 
+	/**
+	 * If an array of arrays is passed for a HAS_MANY relation attribute, will create appropriate objects
+	 * to assign to the attribute. Sets up the afterSave method to saves these objects if they have validated.
+	 *
+	 * @TODO: move to BaseEventTypeElement
+	 * @TODO: deal with the HAS_MANY through relation - see OCT for test element to work with.
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 * @return mixed|void
+	 */
+	public function __set($name,$value)
+	{
+		if (is_array($value) && count($value) && isset($this->getMetaData()->relations[$name])) {
+			error_log("setting -> " . $name);
+			$rel = $this->getMetaData()->relations[$name];
+			$cls = get_class($rel);
+			if ($cls == self::HAS_MANY) {
+				$rel_cls = $rel->className;
+				$pk_attr = $rel_cls::getMetaData()->tableSchema->primaryKey;
+				// not supporting composite primary keys at this point
+				if (is_string($pk_attr)) {
+					$m_set = array();
+					// looks like a list of attribute values, try to find or instantiate the classes
+					foreach ($value as $v) {
+						if (is_array($v)) {
+							if (array_key_exists($pk_attr, $v) && isset($v[$pk_attr])) {
+								$m = $rel_cls::model()->findByPk($v[$pk_attr]);
+							}
+							else {
+								$m = new $rel_cls();
+							}
+							$m->attributes = array_merge($this->getRelationsDefaults($name), $v);
+							// set foreign key on the related object
+							$m->{$rel->foreignKey} = $this->getPrimaryKey();
+						}
+						else {
+							// assume legitimate object being passed
+							$m = $v;
+						}
+						$m_set[] = $m;
+					}
+					// make the assignment
+					$this->$name = $m_set;
+					$this->_updated_relations[] = $name;
+					return;
+				}
+			}
+		}
+		parent::__set($name, $value);
+	}
+
+	public $_relation_defaults = array(
+		'left_readings' => array(
+			'side' => OphCiExamination_VisualAcuity_Reading::LEFT
+		),
+		'right_readings' => array(
+			'side' => OphCiExamination_VisualAcuity_Reading::RIGHT
+		),
+	);
+
+	public function getRelationsDefaults($name) {
+		if (isset($this->_relation_defaults[$name])) {
+			return $this->_relation_defaults[$name];
+		}
+		return array();
+	}
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return the static model class
@@ -75,7 +143,8 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
+				array('left_comments, right_comments, right_readings, left_readings, eye_id, unit_id, left_unable_to_assess,
+					right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -179,6 +248,36 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		}
 
 		parent::afterValidate();
+	}
+
+	/**
+	 * Saves related objects now that we have a pk for the instance
+	 *
+	 * @throws Exception
+	 */
+	public function afterSave()
+	{
+		foreach (array_unique($this->_updated_relations) as $name) {
+			$rel = $this->getMetaData()->relations[$name];
+			$new_objs = $this->$name;
+			$orig_objs = $this->getRelated($name, true);
+			$saved_ids = array();
+			foreach ($new_objs as $i => $new) {
+				$new->{$rel->foreignKey} = $this->getPrimaryKey();
+				if (!$new->save()) {
+					throw new Exception('Unable to save {$name} item {$i}');
+				}
+				$saved_ids[] = $new->id;
+			}
+			foreach ($orig_objs as $orig) {
+				if (!in_array($orig->id, $saved_ids)) {
+					if (!$orig->delete()) {
+						throw new Exception('Unable to delete removed {$name} with pk {$orig->primaryKey}');
+					}
+				}
+			}
+		}
+		parent::afterSave();
 	}
 
 	public function setDefaultOptions()

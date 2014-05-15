@@ -57,7 +57,7 @@ class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-			array('id', 'safe'),
+			array('id, value, method_id, side', 'safe'),
 			array('value, method_id, side', 'required'),
 			array('id, value, method_id, element_id, side', 'safe', 'on'=>'search'),
 		);

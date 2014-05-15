@@ -625,7 +625,7 @@ class DefaultController extends \BaseEventTypeController
 	 * @param $data
 	 * @param $index
 	 */
-	protected function setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	protected function _setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 
@@ -658,7 +658,7 @@ class DefaultController extends \BaseEventTypeController
 	 * @param $data
 	 * @param $index
 	 */
-	protected function saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	protected function _saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
