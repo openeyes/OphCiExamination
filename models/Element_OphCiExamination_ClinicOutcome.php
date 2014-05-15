@@ -79,11 +79,11 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', 'status_id'),
-				'followup_period' => array(self::BELONGS_TO, '\Period', 'followup_period_id'),
+				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
 				'role' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', 'role_id'),
 		);
 	}

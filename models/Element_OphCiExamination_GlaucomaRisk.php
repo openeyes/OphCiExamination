@@ -72,11 +72,11 @@ class Element_OphCiExamination_GlaucomaRisk extends \BaseEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'risk' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaRisk_Risk', 'risk_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
 	}
 

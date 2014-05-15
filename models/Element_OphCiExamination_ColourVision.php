@@ -82,11 +82,11 @@ class Element_OphCiExamination_ColourVision extends \SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-			'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
-			'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
+			'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id'),
 			'right_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id', 'on' => 'right_readings.eye_id = ' . \Eye::RIGHT),
 			'left_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', 'element_id', 'on' => 'left_readings.eye_id = ' . \Eye::LEFT),

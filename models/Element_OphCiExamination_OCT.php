@@ -123,11 +123,11 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 	public function relations()
 	{
 		return array(
-				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'left_method_id'),
 				'right_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'right_method_id'),
 				'fluidtype_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),

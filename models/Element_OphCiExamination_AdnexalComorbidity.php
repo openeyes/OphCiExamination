@@ -83,11 +83,11 @@ class Element_OphCiExamination_AdnexalComorbidity extends \SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
-				'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
+				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
 

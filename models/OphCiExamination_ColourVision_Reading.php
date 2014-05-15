@@ -74,7 +74,7 @@ class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 	{
 		return array(
 			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision', 'element_id'),
-			'eye' => array(self::BELONGS_TO, '\Eye', 'eye_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'value' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Value', 'value_id'),
 		);
 	}

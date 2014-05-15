@@ -106,14 +106,14 @@ class Element_OphCiExamination_BlebAssessment extends \SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_central_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'left_central_area_id'),
-				'left_max_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'left_max_area_id'),
-				'left_height' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'left_height_id'),
-				'left_vasc' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'left_vasc_id'),
-				'right_central_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'right_central_area_id'),
-				'right_max_area' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'right_max_area_id'),
-				'right_height' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'right_height_id'),
-				'right_vasc' => array(self::BELONGS_TO, '\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'right_vasc_id'),
+				'left_central_area' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'left_central_area_id'),
+				'left_max_area' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'left_max_area_id'),
+				'left_height' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'left_height_id'),
+				'left_vasc' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'left_vasc_id'),
+				'right_central_area' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', 'right_central_area_id'),
+				'right_max_area' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', 'right_max_area_id'),
+				'right_height' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', 'right_height_id'),
+				'right_vasc' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity', 'right_vasc_id'),
 		);
 	}
 

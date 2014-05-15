@@ -81,8 +81,8 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends \BaseAc
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_InjectionManagementComplex', 'element_id'),
 			'complication' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Risk', 'complication_id'),
-			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
 	}
 
