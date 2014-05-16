@@ -16,6 +16,14 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+$glaucomaStatus =
+	CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus::model()
+		->findAll(array('order'=> 'display_order asc')),'id','name');
+
+$dropRelatProblem = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus::model()
+	->findAll(array('order'=> 'display_order asc')),'id','name');
+
 ?>
 
 <section class="element <?php echo $element->elementType->class_name?>"
@@ -23,14 +31,58 @@
 	data-element-type-class="<?php echo $element->elementType->class_name?>"
 	data-element-type-name="<?php echo $element->elementType->name?>"
 	data-element-display-order="<?php echo $element->elementType->display_order?>">
-	<header class="element-header">
-		<h3 class="element-title"><?php echo $element->elementType->name; ?></h3>
-	</header>
+	<div class="element-fields element-eyes row">
+		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+
+		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+			<div class="active-form">
+				<a href="#" class="icon-remove-side remove-side">Remove side</a>
+				<?php echo $form->slider($element, 'right_target_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
+				<?php echo $form->dropDownList($element, 'right_clinic_internal_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'right_photo_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'right_oct_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'right_hfa_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'right_gonio_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->textArea($element, 'right_comments', array('rows' => 6, 'cols' => 80))?>
+			</div>
+			<div class="inactive-form">
+				<div class="add-side">
+					<a href="#">
+						Add right side <span class="icon-add-side"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+			<div class="active-form">
+				<a href="#" class="icon-remove-side remove-side">Remove side</a>
+				<?php echo $form->slider($element, 'left_target_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
+				<?php echo $form->dropDownList($element, 'left_clinic_internal_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'left_photo_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'left_oct_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'left_hfa_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->dropDownList($element, 'left_gonio_id',$overallPeriods,array('empty' => 'NR'))?>
+				<?php echo $form->textArea($element, 'left_comments', array('rows' => 6, 'cols' => 80))?>
+			</div>
+			<div class="inactive-form">
+				<div class="add-side">
+					<a href="#">
+						Add left side <span class="icon-add-side"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
 
 		<div class="element-fields">
-			<?php echo $form->textField($element, 'iop', array('size' => '10'))?>
-	<?php echo $form->dropDownList($element, 'glaucoma_status_id', CHtml::listData(Gender::model()->findAll(array('order'=> 'name asc')),'id','name'),array('empty'=>'- Please select -'))?>
-	<?php echo $form->dropDownList($element, 'drop-related_prob_id', CHtml::listData(Gender::model()->findAll(array('order'=> 'name asc')),'id','name'))?>
+			<?php //echo $form->textField($element, 'iop', array('size' => '10'))?>
+	<?php echo $form->dropDownList($element, 'glaucoma_status_id', $glaucomaStatus,array('empty'=>'- Please select -'))?>
+	<?php echo $form->dropDownList($element, 'drop-related_prob_id', $dropRelatProblem)?>
 	<?php echo $form->dropDownList($element, 'drops_id', CHtml::listData(Gender::model()->findAll(array('order'=> 'name asc')),'id','name'),array('empty'=>'- Please select -'))?>
 	<?php echo $form->dropDownList($element, 'surgery_id', CHtml::listData(Gender::model()->findAll(array('order'=> 'name asc')),'id','name'),array('empty'=>'- Please select -'))?>
 	<?php echo $form->checkBox($element, 'other-service')?>

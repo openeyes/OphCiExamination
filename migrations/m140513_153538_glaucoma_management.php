@@ -16,7 +16,7 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$this->createOETable('ophciexamination_overallperiod',
 			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',	), true);
 
-		$this->createOETable('ophciexamination_glaucomastatus',
+		$this->createOETable('ophciexamination_managementglaucomastatus',
 			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
 
 		$this->createOETable('ophciexamination_managementrelproblem',
@@ -186,8 +186,8 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$this->dropTable('et_ophciexamination_currentmanagementplan_version');
 		$this->dropTable('ophciexamination_overallperiod');
 		$this->dropTable('ophciexamination_overallperiod_version');
-		$this->dropTable('ophciexamination_glaucomastatus');
-		$this->dropTable('ophciexamination_glaucomastatus_version');
+		$this->dropTable('ophciexamination_managementglaucomastatus');
+		$this->dropTable('ophciexamination_managementglaucomastatus_version');
 		$this->dropTable('ophciexamination_managementrelproblem');
 		$this->dropTable('ophciexamination_managementrelproblem_version');
 		$this->dropTable('ophciexamination_managementdrops');

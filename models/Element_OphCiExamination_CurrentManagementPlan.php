@@ -123,12 +123,12 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'right_glaucoma_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus', 'right_glaucoma_status_id'),
 			'left_glaucoma_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus', 'left_glaucoma_status_id'),
-			'right_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropProb', 'right_drop-related_prob_id'),
-			'left_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropProb', 'left_drop-related_prob_id'),
+			'right_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb', 'right_drop-related_prob_id'),
+			'left_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb', 'left_drop-related_prob_id'),
 			'right_drops' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Drops', 'right_drops_id'),
 			'left_drops' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Drops', 'left_drops_id'),
-			'right_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Surgery', 'right_surgery_id'),
-			'left_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Surgery', 'left_surgery_id'),
+			'right_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery', 'right_surgery_id'),
+			'left_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery', 'left_surgery_id'),
 		);
 	}
 
