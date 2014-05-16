@@ -11,15 +11,20 @@ class m140513_153538_glaucoma_management extends OEMigration
 		);
 
 		$this->insertOEElementType($element_types,$event_type['id'] );
-		$this->createOETable('ophciexamination_overallperiod', array('id' => 'pk','name' => 'text',	), true);
+		$this->createOETable('ophciexamination_overallperiod',
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',	), true);
 
-		$this->createOETable('ophciexamination_managementglaucomastatus', array('id' => 'pk','name' => 'text',), true);
+		$this->createOETable('ophciexamination_managementglaucomastatus',
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
 
-		$this->createOETable('ophciexamination_managementrelproblem', array('id' => 'pk','name' => 'text',), true);
+		$this->createOETable('ophciexamination_managementrelproblem',
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
 
-		$this->createOETable('ophciexamination_managementdrops', array(	'id' => 'pk','name' => 'text',), true);
+		$this->createOETable('ophciexamination_managementdrops',
+			array(	'id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
 
-		$this->createOETable('ophciexamination_managementsurgery', array('id' => 'pk','name' => 'text',	), true);
+		$this->createOETable('ophciexamination_managementsurgery',
+			array('id' => 'pk','name' => 'text',	'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
 
 		$this->createOETable('et_ophciexamination_overallmanagementplan', array(
 			'id' => 'pk',
@@ -170,6 +175,8 @@ class m140513_153538_glaucoma_management extends OEMigration
 			'CONSTRAINT `et_ophciexam_currentmanagementplan_rsurgery_id_fk` FOREIGN KEY (`right_surgery_id`) REFERENCES `ophciexamination_managementsurgery` (`id`)',
 		), true);
 
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
