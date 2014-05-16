@@ -49,6 +49,16 @@ namespace OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 {
+	protected $_auto_update_relations = true;
+	protected $_relation_defaults = array(
+			'left_fluidtypes' => array(
+				'eye_id' => \Eye::LEFT,
+			),
+			'right_fluidtypes' => array(
+					'eye_id' => \Eye::RIGHT,
+			),
+	);
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_AnteriorSegment_CCT

@@ -535,7 +535,7 @@ class DefaultController extends \BaseEventTypeController
 	 * @param array $data
 	 * @param integer $index
 	 */
-	protected function setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
+	protected function _setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 		foreach (array('left', 'right') as $side) {
@@ -758,7 +758,7 @@ class DefaultController extends \BaseEventTypeController
 	 * @param $data
 	 * @param $index
 	 */
-	protected function saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
+	protected function _saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
 		$model_name = \CHtml::modelName($element);
 		$element->updateFluidTypes(\Eye::LEFT, $element->hasLeft() && isset($data[$model_name]['left_fluidtypes']) ?
