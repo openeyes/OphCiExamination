@@ -153,13 +153,21 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('target_iop', $this->target_iop);
-		$criteria->compare('clinic_internal_id', $this->clinic_internal_id);
-		$criteria->compare('photo_id', $this->photo_id);
-		$criteria->compare('oct_id', $this->oct_id);
-		$criteria->compare('hfa_id', $this->hfa_id);
-		$criteria->compare('gonio_id', $this->gonio_id);
-		$criteria->compare('comments', $this->comments);
+		$criteria->compare('right_target_iop', $this->right_target_iop);
+		$criteria->compare('left_target_iop', $this->left_target_iop);
+		$criteria->compare('right_clinic_internal_id', $this->right_clinic_internal_id);
+		$criteria->compare('left_clinic_internal_id', $this->left_clinic_internal_id);
+		$criteria->compare('right_photo_id', $this->right_photo_id);
+		$criteria->compare('left_photo_id', $this->left_photo_id);
+		$criteria->compare('right_oct_id', $this->right_oct_id);
+		$criteria->compare('left_oct_id', $this->left_oct_id);
+		$criteria->compare('right_hfa_id', $this->right_hfa_id);
+		$criteria->compare('left_hfa_id', $this->left_hfa_id);
+		$criteria->compare('right_gonio_id', $this->right_gonio_id);
+		$criteria->compare('left_gonio_id', $this->left_gonio_id);
+		$criteria->compare('right_comments', $this->right_comments);
+		$criteria->compare('left_comments', $this->left_comments);
+		$criteria->compare('eye', $this->eye);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

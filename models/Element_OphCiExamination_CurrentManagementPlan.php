@@ -23,7 +23,6 @@ namespace OEModule\OphCiExamination\models;
  * The followings are the available columns in table:
  * @property string $id
  * @property integer $event_id
- * @property integer $iop
  * @property integer $glaucoma_status_id
  * @property integer $drop-related_prob_id
  * @property integer $drops_id
@@ -54,7 +53,7 @@ namespace OEModule\OphCiExamination\models;
  * @property Gender $surgery
  */
 
-class Element_OphCiExamination_CurrentManagementPlan  extends  \BaseEventTypeElement
+class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,11 +78,35 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \BaseEventTypeEle
 	public function rules()
 	{
 		return array(
-			array('event_id, iop, glaucoma_status_id, drop-related_prob_id, drops_id, surgery_id, other-service, refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, ', 'safe'),
-			array('iop, glaucoma_status_id, drop-related_prob_id, drops_id, surgery_id, other-service, refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, ', 'required'),
-			array('id, event_id, iop, glaucoma_status_id, drop-related_prob_id, drops_id, surgery_id, other-service, refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, ', 'safe', 'on' => 'search'),
-			array('iop', 'numerical', 'integerOnly' => true, 'min' => 6, 'max' => 60, 'message' => 'IOP must be between 6 - 60'),
+			array('event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
+			left_other-service, left_refraction, left_lva, left_orthoptics, left_cl_clinic, left_vf, left_us,
+			left_biometry, left_oct, left_hrt, left_disc_photos, left_edt,
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, right_other-service,
+			 right_refraction, right_lva, right_orthoptics, right_cl_clinic, right_vf, right_us, right_biometry,
+			 right_oct, right_hrt, right_disc_photos, right_edt, eye_id', 'safe'),
+			array('left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
+			left_other-service, left_refraction, left_lva, left_orthoptics, left_cl_clinic, left_vf, left_us,
+			left_biometry, left_oct, left_hrt, left_disc_photos, left_edt,
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, right_other-service,
+			 right_refraction, right_lva, right_orthoptics, right_cl_clinic, right_vf, right_us, right_biometry,
+			 right_oct, right_hrt, right_disc_photos, right_edt, eye_id ', 'required'),
+			array('id, event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
+			left_other-service, left_refraction, left_lva, left_orthoptics, left_cl_clinic, left_vf, left_us,
+			left_biometry, left_oct, left_hrt, left_disc_photos, left_edt,
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, right_other-service,
+			 right_refraction, right_lva, right_orthoptics, right_cl_clinic, right_vf, right_us, right_biometry,
+			 right_oct, right_hrt, right_disc_photos, right_edt, eye_id ', 'safe', 'on' => 'search'),
 		);
+	}
+
+	/**
+	 * @return array
+	 * @see parent::sidedFields()
+	 */
+	public function sidedFields()
+	{
+		return array( 'glaucoma_status_id', 'drop-related_prob_id', 'drops_id', 'surgery_id', 'other-service',
+			'refraction', 'lva', 'orthoptics', 'cl_clinic', 'vf', 'us', 'biometry','oct', 'hrt', 'disc_photos', 'edt');
 	}
 
 	/**
@@ -95,12 +118,17 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \BaseEventTypeEle
 			'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 			'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'glaucoma_status' => array(self::BELONGS_TO, 'Gender', 'glaucoma_status_id'),
-			'drop-related_prob' => array(self::BELONGS_TO, 'Gender', 'drop-related_prob_id'),
-			'drops' => array(self::BELONGS_TO, 'Gender', 'drops_id'),
-			'surgery' => array(self::BELONGS_TO, 'Gender', 'surgery_id'),
+			'right_glaucoma_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus', 'right_glaucoma_status_id'),
+			'left_glaucoma_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus', 'left_glaucoma_status_id'),
+			'right_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropProb', 'right_drop-related_prob_id'),
+			'left_drop-related_prob' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DropProb', 'left_drop-related_prob_id'),
+			'right_drops' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Drops', 'right_drops_id'),
+			'left_drops' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Drops', 'left_drops_id'),
+			'right_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Surgery', 'right_surgery_id'),
+			'left_surgery' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Surgery', 'left_surgery_id'),
 		);
 	}
 
@@ -112,23 +140,38 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \BaseEventTypeEle
 		return array(
 			'id' => 'ID',
 			'event_id' => 'Event',
-			'iop' => 'IOP',
-			'glaucoma_status_id' => 'Glaucoma status',
-			'drop-related_prob_id' => 'Drop-related problems',
-			'drops_id' => 'Drops',
-			'surgery_id' => 'Surgery',
-			'other-service' => 'Other Service',
-			'refraction' => 'Refraction',
-			'lva' => 'LVA',
-			'orthoptics' => 'Orthoptics',
-			'cl_clinic' => 'CL cLinic',
-			'vf' => 'VF',
-			'us' => 'US',
-			'biometry' => 'Biometry',
-			'oct' => 'OCT',
-			'hrt' => 'HRT',
-			'disc_photos' => 'Disc Photos',
-			'edt' => 'EDT',
+			'right_glaucoma_status_id' => 'Glaucoma status',
+			'left_glaucoma_status_id' => 'Glaucoma status',
+			'right_drop-related_prob_id' => 'Drop-related problems',
+			'left_drop-related_prob_id' => 'Drop-related problems',
+			'right_drops_id' => 'Drops',
+			'left_drops_id' => 'Drops',
+			'right_surgery_id' => 'Surgery',
+			'left_surgery_id' => 'Surgery',
+			'right_other-service' => 'Other Service',
+			'left_other-service' => 'Other Service',
+			'right_refraction' => 'Refraction',
+			'left_refraction' => 'Refraction',
+			'right_lva' => 'LVA',
+			'left_lva' => 'LVA',
+			'right_orthoptics' => 'Orthoptics',
+			'left_orthoptics' => 'Orthoptics',
+			'right_cl_clinic' => 'CL cLinic',
+			'left_cl_clinic' => 'CL cLinic',
+			'right_vf' => 'VF',
+			'left_vf' => 'VF',
+			'right_us' => 'US',
+			'left_us' => 'US',
+			'right_biometry' => 'Biometry',
+			'left_biometry' => 'Biometry',
+			'right_oct' => 'OCT',
+			'left_oct' => 'OCT',
+			'right_hrt' => 'HRT',
+			'left_hrt' => 'HRT',
+			'right_disc_photos' => 'Disc Photos',
+			'left_disc_photos' => 'Disc Photos',
+			'right_edt' => 'EDT',
+			'left_edt' => 'EDT',
 		);
 	}
 
@@ -142,23 +185,38 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \BaseEventTypeEle
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('iop', $this->iop);
-		$criteria->compare('glaucoma_status_id', $this->glaucoma_status_id);
-		$criteria->compare('drop-related_prob_id', $this->drop-related_prob_id);
-		$criteria->compare('drops_id', $this->drops_id);
-		$criteria->compare('surgery_id', $this->surgery_id);
-		$criteria->compare('other-service', $this->other-service);
-		$criteria->compare('refraction', $this->refraction);
-		$criteria->compare('lva', $this->lva);
-		$criteria->compare('orthoptics', $this->orthoptics);
-		$criteria->compare('cl_clinic', $this->cl_clinic);
-		$criteria->compare('vf', $this->vf);
-		$criteria->compare('us', $this->us);
-		$criteria->compare('biometry', $this->biometry);
-		$criteria->compare('oct', $this->oct);
-		$criteria->compare('hrt', $this->hrt);
-		$criteria->compare('disc_photos', $this->disc_photos);
-		$criteria->compare('edt', $this->edt);
+		$criteria->compare('right_glaucoma_status_id', $this->right_glaucoma_status_id);
+		$criteria->compare('left_glaucoma_status_id', $this->left_glaucoma_status_id);
+		$criteria->compare('right_drop-related_prob_id', $this->drop-right_related_prob_id);
+		$criteria->compare('left_drop-related_prob_id', $this->left_drop-related_prob_id);
+		$criteria->compare('right_drops_id', $this->right_drops_id);
+		$criteria->compare('left_drops_id', $this->left_drops_id);
+		$criteria->compare('right_surgery_id', $this->right_surgery_id);
+		$criteria->compare('left_surgery_id', $this->left_surgery_id);
+		$criteria->compare('right_other-service', $this->right_other-service);
+		$criteria->compare('left_other-service', $this->left_other-service);
+		$criteria->compare('right_refraction', $this->right_refraction);
+		$criteria->compare('left_refraction', $this->left_refraction);
+		$criteria->compare('right_lva', $this->right_lva);
+		$criteria->compare('left_lva', $this->left_lva);
+		$criteria->compare('right_orthoptics', $this->right_orthoptics);
+		$criteria->compare('left_orthoptics', $this->left_orthoptics);
+		$criteria->compare('right_cl_clinic', $this->right_cl_clinic);
+		$criteria->compare('left_cl_clinic', $this->left_cl_clinic);
+		$criteria->compare('right_vf', $this->right_vf);
+		$criteria->compare('left_vf', $this->left_vf);
+		$criteria->compare('right_us', $this->right_us);
+		$criteria->compare('left_us', $this->left_us);
+		$criteria->compare('right_biometry', $this->right_biometry);
+		$criteria->compare('left_biometry', $this->left_biometry);
+		$criteria->compare('right_oct', $this->right_oct);
+		$criteria->compare('left_oct', $this->left_oct);
+		$criteria->compare('right_hrt', $this->right_hrt);
+		$criteria->compare('left_hrt', $this->left_hrt);
+		$criteria->compare('right_disc_photos', $this->right_disc_photos);
+		$criteria->compare('left_disc_photos', $this->left_disc_photos);
+		$criteria->compare('right_edt', $this->right_edt);
+		$criteria->compare('left_edt', $this->left_edt);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
