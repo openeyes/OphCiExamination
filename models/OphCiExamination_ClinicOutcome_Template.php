@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_clinicoutcome_template".
  *
@@ -25,7 +27,7 @@
  * @property integer $followup_quantity
  * @property Period $followup_period
  */
-class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord
+class OphCiExamination_ClinicOutcome_Template extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -66,7 +68,7 @@ class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord
 	public function relations()
 	{
 		return array(
-				'clinic_outcome_status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
+				'clinic_outcome_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
 				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
 		);
 	}
@@ -77,9 +79,9 @@ class OphCiExamination_ClinicOutcome_Template extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

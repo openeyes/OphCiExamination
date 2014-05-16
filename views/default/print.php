@@ -17,51 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="page" id="OphCiExamination_print">
-	<div class="header">
-		<div class="title middle">
-			<img src="<?php echo Yii::app()->assetManager->createUrl('img/_print/letterhead_seal.jpg')?>" alt="letterhead_seal" class="seal" width="100" height="83"/>
-			<h1>Examination</h1>
-		</div>
-		<div class="headerInfo">
-			<div class="patientDetails">
-				<strong><?php echo $this->patient->contact->fullName?></strong>
-				<br />
-				<?php echo $this->patient->getLetterAddress(array(
-					'delimiter' => '<br/>',
-				))?>
-				<br>
-				<br>
-				<?php echo $this->patient->getAttributeLabel('hos_num')?>: <strong><?php echo $this->patient->hos_num ?></strong>
-				<br>
-				<?php echo $this->patient->getAttributeLabel('nhs_num')?>: <strong><?php echo $this->patient->nhsnum ?></strong>
-				<br>
-				<?php echo $this->patient->getAttributeLabel('dob')?>: <strong><?php echo Helper::convertDate2NHS($this->patient->dob) ?> (<?php echo $this->patient->getAge()?>)</strong>
-			</div>
-			<div class="headerDetails">
-				<?php if ($consultant = $this->event->episode->firm->consultant) { ?>
-				<strong><?php echo $consultant->contact->getFullName() ?></strong>
-				<br>
-				<?php } ?>
-				Service: <strong><?php echo $this->event->episode->firm->getSubspecialtyText() ?></strong>
-			</div>
-			<div class="noteDates">
-				Examination Created: <strong><?php echo Helper::convertDate2NHS($this->event->created_date) ?></strong>
-				<br>
-				Examination Printed: <strong><?php echo Helper::convertDate2NHS(date('Y-m-d')) ?></strong>
-			</div>
-		</div>
-	</div>
-
-	<div class="body">
-		<?php $this->renderOpenElements('print'); ?>
-		<div class="metaData clear">
-			<span class="info">Examination created by <span class="user"><?php echo $this->event->user->fullname ?></span>
-				on <?php echo $this->event->NHSDate('created_date') ?>
-				at <?php echo date('H:i', strtotime($this->event->created_date)) ?></span>
-			<span class="info">Examination last modified by <span class="user"><?php echo $this->event->usermodified->fullname ?></span>
-				on <?php echo $this->event->NHSDate('last_modified_date') ?>
-				at <?php echo date('H:i', strtotime($this->event->last_modified_date)) ?></span>
-		</div>
-	</div>
-</div>
+<?php $this->renderPartial('//print/event', array(
+	'hide_modified' => @$hide_modified,
+	'hide_created' => @$hide_created
+));?>

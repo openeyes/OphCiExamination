@@ -15,14 +15,14 @@
 ?>
 <?php if ($chart->hasData()): ?>
 	<div class="row">
-		<div class="column small-9">
+		<div class="column large-9">
 			<div id="mr-history-chart" style="width: 750px; height: 500px"></div>
 		</div>
-		<div class="column small-3">
+		<div class="column large-3">
 			<div class="row field-row">
 				<form action="#OphCiExamination_Episode_MedicalRetinalHistory">
 					<label for="mr_history_va_unit_id">Visual Acuity unit</label>
-					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(Element_OphCiExamination_VisualAcuity::model()->getUsableUnits(), 'id', 'name')); ?>
+					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
 				</form>
 			</div>
 			<div class="row">

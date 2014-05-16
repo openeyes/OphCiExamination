@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_cataractsurgicalmanagement_eye".
  *
@@ -24,7 +26,7 @@
  * @property string $name
  * @property integer $display_order
  */
-class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecord
+class OphCiExamination_CataractSurgicalManagement_Eye extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,6 +43,11 @@ class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecord
 	public function tableName()
 	{
 		return 'ophciexamination_cataractsurgicalmanagement_eye';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -68,10 +75,10 @@ class OphCiExamination_CataractSurgicalManagement_Eye extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

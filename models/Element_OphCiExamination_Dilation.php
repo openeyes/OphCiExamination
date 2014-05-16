@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
 /**
  * This is the model class for table "et_ophciexamination_dilation".
  *
@@ -29,7 +31,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Dilation extends SplitEventTypeElement
+class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -56,8 +58,10 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id', 'safe'),
+				array('eye_id', 'safe'),
 				array('id, event_id, eye_id', 'safe', 'on' => 'search'),
+				array('left_treatments', 'requiredIfSide', 'side' => 'left'),
+				array('right_treatments', 'requiredIfSide', 'side' => 'right'),
 		);
 	}
 
@@ -74,9 +78,9 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id'),
-			'right_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = 0'),
-			'left_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = 1'),
+			'treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id'),
+			'right_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = ' . \Eye::RIGHT),
+			'left_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = ' . \Eye::LEFT),
 		);
 	}
 
@@ -86,9 +90,11 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 	public function attributeLabels()
 	{
 		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'eye_id' => 'Eye',
+			'id' => 'ID',
+			'event_id' => 'Event',
+			'eye_id' => 'Eye',
+			'left_treatments' => 'Treatments',
+			'right_treatments' => 'Treatments'
 		);
 	}
 
@@ -101,139 +107,135 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
 	/**
-	 * Converts a (POSTed) form to an array of treatment models.
-	 * Required when redisplaying form after validation error.
-	 * @param array $treatments array POSTed array of treatments
-	 * @param string $side
+	 * Get the a list of dilation drugs that have not been used on the given side
+	 *
+	 * @param $side
+	 * @return array
 	 */
-	public function convertTreatments($treatments, $side)
-	{
-		$return = array();
-		$side_id = ($side == 'right') ? 0 : 1;
-		if (is_array($treatments)) {
-			foreach ($treatments as $treatment) {
-				if ($treatment['side'] == $side_id) {
-					$treatment_model = new OphCiExamination_Dilation_Treatment();
-					$treatment_model->attributes = $treatment;
-					$return[] = $treatment_model;
-				}
-			}
-		}
-		return $return;
-	}
-
 	public function getUnselectedDilationDrugs($side)
 	{
-		$criteria = new CDbCriteria;
-		if (!empty($_POST['dilation_treatment'])) {
-			$treatments = $this->convertTreatments($_POST['dilation_treatment'], $side);
-		} else {
-			$treatments = $this->{$side.'_treatments'};
-		}
-		$drug_ids = CHtml::listData($treatments, 'id', 'drug_id');
+		$treatments = $this->{$side.'_treatments'};
+		$criteria = new \CDbCriteria;
+		$drug_ids = \CHtml::listData($treatments, 'id', 'drug_id');
 		$criteria->addNotInCondition('id',$drug_ids);
 		$criteria->order = 'display_order asc';
-		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
+		return \CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
 	}
 
-	protected function beforeValidate()
+	/**
+	 * Validate each of the dilation treatments
+	 */
+	protected function afterValidate()
 	{
-		if (!isset($_POST['dilation_treatment'])) {
-			$this->addError('dilation_treatment','Please select at least one treatment, or remove the element');
-		} else {
-			$sides = array(0 => false, 1 => false);
-			foreach ($_POST['dilation_treatment'] as $dilation_treatment) {
-				$sides[$dilation_treatment['side']] = true;
-				if (!preg_match("/^(([01]?[0-9])|(2[0-3])):?[0-5][0-9]$/", $dilation_treatment['treatment_time'])) {
-					$this->addError('dilation_treatment','Invalid treatment time');
+		foreach (array('left' => 'hasLeft', 'right' => 'hasRight') as $side => $checkFunc) {
+			if ($this->$checkFunc()) {
+				foreach ($this->{$side . '_treatments'} as $i => $treat) {
+					if (!$treat->validate()) {
+						foreach ($treat->getErrors() as $fld => $err) {
+							$this->addError($side . '_treatments', ucfirst($side) . ' treatment (' .($i+1) . '): ' . implode(', ', $err) );
+						}
+					}
 				}
 			}
-			if ($this->hasLeft() && !$sides[1]) {
-				$this->addError('dilation_treatment','Please select at least one treatment, or remove the left side');
-			}
-			if ($this->hasRight() && !$sides[0]) {
-				$this->addError('dilation_treatment','Please select at least one treatment, or remove the right side');
-			}
-
 		}
-
-		return parent::beforeValidate();
 	}
 
-	protected function beforeDelete()
+	/**
+	 * extends standard delete method to remove all the treatments.
+	 *
+	 * (non-PHPdoc)
+	 * @see CActiveRecord::delete()
+	 */
+	public function delete()
 	{
-		foreach ($this->treatments as $treatment) {
-			if (!$treatment->delete()) {
-				throw new Exception('Delete treatment failed: '.print_r($treatment->getErrors(),true));
-			}
-		}
-		return parent::beforeDelete();
-	}
+		$transaction = Yii::app()->db->getCurrentTransaction() === null
+				? Yii::app()->db->beginTransaction()
+				: false;
 
-	protected function afterSave()
-	{
-		// Check to see if treatments have been posted
-		if (isset($_POST['dilation_treatments_valid']) && $_POST['dilation_treatments_valid']) {
-
-			// Get a list of ids so we can keep track of what's been removed
-			$existing_treatment_ids = array();
+		try {
 			foreach ($this->treatments as $treatment) {
-				$existing_treatment_ids[$treatment->id] = $treatment->id;
-			}
-
-			// Process (any) posted treatments
-			$new_treatments = (isset($_POST['dilation_treatment'])) ? $_POST['dilation_treatment'] : array();
-			foreach ($new_treatments as $treatment) {
-
-				// Check to see if side is inactive
-				if ($treatment['side'] == 0 && $this->eye_id == 1
-						|| $treatment['side'] == 1 && $this->eye_id == 2) {
-					continue;
+				if (!$treatment->delete()) {
+					throw new Exception('Delete treatment failed: '.print_r($treatment->getErrors(),true));
 				}
-
-				if (isset($treatment['id']) && isset($existing_treatment_ids[$treatment['id']])) {
-
-					// Treatment is being updated
-					$treatment_model = OphCiExamination_Dilation_Treatment::model()->findByPk($treatment['id']);
-					unset($existing_treatment_ids[$treatment['id']]);
-
-				} else {
-
-					// Treatment is new
-					$treatment_model = new OphCiExamination_Dilation_Treatment();
-					$treatment_model->element_id = $this->id;
-
-				}
-
-				// Save treatment attributes
-				$treatment_model->drops = $treatment['drops'];
-				$treatment_model->drug_id = $treatment['drug_id'];
-				$treatment_model->side = $treatment['side'];
-
-				$treatment_time = (date('H:i', strtotime($treatment['treatment_time'])));
-
-				$treatment_model->treatment_time = $treatment_time;
-				$treatment_model->save();
-
 			}
-
-			// Delete remaining (removed) ids
-			OphCiExamination_Dilation_Treatment::model()->deleteByPk(array_values($existing_treatment_ids));
-
+			if (parent::delete()) {
+				if ($transaction) {
+					$transaction->commit();
+				}
+			}
+			else {
+				throw new Exception('unable to delete');
+			}
 		}
-
-		parent::afterSave();
+		catch (Exception $e) {
+			if ($transaction) {
+				$transaction->rollback();
+			}
+			throw $e;
+		}
 	}
 
+	/**
+	 * Update the dilation treatments - depends on their only being one treatment of a particular drug on a given side.
+	 *
+	 * @param $side
+	 * @param $treatments
+	 * @throws Exception
+	 */
+	public function updateTreatments($side, $treatments)
+	{
+		if ($side == \Eye::LEFT) {
+			$side = OphCiExamination_Dilation_Treatment::LEFT;
+		}
+		else {
+			$side = OphCiExamination_Dilation_Treatment::RIGHT;
+		}
+
+		$curr_by_id = array();
+		$save = array();
+
+		foreach ($this->treatments as $t) {
+			if ($t->side == $side) {
+				$curr_by_id[$t->drug_id] = $t;
+			}
+		}
+
+		foreach ($treatments as $treat) {
+			if (!array_key_exists($treat['drug_id'], $curr_by_id)) {
+				$t_obj = new OphCiExamination_Dilation_Treatment();
+			} else {
+				$t_obj = $curr_by_id[$treat['drug_id']];
+				unset($curr_by_id[$treat['drug_id']]);
+			}
+
+			$t_obj->attributes = $treat;
+			$t_obj->element_id = $this->id;
+			$t_obj->side = $side;
+			$treatment_time = (date('H:i', strtotime($treat['treatment_time'])));
+			$t_obj->treatment_time = $treatment_time;
+			$save[] = $t_obj;
+		}
+		foreach ($save as $s) {
+			if (!$s->save()) {
+				throw new Exception('unable to save treatment:' . print_r($s->getErrors(), true));
+			};
+		}
+
+		foreach ($curr_by_id as $curr) {
+			if (!$curr->delete()) {
+				throw new Exception('unable to delete treatment:' . print_r($curr->getErrors(), true));
+			}
+		}
+	}
 }

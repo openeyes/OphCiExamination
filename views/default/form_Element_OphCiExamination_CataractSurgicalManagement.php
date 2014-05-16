@@ -19,7 +19,7 @@
 ?>
 <div class="sub-element-fields">
 	<div class="field-row">
-		<?php echo $form->radioButtons($element, 'eye_id', 'ophciexamination_cataractmanagement_eye',null,false,false,false,false,array('nowrapper'=>true))?>
+		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
 	</div>
 	<div class="field-row">
 		<?php echo $form->checkbox($element, 'city_road', array('nowrapper'=>true))?>
@@ -35,7 +35,7 @@
 			</label>
 		</div>
 		<div class="large-9 column">
-			<?php echo CHtml::activeDropDownList($element,'suitable_for_surgeon_id', CHtml::listData(OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon::model()->findAll(array('order'=>'display_order')),'id','name'),array('class'=>'inline','empty'=>'- Please select -'))?>
+			<?php echo $form->dropDownList($element,'suitable_for_surgeon_id', '\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon',array('class'=>'inline','empty'=>'- Please select -','nowrapper'=>true))?>
 			<label class="inline">
 				<?php echo $form->checkbox($element, 'supervised', array('nowrapper' => true, 'no-label'=>true))?>
 				<?php echo $element->getAttributeLabel('supervised')?>

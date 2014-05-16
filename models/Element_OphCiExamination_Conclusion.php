@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_conclusion".
  *
@@ -28,7 +30,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Conclusion extends BaseEventTypeElement
+class Element_OphCiExamination_Conclusion extends \BaseEventTypeElement
 {
 	public $service;
 
@@ -57,7 +59,7 @@ class Element_OphCiExamination_Conclusion extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description, ', 'safe'),
+				array('description, ', 'safe'),
 				array('description, ', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -101,14 +103,14 @@ class Element_OphCiExamination_Conclusion extends BaseEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('description', $this->description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

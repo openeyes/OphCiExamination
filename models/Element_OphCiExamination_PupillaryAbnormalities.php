@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_pupillaryabnormalities".
  *
@@ -28,7 +30,7 @@
  * @property OphCiExamination_PupillaryAbnormalities_Abnormality $right_abnormality
  */
 
-class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElement
+class Element_OphCiExamination_PupillaryAbnormalities extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -60,7 +62,6 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 				array('eye_id', 'required'),
 				array('left_abnormality_id', 'requiredIfSide', 'side' => 'left'),
 				array('right_abnormality_id', 'requiredIfSide', 'side' => 'right'),
-				array('event_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_abnormality_id, right_abnormality_id, eye_id', 'safe', 'on' => 'search'),
@@ -80,8 +81,8 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_abnormality' => array(self::BELONGS_TO, 'OphCiExamination_PupillaryAbnormalities_Abnormality', 'left_abnormality_id'),
-				'right_abnormality' => array(self::BELONGS_TO, 'OphCiExamination_PupillaryAbnormalities_Abnormality', 'right_abnormality_id'),
+				'left_abnormality' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_PupillaryAbnormalities_Abnormality', 'left_abnormality_id'),
+				'right_abnormality' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_PupillaryAbnormalities_Abnormality', 'right_abnormality_id'),
 		);
 	}
 
@@ -103,11 +104,6 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 		);
 	}
 
-	public function getAbnormalityOptions()
-	{
-		return CHtml::listData(OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll(array('order' => 'display_order')), 'id', 'name') ;
-	}
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -117,12 +113,12 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

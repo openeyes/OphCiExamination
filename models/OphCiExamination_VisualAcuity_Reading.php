@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_visualacuity_reading".
  *
@@ -27,8 +29,11 @@
  * @property integer $method_id
 
  */
-class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
+class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 {
+	const LEFT = 1;
+	const RIGHT = 0;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_VisualAcuity_Reading the static model class
@@ -52,9 +57,9 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
 	public function rules()
 	{
 		return array(
-				array('id', 'safe'),
-				array('value, method_id, element_id, side', 'required'),
-				array('id, value, method_id, element_id, side', 'safe', 'on'=>'search'),
+			array('id', 'safe'),
+			array('value, method_id, side', 'required'),
+			array('id, value, method_id, element_id, side', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +69,8 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
 	public function relations()
 	{
 		return array(
-				'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_VisualAcuity', 'element_id'),
-				'method' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuity_Method', 'method_id'),
+				'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity', 'element_id'),
+				'method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method', 'method_id'),
 		);
 	}
 
@@ -75,13 +80,13 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);
 		$criteria->compare('method_id',$this->method_id,true);
 		$criteria->compare('element_id',$this->element_id,true);
 		$criteria->compare('side',$this->side,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}
@@ -109,7 +114,7 @@ class OphCiExamination_VisualAcuity_Reading extends BaseActiveRecord
 		if (!$unit_id) {
 			$unit_id = $this->element->unit_id;
 		}
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->select = array('*','ABS(base_value - :base_value) AS delta');
 		$criteria->condition = 'unit_id = :unit_id';
 		$criteria->params = array(':unit_id' => $unit_id, ':base_value' => $base_value);

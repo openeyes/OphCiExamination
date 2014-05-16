@@ -17,7 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_OCT_FluidStatus extends BaseActiveRecord
+namespace OEModule\OphCiExamination\models;
+
+class OphCiExamination_OCT_FluidStatus extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -34,6 +36,11 @@ class OphCiExamination_OCT_FluidStatus extends BaseActiveRecord
 	public function tableName()
 	{
 		return 'ophciexamination_oct_fluidstatus';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
@@ -56,17 +63,24 @@ class OphCiExamination_OCT_FluidStatus extends BaseActiveRecord
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
 	}

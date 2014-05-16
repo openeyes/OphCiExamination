@@ -15,10 +15,10 @@
 ?>
 <?php if ($chart->hasData()): ?>
 	<div class="row">
-		<div class="column small-9">
+		<div class="column large-9">
 			<div id="iop-history-chart" style="width: 750px; height: 500px"></div>
 		</div>
-		<div class="column small-3">
+		<div class="column large-3">
 			<div class="row">
 				<div id="iop-history-legend"></div>
 			</div>

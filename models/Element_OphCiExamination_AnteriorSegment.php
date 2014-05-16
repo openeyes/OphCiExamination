@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_anteriorsegment".
  *
@@ -42,7 +44,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement
+class Element_OphCiExamination_AnteriorSegment extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -71,7 +73,7 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
+				array('eye_id, left_eyedraw, left_pupil_id, left_nuclear_id, left_cortical_id, left_pxe, left_phako, left_description,
 						right_eyedraw, right_pupil_id, right_nuclear_id, right_cortical_id, right_pxe, right_phako, right_description', 'safe'),
 				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw, right_description', 'requiredIfSide', 'side' => 'right'),
@@ -110,12 +112,12 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'right_pupil' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Pupil', 'right_pupil_id'),
-				'left_pupil' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Pupil', 'left_pupil_id'),
-				'right_nuclear' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Nuclear', 'right_nuclear_id'),
-				'left_nuclear' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Nuclear', 'left_nuclear_id'),
-				'right_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'right_cortical_id'),
-				'left_cortical' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_Cortical', 'left_cortical_id'),
+				'right_pupil' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Pupil', 'right_pupil_id'),
+				'left_pupil' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Pupil', 'left_pupil_id'),
+				'right_nuclear' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear', 'right_nuclear_id'),
+				'left_nuclear' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear', 'left_nuclear_id'),
+				'right_cortical' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical', 'right_cortical_id'),
+				'left_cortical' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical', 'left_cortical_id'),
 		);
 	}
 
@@ -153,7 +155,7 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -173,7 +175,7 @@ class Element_OphCiExamination_AnteriorSegment extends SplitEventTypeElement
 		$criteria->compare('right_phako', $this->right_phako);
 		$criteria->compare('right_description', $this->right_description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

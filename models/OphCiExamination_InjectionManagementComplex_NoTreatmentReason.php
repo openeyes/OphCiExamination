@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_injectmanagecomplex_notreatmentreason". It is used to define a lookup of reasons for not providing an injection treatment
  *
@@ -24,13 +26,12 @@
  * @property string $id
  * @property string $name
  * @property string $letter_str
- * @property boolean $enabled
+ * @property boolean $active
  * @property boolean $other - flag to indicate whether this reason would need an other description
  *
  */
 
-
-class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends BaseActiveRecord
+class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends \BaseActiveRecordVersioned
 {
 	const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
 
@@ -52,17 +53,22 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 		return 'ophciexamination_injectmanagecomplex_notreatmentreason';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
 	{
 		return array(
-				array('name, letter_str, display_order, enabled, other', 'safe'),
+				array('name, letter_str, display_order, active, other', 'safe'),
 				array('name, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, name, letter_str, display_order, enabled, other', 'safe', 'on' => 'search'),
+				array('id, name, letter_str, display_order, active, other', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -75,6 +81,8 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 			'letter_str' => 'Correspondence Letter Text',
 		);
 	}
+
+
 
 	/**
 	 * Get the string to be used in correspondence for this no treatment reason
@@ -91,5 +99,12 @@ class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends Base
 			$res .= " " . $this->name . ".";
 		}
 		return $res;
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
 	}
 }

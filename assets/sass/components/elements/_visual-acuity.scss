@@ -14,7 +14,7 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-.Element_OphCiExamination_VisualAcuity {
+.#{$OE_MODEL_PREFIX}Element_OphCiExamination_VisualAcuity {
 	.visual-acuity-reading {
 		select {
 			width: auto;
@@ -23,7 +23,7 @@
 	.noReadings {
 		label {
 			display: inline-block;
-			padding: 0 emCalc(10px) 0 0;
+			padding: 0 10px 0 0;
 		}
 	}
 }

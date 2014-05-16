@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_dilation_treatment".
  *
@@ -27,8 +29,11 @@
  * @property integer $drops
  *
  */
-class OphCiExamination_Dilation_Treatment extends BaseActiveRecord
+class OphCiExamination_Dilation_Treatment extends \BaseActiveRecordVersioned
 {
+	const LEFT = 1;
+	const RIGHT = 0;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_Dilation_Treatment the static model class
@@ -53,6 +58,7 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecord
 	{
 		return array(
 				array('side, drug_id, drops, element_id, treatment_time', 'safe'),
+				array('treatment_time', 'isValidTimeValue'),
 				array('id, side, drug_id, drops, element_id, treatment_time', 'safe', 'on'=>'search'),
 		);
 	}
@@ -64,7 +70,7 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecord
 	{
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_Dilation', 'element_id'),
-			'drug' => array(self::BELONGS_TO, 'OphCiExamination_Dilation_Drugs', 'drug_id'),
+			'drug' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Drugs', 'drug_id'),
 		);
 	}
 
@@ -79,10 +85,23 @@ class OphCiExamination_Dilation_Treatment extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Checks that the field is a valid time.
+	 *
+	 * @param $attribute
+	 * @param $params
+	 */
+	public function isValidTimeValue($attribute, $params)
+	{
+		if (!preg_match("/^(([01]?[0-9])|(2[0-3])):?[0-5][0-9]$/", $this->$attribute)) {
+			$this->addError($attribute,'Invalid treatment time');
+		}
 	}
 }

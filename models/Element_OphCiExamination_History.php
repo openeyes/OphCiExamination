@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
 /**
  * This is the model class for table "et_ophciexamination_history".
  *
@@ -28,7 +31,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_History extends BaseEventTypeElement
+class Element_OphCiExamination_History extends \BaseEventTypeElement
 {
 	public $service;
 
@@ -57,7 +60,7 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, description', 'safe'),
+				array('description', 'safe'),
 				array('description', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -93,6 +96,19 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 	}
 
 	/**
+	 * Set default values for forms on create
+	 */
+	public function setDefaultOptions() {
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
+				if ($history = $api->getHistoryForLatestCataractReferralInEpisode($episode->id)) {
+					$this->description = $history;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -101,14 +117,14 @@ class Element_OphCiExamination_History extends BaseEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('description', $this->description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

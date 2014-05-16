@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_glaucomarisk_risk".
  *
@@ -28,7 +30,7 @@
  * @property integer $display_order
  * @property OphCiExamination_ClinicOutcome_Template $clinicoutcome_template
  */
-class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord
+class OphCiExamination_GlaucomaRisk_Risk extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -64,7 +66,7 @@ class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord
 	public function relations()
 	{
 		return array(
-				'clinicoutcome_template' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Template', 'clinicoutcome_template_id'),
+				'clinicoutcome_template' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Template', 'clinicoutcome_template_id'),
 		);
 	}
 
@@ -74,10 +76,10 @@ class OphCiExamination_GlaucomaRisk_Risk extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

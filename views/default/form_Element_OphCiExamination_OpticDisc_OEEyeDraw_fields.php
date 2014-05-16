@@ -31,19 +31,20 @@
 		))?>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_cd_ratio_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_cd_ratio_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_cd_ratio_id')?>:
 		</label>
 		<?php
+		$options = \OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_CDRatio::model()->findAll();
 		$cd_ratio_html_options = array('class' => 'cd-ratio', 'options' => array());
-		foreach (OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')) as $ratio) {
+		foreach ($options as $ratio) {
 			$cd_ratio_html_options['options'][(string) $ratio->id] = array('data-value'=> $ratio->name);
 		}
 		?>
-		<?php echo CHtml::activeDropDownList($element, $side . '_cd_ratio_id', CHtml::listData(OphCiExamination_OpticDisc_CDRatio::model()->findAll(array('order'=>'display_order')),'id','name'), $cd_ratio_html_options)?>
+		<?php echo CHtml::activeDropDownList($element, $side . '_cd_ratio_id', CHtml::listData($options,'id','name'), $cd_ratio_html_options)?>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_diameter';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_diameter';?>">
 			<?php echo $element->getAttributeLabel($side.'_diameter')?>:
 		</label>
 		<div class="row collapse">
@@ -52,13 +53,13 @@
 			</div>
 			<div class="large-9 column">
 				<div class="field-info postfix align">
-					mm (lens <?php echo CHtml::activeDropDownList($element, $side.'_lens_id', $element->getLensOptions(), array('empty' => '--','class'=>'inline')) ?>)
+					mm (lens <?= $form->dropDownList($element, $side.'_lens_id', '\OEModule\OphCiExamination\models\OphCiExamination_OpticDisc_Lens', array('empty' => '--', 'class' => 'inline' ,'nowrapper' => true)) ?>)
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_description';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_description';?>">
 			<?php echo $element->getAttributeLabel($side.'_description')?>:
 		</label>
 		<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>

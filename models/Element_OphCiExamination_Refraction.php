@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
 /**
  * This is the model class for table "et_ophciexamination_refraction".
  *
@@ -38,7 +41,7 @@
  * @property string $right_type_other
  */
 
-class Element_OphCiExamination_Refraction extends SplitEventTypeElement
+class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -67,7 +70,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
+				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
 				array('left_axis', 'requiredIfSide', 'side' => 'left'),
 				array('left_axis', 'numerical', 'integerOnly'=>true),
 				array('right_axis', 'requiredIfSide', 'side' => 'right'),
@@ -93,6 +96,22 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		return true;
 	}
 
+	public function setDefaultOptions() {
+		$this->left_axis = 0;
+		$this->right_axis = 0;
+		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
+				if ($refraction = $api->getRefractionForLatestCataractReferralInEpisode($episode->id)) {
+					foreach ($refraction as $key => $value) {
+						if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key))
+							$this->{$key} = $value;
+					}
+				}
+			}
+		}
+	}
+
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -106,8 +125,8 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_type' => array(self::BELONGS_TO, 'OphCiExamination_Refraction_Type', 'left_type_id'),
-				'right_type' => array(self::BELONGS_TO, 'OphCiExamination_Refraction_Type', 'right_type_id'),
+				'left_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'left_type_id'),
+				'right_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'right_type_id'),
 		);
 	}
 
@@ -155,7 +174,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -171,7 +190,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		$criteria->compare('right_type_id', $this->right_type_id);
 		$criteria->compare('right_type_other', $this->right_type_other);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

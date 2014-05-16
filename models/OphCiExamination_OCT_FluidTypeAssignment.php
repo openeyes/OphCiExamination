@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
@@ -15,6 +16,8 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+namespace OEModule\OphCiExamination\models;
 
 /**
  * This is the model class for table "ophciexamination_oct_fluidtype_assignment".
@@ -33,7 +36,7 @@
  * @property User $usermodified
  */
 
-class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecord
+class OphCiExamination_OCT_FluidTypeAssignment extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -76,8 +79,8 @@ class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_OCT', 'element_id'),
-			'fluidtype' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidType', 'fluidtype_id'),
+			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_OCT', 'element_id'),
+			'fluidtype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
@@ -99,11 +102,11 @@ class OphCiExamination_OCT_FluidTypeAssignment extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 		));
 	}

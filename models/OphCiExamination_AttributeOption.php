@@ -18,6 +18,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_attribute_option".
  *
@@ -27,7 +29,7 @@
  * @property string $value
  * @property string $delimiter
  */
-class OphCiExamination_AttributeOption extends BaseActiveRecord
+class OphCiExamination_AttributeOption extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -73,7 +75,7 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord
 	public function relations()
 	{
 		return array(
-				'attribute_element' => array(self::BELONGS_TO, 'OphCiExamination_AttributeElement', 'attribute_element_id'),
+				'attribute_element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_element_id'),
 				'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
 		);
 	}
@@ -84,11 +86,11 @@ class OphCiExamination_AttributeOption extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('value',$this->value,true);
 		$criteria->compare('delimiter',$this->delimiter,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

@@ -28,11 +28,11 @@ $show_event_hint = false;
 $status = null;
 $deferralreason = null;
 
-if (@$_POST[get_class($element)]) {
-	$status = OphCiExamination_Management_Status::model()->findByPk(@$_POST[get_class($element)][$side . '_laser_status_id']);
+if (@$_POST[$model_name]) {
+	$status = \OEModule\OphCiExamination\models\OphCiExamination_Management_Status::model()->findByPk(@$_POST[$model_name][$side . '_laser_status_id']);
 
-	if ($deferral_id = @$_POST[get_class($element)][$side . '_laser_deferralreason_id']) {
-		$deferralreason = OphCiExamination_Management_DeferralReason::model()->findByPk($deferral_id);
+	if ($deferral_id = @$_POST[$model_name][$side . '_laser_deferralreason_id']) {
+		$deferralreason = \OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason::model()->findByPk($deferral_id);
 	}
 }
 else {
@@ -55,12 +55,14 @@ if ($status) {
 if ($deferralreason && $deferralreason->other) {
 		$show_deferral_other = true;
 }
+
+$model_name = CHtml::modelName($element);
 ?>
 
-<div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser"
+<div id="div_<?php echo $model_name . "_" . $side; ?>_laser"
 	 class="row field-row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_laser_status_id';?>">
+		<label for="<?php echo $model_name.'_'.$side.'_laser_status_id';?>">
 			<?php echo $element->getAttributeLabel($side . '_laser_status_id') ?>:
 		</label>
 	</div>
@@ -79,14 +81,14 @@ if ($deferralreason && $deferralreason->other) {
 	</div>
 </div>
 
-<div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser_deferralreason"
+<div id="div_<?php echo $model_name . "_" . $side; ?>_laser_deferralreason"
 	 class="row field-row"
 	<?php if (!$show_deferral) { ?>
 		style="display: none;"
 	<?php }?>
 	>
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_laser_deferralreason_id';?>">
+		<label for="<?php echo $model_name.'_'.$side.'_laser_deferralreason_id';?>">
 			<?php echo $element->getAttributeLabel($side . '_laser_deferralreason_id')?>:
 		</label>
 	</div>
@@ -95,7 +97,7 @@ if ($deferralreason && $deferralreason->other) {
 	</div>
 </div>
 
-<div id="div_<?php echo get_class($element) . "_" . $side; ?>_laser_deferralreason_other"
+<div id="div_<?php echo $model_name . "_" . $side; ?>_laser_deferralreason_other"
 	 class="row field-row"
 	<?php if (!$show_deferral_other) { ?>
 		style="display: none;"
@@ -109,10 +111,10 @@ if ($deferralreason && $deferralreason->other) {
 	</div>
 </div>
 
-<div class="field-row" id="<?php echo get_class($element) . '_' . $side;?>_treatment_fields"<?php if (!$show_treatment) { echo 'style="display: none;"'; }?>>
+<div class="field-row" id="<?php echo $model_name . '_' . $side;?>_treatment_fields"<?php if (!$show_treatment) { echo 'style="display: none;"'; }?>>
 	<div class="row field-row lasertype">
 		<div class="large-4 column">
-			<label for="<?php echo get_class($element).'_'.$side.'_lasertype_id';?>">
+			<label for="<?php echo $model_name.'_'.$side.'_lasertype_id';?>">
 				<?php echo $element->getAttributeLabel($side . '_lasertype_id'); ?>:
 			</label>
 		</div>
@@ -123,8 +125,8 @@ if ($deferralreason && $deferralreason->other) {
 
 	<?php
 		$show_other = false;
-		if (@$_POST[get_class($element)]) {
-			if ($lasertype = OphCiExamination_LaserManagement_LaserType::model()->findByPk((int)@$_POST[get_class($element)][$side . '_lasertype_id'])) {
+		if (@$_POST[$model_name]) {
+			if ($lasertype = \OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType::model()->findByPk((int)@$_POST[$model_name][$side . '_lasertype_id'])) {
 				$show_other = $lasertype->other;
 			}
 		} else {
@@ -136,7 +138,7 @@ if ($deferralreason && $deferralreason->other) {
 
 	<div class="row field-row lasertype_other<?php if (!$show_other) { echo " hidden"; }?>">
 		<div class="large-4 column">
-			<label for="<?php echo get_class($element).'_'.$side.'_lasertype_other';?>">
+			<label for="<?php echo $model_name.'_'.$side.'_lasertype_other';?>">
 				<?php echo $element->getAttributeLabel($side . '_lasertype_other'); ?>:
 			</label>
 		</div>
@@ -147,7 +149,7 @@ if ($deferralreason && $deferralreason->other) {
 
 	<div class="row field-row comments">
 		<div class="large-4 column">
-			<label for="<?php echo get_class($element).'_'.$side.'_comments';?>">
+			<label for="<?php echo $model_name.'_'.$side.'_comments';?>">
 				<?php echo $element->getAttributeLabel($side . '_comments'); ?>:
 			</label>
 		</div>

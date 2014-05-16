@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_posteriorpole".
  *
@@ -32,7 +34,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
+class Element_OphCiExamination_PosteriorPole extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -61,7 +63,7 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
+				array('eye_id, left_eyedraw, left_description, right_eyedraw, right_description', 'safe'),
 				array('left_eyedraw', 'requiredIfSide', 'side' => 'left'),
 				array('right_eyedraw', 'requiredIfSide', 'side' => 'right'),
 				array('left_description', 'requiredIfSide', 'side' => 'left'),
@@ -122,7 +124,7 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -132,7 +134,7 @@ class Element_OphCiExamination_PosteriorPole extends SplitEventTypeElement
 		$criteria->compare('right_eyedraw', $this->right_eyedraw);
 		$criteria->compare('right_description', $this->right_description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

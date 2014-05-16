@@ -27,7 +27,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'bindingArray' => array(
 			'OpticDisc' => array(
 					'mode' => array('id' => $side.'_opticdisc_mode', 'attribute' => 'data-value'),
-					'cdRatio' => array('id' => 'Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
+					'cdRatio' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_'.$side.'_cd_ratio_id', 'attribute' => 'data-value'),
 			),
 		),
 		'idSuffix' => $side.'_'.$element->elementType->id,

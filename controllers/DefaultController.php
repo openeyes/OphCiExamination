@@ -17,16 +17,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\controllers;
+use Yii;
+use \OEModule\OphCiExamination\models;
+
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
  */
 
-class DefaultController extends BaseEventTypeController
+class DefaultController extends \BaseEventTypeController
 {
 	static protected $action_types = array(
 		'step' => self::ACTION_TYPE_EDIT,
-		'getDisorderTableRow' => self::ACTION_TYPE_FORM,
-		'loadInjectionQuestions' => self::ACTION_TYPE_FORM
+		'getDisorder' => self::ACTION_TYPE_FORM,
+		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
@@ -41,7 +45,8 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function beforeAction($action)
 	{
-		Yii::app()->assetManager->registerScriptFile('js/spliteventtype.js', null, null, AssetManager::OUTPUT_SCREEN);
+		Yii::app()->assetManager->registerScriptFile('js/spliteventtype.js', null, null, \AssetManager::OUTPUT_SCREEN);
+		$this->jsVars['OE_MODEL_PREFIX'] = 'OEModule_OphCiExamination_models_';
 		return parent::beforeAction($action);
 	}
 
@@ -75,9 +80,9 @@ class DefaultController extends BaseEventTypeController
 	protected function filterElements($elements)
 	{
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
-			$remove = array('Element_OphCiExamination_InjectionManagement');
+			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagement');
 		} else {
-			$remove = array('Element_OphCiExamination_InjectionManagementComplex');
+			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex');
 		}
 
 		$final = array();
@@ -95,7 +100,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function initEdit()
 	{
-		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
+		$this->jsVars['Element_OphCiExamination_IntraocularPressure_link_instruments'] = models\Element_OphCiExamination_IntraocularPressure::model()->getSetting('link_instruments') ? 'true' : 'false';
 
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
@@ -139,14 +144,14 @@ class DefaultController extends BaseEventTypeController
 			// and any other ophthalmic secondary diagnoses the patient has
 			$diagnoses = array();
 			if ($principal = $this->episode->diagnosis) {
-				$d = new OphCiExamination_Diagnosis();
+				$d = new models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $principal->id;
 				$d->principal = true;
 				$d->eye_id = $this->episode->eye_id;
 				$diagnoses[] = $d;
 			}
 			foreach ($this->patient->getOphthalmicDiagnoses() as $sd) {
-				$d = new OphCiExamination_Diagnosis();
+				$d = new models\OphCiExamination_Diagnosis();
 				$d->disorder_id = $sd->disorder_id;
 				$d->eye_id = $sd->eye_id;
 				$diagnoses[] = $d;
@@ -162,7 +167,7 @@ class DefaultController extends BaseEventTypeController
 						// set the eye correctly (The principal diagnosis for the episode is the first diagnosis, so
 						// no need to check that.
 						if ($d->eye_id != $ad->eye_id) {
-							$ad->eye_id = Eye::BOTH;
+							$ad->eye_id = \Eye::BOTH;
 						}
 						break;
 					}
@@ -188,6 +193,24 @@ class DefaultController extends BaseEventTypeController
 	}
 
 	/**
+	 * Override action value when action is step to be update.
+	 *
+	 * @param BaseEventTypeElement $element
+	 * @param string $action
+	 * @param BaseCActiveBaseEventTypeCActiveForm $form
+	 * @param array $data
+	 * @param array $view_data
+	 * @param bool $return
+	 * @param bool $processOutput
+	 */
+	protected function renderElement($element, $action, $form, $data, $view_data=array(), $return=false, $processOutput=false)
+	{
+		if ($action == 'step') {
+			$action = 'update';
+		}
+		parent::renderElement($element, $action, $form, $data, $view_data, $return, $processOutput);
+	}
+	/**
 	 * Advance the workflow step for the event if requested
 	 *
 	 * @param Event $event
@@ -197,17 +220,17 @@ class DefaultController extends BaseEventTypeController
 	{
 		if ($this->step) {
 			// Advance the workflow
-			if (!$assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+			if (!$assignment = models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 				// Create initial workflow assignment if event hasn't already got one
-				$assignment = new OphCiExamination_Event_ElementSet_Assignment();
+				$assignment = new models\OphCiExamination_Event_ElementSet_Assignment();
 				$assignment->event_id = $event->id;
 			}
 			if (!$next_step = $this->getNextStep($event)) {
-				throw new CException('No next step available');
+				throw new \CException('No next step available');
 			}
 			$assignment->step_id = $next_step->id;
 			if (!$assignment->save()) {
-				throw new CException('Cannot save assignment');
+				throw new \CException('Cannot save assignment');
 			}
 		}
 	}
@@ -237,6 +260,12 @@ class DefaultController extends BaseEventTypeController
 		return $open_child_elements;
 	}
 
+	public function getOptionalElements()
+	{
+		$elements = parent::getOptionalElements();
+		return $this->filterElements($elements);
+	}
+
 	/**
 	 * extends standard method to filter elements
 	 *
@@ -259,7 +288,7 @@ class DefaultController extends BaseEventTypeController
 		$firm_id = $this->firm->id;
 		$status_id = $this->episode->episode_status_id;
 
-		return OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+		return models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 	}
 
 	/**
@@ -272,7 +301,7 @@ class DefaultController extends BaseEventTypeController
 		if (!$event) {
 			$event = $this->event;
 		}
-		if ($assignment = OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
+		if ($assignment = models\OphCiExamination_Event_ElementSet_Assignment::model()->find('event_id = ?', array($event->id))) {
 			$step = $assignment->step;
 		} else {
 			$step = $this->getFirstStep();
@@ -290,10 +319,10 @@ class DefaultController extends BaseEventTypeController
 	protected function mergeNextStep($elements, $parent = null)
 	{
 		if (!$event = $this->event) {
-			throw new CException('No event set for step merging');
+			throw new \CException('No event set for step merging');
 		}
 		if (!$next_step = $this->getNextStep($event)) {
-			throw new CException('No next step available');
+			throw new \CException('No next step available');
 		}
 
 		$parent_id = ($parent) ? $parent->id : null;
@@ -349,7 +378,7 @@ class DefaultController extends BaseEventTypeController
 			$firm_id = $this->firm->id;
 			$subspecialty_id = $this->firm->getSubspecialtyID();
 			$status_id = ($episode) ? $episode->episode_status_id : 1;
-			$set = OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
 
 		$element_types = $set->DefaultElementTypes;
@@ -372,8 +401,8 @@ class DefaultController extends BaseEventTypeController
 	public function actionGetDisorder()
 	{
 		if (!@$_GET['disorder_id']) return;
-		if (!$disorder = Disorder::model()->findByPk(@$_GET['disorder_id'])) {
-			throw new Exception('Unable to find disorder: '.@$_GET['disorder_id']);
+		if (!$disorder = \Disorder::model()->findByPk(@$_GET['disorder_id'])) {
+			throw new \Exception('Unable to find disorder: '.@$_GET['disorder_id']);
 		}
 
 		header('Content-type: application/json');
@@ -389,14 +418,14 @@ class DefaultController extends BaseEventTypeController
 		// need a side specification for the form element names
 		$side = @$_GET['side'];
 		if (!in_array($side, array('left', 'right'))) {
-			throw Exception('Invalid side argument');
+			throw new \Exception('Invalid side argument');
 		}
 
 		// disorder id verification
 		$questions = array();
 		foreach (@$_GET['disorders'] as $did) {
 			if ((int) $did) {
-				foreach (Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
+				foreach (models\Element_OphCiExamination_InjectionManagementComplex::model()->getInjectionQuestionsForDisorderId($did) as $q) {
 					$questions[] = $q;
 				}
 			}
@@ -409,7 +438,7 @@ class DefaultController extends BaseEventTypeController
 				'htmlOptions' => array('class' => 'sliding'),
 		));
 
-		$element = new Element_OphCiExamination_InjectionManagementComplex();
+		$element = new models\Element_OphCiExamination_InjectionManagementComplex();
 
 		// and now render
 		$this->renderPartial(
@@ -430,7 +459,7 @@ class DefaultController extends BaseEventTypeController
 	 */
 	public function getAttributes($element, $subspecialty_id = null)
 	{
-		$attributes = OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
+		$attributes = models\OphCiExamination_Attribute::model()->findAllByElementAndSubspecialty($element->ElementType->id, $subspecialty_id);
 		return $attributes;
 	}
 
@@ -444,23 +473,24 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		foreach (array('left' => Eye::LEFT, 'right' => Eye::RIGHT) as $side => $eye_id) {
+		$model_name = \CHtml::modelName($element);
+		foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT) as $side => $eye_id) {
 			$answers = array();
 			$risks = array();
 			$checker = 'has' . ucfirst($side);
 			if ($element->$checker()) {
-				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer']) ) {
-					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_Answer'] as $id => $p_ans) {
-						$answer = new OphCiExamination_InjectionManagementComplex_Answer();
+				if (isset($data[$model_name][$side . '_Answer']) ) {
+					foreach ($data[$model_name][$side . '_Answer'] as $id => $p_ans) {
+						$answer = new models\OphCiExamination_InjectionManagementComplex_Answer();
 						$answer->question_id = $id;
 						$answer->answer = $p_ans;
 						$answer->eye_id = $eye_id;
 						$answers[] = $answer;
 					}
 				}
-				if (isset($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks']) ) {
-					foreach ($data['Element_OphCiExamination_InjectionManagementComplex'][$side . '_risks'] as $risk_id) {
-						if ($risk = OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
+				if (isset($data[$model_name][$side . '_risks']) ) {
+					foreach ($data[$model_name][$side . '_risks'] as $risk_id) {
+						if ($risk = models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
 							$risks[] = $risk;
 						}
 					}
@@ -507,13 +537,14 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
+		$model_name = \CHtml::modelName($element);
 		foreach (array('left', 'right') as $side) {
 			$fts = array();
 			$checker = 'has' . ucfirst($side);
 			if ($element->$checker()) {
-				if (isset($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'])) {
-					foreach ($data['Element_OphCiExamination_OCT'][$side . '_fluidtypes'] as $ft_id) {
-						if ($ft = OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
+				if (isset($data[$model_name][$side . '_fluidtypes'])) {
+					foreach ($data[$model_name][$side . '_fluidtypes'] as $ft_id) {
+						if ($ft = models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
 							$fts[] = $ft;
 						}
 					}
@@ -534,9 +565,10 @@ class DefaultController extends BaseEventTypeController
 	{
 		$diagnoses = array();
 		$diagnosis_eyes = array();
+		$model_name = \CHtml::modelName($element);
 
-		if (isset($data['Element_OphCiExamination_Diagnoses'])) {
-			foreach ($data['Element_OphCiExamination_Diagnoses'] as $key => $value) {
+		if (isset($data[$model_name])) {
+			foreach ($data[$model_name] as $key => $value) {
 				if (preg_match('/^eye_id_[0-9]+$/',$key)) {
 					$diagnosis_eyes[] = $value;
 				}
@@ -545,7 +577,7 @@ class DefaultController extends BaseEventTypeController
 
 		if (is_array(@$data['selected_diagnoses'])) {
 			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
-				$diagnosis = new OphCiExamination_Diagnosis();
+				$diagnosis = new models\OphCiExamination_Diagnosis();
 				$diagnosis->eye_id = $diagnosis_eyes[$i];
 				$diagnosis->disorder_id = $disorder_id;
 				$diagnosis->principal = (@$data['principal_diagnosis'] == $disorder_id);
@@ -553,6 +585,142 @@ class DefaultController extends BaseEventTypeController
 			}
 		}
 		$element->diagnoses = $diagnoses;
+	}
+
+	/**
+	 * set the dilation treatments against the element from the provided data
+	 *
+	 * @param models\Element_OphCiExamination_Dilation $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_Dilation(models\Element_OphCiExamination_Dilation $element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+		foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT) as $side => $eye_id) {
+			$dilations = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_treatments'])) {
+					foreach ($data[$model_name][$side . '_treatments'] as $idx => $p_treat) {
+						if (@$p_treat['id']) {
+							$dilation = models\OphCiExamination_Dilation_Treatment::model()->findByPk($p_treat['id']);
+						}
+						else {
+							$dilation = new models\OphCiExamination_Dilation_Treatment();
+						}
+						$dilation->attributes = $p_treat;
+						$dilations[] = $dilation;
+					}
+				}
+				$element->{$side . '_treatments'} = $dilations;
+			}
+		}
+	}
+
+	/**
+	 * Set the visual acuity readings against the Element_OphCiExamination_VisualAcuity element
+	 *
+	 * @param Element_OphCiExamination_VisualAcuity $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+
+		foreach (array('left' => models\OphCiExamination_VisualAcuity_Reading::LEFT, 'right' => models\OphCiExamination_VisualAcuity_Reading::RIGHT) as $side => $side_id) {
+			$readings = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_readings'])) {
+					foreach ($data[$model_name][$side . '_readings'] as $p_read) {
+						if (@$p_read['id']) {
+							$reading = models\OphCiExamination_VisualAcuity_Reading::model()->findByPk($p_read['id']);
+						}
+						else {
+							$reading = new models\OphCiExamination_VisualAcuity_Reading();
+						}
+						$reading->attributes = $p_read;
+						$reading->side = $side_id;
+						$readings[] = $reading;
+					}
+				}
+			}
+			$element->{$side . '_readings'} = $readings;
+		}
+	}
+
+	/**
+	 * Save Visual Acuity readings
+	 *
+	 * @param Element_OphCiExamination_VisualAcuity $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
+						@$data[$model_name]['left_readings'] :
+						array());
+		$element->updateReadings(\Eye::RIGHT, $element->hasRight() ?
+						@$data[$model_name]['right_readings'] :
+						array());
+	}
+
+	/**
+	 * Set the colour vision readings against the Element_OphCiExamination_ColourVision element
+	 *
+	 * @param Element_OphCiExamination_ColourVision $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_ColourVision($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+
+		foreach (array('left' => \Eye::LEFT,
+								 'right' => \Eye::RIGHT) as $side => $eye_id) {
+			$readings = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_readings'])) {
+					foreach ($data[$model_name][$side . '_readings'] as $p_read) {
+						if (@$p_read['id']) {
+							if (!$reading = models\OphCiExamination_ColourVision_Reading::model()->findByPk($p_read['id'])) {
+								$reading = new models\OphCiExamination_ColourVision_Reading();
+							}
+						}
+						else {
+							$reading = new models\OphCiExamination_ColourVision_Reading();
+						}
+						$reading->attributes = $p_read;
+						$reading->eye_id = $eye_id;
+						$readings[] = $reading;
+					}
+				}
+			}
+			$element->{$side . '_readings'} = $readings;
+		}
+	}
+
+	/**
+	 * Save Colour Vision readings
+	 *
+	 * @param Element_OphCiExamination_ColourVision $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_ColourVision($element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
+						@$data[$model_name]['left_readings'] :
+						array());
+		$element->updateReadings(\Eye::RIGHT, $element->hasRight() ?
+						@$data[$model_name]['right_readings'] :
+						array());
 	}
 
 	/**
@@ -564,21 +732,22 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_InjectionManagementComplex($element, $data, $index)
 	{
-		$element->updateQuestionAnswers(Eye::LEFT,
-			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['left_Answer'] :
+		$model_name = \CHtml::modelName($element);
+		$element->updateQuestionAnswers(\Eye::LEFT,
+			$element->hasLeft() && isset($data[$model_name]['left_Answer']) ?
+			$data[$model_name]['left_Answer'] :
 			array());
-		$element->updateQuestionAnswers(Eye::RIGHT,
-			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['right_Answer'] :
+		$element->updateQuestionAnswers(\Eye::RIGHT,
+			$element->hasRight() && isset($data[$model_name]['right_Answer']) ?
+			$data[$model_name]['right_Answer'] :
 			array());
-		$element->updateRisks(Eye::LEFT,
-			$element->hasLeft() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['left_risks']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['left_risks'] :
+		$element->updateRisks(\Eye::LEFT,
+			$element->hasLeft() && isset($data[$model_name]['left_risks']) ?
+			$data[$model_name]['left_risks'] :
 			array());
-		$element->updateRisks(Eye::RIGHT,
-			$element->hasRight() && isset($data['Element_OphCiExamination_InjectionManagementComplex']['right_risks']) ?
-			$data['Element_OphCiExamination_InjectionManagementComplex']['right_risks'] :
+		$element->updateRisks(\Eye::RIGHT,
+			$element->hasRight() && isset($data[$model_name]['right_risks']) ?
+			$data[$model_name]['right_risks'] :
 			array());
 	}
 
@@ -591,11 +760,12 @@ class DefaultController extends BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
 	{
-		$element->updateFluidTypes(Eye::LEFT, $element->hasLeft() && isset($data['Element_OphCiExamination_OCT']['left_fluidtypes']) ?
-				$data['Element_OphCiExamination_OCT']['left_fluidtypes'] :
+		$model_name = \CHtml::modelName($element);
+		$element->updateFluidTypes(\Eye::LEFT, $element->hasLeft() && isset($data[$model_name]['left_fluidtypes']) ?
+				$data[$model_name]['left_fluidtypes'] :
 				array());
-		$element->updateFluidTypes(Eye::RIGHT, $element->hasRight() && isset($data['Element_OphCiExamination_OCT']['right_fluidtypes']) ?
-				$data['Element_OphCiExamination_OCT']['right_fluidtypes'] :
+		$element->updateFluidTypes(\Eye::RIGHT, $element->hasRight() && isset($data[$model_name]['right_fluidtypes']) ?
+				$data[$model_name]['right_fluidtypes'] :
 				array());
 	}
 
@@ -609,12 +779,13 @@ class DefaultController extends BaseEventTypeController
 	protected function saveComplexAttributes_Element_OphCiExamination_Diagnoses($element, $data, $index)
 	{
 		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
+		$model_name = \CHtml::modelName($element);
 		$diagnoses = array();
-		$eyes = isset($data['Element_OphCiExamination_Diagnoses']) ? array_values($data['Element_OphCiExamination_Diagnoses']) : array();
+		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
 			$diagnoses[] = array(
-				'eye_id' => $eyes[$i+1],
+				'eye_id' => $eyes[$i],
 				'disorder_id' => $disorder_id,
 				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
 			);
@@ -622,4 +793,50 @@ class DefaultController extends BaseEventTypeController
 		$element->updateDiagnoses($diagnoses);
 	}
 
+	/**
+	 * Save the dilation treatments
+	 *
+	 * @param models\Element_OphCiExamination_Dilation $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_Dilation(models\Element_OphCiExamination_Dilation $element, $data, $index)
+	{
+		$model_name = \CHtml::modelName($element);
+		$element->updateTreatments(\Eye::LEFT, $element->hasLeft() ?
+				@$data[$model_name]['left_treatments'] :
+				array());
+		$element->updateTreatments(\Eye::RIGHT, $element->hasRight() ?
+				@$data[$model_name]['right_treatments'] :
+				array());
+	}
+
+	protected function setComplexAttributes_Element_OphCiExamination_IntraocularPressure(models\Element_OphCiExamination_IntraocularPressure $element, $data)
+	{
+		$model_name = \CHtml::modelName(models\OphCiExamination_IntraocularPressure_Value::model());
+
+		foreach (array('left', 'right') as $side) {
+			$values = array();
+			if (isset($data[$model_name]["{$side}_values"])) {
+				foreach ($data[$model_name]["{$side}_values"] as $attrs) {
+					$value = new models\OphCiExamination_IntraocularPressure_Value;
+					$value->attributes = $attrs;
+					$values[] = $value;
+				}
+			}
+			$element->{"{$side}_values"} = $values;
+		}
+	}
+
+	protected function saveComplexAttributes_Element_OphCiExamination_IntraocularPressure(models\Element_OphCiExamination_IntraocularPressure $element, $data)
+	{
+		models\OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($element->id));
+
+		foreach (array('left', 'right') as $side) {
+			foreach ($element->{"{$side}_values"} as $value) {
+				$value->element_id = $element->id;
+				$value->save();
+			}
+		}
+	}
 }

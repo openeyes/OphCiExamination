@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_event_elementset_assignment".
  *
@@ -25,7 +27,7 @@
  * @property OphCiExamination_ElementSet $step
 
  */
-class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord
+class OphCiExamination_Event_ElementSet_Assignment extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -63,7 +65,7 @@ class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord
 	{
 		return array(
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'step' => array(self::BELONGS_TO, 'OphCiExamination_ElementSet', 'step_id'),
+				'step' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'step_id'),
 		);
 	}
 
@@ -83,9 +85,9 @@ class OphCiExamination_Event_ElementSet_Assignment extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

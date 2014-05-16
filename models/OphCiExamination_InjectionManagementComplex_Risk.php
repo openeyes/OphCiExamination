@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during
  * an examination for any given diagnosis
@@ -25,12 +27,12 @@
  * @property string $id
  * @properity string $name
  * @properity integer $display_order
- * @property boolean $enabled
+ * @property boolean $active
  *
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord
+class OphCiExamination_InjectionManagementComplex_Risk extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -49,18 +51,29 @@ class OphCiExamination_InjectionManagementComplex_Risk extends BaseActiveRecord
 		return 'ophciexamination_injectmanagecomplex_risk';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
 	{
 		return array(
-				array('name, display_order, enabled', 'safe'),
+				array('name, display_order, active', 'safe'),
 				array('question, display_order', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, question, display_order, enabled', 'safe', 'on' => 'search'),
+				array('id, question, display_order, active', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

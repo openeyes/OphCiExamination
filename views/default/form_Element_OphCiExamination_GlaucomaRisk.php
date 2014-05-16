@@ -23,7 +23,7 @@
 			<div class="field-highlight<?php if ($element->risk) {?> <?php echo $element->risk->class?><?php }?> risk">
 				<?php
 					$html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
-					$risks = OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
+					$risks = OEModule\OphCiExamination\models\OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
 					foreach ($risks as $option) {
 						$html_options['options'][(string) $option->id] = array(
 							'data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id,
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="field-row row glaucoma-risk-descriptions" id="Element_OphCiExamination_GlaucomaRisk_descriptions">
+	<div class="field-row row glaucoma-risk-descriptions" id="<?= CHtml::modelName($element) ?>_descriptions">
 		<dl>
 			<?php foreach ($risks as $option) {?>
 				<dt class="pill <?php echo $option->class ?>">

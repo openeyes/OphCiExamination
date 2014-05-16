@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_management_deferralreason".
  *
@@ -25,7 +27,7 @@
  * @property integer $display_order
 
  */
-class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
+class OphCiExamination_Management_DeferralReason extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -75,11 +77,19 @@ class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
 	 * (non-PHPdoc)
 	 * @see CActiveRecord::defaultScope()
 	 */
-	public function defaultScope()
+	public function defaultScope($scope=array())
 	{
 		$alias = $this->getTableAlias(false, false);
+
 		return array(
 			'order' => $alias . '.display_order ASC',
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
 		);
 	}
 
@@ -89,11 +99,11 @@ class OphCiExamination_Management_DeferralReason extends BaseActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('display_order',$this->display_order,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

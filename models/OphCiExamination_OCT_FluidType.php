@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_oct_fluidtype".
  *
@@ -26,9 +28,7 @@
  * @properity integer $display_order
  *
  */
-
-
-class OphCiExamination_OCT_FluidType extends BaseActiveRecord
+class OphCiExamination_OCT_FluidType extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -47,6 +47,11 @@ class OphCiExamination_OCT_FluidType extends BaseActiveRecord
 		return 'ophciexamination_oct_fluidtype';
 	}
 
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -61,4 +66,10 @@ class OphCiExamination_OCT_FluidType extends BaseActiveRecord
 		);
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

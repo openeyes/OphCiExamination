@@ -20,38 +20,18 @@
 <div id="previous_elements" class="event previous-elements">
 	<?php foreach ($elements as $element) { ?>
 		<div class="element-container">
-			<section class="element <?php echo $element->elementType->class_name ?>"
+			<section class="element <?php echo CHtml::modelName($element) ?>"
 				data-element-id="<?php echo $element->id ?>"
 				data-element-type-id="<?php echo $element->elementType->id ?>"
-				data-element-type-class="<?php echo $element->elementType->class_name ?>"
+				data-element-type-class="<?php echo CHtml::modelName($element) ?>"
 				data-element-type-name="<?php echo $element->elementType->name ?>"
 				data-element-display-order="<?php echo $element->elementType->display_order ?>">
 
 				<?php $this->renderPartial(
-					'_view_' . $element->view_view,
+					$element->view_view,
 					array('element' => $element)
 				); ?>
 
-				<?php if ($children = $element->getChildren()) { ?>
-					<div class="child_elements clearfix">
-						<?php foreach ($children as $child) { ?>
-							<div class="element <?php echo $child->elementType->class_name ?>"
-								data-element-id="<?php echo $child->id ?>"
-								data-element-type-id="<?php echo $child->elementType->id ?>"
-								data-element-type-class="<?php echo $child->elementType->class_name ?>"
-								data-element-type-name="<?php echo $child->elementType->name ?>"
-								data-element-display-order="<?php echo $child->elementType->display_order ?>">
-								<h4 class="elementTypeName">
-									<?php echo $child->elementType->name; ?>
-								</h4>
-								<?php $this->renderPartial(
-									'_view_' . $child->view_view,
-									array('element' => $child)
-								); ?>
-							</div>
-						<?php } ?>
-					</div>
-				<?php } ?>
 			</section>
 			<div class="metadata">
 				<span class="info">Examination created by <span class="user"><?php echo $element->event->user->fullname ?></span>
@@ -64,7 +44,7 @@
 			<?php if ($element->canCopy()) {?>
 				<div class="actions">
 					<button name="copy" class="copy_element small"
-						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo $element->elementType->class_name ?>">
+						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo CHtml::modelName($element) ?>">
 						Copy
 					</button>
 				</div>
