@@ -18,7 +18,7 @@
  */
 
 $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()->findAll(
-		array('order'=> 'name asc')),'id','name'
+		array('order'=> 'display_order asc')),'id','name'
 );
 ?>
 

@@ -6,8 +6,10 @@ class m140513_153538_glaucoma_management extends OEMigration
 		$event_type = $this->dbConnection->createCommand()->select('id')->from('event_type')->where('class_name=:class_name', array(':class_name'=>'OphCiExamination'))->queryRow();
 
 		$element_types = array(
-			'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan' => array('name' => 'Overall Management Plan'),
-			'OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan' => array('name' => 'Current Management Plan'),
+			'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan' =>
+				array('name' => 'Overall Management Plan', 'parent_element_type_id' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Management'),
+			'OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan' =>
+				array('name' => 'Current Management Plan', 'parent_element_type_id' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Management'),
 		);
 
 		$this->insertOEElementType($element_types,$event_type['id'] );
