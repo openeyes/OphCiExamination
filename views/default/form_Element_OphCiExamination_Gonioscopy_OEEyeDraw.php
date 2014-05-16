@@ -19,11 +19,7 @@
 ?>
 <?php
 $expert = $element->getSetting('expert');
-if ($expert) {
-	$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
-} else {
-	$doodleToolBarArray = array('AngleNV', 'AntSynech');
-}
+$doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 $bindingArray = array();
 $onReadyCommandArray = array(
 	array('addDoodle', array('Gonioscopy'))
