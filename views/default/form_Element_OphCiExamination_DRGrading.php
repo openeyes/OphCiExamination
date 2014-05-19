@@ -52,21 +52,29 @@
 <div class="sub-element-fields element-eyes row">
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="right">
 		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'right', 'element' => $element, 'form' => $form))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
-				Add right posterior segment
+				<a href="#">
+					Add right DR Grading
+					<span class="icon-add-side"></span>
+				</a>
 			</div>
 		</div>
 	</div>
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="left">
 		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'left', 'element' => $element, 'form' => $form))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
-				Add left posterior segment
+				<a href="#">
+					Add left DR Grading
+					<span class="icon-add-side"></span>
+				</a>
 			</div>
 		</div>
 	</div>

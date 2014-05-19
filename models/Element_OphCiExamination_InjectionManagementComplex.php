@@ -138,9 +138,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 		// class name for the relations automatically generated below.
 		return array(
 				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'left_no_treatment_reason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'left_no_treatment_reason_id'),
 				'right_no_treatment_reason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_NoTreatmentReason', 'right_no_treatment_reason_id'),

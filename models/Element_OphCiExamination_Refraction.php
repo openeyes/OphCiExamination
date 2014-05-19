@@ -120,11 +120,11 @@ class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'eventType' => array(self::BELONGS_TO, '\EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'left_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'left_type_id'),
 				'right_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'right_type_id'),
 		);

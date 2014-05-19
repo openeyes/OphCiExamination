@@ -64,7 +64,7 @@ class OphCiExamination_Event_ElementSet_Assignment extends \BaseActiveRecordVers
 	public function relations()
 	{
 		return array(
-				'event' => array(self::BELONGS_TO, '\Event', 'event_id'),
+				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'step' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'step_id'),
 		);
 	}

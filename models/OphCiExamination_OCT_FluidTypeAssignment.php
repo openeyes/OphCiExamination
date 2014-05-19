@@ -81,8 +81,8 @@ class OphCiExamination_OCT_FluidTypeAssignment extends \BaseActiveRecordVersione
 		return array(
 			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_OCT', 'element_id'),
 			'fluidtype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id'),
-			'user' => array(self::BELONGS_TO, '\User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, '\User', 'last_modified_user_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
 	}
 
