@@ -48,18 +48,24 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'))?>
 				<?php echo $form->dropDownList($element, 'right_drops_id', $dropsIds ,array('empty'=>'- Please select -'))?>
 				<?php echo $form->dropDownList($element, 'right_surgery_id', $surgeryIds,array('empty'=>'- Please select -'))?>
-				<?php echo $form->checkBox($element, 'right_other-service')?>
-				<?php echo $form->checkBox($element, 'right_refraction')?>
-				<?php echo $form->checkBox($element, 'right_lva')?>
-				<?php echo $form->checkBox($element, 'right_orthoptics')?>
-				<?php echo $form->checkBox($element, 'right_cl_clinic')?>
-				<?php echo $form->checkBox($element, 'right_vf')?>
-				<?php echo $form->checkBox($element, 'right_us')?>
-				<?php echo $form->checkBox($element, 'right_biometry')?>
-				<?php echo $form->checkBox($element, 'right_oct')?>
-				<?php echo $form->checkBox($element, 'right_hrt')?>
-				<?php echo $form->checkBox($element, 'right_disc_photos')?>
-				<?php echo $form->checkBox($element, 'right_edt')?>
+				<div class="column large-6">
+					<h3>Referral:</h3>
+					<?php echo $form->checkBox($element, 'right_other-service',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_refraction',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_lva',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_orthoptics',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_cl_clinic',array(), array('label'=>8, 'field'=>4))?>
+				</div>
+				<div class="column large-6">
+					<h3>Investigations:</h3>
+					<?php echo $form->checkBox($element, 'right_vf',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_us',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_biometry',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_oct',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_hrt',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_disc_photos',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'right_edt',array(), array('label'=>8, 'field'=>4))?>
+				</div>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
@@ -77,18 +83,24 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'))?>
 				<?php echo $form->dropDownList($element, 'left_drops_id', $dropsIds ,array('empty'=>'- Please select -'))?>
 				<?php echo $form->dropDownList($element, 'left_surgery_id', $surgeryIds,array('empty'=>'- Please select -'))?>
-				<?php echo $form->checkBox($element, 'left_other-service')?>
-				<?php echo $form->checkBox($element, 'left_refraction')?>
-				<?php echo $form->checkBox($element, 'left_lva')?>
-				<?php echo $form->checkBox($element, 'left_orthoptics')?>
-				<?php echo $form->checkBox($element, 'left_cl_clinic')?>
-				<?php echo $form->checkBox($element, 'left_vf')?>
-				<?php echo $form->checkBox($element, 'left_us')?>
-				<?php echo $form->checkBox($element, 'left_biometry')?>
-				<?php echo $form->checkBox($element, 'left_oct')?>
-				<?php echo $form->checkBox($element, 'left_hrt')?>
-				<?php echo $form->checkBox($element, 'left_disc_photos')?>
-				<?php echo $form->checkBox($element, 'left_edt')?>
+				<div class="column large-6">
+					<h3>Referral:</h3>
+					<?php echo $form->checkBox($element, 'left_other-service',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_refraction',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_lva',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_orthoptics',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_cl_clinic',array(), array('label'=>8, 'field'=>4))?>
+				</div>
+				<div class="column large-6">
+					<h3>Investigations:</h3>
+					<?php echo $form->checkBox($element, 'left_vf',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_us',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_biometry',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_oct',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_hrt',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_disc_photos',array(), array('label'=>8, 'field'=>4))?>
+					<?php echo $form->checkBox($element, 'left_edt',array(), array('label'=>8, 'field'=>4))?>
+				</div>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
