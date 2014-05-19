@@ -17,80 +17,175 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-
-<section class="element">
-	<header class="element-header">
-		<h3 class="element-title"><?php echo $element->elementType->name?></h3>
-	</header>
-
-		<div class="element-data">
-				<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('iop'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->iop?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('glaucoma_status_id'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->glaucoma_status ? $element->glaucoma_status->name : 'None'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('drop-related_prob_id'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->drop-related_prob ? $element->drop-related_prob->name : 'None'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('drops_id'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->drops ? $element->drops->name : 'None'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('surgery_id'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->surgery ? $element->surgery->name : 'None'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('other-service'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->other-service ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('refraction'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->refraction ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('lva'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->lva ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('orthoptics'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->orthoptics ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('cl_clinic'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->cl_clinic ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('vf'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->vf ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('us'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->us ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('biometry'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->biometry ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('oct'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->oct ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('hrt'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->hrt ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('disc_photos'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->disc_photos ? 'Yes' : 'No'?></div></div>
-		</div>
-		<div class="row data-row">
-			<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('edt'))?></div></div>
-			<div class="large-10 column end"><div class="data-value"><?php echo $element->edt ? 'Yes' : 'No'?></div></div>
-		</div>
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
+		<div class="data-row">
+			<div class="data-value">
+				<?php if ($element->hasRight()) {?>
+					<div class="row data-row">"IOP placehoder"
+						<div class="large-5 column"><div class="data-label"><?php //echo //CHtml::encode($element->getAttributeLabel('right_target_iop'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php //echo $element->right_target_iop?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_glaucoma_status_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_glaucoma_status ? $element->right_glaucoma_status->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_drop-related_prob_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->{'right_drop-related_prob'} ? $element->{'right_drop-related_prob'}->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_drops_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_drops ? $element->right_drops->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_surgery_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_surgery ? $element->right_surgery->name : 'None'?></div></div>
+					</div>
+					<div class="column large-6">
+						<h3>Referral:</h3>
+						<div class="row data-row">
+							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_other-service'))?></div></div>
+							<div class="large-10 column end"><div class="data-value"><?php echo $element->{'right_other-service'} ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_refraction'))?></div></div>
+							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_refraction ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_lva'))?></div></div>
+							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_lva ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_orthoptics'))?></div></div>
+							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_orthoptics ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_cl_clinic'))?></div></div>
+							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_cl_clinic ? 'Yes' : 'No'?></div></div>
+						</div>
+					</div>
+					<div class="column large-6">
+						<h3>Investigations:</h3>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_vf'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_vf ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_us'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_us ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_biometry'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_biometry ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_oct'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_oct ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_hrt'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_hrt ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_disc_photos'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_disc_photos ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_edt'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_edt ? 'Yes' : 'No'?></div></div>
+						</div>
+					</div>
+				<?php
+				} else {?>
+					Not recorded
+				<?php }?>
 			</div>
-</section>
+		</div>
+	</div>
+	<div class="element-eye left-eye column">
+		<div class="data-row">
+			<div class="data-value">
+				<?php if ($element->hasLeft()) {?>
+					<div class="row data-row">"IOP placehoder"
+						<div class="large-5 column"><div class="data-label"><?php //echo //CHtml::encode($element->getAttributeLabel('left_target_iop'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php //echo $element->left_target_iop?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_glaucoma_status_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_glaucoma_status ? $element->left_glaucoma_status->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_drop-related_prob_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->{'left_drop-related_prob'} ? $element->{'left_drop-related_prob'}->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_drops_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_drops ? $element->left_drops->name : 'None'?></div></div>
+					</div>
+					<div class="row data-row">
+						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_surgery_id'))?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_surgery ? $element->left_surgery->name : 'None'?></div></div>
+					</div>
+					<div class="column large-6">
+						<h3>Referral:</h3>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_other-service'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->{'left_other-service'} ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_refraction'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_refraction ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_lva'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_lva ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_orthoptics'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_orthoptics ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_cl_clinic'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_cl_clinic ? 'Yes' : 'No'?></div></div>
+						</div>
+					</div>
+					<div class="column large-6">
+						<h3>Investigations:</h3>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_vf'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_vf ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_us'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_us ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_biometry'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_biometry ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_oct'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_oct ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_hrt'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_hrt ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_disc_photos'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_disc_photos ? 'Yes' : 'No'?></div></div>
+						</div>
+						<div class="row data-row">
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_edt'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->left_edt ? 'Yes' : 'No'?></div></div>
+						</div>
+					</div>
+				<?php
+				} else {?>
+					Not recorded
+				<?php }?>
+			</div>
+		</div>
+	</div>
+</div>
