@@ -292,47 +292,6 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 	}
 
 	/**
-	 * update the fluid types for the given side.
-	 *
-	 * @param string $side
-	 * @param integer[] $fluidtype_ids - array of fluid type ids to assign to the element
-	 */
-	public function updatefluidtypes($side, $fluidtype_ids)
-	{
-		$current_fluidtypes = array();
-		$save_fluidtypes = array();
-
-		foreach ($this->fluidtype_assignments as $curr) {
-			if ($curr->eye_id == $side) {
-				$current_fluidtypes[$curr->fluidtype_id] = $curr;
-			}
-		}
-
-		// go through each update fluidtype id, if it isn't assigned for this element,
-		// create assignment and store for saving
-		// if there is, remove from the current fluidtype array
-		// anything left in $current_fluidtypes at the end is ripe for deleting
-		foreach ($fluidtype_ids as $fluidtype_id) {
-			if (!array_key_exists($fluidtype_id, $current_fluidtypes)) {
-				$s = new OphCiExamination_OCT_FluidTypeAssignment();
-				$s->attributes = array('element_id' => $this->id, 'eye_id' => $side, 'fluidtype_id' => $fluidtype_id);
-				$save_fluidtypes[] = $s;
-			} else {
-				// don't want to delete later
-				unset($current_fluidtypes[$fluidtype_id]);
-			}
-		}
-		// save what needs saving
-		foreach ($save_fluidtypes as $save) {
-			$save->save();
-		}
-		// delete the rest
-		foreach ($current_fluidtypes as $curr) {
-			$curr->delete();
-		}
-	}
-
-	/**
 	 * get the letter string for the given side
 	 *
 	 * @param $side
@@ -377,12 +336,6 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 			$res .= $this->getLetterStringForSide('left');
 		}
 		return $res;
-	}
-
-	protected function beforeDelete()
-	{
-		OphCiExamination_OCT_FluidTypeAssignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
-		return parent::beforeDelete();
 	}
 
 	public function getFluidTypeValues()

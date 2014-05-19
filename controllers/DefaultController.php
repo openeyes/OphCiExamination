@@ -529,32 +529,6 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
-	 * Set the OCT Fluid types for validation for the given side
-	 *
-	 * @param Element_OphCiExamination_OCT $element
-	 * @param array $data
-	 * @param integer $index
-	 */
-	protected function _setComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
-	{
-		$model_name = \CHtml::modelName($element);
-		foreach (array('left', 'right') as $side) {
-			$fts = array();
-			$checker = 'has' . ucfirst($side);
-			if ($element->$checker()) {
-				if (isset($data[$model_name][$side . '_fluidtypes'])) {
-					foreach ($data[$model_name][$side . '_fluidtypes'] as $ft_id) {
-						if ($ft = models\OphCiExamination_OCT_FluidType::model()->findByPk($ft_id)) {
-							$fts[] = $ft;
-						}
-					}
-				}
-			}
-			$element->{$side . '_fluidtypes'} = $fts;
-		}
-	}
-
-	/**
 	 * Set the diagnoses against the Element_OphCiExamination_Diagnoses element
 	 *
 	 * @param Element_OphCiExamination_Diagnoses $element
@@ -616,57 +590,6 @@ class DefaultController extends \BaseEventTypeController
 				$element->{$side . '_treatments'} = $dilations;
 			}
 		}
-	}
-
-	/**
-	 * Set the visual acuity readings against the Element_OphCiExamination_VisualAcuity element
-	 *
-	 * @param Element_OphCiExamination_VisualAcuity $element
-	 * @param $data
-	 * @param $index
-	 */
-	protected function _setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
-	{
-		$model_name = \CHtml::modelName($element);
-
-		foreach (array('left' => models\OphCiExamination_VisualAcuity_Reading::LEFT, 'right' => models\OphCiExamination_VisualAcuity_Reading::RIGHT) as $side => $side_id) {
-			$readings = array();
-			$checker = 'has' . ucfirst($side);
-			if ($element->$checker()) {
-				if (isset($data[$model_name][$side . '_readings'])) {
-					foreach ($data[$model_name][$side . '_readings'] as $p_read) {
-						if (@$p_read['id']) {
-							$reading = models\OphCiExamination_VisualAcuity_Reading::model()->findByPk($p_read['id']);
-						}
-						else {
-							$reading = new models\OphCiExamination_VisualAcuity_Reading();
-						}
-						$reading->attributes = $p_read;
-						$reading->side = $side_id;
-						$readings[] = $reading;
-					}
-				}
-			}
-			$element->{$side . '_readings'} = $readings;
-		}
-	}
-
-	/**
-	 * Save Visual Acuity readings
-	 *
-	 * @param Element_OphCiExamination_VisualAcuity $element
-	 * @param $data
-	 * @param $index
-	 */
-	protected function _saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
-	{
-		$model_name = \CHtml::modelName($element);
-		$element->updateReadings(\Eye::LEFT, $element->hasLeft() ?
-						@$data[$model_name]['left_readings'] :
-						array());
-		$element->updateReadings(\Eye::RIGHT, $element->hasRight() ?
-						@$data[$model_name]['right_readings'] :
-						array());
 	}
 
 	/**
@@ -749,24 +672,6 @@ class DefaultController extends \BaseEventTypeController
 			$element->hasRight() && isset($data[$model_name]['right_risks']) ?
 			$data[$model_name]['right_risks'] :
 			array());
-	}
-
-	/**
-	 * Save fluid types
-	 *
-	 * @param $element
-	 * @param $data
-	 * @param $index
-	 */
-	protected function _saveComplexAttributes_Element_OphCiExamination_OCT($element, $data, $index)
-	{
-		$model_name = \CHtml::modelName($element);
-		$element->updateFluidTypes(\Eye::LEFT, $element->hasLeft() && isset($data[$model_name]['left_fluidtypes']) ?
-				$data[$model_name]['left_fluidtypes'] :
-				array());
-		$element->updateFluidTypes(\Eye::RIGHT, $element->hasRight() && isset($data[$model_name]['right_fluidtypes']) ?
-				$data[$model_name]['right_fluidtypes'] :
-				array());
 	}
 
 	/**
