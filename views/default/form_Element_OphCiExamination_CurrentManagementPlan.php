@@ -21,7 +21,7 @@ $glaucomaStatus =
 	CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus::model()
 		->findAll(array('order'=> 'display_order asc')),'id','name');
 
-$dropRelatProblem = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus::model()
+$dropRelatProblem = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_DropRelProb::model()
 	->findAll(array('order'=> 'display_order asc')),'id','name');
 
 $dropsIds =  CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_Drops::model()
@@ -44,10 +44,10 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
 				<?php //echo $form->slider($element, 'right_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
-				<?php echo $form->dropDownList($element, 'right_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'))?>
-				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'))?>
-				<?php echo $form->dropDownList($element, 'right_drops_id', $dropsIds ,array('empty'=>'- Please select -'))?>
-				<?php echo $form->dropDownList($element, 'right_surgery_id', $surgeryIds,array('empty'=>'- Please select -'))?>
+				<?php echo $form->dropDownList($element, 'right_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'right_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'right_surgery_id', $surgeryIds,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<div class="column large-6">
 					<h3>Referral:</h3>
 					<?php echo $form->checkBox($element, 'right_other-service',array(), array('label'=>8, 'field'=>4))?>
@@ -79,10 +79,10 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
 				<?php //echo $form->slider($element, 'left_target_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
-				<?php echo $form->dropDownList($element, 'left_glaucoma_status_id',$glaucomaStatus,array('empty' => '- - Please Select - -'))?>
-				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'))?>
-				<?php echo $form->dropDownList($element, 'left_drops_id', $dropsIds ,array('empty'=>'- Please select -'))?>
-				<?php echo $form->dropDownList($element, 'left_surgery_id', $surgeryIds,array('empty'=>'- Please select -'))?>
+				<?php echo $form->dropDownList($element, 'left_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'left_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'left_surgery_id', $surgeryIds,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<div class="column large-6">
 					<h3>Referral:</h3>
 					<?php echo $form->checkBox($element, 'left_other-service',array(), array('label'=>8, 'field'=>4))?>
