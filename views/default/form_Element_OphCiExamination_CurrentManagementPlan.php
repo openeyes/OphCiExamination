@@ -30,6 +30,8 @@ $dropsIds =  CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_
 $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery::model()
 	->findAll(array('order'=> 'display_order asc')),'id','name');
 
+$iop = $element->getLatestIOP($this->patient);
+
 ?>
 
 <section class="element <?php echo $element->elementType->class_name?>"
@@ -38,12 +40,59 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 	data-element-type-name="<?php echo $element->elementType->name?>"
 	data-element-display-order="<?php echo $element->elementType->display_order?>">
 	<div class="element-fields element-eyes row">
+		<script type="text/javascript">
+			console.log('something is loading');
+
+			var previous_iop = <?php echo json_encode($iop);?>;
+
+			function setCurrentManagementIOP(side){
+				cmIopElement = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_' + side + '_iop');
+				targetEl = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_' + side + '_target_iop');
+
+				if(previous_iop === null || targetEl.length == 0){
+					cmIopElement.html('N/A');
+					return;
+				}
+
+				console.log('pino1');
+				if( targetEl.length!= 0 && targetEl.val() != '' && typeof previous_iop[ side +'IOP'] !== 'undefined'  ){
+					console.log('pino2');
+					thisSideTargetVal = parseInt(targetEl.val());
+					resultIOP = previous_iop[ side +'IOP'] - thisSideTargetVal;
+					cmIopElement.html(resultIOP +' mmHh');
+					console.log('Set IOP to : ' + resultIOP + '. This side Target val : ' +
+						thisSideTargetVal +	'.  Previous val : ' + previous_iop [ side +'IOP']);
+				}
+				else{
+					console.log('This side is : ' + side + ' and its value has not been set.');
+					return;
+				}
+				console.log('This side is : ' + side + '. Its value is: ' + thisSideTargetVal +
+					'. IOP readings ' + previous_iop  );
+			}
+			$(document).ready(function() {
+				$('.event.edit').on('change', [
+					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop',
+					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop'
+				].join(','), function(){
+					setCurrentManagementIOP('left');
+					setCurrentManagementIOP('right');
+				});
+
+				setCurrentManagementIOP('left');
+				setCurrentManagementIOP('right');
+			});
+		</script>
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
 		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<?php //echo $form->slider($element, 'right_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
+				<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop_id" class="row field-row">
+					<div class="large-3 column"><label>IOP:</label></div>
+					<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ( $iop == null )?'n/a': $iop['rightIOP'].' mmHH'?></div>
+				</div>
+
 				<?php echo $form->dropDownList($element, 'right_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'right_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
@@ -78,7 +127,12 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 		<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<?php //echo $form->slider($element, 'left_target_iop', array('min' => 10, 'max' => 25, 'step' => 1))?>
+
+				<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop_id" class="row field-row">
+					<div class="large-3 column"><label>IOP:</label></div>
+					<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ( $iop == null )?'N/A': $iop['leftIOP'].' mmHH'?></div>
+				</div>
+
 				<?php echo $form->dropDownList($element, 'left_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'left_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>

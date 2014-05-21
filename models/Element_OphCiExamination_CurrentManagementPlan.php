@@ -53,6 +53,8 @@ namespace OEModule\OphCiExamination\models;
  * @property Gender $surgery
  */
 
+use OEModule\OphCiExamination\components\OphCiExamination_API;
+
 class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeElement
 {
 	/**
@@ -229,6 +231,18 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 	{
 
 		return parent::afterSave();
+	}
+
+	public function getLatestIOP($patient){
+		$result = array();
+
+		$api = new OphCiExamination_API();
+		$result['leftIOP'] = $api->getIOPReadingLeft($patient);
+		$result['rightIOP'] = $api->getIOPReadingRight($patient);
+		if($result['leftIOP'] || $result['rightIOP']){
+			return $result;
+		}
+		return null;
 	}
 }
 ?>

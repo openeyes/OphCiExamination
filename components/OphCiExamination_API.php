@@ -91,6 +91,24 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getIOPReadingLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getReading('left');
+			}
+		}
+	}
+
+	public function getIOPReadingRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getReading('right');
+			}
+		}
+	}
+
 	public function getLetterIOPReadingPrincipal($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {

@@ -81,6 +81,8 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			array('id, event_id, left_target_iop , right_target_iop  ,left_clinic_internal_id , right_clinic_internal_id  ,
 				 left_photo_id , right_photo_id , left_oct_id , right_oct_id , left_hfa_id , right_hfa_id ,
 				left_gonio_id, right_gonio_id, left_comments , right_comments , eye_id, ', 'safe', 'on' => 'search'),
+			array('left_target_iop, right_target_iop', 'numerical', 'integerOnly'=>true, 'min' => 10, 'max' => 25, 'message' => 'Target IOP Values, use integers between 10 and 25.')
+
 		);
 	}
 

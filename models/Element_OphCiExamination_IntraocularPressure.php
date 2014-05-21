@@ -107,15 +107,22 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 
 	public function getLetter_reading($side)
 	{
+		$reading = $this->getReading($side);
+
+		if (!$reading) return 'Not recorded';
+		return $reading . ' mmHg';
+	}
+
+	public function getReading($side){
 		$values = $this->{"{$side}_values"};
 
-		if (!$values) return 'Not recorded';
+		if (!$values) return null;
 
 		$sum = 0;
 		foreach ($values as $value) {
 			$sum += $value->reading->value;
 		}
-		return round($sum / count($values)) . ' mmHg';
+		return round($sum / count($values)) ;
 	}
 
 	public function getLetter_string()
