@@ -49,6 +49,15 @@ use Yii;
 class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 {
 	public $service;
+	protected $_auto_update_relations = true;
+	protected $_relation_defaults = array(
+		'left_readings' => array(
+		'side' => OphCiExamination_VisualAcuity_Reading::LEFT
+		),
+		'right_readings' => array(
+		'side' => OphCiExamination_VisualAcuity_Reading::RIGHT
+		),
+	);
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -75,7 +84,8 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
+				array('left_comments, right_comments, right_readings, left_readings, eye_id, unit_id, left_unable_to_assess,
+					right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -351,71 +361,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 				'criteria' => $criteria,
 		));
 	}
-
-	protected function beforeDelete()
-	{
-		foreach ($this->readings as $reading) {
-			if (!$reading->delete()) {
-				throw new Exception('Delete reading failed: '.print_r($reading->getErrors(),true));
-			}
-		}
-		return parent::beforeDelete();
-	}
-
-	/**
-	 * Update the readings for the given side
-	 *
-	 * @param $side Eye::LEFT or Eye::RIGHT
-	 * @param $readings
-	 * @throws Exception
-	 */
-	public function updateReadings($side, $readings)
-	{
-		if ($side == \Eye::LEFT) {
-			$side = OphCiExamination_VisualAcuity_Reading::LEFT;
-		}
-		else {
-			$side = OphCiExamination_VisualAcuity_Reading::RIGHT;
-		}
-
-		$curr_by_id = array();
-		$save = array();
-
-		foreach ($this->readings as $r) {
-			if ($r->side == $side) {
-				$curr_by_id[$r->id] = $r;
-			}
-		}
-
-		if ($readings) {
-			foreach ($readings as $reading) {
-				if (!isset($reading['id']) || !array_key_exists($reading['id'], $curr_by_id)) {
-					$obj = new OphCiExamination_VisualAcuity_Reading();
-				}
-				else {
-					$obj = $curr_by_id[$reading['id']];
-					unset($curr_by_id[$reading['id']]);
-				}
-				$obj->attributes = $reading;
-				$obj->element_id = $this->id;
-				$obj->side = $side;
-				$save[] = $obj;
-			}
-		}
-
-		foreach ($save as $s) {
-			if (!$s->save()) {
-				throw new Exception('unable to save va reading:' . print_r($s->getErrors(), true));
-			};
-		}
-
-		foreach ($curr_by_id as $curr) {
-			if (!$curr->delete()) {
-				throw new Exception('unable to delete va reading:' . print_r($curr->getErrors(), true));
-			}
-		}
-	}
-
 
 	/**
 	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
