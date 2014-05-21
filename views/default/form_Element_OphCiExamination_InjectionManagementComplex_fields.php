@@ -126,7 +126,7 @@ $el_model_name = CHtml::modelName($element);
 		foreach ($risks as $risk) {
 			$html_options['options'][(string) $risk->id] = array('data-order' => $risk->display_order);
 		}
-		echo $form->multiSelectList($element, $el_model_name . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 6))?>
+		echo $form->multiSelectList($element, $side . '_risks', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 6))?>
 
 	<?php echo $form->textArea($element, $side . '_comments', array(), false, array('placeholder' => 'Enter comments'), array('label' => 3, 'field' => 9))?>
 </div>
