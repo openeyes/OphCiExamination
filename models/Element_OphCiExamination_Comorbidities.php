@@ -30,7 +30,7 @@ namespace OEModule\OphCiExamination\models;
  */
 class Element_OphCiExamination_Comorbidities extends \BaseEventTypeElement
 {
-	protected $_auto_update_relations = true;
+	protected $auto_update_relations = true;
 
 	/**
 	 * Returns the static model of the specified AR class.

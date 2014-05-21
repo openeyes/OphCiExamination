@@ -49,8 +49,8 @@ use Yii;
 class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 {
 	public $service;
-	protected $_auto_update_relations = true;
-	protected $_relation_defaults = array(
+	protected $auto_update_relations = true;
+	protected $relation_defaults = array(
 		'left_readings' => array(
 		'side' => OphCiExamination_VisualAcuity_Reading::LEFT
 		),

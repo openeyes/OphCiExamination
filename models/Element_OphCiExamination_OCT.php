@@ -49,8 +49,8 @@ namespace OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 {
-	protected $_auto_update_relations = true;
-	protected $_relation_defaults = array(
+	protected $auto_update_relations = true;
+	protected $relation_defaults = array(
 			'left_fluidtypes' => array(
 				'eye_id' => \Eye::LEFT,
 			),
