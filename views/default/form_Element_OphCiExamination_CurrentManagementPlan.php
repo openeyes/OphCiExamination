@@ -45,35 +45,11 @@ $iop = $element->getLatestIOP($this->patient);
 
 			var previous_iop = <?php echo json_encode($iop);?>;
 
-			function setCurrentManagementIOP(side){
-				cmIopElement = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_' + side + '_iop');
-				targetEl = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_' + side + '_target_iop');
-
-				if(previous_iop === null || targetEl.length == 0){
-					cmIopElement.html('N/A');
-					return;
-				}
-
-				console.log('pino1');
-				if( targetEl.length!= 0 && targetEl.val() != '' && typeof previous_iop[ side +'IOP'] !== 'undefined'  ){
-					console.log('pino2');
-					thisSideTargetVal = parseInt(targetEl.val());
-					resultIOP = previous_iop[ side +'IOP'] - thisSideTargetVal;
-					cmIopElement.html(resultIOP +' mmHh');
-					console.log('Set IOP to : ' + resultIOP + '. This side Target val : ' +
-						thisSideTargetVal +	'.  Previous val : ' + previous_iop [ side +'IOP']);
-				}
-				else{
-					console.log('This side is : ' + side + ' and its value has not been set.');
-					return;
-				}
-				console.log('This side is : ' + side + '. Its value is: ' + thisSideTargetVal +
-					'. IOP readings ' + previous_iop  );
-			}
 			$(document).ready(function() {
 				$('.event.edit').on('change', [
 					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop',
-					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop'
+					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop',
+					'.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure'
 				].join(','), function(){
 					setCurrentManagementIOP('left');
 					setCurrentManagementIOP('right');
@@ -82,6 +58,7 @@ $iop = $element->getLatestIOP($this->patient);
 				setCurrentManagementIOP('left');
 				setCurrentManagementIOP('right');
 			});
+
 		</script>
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
