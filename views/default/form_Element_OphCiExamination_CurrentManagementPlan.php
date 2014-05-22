@@ -31,6 +31,7 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 	->findAll(array('order'=> 'display_order asc')),'id','name');
 
 $iop = $element->getLatestIOP($this->patient);
+Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_END);
 
 ?>
 
@@ -41,24 +42,7 @@ $iop = $element->getLatestIOP($this->patient);
 	data-element-display-order="<?php echo $element->elementType->display_order?>">
 	<div class="element-fields element-eyes row">
 		<script type="text/javascript">
-			console.log('something is loading');
-
 			var previous_iop = <?php echo json_encode($iop);?>;
-
-			$(document).ready(function() {
-				$('.event.edit').on('change', [
-					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop',
-					'#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop',
-					'.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure'
-				].join(','), function(){
-					setCurrentManagementIOP('left');
-					setCurrentManagementIOP('right');
-				});
-
-				setCurrentManagementIOP('left');
-				setCurrentManagementIOP('right');
-			});
-
 		</script>
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 

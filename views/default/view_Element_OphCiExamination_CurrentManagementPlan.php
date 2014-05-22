@@ -16,15 +16,22 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+$iop = $element->getLatestIOP($this->patient);
+Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_END);
+
 ?>
 <div class="element-data element-eyes row">
+	<script type="text/javascript">
+		var previous_iop = <?php echo json_encode($iop);?>;
+	</script>
 	<div class="element-eye right-eye column">
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasRight()) {?>
-					<div class="row data-row">"IOP placehoder"
-						<div class="large-5 column"><div class="data-label"><?php //echo //CHtml::encode($element->getAttributeLabel('right_target_iop'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php //echo $element->right_target_iop?></div></div>
+					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop_id" class="row field-row">
+						<div class="large-3 column"><label>IOP:</label></div>
+						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ( $iop == null )?'n/a': $iop['rightIOP'].' mmHH'?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_glaucoma_status_id'))?></div></div>
@@ -107,9 +114,9 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasLeft()) {?>
-					<div class="row data-row">"IOP placehoder"
-						<div class="large-5 column"><div class="data-label"><?php //echo //CHtml::encode($element->getAttributeLabel('left_target_iop'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php //echo $element->left_target_iop?></div></div>
+					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop_id" class="row field-row">
+						<div class="large-3 column"><label>IOP:</label></div>
+						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ( $iop == null )?'n/a': $iop['leftIOP'].' mmHH'?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_glaucoma_status_id'))?></div></div>
