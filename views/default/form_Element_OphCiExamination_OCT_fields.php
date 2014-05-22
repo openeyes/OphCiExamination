@@ -85,7 +85,7 @@ else {
 	foreach ($fts as $ft) {
 		$html_options['options'][(string) $ft->id] = array('data-order' => $ft->display_order);
 	}
-	echo $form->multiSelectList($element, CHtml::modelName($element) . '[' . $side . '_fluidtypes]', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>6));
+	echo $form->multiSelectList($element, $side . '_fluidtypes', $side . '_fluidtypes', 'id', CHtml::listData($fts,'id','name'), array(), $html_options,false,false,null,false,false,array('label'=>4,'field'=>6));
 	?>
 	<div class="row">
 		<div class="large-4 column">
