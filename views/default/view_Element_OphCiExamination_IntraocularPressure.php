@@ -16,8 +16,14 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+$rightIOP = $element->getReading('right');
+$leftIOP = $element->getReading('left');
 ?>
 <div class="element-data element-eyes row">
+	<script type="text/javascript">
+		var view_iop_right = <?php echo json_encode($rightIOP);?>;
+		var view_iop_left = <?php echo json_encode($leftIOP);?>;
+	</script>
 <?php
 
 $this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "right"));

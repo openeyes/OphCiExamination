@@ -31,7 +31,7 @@ $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination
 	->findAll(array('order'=> 'display_order asc')),'id','name');
 
 $iop = $element->getLatestIOP($this->patient);
-Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_HEAD);
 
 ?>
 

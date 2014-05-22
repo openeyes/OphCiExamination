@@ -18,7 +18,7 @@
  */
 
 $iop = $element->getLatestIOP($this->patient);
-Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_HEAD);
 
 ?>
 <div class="element-data element-eyes row">
