@@ -52,24 +52,24 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 					<div class="column large-6">
 						<h3>Referral:</h3>
 						<div class="row data-row">
-							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_other-service'))?></div></div>
-							<div class="large-10 column end"><div class="data-value"><?php echo $element->{'right_other-service'} ? 'Yes' : 'No'?></div></div>
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_other-service'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->{'right_other-service'} ? 'Yes' : 'No'?></div></div>
 						</div>
 						<div class="row data-row">
-							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_refraction'))?></div></div>
-							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_refraction ? 'Yes' : 'No'?></div></div>
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_refraction'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_refraction ? 'Yes' : 'No'?></div></div>
 						</div>
 						<div class="row data-row">
 							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_lva'))?></div></div>
 							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_lva ? 'Yes' : 'No'?></div></div>
 						</div>
 						<div class="row data-row">
-							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_orthoptics'))?></div></div>
-							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_orthoptics ? 'Yes' : 'No'?></div></div>
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_orthoptics'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_orthoptics ? 'Yes' : 'No'?></div></div>
 						</div>
 						<div class="row data-row">
-							<div class="large-2 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_cl_clinic'))?></div></div>
-							<div class="large-10 column end"><div class="data-value"><?php echo $element->right_cl_clinic ? 'Yes' : 'No'?></div></div>
+							<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_cl_clinic'))?></div></div>
+							<div class="large-4 column end"><div class="data-value"><?php echo $element->right_cl_clinic ? 'Yes' : 'No'?></div></div>
 						</div>
 					</div>
 					<div class="column large-6">
