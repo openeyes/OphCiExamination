@@ -1,4 +1,10 @@
 function setCurrentManagementIOP(side){
+    console.log('Side ' + side + ' its type : ' + typeof side);
+    console.debug(side);
+    if(typeof side == 'object'){
+        side = side.data.side;
+    }
+
     cmIopElement = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_' + side + '_iop');
     targetIop = getTargetIop(side);
     currentIopAvg = getCurrentIopValue(side);
@@ -55,21 +61,16 @@ function getCurrentIopValue(side){
         return parseInt(view_iop_left);
     }
     var result = false;
-    c = 0;
     sum = 0;
-    domId = function(){
-        return 'OEModule_OphCiExamination_models_OphCiExamination_IntraocularPressure_Value_' + side
-            + '_values_' + c + '_reading_id option:selected';
-    }
-    while($('#' + domId()).length!= 0){
-        reading = parseInt($('#' + domId()).text() );
+    readings = $('#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_' + side + ' td:nth-child(2) select option:selected') ;
+    for(var i = 0; i < readings.length; i++){
+        reading = parseInt($(readings[i]).text() );
         sum = sum + reading;
-        c++;
     }
     if(sum != 0){
-        result = Math.round(sum/c);
+        result = Math.round(sum/readings.length);
     }
-    console.log('Side: ' + side + '. Total reading : ' + sum + ' of ' + c + ' readings. Avg : ' + result );
+    console.log('Side: ' + side + '. Total reading : ' + sum + ' of ' + readings.length + ' readings. Avg : ' + result );
     return result;
 }
 
@@ -77,7 +78,9 @@ $(document).ready(function() {
     $('.event.edit').on('change click', [
         '#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop',
         '#OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop',
-        '.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure'
+        '.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure',
+        '#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right button.delete',
+        '#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left button.delete'
     ].join(','), function(){
         setCurrentManagementIOP('left');
         setCurrentManagementIOP('right');
@@ -85,4 +88,7 @@ $(document).ready(function() {
 
     setCurrentManagementIOP('left');
     setCurrentManagementIOP('right');
+
+    $("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right").click({side: "right"}, setCurrentManagementIOP);
+    $("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left").click({side: "left"}, setCurrentManagementIOP);
 });
