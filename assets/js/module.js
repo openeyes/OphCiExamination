@@ -840,6 +840,12 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$(this).delegate('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .clearCV', 'click', function(e) {
+		var side = $(this).closest('.side').attr('data-side');
+		$(this).closest('.side').find('tr.colourvisionReading a.removeCVReading').click();
+		e.preventDefault();
+	});
+
 	/**
 	 * Dilation hooks
 	 */

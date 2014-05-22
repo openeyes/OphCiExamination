@@ -30,6 +30,8 @@ namespace OEModule\OphCiExamination\models;
  */
 class Element_OphCiExamination_Comorbidities extends \BaseEventTypeElement
 {
+	protected $auto_update_relations = true;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_Comorbidities the static model class
@@ -55,7 +57,7 @@ class Element_OphCiExamination_Comorbidities extends \BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('comments', 'safe'),
+				array('comments, items', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
@@ -147,54 +149,6 @@ class Element_OphCiExamination_Comorbidities extends \BaseEventTypeElement
 		parent::loadFromExisting($element);
 
 		$this->items = $element->items;
-	}
-
-	protected function beforeDelete()
-	{
-		OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
-		return parent::beforeDelete();
-	}
-
-	protected function afterSave()
-	{
-		// Check to see if items have been posted
-		if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
-
-			// Get a list of ids so we can keep track of what's been removed
-			$existing_item_ids = array();
-			foreach ($this->items as $item) {
-				$existing_item_ids[$item->id] = $item->id;
-			}
-
-			// Process (any) posted items
-			$new_items = (isset($_POST['comorbidities_items'])) ? $_POST['comorbidities_items'] : array();
-			foreach ($new_items as $item_id) {
-
-				if ($item_id && isset($existing_item_ids[$item_id])) {
-
-					// Item is being updated
-					$item_assignment = OphCiExamination_Comorbidities_Assignment::model()->findByAttributes(array('element_id' => $this->id, 'item_id' => $item_id));
-					unset($existing_item_ids[$item_id]);
-
-				} else {
-
-					// Item is new
-					$item_assignment = new OphCiExamination_Comorbidities_Assignment();
-					$item_assignment->element_id = $this->id;
-					$item_assignment->item_id = $item_id;
-
-				}
-
-				$item_assignment->save();
-
-			}
-
-			// Delete remaining (removed) ids
-			OphCiExamination_Comorbidities_Assignment::model()->deleteAllByAttributes(array('element_id' => $this->id, 'item_id' =>array_values($existing_item_ids)));
-
-		}
-
-		parent::afterSave();
 	}
 
 }
