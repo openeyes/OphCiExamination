@@ -337,7 +337,7 @@ $(document).ready(function() {
 		if (side) {
 			eyedraw = side + '_' + eyedraw;
 		}
-		eyedraw = window['ed_drawing_edit_' + eyedraw];
+		eyedraw = ED.getInstance('ed_drawing_edit_' + eyedraw);
 
 		// Get report text and strip trailing comma
 		var text = eyedraw.report();
@@ -507,11 +507,12 @@ $(document).ready(function() {
 	$(this).delegate('a#drgrading_dirty', 'click', function(e) {
 		$('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').find('canvas').each(function() {
 			var drawingName = $(this).attr('data-drawing-name');
-			if (window[drawingName]) {
+			var drawing = ED.getInstance(drawingName);
+			if (drawing) {
 				// the posterior segment drawing is available to sync values with
-				var grades = gradeCalculator(window[drawingName]);
+				var grades = gradeCalculator(drawing);
 
-				updateDRGrades(window[drawingName], grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
+				updateDRGrades(drawing, grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
 			}
 		});
 		$(this).hide();
@@ -735,7 +736,7 @@ $(document).ready(function() {
 	$('#event-content').delegate('.element input[name$="_pxe]"]', 'change', function() {
 		var side = $(this).closest('[data-side]').attr('data-side');
 		var element_type_id = $(this).closest('.element').attr('data-element-type-id');
-		var eyedraw = window['ed_drawing_edit_' + side + '_' + element_type_id];
+		var eyedraw = ED.getInstance('ed_drawing_edit_' + side + '_' + element_type_id);
 		eyedraw.setParameterForDoodleOfClass('AntSeg', 'pxe', $(this).is(':checked'));
 	});
 
@@ -1428,7 +1429,7 @@ function OphCiExamination_DRGrading_update(side) {
 	if (OphCiExamination_DRGrading_canUpdate(side)) {
 		var cv = $('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_PosteriorPole').find('.side.' + physical_side).find('canvas');
 		var drawingName = cv.data('drawing-name');
-		var drawing = window[drawingName];
+		var drawing = ED.getInstance(drawingName);
 		var grades = gradeCalculator(drawing);
 		if (grades) {
 			updateDRGrades(drawing, grades[0], grades[1], grades[2], grades[3], grades[4], grades[5]);
@@ -1442,7 +1443,7 @@ function OphCiExamination_PosteriorPole_init() {
 		var drawingName = $(this).attr('data-drawing-name');
 
 		var func = function() {
-			var _drawing = window[drawingName];
+			var _drawing = ED.getInstance(drawingName);
 			var side = 'right';
 			if (_drawing.eye) {
 				side = 'left';
@@ -1459,7 +1460,7 @@ function OphCiExamination_PosteriorPole_init() {
 			}
 		};
 
-		if (window[drawingName]) {
+		if (ED.getInstance(drawingName)) {
 			func();
 		}
 		else {
@@ -1770,8 +1771,9 @@ function OphCiExamination_OpticDisc_init() {
 			OphCiExamination_OpticDisc_updateCDRatio(this);
 		});
 	}
-	edChecker = getOEEyeDrawChecker();
-	edChecker.registerForReady(func);
+	ED.Checker.onAllReady(func);
+	// edChecker = getOEEyeDrawChecker();
+	// edChecker.registerForReady(func);
 }
 
 function OphCiExamination_GlaucomaRisk_init() {
@@ -1799,7 +1801,7 @@ function OphCiExamination_ClinicOutcome_LoadTemplate(template_id) {
 
 function OphCiExamination_OpticDisc_updateCDRatio(field) {
 	var cdratio_field = $(field).closest('.eyedraw-fields').find('.cd-ratio');
-	var _drawing = window[$(field).closest('.side').find('canvas').first().attr('data-drawing-name')];
+	var _drawing = ED.getInstance($(field).closest('.side').find('canvas').first().attr('data-drawing-name'));
 	if($(field).val() == 'Basic') {
 		$(field).closest('.eyedraw-fields').find('.cd-ratio-readonly').remove();
 		_drawing.unRegisterForNotifications(this);
@@ -1853,7 +1855,7 @@ $('a.removeDiagnosis').live('click',function() {
 });
 
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id')];
+	var eyedraw = ED.getInstance('ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id'));
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
 	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').children('option:selected').text());
 	eyedraw.repaint();
@@ -1861,7 +1863,7 @@ $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',func
 });
 
 $('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',function() {
-	var eyedraw = window['ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id')];
+	var eyedraw = ED.getInstance('ed_drawing_edit_left_' + $(this).closest('.element').attr('data-element-type-id'));;
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
 	doodle.setParameter('grade',$('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').children('option:selected').text());
 	eyedraw.repaint();
