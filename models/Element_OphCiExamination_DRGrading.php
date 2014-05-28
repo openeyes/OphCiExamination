@@ -85,7 +85,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation,
+				array('left_nscretinopathy_id, left_nscmaculopathy_id, left_nscretinopathy_photocoagulation,
 						left_nscmaculopathy_photocoagulation, right_nscretinopathy_id, right_nscmaculopathy_id,
 						right_nscretinopathy_photocoagulation, right_nscmaculopathy_photocoagulation, left_clinicalret_id,
 						right_clinicalret_id, left_clinicalmac_id, right_clinicalmac_id, eye_id', 'safe'),

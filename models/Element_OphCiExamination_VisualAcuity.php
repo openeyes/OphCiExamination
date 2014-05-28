@@ -72,7 +72,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
+				array('left_comments, right_comments, eye_id, unit_id, left_unable_to_assess, right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -99,8 +99,8 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
 			'readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id'),
-			'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = 0'),
-			'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = 1'),
+			'right_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = ' . OphCiExamination_VisualAcuity_Reading::RIGHT),
+			'left_readings' => array(self::HAS_MANY, 'OphCiExamination_VisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = ' . OphCiExamination_VisualAcuity_Reading::LEFT),
 		);
 	}
 
@@ -121,25 +121,61 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		);
 	}
 
-	public function getFormReadings($side)
-	{
-		if ($this->id) {
-			return $this->{$side.'_readings'};
-		} else {
-			return array();
-		}
-	}
-
 	/**
-	 * Get the measurement unit
+	 * Perform dependent validation for readings and flags.
 	 */
-	/*
-	public function getUnit()
+	protected function afterValidate()
 	{
-		$unit_id = $this->getSetting('unit_id');
-		return OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
+		$contra_flags = array('_unable_to_assess', '_eye_missing');
+		foreach (array('left', 'right') as $side) {
+			$check = 'has'.ucfirst($side);
+			if ($this->$check()) {
+				if ($this->{$side . '_readings'}) {
+					foreach ($this->{$side . '_readings'} as $i => $reading) {
+						if (!$reading->validate()) {
+							foreach ($reading->getErrors() as $fld => $err) {
+								$this->addError($side . '_readings', ucfirst($side) . ' reading(' .($i+1) . '): ' . implode(', ', $err) );
+							}
+						}
+					}
+					foreach ($contra_flags as $f) {
+						if ($this->{$side . $f}) {
+							$this->addError($side . $f, 'Cannot be ' . $this->getAttributeLabel($side.$f) . ' with VA readings.');
+						}
+					}
+				}
+				else {
+					$valid = false;
+					foreach ($contra_flags as $f) {
+						if ($this->{$side . $f}) {
+							$valid = true;
+						}
+					}
+					if (!$valid && !$this->{$side . '_comments'}) {
+						$this->addError('eye_id', 'Must have some information for ' . $side . ' side to be valid');
+					}
+				}
+			}
+			else {
+				$error = false;
+				if ($this->{$side . '_readings'}) {
+					$error =  true;
+				}
+				else {
+					foreach ($contra_flags as $f) {
+						if ($this->{$side . $f}) {
+							$error = true;
+						}
+					}
+				}
+				if ($error) {
+					$this->addError('eye_id', ucfirst($side) . ' data not allowed for VA when ' . $side . ' side not set.');
+				}
+			}
+		}
+
+		parent::afterValidate();
 	}
-	*/
 
 	public function setDefaultOptions()
 	{
@@ -237,6 +273,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 * be converted to unit type of that id.
 	 *
 	 * @param string $side
+	 * @param null $unit_id
 	 * @return string
 	 */
 	public function getCombined($side, $unit_id = null)
@@ -279,6 +316,32 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	}
 
 	/**
+	 * Convenience function for generating string of why a reading wasn't recorded for a side.
+	 *
+	 * @param $side
+	 * @return string
+	 */
+	public function getTextForSide($side)
+	{
+		$checkFunc = 'has' . ucfirst($side);
+		if ($this->$checkFunc() && !$this->{$side . '_readings'}) {
+			if ($this->{$side . '_unable_to_assess'}) {
+				$text = $this->getAttributeLabel($side . '_unable_to_assess');
+				if ($this->{$side . '_eye_missing'}) {
+					$text .= ", " . $this->getAttributeLabel($side . '_eye_missing');
+				}
+				return $text;
+			}
+			elseif ($this->{$side . '_eye_missing'}) {
+				return $this->getAttributeLabel($side . '_eye_missing');
+			}
+			else {
+				return "not recorded";
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -299,33 +362,6 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		));
 	}
 
-	/**
-	 * Converts a (POSTed) form to an array of reading models.
-	 * Required when redisplaying form after validation error.
-	 * @param array $readings array POSTed array of readings
-	 * @param string $side
-	 */
-	public function convertReadings($readings, $side)
-	{
-		$return = array();
-		$side_id = ($side == 'right') ? 0 : 1;
-		if (is_array($readings)) {
-			foreach ($readings as $reading) {
-				if ($reading['side'] == $side_id) {
-					$reading_model = new OphCiExamination_VisualAcuity_Reading();
-					$reading_model->attributes = $reading;
-					$return[] = $reading_model;
-				}
-			}
-		}
-		return $return;
-	}
-
-	protected function beforeSave()
-	{
-		return parent::beforeSave();
-	}
-
 	protected function beforeDelete()
 	{
 		foreach ($this->readings as $reading) {
@@ -337,60 +373,59 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	}
 
 	/**
-	 * Save readings
-	 * @todo This probably doesn't belong here, but there doesn't seem to be an easy way
-	 * of doing it through the controller at the moment
+	 * Update the readings for the given side
+	 *
+	 * @param $side Eye::LEFT or Eye::RIGHT
+	 * @param $readings
+	 * @throws Exception
 	 */
-	protected function afterSave()
+	public function updateReadings($side, $readings)
 	{
-		// Check to see if readings have been posted
-		if (isset($_POST['visualacuity_readings_valid']) && $_POST['visualacuity_readings_valid']) {
-
-			// Get a list of ids so we can keep track of what's been removed
-			$existing_reading_ids = array();
-			foreach ($this->readings as $reading) {
-				$existing_reading_ids[$reading->id] = $reading->id;
-			}
-
-			// Process (any) posted readings
-			$new_readings = (isset($_POST['visualacuity_reading'])) ? $_POST['visualacuity_reading'] : array();
-			foreach ($new_readings as $reading) {
-
-				// Check to see if side is inactive
-				if ($reading['side'] == 0 && $this->eye_id == 1
-						|| $reading['side'] == 1 && $this->eye_id == 2) {
-					continue;
-				}
-
-				if (isset($reading['id']) && isset($existing_reading_ids[$reading['id']])) {
-
-					// Reading is being updated
-					$reading_model = OphCiExamination_VisualAcuity_Reading::model()->findByPk($reading['id']);
-					unset($existing_reading_ids[$reading['id']]);
-
-				} else {
-
-					// Reading is new
-					$reading_model = new OphCiExamination_VisualAcuity_Reading();
-					$reading_model->element_id = $this->id;
-
-				}
-
-				// Save reading attributes
-				$reading_model->value = $reading['value'];
-				$reading_model->method_id = $reading['method_id'];
-				$reading_model->side = $reading['side'];
-				$reading_model->save();
-
-			}
-
-			// Delete remaining (removed) ids
-			OphCiExamination_VisualAcuity_Reading::model()->deleteByPk(array_values($existing_reading_ids));
-
+		if ($side == Eye::LEFT) {
+			$side = OphCiExamination_VisualAcuity_Reading::LEFT;
+		}
+		else {
+			$side = OphCiExamination_VisualAcuity_Reading::RIGHT;
 		}
 
-		parent::afterSave();
+		$curr_by_id = array();
+		$save = array();
+
+		foreach ($this->readings as $r) {
+			if ($r->side == $side) {
+				$curr_by_id[$r->id] = $r;
+			}
+		}
+
+		if ($readings) {
+			foreach ($readings as $reading) {
+				if (!isset($reading['id']) || !array_key_exists($reading['id'], $curr_by_id)) {
+					$obj = new OphCiExamination_VisualAcuity_Reading();
+				}
+				else {
+					$obj = $curr_by_id[$reading['id']];
+					unset($curr_by_id[$reading['id']]);
+				}
+				$obj->attributes = $reading;
+				$obj->element_id = $this->id;
+				$obj->side = $side;
+				$save[] = $obj;
+			}
+		}
+
+		foreach ($save as $s) {
+			if (!$s->save()) {
+				throw new Exception('unable to save va reading:' . print_r($s->getErrors(), true));
+			};
+		}
+
+		foreach ($curr_by_id as $curr) {
+			if (!$curr->delete()) {
+				throw new Exception('unable to delete va reading:' . print_r($curr->getErrors(), true));
+			}
+		}
 	}
+
 
 	/**
 	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
@@ -398,6 +433,7 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 	 *
 	 * @TODO: The units for correspondence should become a configuration variable
 	 *
+	 * @throws Exception
 	 * @return string
 	 */
 	public function getLetter_string()
@@ -409,11 +445,13 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text = "Visual acuity:\n";
 
 		if ($this->hasRight()) {
+			$text .= "Right Eye: ";
 			if ($this->getCombined('right')) {
-				$text .= "Right Eye: ".$this->getCombined('right', $unit->id);
+				$text .= $this->getCombined('right', $unit->id);
 			} else {
-				$text .= "Right Eye: not recorded";
+				$text .= $this->getTextForSide('right');
 			}
+
 			if (trim($this->right_comments)) {
 				$text .= ", ".$this->right_comments;
 			}
@@ -424,10 +462,11 @@ class Element_OphCiExamination_VisualAcuity extends SplitEventTypeElement
 		$text .= "\n";
 
 		if ($this->hasLeft()) {
+			$text .= "Left Eye: ";
 			if ($this->getCombined('left')) {
-				$text .= "Left Eye: ".$this->getCombined('left', $unit->id);
+				$text .= $this->getCombined('left', $unit->id);
 			} else {
-				$text .= "Left Eye: not recorded";
+				$text .= $this->getTextForSide('left');
 			}
 			if (trim($this->left_comments)) {
 				$text .= ", ".$this->left_comments;

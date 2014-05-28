@@ -25,7 +25,7 @@ class DefaultController extends BaseEventTypeController
 {
 	static protected $action_types = array(
 		'step' => self::ACTION_TYPE_EDIT,
-		'getDisorderTableRow' => self::ACTION_TYPE_FORM,
+		'getDisorder' => self::ACTION_TYPE_FORM,
 		'loadInjectionQuestions' => self::ACTION_TYPE_FORM
 	);
 
@@ -553,6 +553,57 @@ class DefaultController extends BaseEventTypeController
 			}
 		}
 		$element->diagnoses = $diagnoses;
+	}
+
+	/**
+	 * Set the visual acuity readings against the Element_OphCiExamination_VisualAcuity element
+	 *
+	 * @param Element_OphCiExamination_VisualAcuity $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	{
+		$model_name = CHtml::modelName($element);
+
+		foreach (array('left' => Eye::LEFT, 'right' => Eye::RIGHT) as $side => $eye_id) {
+			$readings = array();
+			$checker = 'has' . ucfirst($side);
+			if ($element->$checker()) {
+				if (isset($data[$model_name][$side . '_readings'])) {
+					foreach ($data[$model_name][$side . '_readings'] as $p_read) {
+						if (@$p_read['id']) {
+							$reading = OphCiExamination_VisualAcuity_Reading::model()->findByPk($p_read['id']);
+						}
+						else {
+							$reading = new OphCiExamination_VisualAcuity_Reading();
+						}
+						$reading->attributes = $p_read;
+						$reading->side = $eye_id;
+						$readings[] = $reading;
+					}
+				}
+			}
+			$element->{$side . '_readings'} = $readings;
+		}
+	}
+
+	/**
+	 * Save Visual Acuity readings
+	 *
+	 * @param Element_OphCiExamination_VisualAcuity $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_VisualAcuity($element, $data, $index)
+	{
+		$model_name = CHtml::modelName($element);
+		$element->updateReadings(Eye::LEFT, $element->hasLeft() ?
+						@$data[$model_name]['left_readings'] :
+						array());
+		$element->updateReadings(Eye::RIGHT, $element->hasRight() ?
+						@$data[$model_name]['right_readings'] :
+						array());
 	}
 
 	/**

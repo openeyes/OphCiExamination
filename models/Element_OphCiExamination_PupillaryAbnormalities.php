@@ -60,7 +60,6 @@ class Element_OphCiExamination_PupillaryAbnormalities extends SplitEventTypeElem
 				array('eye_id', 'required'),
 				array('left_abnormality_id', 'requiredIfSide', 'side' => 'left'),
 				array('right_abnormality_id', 'requiredIfSide', 'side' => 'right'),
-				array('event_id', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_abnormality_id, right_abnormality_id, eye_id', 'safe', 'on' => 'search'),

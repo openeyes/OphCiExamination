@@ -72,7 +72,7 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
+				array('eye_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
 					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
 					right_dry, right_fluidstatus_id, right_comments', 'safe'),
 				array('left_method_id, left_sft, left_dry', 'requiredIfSide', 'side' => 'left'),

@@ -59,7 +59,7 @@ class Element_OphCiExamination_AdnexalComorbidity extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_description, right_description, eye_id', 'safe'),
+				array('left_description, right_description, eye_id', 'safe'),
 				array('left_description', 'requiredIfSide', 'side' => 'left'),
 				array('right_description', 'requiredIfSide', 'side' => 'right'),
 				// The following rule is used by search().

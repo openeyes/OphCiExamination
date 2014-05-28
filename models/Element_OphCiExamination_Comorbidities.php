@@ -53,7 +53,7 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, comments', 'safe'),
+				array('comments', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
@@ -126,6 +126,18 @@ class Element_OphCiExamination_Comorbidities extends BaseEventTypeElement
 		} else {
 			return 'None';
 		}
+	}
+
+	public function canCopy()
+	{
+		return true;
+	}
+
+	public function loadFromExisting($element)
+	{
+		parent::loadFromExisting($element);
+
+		$this->items = $element->items;
 	}
 
 	protected function beforeDelete()

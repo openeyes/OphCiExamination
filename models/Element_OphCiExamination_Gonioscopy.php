@@ -69,7 +69,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('eye_id, event_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
+				array('eye_id, left_gonio_sup_id, left_gonio_tem_id, left_gonio_nas_id, left_gonio_inf_id,
 						right_gonio_sup_id, right_gonio_tem_id, right_gonio_nas_id, right_gonio_inf_id, left_van_herick_id,
 						right_van_herick_id, left_description, right_description, left_eyedraw, right_eyedraw', 'safe'),
 				array('left_eyedraw, left_description', 'requiredIfSide', 'side' => 'left'),

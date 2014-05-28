@@ -56,7 +56,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, eye_id', 'safe'),
+				array('eye_id', 'safe'),
 				array('id, event_id, eye_id', 'safe', 'on' => 'search'),
 		);
 	}

@@ -67,7 +67,7 @@ class Element_OphCiExamination_Refraction extends SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
+				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
 				array('left_axis', 'requiredIfSide', 'side' => 'left'),
 				array('left_axis', 'numerical', 'integerOnly'=>true),
 				array('right_axis', 'requiredIfSide', 'side' => 'right'),
