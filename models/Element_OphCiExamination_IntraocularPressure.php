@@ -110,10 +110,11 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 		$reading = $this->getReading($side);
 
 		if (!$reading) return 'Not recorded';
-		return $reading . ' mmHg';
+		return $reading . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '')  . ' mmHg';
 	}
 
-	public function getReading($side){
+	public function getReading($side)
+	{
 		$values = $this->{"{$side}_values"};
 
 		if (!$values) return null;
