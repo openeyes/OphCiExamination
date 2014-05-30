@@ -43,14 +43,14 @@ class OphCiExamination_BlebAssessment_CentralArea_Test extends CDbTestCase {
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_CentralArea::model
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model
 	 */
 	public function testModel() {
 		$this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea', get_class($this->model), 'Class name should match model.');
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_CentralArea::tableName
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::tableName
 	 */
 	public function testTableName() {
 		$this->assertEquals('ophciexamination_bleb_assessment_central_area', $this->model->tableName());

@@ -43,14 +43,14 @@ class OphCiExamination_BlebAssessment_MaxArea_Test extends CDbTestCase {
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_MaxArea::model
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model
 	 */
 	public function testModel() {
 		$this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', get_class($this->model), 'Class name should match model.');
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_MaxArea::tableName
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::tableName
 	 */
 	public function testTableName() {
 		$this->assertEquals('ophciexamination_bleb_assessment_max_area', $this->model->tableName());
