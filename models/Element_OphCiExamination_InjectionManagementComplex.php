@@ -220,26 +220,13 @@ class Element_OphCiExamination_InjectionManagementComplex extends SplitEventType
 	 */
 	public function delete()
 	{
-		$transaction = $this->dbConnection->beginTransaction();
-		try {
-			foreach ($this->risk_assignments as $riska) {
-				$riska->delete();
-			}
-			foreach ($this->answers as $answer) {
-				$answer->delete();
-			}
-			if (parent::delete()) {
-				$transaction->commit();
-			}
-			else {
-				throw new Exception('unable to delete');
-			}
+		foreach ($this->risk_assignments as $riska) {
+			$riska->delete();
 		}
-		catch (Exception $e) {
-			$transaction->rollback();
-			throw $e;
+		foreach ($this->answers as $answer) {
+			$answer->delete();
 		}
-
+		return parent::delete();
 	}
 
 	/**
