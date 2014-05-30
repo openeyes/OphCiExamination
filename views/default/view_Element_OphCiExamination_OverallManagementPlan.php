@@ -17,6 +17,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<div class="element-data">
+	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('clinic_internal_id'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->clinic_internal ? $element->clinic_internal->name : 'None'?></div></div>
+	</div>
+	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('photo_id'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->photo ? $element->photo->name : 'None'?></div></div>
+	</div>
+	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('oct_id'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->oct ? $element->oct->name : 'None'?></div></div>
+	</div>
+	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('hfa_id'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->hfa ? $element->hfa->name : 'None'?></div></div>
+	</div>
+	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('comments'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo CHtml::encode($element->comments)?></div></div>
+	</div>
+</div>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
 		<div class="data-row">
@@ -27,29 +49,10 @@
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop"><?php echo $element->right_target_iop?></div></div>
 					</div>
 					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_clinic_internal_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_clinic_internal ? $element->right_clinic_internal->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_photo_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_photo ? $element->right_photo->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_oct_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_oct ? $element->right_oct->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_hfa_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_hfa ? $element->right_hfa->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_gonio_id'))?></div></div>
 						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_gonio ? $element->right_gonio->name : 'None'?></div></div>
 					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_comments'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo CHtml::encode($element->right_comments)?></div></div>
-					</div>
+
 				<?php
 				} else {?>
 					Not recorded
@@ -66,29 +69,10 @@
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop"><?php echo $element->left_target_iop?></div></div>
 					</div>
 					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_clinic_internal_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_clinic_internal ? $element->left_clinic_internal->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_photo_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_photo ? $element->left_photo->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_oct_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_oct ? $element->left_oct->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_hfa_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_hfa ? $element->left_hfa->name : 'None'?></div></div>
-					</div>
-					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_gonio_id'))?></div></div>
 						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_gonio ? $element->left_gonio->name : 'None'?></div></div>
 					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_comments'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo CHtml::encode($element->left_comments)?></div></div>
-					</div>
+
 				<?php
 				} else {?>
 					Not recorded
