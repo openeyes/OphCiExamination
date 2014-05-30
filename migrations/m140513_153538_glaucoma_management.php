@@ -35,53 +35,38 @@ class m140513_153538_glaucoma_management extends OEMigration
 
 			'right_target_iop' => 'int(10) DEFAULT NULL',
 
-			'left_clinic_internal_id' => 'int DEFAULT NULL',
-
-			'right_clinic_internal_id' => 'int DEFAULT NULL',
-
-			'left_photo_id' => 'int DEFAULT NULL',
-
-			'right_photo_id' => 'int DEFAULT NULL',
-
-			'left_oct_id' => 'int DEFAULT NULL',
-
-			'right_oct_id' => 'int DEFAULT NULL',
-
-			'left_hfa_id' => 'int DEFAULT NULL',
-
-			'right_hfa_id' => 'int DEFAULT NULL',
-
 			'left_gonio_id' => 'int DEFAULT NULL',
 
 			'right_gonio_id' => 'int DEFAULT NULL',
 
-			'left_comments' => 'text COLLATE utf8_bin DEFAULT \'\'',
+			'clinic_internal_id' => 'int DEFAULT NULL',
 
-			'right_comments' => 'text COLLATE utf8_bin DEFAULT \'\'',
+			'photo_id' => 'int DEFAULT NULL',
+
+			'oct_id' => 'int DEFAULT NULL',
+
+			'hfa_id' => 'int DEFAULT NULL',
+
+			'comments' => 'text COLLATE utf8_bin DEFAULT \'\'',
+
 			'eye_id' => 'int(10) unsigned NOT NULL DEFAULT \'3\'',
 			'KEY `et_ophciexam_overallmanagementplan_ev_fk` (`event_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_lclinic_internal_id_fk` (`left_clinic_internal_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_rclinic_internal_id_fk` (`right_clinic_internal_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_lphoto_id_fk` (`left_photo_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_rphoto_id_fk` (`right_photo_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_loct_id_fk` (`left_oct_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_roct_id_fk` (`right_oct_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_lhfa_id_fk` (`left_hfa_id`)',
-			'KEY `et_ophciexam_overallmanagementplan_rhfa_id_fk` (`right_hfa_id`)',
 			'KEY `et_ophciexam_overallmanagementplan_lgonio_id_fk` (`left_gonio_id`)',
 			'KEY `et_ophciexam_overallmanagementplan_rgonio_id_fk` (`right_gonio_id`)',
+			'KEY `et_ophciexam_overallmanagementplan_clinic_internal_id_fk` (`clinic_internal_id`)',
+			'KEY `et_ophciexam_overallmanagementplan_photo_id_fk` (`photo_id`)',
+			'KEY `et_ophciexam_overallmanagementplan_oct_id_fk` (`oct_id`)',
+			'KEY `et_ophciexam_overallmanagementplan_hfa_id_fk` (`hfa_id`)',
+
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_ev_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_lclinic_internal_id_fk` FOREIGN KEY (`left_clinic_internal_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_rclinic_internal_id_fk` FOREIGN KEY (`right_clinic_internal_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_lphoto_id_fk` FOREIGN KEY (`left_photo_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_rphoto_id_fk` FOREIGN KEY (`right_photo_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_loct_id_fk` FOREIGN KEY (`left_oct_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_roct_id_fk` FOREIGN KEY (`right_oct_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_lhfa_id_fk` FOREIGN KEY (`left_hfa_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-			'CONSTRAINT `et_ophciexam_overallmanagementplan_rhfa_id_fk` FOREIGN KEY (`right_hfa_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_lgonio_id_fk` FOREIGN KEY (`left_gonio_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_rgonio_id_fk` FOREIGN KEY (`right_gonio_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
+			'CONSTRAINT `et_ophciexam_overallmanagementplan_clinic_internal_id_fk` FOREIGN KEY (`clinic_internal_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
+			'CONSTRAINT `et_ophciexam_overallmanagementplan_photo_id_fk` FOREIGN KEY (`photo_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
+			'CONSTRAINT `et_ophciexam_overallmanagementplan_oct_id_fk` FOREIGN KEY (`oct_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
+			'CONSTRAINT `et_ophciexam_overallmanagementplan_hfa_id_fk` FOREIGN KEY (`hfa_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
+
 		), true);
 
 		$this->createOETable('et_ophciexamination_currentmanagementplan', array(
