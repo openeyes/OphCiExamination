@@ -1,6 +1,4 @@
 function setCurrentManagementIOP(side){
-    console.log('Side ' + side + ' its type : ' + typeof side);
-    console.debug(side);
     if(typeof side == 'object'){
         side = side.data.side;
     }
@@ -30,11 +28,8 @@ function setCurrentManagementIOP(side){
         }
 
         cmIopElement.html(resultIOP +' mmHh');
-        console.log('Set IOP to : ' + resultIOP + '. This side Target val : ' +
-            targetIop +	'.  Previous val : ' + previous_iop [ side +'IOP']);
     }
     else{
-        console.log('This side is : ' + side + ' and its value has not been set.');
         return;
     }
 }
@@ -70,7 +65,6 @@ function getCurrentIopValue(side){
     if(sum != 0){
         result = Math.round(sum/readings.length);
     }
-    console.log('Side: ' + side + '. Total reading : ' + sum + ' of ' + readings.length + ' readings. Avg : ' + result );
     return result;
 }
 
