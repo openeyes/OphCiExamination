@@ -19,9 +19,12 @@
 ?>
 <div class="element-fields">
 	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
-	<?php $this->widget('application.widgets.DiagnosisSelection', array(
+	<?php
+	list($options, $secondary_to) = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
+	$this->widget('application.widgets.DiagnosisSelection', array(
 		'field' => 'disorder_id',
-		'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),
+		'options' => $options,
+		'secondary_to' => $secondary_to,
 		'code' => '130', // Ophthamology
 		'callback' => 'OphCiExamination_AddDiagnosis',
 		'layout' => 'minimal',

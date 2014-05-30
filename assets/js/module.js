@@ -1842,9 +1842,48 @@ $('a.removeDiagnosis').live('click',function() {
 
 	$.ajax({
 		'type': 'GET',
-		'url': baseUrl+'/disorder/iscommonophthalmic/'+disorder_id,
-		'success': function(html) {
-			if (html.length >0) {
+		'url': baseUrl+'/disorder/iscommonophthalmicwithsecondary/'+disorder_id,
+		'dataType': 'json',
+		'success': function(data) {
+			if (data.disorder) {
+				var extra_attr = '';
+				if (data.owned_by) {
+					$('#DiagnosisSelection_disorder_id').children().each(function() {
+						var opt_id = $(this).val();
+						for (var i in data.owned_by) {
+							if (data.owned_by[i].id == opt_id) {
+								if ($(this).data('secondary-to')) {
+									var current = $(this).data('secondary-to');
+									current.push(data.disorder);
+									$(this).data('secondary-to', current);
+								}
+								else {
+									$(this).data('secondary-to', '['+JSON.stringify(data.disorder).replace(/\"/g, "&quot;")+']');
+								}
+							}
+						}
+					});
+					return;
+				}
+				else if (data.secondary_to) {
+					var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
+					var final_st = new Array();
+					for (var i in data.secondary_to) {
+						var st = data.secondary_to[i];
+						var add = true;
+						for (var j in current_diagnoses) {
+							if (current_diagnoses[j] == st.id) {
+								add = false;
+								break;
+							}
+						}
+						if (add) {
+							final_st.push(st);
+						}
+					}
+					extra_attr = ' data-secondary-to="'+ JSON.stringify(final_st).replace(/\"/g, "&quot;") + '"';
+				}
+				html = '<option value="'+data.disorder.id+'"'+extra_attr+'>'+data.disorder.term+'</option>';
 				$('#DiagnosisSelection_disorder_id').append(html);
 				sort_selectbox($('#DiagnosisSelection_disorder_id'));
 			}

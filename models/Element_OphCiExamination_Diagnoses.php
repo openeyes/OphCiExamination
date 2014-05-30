@@ -221,16 +221,31 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	public function getCommonOphthalmicDisorders($firm_id)
 	{
 		$disorder_ids = $this->getSelectedDisorderIDs();
-
+		error_log(print_r($disorder_ids,true));
 		$disorders = array();
-
-		foreach (\CommonOphthalmicDisorder::getList(\Firm::model()->findByPk($firm_id)) as $id => $disorder) {
+		$secondary_to = array();
+		list($common, $common_secondary_to) = \CommonOphthalmicDisorder::getListWithSecondaryTo(\Firm::model()->findByPk($firm_id));
+		// pre-filter to remove disorders patient already has
+		foreach ($common as $id => $disorder) {
 			if (!in_array($id,$disorder_ids)) {
 				$disorders[$id] = $disorder;
 			}
 		}
+		// pre-filter to remove any disorders in the secondary-to lists the patient already has
+		foreach ($common_secondary_to as $id => $secondary_tos) {
+			if (!in_array($id, $disorder_ids)) {
+				error_log('checking ...');
+				$secondary_to[$id] = array();
+				error_log(print_r($secondary_tos, true));
+				foreach ($secondary_tos as $stid => $term) {
+					if (!in_array($stid, $disorder_ids)) {
+						$secondary_to[$id][$stid] = $term;
+					}
+				}
+			}
+		}
 
-		return $disorders;
+		return array($disorders, $secondary_to);
 	}
 
 	/**
