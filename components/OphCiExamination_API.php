@@ -1027,4 +1027,27 @@ class OphCiExamination_API extends \BaseAPI
 			return $res;
 		}
 	}
+
+	/**
+	 * get CCT values for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getLetterCCT($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if (isset($el->left_value) ) {
+					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->value .  '. ';
+				}
+				if (isset($el->right_value) ) {
+					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->value .  '. ';
+				}
+			}
+			return $str;
+		}
+	}
 }
