@@ -28,19 +28,26 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 	data-element-type-name="<?php echo $element->elementType->name?>"
 	data-element-display-order="<?php echo $element->elementType->display_order?>">
 
-	<div class="element-fields element-eyes row">
+	<div class="element-fields row">
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
+		<?php echo $form->dropDownList($element, 'clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
+	</div>
+	<div class="element-fields element-eyes row">
 		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
 				<?php echo $form->textField($element, 'right_target_iop', array('min' => 10, 'max' => 25),false , array('label'=>3, 'field'=>2))?>
-				<?php echo $form->dropDownList($element, 'right_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'right_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'right_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'right_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'right_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'right_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'right_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'right_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
 				<?php echo $form->dropDownList($element, 'right_gonio_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->textArea($element, 'right_comments', array('rows' => 6, 'cols' => 80))?>
+				<?php //echo $form->textArea($element, 'right_comments', array('rows' => 6, 'cols' => 80))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
@@ -54,12 +61,12 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
 				<?php echo $form->textField($element, 'left_target_iop', array('min' => 10, 'max' => 25),false , array('label'=>3, 'field'=>2))?>
-				<?php echo $form->dropDownList($element, 'left_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'left_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'left_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->dropDownList($element, 'left_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'left_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'left_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'left_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<?php //echo $form->dropDownList($element, 'left_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
 				<?php echo $form->dropDownList($element, 'left_gonio_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php echo $form->textArea($element, 'left_comments', array('rows' => 6, 'cols' => 80))?>
+				<?php //echo $form->textArea($element, 'left_comments', array('rows' => 6, 'cols' => 80))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
