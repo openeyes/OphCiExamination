@@ -225,7 +225,10 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 		));
 	}
 
-
+	public function canCopy()
+	{
+		return true;
+	}
 
 	protected function afterSave()
 	{

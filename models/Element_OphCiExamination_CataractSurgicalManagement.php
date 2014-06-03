@@ -155,6 +155,11 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 		return 'print_'.$this->getDefaultView();
 	}
 
+	public function canCopy()
+	{
+		return true;
+	}
+
 	public function setDefaultOptions()
 	{
 		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {

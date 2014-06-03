@@ -165,7 +165,10 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 		));
 	}
 
-
+	public function canCopy()
+	{
+		return true;
+	}
 
 	protected function afterSave()
 	{
