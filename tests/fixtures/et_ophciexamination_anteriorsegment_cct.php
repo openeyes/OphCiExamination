@@ -23,8 +23,8 @@ return array(
 		'eye_id'=>2,
 		'left_method_id' => 1,
 		'right_method_id' => 2,
-		'right_value' => 33,
-		'left_value' => 20,
+		'right_value' => 20,
+		'left_value' => 33,
 	),
 	'cct2' => array(
 		'id' => 2,

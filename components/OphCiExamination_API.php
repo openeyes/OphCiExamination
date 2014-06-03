@@ -1041,10 +1041,10 @@ class OphCiExamination_API extends \BaseAPI
 
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if (isset($el->left_value) ) {
-					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->value .  '. ';
+					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .  '. ';
 				}
 				if (isset($el->right_value) ) {
-					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->value .  '. ';
+					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->name .  '. ';
 				}
 			}
 			return $str;

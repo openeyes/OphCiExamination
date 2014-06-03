@@ -28,8 +28,8 @@ class OphCiExamination_APITest extends CDbTestCase {
 	}
 
 	public $fixtures = array(
-		'cct' => 'Element_OphCiExamination_AnteriorSegment_CCT',
-		'cct_method'=> ':ophciexamination_anteriorsegment_cct_method',
+		'cct' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT',
+		'cct_method'=> '\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method',
 	);
 
 
