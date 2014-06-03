@@ -103,21 +103,12 @@ class m140507_094523_colour_vision_element extends OEMigration
 				'ophciexamination_colourvision_reading',
 				'value_id', 'ophciexamination_colourvision_value', 'id');
 
-		$this->versionExistingTable('ophciexamination_colourvision_method');
-		$this->versionExistingTable('ophciexamination_colourvision_value');
-		$this->versionExistingTable('et_ophciexamination_colourvision');
-		$this->versionExistingTable('ophciexamination_colourvision_reading');
-
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
 	{
-		$this->dropTable('ophciexamination_colourvision_reading_version');
-		$this->dropTable('et_ophciexamination_colourvision_version');
-		$this->dropTable('ophciexamination_colourvision_value_version');
-		$this->dropTable('ophciexamination_colourvision_method_version');
 		$this->dropTable('ophciexamination_colourvision_reading');
 		$this->dropTable('et_ophciexamination_colourvision');
 		$this->dropTable('ophciexamination_colourvision_value');

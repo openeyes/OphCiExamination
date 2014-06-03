@@ -14,19 +14,19 @@ class m140513_153538_glaucoma_management extends OEMigration
 
 		$this->insertOEElementType($element_types,$event_type['id'] );
 		$this->createOETable('ophciexamination_overallperiod',
-			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',	), true);
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',	));
 
 		$this->createOETable('ophciexamination_managementglaucomastatus',
-			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',));
 
 		$this->createOETable('ophciexamination_managementrelproblem',
-			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',));
 
 		$this->createOETable('ophciexamination_managementdrops',
-			array(	'id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
+			array(	'id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',));
 
 		$this->createOETable('ophciexamination_managementsurgery',
-			array('id' => 'pk','name' => 'text',	'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',), true);
+			array('id' => 'pk','name' => 'text',	'display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',));
 
 		$this->createOETable('et_ophciexamination_overallmanagementplan', array(
 			'id' => 'pk',
@@ -82,7 +82,7 @@ class m140513_153538_glaucoma_management extends OEMigration
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_rhfa_id_fk` FOREIGN KEY (`right_hfa_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_lgonio_id_fk` FOREIGN KEY (`left_gonio_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
 			'CONSTRAINT `et_ophciexam_overallmanagementplan_rgonio_id_fk` FOREIGN KEY (`right_gonio_id`) REFERENCES `ophciexamination_overallperiod` (`id`)',
-		), true);
+		));
 
 		$this->createOETable('et_ophciexamination_currentmanagementplan', array(
 			'id' => 'pk',
@@ -172,7 +172,7 @@ class m140513_153538_glaucoma_management extends OEMigration
 			'CONSTRAINT `et_ophciexam_currentmanagementplan_rdrops_id_fk` FOREIGN KEY (`right_drops_id`) REFERENCES `ophciexamination_managementdrops` (`id`)',
 			'CONSTRAINT `et_ophciexam_currentmanagementplan_lsurgery_id_fk` FOREIGN KEY (`left_surgery_id`) REFERENCES `ophciexamination_managementsurgery` (`id`)',
 			'CONSTRAINT `et_ophciexam_currentmanagementplan_rsurgery_id_fk` FOREIGN KEY (`right_surgery_id`) REFERENCES `ophciexamination_managementsurgery` (`id`)',
-		), true);
+		));
 
 		$migrations_path = dirname(__FILE__);
 		$this->initialiseData($migrations_path);
@@ -181,19 +181,12 @@ class m140513_153538_glaucoma_management extends OEMigration
 	public function down()
 	{
 		$this->dropTable('et_ophciexamination_overallmanagementplan');
-		$this->dropTable('et_ophciexamination_overallmanagementplan_version');
 		$this->dropTable('et_ophciexamination_currentmanagementplan');
-		$this->dropTable('et_ophciexamination_currentmanagementplan_version');
 		$this->dropTable('ophciexamination_overallperiod');
-		$this->dropTable('ophciexamination_overallperiod_version');
 		$this->dropTable('ophciexamination_managementglaucomastatus');
-		$this->dropTable('ophciexamination_managementglaucomastatus_version');
 		$this->dropTable('ophciexamination_managementrelproblem');
-		$this->dropTable('ophciexamination_managementrelproblem_version');
 		$this->dropTable('ophciexamination_managementdrops');
-		$this->dropTable('ophciexamination_managementdrops_version');
 		$this->dropTable('ophciexamination_managementsurgery');
-		$this->dropTable('ophciexamination_managementsurgery_version');
 
 		$this->delete('element_type', 'class_name = ?', array('OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'));
 		$this->delete('element_type', 'class_name = ?', array('OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan'));
