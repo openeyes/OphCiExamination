@@ -1029,21 +1029,23 @@ class OphCiExamination_API extends \BaseAPI
 	}
 
 	/**
-	 * get CCT values for current episode, examination event
+	 * get principal eye CCT values for current episode, examination event
 	 *
 	 * @param $patient
 	 * @return string
 	 */
-	public function getLetterCCT($patient)
+	public function getPrincipalCCT($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			$str ='';
 
+			$eyeName = $episode->eye->name;
+
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
-				if (isset($el->left_value) ) {
+				if (isset($el->left_value) && ($eyeName == 'Left' || $eyeName == 'Both')) {
 					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .  '. ';
 				}
-				if (isset($el->right_value) ) {
+				if (isset($el->right_value) && ($eyeName == 'Right' || $eyeName == 'Both')) {
 					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->name .  '. ';
 				}
 			}

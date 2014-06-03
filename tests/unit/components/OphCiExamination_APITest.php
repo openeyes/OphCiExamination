@@ -30,6 +30,7 @@ class OphCiExamination_APITest extends CDbTestCase {
 	public $fixtures = array(
 		'cct' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT',
 		'cct_method'=> '\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method',
+		'episode'=> 'Episode'
 	);
 
 
@@ -153,32 +154,99 @@ class OphCiExamination_APITest extends CDbTestCase {
 		$this->assertEquals('not recorded on the right and Left VA on the left', $api->getLetterVisualAcuityForEpisodeBoth($episode, false));
 	}
 
-	public function testGetLetterCCT(){
-
-		/*$cct_method_left =
-			$this->getMockBuilder('\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method')
-			->disableOriginalConstructor()
-			->getMock();
-		$cct_method_left->name = 'Ultrasound pachymetry';
-
-		$cct_method_right =
-			$this->getMockBuilder('\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method')
-			->disableOriginalConstructor()
-			->getMock();
-		$cct_method_right->name = 'Corneal specular microscopy';
-
-		$cct = $this->getMockBuilder('\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')
-			->disableOriginalConstructor()
-			->getMock();
-		$cct->left_method = $cct_method_left;
-		$cct->right_method = $cct_method_right;
-		$cct->left_value = 33;
-		$cct->right_value = 20;
-
-		var_dump($cct);die;*/
+	public function testGetPrincipalCCTBoth(){
 
 		$cct = $this->cct('cct1');
 
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode2');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->any())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_AnteriorSegment_CCT')
+			->will($this->returnValue($cct));
+
+		$principalCCT = $api->getPrincipalCCT($patient);
+		$expected  = 'Left Eye: 33 µm using Ultrasound pachymetry. Right Eye: 20 µm using Corneal specular microscopy. ';
+		$this->assertEquals($expected, $principalCCT);
+	}
+
+	public function testGetPrincipalCCTRight(){
+		$cct = $this->cct('cct1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode3');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->any())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_AnteriorSegment_CCT')
+			->will($this->returnValue($cct));
+
+		$principalCCT = $api->getPrincipalCCT($patient);
+		$expected  = 'Right Eye: 20 µm using Corneal specular microscopy. ';
+		$this->assertEquals($expected, $principalCCT);
+	}
+
+	public function testGetPrincipalCCTLeft(){
+		$cct = $this->cct('cct1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->any())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_AnteriorSegment_CCT')
+			->will($this->returnValue($cct));
+
+		$principalCCT = $api->getPrincipalCCT($patient);
+		$expected  = 'Left Eye: 33 µm using Ultrasound pachymetry. ';
+		$this->assertEquals($expected, $principalCCT);
+	}
+
+	/*
+	 *
+	 public function testGetLetterVanHerick(){
+
+		$cct = $this->cct('cct1');
 
 		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
 			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
@@ -204,5 +272,5 @@ class OphCiExamination_APITest extends CDbTestCase {
 		$letterCCT = $api->getLetterCCT($patient);
 		$expected  = 'Left Eye: 33 µm using Ultrasound pachymetry. Right Eye: 20 µm using Corneal specular microscopy. ';
 		$this->assertEquals($expected, $letterCCT);
-	}
+	}*/
 }
