@@ -163,4 +163,9 @@ class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 		}
 	}
 
+	public function canCopy()
+	{
+		return true;
+	}
+
 }
