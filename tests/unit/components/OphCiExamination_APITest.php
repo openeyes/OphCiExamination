@@ -28,7 +28,7 @@ class OphCiExamination_APITest extends CDbTestCase {
 	}
 
 	public $fixtures = array(
-		'cct' => ':et_ophciexamination_anteriorsegment_cct',
+		'cct' => 'Element_OphCiExamination_AnteriorSegment_CCT',
 		'cct_method'=> ':ophciexamination_anteriorsegment_cct_method',
 	);
 
