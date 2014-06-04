@@ -1077,4 +1077,29 @@ class OphCiExamination_API extends \BaseAPI
 			return $str;
 		}
 	}
+
+	/**
+	 * get principal eye Optic Disc description for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getPrincipalOpticDiscDescription($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			$eyeName = $episode->eye->name;
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_OpticDisc')) {
+				if (isset($el->left_description) && ($eyeName == 'Left' || $eyeName == 'Both')) {
+					$str = $str . 'Left Eye: ' . $el->left_description . '. ';
+				}
+				if (isset($el->right_description) && ($eyeName == 'Right' || $eyeName == 'Both')) {
+					$str = $str . 'Right Eye: ' . $el->right_description . '. ';
+				}
+			}
+			return $str;
+		}
+	}
 }

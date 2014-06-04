@@ -31,6 +31,7 @@ class OphCiExamination_APITest extends CDbTestCase {
 		'cct' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT',
 		'cct_method'=> '\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method',
 		'gonioscopy'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_Gonioscopy',
+		'optic_disc' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_OpticDisc',
 		'episode'=> 'Episode'
 	);
 
@@ -328,5 +329,92 @@ class OphCiExamination_APITest extends CDbTestCase {
 		$principalVH = $api->getPrincipalVanHerick($patient);
 		$expected  = 'Left Eye: Van Herick grade is 30%. ';
 		$this->assertEquals($expected, $principalVH);
+	}
+
+	public function testGetPricipalOpticDiscDescription(){
+		$opticdisc = $this->optic_disc('opticdisc1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode2');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->will($this->returnValue($opticdisc));
+
+		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
+		$expected  = 'Left Eye: Not Checked Well. Right Eye: Some Description. ';
+		$this->assertEquals($expected, $principalODD);
+	}
+
+	public function testGetPricipalOpticDiscDescriptionRight(){
+		$opticdisc = $this->optic_disc('opticdisc1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode3');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->will($this->returnValue($opticdisc));
+
+		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
+		$expected  = 'Right Eye: Some Description. ';
+		$this->assertEquals($expected, $principalODD);
+	}
+
+	public function testGetPricipalOpticDiscDescriptionLeft(){
+		$opticdisc = $this->optic_disc('opticdisc1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->will($this->returnValue($opticdisc));
+
+		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
+		$expected  = 'Left Eye: Not Checked Well. ';
+		$this->assertEquals($expected, $principalODD);
 	}
 }
