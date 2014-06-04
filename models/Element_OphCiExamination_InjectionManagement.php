@@ -128,7 +128,7 @@ class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 	public function injectionDependencyValidation($attribute)
 	{
 		if ($this->injection_status && $this->injection_status->deferred) {
-			$v = CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
+			$v = \CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
 			$v->validate($this);
 		}
 	}
@@ -139,7 +139,7 @@ class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 	public function injectionDeferralReasonDependencyValidation($attribute)
 	{
 		if ($this->injection_deferralreason && $this->injection_deferralreason->other) {
-			$v = CValidator::createValidator('required', $this, array('injection_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->injection_deferralreason));
+			$v = \CValidator::createValidator('required', $this, array('injection_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->injection_deferralreason));
 			$v->validate($this);
 		}
 	}
@@ -161,6 +161,11 @@ class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 			// shouldn't get to this point really
 			return "N/A";
 		}
+	}
+
+	public function canCopy()
+	{
+		return true;
 	}
 
 }
