@@ -1039,6 +1039,7 @@ class OphCiExamination_API extends \BaseAPI
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			$str ='';
 
+			if(!isset($episode->eye->name)){return;}
 			$eyeName = $episode->eye->name;
 
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
@@ -1064,6 +1065,7 @@ class OphCiExamination_API extends \BaseAPI
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			$str ='';
 
+			if(!isset($episode->eye->name)){return;}
 			$eyeName = $episode->eye->name;
 
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_Gonioscopy')) {
@@ -1089,6 +1091,7 @@ class OphCiExamination_API extends \BaseAPI
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			$str ='';
 
+			if(!isset($episode->eye->name)){return;}
 			$eyeName = $episode->eye->name;
 
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_OpticDisc')) {
