@@ -20,14 +20,13 @@
 <tr class="visualAcuityReading visual-acuity-reading" data-key="<?php echo $key?>">
 	<td>
 		<?php if (isset($reading) && $reading->id) {?>
-			<input type="hidden" name="visualacuity_reading[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
+			<input type="hidden" name="<?=$name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
 		<?php }?>
-		<input type="hidden" name="visualacuity_reading[<?php echo $key ?>][side]" value="<?php echo $side?>" />
-		<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options))?>
+		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][value]', @$reading->value, $values, array('class' => 'va-selector', 'options' => $val_options))?>
 		<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 	</td>
 	<td>
-		<?php echo CHtml::dropDownList('visualacuity_reading['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id'))?>
+		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id'))?>
 	</td>
 	<td class="readingActions">
 		<a class="removeReading" href="#">Remove</a>

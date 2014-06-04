@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
 /**
  * This is the model class for table "et_ophciexamination_cataractsurgicalmanagement".
  *
@@ -27,7 +30,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeElement
+class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventTypeElement
 {
 	public $service;
 
@@ -76,8 +79,8 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
-				'eye' => array(self::BELONGS_TO, 'OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
+				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
+				'eye' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
 		);
 	}
 
@@ -111,14 +114,14 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
 		$criteria->compare('description', $this->description);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -152,11 +155,16 @@ class Element_OphCiExamination_CataractSurgicalManagement extends BaseEventTypeE
 		return 'print_'.$this->getDefaultView();
 	}
 
+	public function canCopy()
+	{
+		return true;
+	}
+
 	public function setDefaultOptions()
 	{
 		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {
 			if ($api = Yii::app()->moduleAPI->get('OphTrOperationnote')) {
-				if (!$patient = Patient::model()->findByPk(@$_GET['patient_id'])) {
+				if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
 					throw new Exception("Patient not found: ".@$_GET['patient_id']);
 				}
 

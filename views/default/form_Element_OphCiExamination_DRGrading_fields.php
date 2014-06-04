@@ -16,11 +16,11 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-$clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()->activeOrPk($element->{$side.'_clinicalret_id'})->findAll();
+$clinical_retinopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalRetinopathy::model()->activeOrPk($element->{$side.'_clinicalret_id'})->findAll();
 ?>
 <div class="row field-row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_clinicalret_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_clinicalret_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_clinicalret_id')?>:
 		</label>
 	</div>
@@ -34,10 +34,10 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 						'data-code' => $clinical->code,
 					);
 				}
-				echo CHtml::activeDropDownList($element, $side . '_clinicalret_id', CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
+				echo  CHtml::activeDropDownList($element, $side . '_clinicalret_id',  CHtml::listData($clinical_retinopathys,'id','name'), $html_options);
 			?>
 		</div>
-		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="clinicalret"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_clinicalret_id');
@@ -49,10 +49,10 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 				if($selected_value==$clinical->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_clinicalret_desc" id="' . get_class($element). '_' . $side . '_clinicalret_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
+				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' .  CHtml::modelName($element). '_'. $side.'_clinicalret_desc" id="' .  CHtml::modelName($element). '_' . $side . '_clinicalret_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
 			} ?>
 		</div>
-		<div id="<?php echo get_class($element). '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalret_id'; ?>">
+		<div id="<?php echo  CHtml::modelName($element). '_'. $side.'_all_clinicalret_desc'; ?>" class="grade-info-all" data-select-id="<?php echo  CHtml::modelName($element) . '_' . $side . '_clinicalret_id'; ?>">
 			<dl>
 				<?php foreach ($clinical_retinopathys as $clinical) { ?>
 					<dt class="pill <?php echo $clinical->class ?>">
@@ -66,10 +66,10 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 		</div>
 	</div>
 </div>
-<?php $nsc_retinopathys = OphCiExamination_DRGrading_NSCRetinopathy::model()->activeOrPk($element->{$side.'_nscretinopathy_id'})->findAll()?>
+<?php $nsc_retinopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCRetinopathy::model()->activeOrPk($element->{$side.'_nscretinopathy_id'})->findAll()?>
 <div class="row field-row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_nscretinopathy_id';?>">
+		<label for="<?php echo  CHtml::modelName($element).'_'.$side.'_nscretinopathy_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_nscretinopathy_id')?>:
 		</label>
 	</div>
@@ -84,10 +84,10 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 					'data-code' => $retin->code,
 				);
 			}
-			echo CHtml::activeDropDownList($element, $side.'_nscretinopathy_id', CHtml::listData($nsc_retinopathys,'id','name'), $nscretinopathy_html_options);
+			echo  CHtml::activeDropDownList($element, $side.'_nscretinopathy_id',  CHtml::listData($nsc_retinopathys,'id','name'), $nscretinopathy_html_options);
 		?>
 		</div>
-		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="retinopathy"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_nscretinopathy_id');
@@ -99,10 +99,10 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 				if($selected_value==$retin->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div?' ':'style="display: none;" ').'class="' . get_class($element). '_'. $side.'_nscretinopathy_desc" id="' . get_class($element). '_' . $side . '_nscretinopathy_desc_' . $retin->code . '">' . $retin->description . '</div>';
+				echo '<div '.($show_div?' ':'style="display: none;" ').'class="' .  CHtml::modelName($element). '_'. $side.'_nscretinopathy_desc" id="' .  CHtml::modelName($element). '_' . $side . '_nscretinopathy_desc_' . $retin->code . '">' . $retin->description . '</div>';
 			}?>
 		</div>
-		<div id="<?php echo get_class($element). '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscretinopathy_id'; ?>">
+		<div id="<?php echo  CHtml::modelName($element). '_'. $side.'_all_retinopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo  CHtml::modelName($element) . '_' . $side . '_nscretinopathy_id'; ?>">
 			<dl>
 				<?php foreach ($nsc_retinopathys as $retin) {?>
 					<dt class="pill <?php echo $retin->class ?>">
@@ -117,12 +117,12 @@ $clinical_retinopathys = OphCiExamination_DRGrading_ClinicalRetinopathy::model()
 	</div>
 </div>
 <?php echo $form->radioBoolean($element,$side.'_nscretinopathy_photocoagulation',array(),array('label'=>4,'field'=>8));
-$clinical_maculopathys = OphCiExamination_DRGrading_ClinicalMaculopathy::model()->activeOrPk($element->{$side.'_clinicalmac_id'})->findAll();
+$clinical_maculopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalMaculopathy::model()->activeOrPk($element->{$side.'_clinicalmac_id'})->findAll();
 $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac'} : @$clinical_maculopathys[0];
 ?>
 <div class="row field-row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_clinicalmac_id';?>">
+		<label for="<?php echo  CHtml::modelName($element).'_'.$side.'_clinicalmac_id';?>">
 			<?php echo $element->getAttributelabel($side.'_clinicalmac_id')?>:
 		</label>
 	</div>
@@ -136,20 +136,20 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 					'data-code' => $clinical->code,
 				);
 			}
-			echo CHtml::activeDropDownList($element, $side . '_clinicalmac_id', CHtml::listData($clinical_maculopathys,'id','name'), $html_options);
+			echo  CHtml::activeDropDownList($element, $side . '_clinicalmac_id',  CHtml::listData($clinical_maculopathys,'id','name'), $html_options);
 			?>
 		</div>
 		<!-- REMOVED UNTIL WE ARE PROVIDED WITH APPROPRIATE TEXT FOR THE DESCRIPTIONS
 		TODO: code to auto detect when there are no descriptions, so that this works dynamically based on the data.
-		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="clinical"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php foreach ($clinical_maculopathys as $clinical) {
-				echo '<div style="display: none;" class="' . get_class($element). '_'. $side.'_clinicalmac_desc" id="' . get_class($element). '_' . $side . '_clinicalmac_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
+				echo '<div style="display: none;" class="' .  CHtml::modelName($element). '_'. $side.'_clinicalmac_desc" id="' .  CHtml::modelName($element). '_' . $side . '_clinicalmac_desc_' . $clinical->code . '">' . $clinical->description . '</div>';
 			}
 			?>
 		</div>
 
-		<div id="<?php echo get_class($element). '_'. $side.'_all_clinicalmac_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_clinicalmac_id'; ?>">
+		<div id="<?php echo CHtml::modelName($element). '_'. $side.'_all_clinicalmac_desc'; ?>" class="grade-info-all" data-select-id="<?php echo CHtml::modelName($element) . '_' . $side . '_clinicalmac_id'; ?>">
 			<dl>
 				<?php foreach ($clinical_maculopathys as $clinical) { ?>
 					<dt class="<?php echo $clinical->class ?>"><a href="#" data-id="<?php echo $clinical->id ?>"><?php echo $clinical->name ?></a></dt>
@@ -160,10 +160,10 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 		-->
 	</div>
 </div>
-<?php $nsc_maculopathys = OphCiExamination_DRGrading_NSCMaculopathy::model()->activeOrPk($element->{$side.'_nscmaculopathy_id'})->findAll();?>
+<?php $nsc_maculopathys = \OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy::model()->activeOrPk($element->{$side.'_nscmaculopathy_id'})->findAll();?>
 <div class="row field-row">
 	<div class="large-4 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_nscmaculopathy_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_nscmaculopathy_id';?>">
 			<?php echo $element->getAttributelabel($side.'_nscmaculopathy_id')?>:
 		</label>
 	</div>
@@ -178,11 +178,11 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 					'data-code' => $macu->code,
 				);
 			}
-			echo CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id', CHtml::listData($nsc_maculopathys,'id','name'), $nscmaculopathy_html_options);
+			echo  CHtml::activeDropDownList($element, $side . '_nscmaculopathy_id',  CHtml::listData($nsc_maculopathys,'id','name'), $nscmaculopathy_html_options);
 
 		?>
 		</div>
-		<span class="grade-info-icon" data-info-type="maculopathy"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
+		<span class="grade-info-icon" data-info-type="maculopathy"><img src="<?php echo $this->getAssetPathForElement($element) ?>/img/icon_info.png" style="height:20px" /></span>
 		<div class="quicklook grade-info" style="display: none;">
 			<?php
 			$selected_value = CHtml::resolveValue($element,$side . '_nscmaculopathy_id');
@@ -191,15 +191,16 @@ $curr_cm = $element->{$side . '_clinicalmac'} ? $element->{$side . '_clinicalmac
 			}
 			foreach ($nsc_maculopathys as $macu) {
 				$show_div = false;
+
 				if ($selected_value==$macu->id) {
 					$show_div = true;
 				}
-				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc desc" id="' . get_class($element) . '_' . $side . '_nscmaculopathy_desc_' . $macu->code . '">' . $macu->description . '</div>';
+				echo '<div '.($show_div ? ' ' : 'style="display: none;" ').'class="' . CHtml::modelName($element) . '_' . $side . '_nscmaculopathy_desc desc" id="' . CHtml::modelName($element) . '_' . $side . '_nscmaculopathy_desc_' . $macu->code . '">' . $macu->description . '</div>';
 			}
 			?>
 		</div>
 		<!-- div containing the full list of descriptions for nsc maculopathy -->
-		<div id="<?php echo get_class($element) . '_'. $side.'_all_maculopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo get_class($element) . '_' . $side . '_nscmaculopathy_id'; ?>">
+		<div id="<?php echo CHtml::modelName($element) . '_'. $side.'_all_maculopathy_desc'; ?>" class="grade-info-all" data-select-id="<?php echo CHtml::modelName($element) . '_' . $side . '_nscmaculopathy_id'; ?>">
 			<dl>
 				<?php foreach ($nsc_maculopathys as $macu) { ?>
 				<dt class="pill <?php echo $macu->class ?>">

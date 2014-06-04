@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_comorbidities_assignment".
  *
@@ -25,7 +27,7 @@
  * @property integer $item_id
 
  */
-class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecordVersioned
+class OphCiExamination_Comorbidities_Assignment extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -71,11 +73,11 @@ class OphCiExamination_Comorbidities_Assignment extends BaseActiveRecordVersione
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('element_id',$this->element_id,true);
 		$criteria->compare('item_id',$this->item_id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

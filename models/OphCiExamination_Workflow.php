@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_workflow".
  *
@@ -25,7 +27,7 @@
  * @property OphCiExamination_Workflow_Step[] $steps
 
  */
-class OphCiExamination_Workflow extends BaseActiveRecordVersioned
+class OphCiExamination_Workflow extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -66,10 +68,10 @@ class OphCiExamination_Workflow extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'steps' => array(self::HAS_MANY, 'OphCiExamination_ElementSet', 'workflow_id',
+				'steps' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'workflow_id',
 					'order' => 'position',
 				),
-				'first_step' => array(self::HAS_ONE, 'OphCiExamination_ElementSet', 'workflow_id',
+				'first_step' => array(self::HAS_ONE, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'workflow_id',
 					'order' => 'first_step.position, first_step.id',
 				),
 		);
@@ -101,10 +103,10 @@ class OphCiExamination_Workflow extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

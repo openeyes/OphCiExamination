@@ -17,6 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
 /**
  * This is the model class for table "et_ophciexamination_drgrading".
  *
@@ -54,7 +57,7 @@
  *
  */
 
-class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
+class Element_OphCiExamination_DRGrading extends \SplitEventTypeElement
 {
 	public $service;
 	public $secondarydiagnosis_disorder_required = false;
@@ -120,20 +123,20 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
+				'element_type' => array(self::HAS_ONE, '\ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
 				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
-				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
-				'left_clinicalret' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalRetinopathy', 'left_clinicalret_id'),
-				'left_clinicalmac' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalMaculopathy', 'left_clinicalmac_id'),
-				'right_nscretinopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
-				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
-				'right_clinicalret' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalRetinopathy', 'right_clinicalret_id'),
-				'right_clinicalmac' => array(self::BELONGS_TO, 'OphCiExamination_DRGrading_ClinicalMaculopathy', 'right_clinicalmac_id'),
+				'left_nscretinopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCRetinopathy', 'left_nscretinopathy_id'),
+				'left_nscmaculopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy', 'left_nscmaculopathy_id'),
+				'left_clinicalret' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalRetinopathy', 'left_clinicalret_id'),
+				'left_clinicalmac' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalMaculopathy', 'left_clinicalmac_id'),
+				'right_nscretinopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCRetinopathy', 'right_nscretinopathy_id'),
+				'right_nscmaculopathy' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_NSCMaculopathy', 'right_nscmaculopathy_id'),
+				'right_clinicalret' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalRetinopathy', 'right_clinicalret_id'),
+				'right_clinicalmac' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_DRGrading_ClinicalMaculopathy', 'right_clinicalmac_id'),
 		);
 	}
 
@@ -171,7 +174,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -190,7 +193,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 		$criteria->compare('right_nscretinopathy_photocoagulation', $this->right_nscretinopathy_photocoagulation);
 		$criteria->compare('right_nscmaculopathy_photocoagulation', $this->right_nscmaculopathy_photocoagulation);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -198,8 +201,8 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	public function getDiabetesTypes()
 	{
 		return array(
-			Disorder::SNOMED_DIABETES_TYPE_I => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_I)->term,
-			Disorder::SNOMED_DIABETES_TYPE_II => Disorder::model()->findByPk(Disorder::SNOMED_DIABETES_TYPE_II)->term
+			\Disorder::SNOMED_DIABETES_TYPE_I => \Disorder::model()->findByPk(\Disorder::SNOMED_DIABETES_TYPE_I)->term,
+			\Disorder::SNOMED_DIABETES_TYPE_II => \Disorder::model()->findByPk(\Disorder::SNOMED_DIABETES_TYPE_II)->term
 		);
 	}
 
@@ -211,7 +214,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 	protected function _getSecondaryDiagnosis()
 	{
 		if ($this->secondarydiagnosis_id) {
-			return SecondaryDiagnosis::model()->findByPk($this->secondarydiagnosis_id);
+			return \SecondaryDiagnosis::model()->findByPk($this->secondarydiagnosis_id);
 		}
 		return null;
 	}
@@ -247,8 +250,8 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 				// assigned (i.e. the element is being created with a diabetes type)
 
 				// final check to ensure nothing has changed whilst processing
-				if ( !$patient->hasDisorderTypeByIds(array_merge(Disorder::$SNOMED_DIABETES_TYPE_I_SET, Disorder::$SNOMED_DIABETES_TYPE_II_SET) ) ) {
-					$sd = new SecondaryDiagnosis();
+				if ( !$patient->hasDisorderTypeByIds(array_merge(\Disorder::$SNOMED_DIABETES_TYPE_I_SET, \Disorder::$SNOMED_DIABETES_TYPE_II_SET) ) ) {
+					$sd = new \SecondaryDiagnosis();
 					$sd->patient_id = $patient->id;
 					$sd->disorder_id = $this->secondarydiagnosis_disorder_id;
 				}
@@ -259,16 +262,16 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 					$this->secondarydiagnosis_disorder_required = false;
 				}
 			}
-			elseif (!$patient->hasDisorderTypeByIds(Disorder::$SNOMED_DIABETES_SET)) {
+			elseif (!$patient->hasDisorderTypeByIds(\Disorder::$SNOMED_DIABETES_SET)) {
 				// Set the patient to have diabetes
-				$sd = new SecondaryDiagnosis();
+				$sd = new \SecondaryDiagnosis();
 				$sd->patient_id = $patient->id;
-				$sd->disorder_id = Disorder::SNOMED_DIABETES;
+				$sd->disorder_id = \Disorder::SNOMED_DIABETES;
 			}
 
 			if ($sd !== null) {
 				$sd->save();
-				Audit::add("SecondaryDiagnosis",'add',$sd->id,null,array('patient_id' => $patient->id));
+				\Audit::add("SecondaryDiagnosis",'add',$sd->id,null,array('patient_id' => $patient->id));
 				$this->secondarydiagnosis_id = $sd->id;
 				Yii::app()->user->setFlash('info.info', "Disorder '" . $sd->disorder->term . "' has been added to patient by DR Grading.");
 			}
@@ -285,7 +288,7 @@ class Element_OphCiExamination_DRGrading extends SplitEventTypeElement
 			$disorder = $sd->disorder;
 			$audit_data = serialize($sd->attributes);
 			$sd->delete();
-			Audit::add("SecondaryDiagnosis", 'delete', $sd->id, null, array('patient_id' => $sd->patient_id));
+			\Audit::add("SecondaryDiagnosis", 'delete', $sd->id, null, array('patient_id' => $sd->patient_id));
 			Yii::app()->user->setFlash('warning.alert', "Disorder '" . $disorder->term . "' has been removed because DR Grading was deleted.");
 		}
 	}

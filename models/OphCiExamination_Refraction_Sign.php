@@ -17,13 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_refraction_sign".
  *
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Refraction_Sign extends BaseActiveRecordVersioned
+class OphCiExamination_Refraction_Sign extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -72,10 +74,10 @@ class OphCiExamination_Refraction_Sign extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

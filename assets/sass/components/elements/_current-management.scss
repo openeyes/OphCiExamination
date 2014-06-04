@@ -14,14 +14,10 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-#event-content {
-	.EyeDrawWidget {
-		canvas {
-			margin: 0;
-			border: 1px solid #ccc;
-		}
-		.ed_toolbar {
-			margin: 0;
-		}
+.#{$OE_MODEL_PREFIX}Element_OphCiExamination_CurrentManagementPlan {
+	.past_iop {
+	  height:28px;
+	  background: image-url("past_icon.png") no-repeat right top;
 	}
 }
+

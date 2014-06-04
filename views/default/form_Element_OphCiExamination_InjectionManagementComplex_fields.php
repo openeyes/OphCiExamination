@@ -21,10 +21,6 @@
 <?php
 $no_treatment = $element->{$side . '_no_treatment'};
 $no_treatment_reason = $element->{$side . '_no_treatment_reason'};
-if (isset($_POST[get_class($element)])) {
-	$no_treatment = $_POST[get_class($element)][$side . '_no_treatment'];
-	$no_treatment_reason = OphCiExamination_InjectionManagementComplex_NoTreatmentReason::model()->findByPk((int)@$_POST[get_class($element)][$side . '_no_treatment_reason_id']);
-}
 $show_no_treatment_reason_other = false;
 if ($no_treatment_reason && $no_treatment_reason->other) {
 	$show_no_treatment_reason_other = true;
@@ -33,9 +29,10 @@ $layoutColumns = array(
 	'label' => 3,
 	'field' => 9
 );
+$el_model_name = CHtml::modelName($element);
 ?>
 
-<fieldset class="row field-row jsNoTreatment <?php echo get_class($element) ?>_no_treatment">
+<fieldset class="row field-row jsNoTreatment <?php echo $el_model_name ?>_no_treatment">
 	<legend class="large-3 column">
 		Treatment:
 	</legend>
@@ -44,9 +41,9 @@ $layoutColumns = array(
 	</div>
 </fieldset>
 
-<div class="row field-row <?php echo get_class($element) ?>_no_treatment_reason_id" id="div_<?php echo get_class($element) . "_" . $side?>_no_treatment_reason_id"<?php if (!$no_treatment) {?> style="display: none;"<?php }?>>
+<div class="row field-row <?php echo $el_model_name ?>_no_treatment_reason_id" id="div_<?php echo $el_model_name . "_" . $side?>_no_treatment_reason_id"<?php if (!$no_treatment) {?> style="display: none;"<?php }?>>
 	<div class="large-3 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_no_treatment_reason_id';?>">
+		<label for="<?php echo $el_model_name.'_'.$side.'_no_treatment_reason_id';?>">
 			<?php echo $element->getAttributeLabel($side . '_no_treatment_reason_id')?>:
 		</label>
 	</div>
@@ -55,9 +52,9 @@ $layoutColumns = array(
 	</div>
 </div>
 
-<div class="row field-row <?php echo get_class($element) ?>_no_treatment_reason_other" id="div_<?php echo get_class($element) . "_" . $side ?>_no_treatment_reason_other"<?php if (!$show_no_treatment_reason_other) {?> style="display: none;"<?php }?>>
+<div class="row field-row <?php echo $el_model_name ?>_no_treatment_reason_other" id="div_<?php echo $el_model_name . "_" . $side ?>_no_treatment_reason_other"<?php if (!$show_no_treatment_reason_other) {?> style="display: none;"<?php }?>>
 	<div class="large-3 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_no_treatment_reason_other';?>">
+		<label for="<?php echo $el_model_name.'_'.$side.'_no_treatment_reason_other';?>">
 			<?php echo $element->getAttributeLabel($side . '_no_treatment_reason_other')?>:
 		</label>
 	</div>
@@ -66,7 +63,7 @@ $layoutColumns = array(
 	</div>
 </div>
 
-<div id="div_<?php echo get_class($element) . '_' . $side ?>_treatment_fields">
+<div id="div_<?php echo $el_model_name . '_' . $side ?>_treatment_fields">
 
 	<div class="diagnosis_id">
 		<?php $form->widget('application.widgets.DiagnosisSelection',array(
@@ -123,13 +120,13 @@ $layoutColumns = array(
 		$html_options = array(
 			'options' => array(),
 			'empty' => '- Please select -',
-			'div_id' =>  get_class($element) . '_' . $side . '_risks',
+			'div_id' =>  $el_model_name . '_' . $side . '_risks',
 			'label' => 'Risks');
 		$risks = $element->getRisksForSide($side);
 		foreach ($risks as $risk) {
 			$html_options['options'][(string) $risk->id] = array('data-order' => $risk->display_order);
 		}
-		echo $form->multiSelectList($element, get_class($element) . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 6))?>
+		echo $form->multiSelectList($element, $el_model_name . '[' . $side . '_risks]', $side . '_risks', 'id', CHtml::listData($risks,'id','name'), array(), $html_options, false, false, null, false, false, array('label' => 3, 'field' => 6))?>
 
 	<?php echo $form->textArea($element, $side . '_comments', array(), false, array('placeholder' => 'Enter comments'), array('label' => 3, 'field' => 9))?>
 </div>

@@ -17,7 +17,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 	public function testgetLetterVisualAcuityForEpisode_Side_hasReading()
 	{
 		foreach (array('Left', 'Right') as $side) {
-			$reading = $this->getMockBuilder('OphCiExamination_VisualAcuity_Reading')
+			$reading = $this->getMockBuilder('\OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading')
 					->disableOriginalConstructor()
 					->setMethods(array('convertTo'))
 					->getMock();
@@ -26,7 +26,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 				->method('convertTo')
 				->will($this->returnValue('Expected Result'));
 
-			$va = $this->getMockBuilder('Element_OphCiExamination_VisualAcuity')
+			$va = $this->getMockBuilder('\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')
 					->disableOriginalConstructor()
 					->setMethods(array('has' . $side, 'getBestReading'))
 					->getMock();
@@ -39,7 +39,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 				->method('getBestReading')
 				->will($this->returnValue($reading));
 
-			$api = $this->getMockBuilder('OphCiExamination_API')
+			$api = $this->getMockBuilder('OEModule\OphCiExamination\components\OphCiExamination_API')
 					->disableOriginalConstructor()
 					->setMethods(array('getElementForLatestEventInEpisode'))
 					->getMock();
@@ -50,7 +50,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 
 			$api->expects($this->once())
 				->method('getElementForLatestEventInEpisode')
-				->with($this->equalTo($patient), $this->equalTo($episode), 'Element_OphCiExamination_VisualAcuity')
+				->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 				->will($this->returnValue($va));
 
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
@@ -63,7 +63,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 		foreach (array('Left', 'Right') as $side) {
 
 
-			$va = $this->getMockBuilder('Element_OphCiExamination_VisualAcuity')
+			$va = $this->getMockBuilder('\OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity')
 					->disableOriginalConstructor()
 					->setMethods(array('has' . $side, 'getBestReading', 'getTextForSide'))
 					->getMock();
@@ -82,7 +82,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 					->with(strtolower($side))
 					->will($this->returnValue('Expected Result'));
 
-			$api = $this->getMockBuilder('OphCiExamination_API')
+			$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 					->disableOriginalConstructor()
 					->setMethods(array('getElementForLatestEventInEpisode'))
 					->getMock();
@@ -93,7 +93,7 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 
 			$api->expects($this->exactly(2))
 					->method('getElementForLatestEventInEpisode')
-					->with($this->equalTo($patient), $this->equalTo($episode), 'Element_OphCiExamination_VisualAcuity')
+					->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 					->will($this->returnValue($va));
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
 			$this->assertEquals('Expected Result', $api->$method($episode, true));
@@ -101,9 +101,9 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	public function testgetLetterVisualAcuityForEpisodeBoth()
+	public function testgetLetterVisualAcuityForEpisodeBoth_recorded()
 	{
-		$api = $this->getMockBuilder('OphCiExamination_API')
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 				->disableOriginalConstructor()
 				->setMethods(array('getLetterVisualAcuityForEpisodeLeft', 'getLetterVisualAcuityForEpisodeRight'))
 				->getMock();
@@ -122,16 +122,15 @@ class OphCiExamination_APITest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('Right VA on the right and Left VA on the left', $api->getLetterVisualAcuityForEpisodeBoth($episode, true));
 
-		$api->expects($this->at(2))
+		$api->expects($this->at(0))
 				->method('getLetterVisualAcuityForEpisodeLeft')
 				->with($this->equalTo($episode), false)
 				->will($this->returnValue('Left VA'));
-		$api->expects($this->at(3))
+		$api->expects($this->at(1))
 				->method('getLetterVisualAcuityForEpisodeRight')
 				->with($this->equalTo($episode), false)
 				->will($this->returnValue(null));
 
 		$this->assertEquals('not recorded on the right and Left VA on the left', $api->getLetterVisualAcuityForEpisodeBoth($episode, false));
-
 	}
 }

@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_lasermanagement".
  *
@@ -46,7 +48,7 @@
  *
  */
 
-class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
+class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -114,12 +116,12 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'left_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'left_laser_status_id'),
-			'right_laser_status' => array(self::BELONGS_TO, 'OphCiExamination_Management_Status', 'right_laser_status_id'),
-			'left_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'left_laser_deferralreason_id'),
-			'right_laser_deferralreason' => array(self::BELONGS_TO, 'OphCiExamination_Management_DeferralReason', 'right_laser_deferralreason_id'),
-			'left_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
-			'right_lasertype' => array(self::BELONGS_TO, 'OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
+			'left_laser_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'left_laser_status_id'),
+			'right_laser_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'right_laser_status_id'),
+			'left_laser_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'left_laser_deferralreason_id'),
+			'right_laser_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'right_laser_deferralreason_id'),
+			'left_lasertype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType', 'left_lasertype_id'),
+			'right_lasertype' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType', 'right_lasertype_id'),
 		);
 	}
 
@@ -153,7 +155,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -171,7 +173,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		$criteria->compare('right_lasertype_other', $this->right_lasertype_other);
 		$criteria->compare('right_comments', $this->right_comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -189,7 +191,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		if ($status_id = $this->$status_attribute) {
 			$status = OphCiExamination_Management_Status::model()->findByPk($status_id);
 			if ($status->deferred) {
-				$v = CValidator::createValidator('required', $this, array($attribute));
+				$v = \CValidator::createValidator('required', $this, array($attribute));
 				$v->validate($this);
 			}
 		}
@@ -207,7 +209,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		if ($deferral_id = $this->$deferral_attribute) {
 			$deferral = OphCiExamination_Management_DeferralReason::model()->findByPk($deferral_id);
 			if ($deferral->other) {
-				$v = CValidator::createValidator('required', $this, array($attribute), array('message' => '{attribute} required when deferral reason is ' . $deferral->name));
+				$v = \CValidator::createValidator('required', $this, array($attribute), array('message' => '{attribute} required when deferral reason is ' . $deferral->name));
 				$v->validate($this);
 			}
 		}
@@ -240,7 +242,7 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 		$lasertype_attr = $params['lasertype'];
 		$lt = $this->$lasertype_attr;
 		if ($lt && $lt->other) {
-			$v = CValidator::createValidator('required', $this, array($attribute), array('message' => ucfirst($params['side']) . ' {attribute} required for laser type ' . $lt->name));
+			$v = \CValidator::createValidator('required', $this, array($attribute), array('message' => ucfirst($params['side']) . ' {attribute} required for laser type ' . $lt->name));
 			$v->validate($this);
 		}
 	}
@@ -351,5 +353,10 @@ class Element_OphCiExamination_LaserManagement extends SplitEventTypeElement
 			$res .= $this->getLetterStringForSide('left');
 		}
 		return $res;
+	}
+
+	public function canCopy()
+	{
+		return true;
 	}
 }

@@ -37,7 +37,7 @@
 					<?php echo $element->getAttributeLabel('injection_deferralreason_id')?>:
 				</div>
 			</div>
-			<div class="large-8 column">
+			<div class="large-8 column end">
 				<div class="data-value">
 					<?= Yii::app()->format->Ntext($element->getInjectionDeferralReason()) ?>
 				</div>

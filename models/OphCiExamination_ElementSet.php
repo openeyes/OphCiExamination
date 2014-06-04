@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_element_set".
  *
@@ -27,7 +29,7 @@
  * @property OphCiExamination_ElementSetItem[] $items
 
  */
-class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
+class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -63,8 +65,8 @@ class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
-				'items' => array(self::HAS_MANY, 'OphCiExamination_ElementSetItem', 'set_id',
+				'workflow' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow', 'workflow_id'),
+				'items' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSetItem', 'set_id',
 						'with' => 'element_type',
 						'order' => 'element_type.name',
 				),
@@ -73,7 +75,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 
 	public function getNextStep()
 	{
-		$criteria = new CDbCriteria(array(
+		$criteria = new \CDbCriteria(array(
 			'condition' => 'workflow_id = :workflow_id AND position >= :position AND id <> :id',
 			'order' => 'position, id',
 			'params' => array(':position' => $this->position, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
@@ -87,7 +89,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 	 */
 	public function getDefaultElementTypes()
 	{
-		$default_element_types = ElementType::model()->findAll(array(
+		$default_element_types = \ElementType::model()->findAll(array(
 				'condition' => "ophciexamination_element_set_item.set_id = :set_id",
 				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
 				'order' => 'display_order',
@@ -102,7 +104,7 @@ class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 	 */
 	public function getOptionalElementTypes()
 	{
-		$optional_element_types = ElementType::model()->findAll(array(
+		$optional_element_types = \ElementType::model()->findAll(array(
 				'condition' => "event_type.class_name = 'OphCiExamination' AND
 					ophciexamination_element_set_item.id IS NULL",
 				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
@@ -131,10 +133,10 @@ class OphCiExamination_ElementSet extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

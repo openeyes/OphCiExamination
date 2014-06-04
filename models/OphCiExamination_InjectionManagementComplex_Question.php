@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_injectmanagecomplex_question". It is used to define questions that should be answered during
  * an examination for any given diagnosis
@@ -32,7 +34,7 @@
  */
 
 
-class OphCiExamination_InjectionManagementComplex_Question extends BaseActiveRecordVersioned
+class OphCiExamination_InjectionManagementComplex_Question extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.

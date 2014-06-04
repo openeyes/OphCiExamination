@@ -16,34 +16,18 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+$rightIOP = $element->getReading('right');
+$leftIOP = $element->getReading('left');
 ?>
 <div class="element-data element-eyes row">
-	<div class="element-eye right-eye column">
-		<div class="data-row">
-			<div class="data-value">
-				<?php if ($element->right_reading->name != 'NR') { ?>
-				<?php echo $element->right_reading->name ?> mmHg
-				<?php if ($element->right_instrument) {
-						echo '('.$element->right_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-					Not Recorded
-				<?php }?>
-			</div>
-		</div>
-	</div>
-	<div class="element-eye left-eye column">
-		<div class="data-row">
-			<div class="data-value">
-				<?php if ($element->left_reading->name != 'NR') { ?>
-				<?php echo $element->left_reading->name ?> mmHg
-				<?php if ($element->left_instrument) {
-						echo '('.$element->left_instrument->name.')';
-				} ?>
-				<?php } else { ?>
-					Not Recorded
-				<?php }?>
-			</div>
-		</div>
-	</div>
+	<script type="text/javascript">
+		var view_iop_right = <?php echo json_encode($rightIOP);?>;
+		var view_iop_left = <?php echo json_encode($leftIOP);?>;
+	</script>
+<?php
+
+$this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "right"));
+$this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "left"));
+
+?>
 </div>

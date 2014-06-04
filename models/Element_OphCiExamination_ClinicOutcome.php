@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_clinicoutcome".
  *
@@ -30,7 +32,7 @@
  * @property string $role_comments
  */
 
-class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
+class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 {
 	const FOLLOWUP_Q_MIN = 1;
 	const FOLLOWUP_Q_MAX = 12;
@@ -80,9 +82,9 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'status' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Status', 'status_id'),
+				'status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', 'status_id'),
 				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
-				'role' => array(self::BELONGS_TO, 'OphCiExamination_ClinicOutcome_Role', 'role_id'),
+				'role' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', 'role_id'),
 		);
 	}
 
@@ -109,7 +111,7 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -121,19 +123,20 @@ class Element_OphCiExamination_ClinicOutcome extends BaseEventTypeElement
 		$criteria->compare('role_id', $this->role_id);
 		$criteria->compare('role_comments', $this->role_comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
 
 	/**
-	 * Follow up data is only required for status status that are flagged for follow up
+	 * Follow up data is only required for status that are flagged for follow up
+	 *
 	 * @property string $attribute
 	 */
 	public function statusDependencyValidation($attribute)
 	{
 		if ($this->status_id && $this->status->followup) {
-			$v = CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
+			$v = \CValidator::createValidator('required', $this, array('followup_quantity', 'followup_period_id', 'role_id'));
 			$v->validate($this);
 		}
 	}

@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_management".
  *
@@ -27,7 +29,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Management extends BaseEventTypeElement
+class Element_OphCiExamination_Management extends \BaseEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -98,13 +100,13 @@ class Element_OphCiExamination_Management extends BaseEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 		$criteria->compare('comments', $this->comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

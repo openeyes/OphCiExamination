@@ -18,10 +18,13 @@
  */
 ?>
 <div class="element-fields">
-	<?php echo $form->radioButtons(new OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
-	<?php $this->widget('application.widgets.DiagnosisSelection', array(
+	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
+	<?php
+	list($options, $secondary_to) = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
+	$this->widget('application.widgets.DiagnosisSelection', array(
 		'field' => 'disorder_id',
-		'options' => $element->getCommonOphthalmicDisorders($this->selectedFirmId),
+		'options' => $options,
+		'secondary_to' => $secondary_to,
 		'code' => '130', // Ophthamology
 		'callback' => 'OphCiExamination_AddDiagnosis',
 		'layout' => 'minimal',
@@ -51,7 +54,7 @@
 					<td class="eye">
 						<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
 							<label class="inline">
-								<input type="radio" name="<?php echo get_class($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?>
+								<input type="radio" name="<?php echo CHtml::modelName($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?>
 							</label>
 						<?php }?>
 					</td>

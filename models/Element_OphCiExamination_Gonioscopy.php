@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_gonioscopy".
  *
@@ -42,7 +44,7 @@
  * The followings are the available model relations:
  * @property Event $event
  */
-class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
+class Element_OphCiExamination_Gonioscopy extends \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -103,16 +105,16 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_gonio_sup' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_sup_id'),
-				'left_gonio_tem' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_tem_id'),
-				'left_gonio_nas' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_nas_id'),
-				'left_gonio_inf' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'left_gonio_inf_id'),
-				'right_gonio_sup' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_sup_id'),
-				'right_gonio_tem' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_tem_id'),
-				'right_gonio_nas' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_nas_id'),
-				'right_gonio_inf' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Description', 'right_gonio_inf_id'),
-				'left_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
-				'right_van_herick' => array(self::BELONGS_TO, 'OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
+				'left_gonio_sup' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'left_gonio_sup_id'),
+				'left_gonio_tem' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'left_gonio_tem_id'),
+				'left_gonio_nas' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'left_gonio_nas_id'),
+				'left_gonio_inf' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'left_gonio_inf_id'),
+				'right_gonio_sup' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'right_gonio_sup_id'),
+				'right_gonio_tem' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'right_gonio_tem_id'),
+				'right_gonio_nas' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'right_gonio_nas_id'),
+				'right_gonio_inf' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description', 'right_gonio_inf_id'),
+				'left_van_herick' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Van_Herick', 'left_van_herick_id'),
+				'right_van_herick' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Van_Herick', 'right_van_herick_id'),
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 		);
 	}
@@ -151,7 +153,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -170,7 +172,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 		$criteria->compare('left_eyedraw', $this->left_eyedraw, true);
 		$criteria->compare('right_eyedraw', $this->right_eyedraw, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -181,7 +183,7 @@ class Element_OphCiExamination_Gonioscopy extends SplitEventTypeElement
 	 */
 	public function getGonioscopyOptions()
 	{
-		return CHtml::listData(OphCiExamination_Gonioscopy_Description::model()
+		return \CHtml::listData(OphCiExamination_Gonioscopy_Description::model()
 				->findAll(array('order'=>'display_order')),'id','name');
 	}
 

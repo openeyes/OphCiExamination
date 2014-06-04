@@ -155,7 +155,7 @@ $(document).ready(function() {
 		$.ajax({
 			'type': 'POST',
 			'dataType': 'json',
-			'data': 'workflow_id='+$('#OphCiExamination_Workflow_id').val()+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
+			'data': 'workflow_id='+$('#OEModule_OphCiExamination_models_OphCiExamination_Workflow_id').val()+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
 			'url': baseUrl+'/OphCiExamination/admin/addWorkflowStep',
 			'success': function(data) {
 				if (typeof(data['id']) == 'undefined') {
@@ -174,7 +174,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			'type': 'POST',
-			'data': 'workflow_id='+$('#OphCiExamination_Workflow_id').val()+'&element_set_id='+element_set_id+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
+			'data': 'workflow_id='+$('#OEModule_OphCiExamination_models_OphCiExamination_Workflow_id').val()+'&element_set_id='+element_set_id+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
 			'url': baseUrl+'/OphCiExamination/admin/removeWorkflowStep',
 			'success': function(resp) {
 				if (resp != "1") {
@@ -196,7 +196,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			'type': 'POST',
-			'data': 'workflow_id='+$('#OphCiExamination_Workflow_id').val()+'&element_set_id='+$('#admin_workflow_steps tbody tr.selected').data('id')+'&step_name='+$('#step_name').val()+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
+			'data': 'workflow_id='+$('#OEModule_OphCiExamination_models_OphCiExamination_Workflow_id').val()+'&element_set_id='+$('#admin_workflow_steps tbody tr.selected').data('id')+'&step_name='+$('#step_name').val()+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN,
 			'url': baseUrl+'/OphCiExamination/admin/saveWorkflowStepName',
 			'success': function(resp) {
 				if (resp != "1") {

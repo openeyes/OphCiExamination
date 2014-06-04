@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
@@ -15,6 +16,8 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+namespace OEModule\OphCiExamination\models;
 
 /**
  * This is the model class for table "ophtrintravitinjection_risk_assignment".
@@ -33,7 +36,7 @@
  * @property User $usermodified
  */
 
-class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseActiveRecordVersioned
+class OphCiExamination_InjectionManagementComplex_RiskAssignment extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -77,7 +80,7 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 		// class name for the relations automatically generated below.
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_InjectionManagementComplex', 'element_id'),
-			'complication' => array(self::BELONGS_TO, 'OphCiExamination_InjectionManagementComplex_Risk', 'complication_id'),
+			'complication' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_InjectionManagementComplex_Risk', 'complication_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 		);
@@ -99,11 +102,11 @@ class OphCiExamination_InjectionManagementComplex_RiskAssignment extends BaseAct
 	 */
 	public function search()
 	{
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 			));
 	}

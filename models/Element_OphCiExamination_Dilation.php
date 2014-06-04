@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+use Yii;
 /**
  * This is the model class for table "et_ophciexamination_dilation".
  *
@@ -29,7 +31,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_Dilation extends SplitEventTypeElement
+class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -76,9 +78,9 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id'),
-			'right_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = ' . Eye::RIGHT),
-			'left_treatments' => array(self::HAS_MANY, 'OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = ' . Eye::LEFT),
+			'treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id'),
+			'right_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'right_treatments.side = ' . \Eye::RIGHT),
+			'left_treatments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment', 'element_id', 'on' => 'left_treatments.side = ' . \Eye::LEFT),
 		);
 	}
 
@@ -105,12 +107,12 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -124,11 +126,11 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 	public function getUnselectedDilationDrugs($side)
 	{
 		$treatments = $this->{$side.'_treatments'};
-		$criteria = new CDbCriteria;
-		$drug_ids = CHtml::listData($treatments, 'id', 'drug_id');
+		$criteria = new \CDbCriteria;
+		$drug_ids = \CHtml::listData($treatments, 'id', 'drug_id');
 		$criteria->addNotInCondition('id',$drug_ids);
 		$criteria->order = 'display_order asc';
-		return CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
+		return \CHtml::listData(OphCiExamination_Dilation_Drugs::model()->findAll($criteria),'id','name');
 	}
 
 	/**
@@ -193,6 +195,13 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 	 */
 	public function updateTreatments($side, $treatments)
 	{
+		if ($side == \Eye::LEFT) {
+			$side = OphCiExamination_Dilation_Treatment::LEFT;
+		}
+		else {
+			$side = OphCiExamination_Dilation_Treatment::RIGHT;
+		}
+
 		$curr_by_id = array();
 		$save = array();
 
@@ -209,6 +218,7 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 				$t_obj = $curr_by_id[$treat['drug_id']];
 				unset($curr_by_id[$treat['drug_id']]);
 			}
+
 			$t_obj->attributes = $treat;
 			$t_obj->element_id = $this->id;
 			$t_obj->side = $side;
@@ -216,7 +226,6 @@ class Element_OphCiExamination_Dilation extends SplitEventTypeElement
 			$t_obj->treatment_time = $treatment_time;
 			$save[] = $t_obj;
 		}
-
 		foreach ($save as $s) {
 			if (!$s->save()) {
 				throw new Exception('unable to save treatment:' . print_r($s->getErrors(), true));

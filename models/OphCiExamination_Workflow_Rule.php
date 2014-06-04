@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_workflow_rule".
  *
@@ -27,7 +29,7 @@
  * @property OphCiExamination_Workflow $workflow
  */
 
-class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
+class OphCiExamination_Workflow_Rule extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -63,11 +65,11 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'workflow' => array(self::BELONGS_TO, 'OphCiExamination_Workflow', 'workflow_id'),
-			'parent' => array(self::BELONGS_TO, 'OphCiExamination_Workflow_Rule', 'parent_id'),
-			'children' => array(self::HAS_MANY, 'OphCiExamination_Workflow_Rule', 'parent_id'),
+			'workflow' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow', 'workflow_id'),
+			'parent' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule', 'parent_id'),
+			'children' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule', 'parent_id'),
 			'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
-			'firm' => array(self::BELONGS_TO, 'Firm', 'firm_id'),
+			'firm' => array(self::BELONGS_TO, '\Firm', 'firm_id'),
 			'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id'),
 		);
 	}
@@ -82,7 +84,7 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 	{
 		$subspecialty_id = null;
 
-		if ($firm = Firm::model()->findByPk($firm_id)) {
+		if ($firm = \Firm::model()->findByPk($firm_id)) {
 			$subspecialty_id = ($firm->serviceSubspecialtyAssignment) ? $firm->serviceSubspecialtyAssignment->subspecialty_id : null;
 		}
 
@@ -125,9 +127,9 @@ class OphCiExamination_Workflow_Rule extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

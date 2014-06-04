@@ -19,43 +19,43 @@
 ?>
 <div class="eyedraw-fields">
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_pupil_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_pupil_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_pupil_id')?>:
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Pupil::model()->findAll() as $option) {
+			foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Pupil::model()->findAll() as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo $form->dropDownList($element, $side.'_pupil_id', 'OphCiExamination_AnteriorSegment_Pupil', array('options' => $html_options, 'nowrapper' => true));
+			echo $form->dropDownList($element, $side.'_pupil_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Pupil', array('options' => $html_options, 'nowrapper' => true));
 		?>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_nuclear_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_nuclear_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Nuclear::model()->findAll() as $option) {
+			foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear::model()->findAll() as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo $form->dropDownList($element, $side.'_nuclear_id', 'OphCiExamination_AnteriorSegment_Nuclear', array('options' => $html_options, 'nowrapper' => true));
+			echo $form->dropDownList($element, $side.'_nuclear_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear', array('options' => $html_options, 'nowrapper' => true));
 		?>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_cortical_id';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_cortical_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_cortical_id')?>:
 		</label>
 		<?php
 			$html_options = array();
-			foreach (OphCiExamination_AnteriorSegment_Cortical::model()->findAll() as $option) {
+			foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical::model()->findAll() as $option) {
 				$html_options[(string) $option->id] = array('data-value'=> $option->value);
 			}
-			echo $form->dropDownList($element, $side.'_cortical_id', 'OphCiExamination_AnteriorSegment_Cortical', array('options' => $html_options, 'nowrapper' => true));
+			echo $form->dropDownList($element, $side.'_cortical_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical', array('options' => $html_options, 'nowrapper' => true));
 		?>
 	</div>
 	<div class="field-row">
-		<label for="<?php echo get_class($element).'_'.$side.'_description';?>">
+		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_description';?>">
 			<?php echo $element->getAttributeLabel($side.'_description')?>:
 		</label>
 		<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'class' => 'autosize clearWithEyedraw'))?>

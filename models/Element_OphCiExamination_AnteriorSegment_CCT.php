@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_anteriorsegment_cct".
  *
@@ -32,7 +34,7 @@
  * The followings are the available model relations:
  */
 
-class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
+class Element_OphCiExamination_AnteriorSegment_CCT extends \SplitEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -90,8 +92,8 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_AnteriorSegment_CCT_Method', 'right_method_id'),
+				'left_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method', 'right_method_id'),
 		);
 	}
 
@@ -119,7 +121,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -129,7 +131,7 @@ class Element_OphCiExamination_AnteriorSegment_CCT extends SplitEventTypeElement
 		$criteria->compare('right_method_id', $this->right_method_id);
 
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}

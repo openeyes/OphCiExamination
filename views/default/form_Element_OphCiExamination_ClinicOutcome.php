@@ -18,25 +18,25 @@
  */
 ?>
 <div class="element-fields">
-	<div id="div_<?php echo get_class($element)?>_status">
+	<div id="div_<?php echo CHtml::modelName($element)?>_status">
 		<div class="field-row row">
 			<div class="large-3 column">
-				<label for="<?php echo get_class($element).'_status_id';?>">
+				<label for="<?php echo CHtml::modelName($element).'_status_id';?>">
 					<?php echo $element->getAttributeLabel('status_id')?>:
 				</label>
 			</div>
 			<div class="large-3 column end">
 				<?php
-				$html_options = array('empty'=>'- Please select -', 'options' => array());
-				foreach (OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
+				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
+				foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
 					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
 				}
-				echo $form->dropDownList($element, 'status_id', 'OphCiExamination_ClinicOutcome_Status', $html_options)?>
+				echo $form->dropDownList($element, 'status_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', $html_options)?>
 			</div>
 		</div>
 	</div>
 
-	<div id="div_<?php echo get_class($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
+	<div id="div_<?php echo CHtml::modelName($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
 			<legend class="large-3 column">
 					<?php echo $element->getAttributeLabel('followup_quantity')?>:
@@ -47,7 +47,7 @@
 				echo CHtml::activeDropDownList($element,'followup_quantity', $element->getFollowUpQuantityOptions(), array_merge($html_options, array('class'=>'inline')))?>
 				<?php
 				$html_options = array('empty'=>'- Please select -', 'options' => array());
-				echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(Period::model()->findAll(array('order'=>'display_order')),'id','name'), array_merge($html_options, array('class'=>'inline')))?>
+				echo CHtml::activeDropDownList($element,'followup_period_id', CHtml::listData(\Period::model()->findAll(array('order'=>'display_order')),'id','name'), array_merge($html_options, array('class'=>'inline')))?>
 				<label class="inline">
 					<?php echo CHtml::activeCheckBox($element,'community_patient')?>
 					<?php echo $element->getAttributeLabel('community_patient')?>
@@ -56,7 +56,7 @@
 		</fieldset>
 	</div>
 
-	<div id="div_<?php echo get_class($element)?>_role"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
+	<div id="div_<?php echo CHtml::modelName($element)?>_role"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
 			<legend class="large-3 column">
 				<?php echo $element->getAttributeLabel('role')?>:
@@ -66,7 +66,7 @@
 					<div class="large-3 column">
 						<?php
 						$html_options = array('empty'=>'- Please select -', 'options' => array());
-						echo $form->dropDownList($element, 'role_id', 'OphCiExamination_ClinicOutcome_Role', $html_options) ?>
+						echo $form->dropDownList($element, 'role_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', $html_options) ?>
 					</div>
 					<div class="large-3 column end">
 						<?php echo CHtml::activeTextField($element, 'role_comments')?>
@@ -78,7 +78,7 @@
 
 	<script type="text/javascript">
 			var Element_OphCiExamination_ClinicOutcome_templates = {
-			<?php foreach (OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
+			<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
 			"<?php echo $template->id?>": {
 				"clinic_outcome_status_id": <?php echo $template->clinic_outcome_status_id ?>,
 				"followup_quantity": "<?php echo $template->followup_quantity ?>",

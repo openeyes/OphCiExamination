@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "et_ophciexamination_oct".
  *
@@ -45,8 +47,18 @@
  * @property OphCiExamination_OCT_FluidStatus $right_fluidstatus
  */
 
-class Element_OphCiExamination_OCT extends SplitEventTypeElement
+class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 {
+	protected $auto_update_relations = true;
+	protected $relation_defaults = array(
+			'left_fluidtypes' => array(
+				'eye_id' => \Eye::LEFT,
+			),
+			'right_fluidtypes' => array(
+					'eye_id' => \Eye::RIGHT,
+			),
+	);
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_AnteriorSegment_CCT
@@ -126,13 +138,13 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OphCiExamination_OCT_Method', 'right_method_id'),
-				'fluidtype_assignments' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
-				'left_fluidtypes' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . Eye::LEFT),
-				'right_fluidtypes' => array(self::HAS_MANY, 'OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments' , 'on' => 'fluidtype_assignments.eye_id = ' . Eye::RIGHT),
-				'left_fluidstatus' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidStatus', 'left_fluidstatus_id'),
-				'right_fluidstatus' => array(self::BELONGS_TO, 'OphCiExamination_OCT_FluidStatus', 'right_fluidstatus_id'),
+				'left_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'left_method_id'),
+				'right_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'right_method_id'),
+				'fluidtype_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
+				'left_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::LEFT),
+				'right_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments' , 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::RIGHT),
+				'left_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'left_fluidstatus_id'),
+				'right_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'right_fluidstatus_id'),
 		);
 	}
 
@@ -172,7 +184,7 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria = new \CDbCriteria;
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
@@ -193,7 +205,7 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 		$criteria->compare('left_comments', $this->left_comments);
 		$criteria->compare('right_comments', $this->right_comments);
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
 	}
@@ -280,47 +292,6 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 	}
 
 	/**
-	 * update the fluid types for the given side.
-	 *
-	 * @param string $side
-	 * @param integer[] $fluidtype_ids - array of fluid type ids to assign to the element
-	 */
-	public function updatefluidtypes($side, $fluidtype_ids)
-	{
-		$current_fluidtypes = array();
-		$save_fluidtypes = array();
-
-		foreach ($this->fluidtype_assignments as $curr) {
-			if ($curr->eye_id == $side) {
-				$current_fluidtypes[$curr->fluidtype_id] = $curr;
-			}
-		}
-
-		// go through each update fluidtype id, if it isn't assigned for this element,
-		// create assignment and store for saving
-		// if there is, remove from the current fluidtype array
-		// anything left in $current_fluidtypes at the end is ripe for deleting
-		foreach ($fluidtype_ids as $fluidtype_id) {
-			if (!array_key_exists($fluidtype_id, $current_fluidtypes)) {
-				$s = new OphCiExamination_OCT_FluidTypeAssignment();
-				$s->attributes = array('element_id' => $this->id, 'eye_id' => $side, 'fluidtype_id' => $fluidtype_id);
-				$save_fluidtypes[] = $s;
-			} else {
-				// don't want to delete later
-				unset($current_fluidtypes[$fluidtype_id]);
-			}
-		}
-		// save what needs saving
-		foreach ($save_fluidtypes as $save) {
-			$save->save();
-		}
-		// delete the rest
-		foreach ($current_fluidtypes as $curr) {
-			$curr->delete();
-		}
-	}
-
-	/**
 	 * get the letter string for the given side
 	 *
 	 * @param $side
@@ -365,12 +336,6 @@ class Element_OphCiExamination_OCT extends SplitEventTypeElement
 			$res .= $this->getLetterStringForSide('left');
 		}
 		return $res;
-	}
-
-	protected function beforeDelete()
-	{
-		OphCiExamination_OCT_FluidTypeAssignment::model()->deleteAllByAttributes(array('element_id' => $this->id));
-		return parent::beforeDelete();
 	}
 
 	public function getFluidTypeValues()

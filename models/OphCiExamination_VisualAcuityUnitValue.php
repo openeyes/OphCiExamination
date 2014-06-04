@@ -17,6 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+namespace OEModule\OphCiExamination\models;
+
 /**
  * This is the model class for table "ophciexamination_visual_acuity_unit_value".
  *
@@ -25,7 +27,7 @@
  * @property string $value
  * @property integer $base_value
  */
-class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecordVersioned
+class OphCiExamination_VisualAcuityUnitValue extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -61,7 +63,7 @@ class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'unit' => array(self::BELONGS_TO, 'OphCiExamination_VisualAcuityUnit', 'unit_id'),
+				'unit' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit', 'unit_id'),
 		);
 	}
 
@@ -71,10 +73,10 @@ class OphCiExamination_VisualAcuityUnitValue extends BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
+		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}

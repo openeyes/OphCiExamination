@@ -14,7 +14,7 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-.Element_OphCiExamination_Dilation  {
+.#{$OE_MODEL_PREFIX}Element_OphCiExamination_Dilation  {
 	table {
 		.input-time {
 			text-align: center;
