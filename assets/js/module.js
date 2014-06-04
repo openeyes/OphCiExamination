@@ -793,7 +793,7 @@ $(document).ready(function() {
 		var value = $(this).attr('data-vh');
 		var side = $(this).closest('[data-side]').attr('data-side');
 		$('.foster_images_dialog[data-side="'+side+'"]').dialog('close');
-		$('#Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
+		$('#OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy_'+side+'_van_herick_id option').attr('selected', function () {
 			return ($(this).text() == value + '%');
 		});
 	});
