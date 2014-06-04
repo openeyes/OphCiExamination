@@ -1052,4 +1052,29 @@ class OphCiExamination_API extends \BaseAPI
 			return $str;
 		}
 	}
+
+	/**
+	 * get principal eye Gonioscopy Van Herick values for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getPrincipalVanHerick($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			$eyeName = $episode->eye->name;
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_Gonioscopy')) {
+				if (isset($el->left_van_herick) && ($eyeName == 'Left' || $eyeName == 'Both')) {
+					$str = $str . 'Left Eye: Van Herick grade is ' . $el->left_van_herick->name . '. ';
+				}
+				if (isset($el->right_van_herick) && ($eyeName == 'Right' || $eyeName == 'Both')) {
+					$str = $str . 'Right Eye: Van Herick grade is ' . $el->right_van_herick->name . '. ';
+				}
+			}
+			return $str;
+		}
+	}
 }
