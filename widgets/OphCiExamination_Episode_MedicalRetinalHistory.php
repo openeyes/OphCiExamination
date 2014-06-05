@@ -13,14 +13,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidget
+use OEModule\OphCiExamination\models;
+
+class OphCiExamination_Episode_MedicalRetinalHistory extends \EpisodeSummaryWidget
 {
 	protected $injections = array();
 
 	public function run()
 	{
-		$va_unit_id = @$_GET['mr_history_va_unit_id'] ?: Element_OphCiExamination_VisualAcuity::model()->getSetting('unit_id');
-		$va_unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($va_unit_id);
+		$va_unit_id = @$_GET['mr_history_va_unit_id'] ?: models\Element_OphCiExamination_VisualAcuity::model()->getSetting('unit_id');
+		$va_unit = models\OphCiExamination_VisualAcuityUnit::model()->findByPk($va_unit_id);
 
 		$va_ticks = array();
 		foreach ($va_unit->selectableValues as $value) {
@@ -33,7 +35,7 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 		$va_axis = "Visual Acuity ({$va_unit->name})";
 		$sft_axis = "Central SFT (µm)";
 
-		$chart = $this->createWidget('FlotChart', array('chart_id' => 'mr-history-chart', 'legend_id' => 'mr-history-legend'))
+		$chart = $this->createWidget('\FlotChart', array('chart_id' => 'mr-history-chart', 'legend_id' => 'mr-history-legend'))
 			->configureYAxis($sft_axis, array('position' => 'right', 'min' => 50, 'max' => 1500))
 			->configureYAxis($va_axis, array('position' => 'left', 'min' => 1, 'max' => 150, 'ticks' => $va_ticks))
 			->configureSeries('Visual Acuity (right)', array('yaxis' => $va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
@@ -44,14 +46,14 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
 
 		foreach ($events as $event) {
-			if (($va = $event->getElementByClass('Element_OphCiExamination_VisualAcuity'))) {
+			if (($va = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity'))) {
 				if (($reading = $va->getBestReading('right'))) $this->addVaReading($chart, $reading, 'right');
 				if (($reading = $va->getBestReading('left'))) $this->addVaReading($chart, $reading, 'left');
 			}
 		}
 
 		foreach ($events as $event) {
-			if (($oct = $event->getElementByClass('Element_OphCiExamination_OCT'))) {
+			if (($oct = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_OCT'))) {
 				if ($oct->hasRight()) $this->addSftReading($chart, $oct, 'right');
 				if ($oct->hasLeft()) $this->addSftReading($chart, $oct, 'left');
 			}
@@ -93,11 +95,11 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 	}
 
 	/**
-	 * @param FlotChart $chart
+	 * @param \FlotChart $chart
 	 * @param Ophciexamination_VisualAcuity_Reading $reading
 	 * @param string $side
 	 */
-	protected function addVaReading(FlotChart $chart, Ophciexamination_VisualAcuity_Reading $reading, $side)
+	protected function addVaReading(\FlotChart $chart, models\Ophciexamination_VisualAcuity_Reading $reading, $side)
 	{
 		$series_name = "Visual Acuity ({$side})";
 		$label = "{$series_name}\n{$reading->element->unit->name}: {$reading->convertTo($reading->value)} {$reading->method->name}";
@@ -105,11 +107,11 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 	}
 
 	/**
-	 * @param FlotChart $chart
+	 * @param \FlotChart $chart
 	 * @param Element_OphCiExamination_OCT $oct
 	 * @param string $side
 	 */
-	protected function addSftReading(FlotChart $chart, Element_OphCiExamination_OCT $oct, $side)
+	protected function addSftReading(\FlotChart $chart, models\Element_OphCiExamination_OCT $oct, $side)
 	{
 		$series_name = "Central SFT ({$side})";
 		$sft = $oct->{"{$side}_sft"};
@@ -117,14 +119,14 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends EpisodeSummaryWidge
 	}
 
 	/**
-	 * @param FlotChart $chart
+	 * @param \FlotChart $chart
 	 * @param string $va_axis
 	 * @param array $injection
 	 * @param string $side
 	 * @param float|null &$injMin
 	 * @param float|null &$injMax
 	 */
-	protected function addInjection(FlotChart $chart, $va_axis, array $injection, $side, &$injMin, &$injMax)
+	protected function addInjection(\FlotChart $chart, $va_axis, array $injection, $side, &$injMin, &$injMax)
 	{
 		$drug = $injection["{$side}_drug"];
 		$timestamp = Helper::mysqlDate2JsTimestamp($injection['date']);

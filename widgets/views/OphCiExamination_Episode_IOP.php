@@ -22,7 +22,7 @@
 		<div class="data-label">Right:</div>
 	</div>
 	<div class="large-11 column">
-		<div class="data-value"><?= $this->renderReading($iop, 'right') ?></div>
+		<div class="data-value"><?= $iop ? $iop->getLetter_reading('right') : 'Not recorded' ?></div>
 	</div>
 </div>
 <div class="row data-row">
@@ -30,6 +30,6 @@
 		<div class="data-label">Left:</div>
 	</div>
 	<div class="large-11 column">
-		<div class="data-value"><?= $this->renderReading($iop, 'left') ?></div>
+		<div class="data-value"><?= $iop ? $iop->getLetter_reading('left') : 'Not recorded' ?></div>
 	</div>
 </div>

@@ -13,11 +13,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_Episode_IOPHistory extends EpisodeSummaryWidget
+class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 {
 	public function run()
 	{
-		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))
+		$chart = $this->createWidget('\FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))
 			->configureXAxis(array('mode' => 'time'))
 			->configureYAxis('mmHg', array('min' => 0, 'max' => 80))
 			->configureSeries('Intraocular Pressure (right)', array('points' => array('show' => true), 'lines' => array('show' => true)))
@@ -26,7 +26,7 @@ class OphCiExamination_Episode_IOPHistory extends EpisodeSummaryWidget
 		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
 
 		foreach ($events as $event) {
-			if (($iop = $event->getElementByClass('Element_OphCiExamination_IntraocularPressure'))) {
+			if (($iop = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'))) {
 				$timestamp = Helper::mysqlDate2JsTimestamp($iop->last_modified_date);
 				$this->addIop($chart, $iop, $timestamp, 'right');
 				$this->addIop($chart, $iop, $timestamp, 'left');
@@ -36,16 +36,10 @@ class OphCiExamination_Episode_IOPHistory extends EpisodeSummaryWidget
 		$this->render('OphCiExamination_Episode_IOPHistory', array('chart' => $chart));
 	}
 
-	protected function addIop(FlotChart $chart, Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
+	protected function addIop(\FlotChart $chart, OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
 	{
-		$reading = $iop->{"{$side}_reading"};
-		$instrument = $iop->{"{$side}_instrument"};
-
-		if ($reading && $reading->value) {
-			$chart->addPoint(
-				"Intraocular Pressure ({$side})", $timestamp, $reading->value,
-				"{$reading->value} mmHg ({$instrument->name})"
-			);
+		if (($reading = $iop->getReading($side))) {
+			$chart->addPoint("Intraocular Pressure ({$side})", $timestamp, $reading, "{$reading} mmHg");
 		}
 	}
 }
