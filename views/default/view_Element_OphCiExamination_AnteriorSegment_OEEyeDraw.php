@@ -33,7 +33,7 @@
 	<?php if ($description = $element->{$side.'_description'}) { ?>
 		<div class="data-row description">
 			<div class="data-value">
-				<?php echo $description ?>
+				<?php echo CHtml::encode($description)?>
 			</div>
 		</div>
 	<?php } ?>
