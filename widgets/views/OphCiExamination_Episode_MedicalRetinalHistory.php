@@ -26,7 +26,7 @@
 				</form>
 			</div>
 			<div class="row">
-				<div id="mr-history-legend"></div>
+				<div id="mr-history-chart-legend"></div>
 			</div>
 		</div>
 	</div>

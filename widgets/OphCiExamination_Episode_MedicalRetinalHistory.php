@@ -15,44 +15,36 @@
 
 use OEModule\OphCiExamination\models;
 
-class OphCiExamination_Episode_MedicalRetinalHistory extends \EpisodeSummaryWidget
+Yii::import('OphCiExamination.widgets.VisualAcuityHistory');
+
+class OphCiExamination_Episode_MedicalRetinalHistory extends OphCiExamination_Episode_VisualAcuityHistory
 {
+	protected $chart_id = 'mr-history-chart';
+	protected $va_unit_input = 'mr_history_va_unit_id';
+
 	protected $injections = array();
 
-	public function run()
+	public function configureChart()
 	{
-		$va_unit_id = @$_GET['mr_history_va_unit_id'] ?: models\Element_OphCiExamination_VisualAcuity::model()->getSetting('unit_id');
-		$va_unit = models\OphCiExamination_VisualAcuityUnit::model()->findByPk($va_unit_id);
+		$chart = parent::configureChart();
 
-		$va_ticks = array();
-		foreach ($va_unit->selectableValues as $value) {
-			if ($value->base_value < 10 || ($va_unit->name == 'ETDRS Letters' && $value->value % 10)) {
-				continue;
-			}
-			$va_ticks[] =  array($value->base_value, $value->value);
-		}
-
-		$va_axis = "Visual Acuity ({$va_unit->name})";
 		$sft_axis = "Central SFT (µm)";
 
-		$chart = $this->createWidget('\FlotChart', array('chart_id' => 'mr-history-chart', 'legend_id' => 'mr-history-legend'))
-			->configureYAxis($sft_axis, array('position' => 'right', 'min' => 50, 'max' => 1500))
-			->configureYAxis($va_axis, array('position' => 'left', 'min' => 1, 'max' => 150, 'ticks' => $va_ticks))
-			->configureSeries('Visual Acuity (right)', array('yaxis' => $va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
-			->configureSeries('Visual Acuity (left)', array('yaxis' => $va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
+		$chart->configureYAxis($sft_axis, array('position' => 'right', 'min' => 50, 'max' => 1500))
 			->configureSeries('Central SFT (right)', array('yaxis' => $sft_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
 			->configureSeries('Central SFT (left)', array('yaxis' => $sft_axis, 'lines' => array('show' => true), 'points' => array('show' => true)));
 
-		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
+		return $chart;
+	}
 
-		foreach ($events as $event) {
-			if (($va = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity'))) {
-				if (($reading = $va->getBestReading('right'))) $this->addVaReading($chart, $reading, 'right');
-				if (($reading = $va->getBestReading('left'))) $this->addVaReading($chart, $reading, 'left');
-			}
-		}
+	/**
+	 * @param \FlotChart $chart
+	 */
+	public function addData(\FlotChart $chart)
+	{
+		parent::addData($chart);
 
-		foreach ($events as $event) {
+		foreach ($this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode) as $event) {
 			if (($oct = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_OCT'))) {
 				if ($oct->hasRight()) $this->addSftReading($chart, $oct, 'right');
 				if ($oct->hasLeft()) $this->addSftReading($chart, $oct, 'left');
@@ -64,10 +56,10 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends \EpisodeSummaryWidg
 
 		if (($injectionApi = Yii::app()->moduleAPI->get('OphTrIntravitrealinjection'))) {
 			foreach ($injectionApi->previousInjections($this->episode->patient, $this->episode, 'right') as $injection) {
-				$this->addInjection($chart, $va_axis, $injection, 'right', $injMin, $injMax);
+				$this->addInjection($chart, $this->va_axis, $injection, 'right', $injMin, $injMax);
 			}
 			foreach ($injectionApi->previousInjections($this->episode->patient, $this->episode, 'left') as $injection) {
-				$this->addInjection($chart, $va_axis, $injection, 'left', $injMin, $injMax);
+				$this->addInjection($chart, $this->va_axis, $injection, 'left', $injMin, $injMax);
 			}
 		}
 		ksort($this->injections);
@@ -87,23 +79,6 @@ class OphCiExamination_Episode_MedicalRetinalHistory extends \EpisodeSummaryWidg
 				)
 			);
 		}
-
-		$this->render(
-			'OphCiExamination_Episode_MedicalRetinalHistory',
-			array('va_unit' => $va_unit, 'chart' => $chart)
-		);
-	}
-
-	/**
-	 * @param \FlotChart $chart
-	 * @param Ophciexamination_VisualAcuity_Reading $reading
-	 * @param string $side
-	 */
-	protected function addVaReading(\FlotChart $chart, models\Ophciexamination_VisualAcuity_Reading $reading, $side)
-	{
-		$series_name = "Visual Acuity ({$side})";
-		$label = "{$series_name}\n{$reading->element->unit->name}: {$reading->convertTo($reading->value)} {$reading->method->name}";
-		$chart->addPoint($series_name, Helper::mysqlDate2JsTimestamp($reading->last_modified_date), $reading->value, $label);
 	}
 
 	/**
