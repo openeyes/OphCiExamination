@@ -47,6 +47,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	'height' => 300,
 	'model' => $element,
 	'attribute' => $side.'_eyedraw',
+	'maxToolbarButtons' => 7,
 	'template' => 'OEEyeDrawWidget_InlineToolbar',
 	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
 		'form' => $form,

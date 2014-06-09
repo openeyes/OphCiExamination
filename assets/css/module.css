@@ -102,7 +102,7 @@
 
 /* line 18, ../sass/components/elements/_gonioscopy.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy .eyedraw-fields {
-  padding-top: 74px;
+  padding-top: 36px;
 }
 
 /* line 18, ../sass/components/elements/_optic-disc.scss */
@@ -112,12 +112,12 @@
 
 /* line 18, ../sass/components/elements/_anterior-segment.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
-  padding-top: 74px;
+  padding-top: 36px;
 }
 
 /* line 18, ../sass/components/elements/_posterior-pole.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_PosteriorPole .eyedraw-fields {
-  padding-top: 212px;
+  padding-top: 140px;
 }
 
 /* line 19, ../sass/components/elements/_visual-acuity.scss */
