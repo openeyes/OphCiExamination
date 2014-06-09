@@ -19,7 +19,7 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 {
 	public function run()
 	{
-		$chart = $this->createWidget('\FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))
+		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))
 			->configureXAxis(array('mode' => 'time'))
 			->configureYAxis('mmHg', array('min' => 0, 'max' => 80))
 			->configureSeries('Intraocular Pressure (right)', array('points' => array('show' => true), 'lines' => array('show' => true)))
