@@ -25,10 +25,6 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		array('deselectDoodles', array()),
 	),
 	'bindingArray' => array(
-		'AntSeg' => array(
-			'pupilSize' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_pupil_id', 'attribute' => 'data-value'),
-			'pxe' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_pxe'),
-		),
 		'NuclearCataract' => array(
 			'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id', 'attribute' => 'data-value'),
 		),
