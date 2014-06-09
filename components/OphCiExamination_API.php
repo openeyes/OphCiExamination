@@ -1027,4 +1027,82 @@ class OphCiExamination_API extends \BaseAPI
 			return $res;
 		}
 	}
+
+	/**
+	 * get principal eye CCT values for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getPrincipalCCT($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			if(!isset($episode->eye->name)){return;}
+			$eyeName = $episode->eye->name;
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if (isset($el->left_value) && ($eyeName == 'Left' || $eyeName == 'Both')) {
+					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .  '. ';
+				}
+				if (isset($el->right_value) && ($eyeName == 'Right' || $eyeName == 'Both')) {
+					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->name .  '. ';
+				}
+			}
+			return $str;
+		}
+	}
+
+	/**
+	 * get principal eye Gonioscopy Van Herick values for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getPrincipalVanHerick($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			if(!isset($episode->eye->name)){return;}
+			$eyeName = $episode->eye->name;
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_Gonioscopy')) {
+				if (isset($el->left_van_herick) && ($eyeName == 'Left' || $eyeName == 'Both')) {
+					$str = $str . 'Left Eye: Van Herick grade is ' . $el->left_van_herick->name . '. ';
+				}
+				if (isset($el->right_van_herick) && ($eyeName == 'Right' || $eyeName == 'Both')) {
+					$str = $str . 'Right Eye: Van Herick grade is ' . $el->right_van_herick->name . '. ';
+				}
+			}
+			return $str;
+		}
+	}
+
+	/**
+	 * get principal eye Optic Disc description for current episode, examination event
+	 *
+	 * @param $patient
+	 * @return string
+	 */
+	public function getPrincipalOpticDiscDescription($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$str ='';
+
+			if(!isset($episode->eye->name)){return;}
+			$eyeName = $episode->eye->name;
+
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_OpticDisc')) {
+				if (isset($el->left_description) && ($eyeName == 'Left' || $eyeName == 'Both')) {
+					$str = $str . 'Left Eye: ' . $el->left_description . '. ';
+				}
+				if (isset($el->right_description) && ($eyeName == 'Right' || $eyeName == 'Both')) {
+					$str = $str . 'Right Eye: ' . $el->right_description . '. ';
+				}
+			}
+			return $str;
+		}
+	}
 }

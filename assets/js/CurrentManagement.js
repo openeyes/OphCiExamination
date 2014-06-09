@@ -7,12 +7,12 @@ function setCurrentManagementIOP(side){
     targetIop = getTargetIop(side);
     currentIopAvg = getCurrentIopValue(side);
 
-    if( (previous_iop === null && currentIopAvg == false) || targetIop == null){
+    if( ((typeof previous_iop === 'undefined' || previous_iop === null) && currentIopAvg == false) || targetIop == null){
         cmIopElement.html('N/A');
         return;
     }
     if( targetIop!= null &&
-        ( typeof previous_iop[ side +'IOP'] !== 'undefined'  || currentIopAvg)
+        ((typeof previous_iop !== 'undefined' && previous_iop!= null && side +'IOP' in previous_iop)  || currentIopAvg)
         ){
         if(currentIopAvg){
             resultIOP = currentIopAvg - targetIop;

@@ -22,11 +22,11 @@
 			<div class="row field-row">
 				<form action="#OphCiExamination_Episode_MedicalRetinalHistory">
 					<label for="mr_history_va_unit_id">Visual Acuity unit</label>
-					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
+					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
 				</form>
 			</div>
 			<div class="row">
-				<div id="mr-history-legend"></div>
+				<div id="mr-history-chart-legend"></div>
 			</div>
 		</div>
 	</div>
