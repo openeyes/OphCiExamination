@@ -13,6 +13,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+use OEModule\OphCiExamination\models;
+
 class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 {
 	public function run()
@@ -33,13 +35,30 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 			}
 		}
 
+		$plan = $this->event_type->api->getMostRecentElementInEpisode(
+			$this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'
+		);
+
+		if ($plan) {
+			$this->addTargetIop($chart, $plan, 'right');
+			$this->addTargetIop($chart, $plan, 'left');
+		}
+
 		$this->render('OphCiExamination_Episode_IOPHistory', array('chart' => $chart));
 	}
 
-	protected function addIop(\FlotChart $chart, OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
+	protected function addIop(\FlotChart $chart, models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
 	{
 		if (($reading = $iop->getReading($side))) {
 			$chart->addPoint("Intraocular Pressure ({$side})", $timestamp, $reading, "{$reading} mmHg");
+		}
+	}
+
+	protected function addTargetIop(\FlotChart $chart, models\Element_OphCiExamination_OverallManagementPlan $plan, $side)
+	{
+		if (($target = $plan->{"{$side}_target_iop"})) {
+			$chart->addPoint("Target IOP ({$side})", $chart->getXMin(), $target, "{$target} mmHg");
+			$chart->addPoint("Target IOP ({$side})", $chart->getXMax(), $target, "{$target} mmHg");
 		}
 	}
 }
