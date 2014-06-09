@@ -134,7 +134,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'clinic_internal_id' => 'Clinic Internal',
 			'photo_id' => 'Photo',
 			'oct_id' => 'OCT',
-			'hfa_id' => 'HFA',
+			'hfa_id' => 'Visual Fields',
 
 		);
 	}
