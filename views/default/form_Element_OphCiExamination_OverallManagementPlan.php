@@ -41,13 +41,12 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<?php echo $form->textField($element, 'right_target_iop', array('min' => 10, 'max' => 25),false , array('label'=>3, 'field'=>2))?>
-				<?php //echo $form->dropDownList($element, 'right_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'right_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'right_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'right_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<div class="row field-row">
+					<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[right_target_iop]' ?>">Target IOP:</label></div>
+					<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+					<p class="large-1 column end">mmHg</p>
+				</div>
 				<?php echo $form->dropDownList($element, 'right_gonio_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->textArea($element, 'right_comments', array('rows' => 6, 'cols' => 80))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
@@ -60,13 +59,12 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 		<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 			<div class="active-form">
 				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<?php echo $form->textField($element, 'left_target_iop', array('min' => 10, 'max' => 25),false , array('label'=>3, 'field'=>2))?>
-				<?php //echo $form->dropDownList($element, 'left_clinic_internal_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'left_photo_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'left_oct_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->dropDownList($element, 'left_hfa_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
+				<div class="row field-row">
+					<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[left_target_iop]' ?>">Target IOP:</label></div>
+					<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+					<p class="large-1 column end">mmHg</p>
+				</div>
 				<?php echo $form->dropDownList($element, 'left_gonio_id',$overallPeriods,array('empty' => 'NR'),false , array('label'=>3, 'field'=>6))?>
-				<?php //echo $form->textArea($element, 'left_comments', array('rows' => 6, 'cols' => 80))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
