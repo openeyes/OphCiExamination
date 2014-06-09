@@ -15,9 +15,9 @@
 ?>
 <div class="row data-row">
 	<div class="large-6 column">
-		<div class="data-value"><?= $element->hasRight() ? $element->getCombined('right') : 'Not recorded' ?></div>
+		<div class="data-value"><?= $element && $element->hasRight() ? $element->getCombined('right') : 'Not recorded' ?></div>
 	</div>
 	<div class="large-6 column">
-		<div class="data-value"><?= $element->hasLeft() ? $element->getCombined('left') : 'Not recorded' ?></div>
+		<div class="data-value"><?= $element && $element->hasLeft() ? $element->getCombined('left') : 'Not recorded' ?></div>
 	</div>
 </div>
