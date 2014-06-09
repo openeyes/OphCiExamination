@@ -938,7 +938,7 @@ $(document).ready(function() {
 	}
 
 	function hideOutcomeStatusFollowup() {
-		if ($('#div_Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
+		if ($('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup').is(':visible')) {
 			// only do hiding and storing if currently showing something.
 			$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_role').slideUp();
 			$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup').slideUp();
