@@ -56,21 +56,21 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<script type="text/javascript">
 		var idToImagesArr = {
-			'Element_OphCiExamination_BlebAssessment_left_central_area_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_left_central_area_id':
 				{id:'centralArea',selects:<?php echo json_encode($centralAreas) ;?>},
-			'Element_OphCiExamination_BlebAssessment_right_central_area_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_right_central_area_id':
 				{id:'centralArea',selects:<?php echo json_encode($centralAreas) ;?>},
-			'Element_OphCiExamination_BlebAssessment_left_max_area_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_left_max_area_id':
 				{id:'maxArea',selects:<?php echo json_encode($maxAreas) ;?>},
-			'Element_OphCiExamination_BlebAssessment_right_max_area_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_right_max_area_id':
 				{id:'maxArea',selects:<?php echo json_encode($maxAreas) ;?>},
-			'Element_OphCiExamination_BlebAssessment_left_height_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_left_height_id':
 				{id:'height',selects:<?php echo json_encode($heights) ;?>},
-			'Element_OphCiExamination_BlebAssessment_right_height_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_right_height_id':
 				{id:'height',selects:<?php echo json_encode($heights) ;?>},
-			'Element_OphCiExamination_BlebAssessment_left_vasc_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_left_vasc_id':
 				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>},
-			'Element_OphCiExamination_BlebAssessment_right_vasc_id':
+			'OEModule_OphCiExamination_models_Element_OphCiExamination_BlebAssessment_right_vasc_id':
 				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>}
 		};
 		var FieldImages = <?php
@@ -92,7 +92,7 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table cellspacing="0" width="500">
+			<table>
 				<thead>
 				<tr>
 					<th width="25%">Area (Central)</th>
