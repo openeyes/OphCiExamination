@@ -55,7 +55,7 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 				</div>
 
 				<?php echo $form->dropDownList($element, 'right_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
-				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'right_drop-related_prob_id',$dropRelatProblem,array(),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'right_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'right_surgery_id', $surgeryIds,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<div class="column large-6">
@@ -95,7 +95,7 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 				</div>
 
 				<?php echo $form->dropDownList($element, 'left_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
-				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array('empty' => 'None'),false , array('label'=>3, 'field'=>8))?>
+				<?php echo $form->dropDownList($element, 'left_drop-related_prob_id',$dropRelatProblem,array(),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'left_drops_id', $dropsIds ,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<?php echo $form->dropDownList($element, 'left_surgery_id', $surgeryIds,array('empty'=>'- Please select -'),false , array('label'=>3, 'field'=>8))?>
 				<div class="column large-6">
