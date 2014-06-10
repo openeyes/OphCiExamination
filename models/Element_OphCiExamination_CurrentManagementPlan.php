@@ -230,12 +230,6 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 		return true;
 	}
 
-	protected function afterSave()
-	{
-
-		return parent::afterSave();
-	}
-
 	public function getLatestIOP($patient){
 		$result = array();
 

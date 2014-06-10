@@ -81,6 +81,12 @@
   width: 6em;
 }
 
+/* line 51, ../sass/components/elements/_intraocular-pressure.scss */
+.iop_notification {
+  margin-left: 2em;
+  border-bottom: none !important;
+}
+
 /* line 18, ../sass/components/elements/_diagnoses.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_Diagnoses .panel {
   margin-bottom: 10px;

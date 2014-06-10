@@ -75,5 +75,8 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 			</div>
 		</div>
 	</div>
-	
 </section>
+<script type="text/javascript">
+	setCurrentManagementIOP('left');
+	setCurrentManagementIOP('right');
+</script>

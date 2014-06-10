@@ -34,6 +34,13 @@ $(document).ready(function () {
 	function deleteReading(e) {
 		var table = $(this).closest('table');
 		if (table.find('tbody tr').length <= 1) table.hide();
+
+		if ($(this).closest('tr').data('side') == 'left') {
+			setCurrentManagementIOP('left');
+		} else {
+			setCurrentManagementIOP('right');
+		}
+
 		$(this).closest('tr').remove();
 	}
 

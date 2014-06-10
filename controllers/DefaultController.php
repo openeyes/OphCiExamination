@@ -20,6 +20,7 @@
 namespace OEModule\OphCiExamination\controllers;
 use Yii;
 use \OEModule\OphCiExamination\models;
+use \OEModule\OphCiExamination\components;
 
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
@@ -32,6 +33,7 @@ class DefaultController extends \BaseEventTypeController
 		'getDisorder' => self::ACTION_TYPE_FORM,
 		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
 		'getScaleForInstrument' => self::ACTION_TYPE_FORM,
+		'getPreviousIOPAverage' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
@@ -760,5 +762,45 @@ class DefaultController extends \BaseEventTypeController
 				$this->renderPartial('_qualitative_scale',array('value' => $value, 'scale' => $scale, 'side' => @$_GET['side'], 'index' => @$_GET['index']));
 			}
 		}
+	}
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_OverallManagementPlan(models\Element_OphCiExamination_OverallManagementPlan $element, $action)
+	{
+		if ($action == 'create') {
+			if ($previous_om = models\Element_OphCiExamination_OverallManagementPlan::model()->with(array(
+					'event' => array(
+						'condition' => 'event.deleted = 0',
+						'with' => array(
+							'episode' => array(
+								'condition' => 'episode.deleted = 0 and episode.id = '.$this->episode->id,
+							),
+						),
+					),
+				))->find()) {
+				foreach ($previous_om->attributes as $key => $value) {
+					if (!in_array($key,array('id','created_date','created_user_id','last_modified_date','last_modified_user_id'))) {
+						$element->$key = $value;
+					}
+				}
+			}
+		}
+	}
+
+	public function actionGetPreviousIOPAverage()
+	{
+		if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
+			throw new \Exception("Patient not found: ".@$_GET['patient_id']);
+		}
+
+		if (!in_array(@$_GET['side'],array('left','right'))) {
+			throw new \Exception("Invalid side: ".@$_GET['side']);
+		}
+
+		$side = ucfirst(@$_GET['side']);
+
+		$api = new components\OphCiExamination_API();
+		$result = $api->{"getLastIOPReading{$side}"}($patient);
+
+		echo $result;
 	}
 }

@@ -109,6 +109,24 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getLastIOPReadingLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getReading('left');
+			}
+		}
+	}
+
+	public function getLastIOPReadingRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getReading('right');
+			}
+		}
+	}
+
 	public function getLetterIOPReadingPrincipal($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
@@ -245,7 +263,7 @@ class OphCiExamination_API extends \BaseAPI
 			$left = $this->getBestVisualAcuity($patient, $episode, 'left');
 			$right = $this->getBestVisualAcuity($patient, $episode, 'right');
 
-			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())  : "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
+			return ($right ? $right->convertTo($right->value, $this->getSnellenUnitId())	: "not recorded")." on the right and ". ($left ? $left->convertTo($left->value, $this->getSnellenUnitId()) : "not recorded")." on the left";
 		}
 	}
 
@@ -298,7 +316,7 @@ class OphCiExamination_API extends \BaseAPI
 	/**
 	 * get the va from the given episode for the right side of the episode patient
 	 *
-   * @param Episode $episode
+	 * @param Episode $episode
 	 * @param boolean $include_nr_values
 	 * @return OphCiExamination_VisualAcuity_Reading
 	 */
@@ -328,7 +346,7 @@ class OphCiExamination_API extends \BaseAPI
 		$left = $this->getLetterVisualAcuityForEpisodeLeft($episode, $include_nr_values);
 		$right = $this->getLetterVisualAcuityForEpisodeRight($episode, $include_nr_values);
 
-		return  ($right ? $right : "not recorded")." on the right and ". ($left ? $left : "not recorded")." on the left";
+		return	($right ? $right : "not recorded")." on the right and ". ($left ? $left : "not recorded")." on the left";
 	}
 
 	/**
@@ -1044,7 +1062,7 @@ class OphCiExamination_API extends \BaseAPI
 
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if (isset($el->left_value) && ($eyeName == 'Left' || $eyeName == 'Both')) {
-					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .  '. ';
+					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .	'. ';
 				}
 				if (isset($el->right_value) && ($eyeName == 'Right' || $eyeName == 'Both')) {
 					$str = $str . 'Right Eye: ' . $el->right_value . ' µm using ' . $el->right_method->name .  '. ';
