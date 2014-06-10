@@ -76,8 +76,8 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
 			'right_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_integer_values.eye_id = ' . \Eye::RIGHT . ' and right_integer_values.reading_id is not null'),
 			'left_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_integer_values.eye_id = ' . \Eye::RIGHT . ' and left_integer_values.reading_id is not null'),
-			'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.reading_id is not null'),
-			'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and left_qualitative_values.reading_id is not null'),
+			'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.qualitative_reading_id is not null'),
+			'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and left_qualitative_values.qualitative_reading_id is not null'),
 		);
 	}
 
