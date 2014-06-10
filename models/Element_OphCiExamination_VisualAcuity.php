@@ -85,7 +85,7 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		// will receive user inputs.
 		return array(
 				array('left_comments, right_comments, right_readings, left_readings, eye_id, unit_id, left_unable_to_assess,
-					right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
+					right_unable_to_assess, left_eye_missing, right_eye_missing, left_rapd, right_rapd', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
@@ -131,9 +131,10 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 			'right_unable_to_assess' => 'Unable to assess',
 			'left_eye_missing' => 'Eye missing',
 			'right_eye_missing' => 'Eye missing',
+			'left_rapd' => 'RAPD',
+			'right_rapd' => 'RAPD',
 		);
 	}
-
 
 	/**
 	 * Perform dependent validation for readings and flags.

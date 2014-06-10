@@ -50,6 +50,13 @@
 					</div>
 				</div>
 			<?php }?>
+			<?php if ($element->right_rapd) {?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->getAttributeLabel('right_rapd')?>
+					</div>
+				</div>
+			<?php }?>
 		<?php }else{?>
 			<div class="data-row">
 				<div class="data-value">
@@ -87,6 +94,13 @@
 				<div class="data-row">
 					<div class="data-value">
 						<?= Yii::app()->format->Ntext($element->left_comments) ?>
+					</div>
+				</div>
+			<?php }?>
+			<?php if ($element->left_rapd) {?>
+				<div class="data-row">
+					<div class="data-value">
+						<?php echo $element->getAttributeLabel('left_rapd')?>
 					</div>
 				</div>
 			<?php }?>

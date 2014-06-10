@@ -803,4 +803,20 @@ class DefaultController extends \BaseEventTypeController
 
 		echo $result;
 	}
+
+	public function getPupilliaryAbnormalitiesList($selected_id)
+	{
+		$criteria = new \CDbCriteria;
+
+		$criteria->order = 'display_order asc';
+
+		if ($selected_id) {
+			$criteria->addCondition('active = 1 or id = :selected_id');
+			$criteria->params[':selected_id'] = $selected_id;
+		} else {
+			$criteria->addCondition('active = 1');
+		}
+
+		return \CHtml::listData(models\OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll($criteria),'id','name');
+	}
 }
