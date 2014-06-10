@@ -29,6 +29,7 @@
 		'attribute' => $side.'_eyedraw',
 	))?>
 </div>
+
 <div class="column fluid">
 	<?php if ($description = $element->{$side.'_description'}) { ?>
 		<div class="data-row description">
@@ -37,15 +38,16 @@
 			</div>
 		</div>
 	<?php } ?>
+	<?php /* See OE-4283 */ ?>
 	<?php if ($element->{$side.'_pupil'}) { ?>
-	<div class="row data-row">
-		<div class="large-4 column">
-			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
+		<div class="row data-row">
+			<div class="large-4 column">
+				<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
+			</div>
+			<div class="large-8 column">
+				<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
+			</div>
 		</div>
-		<div class="large-8 column">
-			<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
-		</div>
-	</div>
 	<?php } ?>
 	<div class="row data-row">
 		<div class="large-4 column">
@@ -63,6 +65,9 @@
 			<div class="data-value"><?php echo $element->{$side.'_cortical'}->name?></div>
 		</div>
 	</div>
+	<?php
+	/* See OE-4283 */
+	/*
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pxe')?>:</div>
@@ -71,6 +76,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_pxe'} ? 'Yes' : 'No'?></div>
 		</div>
 	</div>
+	*/?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_phako')?>:</div>
