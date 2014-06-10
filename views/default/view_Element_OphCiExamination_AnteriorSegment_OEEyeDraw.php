@@ -37,6 +37,7 @@
 			</div>
 		</div>
 	<?php } ?>
+	<?php if ($element->{$side.'_pupil'}) { ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
@@ -45,6 +46,7 @@
 			<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
 		</div>
 	</div>
+	<?php } ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:</div>

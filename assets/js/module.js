@@ -1131,19 +1131,14 @@ function OphCiExamination_Refraction_updateSegmentedField(field) {
  * Show other type field only if type is set to "Other"
  */
 function OphCiExamination_Refraction_updateType(field) {
-	var other = $(field).next();
+	var other = $(field).closest('.refraction-type-container').find('.refraction-type-other');
 	if ($(field).val() == '') {
 		other.show();
+		other.find('.refraction-type-other-field').focus();
 	} else {
-		other.val('');
+		other.find('.refraction-type-other-field').val('');
 		other.hide();
 	}
-}
-
-function OphCiExamination_Refraction_init() {
-	$("#event-content ." + OE_MODEL_PREFIX + "Element_OphCiExamination_Refraction .refractionType").each(function() {
-		OphCiExamination_Refraction_updateType(this);
-	});
 }
 
 function OphCiExamination_OCT_init() {
