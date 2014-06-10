@@ -786,6 +786,14 @@ class DefaultController extends \BaseEventTypeController
 		}
 	}
 
+	protected function setElementDefaultOptions_Element_OphCiExamination_Refraction(models\Element_OphCiExamination_Refraction $element, $action)
+	{
+		if ($action == 'create') {
+			$element->right_type_id = 1;
+			$element->left_type_id = 1;
+		}
+	}
+
 	public function actionGetPreviousIOPAverage()
 	{
 		if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
