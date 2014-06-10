@@ -111,11 +111,11 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 
 	public function getLetter_reading($side)
 	{
-		$reading = $this->getIntegerReading($side);
+		$reading = $this->getReading($side);
 
 		if (!$reading) {
 			if ($this->{"{$side}_qualitative_values"}) {
-				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings());
+				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
 			}
 
 			return 'Not recorded';
@@ -130,7 +130,7 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 		return $return;
 	}
 
-	public function getQualitativeReadings()
+	public function getQualitativeReadings($side)
 	{
 		if ($this->{"{$side}_qualitative_values"}) {
 			$qualitative_values = array();
