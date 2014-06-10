@@ -124,7 +124,7 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 		$return = "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
 
 		if ($this->{"{$side}_qualitative_values"}) {
-			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings());
+			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
 		}
 
 		return $return;
