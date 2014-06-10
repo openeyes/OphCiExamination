@@ -1141,12 +1141,6 @@ function OphCiExamination_Refraction_updateType(field) {
 	}
 }
 
-function OphCiExamination_Refraction_init() {
-	$("#event-content ." + OE_MODEL_PREFIX + "Element_OphCiExamination_Refraction .refractionType").each(function() {
-		OphCiExamination_Refraction_updateType(this);
-	});
-}
-
 function OphCiExamination_OCT_init() {
 	// history tool tip
 	$(".Element_OphCiExamination_OCT").find('.sft-history').each(function(){
