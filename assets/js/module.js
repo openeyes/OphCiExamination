@@ -1134,6 +1134,7 @@ function OphCiExamination_Refraction_updateType(field) {
 	var other = $(field).closest('.refraction-type-container').find('.refraction-type-other');
 	if ($(field).val() == '') {
 		other.show();
+		other.find('.refraction-type-other-field').focus();
 	} else {
 		other.find('.refraction-type-other-field').val('');
 		other.hide();
