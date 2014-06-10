@@ -26,5 +26,7 @@
 	</div>
 	<?= $chart->run(); ?>
 <?php else: ?>
-	<div class="data-value">(no data)</div>
+	<div class="data-row">
+		<div class="data-value">(no data)</div>
+	</div>
 <?php endif; ?>
