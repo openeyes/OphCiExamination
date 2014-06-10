@@ -827,4 +827,51 @@ class DefaultController extends \BaseEventTypeController
 
 		return \CHtml::listData(models\OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll($criteria),'id','name');
 	}
+
+	/**
+	 * Actually handles the processing of patient ticketing if the module is present and a referral has been selected.
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
+	{
+		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
+			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm);
+		}
+	}
+
+	/**
+	 * custom validation for virtual clinic referral
+	 *
+	 * @TODO: this should hand off validation to a faked PatientTicket request via the API.
+	 * @param array $data
+	 * @return array
+	 */
+	protected function setAndValidateElementsFromData($data)
+	{
+		$errors = parent::setAndValidateElementsFromData($data);
+		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$err = null;
+			if (!$data['patientticket_queue']) {
+				 $err = 'You must select a valid Virtual Clinic for referral';
+			}
+			elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
+				$err = "Virtual Clinic not found";
+			}
+			if ($err) {
+				$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
+				if (@$errors[$et_name]) {
+					$errors[$et_name][] = $err;
+				}
+				else {
+					$errors[$et_name] = array($err);
+				}
+			}
+		}
+		return $errors;
+	}
+
 }

@@ -919,6 +919,22 @@ $(document).ready(function() {
 		return followup;
 	}
 
+	function isClinicOutcomeStatusPatientTicket() {
+		var statusPK = $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id').val();
+		var patientticket = false;
+
+		$('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id').find('option').each(function() {
+			if ($(this).attr('value') == statusPK) {
+				if ($(this).attr('data-ticket') == "1") {
+					patientticket = true;
+					return false;
+				}
+			}
+		});
+
+		return patientticket;
+	}
+
 	function showOutcomeStatusFollowup() {
 		// Retrieve any previously stashed values
 		if ($('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_followup_quantity').data('store-value')) {
@@ -957,6 +973,14 @@ $(document).ready(function() {
 		}
 	}
 
+	function showOutcomeStatusPatientTicket() {
+		$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').slideDown();
+	}
+
+	function hideOutcomeStatusPatientTicket() {
+		$('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').slideUp();
+	}
+
 	// show/hide the followup period fields
 	$(this).delegate('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_status_id', 'change', function(e) {
 		var followup = isClinicOutcomeStatusFollowup();
@@ -965,6 +989,13 @@ $(document).ready(function() {
 		}
 		else {
 			hideOutcomeStatusFollowup();
+		}
+		var referral = isClinicOutcomeStatusPatientTicket();
+		if (referral) {
+			showOutcomeStatusPatientTicket();
+		}
+		else {
+			hideOutcomeStatusPatientTicket();
 		}
 	});
 	// end of clinic outcome functions

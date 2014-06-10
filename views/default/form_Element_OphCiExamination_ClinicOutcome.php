@@ -27,14 +27,33 @@
 			</div>
 			<div class="large-3 column end">
 				<?php
+				$outcomes = \OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll();
 				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
-				foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
-					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
+				foreach ($outcomes as $opt) {
+					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);
 				}
-				echo $form->dropDownList($element, 'status_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', $html_options)?>
+				echo $form->dropDownList($element, 'status_id', \CHtml::listData($outcomes, 'id', 'name'), $html_options)?>
 			</div>
 		</div>
 	</div>
+
+	<?php if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) { ?>
+		<div id="div_<?= CHtml::modelName($element)?>_patientticket"<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>>
+			<!-- TODO, this should be pulled from the ticketing module somehow -->
+			<fieldset class="field-row row">
+				<legend class="large-3 column">
+					Virtual Clinic:
+				</legend>
+				<div class="large-3 column end">
+					<?php
+					$html_options = array('empty'=>'- Please select -', 'options' => array());
+					$queue = $element->getPatientTicket();
+					$qid = $queue ? $queue->id : null;
+					echo CHtml::dropDownList('patientticket_queue', $qid, $element->getPatientTicketQueues($this->firm), $html_options)?>
+				</div>
+			</fieldset>
+		</div>
+	<?php } ?>
 
 	<div id="div_<?php echo CHtml::modelName($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
