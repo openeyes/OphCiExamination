@@ -56,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row field-row refraction-type-other <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; } ?>">
+	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; } ?>">
 		<div class="large-3 column">
 			<label>Other:</label>
 		</div>
