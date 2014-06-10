@@ -1131,11 +1131,11 @@ function OphCiExamination_Refraction_updateSegmentedField(field) {
  * Show other type field only if type is set to "Other"
  */
 function OphCiExamination_Refraction_updateType(field) {
-	var other = $(field).next();
+	var other = $(field).closest('.refraction-type-container').find('.refraction-type-other');
 	if ($(field).val() == '') {
 		other.show();
 	} else {
-		other.val('');
+		other.find('.refraction-type-other-field').val('');
 		other.hide();
 	}
 }
