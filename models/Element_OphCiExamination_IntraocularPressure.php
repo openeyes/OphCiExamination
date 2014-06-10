@@ -74,6 +74,10 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
 			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
+			'right_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_integer_values.eye_id = ' . \Eye::RIGHT . ' and right_integer_values.reading_id is not null'),
+			'left_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_integer_values.eye_id = ' . \Eye::RIGHT . ' and left_integer_values.reading_id is not null'),
+			'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.reading_id is not null'),
+			'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and left_qualitative_values.reading_id is not null'),
 		);
 	}
 
@@ -107,21 +111,48 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 
 	public function getLetter_reading($side)
 	{
-		$reading = $this->getReading($side);
+		$reading = $this->getIntegerReading($side);
 
-		if (!$reading) return 'Not recorded';
-		return "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
+		if (!$reading) {
+			if ($this->{"{$side}_qualitative_values"}) {
+				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings());
+			}
+
+			return 'Not recorded';
+		}
+
+		$return = "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
+
+		if ($this->{"{$side}_qualitative_values"}) {
+			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings());
+		}
+
+		return $return;
+	}
+
+	public function getQualitativeReadings()
+	{
+		if ($this->{"{$side}_qualitative_values"}) {
+			$qualitative_values = array();
+
+			foreach ($this->{"{$side}_qualitative_values"} as $value) {
+				$qualitative_values[] = $value->qualitative_reading->name;
+			}
+			return $qualitative_values;
+		}
+
+		return false;
 	}
 
 	public function getReading($side)
 	{
-		$values = $this->{"{$side}_values"};
-
-		if (!$values) return null;
+		if (!$values = $this->{"{$side}_integer_values"}) return null;
 
 		$sum = 0;
 		foreach ($values as $value) {
-			$sum += $value->reading->value;
+			if ($value->reading) {
+				$sum += $value->reading->value;
+			}
 		}
 		return round($sum / count($values)) ;
 	}
