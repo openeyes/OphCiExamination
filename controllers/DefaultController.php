@@ -31,6 +31,7 @@ class DefaultController extends \BaseEventTypeController
 		'step' => self::ACTION_TYPE_EDIT,
 		'getDisorder' => self::ACTION_TYPE_FORM,
 		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
+		'getScaleForInstrument' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
@@ -726,6 +727,12 @@ class DefaultController extends \BaseEventTypeController
 				foreach ($data[$model_name]["{$side}_values"] as $attrs) {
 					$value = new models\OphCiExamination_IntraocularPressure_Value;
 					$value->attributes = $attrs;
+
+					if ($value->instrument->scale) {
+						$value->reading_id = null;
+					} else {
+						$value->qualitative_reading_id = null;
+					}
 					$values[] = $value;
 				}
 			}
@@ -741,6 +748,16 @@ class DefaultController extends \BaseEventTypeController
 			foreach ($element->{"{$side}_values"} as $value) {
 				$value->element_id = $element->id;
 				$value->save();
+			}
+		}
+	}
+
+	public function actionGetScaleForInstrument()
+	{
+		if ($instrument = models\OphCiExamination_Instrument::model()->findByPk(@$_GET['instrument_id'])) {
+			if ($scale = $instrument->scale) {
+				$value = new models\OphCiExamination_IntraocularPressure_Value;
+				$this->renderPartial('_qualitative_scale',array('value' => $value, 'scale' => $scale, 'side' => @$_GET['side'], 'index' => @$_GET['index']));
 			}
 		}
 	}

@@ -20,17 +20,20 @@
 namespace OEModule\OphCiExamination\models;
 
 /**
- * This is the model class for table "ophciexamination_instrument".
+ * This is the model class for table "ophciexamination_bleb_assessment_central_area".
  *
  * @property integer $id
  * @property string $name
  * @property integer $display_order
+
  */
-class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
+class OphCiExamination_Qualitative_Scale extends \BaseActiveRecordVersioned
 {
+	protected $attribute_options = array();
+
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Instrument the static model class
+	 * @return OphCiExamination_GlaucomaStatusa the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -42,12 +45,7 @@ class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_instrument';
-	}
-
-	public function defaultScope()
-	{
-		return array('order' => $this->getTableAlias(true, false) . '.display_order');
+		return 'ophciexamination_qualitative_scale';
 	}
 
 	/**
@@ -67,29 +65,7 @@ class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'scale' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale', 'scale_id'),
+			'values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale_Value', 'scale_id', 'order' => 'display_order asc'),
 		);
 	}
-
-	public function behaviors()
-	{
-		return array(
-			'LookupTable' => 'LookupTable',
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
 }
