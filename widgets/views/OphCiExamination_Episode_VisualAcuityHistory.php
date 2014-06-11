@@ -14,20 +14,18 @@
  */
 ?>
 <?php if ($chart->hasData()): ?>
-	<div class="row">
+	<div class="row data-row">
 		<div class="column large-9">
 			<div id="va-history-chart" style="width: 750px; height: 500px"></div>
 		</div>
 		<div class="column large-3">
-			<div class="row field-row">
+			<div class="field-row">
 				<form action="#OphCiExamination_Episode_VisualAcuityHistory">
 					<label for="va_history_unit_id">Visual Acuity unit</label>
 					<?= CHtml::dropDownList('va_history_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
 				</form>
 			</div>
-			<div class="row">
-				<div id="va-history-chart-legend"></div>
-			</div>
+			<div id="va-history-chart-legend"></div>
 		</div>
 	</div>
 	<?= $chart->run(); ?>

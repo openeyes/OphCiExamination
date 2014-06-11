@@ -15,37 +15,39 @@
 ?>
 <?php if ($plan): ?>
 	<div class="sub-elements">
-	<div clas="row data-row">
-		<div class="data-label large-3 column">Clinic internal</div>
-		<div class="data-value large-9 column"><?= $plan->clinic_internal->name ?></div>
-	</div>
-	<div clas="row data-row">
-		<div class="data-label large-3 column">Photo</div>
-		<div class="data-value large-9 column"><?= $plan->photo->name ?></div>
-	</div>
-	<div clas="row data-row">
-		<div class="data-label large-3 column">OCT</div>
-		<div class="data-value large-9 column"><?= $plan->oct->name ?></div>
-	</div>
-	<div clas="row data-row">
-		<div class="data-label large-3 column">HFA</div>
-		<div class="data-value large-9 column"><?= $plan->hfa->name ?></div>
-	</div>
-	<div clas="row data-row">
-		<div class="data-label large-3 column">Comments</div>
-		<div class="data-value large-9 column"><?= Yii::app()->format->nText($plan->comments) ?></div>
-	</div>
+		<div clas="row data-row">
+			<div class="data-label large-3 column">Clinic internal</div>
+			<div class="data-value large-9 column"><?= $plan->clinic_internal->name ?></div>
+		</div>
+		<div clas="row data-row">
+			<div class="data-label large-3 column">Photo</div>
+			<div class="data-value large-9 column"><?= $plan->photo->name ?></div>
+		</div>
+		<div clas="row data-row">
+			<div class="data-label large-3 column">OCT</div>
+			<div class="data-value large-9 column"><?= $plan->oct->name ?></div>
+		</div>
+		<div clas="row data-row">
+			<div class="data-label large-3 column">HFA</div>
+			<div class="data-value large-9 column"><?= $plan->hfa->name ?></div>
+		</div>
+		<div clas="row data-row">
+			<div class="data-label large-3 column">Comments</div>
+			<div class="data-value large-9 column"><?= Yii::app()->format->nText($plan->comments) ?></div>
+		</div>
 	</div>
 	<div class="sub-elements">
-	<div class="row data-row">
-		<div class="large-6 column">
-			<?php if ($plan->hasRight()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'right')); ?>
+		<div class="row data-row">
+			<div class="large-6 column">
+				<?php if ($plan->hasRight()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'right')); ?>
+			</div>
+			<div class="large-6 column">
+				<?php if ($plan->hasLeft()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'left')); ?>
+			</div>
 		</div>
-		<div class="large-6 column">
-			<?php if ($plan->hasLeft()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'left')); ?>
-		</div>
-	</div>
 	</div>
 <?php else: ?>
-	<div class="data-value">(not recorded)</div>
+	<div class="data-row">
+		<div class="data-value">(not recorded)</div>
+	</div>
 <?php endif; ?>

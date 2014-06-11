@@ -45,7 +45,7 @@ $iop = $element->getLatestIOP($this->patient);
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_surgery_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_surgery ? $element->right_surgery->name : 'None'?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_surgery ? $element->right_surgery->name : 'N/A'?></div></div>
 					</div>
 					<div class="column large-6">
 						<h3>Referral:</h3>
@@ -130,7 +130,7 @@ $iop = $element->getLatestIOP($this->patient);
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_surgery_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_surgery ? $element->left_surgery->name : 'None'?></div></div>
+						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_surgery ? $element->left_surgery->name : 'N/A'?></div></div>
 					</div>
 					<div class="column large-6">
 						<h3>Referral:</h3>
