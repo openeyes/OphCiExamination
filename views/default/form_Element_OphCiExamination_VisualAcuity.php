@@ -43,6 +43,11 @@ $this->endClip('element-title-additional');
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<div class="field-row row">
+				<div class="large-4 column end">
+					<?php echo $form->checkbox($element,'right_rapd',array('text-align'=>'right','nowrapper'=>true))?>
+				</div>
+			</div>
 			<table class="blank va_readings"<?php if (!$element->right_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
 					<?php foreach ($element->right_readings as $reading) {
@@ -71,11 +76,6 @@ $this->endClip('element-title-additional');
 					<?php echo $form->checkBox($element,'right_eye_missing',array('text-align'=>'right','nowrapper'=>true))?>
 				</div>
 			</div>
-			<div class="field-row row">
-				<div class="large-4 column end">
-					<?php echo $form->checkbox($element,'right_rapd',array('text-align'=>'right','nowrapper'=>true))?>
-				</div>
-			</div>
 			<div class="field-row">
 				<button class="button small secondary addReading">
 					Add
@@ -98,6 +98,11 @@ $this->endClip('element-title-additional');
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<div class="field-row row">
+				<div class="large-4 column end">
+					<?php echo $form->checkbox($element,'left_rapd',array('text-align'=>'right','nowrapper'=>true))?>
+				</div>
+			</div>
 			<table class="blank va_readings"<?php if (!$element->left_readings) { ?> style="display: none;" <?php } ?>>
 				<tbody>
 					<?php foreach ($element->left_readings as $reading) {
@@ -124,11 +129,6 @@ $this->endClip('element-title-additional');
 				<div class="large-8 column">
 					<?php echo $form->checkBox($element,'left_unable_to_assess',array('text-align'=>'right','nowrapper'=>true))?>
 					<?php echo $form->checkBox($element,'left_eye_missing',array('text-align'=>'right','nowrapper'=>true))?>
-				</div>
-			</div>
-			<div class="field-row row">
-				<div class="large-4 column end">
-					<?php echo $form->checkbox($element,'left_rapd',array('text-align'=>'right','nowrapper'=>true))?>
 				</div>
 			</div>
 			<div class="field-row">
