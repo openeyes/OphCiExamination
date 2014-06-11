@@ -657,7 +657,6 @@ class OphCiExamination_API extends \BaseAPI
 		if (!$element_type = \ElementType::model()->findByPk($element_type_id)) {
 			throw new Exception("Unknown element type: $element_type_id");
 		}
-		error_log("i think we should be here:" . $element_type->class_name);
 		if ($element = $this->getElementForLatestEventInEpisode($patient, $episode, $element_type->class_name)) {
 			return $element->letter_string;
 		}
