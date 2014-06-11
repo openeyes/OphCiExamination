@@ -38,7 +38,9 @@
 	</div>
 
 	<?php if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) { ?>
-		<div id="div_<?= CHtml::modelName($element)?>_patientticket"<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>>
+		<div id="div_<?= CHtml::modelName($element)?>_patientticket"
+				<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>
+				data-queue-ass-form-uri="<?= $ticket_api->getQueueAssignmentFormURI()?>">
 			<!-- TODO, this should be pulled from the ticketing module somehow -->
 			<fieldset class="field-row row">
 				<legend class="large-3 column">
@@ -52,6 +54,7 @@
 					echo CHtml::dropDownList('patientticket_queue', $qid, $element->getPatientTicketQueues($this->firm), $html_options)?>
 				</div>
 			</fieldset>
+			<div id="queue-assignment-placeholder"></div>
 		</div>
 	<?php } ?>
 

@@ -998,6 +998,26 @@ $(document).ready(function() {
 			hideOutcomeStatusPatientTicket();
 		}
 	});
+
+	$(this).on('change', '#patientticket_queue', function(e) {
+		var id = $(e.srcElement).val();
+		if (id) {
+			$.ajax({
+				url: $('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').data('queue-ass-form-uri') + id,
+				data: {label_width: 3, field_width: 5},
+				success: function(response) {
+					$('#queue-assignment-placeholder').html(response)
+				},
+				error: function(jqXHR, status, error) {
+					enableButtons();
+					throw new Error("Unable to retrieve assignment form for queue with id " + id + ": " + error);
+				}
+			});
+		}
+		else {
+			$('#queue-assignment-placeholder').html('');
+		}
+	});
 	// end of clinic outcome functions
 
 
