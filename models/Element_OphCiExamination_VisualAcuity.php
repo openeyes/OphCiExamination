@@ -428,4 +428,9 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 
 		return $method_values;
 	}
+
+	public function canViewPrevious()
+	{
+		return true;
+	}
 }
