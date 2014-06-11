@@ -29,7 +29,7 @@ $iop = $element->getLatestIOP($this->patient);
 				<?php if ($element->hasRight()) {?>
 					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop_id" class="row field-row">
 						<div class="large-3 column"><label>IOP:</label></div>
-						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ($iop == null ) ? 'N/A': $iop['rightIOP'].' mmHH'?></div>
+						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ($iop == null ) ? 'N/A': $iop['rightIOP'].' mmHg'?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_glaucoma_status_id'))?></div></div>
@@ -114,7 +114,7 @@ $iop = $element->getLatestIOP($this->patient);
 				<?php if ($element->hasLeft()) {?>
 					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop_id" class="row field-row">
 						<div class="large-3 column"><label>IOP:</label></div>
-						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ($iop == null) ? 'N/A' : $iop['leftIOP'].' mmHH'?></div>
+						<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ($iop == null) ? 'N/A' : $iop['leftIOP'].' mmHg'?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_glaucoma_status_id'))?></div></div>

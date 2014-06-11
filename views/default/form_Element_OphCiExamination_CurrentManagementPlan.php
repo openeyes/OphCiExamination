@@ -91,7 +91,7 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 
 				<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop_id" class="row field-row">
 					<div class="large-3 column"><label>IOP:</label></div>
-					<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ( $iop == null )?'N/A': $iop['leftIOP'].' mmHH'?></div>
+					<div class="large-8 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ( $iop == null )?'N/A': $iop['leftIOP'].' mmHg'?></div>
 				</div>
 
 				<?php echo $form->dropDownList($element, 'left_glaucoma_status_id',$glaucomaStatus,array('empty' => '- Please Select -'),false , array('label'=>3, 'field'=>8))?>
