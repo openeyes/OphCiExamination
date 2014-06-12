@@ -42,8 +42,8 @@
 			<td><span class="big"><?php echo $element->surgery ? $element->surgery->name : 'None'?></span></td>
 		</tr>
 		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('other-service'))?></td>
-			<td><span class="big"><?php echo $element->other-service ? 'Yes' : 'No'?></span></td>
+			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('other_service'))?></td>
+			<td><span class="big"><?php echo $element->other_service ? 'Yes' : 'No'?></span></td>
 		</tr>
 		<tr>
 			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('refraction'))?></td>

@@ -161,4 +161,9 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 	{
 		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
 	}
+
+	public function canViewPrevious()
+	{
+		return true;
+	}
 }
