@@ -856,6 +856,7 @@ class DefaultController extends \BaseEventTypeController
 		$errors = parent::setAndValidateElementsFromData($data);
 		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			$err = array();
+			$queue = null;
 			if (!$data['patientticket_queue']) {
 				 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
 			}
