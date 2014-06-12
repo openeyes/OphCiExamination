@@ -19,6 +19,7 @@ Yii::import('OphCiExamination.widgets.VisualAcuityHistory');
 
 class OphCiExamination_Episode_MedicalRetinalHistory extends OphCiExamination_Episode_VisualAcuityHistory
 {
+
 	protected $chart_id = 'mr-history-chart';
 	protected $va_unit_input = 'mr_history_va_unit_id';
 
