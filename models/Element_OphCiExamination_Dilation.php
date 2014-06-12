@@ -238,4 +238,9 @@ class Element_OphCiExamination_Dilation extends \SplitEventTypeElement
 			}
 		}
 	}
+
+	public function canViewPrevious()
+	{
+		return true;
+	}
 }

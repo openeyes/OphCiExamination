@@ -17,7 +17,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/IntraocularPressure.js", CClientScript::POS_END);
+
 ?>
 <div class="element-fields element-eyes row">
 <?php

@@ -18,7 +18,7 @@
  */
 ?>
 <div class="row data-row">
-	<div class="large-6 column element-eye right-eye">
+	<div class="large-6 column">
 		<div class="data-value"><?= $iop ? $iop->getLetter_reading('right') : 'Not recorded' ?></div>
 	</div>
 	<div class="large-6 column">

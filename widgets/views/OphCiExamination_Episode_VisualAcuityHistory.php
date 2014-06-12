@@ -14,9 +14,9 @@
  */
 ?>
 <?php if ($chart->hasData()): ?>
-	<div class="row data-row">
+	<div class="row">
 		<div class="column large-9">
-			<div id="va-history-chart" style="width: 750px; height: 500px"></div>
+			<div id="va-history-chart" style="width: 740px; height: 500px"></div>
 		</div>
 		<div class="column large-3">
 			<div class="field-row">
@@ -35,5 +35,11 @@
 		});
 	</script>
 <?php else: ?>
-	<div class="data-value">(no data)</div>
+	<div class="row">
+		<div class="large-12 column">
+			<div class="data-row">
+				<div class="data-value">(no data)</div>
+			</div>
+		</div>
+	</div>
 <?php endif; ?>

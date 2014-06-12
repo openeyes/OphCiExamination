@@ -17,6 +17,9 @@ use OEModule\OphCiExamination\models;
 
 class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 {
+	public $collapsible = true;
+	public $openOnPageLoad = true;
+
 	public function run()
 	{
 		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))

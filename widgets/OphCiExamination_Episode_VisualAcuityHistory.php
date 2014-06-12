@@ -17,6 +17,9 @@ use OEModule\OphCiExamination\models;
 
 class OphCiExamination_Episode_VisualAcuityHistory extends \EpisodeSummaryWidget
 {
+	public $collapsible = true;
+	public $openOnPageLoad = true;
+
 	protected $chart_id = 'va-history-chart';
 	protected $va_unit_input = 'va_history_unit_id';
 
