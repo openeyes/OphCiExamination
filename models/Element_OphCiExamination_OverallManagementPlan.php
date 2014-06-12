@@ -131,7 +131,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'right_gonio_id' => 'Gonio',
 			'left_gonio_id' => 'Gonio',
 			'comments' => 'Comments',
-			'clinic_internal_id' => 'Clinic Internal',
+			'clinic_internal_id' => 'Clinic interval',
 			'photo_id' => 'Photo',
 			'oct_id' => 'OCT',
 			'hfa_id' => 'Visual Fields',
