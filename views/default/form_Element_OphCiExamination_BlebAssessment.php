@@ -74,7 +74,6 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>}
 		};
 		var FieldImages = <?php
-			//var_dump(OphCiExamination_BlebAssessment_Height::model()->getAttributes(array('height')));
 			$fieldImages = array(
 				'height'=>$heightFieldImages,
 				'maxArea'=>$maxAreaFieldImages,

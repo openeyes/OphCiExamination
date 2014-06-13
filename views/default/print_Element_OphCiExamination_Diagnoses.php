@@ -19,7 +19,7 @@
 ?>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($principal = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (2,3)',array($element->id))) {?>
+		<?php if ($principal =  OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (2,3)',array($element->id))) {?>
 			<div class="data-row">
 				<div class="data-value">
 					<strong>
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		<?php }?>
-		<?php foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (2,3)',array($element->id)) as $diagnosis) {?>
+		<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (2,3)',array($element->id)) as $diagnosis) {?>
 			<div class="data-row">
 				<div class="data-value">
 					<?php echo $diagnosis->eye->adjective?>
@@ -39,7 +39,7 @@
 		<?php }?>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($principal = OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (1,3)',array($element->id))) {?>
+		<?php if ($principal = \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (1,3)',array($element->id))) {?>
 			<div class="data-row">
 				<div class="data-value">
 					<strong>
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		<?php }?>
-		<?php foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (1,3)',array($element->id)) as $diagnosis) {?>
+		<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (1,3)',array($element->id)) as $diagnosis) {?>
 			<div class="data-row">
 				<div class="data-value">
 					<?php echo $diagnosis->eye->adjective?>
