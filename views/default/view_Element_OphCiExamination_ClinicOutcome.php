@@ -40,7 +40,7 @@
 					<?php
 					$ticket = $api->getTicketForEvent($this->event);
 					//TODO: be nice if this could be retrieved via the API as well
-					$this->renderPartial('application.modules.patientticketing.views.general.ticketsummary', array('ticket' => $ticket));
+					$this->renderPartial('application.modules.PatientTicketing.views.general.ticketsummary', array('ticket' => $ticket));
 					?>
 				</div>
 			</div>
