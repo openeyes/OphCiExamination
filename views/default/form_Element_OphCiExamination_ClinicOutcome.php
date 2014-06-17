@@ -42,19 +42,26 @@
 				<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>
 				data-queue-ass-form-uri="<?= $ticket_api->getQueueAssignmentFormURI()?>">
 			<!-- TODO, this should be pulled from the ticketing module somehow -->
-			<fieldset class="field-row row">
-				<legend class="large-3 column">
-					Virtual Clinic:
-				</legend>
-				<div class="large-3 column end">
-					<?php
-					$html_options = array('empty'=>'- Please select -', 'options' => array());
-					$queue = $element->getPatientTicket();
-					$qid = $queue ? $queue->id : null;
-					echo CHtml::dropDownList('patientticket_queue', $qid, $element->getPatientTicketQueues($this->firm), $html_options)?>
+			<?php
+			$ticket = $element->getPatientTicket();
+			if ($ticket) {?>
+				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
+				<?php $this->renderPartial('application.modules.PatientTicketing.views.general.ticketsummary', array('ticket' => $ticket));
+			} else {?>
+				<fieldset class="field-row row">
+					<legend class="large-3 column">
+						Virtual Clinic:
+					</legend>
+					<div class="large-3 column end">
+						<?= CHtml::dropDownList('patientticket_queue', @$_POST['patientticket_queue'], $element->getPatientTicketQueues($this->firm), $html_options)?>
+					</div>
+				</fieldset>
+				<div id="queue-assignment-placeholder">
+					<?php if (@$_POST['patientticket_queue'] && $queue = \OEModule\PatientTicketing\models\Queue::model()->findByPk($_POST['patientticket_queue'])) {
+						$this->renderPartial('application.modules.PatientTicketing.views.default.form_queueassign', array('queue' => $queue, 'label_width' => 3, 'field_width' => 5));
+					}?>
 				</div>
-			</fieldset>
-			<div id="queue-assignment-placeholder"></div>
+			<?php } ?>
 		</div>
 	<?php } ?>
 
