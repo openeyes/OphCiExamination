@@ -196,10 +196,10 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 		return true;
 	}
 
-	public function getLatestIOP($patient){
+	public function getLatestIOP($patient, $api = null){
 		$result = array();
 
-		$api = new OphCiExamination_API();
+		$api = $api ? $api : new OphCiExamination_API();
 		$result['leftIOP'] = $api->getIOPReadingLeft($patient);
 		$result['rightIOP'] = $api->getIOPReadingRight($patient);
 		if($result['leftIOP'] || $result['rightIOP']){
