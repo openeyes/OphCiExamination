@@ -69,21 +69,22 @@ class OphCiExamination_Episode_VisualAcuityHistory extends \EpisodeSummaryWidget
 	{
 		foreach ($this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode) as $event) {
 			if (($va = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_VisualAcuity'))) {
-				if (($reading = $va->getBestReading('right'))) $this->addVaReading($chart, $reading, 'right');
-				if (($reading = $va->getBestReading('left'))) $this->addVaReading($chart, $reading, 'left');
+				if (($reading = $va->getBestReading('right'))) $this->addVaReading($event, $chart, $reading, 'right');
+				if (($reading = $va->getBestReading('left'))) $this->addVaReading($event, $chart, $reading, 'left');
 			}
 		}
 	}
 
 	/**
+	 * @param Event $event
 	 * @param \FlotChart $chart
 	 * @param OphCiExamination_VisualAcuity_Reading $reading
 	 * @param string $side
 	 */
-	protected function addVaReading(\FlotChart $chart, models\OphCiExamination_VisualAcuity_Reading $reading, $side)
+	protected function addVaReading($event, \FlotChart $chart, models\OphCiExamination_VisualAcuity_Reading $reading, $side)
 	{
 		$series_name = "Visual Acuity ({$side})";
 		$label = "{$series_name}\n{$reading->element->unit->name}: {$reading->convertTo($reading->value)} {$reading->method->name}";
-		$chart->addPoint($series_name, Helper::mysqlDate2JsTimestamp($reading->last_modified_date), $reading->value, $label);
+		$chart->addPoint($series_name, Helper::mysqlDate2JsTimestamp($event->event_date), $reading->value, $label);
 	}
 }

@@ -32,7 +32,7 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 
 		foreach ($events as $event) {
 			if (($iop = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'))) {
-				$timestamp = Helper::mysqlDate2JsTimestamp($iop->last_modified_date);
+				$timestamp = Helper::mysqlDate2JsTimestamp($event->event_date);
 				$this->addIop($chart, $iop, $timestamp, 'right');
 				$this->addIop($chart, $iop, $timestamp, 'left');
 			}
