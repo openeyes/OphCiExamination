@@ -8,6 +8,15 @@ Dependencies
 
 1. Eyedraw
 
+Configuration
+-------------
+
+This module is namespaced. as a result setting the module config in core should read as follows:
+
+'OphCiExamination' => array(
+	'class' => '\OEModule\OphCiExamination\OphCiExaminationModule',
+),
+
 DR Grading
 ----------
 This element will optionally have a link to an image popup of sample posterior poles for DR. This image must be provided by the user of the system, and should be copied to:
