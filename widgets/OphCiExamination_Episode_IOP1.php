@@ -22,7 +22,7 @@ class OphCiExamination_Episode_IOP1 extends \EpisodeSummaryWidget
 		$criteria = new CDbCriteria;
 		$criteria->compare('episode_id', $this->episode->id);
 		$criteria->compare('event_type_id', $this->event_type->id);
-		$criteria->order = 'created_date';
+		$criteria->order = 'event_date';
 
 		$iop = null;
 		foreach (Event::model()->findAll($criteria) as $event) {
