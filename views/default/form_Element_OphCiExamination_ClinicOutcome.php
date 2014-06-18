@@ -46,7 +46,7 @@
 			$ticket = $element->getPatientTicket();
 			if ($ticket) {?>
 				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
-				<?php $this->renderPartial('application.modules.PatientTicketing.views.general.ticketsummary', array('ticket' => $ticket));
+				<?php $this->widget($ticket_api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket)); ?>
 			} else {?>
 				<fieldset class="field-row row">
 					<legend class="large-3 column">

@@ -38,9 +38,8 @@
 			<div class="data-row">
 				<div class="data-value">
 					<?php
-					$ticket = $api->getTicketForEvent($this->event);
-					//TODO: be nice if this could be retrieved via the API as well
-					$this->renderPartial('application.modules.PatientTicketing.views.general.ticketsummary', array('ticket' => $ticket));
+						$ticket = $api->getTicketForEvent($this->event);
+						$this->widget($api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket));
 					?>
 				</div>
 			</div>
