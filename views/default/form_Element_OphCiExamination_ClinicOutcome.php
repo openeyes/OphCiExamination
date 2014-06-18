@@ -47,7 +47,7 @@
 			if ($ticket) {?>
 				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
 				<?php $this->widget($ticket_api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket)); ?>
-			} else {?>
+			<?php } else {?>
 				<fieldset class="field-row row">
 					<legend class="large-3 column">
 						Virtual Clinic:
@@ -57,8 +57,8 @@
 					</div>
 				</fieldset>
 				<div id="queue-assignment-placeholder">
-					<?php if (@$_POST['patientticket_queue'] && $queue = \OEModule\PatientTicketing\models\Queue::model()->findByPk($_POST['patientticket_queue'])) {
-						$this->renderPartial('application.modules.PatientTicketing.views.default.form_queueassign', array('queue' => $queue, 'label_width' => 3, 'field_width' => 5));
+					<?php if (@$_POST['patientticket_queue']) {
+						$this->widget($ticket_api::$QUEUE_ASSIGNMENT_WIDGET, array('queue_id' => $_POST['patientticket_queue'], 'label_width' => 3, 'data_width' => 5));
 					}?>
 				</div>
 			<?php } ?>
