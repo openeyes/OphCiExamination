@@ -14,7 +14,5 @@ $(document).ready(function() {
         $('#' + oct).val(clinic_inteval_val());
         $('#' + visual_fields).val(clinic_inteval_val());
         $('#' + hrt).val(clinic_inteval_val());
-
-
 	});
 });
