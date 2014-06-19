@@ -21,9 +21,33 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/IntraocularPressure.js", CClientScript::POS_END);
 
 ?>
+
 <div class="element-fields element-eyes row">
-<?php
-	$this->renderPartial("{$element->form_view}_side", array('form' => $form, 'element' => $element, 'side' => 'right'));
-	$this->renderPartial("{$element->form_view}_side", array('form' => $form, 'element' => $element, 'side' => 'left'));
-?>
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<?php $this->renderPartial($element->form_view . '_side', array('side' => 'right', 'element' => $element, 'form' => $form))?>
+		</div>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add right side <span class="icon-add-side"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<?php $this->renderPartial($element->form_view . '_side', array('side' => 'left', 'element' => $element, 'form' => $form))?>
+		</div>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add left side <span class="icon-add-side"></span>
+				</a>
+			</div>
+		</div>
+	</div>
 </div>

@@ -19,7 +19,6 @@
 
 use OEModule\OphCiExamination\models;
 ?>
-<div class="element-eye <?= $side ?>-eye column">
 	<table id="<?= CHtml::modelName($element) . "_readings_" . $side ?>"<?php if (!$element->{"{$side}_values"}) echo ' class="hidden"'; ?>>
 		<thead>
 			<tr>
@@ -70,6 +69,5 @@ use OEModule\OphCiExamination\models;
 			);
 		?>
 	</script>
-</div>
 
 

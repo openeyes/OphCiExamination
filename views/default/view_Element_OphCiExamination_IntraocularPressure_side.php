@@ -13,7 +13,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element-eye <?= $side ?>-eye column">
+<div class="data-value">
 	<?php if ($element->{"{$side}_values"}): ?>
 		<table>
 			<thead>

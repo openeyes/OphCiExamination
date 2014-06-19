@@ -31,7 +31,7 @@ namespace OEModule\OphCiExamination\models;
  * @property OphCiExamination_IntraocularPressure_Reading $right_reading
  */
 
-class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
+class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -58,6 +58,7 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 	public function rules()
 	{
 		return array(
+			array('eye_id', 'required'),
 			array('eye_id, left_comments, right_comments', 'safe'),
 		);
 	}
@@ -83,20 +84,22 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 
 	public function afterValidate()
 	{
-		foreach (array('right', 'left') as $side) {
-			if ($this->{"{$side}_values"}) {
-				foreach ($this->{"{$side}_values"} as $value) {
-					if (!$value->validate()) {
-						foreach ($value->getErrors() as $field => $errors) {
-							foreach ($errors as $error) {
-								$this->addError("{$side}_values.{$field}", $error);
+		foreach (array('right' => 'hasRight', 'left' => 'hasLeft') as $side => $checker) {
+			if ($this->$checker()) {
+				if ($this->{"{$side}_values"}) {
+					foreach ($this->{"{$side}_values"} as $value) {
+						if (!$value->validate()) {
+							foreach ($value->getErrors() as $field => $errors) {
+								foreach ($errors as $error) {
+									$this->addError("{$side}_values.{$field}", $error);
+								}
 							}
 						}
 					}
-				}
-			} else {
-				if (!$this->{"{$side}_comments"}) {
-					$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+				} else {
+					if (!$this->{"{$side}_comments"}) {
+						$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+					}
 				}
 			}
 		}
