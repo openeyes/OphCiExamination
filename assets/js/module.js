@@ -844,6 +844,7 @@ $(document).ready(function() {
 	$(this).delegate('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .clearCV', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
 		$(this).closest('.side').find('tr.colourvisionReading a.removeCVReading').click();
+		$(this).addClass('hidden');
 		e.preventDefault();
 	});
 
@@ -1068,6 +1069,7 @@ function OphCiExamination_ColourVision_addReading(element, side) {
 		var form = Mustache.render(template, data);
 
 		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
+		$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .clearCV').removeClass("hidden");
 		table.show();
 		$('tbody', table).append(form);
 	}
