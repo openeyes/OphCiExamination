@@ -35,6 +35,7 @@ class m140619_091711_overall_management_changes extends OEMigration
 
 		$this->dropForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
 		$this->dropForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->update('et_ophciexamination_overallmanagementplan',array('left_gonio_id' => null, 'right_gonio_id' => null));
 		$this->addForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
 			'left_gonio_id', 'ophciexamination_visitinterval', 'id'
 		);
@@ -67,6 +68,7 @@ class m140619_091711_overall_management_changes extends OEMigration
 
 		$this->dropForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
 		$this->dropForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->update('et_ophciexamination_overallmanagementplan',array('left_gonio_id' => null, 'right_gonio_id' => null));
 		$this->addForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
 			'left_gonio_id', 'ophciexamination_overallperiod', 'id'
 		);
