@@ -29,7 +29,7 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 			->configureXAxis(array('mode' => 'time'))
 			->configureYAxis('mmHg', array(
 				'min' => 0,
-				'max' => 80 // This is higher than 80 to account for the height of the legend.
+				'max' => 80
 			))
 			->configureSeries('RE', array(
 				'points' => array('show' => true),
