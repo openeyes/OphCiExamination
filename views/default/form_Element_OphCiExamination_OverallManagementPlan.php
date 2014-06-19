@@ -82,6 +82,12 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 	</div>
 </section>
 <script type="text/javascript">
-	setCurrentManagementIOP('left');
-	setCurrentManagementIOP('right');
+	if (typeof setCurrentManagementIOP == 'function') {
+		setCurrentManagementIOP('left');
+		setCurrentManagementIOP('right');
+	}
 </script>
+<?php
+	Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/OverallManagement.js", CClientScript::POS_HEAD);
+?>
+
