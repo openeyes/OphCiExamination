@@ -22,11 +22,44 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 
 	public function run()
 	{
-		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => 'iop-history-legend'))
+		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart'))
+			->configureChart(array(
+				'colors' => array('#4daf4a', '#984ea3', '#4daf4a', '#984ea3'),
+			))
 			->configureXAxis(array('mode' => 'time'))
-			->configureYAxis('mmHg', array('min' => 0, 'max' => 80))
-			->configureSeries('Intraocular Pressure (right)', array('points' => array('show' => true), 'lines' => array('show' => true)))
-			->configureSeries('Intraocular Pressure (left)', array('points' => array('show' => true), 'lines' => array('show' => true)));
+			->configureYAxis('mmHg', array(
+				'min' => 0,
+				'max' => 80 // This is higher than 80 to account for the height of the legend.
+			))
+			->configureSeries('RE', array(
+				'points' => array('show' => true),
+				'lines' => array(
+					'show' => true
+				)
+			))
+			->configureSeries('LE', array(
+				'points' => array('show' => true),
+				'lines' => array(
+					'show' => true,
+					'fillColor' => 'red'
+				)
+			))
+			->configureSeries('Target RE', array(
+				'colors' => array("#fff", "#fff", "#fff"),
+				'points' => array('show' => true),
+				'dashes' => array(
+					'show' => true,
+					'style' => array(6),
+					'fillColor' => 'red'
+				)
+			))
+			->configureSeries('Target LE', array(
+				'points' => array('show' => true),
+				'dashes' => array(
+					'show' => true,
+					'style' => array(6)
+				)
+			));
 
 		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
 
@@ -53,15 +86,17 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 	protected function addIop(\FlotChart $chart, models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
 	{
 		if (($reading = $iop->getReading($side))) {
-			$chart->addPoint("Intraocular Pressure ({$side})", $timestamp, $reading, "{$reading} mmHg");
+			$seriesName = strtoupper($side[0]).'E';
+			$chart->addPoint($seriesName, $timestamp, $reading, "{$reading} mmHg");
 		}
 	}
 
 	protected function addTargetIop(\FlotChart $chart, models\Element_OphCiExamination_OverallManagementPlan $plan, $side)
 	{
 		if (($target = $plan->{"{$side}_target_iop"})) {
-			$chart->addPoint("Target IOP ({$side})", $chart->getXMin(), $target, "{$target} mmHg");
-			$chart->addPoint("Target IOP ({$side})", $chart->getXMax(), $target, "{$target} mmHg");
+			$seriesName = 'Target '.strtoupper($side[0]).'E';
+			$chart->addPoint($seriesName, $chart->getXMin(), $target, "{$target} mmHg");
+			$chart->addPoint($seriesName, $chart->getXMax(), $target, "{$target} mmHg");
 		}
 	}
 }
