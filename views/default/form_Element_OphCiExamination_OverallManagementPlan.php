@@ -20,6 +20,10 @@
 $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()->findAll(
 		array('order'=> 'display_order asc')),'id','name'
 );
+
+$intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()->findAll(
+		array('order'=> 'display_order asc')),'id','name'
+);
 ?>
 
 <section class="element <?php echo $element->elementType->class_name?>"
@@ -47,7 +51,7 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 					<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 					<p class="large-1 column end">mmHg</p>
 				</div>
-				<?php echo $form->dropDownList($element, 'right_gonio_id',$overallPeriods,array(),false , array('label'=>3, 'field'=>6))?>
+				<?php echo $form->dropDownList($element, 'right_gonio_id',$intervalVisits,array(),false , array('label'=>3, 'field'=>6))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
@@ -65,7 +69,7 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 					<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 					<p class="large-1 column end">mmHg</p>
 				</div>
-				<?php echo $form->dropDownList($element, 'left_gonio_id',$overallPeriods,array(),false , array('label'=>3, 'field'=>6))?>
+				<?php echo $form->dropDownList($element, 'left_gonio_id',$intervalVisits,array(),false , array('label'=>3, 'field'=>6))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">

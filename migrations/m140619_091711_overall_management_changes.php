@@ -2,7 +2,7 @@
 
 class m140619_091711_overall_management_changes extends OEMigration
 {
-	private $defaults = array('right_gonio' ,'left_gonio' ,'clinic_interval' ,'photo' ,'oct' ,	'hfa' ,	'hrt');
+	private $defaults = array('clinic_interval' ,'photo' ,'oct' ,'hfa' ,'hrt');
 	public function up()
 	{
 		$this->dropForeignKey('et_ophciexam_overallmanagementplan_clinic_internal_id_fk', 'et_ophciexamination_overallmanagementplan');
@@ -30,6 +30,20 @@ class m140619_091711_overall_management_changes extends OEMigration
 			));
 		}
 
+		$this->createOETable('ophciexamination_visitinterval',
+			array('id' => 'pk','name' => 'text','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',	), true);
+
+		$this->dropForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->dropForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->addForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
+			'left_gonio_id', 'ophciexamination_visitinterval', 'id'
+		);
+		$this->addForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
+			'right_gonio_id', 'ophciexamination_visitinterval', 'id'
+		);
+
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
@@ -50,5 +64,18 @@ class m140619_091711_overall_management_changes extends OEMigration
 		foreach($this->defaults as $default){
 			$this->delete('setting_metadata', '`element_type_id` = '.$element_type_id.' AND `key` = "' . $default . '_id"');
 		}
+
+		$this->dropForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->dropForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan');
+		$this->addForeignKey('et_ophciexam_overallmanagementplan_lgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
+			'left_gonio_id', 'ophciexamination_overallperiod', 'id'
+		);
+		$this->addForeignKey('et_ophciexam_overallmanagementplan_rgonio_id_fk', 'et_ophciexamination_overallmanagementplan',
+			'right_gonio_id', 'ophciexamination_overallperiod', 'id'
+		);
+
+		$this->dropTable('ophciexamination_visitinterval');
+		$this->dropTable('ophciexamination_visitinterval_version');
+
 	}
 }
