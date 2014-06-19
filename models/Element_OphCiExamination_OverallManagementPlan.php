@@ -29,6 +29,7 @@ namespace OEModule\OphCiExamination\models;
  * @property integer $photo_id
  * @property integer $oct_id
  * @property integer $hfa_id
+ * @property integer $hrt_id
  * @property integer $gonio_id
  * @property string $comments
  *
@@ -72,14 +73,14 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 	{
 		return array(
 			array('event_id, left_target_iop , right_target_iop  ,left_gonio_id, right_gonio_id, clinic_interval_id ,
-				 photo_id , oct_id ,hfa_id , comments , eye_id', 'safe'),
-			array('clinic_interval_id, photo_id , oct_id , hfa_id', 'required'),
+				 photo_id , oct_id ,hfa_id , hrt_id, comments , eye_id', 'safe'),
+			array('clinic_interval_id, photo_id , oct_id , hfa_id, hrt_id', 'required'),
 			array('left_target_iop , left_gonio_id ',
 				'requiredIfSide', 'side' => 'left'),
 			array('right_target_iop , right_gonio_id ',
 				'requiredIfSide', 'side' => 'right'),
 			array('id, event_id, left_target_iop , right_target_iop  , left_gonio_id, right_gonio_id, clinic_interval_id ,
-				photo_id , oct_id , hfa_id , comments , eye_id, ', 'safe', 'on' => 'search'),
+				photo_id , oct_id , hfa_id , hrt_id, comments , eye_id, ', 'safe', 'on' => 'search'),
 			array('left_target_iop, right_target_iop', 'numerical',
 				'integerOnly'=>true, 'min' => 10, 'max' => 25,
 				'message' => 'Target IOP Values, use integers between 10 and 25.'
@@ -115,6 +116,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'photo' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'photo_id'),
 			'oct' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'oct_id'),
 			'hfa' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'hfa_id'),
+			'hrt' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'hrt_id')
 		);
 	}
 
@@ -135,7 +137,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'photo_id' => 'Photo',
 			'oct_id' => 'OCT',
 			'hfa_id' => 'Visual Fields',
-
+			'hrt_id' => 'HRT'
 		);
 	}
 
@@ -157,6 +159,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 		$criteria->compare('photo_id', $this->photo_id);
 		$criteria->compare('oct_id', $this->oct_id);
 		$criteria->compare('hfa_id', $this->hfa_id);
+		$criteria->compare('hrt_id', $this->hrt_id);
 		$criteria->compare('comments', $this->comments);
 		$criteria->compare('eye', $this->eye);
 
@@ -174,6 +177,14 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 	{
 
 		return parent::afterSave();
+	}
+
+	public function setDefaultOptions(){
+		$element_type = \ElementType::model()->find('class_name=?',array(get_class($this)));
+		$defaults = \SettingMetadata::model()->findAll('element_type_id=? ',array($element_type->id));
+		foreach($defaults as $default){
+			$this->{$default->key} = $default->default_value;
+		}
 	}
 }
 ?>

@@ -65,11 +65,8 @@ class OphCiExamination_OverallPeriod extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			//'attribute_elements' => array(self::HAS_MANY, 'OphCiExamination_BlebAssessment_CentralAreaElement', 'attribute_id'),
 		);
 	}
-
-
 
 	public function getAttributeOptions()
 	{

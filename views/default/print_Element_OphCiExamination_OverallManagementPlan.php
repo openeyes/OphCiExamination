@@ -42,6 +42,10 @@
 			<td><span class="big"><?php echo $element->hfa ? $element->hfa->name : 'None'?></span></td>
 		</tr>
 		<tr>
+			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('hrt_id'))?></td>
+			<td><span class="big"><?php echo $element->hrt ? $element->hrt->name : 'None'?></span></td>
+		</tr>
+		<tr>
 			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('gonio_id'))?></td>
 			<td><span class="big"><?php echo $element->gonio ? $element->gonio->name : 'None'?></span></td>
 		</tr>

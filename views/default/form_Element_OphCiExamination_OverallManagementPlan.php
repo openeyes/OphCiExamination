@@ -31,10 +31,11 @@ $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 	<div class="element-fields row">
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
-		<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( 'prompt'=>'6 months'), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array('prompt'=>'6 months'), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array('prompt'=>'6 months'), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array('prompt'=>'6 months'), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( ), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
 		<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
 	</div>
 	<div class="element-fields element-eyes row">
