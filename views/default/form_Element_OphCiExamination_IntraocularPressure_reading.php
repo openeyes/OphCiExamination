@@ -28,5 +28,5 @@ $base_name = CHtml::modelName($value) . "[{$side}_values][{$index}]";
 	<?php if ($element->getSetting('show_instruments')): ?>
 		<td><?= $form->dropDownList($value, 'instrument_id', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', array("nowrapper" => true, 'class' => 'IOPinstrument', "name" => "{$base_name}[instrument_id]")) ?></td>
 	<?php endif ?>
-	<td><?= CHtml::hiddenField("{$base_name}[eye_id]", ($side == 'left') ? Eye::LEFT : Eye::RIGHT) ?><button type="button" class="button small delete">Delete</button></td>
+	<td><?= CHtml::hiddenField("{$base_name}[eye_id]", ($side == 'left') ? Eye::LEFT : Eye::RIGHT) ?><a class="delete" href="#">Remove</a></td>
 </tr>

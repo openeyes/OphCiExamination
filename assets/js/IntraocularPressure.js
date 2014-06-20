@@ -42,14 +42,16 @@ $(document).ready(function () {
 		}
 
 		$(this).closest('tr').remove();
+
+		return false;
 	}
 
 	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_add_right").click({side: "right"}, addReading);
 	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_add_left").click({side: "left"}, addReading);
 
 
-	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right").on("click", "button.delete", null, deleteReading);
-	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left").on("click", "button.delete", null, deleteReading);
+	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right").on("click", "a.delete", null, deleteReading);
+	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left").on("click", "a.delete", null, deleteReading);
 
 	$('select.IOPinstrument').die('change').live('change',function(e) {
 		e.preventDefault();
