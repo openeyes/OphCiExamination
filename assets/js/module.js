@@ -778,6 +778,7 @@ $(document).ready(function() {
 
 	$(this).delegate('.addReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
+        console.log('side ' + side);
 		OphCiExamination_VisualAcuity_addReading(side);
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
@@ -1231,17 +1232,19 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 }
 
 function OphCiExamination_VisualAcuity_addReading(side) {
+    console.log('Add reading: with side ' + side)
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
 		"side" : side
 	};
+    console.log('Add reading: data ' + data + ' template ' + template)
 	var form = Mustache.render(template, data);
 
-	$('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
+	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
 		$(this).attr('checked', false);
 	});
-	var table = $('.element[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table.va_readings');
+	var table = $('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table.va_readings');
 	table.show();
 	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
 	$('tbody', table).append(form);
@@ -1419,6 +1422,7 @@ function OphCiExamination_DRGrading_canUpdate(side) {
  * @param side
  */
 function OphCiExamination_DRGrading_update(side) {
+    console.log('DR Grading update with side ' + side + ' model prefix ' + OE_MODEL_PREFIX)
 	var physical_side = 'left';
 	if (side == 'left') {
 		physical_side = 'right';
