@@ -22,7 +22,7 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasRight()) {?>
-					<table cellspacing="0" width="500">
+					<table cellspacing="0">
 						<thead>
 						<tr>
 							<th width="25%">Area (Central)</th>
@@ -51,7 +51,7 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasLeft()) {?>
-					<table cellspacing="0" width="500">
+					<table cellspacing="0">
 						<thead>
 						<tr>
 							<th width="25%">Area (Central)</th>
