@@ -19,64 +19,6 @@
 
 $iop = $element->getLatestIOP($this->patient);
 ?>
-<div class="element-data row">
-	<div class="data-row">
-		<div class="column large-3">
-			<h3>Referral:</h3>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('other_service'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->{'other_service'} ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('refraction'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->refraction ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('lva'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->lva ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('orthoptics'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->orthoptics ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('cl_clinic'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->cl_clinic ? 'Yes' : 'No'?></div></div>
-			</div>
-		</div>
-		<div class="column large-3 end">
-			<h3>Investigations:</h3>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('vf'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->vf ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('us'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->us ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('biometry'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->biometry ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('oct'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->oct ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('hrt'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->hrt ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('disc_photos'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->disc_photos ? 'Yes' : 'No'?></div></div>
-			</div>
-			<div class="row data-row">
-				<div class="large-8 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('edt'))?></div></div>
-				<div class="large-4 column end"><div class="data-value"><?php echo $element->edt ? 'Yes' : 'No'?></div></div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="element-data element-eyes row">
 	<script type="text/javascript">
 		var previous_iop = <?php echo json_encode($iop);?>;
