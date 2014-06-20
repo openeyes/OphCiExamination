@@ -39,8 +39,10 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 		<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
 		<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
 		<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+		<?php echo $form->dropDownList($element, 'gonio_id',$intervalVisits,array(),false , array('label'=>4, 'field'=>3)) ?>
 		<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
 		<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
+
 	</div>
 	<div class="element-fields element-eyes row">
 		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
@@ -51,7 +53,6 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 					<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 					<p class="large-1 column end">mmHg</p>
 				</div>
-				<?php echo $form->dropDownList($element, 'right_gonio_id',$intervalVisits,array(),false , array('label'=>3, 'field'=>6))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
@@ -69,7 +70,6 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 					<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 					<p class="large-1 column end">mmHg</p>
 				</div>
-				<?php echo $form->dropDownList($element, 'left_gonio_id',$intervalVisits,array(),false , array('label'=>3, 'field'=>6))?>
 			</div>
 			<div class="inactive-form">
 				<div class="add-side">
