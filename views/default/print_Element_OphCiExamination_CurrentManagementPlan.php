@@ -41,54 +41,6 @@
 			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('surgery_id'))?></td>
 			<td><span class="big"><?php echo $element->surgery ? $element->surgery->name : 'None'?></span></td>
 		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('other_service'))?></td>
-			<td><span class="big"><?php echo $element->other_service ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('refraction'))?></td>
-			<td><span class="big"><?php echo $element->refraction ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('lva'))?></td>
-			<td><span class="big"><?php echo $element->lva ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('orthoptics'))?></td>
-			<td><span class="big"><?php echo $element->orthoptics ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('cl_clinic'))?></td>
-			<td><span class="big"><?php echo $element->cl_clinic ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('vf'))?></td>
-			<td><span class="big"><?php echo $element->vf ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('us'))?></td>
-			<td><span class="big"><?php echo $element->us ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('biometry'))?></td>
-			<td><span class="big"><?php echo $element->biometry ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('oct'))?></td>
-			<td><span class="big"><?php echo $element->oct ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('hrt'))?></td>
-			<td><span class="big"><?php echo $element->hrt ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('disc_photos'))?></td>
-			<td><span class="big"><?php echo $element->disc_photos ? 'Yes' : 'No'?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('edt'))?></td>
-			<td><span class="big"><?php echo $element->edt ? 'Yes' : 'No'?></span></td>
-		</tr>
 	</tbody>
 </table>
 

@@ -191,7 +191,7 @@ class Element_OphCiExamination_Gonioscopy extends \SplitEventTypeElement
 	{
 		$defaults = array();
 		foreach (array('sup','tem','nas','inf') as $position) {
-			$defaults['gonio_'.$position.'_id'] = 1;
+			$defaults['gonio_'.$position.'_id'] = 2;
 		}
 		return $defaults;
 	}

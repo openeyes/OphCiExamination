@@ -45,26 +45,6 @@ Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManag
 			var previous_iop = <?php echo json_encode($iop)?>;
 		</script>
 		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-		<div class="field-row row">
-			<div class="column large-3">
-				<h3>Referral:</h3>
-				<?php echo $form->checkBox($element, 'other_service',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'refraction',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'lva',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'orthoptics',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'cl_clinic',array(), array('label'=>8, 'field'=>4))?>
-			</div>
-			<div class="column large-3 end">
-				<h3>Investigations:</h3>
-				<?php echo $form->checkBox($element, 'vf',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'us',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'biometry',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'oct',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'hrt',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'disc_photos',array(), array('label'=>8, 'field'=>4))?>
-				<?php echo $form->checkBox($element, 'edt',array(), array('label'=>8, 'field'=>4))?>
-			</div>
-		</div>
 	</div>
 	<div class="element-fields element-eyes row">
 		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
