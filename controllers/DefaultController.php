@@ -827,4 +827,58 @@ class DefaultController extends \BaseEventTypeController
 
 		return \CHtml::listData(models\OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll($criteria),'id','name');
 	}
+
+	/**
+	 * Actually handles the processing of patient ticketing if the module is present and a referral has been selected.
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
+	{
+		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
+			$queue_data = $api->extractQueueData($queue, $data);
+			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+		}
+	}
+
+	/**
+	 * custom validation for virtual clinic referral
+	 *
+	 * @TODO: this should hand off validation to a faked PatientTicket request via the API.
+	 * @param array $data
+	 * @return array
+	 */
+	protected function setAndValidateElementsFromData($data)
+	{
+		$errors = parent::setAndValidateElementsFromData($data);
+		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$err = array();
+			$queue = null;
+			if (!$data['patientticket_queue']) {
+				 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
+			}
+			elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
+				$err['patientticket_queue'] = "Virtual Clinic not found";
+			}
+			if ($queue) {
+				list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
+				$err = array_merge($err, $fld_errs);
+			}
+
+			if (count($err)) {
+				$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
+				if (@$errors[$et_name]) {
+					$errors[$et_name] = array_merge($errors[$et_name], $err);
+				}
+				else {
+					$errors[$et_name] = $err;
+				}
+			}
+		}
+		return $errors;
+	}
+
 }

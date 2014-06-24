@@ -33,4 +33,15 @@
 			<?php }?>
 		</div>
 	</div>
+	<?php if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+		if ($element->status && $element->status->patientticket) {?>
+			<div class="data-row">
+				<div class="data-value">
+					<?php
+						$ticket = $api->getTicketForEvent($this->event);
+						$this->widget($api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket));
+					?>
+				</div>
+			</div>
+	<?php } }?>
 </div>

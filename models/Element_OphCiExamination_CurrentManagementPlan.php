@@ -81,14 +81,12 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 	{
 		return array(
 			array('event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
-			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, other_service,
-			 refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, eye_id', 'safe'),
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, eye_id', 'safe'),
 			array('left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id,
-			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, other_service,
-			 refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, eye_id ', 'required'),
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, eye_id ', 'required'),
 			array('id, event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
-			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, other_service,
-			 refraction, lva, orthoptics, cl_clinic, vf, us, biometry, oct, hrt, disc_photos, edt, eye_id ', 'safe', 'on' => 'search'),
+			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, eye_id ',
+				'safe', 'on' => 'search'),
 		);
 	}
 
@@ -140,18 +138,6 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 			'left_drops_id' => 'Drops',
 			'right_surgery_id' => 'Surgery',
 			'left_surgery_id' => 'Surgery',
-			'other_service' => 'Other Service',
-			'refraction' => 'Refraction',
-			'lva' => 'LVA',
-			'orthoptics' => 'Orthoptics',
-			'cl_clinic' => 'CL cLinic',
-			'vf' => 'VF',
-			'us' => 'US',
-			'biometry' => 'Biometry',
-			'oct' => 'OCT',
-			'hrt' => 'HRT',
-			'disc_photos' => 'Disc Photos',
-			'edt' => 'EDT',
 		);
 	}
 
@@ -173,18 +159,6 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 		$criteria->compare('left_drops_id', $this->left_drops_id);
 		$criteria->compare('right_surgery_id', $this->right_surgery_id);
 		$criteria->compare('left_surgery_id', $this->left_surgery_id);
-		$criteria->compare('other_service', $this->other_service);
-		$criteria->compare('refraction', $this->refraction);
-		$criteria->compare('lva', $this->lva);
-		$criteria->compare('orthoptics', $this->orthoptics);
-		$criteria->compare('cl_clinic', $this->cl_clinic);
-		$criteria->compare('vf', $this->vf);
-		$criteria->compare('us', $this->us);
-		$criteria->compare('biometry', $this->biometry);
-		$criteria->compare('oct', $this->oct);
-		$criteria->compare('hrt', $this->hrt);
-		$criteria->compare('disc_photos', $this->disc_photos);
-		$criteria->compare('edt', $this->edt);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

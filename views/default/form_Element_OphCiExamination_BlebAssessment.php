@@ -91,48 +91,46 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table>
+			<table class="bleb-assessment">
 				<thead>
-				<tr>
-					<th width="25%">Area (Central)</th>
-					<th width="25%">Area (Maximal)</th>
-					<th width="25%">Height</th>
-					<th width="25%">Vascularity</th>
-				</tr>
+					<tr>
+						<th width="25%">Area (Central)</th>
+						<th width="25%">Area (Maximal)</th>
+						<th width="25%">Height</th>
+						<th width="25%">Vascularity</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<!-- Area (Central) -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
-					<!-- Area (Maximal) -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
-
-					<!-- Height -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'right_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
-
-					<!-- Vascularity -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'right_vasc_id', $vascularities
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
-				</tr>
+					<tr>
+						<!-- Area (Central) -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
+						<!-- Area (Maximal) -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
+						<!-- Height -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'right_height_id', $heights
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
+						<!-- Vascularity -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'right_vasc_id', $vascularities
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -147,49 +145,49 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
-			<table cellspacing="0" width="500">
+			<table cellspacing="0" class="bleb-assessment">
 				<thead>
-				<tr>
-					<th width="25%">Area (Central)</th>
-					<th width="25%">Area (Maximal)</th>
-					<th width="25%">Height</th>
-					<th width="25%">Vascularity</th>
-				</tr>
+					<tr>
+						<th width="25%">Area (Central)</th>
+						<th width="25%">Area (Maximal)</th>
+						<th width="25%">Height</th>
+						<th width="25%">Vascularity</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<!-- Area (Central) -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
+					<tr>
+						<!-- Area (Central) -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
 
-					<!-- Area (Maximal) -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
-						); ?>
-					</td>
+						<!-- Area (Maximal) -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
+							); ?>
+						</td>
 
-					<!-- Height -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'left_height_id', $heights
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
-						); ?>
-					</td>
+						<!-- Height -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'left_height_id', $heights
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
+							); ?>
+						</td>
 
-					<!-- Vascularity -->
-					<td>
-						<?php
-						echo $form->dropDownList($element, 'left_vasc_id', $vascularities
-							, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-						); ?>
-					</td>
-				</tr>
+						<!-- Vascularity -->
+						<td>
+							<?php
+							echo $form->dropDownList($element, 'left_vasc_id', $vascularities
+								, array('empty' => 'NR', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+							); ?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

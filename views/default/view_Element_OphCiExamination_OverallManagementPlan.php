@@ -35,6 +35,10 @@
 		<div class="large-7 column end"><div class="data-value"><?php echo $element->hfa ? $element->hfa->name : 'None'?></div></div>
 	</div>
 	<div class="row data-row">
+		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('gonio_id'))?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->gonio ? $element->gonio->name : 'None'?></div></div>
+	</div>
+	<div class="row data-row">
 		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('hrt_id'))?></div></div>
 		<div class="large-7 column end"><div class="data-value"><?php echo $element->hrt ? $element->hrt->name : 'None'?></div></div>
 	</div>
@@ -52,10 +56,6 @@
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_target_iop'))?></div></div>
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop"><?php echo $element->right_target_iop?> mmHg</div></div>
 					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_gonio_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->right_gonio ? $element->right_gonio->name : 'None'?></div></div>
-					</div>
 
 				<?php
 				} else {?>
@@ -72,11 +72,6 @@
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_target_iop'))?></div></div>
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop"><?php echo $element->left_target_iop?> mmHg</div></div>
 					</div>
-					<div class="row data-row">
-						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_gonio_id'))?></div></div>
-						<div class="large-7 column end"><div class="data-value"><?php echo $element->left_gonio ? $element->left_gonio->name : 'None'?></div></div>
-					</div>
-
 				<?php
 				} else {?>
 					Not recorded

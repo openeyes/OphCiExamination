@@ -72,14 +72,14 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 	public function rules()
 	{
 		return array(
-			array('event_id, left_target_iop , right_target_iop  ,left_gonio_id, right_gonio_id, clinic_interval_id ,
+			array('event_id, left_target_iop , right_target_iop  , gonio_id, clinic_interval_id ,
 				 photo_id , oct_id ,hfa_id , hrt_id, comments , eye_id', 'safe'),
 			array('clinic_interval_id, photo_id , oct_id , hfa_id, hrt_id', 'required'),
-			array('left_target_iop , left_gonio_id ',
+			array('left_target_iop ',
 				'requiredIfSide', 'side' => 'left'),
-			array('right_target_iop , right_gonio_id ',
+			array('right_target_iop  ',
 				'requiredIfSide', 'side' => 'right'),
-			array('id, event_id, left_target_iop , right_target_iop  , left_gonio_id, right_gonio_id, clinic_interval_id ,
+			array('id, event_id, left_target_iop , right_target_iop  , gonio_id, clinic_interval_id ,
 				photo_id , oct_id , hfa_id , hrt_id, comments , eye_id, ', 'safe', 'on' => 'search'),
 			array('left_target_iop, right_target_iop', 'numerical',
 				'integerOnly'=>true, 'min' => 10, 'max' => 25,
@@ -95,7 +95,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 	 */
 	public function sidedFields()
 	{
-		return array( 'target_iop' ,'gonio_id');
+		return array( 'target_iop' );
 	}
 
 	/**
@@ -110,8 +110,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'right_gonio' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval', 'right_gonio_id'),
-			'left_gonio' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval', 'left_gonio_id'),
+			'gonio' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval', 'gonio_id'),
 			'clinic_internal' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'clinic_interval_id'),
 			'photo' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'photo_id'),
 			'oct' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod', 'oct_id'),
@@ -130,8 +129,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 			'event_id' => 'Event',
 			'right_target_iop' => 'Target IOP',
 			'left_target_iop' => 'Target IOP',
-			'right_gonio_id' => 'Gonio',
-			'left_gonio_id' => 'Gonio',
+			'gonio_id' => 'Gonio',
 			'comments' => 'Comments',
 			'clinic_interval_id' => 'Clinic interval',
 			'photo_id' => 'Photo',
@@ -153,8 +151,7 @@ class Element_OphCiExamination_OverallManagementPlan  extends  \SplitEventTypeEl
 		$criteria->compare('event_id', $this->event_id, true);
 		$criteria->compare('right_target_iop', $this->right_target_iop);
 		$criteria->compare('left_target_iop', $this->left_target_iop);
-		$criteria->compare('right_gonio_id', $this->right_gonio_id);
-		$criteria->compare('left_gonio_id', $this->left_gonio_id);
+		$criteria->compare('gonio_id', $this->gonio_id);
 		$criteria->compare('clinic_interval_id', $this->clinic_interval_id);
 		$criteria->compare('photo_id', $this->photo_id);
 		$criteria->compare('oct_id', $this->oct_id);

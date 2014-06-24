@@ -27,8 +27,6 @@ use Yii;
  * @property string $id
  * @property integer $event_id
  * @property integer $eye_id
- * @property string $left_comments
- * @property string $right_comments
  * @property boolean $left_unable_to_assess
  * @property boolean $right_unable_to_assess
  * @property boolean $left_eye_missing
@@ -84,17 +82,17 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('left_comments, right_comments, right_readings, left_readings, eye_id, unit_id, left_unable_to_assess,
-					right_unable_to_assess, left_eye_missing, right_eye_missing, left_rapd, right_rapd', 'safe'),
+				array(' right_readings, left_readings, eye_id, unit_id, left_unable_to_assess,
+					right_unable_to_assess, left_eye_missing, right_eye_missing', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
+				array('id, event_id, , eye_id', 'safe', 'on' => 'search'),
 		);
 	}
 
 	public function sidedFields()
 	{
-		return array('comments');
+		return array();
 	}
 
 	/**
@@ -125,14 +123,10 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 		return array(
 			'id' => 'ID',
 			'event_id' => 'Event',
-			'left_comments' => 'Comments',
-			'right_comments' => 'Comments',
 			'left_unable_to_assess' => 'Unable to assess',
 			'right_unable_to_assess' => 'Unable to assess',
 			'left_eye_missing' => 'Eye missing',
 			'right_eye_missing' => 'Eye missing',
-			'left_rapd' => 'RAPD',
-			'right_rapd' => 'RAPD',
 		);
 	}
 
@@ -165,9 +159,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 						if ($this->{$side . $f}) {
 							$valid = true;
 						}
-					}
-					if (!$valid && !$this->{$side . '_comments'}) {
-						$this->addError('eye_id', 'Must have some information for ' . $side . ' side to be valid');
 					}
 				}
 			}
@@ -355,9 +346,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_comments', $this->left_comments);
-		$criteria->compare('right_comments', $this->right_comments);
-
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
@@ -387,10 +375,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 			} else {
 				$text .= $this->getTextForSide('right');
 			}
-
-			if (trim($this->right_comments)) {
-				$text .= ", ".$this->right_comments;
-			}
 		}
 		else {
 			$text .= "Right Eye: not recorded";
@@ -403,9 +387,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 				$text .= $this->getCombined('left', $unit->id);
 			} else {
 				$text .= $this->getTextForSide('left');
-			}
-			if (trim($this->left_comments)) {
-				$text .= ", ".$this->left_comments;
 			}
 		}
 		else {

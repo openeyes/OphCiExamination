@@ -13,6 +13,7 @@
  */
 
 $(document).ready(function () {
+
 	function addReading(e) {
 		var side = e.data.side,
 		    table = $("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_" + side),
@@ -78,4 +79,15 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+    rightShown = $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_IntraocularPressure_readings_right').css('display')
+    leftShown = $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_IntraocularPressure_readings_left').css('display')
+
+    if(rightShown = 'none'){
+        $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_IntraocularPressure_add_right').trigger('click')
+    }
+
+    if(leftShown = 'none'){
+        $('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_IntraocularPressure_add_left').trigger('click')
+    }
 });

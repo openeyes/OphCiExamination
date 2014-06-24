@@ -22,7 +22,7 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 
 	public function run()
 	{
-		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart'))
+		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart', 'legend_id' => "iop-history-chart-legend"))
 			->configureChart(array(
 				'colors' => array('#4daf4a', '#984ea3', '#4daf4a', '#984ea3'),
 			))
