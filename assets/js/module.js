@@ -1046,11 +1046,11 @@ function updateTextMacros() {
 		var sort = false;
 		if($(this).data('disabled-options')) {
 			var select = this;
-			$.each($(this).data('disabled-options'), function(index, option) {
-				if($.inArray($(option).attr('data-element-type-id'), active_element_ids) != -1) {
-					enableTextMacro(select, index, option);
-					sort = true;
-				}
+			$(this).data('disabled-options').filter(function(option) {
+				return $.inArray($(option).attr('data-element-type-id'), active_element_ids) != -1;
+			}).forEach(function(option, index) {
+				enableTextMacro(select, index, option);
+				sort = true;
 			});
 		}
 		if(sort) {
