@@ -18,7 +18,7 @@ class m140619_091711_overall_management_changes extends OEMigration
 			'hrt_id', 'ophciexamination_overallperiod', 'id'
 		);
 
-		$period = Yii::app()->db->createCommand("SELECT id FROM ophciexamination_overallperiod WHERE name = '6 months'")->queryRow();
+		$period = $this->dbConnection->createCommand("SELECT id FROM ophciexamination_overallperiod WHERE name = '6 months'")->queryRow();
 
 		foreach($this->defaults as $default){
 			$this->insert('setting_metadata', array(
