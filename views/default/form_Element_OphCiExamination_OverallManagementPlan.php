@@ -26,61 +26,54 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 );
 ?>
 
-<section class="element <?php echo $element->elementType->class_name?>"
-	data-element-type-id="<?php echo $element->elementType->id?>"
-	data-element-type-class="<?php echo $element->elementType->class_name?>"
-	data-element-type-name="<?php echo $element->elementType->name?>"
-	data-element-display-order="<?php echo $element->elementType->display_order?>">
+<div class="element-fields row">
+	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
-	<div class="element-fields row">
-		<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
+	<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( ), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'gonio_id',$intervalVisits,array(),false , array('label'=>4, 'field'=>3)) ?>
+	<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
 
-		<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( ), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->dropDownList($element, 'gonio_id',$intervalVisits,array(),false , array('label'=>4, 'field'=>3)) ?>
-		<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-		<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
-
-	</div>
-	<div class="element-fields element-eyes row">
-		<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
-			<div class="active-form">
-				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<div class="row field-row">
-					<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[right_target_iop]' ?>">Target IOP:</label></div>
-					<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
-					<p class="large-1 column end">mmHg</p>
-				</div>
-			</div>
-			<div class="inactive-form">
-				<div class="add-side">
-					<a href="#">
-						Add right side <span class="icon-add-side"></span>
-					</a>
-				</div>
+</div>
+<div class="element-fields element-eyes row">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<div class="row field-row">
+				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[right_target_iop]' ?>">Target IOP:</label></div>
+				<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+				<p class="large-1 column end">mmHg</p>
 			</div>
 		</div>
-		<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
-			<div class="active-form">
-				<a href="#" class="icon-remove-side remove-side">Remove side</a>
-				<div class="row field-row">
-					<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[left_target_iop]' ?>">Target IOP:</label></div>
-					<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
-					<p class="large-1 column end">mmHg</p>
-				</div>
-			</div>
-			<div class="inactive-form">
-				<div class="add-side">
-					<a href="#">
-						Add left side <span class="icon-add-side"></span>
-					</a>
-				</div>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add right side <span class="icon-add-side"></span>
+				</a>
 			</div>
 		</div>
 	</div>
-</section>
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+		<div class="active-form">
+			<a href="#" class="icon-remove-side remove-side">Remove side</a>
+			<div class="row field-row">
+				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[left_target_iop]' ?>">Target IOP:</label></div>
+				<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+				<p class="large-1 column end">mmHg</p>
+			</div>
+		</div>
+		<div class="inactive-form">
+			<div class="add-side">
+				<a href="#">
+					Add left side <span class="icon-add-side"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	if (typeof setCurrentManagementIOP == 'function') {
 		setCurrentManagementIOP('left');
