@@ -26,6 +26,8 @@ namespace OEModule\OphCiExamination\models;
  * @property string $name
  * @property integer $display_order
  * @property EpisodeStatus $episode_status
+ * @property boolean $followup
+ * @property boolean $patientticket
  */
 class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 {

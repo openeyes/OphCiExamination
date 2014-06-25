@@ -14,16 +14,10 @@
 // * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
 // * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
 
-/** Examination module styles */
-
-$OE_MODEL_PREFIX: 'OEModule_OphCiExamination_models_';
-
-@import "openeyes/module";
-@import "components/event";
-@import "components/elements";
-@import "components/gonio-cross";
-@import "components/grid";
-@import "components/dialog";
-@import "components/hints";
-@import "components/tables";
-@import "components/admin";
+table {
+	&.bleb-assessment {
+		th, td {
+			text-align: center;
+		}
+	}
+}

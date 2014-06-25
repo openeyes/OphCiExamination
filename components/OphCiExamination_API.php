@@ -39,6 +39,22 @@ class OphCiExamination_API extends \BaseAPI
 	}
 
 	/**
+	 * Extends parent method to prepend model namespace
+	 *
+	 * @param $episode_id
+	 * @param $event_type_id
+	 * @param $model
+	 * @return \BaseEventTypeElement
+	 */
+	public function getMostRecentElementInEpisode($episode_id, $event_type_id, $model)
+	{
+		if (strpos($model, "models") == 0) {
+			$model = 'OEModule\OphCiExamination\\' . $model;
+		}
+		return parent::getMostRecentElementInEpisode($episode_id, $event_type_id, $model);
+	}
+
+	/**
 	 * Get the patient history for the given episode. This is from the most recent
 	 * examination that has an history element
 	 *
@@ -1122,4 +1138,56 @@ class OphCiExamination_API extends \BaseAPI
 			return $str;
 		}
 	}
+
+	/**
+	 * Get the latest left CCT measurement
+	 *
+	 * @param \Patient $patient
+	 * @return string
+	 */
+	public function getCCTLeft($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasLeft()) {
+					return $el->left_value . ' µm';
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get the latest right CCT measurement
+	 *
+	 * @param \Patient $patient
+	 * @return string
+	 */
+	public function getCCTRight($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasRight()) {
+					return $el->right_value . ' µm';
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get the glaucoma risk as a string for the patient - we get this from the most recent examination that has a glaucoma risk recording
+	 * as it's possible that it's not going to be recorded each time.
+	 *
+	 * @param \Patient $patient
+	 * @return mixed
+	 */
+	public function getGlaucomaRisk($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			$event_type = $this->getEventType();
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $event_type->id, 'models\Element_OphCiExamination_GlaucomaRisk')) {
+					return $el->risk->name;
+			}
+		}
+	}
+
 }
