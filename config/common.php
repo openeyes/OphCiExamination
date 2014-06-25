@@ -22,6 +22,7 @@ return array(
 		'admin_menu' => array(
 			'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
 			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
+			'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
 			'Workflows' => '/OphCiExamination/admin/viewWorkflows',
 			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
 		),
