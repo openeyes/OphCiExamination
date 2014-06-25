@@ -215,16 +215,15 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	/**
 	 * Will determine the queue options for the given firm
 	 *
-	 * @TODO: this should be part of the examination config rather than a pass through of all the queue options.
 	 * @param $firm
 	 * @return array
 	 */
 	public function getPatientTicketQueues($firm)
 	{
 		if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-			$criteria = new \CDbCriteria();
-			$criteria->addColumnCondition( array('is_initial' => true));
-			return \CHtml::listData(\OEModule\PatientTicketing\models\Queue::model()->findAll($criteria), 'id', 'name');
+			return \CHtml::listData($api->getInitialQueues($firm), 'id', 'name');
+
+			//return \CHtml::listData(\OEModule\PatientTicketing\models\Queue::model()->findAll($criteria), 'id', 'name');
 		}
 	}
 
