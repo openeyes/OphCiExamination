@@ -31,8 +31,16 @@
 						<td><?= $plan->oct->name ?></td>
 					</tr>
 					<tr>
-						<th scope="col">HFA</th>
+						<th scope="col">Visual Fields</th>
 						<td><?= $plan->hfa->name ?></td>
+					</tr>
+					<tr>
+						<th scope="col">Gonio</th>
+						<td><?= $plan->gonio->name ?></td>
+					</tr>
+					<tr>
+						<th scope="col">HRT</th>
+						<td><?= $plan->hrt->name ?></td>
 					</tr>
 				</tbody>
 			</table>
