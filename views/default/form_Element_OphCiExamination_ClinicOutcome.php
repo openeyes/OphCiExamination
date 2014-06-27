@@ -94,7 +94,7 @@
 				<div class="row">
 					<div class="large-3 column">
 						<?php
-						$html_options = array('empty'=>'- Please select -', 'options' => array());
+						$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
 						echo $form->dropDownList($element, 'role_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', $html_options) ?>
 					</div>
 					<div class="large-3 column end">

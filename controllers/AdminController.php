@@ -26,6 +26,14 @@ class AdminController extends \ModuleAdminController
 {
 	public $defaultAction = "ViewNoTreatmentReasons";
 
+	public function actionEditIOPInstruments()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Intraocular Pressure Instruments',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
+		));
+	}
+
 	// No Treatment Reason views
 
 	/**

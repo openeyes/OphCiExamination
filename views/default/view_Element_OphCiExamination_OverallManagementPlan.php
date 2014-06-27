@@ -44,7 +44,7 @@
 	</div>
 	<div class="row data-row">
 		<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('comments'))?></div></div>
-		<div class="large-7 column end"><div class="data-value"><?php echo CHtml::encode($element->comments)?></div></div>
+		<div class="large-7 column end"><div class="data-value"><?php echo $element->textWithLineBreaks('comments')?></div></div>
 	</div>
 </div>
 <div class="element-data element-eyes row">
