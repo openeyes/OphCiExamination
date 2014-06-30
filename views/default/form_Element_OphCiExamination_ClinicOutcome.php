@@ -44,7 +44,8 @@
 			<!-- TODO, this should be pulled from the ticketing module somehow -->
 			<?php
 			$ticket = $element->getPatientTicket();
-			if ($ticket) {?>
+			if ($ticket) { ?>
+
 				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
 				<?php $this->widget($ticket_api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket)); ?>
 			<?php } else {?>
@@ -53,7 +54,21 @@
 						Virtual Clinic:
 					</legend>
 					<div class="large-3 column">
-						<?= CHtml::dropDownList('patientticket_queue', @$_POST['patientticket_queue'], $element->getPatientTicketQueues($this->firm), $html_options)?>
+						<?php
+							$queues = $element->getPatientTicketQueues($this->firm);
+							if (count($queues) == 1) {
+								echo reset($queues);
+								$qid = key($queues);
+								$_POST['patientticket_queue'] = $qid;
+								?>
+								<input type="hidden" name="patientticket_queue" value="<?= $qid ?>" />
+
+							<?php
+							} else {
+								echo CHtml::dropDownList('patientticket_queue', @$_POST['patientticket_queue'], $queues,
+									array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array()));
+							}
+						?>
 					</div>
 					<div class="large-1 column end">
 						<img class="loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;">
