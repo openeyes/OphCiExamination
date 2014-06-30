@@ -25,6 +25,7 @@ return array(
 			'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
 			'Workflows' => '/OphCiExamination/admin/viewWorkflows',
 			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
+			'Element Attributes' => '/OphCiExamination/admin/manageElementAttributes',
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',

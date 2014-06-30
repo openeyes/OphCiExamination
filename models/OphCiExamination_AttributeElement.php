@@ -52,8 +52,8 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-				array('attribute_id, element_type_id', 'required'),
-				array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
+			array('attribute_id, element_type_id', 'required'),
+			array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,9 +63,9 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'attribute' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Attribute', 'attribute_id'),
-				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
-				'options' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption', 'attribute_element_id'),
+			'attribute' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Attribute', 'attribute_id'),
+			'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
+			'options' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption', 'attribute_element_id'),
 		);
 	}
 
