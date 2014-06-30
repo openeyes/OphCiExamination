@@ -159,7 +159,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 				$curr->eye_id = $u_disorder['eye_id'];
 				$curr->principal = $u_disorder['principal'];
 				if (!$curr->save()) {
-					throw new Exception("save failed" . print_r($curr->getErrors(), true));
+					throw new \Exception("save failed" . print_r($curr->getErrors(), true));
 				};
 			}
 			if ($u_disorder['principal']) {
@@ -178,7 +178,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		// remove any current diagnoses no longer needed
 		foreach ($curr_by_disorder_id as $curr) {
 			if (!$curr->delete()) {
-				throw new Exception ('Unable to remove old disorder');
+				throw new \Exception ('Unable to remove old disorder');
 			};
 		}
 
@@ -280,13 +280,14 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	 */
 	public function afterValidate()
 	{
-		foreach ($this->diagnoses as $diagnosis) {
-			if ($diagnosis->principal) {
-				return;
+		if (count($this->diagnoses)) {
+			foreach ($this->diagnoses as $diagnosis) {
+				if ($diagnosis->principal) {
+					return;
+				}
 			}
+			$this->addError('diagnoses','Principal diagnosis required.');
 		}
-
-		$this->addError('diagnoses','Principal diagnosis required.');
 		parent::afterValidate();
 	}
 

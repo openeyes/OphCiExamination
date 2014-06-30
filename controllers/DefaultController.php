@@ -689,6 +689,12 @@ class DefaultController extends \BaseEventTypeController
 		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
 		$model_name = \CHtml::modelName($element);
 		$diagnoses = array();
+
+		// This is to accommodate a hack introduced in OE-4409
+		if (isset($data[$model_name]) && isset($data[$model_name]['force_validation'])) {
+			unset($data[$model_name]['force_validation']);
+		}
+
 		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
