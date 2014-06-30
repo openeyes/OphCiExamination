@@ -837,26 +837,30 @@ class DefaultController extends \BaseEventTypeController
 	{
 		$errors = parent::setAndValidateElementsFromData($data);
 		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-			$err = array();
-			$queue = null;
-			if (!$data['patientticket_queue']) {
-				 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
-			}
-			elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
-				$err['patientticket_queue'] = "Virtual Clinic not found";
-			}
-			if ($queue) {
-				list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
-				$err = array_merge($err, $fld_errs);
-			}
-
-			if (count($err)) {
-				$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
-				if (@$errors[$et_name]) {
-					$errors[$et_name] = array_merge($errors[$et_name], $err);
+			$co_sid = @$data[\CHtml::modelName(models\Element_OphCiExamination_ClinicOutcome::model())]['status_id'];
+			$status = models\OphCiExamination_ClinicOutcome_Status::model()->findByPk($co_sid);
+			if ($status && $status->patientticket) {
+				$err = array();
+				$queue = null;
+				if (!$data['patientticket_queue']) {
+					 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
 				}
-				else {
-					$errors[$et_name] = $err;
+				elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
+					$err['patientticket_queue'] = "Virtual Clinic not found";
+				}
+				if ($queue) {
+					list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
+					$err = array_merge($err, $fld_errs);
+				}
+
+				if (count($err)) {
+					$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
+					if (@$errors[$et_name]) {
+						$errors[$et_name] = array_merge($errors[$et_name], $err);
+					}
+					else {
+						$errors[$et_name] = $err;
+					}
 				}
 			}
 		}

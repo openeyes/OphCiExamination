@@ -222,8 +222,6 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	{
 		if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			return \CHtml::listData($api->getInitialQueues($firm), 'id', 'name');
-
-			//return \CHtml::listData(\OEModule\PatientTicketing\models\Queue::model()->findAll($criteria), 'id', 'name');
 		}
 	}
 
