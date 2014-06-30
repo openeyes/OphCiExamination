@@ -1007,6 +1007,7 @@ $(document).ready(function() {
 	$(this).on('change', '#patientticket_queue', function(e) {
 		var id = $(e.srcElement).val();
 		if (id) {
+			$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').show();
 			$.ajax({
 				url: $('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').data('queue-ass-form-uri') + id,
 				data: {label_width: 3, data_width: 5},
@@ -1016,7 +1017,10 @@ $(document).ready(function() {
 				error: function(jqXHR, status, error) {
 					enableButtons();
 					throw new Error("Unable to retrieve assignment form for queue with id " + id + ": " + error);
-				}
+				},
+				complete: function () {
+					$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').hide();
+				},
 			});
 		}
 		else {

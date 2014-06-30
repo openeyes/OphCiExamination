@@ -69,7 +69,7 @@ class OphCiExamination_Workflow_Rule extends \BaseActiveRecordVersioned
 			'parent' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule', 'parent_id'),
 			'children' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow_Rule', 'parent_id'),
 			'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
-			'firm' => array(self::BELONGS_TO, '\Firm', 'firm_id'),
+			'firm' => array(self::BELONGS_TO, 'Firm', 'firm_id'),
 			'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id'),
 		);
 	}

@@ -52,8 +52,11 @@
 					<legend class="large-3 column">
 						Virtual Clinic:
 					</legend>
-					<div class="large-3 column end">
+					<div class="large-3 column">
 						<?= CHtml::dropDownList('patientticket_queue', @$_POST['patientticket_queue'], $element->getPatientTicketQueues($this->firm), $html_options)?>
+					</div>
+					<div class="large-1 column end">
+						<img class="loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;">
 					</div>
 				</fieldset>
 				<div id="queue-assignment-placeholder">

@@ -238,31 +238,6 @@ class DefaultController extends \BaseEventTypeController
 		}
 	}
 
-	/**
-	 * Get the open child elements for the given ElementType
-	 *
-	 * @param ElementType $parent_type
-	 * @return BaseEventTypeElement[] $open_elements
-	 */
-	public function getChildElements($parent_type)
-	{
-		$open_child_elements = parent::getChildElements($parent_type);
-
-		if ($this->step) {
-			$current_child_types = array();
-			foreach ($open_child_elements as $open) {
-				$current_child_types[] = $open->getElementType()->class_name;
-			}
-			foreach ($this->getElementsByWorkflow(null, $this->episode, $parent_type->id) as $new_child_element) {
-				if (!in_array($new_child_element->getElementType()->class_name, $current_child_types)) {
-					$open_child_elements[] = $new_child_element;
-				}
-			}
-		}
-
-		return $open_child_elements;
-	}
-
 	public function getOptionalElements()
 	{
 		$elements = parent::getOptionalElements();
@@ -314,9 +289,10 @@ class DefaultController extends \BaseEventTypeController
 
 	/**
 	 * Merge workflow next step elements into existing elements
+	 *
 	 * @param array $elements
 	 * @param ElementType $parent
-	 * @throws CException
+	 * @throws \CException
 	 * @return array
 	 */
 	protected function mergeNextStep($elements, $parent = null)
@@ -689,6 +665,12 @@ class DefaultController extends \BaseEventTypeController
 		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
 		$model_name = \CHtml::modelName($element);
 		$diagnoses = array();
+
+		// This is to accommodate a hack introduced in OE-4409
+		if (isset($data[$model_name]) && isset($data[$model_name]['force_validation'])) {
+			unset($data[$model_name]['force_validation']);
+		}
+
 		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
