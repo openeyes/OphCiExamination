@@ -836,8 +836,13 @@ $(document).ready(function() {
 		var method_select = wrapper.find('.colourvision_method');
 		method_select.append('<option value="'+id+'">'+name+'</option>');
 		sort_selectbox(method_select);
+
+		// No readings
 		if ($('.colourvision_table tbody tr', wrapper).length == 0) {
+			// Hide vision table
 			$('.colourvision_table', wrapper).hide();
+			// Hide clear button
+			$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .clearCV').addClass('hidden');
 		}
 		e.preventDefault();
 	});
@@ -1120,8 +1125,11 @@ function OphCiExamination_ColourVision_addReading(element, side) {
 		};
 		var form = Mustache.render(template, data);
 
-		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
+		// Show clear button
 		$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .clearCV').removeClass("hidden");
+
+		// Show table
+		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
 		table.show();
 		$('tbody', table).append(form);
 	}
