@@ -38,10 +38,12 @@
 						<th scope="col">Gonio</th>
 						<td><?= $plan->gonio->name ?></td>
 					</tr>
+					<?php if (isset($plan->hrt)) { ?>
 					<tr>
 						<th scope="col">HRT</th>
 						<td><?= $plan->hrt->name ?></td>
 					</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>
