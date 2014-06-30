@@ -107,7 +107,7 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 
 	public function beforeDelete()
 	{
-		OphCiExamination_Intraocularpressure_Value::model()->deleteAll("element_id = ?", array($this->id));
+		OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($this->id));
 
 		return parent::beforeDelete();
 	}
