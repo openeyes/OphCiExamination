@@ -107,7 +107,6 @@ class Element_OphCiExamination_VisualFunction extends \SplitEventTypeElement
 		);
 	}
 
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -127,5 +126,26 @@ class Element_OphCiExamination_VisualFunction extends \SplitEventTypeElement
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));
+	}
+
+	public function afterValidate()
+	{
+		if ($this->scenario == 'formHasNoChildren') {
+			$values = false;
+			if ($this->hasLeft()) {
+				if ($this->left_rapd || $this->left_comments) {
+					$values = true;
+				}
+			}
+			if (!$values && $this->hasRight()) {
+				if ($this->right_rapd || $this->right_comments) {
+					$values = true;
+				}
+			}
+			if (!$values) {
+				$this->addError(null, "Visual Function requires data");
+			}
+		}
+		parent::afterValidate();
 	}
 }
