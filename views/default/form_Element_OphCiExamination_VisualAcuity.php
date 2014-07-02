@@ -133,6 +133,8 @@ $this->endClip('element-title-additional');
 </div>
 <script id="visualacuity_reading_template" type="text/html">
 	<?php
+	$default_reading = OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading::model();
+	$default_reading->init();
 	$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
 			'name_stub' => CHtml::modelName($element) . '[{{side}}_readings]',
 			'key' => '{{key}}',
@@ -140,7 +142,8 @@ $this->endClip('element-title-additional');
 			'values' => $values,
 			'val_options' => $val_options,
 			'methods' => $methods,
-			'asset_path' => $this->getAssetPathForElement($element)
+			'asset_path' => $this->getAssetPathForElement($element),
+			'reading' => $default_reading
 	));
 	?>
 </script>
