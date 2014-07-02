@@ -593,19 +593,6 @@ class AdminController extends \ModuleAdminController
 	{
 		$request = Yii::app()->request;
 
-		if($request->getRequestType() == 'DELETE'){
-			$optionId =$request->getQuery('id');
-			$model = new models\OphCiExamination_AttributeOption();
-			$option = $model->findByPk($optionId);
-			if ($option->delete()) {
-				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
-				echo 'OK';
-			}
-			else{
-				throw new \Exception("Unable to delete attribute option: ".print_r($option->getErrors(),true));
-			}
-		}
-
 		$model = new models\OphCiExamination_AttributeElement();
 
 		$attEls = $model->with(array('options' => array('select'=>'id, value, subspecialty_id')))->findAll();
