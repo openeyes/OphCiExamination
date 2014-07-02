@@ -763,7 +763,7 @@ $(document).ready(function() {
 		*/
 		// when VA is a child element:
 		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
-		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
+		var el = $('.event-content').find('ul.sub-elements-lli[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
 		el.addClass('clicked');
 		addElement(el, true, true, undefined, {unit_id: $(this).val()});
 	});
@@ -850,7 +850,7 @@ $(document).ready(function() {
 			// Hide vision table
 			$('.colourvision_table', wrapper).hide();
 			// Hide clear button
-			$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .clearCV').addClass('hidden');
+			$(wrapper).find('.clearCV').addClass('hidden');
 		}
 		e.preventDefault();
 	});
