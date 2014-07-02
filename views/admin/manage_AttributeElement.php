@@ -59,7 +59,7 @@ $this->endWidget();
 <div id=""></div>
 <script type="text/javascript">
 	var OphCiExamination_attElOptions = <?php echo json_encode($attElOptions)?>;
-	var OphCiExamination_preloadedAttEl = <?php echo $preloadAttEl?>;
+	var OphCiExamination_preloadedAttEl = <?php echo $preloadAttEl? $preloadAttEl : 'null'?>;
 
 	$('#OEModule_OphCiExamination_models_OphCiExamination_AttributeElement_attribute').on( 'change', function(e) {
 		// Update OphCiExamination_attElOptions_list
