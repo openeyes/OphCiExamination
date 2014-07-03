@@ -27,6 +27,7 @@ return array(
 			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
 			'Element Attributes' => '/OphCiExamination/admin/manageElementAttributes',
 			'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
+			'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',

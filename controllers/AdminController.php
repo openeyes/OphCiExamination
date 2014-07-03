@@ -663,21 +663,17 @@ class AdminController extends \ModuleAdminController
 	}
 	public function actionManageOverallPeriods()
 	{
-		//$model_list = models\OphCiExamination_OverallPeriod::model()->findAll(array('order' => 'display_order asc'));
-		//$this->jsVars['OphCiExamination_sort_url'] = $this->createUrl('sortNoTreatmentReasons');
-		//$this->jsVars['OphCiExamination_model_status_url'] = $this->createUrl('setNoTreatmentReasonStatus');
-
-		//Audit::add('admin','list',null,null,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OverallPeriod'));
-
 		$this->render('//admin/generic_admin',array(
 			'title' => 'Edit Overall Periods',
 			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod',
 		));
+	}
 
-//		$this->render('list',array(
-//			'model_list'=>$model_list,
-//			'title'=>'Overall Periods',
-//			'model_class'=>'OphCiExamination_OverallPeriod',
-//		));
+	public function actionManageVisitIntervals()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Visit Intervals',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval',
+		));
 	}
 }
