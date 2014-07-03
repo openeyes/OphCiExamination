@@ -676,4 +676,36 @@ class AdminController extends \ModuleAdminController
 			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval',
 		));
 	}
+
+	public function actionManageGlaucomaStatuses()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Glaucoma Statuses',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus',
+		));
+	}
+
+	public function actionManageDropRelProbs()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Drop Related Problems',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb',
+		));
+	}
+
+	public function actionManageDrops()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Drops Options',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Drops',
+		));
+	}
+
+	public function actionManageManagementSurgery()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Surgery Management Options',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery',
+		));
+	}
 }
