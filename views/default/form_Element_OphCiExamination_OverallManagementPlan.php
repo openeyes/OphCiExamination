@@ -17,12 +17,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-$overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()->findAll(
-		array('order'=> 'display_order asc')),'id','name'
+$usedOverallPeriods = array();
+if(isset($element->clinic_interval_id)){	$usedOverallPeriods[]=$element->clinic_interval_id;}
+if(isset($element->photo_id)){	$usedOverallPeriods[]=$element->photo_id;}
+if(isset($element->oct_id)){	$usedOverallPeriods[]=$element->oct_id;}
+if(isset($element->hfa_id)){	$usedOverallPeriods[]=$element->hfa_id;}
+if(isset($element->hrt_id)){	$usedOverallPeriods[]=$element->hrt_id;}
+
+$overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()
+	->activeOrPk($usedOverallPeriods)->findAll(
+	array('order'=> 'display_order asc')),'id','name'
 );
 
-$intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()->findAll(
-		array('order'=> 'display_order asc')),'id','name'
+$intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()
+	->activeOrPk(@$element->gonio_id)
+	->findAll(array('order'=> 'display_order asc')),'id','name'
 );
 ?>
 

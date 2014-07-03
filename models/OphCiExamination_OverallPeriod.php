@@ -86,4 +86,11 @@ class OphCiExamination_OverallPeriod extends \BaseActiveRecordVersioned
 				'criteria'=>$criteria,
 		));
 	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }
