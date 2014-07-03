@@ -13,21 +13,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_Episode_IOP extends EpisodeSummaryWidget
+class OphCiExamination_Episode_IOP extends \EpisodeSummaryWidget
 {
 	public function run()
 	{
 		$iop = $this->event_type->api->getMostRecentElementInEpisode(
-			$this->episode->id, $this->event_type->id, 'Element_OphCiExamination_IntraocularPressure'
+			$this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'
 		);
 
 		$this->render('OphCiExamination_Episode_IOP', array('iop' => $iop));
-	}
-
-	protected function renderReading($iop, $side)
-	{
-		return $iop && $iop->{"{$side}_reading"} && $iop->{"{$side}_reading"}->value ?
-			$iop->{"{$side}_reading"}->value . ' mmHg (' . $iop->{"{$side}_instrument"}->name . ')' :
-			'Not recorded';
 	}
 }

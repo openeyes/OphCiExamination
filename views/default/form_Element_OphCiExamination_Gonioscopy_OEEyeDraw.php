@@ -33,12 +33,19 @@ foreach (array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeS
 }
 $onReadyCommandArray[] = array('deselectDoodles', array());
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => $doodleToolBarArray,
-		'onReadyCommandArray' => $onReadyCommandArray,
-		'bindingArray' => $bindingArray,
-		'idSuffix' => $side.'_'.$element->elementType->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'edit',
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
+	'doodleToolBarArray' => $doodleToolBarArray,
+	'onReadyCommandArray' => $onReadyCommandArray,
+	'bindingArray' => $bindingArray,
+	'idSuffix' => $side.'_'.$element->elementType->id,
+	'side' => ($side == 'right') ? 'R' : 'L',
+	'mode' => 'edit',
+	'model' => $element,
+	'attribute' => $side.'_eyedraw',
+	'template' => 'OEEyeDrawWidget_InlineToolbar',
+	'maxToolbarButtons' => 7,
+	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+		'form' => $form,
+		'side' => $side,
+		'element' => $element
+	), true)
 ))?>

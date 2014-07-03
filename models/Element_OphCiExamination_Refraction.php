@@ -67,18 +67,25 @@ class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
 				array('left_axis', 'requiredIfSide', 'side' => 'left'),
 				array('left_axis', 'numerical', 'integerOnly'=>true),
+				array('left_type_other', 'requiredIfRefractionTypeOther', 'side' => 'left'),
 				array('right_axis', 'requiredIfSide', 'side' => 'right'),
 				array('right_axis', 'numerical', 'integerOnly'=>true),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
+				array('right_type_other', 'requiredIfRefractionTypeOther', 'side' => 'right'),
 				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
 		);
+	}
+
+	public function requiredIfRefractionTypeOther($attribute, $params)
+	{
+		if (($params['side'] == 'left' && $this->left_type_id=='') || ($params['side'] == 'right' && $this->right_type_id=='')) {
+			if(empty($this->{$params['side'].'_type_other'})){
+				$this->addError($attribute, ucfirst($params['side']).' Other cannot be blank.');
+			}
+		}
 	}
 
 	public function sidedFields()

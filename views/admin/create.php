@@ -36,8 +36,9 @@
 
 		echo $form->formActions(array(
 			'submit' => $model->isNewRecord ? 'Create' : 'Save',
-			'cancel' => false,
-			'delete' => false
+			'cancel' => isset($cancel_uri)? 'Cancel' : false,
+			'delete' => false,
+			'cancel-uri' => @$cancel_uri,
 		));
 
 		$this->endWidget();

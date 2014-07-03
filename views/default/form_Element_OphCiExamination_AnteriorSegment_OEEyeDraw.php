@@ -19,16 +19,13 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-	'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI','Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia','Rubeosis'),
+	'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
+        'Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia','Rubeosis','TransilluminationDefect','KrukenbergSpindle'),
 	'onReadyCommandArray' => array(
 		array('addDoodle', array('AntSeg')),
 		array('deselectDoodles', array()),
 	),
 	'bindingArray' => array(
-		'AntSeg' => array(
-			'pupilSize' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_pupil_id', 'attribute' => 'data-value'),
-			'pxe' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_pxe'),
-		),
 		'NuclearCataract' => array(
 			'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id', 'attribute' => 'data-value'),
 		),
@@ -47,5 +44,12 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	'height' => 300,
 	'model' => $element,
 	'attribute' => $side.'_eyedraw',
+	'maxToolbarButtons' => 7,
+	'template' => 'OEEyeDrawWidget_InlineToolbar',
+	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+		'form' => $form,
+		'side' => $side,
+		'element' => $element
+	), true)
 ));
 ?>

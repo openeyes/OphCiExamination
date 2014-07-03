@@ -43,14 +43,25 @@
 		<?php echo CHtml::activeTextField($element, $side.'_axis', array('class' => 'axis'))?>
 	</div>
 </div>
-<div class="row field-row">
-	<div class="large-3 column">
-		<label for="<?php echo get_class($element).'_'.$side.'_type_id';?>">
-			<?php echo $element->getAttributeLabel($side.'_type_id')?>:
-		</label>
+<div class="refraction-type-container">
+	<div class="row field-row">
+		<div class="large-3 column">
+			<label for="<?php echo get_class($element).'_'.$side.'_type_id';?>">
+				<?php echo $element->getAttributeLabel($side.'_type_id')?>:
+			</label>
+		</div>
+		<div class="large-6 column end">
+			<div>
+				<?php echo CHtml::activeDropDownList($element, $side.'_type_id', OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type::model()->getOptions(), array('class' => 'refractionType'))?>
+			</div>
+		</div>
 	</div>
-	<div class="large-6 column end">
-		<?php echo CHtml::activeDropDownList($element, $side.'_type_id', OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type::model()->getOptions(), array('class' => 'refractionType'))?>
-		<?php echo CHtml::activeTextField($element, $side.'_type_other')?>
+	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; } ?>">
+		<div class="large-3 column">
+			<label>Other:</label>
+		</div>
+		<div class="large-6 column end">
+			<?php echo CHtml::activeTextField($element, $side.'_type_other',array('class'=>'refraction-type-other-field'))?>
+		</div>
 	</div>
 </div>

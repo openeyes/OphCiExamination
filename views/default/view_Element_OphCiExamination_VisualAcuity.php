@@ -43,13 +43,6 @@
 					</div>
 				</div>
 			<?php }?>
-			<?php if ($element->right_comments) {?>
-				<div class="data-row">
-					<div class="data-value">
-						<?= Yii::app()->format->Ntext($element->right_comments) ?>
-					</div>
-				</div>
-			<?php }?>
 		<?php }else{?>
 			<div class="data-row">
 				<div class="data-value">
@@ -80,13 +73,6 @@
 						<?php } elseif ($element->left_eye_missing) {?>
 							(Eye missing)
 						<?php }?>
-					</div>
-				</div>
-			<?php }?>
-			<?php if ($element->left_comments) {?>
-				<div class="data-row">
-					<div class="data-value">
-						<?= Yii::app()->format->Ntext($element->left_comments) ?>
 					</div>
 				</div>
 			<?php }?>

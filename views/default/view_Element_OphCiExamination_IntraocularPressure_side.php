@@ -13,7 +13,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element-eye <?= $side ?>-eye column">
+<div class="data-value">
 	<?php if ($element->{"{$side}_values"}): ?>
 		<table>
 			<thead>
@@ -27,7 +27,7 @@
 				<?php foreach ($element->{"{$side}_values"} as $value): ?>
 					<tr>
 						<td><?= substr($value->reading_time, 0, 5) ?></td>
-						<td><?= $value->reading->name ?></td>
+						<td><?= $value->instrument->scale ? $value->qualitative_reading->name : $value->reading->name ?></td>
 						<td><?= $value->instrument ? $value->instrument->name : "" ?></td>
 					</tr>
 				<?php endforeach ?>

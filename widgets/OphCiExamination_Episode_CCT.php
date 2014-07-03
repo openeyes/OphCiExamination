@@ -13,12 +13,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_Episode_CCT extends EpisodeSummaryWidget
+class OphCiExamination_Episode_CCT extends \EpisodeSummaryWidget
 {
 	public function run()
 	{
 		$cct = $this->event_type->api->getMostRecentElementInEpisode(
-			$this->episode->id, $this->event_type->id, 'Element_OphCiExamination_AnteriorSegment_CCT'
+			$this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT'
 		);
 		$this->render('OphCiExamination_Episode_CCT', array('cct' => $cct));
 	}

@@ -66,7 +66,9 @@ class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
 	 */
 	public function relations()
 	{
-		return array();
+		return array(
+			'scale' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale', 'scale_id'),
+		);
 	}
 
 	public function behaviors()

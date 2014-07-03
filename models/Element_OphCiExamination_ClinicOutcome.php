@@ -18,7 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
-
+use Yii;
 /**
  * This is the model class for table "et_ophciexamination_clinicoutcome".
  *
@@ -189,7 +189,7 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	public function afterSave()
 	{
 		// Update Episode status when outcome is saved
-		if ($this->status) {
+		if ($this->status && $this->status->episode_status) {
 			if ($this->event->isLatestOfTypeInEpisode()) {
 				$this->event->episode->episode_status_id = $this->status->episode_status_id;
 				if (!$this->event->episode->save()) {
@@ -198,6 +198,31 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 			}
 		}
 		parent::afterSave();
+	}
+
+	/**
+	 * If the PatientTicketing module is installed, will use API to get Patient Ticket for this element event (if one exists)
+	 *
+	 * @return mixed
+	 */
+	public function getPatientTicket()
+	{
+		if ($this->event && $this->event->id && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			return $api->getTicketForEvent($this->event);
+		}
+	}
+
+	/**
+	 * Will determine the queue options for the given firm
+	 *
+	 * @param $firm
+	 * @return array
+	 */
+	public function getPatientTicketQueues($firm)
+	{
+		if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			return \CHtml::listData($api->getInitialQueues($firm), 'id', 'name');
+		}
 	}
 
 }

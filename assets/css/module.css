@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /** Examination module styles */
 /**
  * OpenEyes
@@ -23,18 +22,13 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1392910377');
+  background-image: url('../img/watermark.png?1392372887');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1392910377');
+  background-image: url('../img/medium.png?1383822301');
 }
 
-/* line 19, ../sass/components/elements/_intraocular-pressure.scss */
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data,
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields {
-  border-top: 4px solid #000;
-}
 @media print {
   /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
   .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data,
@@ -42,39 +36,21 @@
     border-top-width: 1px;
   }
 }
-/* line 24, ../sass/components/elements/_intraocular-pressure.scss */
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
-  border-right: 2px solid #000;
-}
-@media print {
-  /* line 24, ../sass/components/elements/_intraocular-pressure.scss */
-  .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .element-eye,
-  .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .element-eye {
-    border-right: 0;
-  }
-}
-/* line 29, ../sass/components/elements/_intraocular-pressure.scss */
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .element-eye:last-child,
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .element-eye:last-child {
-  border: 0;
-}
-/* line 33, ../sass/components/elements/_intraocular-pressure.scss */
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
-.OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
-  text-align: right;
-}
-@media print {
-  /* line 33, ../sass/components/elements/_intraocular-pressure.scss */
-  .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .right-eye,
-  .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .right-eye {
-    text-align: left;
-  }
-}
-/* line 39, ../sass/components/elements/_intraocular-pressure.scss */
+/* line 23, ../sass/components/elements/_intraocular-pressure.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data .unit,
 .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-fields .unit {
   font-size: 0.8125rem;
+}
+
+/* line 30, ../sass/components/elements/_intraocular-pressure.scss */
+.scale_values select {
+  width: 6em;
+}
+
+/* line 35, ../sass/components/elements/_intraocular-pressure.scss */
+.iop_notification {
+  margin-left: 2em;
+  border-bottom: none !important;
 }
 
 /* line 18, ../sass/components/elements/_diagnoses.scss */
@@ -103,22 +79,22 @@
 
 /* line 18, ../sass/components/elements/_gonioscopy.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy .eyedraw-fields {
-  padding-top: 74px;
+  padding-top: 36px;
 }
 
 /* line 18, ../sass/components/elements/_optic-disc.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc .eyedraw-fields {
-  padding-top: 74px;
+  padding-top: 35px;
 }
 
 /* line 18, ../sass/components/elements/_anterior-segment.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment .eyedraw-fields {
-  padding-top: 74px;
+  padding-top: 36px;
 }
 
 /* line 18, ../sass/components/elements/_posterior-pole.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_PosteriorPole .eyedraw-fields {
-  padding-top: 220px;
+  padding-top: 140px;
 }
 
 /* line 19, ../sass/components/elements/_visual-acuity.scss */
@@ -136,9 +112,15 @@
   width: auto;
 }
 
+/* line 18, ../sass/components/elements/_current-management.scss */
+.OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan .past_iop {
+  height: 28px;
+  background: url('../img/past_icon.png?1400847356') no-repeat right top;
+}
+
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1392910377') no-repeat center center;
+  background: url('../img/cross.gif?1383822301') no-repeat center center;
   height: 110px;
   margin: 0 0 10px 0;
   position: relative;
@@ -148,7 +130,7 @@
   /* line 17, ../sass/components/_gonio-cross.scss */
   .gonio-cross {
     -webkit-print-color-adjust: exact;
-    background: url('../img/cross.gif?1392910377') no-repeat center center !important;
+    background: url('../img/cross.gif?1383822301') no-repeat center center !important;
   }
 }
 /* line 27, ../sass/components/_gonio-cross.scss */
@@ -278,16 +260,6 @@
   }
 }
 
-/* line 19, ../sass/components/_eyedraw.scss */
-#event-content .EyeDrawWidget canvas {
-  margin: 0;
-  border: 1px solid #ccc;
-}
-/* line 23, ../sass/components/_eyedraw.scss */
-#event-content .EyeDrawWidget .ed_toolbar {
-  margin: 0;
-}
-
 /* line 20, ../sass/components/_dialog.scss */
 .glaucoma-risk-descriptions a:hover,
 .grade-info-all a:hover {
@@ -338,6 +310,11 @@
 /* line 17, ../sass/components/_hints.scss */
 .hint {
   padding: .5em 0 0 0;
+}
+
+/* line 19, ../sass/components/_tables.scss */
+table.bleb-assessment th, table.bleb-assessment td {
+  text-align: center;
 }
 
 /* line 18, ../sass/components/_admin.scss */

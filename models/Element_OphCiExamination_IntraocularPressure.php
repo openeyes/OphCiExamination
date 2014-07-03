@@ -31,7 +31,7 @@ namespace OEModule\OphCiExamination\models;
  * @property OphCiExamination_IntraocularPressure_Reading $right_reading
  */
 
-class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
+class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElement
 {
 	public $service;
 
@@ -58,6 +58,7 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 	public function rules()
 	{
 		return array(
+			array('eye_id', 'required'),
 			array('eye_id, left_comments, right_comments', 'safe'),
 		);
 	}
@@ -74,25 +75,31 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
 			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
+			'right_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_integer_values.eye_id = ' . \Eye::RIGHT. ' and right_integer_values.reading_id is not null'),
+			'left_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_integer_values.eye_id = ' . \Eye::LEFT . ' and left_integer_values.reading_id is not null'),
+			'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.qualitative_reading_id is not null'),
+			'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::LEFT . ' and left_qualitative_values.qualitative_reading_id is not null'),
 		);
 	}
 
 	public function afterValidate()
 	{
-		foreach (array('right', 'left') as $side) {
-			if ($this->{"{$side}_values"}) {
-				foreach ($this->{"{$side}_values"} as $value) {
-					if (!$value->validate()) {
-						foreach ($value->getErrors() as $field => $errors) {
-							foreach ($errors as $error) {
-								$this->addError("{$side}_values.{$field}", $error);
+		foreach (array('right' => 'hasRight', 'left' => 'hasLeft') as $side => $checker) {
+			if ($this->$checker()) {
+				if ($this->{"{$side}_values"}) {
+					foreach ($this->{"{$side}_values"} as $value) {
+						if (!$value->validate()) {
+							foreach ($value->getErrors() as $field => $errors) {
+								foreach ($errors as $error) {
+									$this->addError("{$side}_values.{$field}", $error);
+								}
 							}
 						}
 					}
-				}
-			} else {
-				if (!$this->{"{$side}_comments"}) {
-					$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+				} else {
+					if (!$this->{"{$side}_comments"}) {
+						$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+					}
 				}
 			}
 		}
@@ -100,26 +107,66 @@ class Element_OphCiExamination_IntraocularPressure extends \BaseEventTypeElement
 
 	public function beforeDelete()
 	{
-		OphCiExamination_Intraocularpressure_Value::model()->deleteAll("element_id = ?", array($this->id));
+		OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($this->id));
 
 		return parent::beforeDelete();
 	}
 
 	public function getLetter_reading($side)
 	{
-		$values = $this->{"{$side}_values"};
+		$reading = $this->getReading($side);
 
-		if (!$values) return 'Not recorded';
+		if (!$reading) {
+			if ($this->{"{$side}_qualitative_values"}) {
+				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
+			}
+
+			return 'Not recorded';
+		}
+
+		$return = "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
+
+		if ($this->{"{$side}_qualitative_values"}) {
+			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
+		}
+
+		return $return;
+	}
+
+	public function getQualitativeReadings($side)
+	{
+		if ($this->{"{$side}_qualitative_values"}) {
+			$qualitative_values = array();
+
+			foreach ($this->{"{$side}_qualitative_values"} as $value) {
+				$qualitative_values[] = $value->qualitative_reading->name;
+			}
+			return $qualitative_values;
+		}
+
+		return false;
+	}
+
+	public function getReading($side)
+	{
+		if (!$values = $this->{"{$side}_integer_values"}) return null;
 
 		$sum = 0;
 		foreach ($values as $value) {
-			$sum += $value->reading->value;
+			if ($value->reading) {
+				$sum += $value->reading->value;
+			}
 		}
-		return round($sum / count($values)) . ' mmHg';
+		return round($sum / count($values)) ;
 	}
 
 	public function getLetter_string()
 	{
 		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
+	}
+
+	public function canViewPrevious()
+	{
+		return true;
 	}
 }

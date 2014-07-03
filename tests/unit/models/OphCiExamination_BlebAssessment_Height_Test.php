@@ -43,14 +43,14 @@ class OphCiExamination_BlebAssessment_Height_Test extends CDbTestCase {
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_Height::model
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model
 	 */
 	public function testModel() {
 		$this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height', get_class($this->model), 'Class name should match model.');
 	}
 
 	/**
-	 * @covers OphCiExamination_BlebAssessment_Height::tableName
+	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::tableName
 	 */
 	public function testTableName() {
 		$this->assertEquals('ophciexamination_bleb_assessment_height', $this->model->tableName());

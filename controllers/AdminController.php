@@ -26,6 +26,14 @@ class AdminController extends \ModuleAdminController
 {
 	public $defaultAction = "ViewNoTreatmentReasons";
 
+	public function actionEditIOPInstruments()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Intraocular Pressure Instruments',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
+		));
+	}
+
 	// No Treatment Reason views
 
 	/**
@@ -245,7 +253,7 @@ class AdminController extends \ModuleAdminController
 		}
 
 		$this->render('update', array(
-				'model' => $model
+			'model' => $model
 		));
 	}
 
@@ -320,10 +328,10 @@ class AdminController extends \ModuleAdminController
 		}
 
 		$this->render('update', array(
-						'model' => $model,
-						'title' => 'Add workflow',
-						'cancel_uri' => '/OphCiExamination/admin/viewWorkflows',
-				));
+			'model' => $model,
+			'title' => 'Add workflow',
+			'cancel_uri' => '/OphCiExamination/admin/viewWorkflows',
+		));
 	}
 
 
@@ -579,5 +587,78 @@ class AdminController extends \ModuleAdminController
 		}
 
 		echo "1";
+	}
+
+	public function actionManageElementAttributes()
+	{
+		$request = Yii::app()->request;
+
+		$model = new models\OphCiExamination_AttributeElement();
+
+		$attEls = $model->with(array('options' => array('select'=>'id, value, subspecialty_id')))->findAll();
+
+		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
+		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
+
+		foreach($attEls as $attEl){
+			$options = array();
+			foreach($attEl->options as  $option){
+				$options[$option->id] = array(
+					'value' => $option->value,
+					'subspecialty' => $option->subspecialty_id != null ? $option->subspecialty->name : 'Any'
+				);
+			}
+			$attElOptions[$attEl->id] = $options;
+		}
+		$this->render('manage_AttributeElement', array(
+			'model'=>	$model,
+			'attEls' => $attEls,
+			'attElOptions' => $attElOptions,
+			'preloadAttEl' => $request->getQuery('id'),
+			'title' => 'Manage Element Attibutes',
+		));
+	}
+
+	public function actionAddAttributeOption()
+	{
+		$request = Yii::app()->request;
+		$model = new models\OphCiExamination_AttributeOption;
+
+		if($request->getRequestType() == 'POST'){
+			$model->attributes = $request->getPost(\CHtml::modelName($model));
+			$model->attribute_element_id = $request->getQuery('id');
+			if ($model->save()) {
+				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
+				Yii::app()->user->setFlash('success', 'Added Attribute Option of ' . $model->value );
+
+				$this->redirect(array('manageElementAttributes','id' => $model->attribute_element_id));
+			}
+		}
+
+		if(is_int((int)$request->getQuery('id')) && (int)$request->getQuery('id') > 0 ){
+			$model->attribute_element_id = $request->getQuery('id');
+			$this->render('create', array(
+				'model' => $model,
+				'cancel_uri' => '/OphCiExamination/admin/manageElementAttributes/' . $model->attribute_element_id,
+			));
+		}
+
+	}
+
+	public function actionDeletetAttOption()
+	{
+		$request = Yii::app()->request;
+
+		$optionId =$request->getQuery('id');
+		$model = new models\OphCiExamination_AttributeOption();
+		$option = $model->findByPk($optionId);
+		if ($option->delete()) {
+			Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
+			echo 'OK';
+		}
+		else{
+			throw new \Exception("Unable to delete attribute option: ".print_r($option->getErrors(),true));
+		}
+
 	}
 }

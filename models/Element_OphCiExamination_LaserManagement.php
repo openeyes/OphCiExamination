@@ -191,7 +191,7 @@ class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 		if ($status_id = $this->$status_attribute) {
 			$status = OphCiExamination_Management_Status::model()->findByPk($status_id);
 			if ($status->deferred) {
-				$v = CValidator::createValidator('required', $this, array($attribute));
+				$v = \CValidator::createValidator('required', $this, array($attribute));
 				$v->validate($this);
 			}
 		}
@@ -209,7 +209,7 @@ class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 		if ($deferral_id = $this->$deferral_attribute) {
 			$deferral = OphCiExamination_Management_DeferralReason::model()->findByPk($deferral_id);
 			if ($deferral->other) {
-				$v = CValidator::createValidator('required', $this, array($attribute), array('message' => '{attribute} required when deferral reason is ' . $deferral->name));
+				$v = \CValidator::createValidator('required', $this, array($attribute), array('message' => '{attribute} required when deferral reason is ' . $deferral->name));
 				$v->validate($this);
 			}
 		}
@@ -242,7 +242,7 @@ class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 		$lasertype_attr = $params['lasertype'];
 		$lt = $this->$lasertype_attr;
 		if ($lt && $lt->other) {
-			$v = CValidator::createValidator('required', $this, array($attribute), array('message' => ucfirst($params['side']) . ' {attribute} required for laser type ' . $lt->name));
+			$v = \CValidator::createValidator('required', $this, array($attribute), array('message' => ucfirst($params['side']) . ' {attribute} required for laser type ' . $lt->name));
 			$v->validate($this);
 		}
 	}
@@ -353,5 +353,10 @@ class Element_OphCiExamination_LaserManagement extends \SplitEventTypeElement
 			$res .= $this->getLetterStringForSide('left');
 		}
 		return $res;
+	}
+
+	public function canCopy()
+	{
+		return true;
 	}
 }

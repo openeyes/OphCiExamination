@@ -159,7 +159,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 				$curr->eye_id = $u_disorder['eye_id'];
 				$curr->principal = $u_disorder['principal'];
 				if (!$curr->save()) {
-					throw new Exception("save failed" . print_r($curr->getErrors(), true));
+					throw new \Exception("save failed" . print_r($curr->getErrors(), true));
 				};
 			}
 			if ($u_disorder['principal']) {
@@ -178,7 +178,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		// remove any current diagnoses no longer needed
 		foreach ($curr_by_disorder_id as $curr) {
 			if (!$curr->delete()) {
-				throw new Exception ('Unable to remove old disorder');
+				throw new \Exception ('Unable to remove old disorder');
 			};
 		}
 
@@ -221,16 +221,28 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	public function getCommonOphthalmicDisorders($firm_id)
 	{
 		$disorder_ids = $this->getSelectedDisorderIDs();
-
 		$disorders = array();
-
-		foreach (\CommonOphthalmicDisorder::getList(\Firm::model()->findByPk($firm_id)) as $id => $disorder) {
+		$secondary_to = array();
+		list($common, $common_secondary_to) = \CommonOphthalmicDisorder::getListWithSecondaryTo(\Firm::model()->findByPk($firm_id));
+		// pre-filter to remove disorders patient already has
+		foreach ($common as $id => $disorder) {
 			if (!in_array($id,$disorder_ids)) {
 				$disorders[$id] = $disorder;
 			}
 		}
+		// pre-filter to remove any disorders in the secondary-to lists the patient already has
+		foreach ($common_secondary_to as $id => $secondary_tos) {
+			if (!in_array($id, $disorder_ids)) {
+				$secondary_to[$id] = array();
+				foreach ($secondary_tos as $stid => $term) {
+					if (!in_array($stid, $disorder_ids)) {
+						$secondary_to[$id][$stid] = $term;
+					}
+				}
+			}
+		}
 
-		return $disorders;
+		return array($disorders, $secondary_to);
 	}
 
 	/**
@@ -268,13 +280,14 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	 */
 	public function afterValidate()
 	{
-		foreach ($this->diagnoses as $diagnosis) {
-			if ($diagnosis->principal) {
-				return;
+		if (count($this->diagnoses)) {
+			foreach ($this->diagnoses as $diagnosis) {
+				if ($diagnosis->principal) {
+					return;
+				}
 			}
+			$this->addError('diagnoses','Principal diagnosis required.');
 		}
-
-		$this->addError('diagnoses','Principal diagnosis required.');
 		parent::afterValidate();
 	}
 

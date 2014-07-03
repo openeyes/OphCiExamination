@@ -20,6 +20,7 @@
 namespace OEModule\OphCiExamination\controllers;
 use Yii;
 use \OEModule\OphCiExamination\models;
+use \OEModule\OphCiExamination\components;
 
 /*
  * This is the controller class for the OphCiExamination event. It provides the required methods for the ajax loading of elements, and rendering the required and optional elements (including the children relationship)
@@ -31,6 +32,8 @@ class DefaultController extends \BaseEventTypeController
 		'step' => self::ACTION_TYPE_EDIT,
 		'getDisorder' => self::ACTION_TYPE_FORM,
 		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
+		'getScaleForInstrument' => self::ACTION_TYPE_FORM,
+		'getPreviousIOPAverage' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
@@ -235,31 +238,6 @@ class DefaultController extends \BaseEventTypeController
 		}
 	}
 
-	/**
-	 * Get the open child elements for the given ElementType
-	 *
-	 * @param ElementType $parent_type
-	 * @return BaseEventTypeElement[] $open_elements
-	 */
-	public function getChildElements($parent_type)
-	{
-		$open_child_elements = parent::getChildElements($parent_type);
-
-		if ($this->step) {
-			$current_child_types = array();
-			foreach ($open_child_elements as $open) {
-				$current_child_types[] = $open->getElementType()->class_name;
-			}
-			foreach ($this->getElementsByWorkflow(null, $this->episode, $parent_type->id) as $new_child_element) {
-				if (!in_array($new_child_element->getElementType()->class_name, $current_child_types)) {
-					$open_child_elements[] = $new_child_element;
-				}
-			}
-		}
-
-		return $open_child_elements;
-	}
-
 	public function getOptionalElements()
 	{
 		$elements = parent::getOptionalElements();
@@ -311,9 +289,10 @@ class DefaultController extends \BaseEventTypeController
 
 	/**
 	 * Merge workflow next step elements into existing elements
+	 *
 	 * @param array $elements
 	 * @param ElementType $parent
-	 * @throws CException
+	 * @throws \CException
 	 * @return array
 	 */
 	protected function mergeNextStep($elements, $parent = null)
@@ -686,6 +665,12 @@ class DefaultController extends \BaseEventTypeController
 		// FIXME: the form elements for this are a bit weird, and not consistent in terms of using a standard template
 		$model_name = \CHtml::modelName($element);
 		$diagnoses = array();
+
+		// This is to accommodate a hack introduced in OE-4409
+		if (isset($data[$model_name]) && isset($data[$model_name]['force_validation'])) {
+			unset($data[$model_name]['force_validation']);
+		}
+
 		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
 		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
@@ -726,6 +711,12 @@ class DefaultController extends \BaseEventTypeController
 				foreach ($data[$model_name]["{$side}_values"] as $attrs) {
 					$value = new models\OphCiExamination_IntraocularPressure_Value;
 					$value->attributes = $attrs;
+
+					if ($value->instrument->scale) {
+						$value->reading_id = null;
+					} else {
+						$value->qualitative_reading_id = null;
+					}
 					$values[] = $value;
 				}
 			}
@@ -744,4 +735,137 @@ class DefaultController extends \BaseEventTypeController
 			}
 		}
 	}
+
+	public function actionGetScaleForInstrument()
+	{
+		if ($instrument = models\OphCiExamination_Instrument::model()->findByPk(@$_GET['instrument_id'])) {
+			if ($scale = $instrument->scale) {
+				$value = new models\OphCiExamination_IntraocularPressure_Value;
+				$this->renderPartial('_qualitative_scale',array('value' => $value, 'scale' => $scale, 'side' => @$_GET['side'], 'index' => @$_GET['index']));
+			}
+		}
+	}
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_OverallManagementPlan(models\Element_OphCiExamination_OverallManagementPlan $element, $action)
+	{
+		if ($action == 'create') {
+			if ($previous_om = models\Element_OphCiExamination_OverallManagementPlan::model()->with(array(
+					'event' => array(
+						'condition' => 'event.deleted = 0',
+						'with' => array(
+							'episode' => array(
+								'condition' => 'episode.deleted = 0 and episode.id = '.$this->episode->id,
+							),
+						),
+					),
+				))->find()) {
+				foreach ($previous_om->attributes as $key => $value) {
+					if (!in_array($key,array('id','created_date','created_user_id','last_modified_date','last_modified_user_id'))) {
+						$element->$key = $value;
+					}
+				}
+			}
+		}
+	}
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_Refraction(models\Element_OphCiExamination_Refraction $element, $action)
+	{
+		if ($action == 'create') {
+			$element->right_type_id = 1;
+			$element->left_type_id = 1;
+		}
+	}
+
+	public function actionGetPreviousIOPAverage()
+	{
+		if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
+			throw new \Exception("Patient not found: ".@$_GET['patient_id']);
+		}
+
+		if (!in_array(@$_GET['side'],array('left','right'))) {
+			throw new \Exception("Invalid side: ".@$_GET['side']);
+		}
+
+		$side = ucfirst(@$_GET['side']);
+
+		$api = new components\OphCiExamination_API();
+		$result = $api->{"getLastIOPReading{$side}"}($patient);
+
+		echo $result;
+	}
+
+	public function getPupilliaryAbnormalitiesList($selected_id)
+	{
+		$criteria = new \CDbCriteria;
+
+		$criteria->order = 'display_order asc';
+
+		if ($selected_id) {
+			$criteria->addCondition('active = 1 or id = :selected_id');
+			$criteria->params[':selected_id'] = $selected_id;
+		} else {
+			$criteria->addCondition('active = 1');
+		}
+
+		return \CHtml::listData(models\OphCiExamination_PupillaryAbnormalities_Abnormality::model()->findAll($criteria),'id','name');
+	}
+
+	/**
+	 * Actually handles the processing of patient ticketing if the module is present and a referral has been selected.
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
+	{
+		if ($element->status && $element->status->patientticket &&
+				isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
+			$queue_data = $api->extractQueueData($queue, $data);
+			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+		}
+	}
+
+	/**
+	 * custom validation for virtual clinic referral
+	 *
+	 * @TODO: this should hand off validation to a faked PatientTicket request via the API.
+	 * @param array $data
+	 * @return array
+	 */
+	protected function setAndValidateElementsFromData($data)
+	{
+		$errors = parent::setAndValidateElementsFromData($data);
+		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$co_sid = @$data[\CHtml::modelName(models\Element_OphCiExamination_ClinicOutcome::model())]['status_id'];
+			$status = models\OphCiExamination_ClinicOutcome_Status::model()->findByPk($co_sid);
+			if ($status && $status->patientticket) {
+				$err = array();
+				$queue = null;
+				if (!$data['patientticket_queue']) {
+					 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
+				}
+				elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
+					$err['patientticket_queue'] = "Virtual Clinic not found";
+				}
+				if ($queue) {
+					list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
+					$err = array_merge($err, $fld_errs);
+				}
+
+				if (count($err)) {
+					$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
+					if (@$errors[$et_name]) {
+						$errors[$et_name] = array_merge($errors[$et_name], $err);
+					}
+					else {
+						$errors[$et_name] = $err;
+					}
+				}
+			}
+		}
+		return $errors;
+	}
+
 }

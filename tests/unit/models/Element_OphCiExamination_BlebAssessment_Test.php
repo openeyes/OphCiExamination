@@ -43,7 +43,7 @@ class Element_OphCiExamination_BlebAssessment_Test extends CDbTestCase {
 	}
 
 	/**
-	 * @covers Element_OphCiExamination_BlebAssessment::model
+	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::model
 	 */
 	public function testModel() {
 		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment', get_class($this->model), 'Class name should match model.');
@@ -51,7 +51,7 @@ class Element_OphCiExamination_BlebAssessment_Test extends CDbTestCase {
 	}
 
 	/**
-	 * @covers Element_OphCiExamination_BlebAssessment::tableName
+	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::tableName
 	 */
 	public function testTableName() {
 		$this->assertEquals('et_ophciexamination_bleb_assessment', $this->model->tableName());

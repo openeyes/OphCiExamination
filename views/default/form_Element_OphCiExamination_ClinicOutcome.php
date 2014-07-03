@@ -27,14 +27,61 @@
 			</div>
 			<div class="large-3 column end">
 				<?php
+				$outcomes = \OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll();
 				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
-				foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll(array('order'=>'display_order')) as $opt) {
-					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup);
+				foreach ($outcomes as $opt) {
+					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);
 				}
-				echo $form->dropDownList($element, 'status_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', $html_options)?>
+				echo $form->dropDownList($element, 'status_id', \CHtml::listData($outcomes, 'id', 'name'), $html_options)?>
 			</div>
 		</div>
 	</div>
+
+	<?php if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) { ?>
+		<div id="div_<?= CHtml::modelName($element)?>_patientticket"
+				<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>
+				data-queue-ass-form-uri="<?= $ticket_api->getQueueAssignmentFormURI()?>">
+			<!-- TODO, this should be pulled from the ticketing module somehow -->
+			<?php
+			$ticket = $element->getPatientTicket();
+			if ($ticket) { ?>
+
+				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
+				<?php $this->widget($ticket_api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket)); ?>
+			<?php } else {?>
+				<fieldset class="field-row row">
+					<legend class="large-3 column">
+						Virtual Clinic:
+					</legend>
+					<div class="large-3 column">
+						<?php
+							$queues = $element->getPatientTicketQueues($this->firm);
+							if (count($queues) == 1) {
+								echo reset($queues);
+								$qid = key($queues);
+								$_POST['patientticket_queue'] = $qid;
+								?>
+								<input type="hidden" name="patientticket_queue" value="<?= $qid ?>" />
+
+							<?php
+							} else {
+								echo CHtml::dropDownList('patientticket_queue', @$_POST['patientticket_queue'], $queues,
+									array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array()));
+							}
+						?>
+					</div>
+					<div class="large-1 column end">
+						<img class="loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;">
+					</div>
+				</fieldset>
+				<div id="queue-assignment-placeholder">
+					<?php if (@$_POST['patientticket_queue']) {
+						$this->widget($ticket_api::$QUEUE_ASSIGNMENT_WIDGET, array('queue_id' => $_POST['patientticket_queue'], 'label_width' => 3, 'data_width' => 5));
+					}?>
+				</div>
+			<?php } ?>
+		</div>
+	<?php } ?>
 
 	<div id="div_<?php echo CHtml::modelName($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
@@ -65,7 +112,7 @@
 				<div class="row">
 					<div class="large-3 column">
 						<?php
-						$html_options = array('empty'=>'- Please select -', 'options' => array());
+						$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
 						echo $form->dropDownList($element, 'role_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', $html_options) ?>
 					</div>
 					<div class="large-3 column end">

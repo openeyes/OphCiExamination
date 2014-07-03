@@ -16,12 +16,30 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+$rightIOP = $element->getReading('right');
+$leftIOP = $element->getReading('left');
 ?>
+	<script type="text/javascript">
+		var view_iop_right = <?php echo json_encode($rightIOP);?>;
+		var view_iop_left = <?php echo json_encode($leftIOP);?>;
+	</script>
+
 <div class="element-data element-eyes row">
-<?php
-
-$this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "right"));
-$this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "left"));
-
-?>
+	<div class="element-eye right-eye column">
+		<?php if ($element->hasRight()) {?>
+				<?php $this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "right")); ?>
+		<?php } else {?>
+			<div class="data-value">Not recorded</div>
+		<?php }?>
+	</div>
+	<div class="element-eye left-eye column">
+		<div class="data-row">
+			<?php if ($element->hasLeft()) {?>
+				<?php $this->renderPartial("{$element->view_view}_side", array("element" => $element, "side" => "left")); ?>
+			<?php } else {?>
+				<div class="data-value">Not recorded</div>
+			<?php }?>
+		</div>
+	</div>
 </div>
+

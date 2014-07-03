@@ -43,6 +43,11 @@ class OphCiExamination_VisualAcuity_Reading extends \BaseActiveRecordVersioned
 		return parent::model($className);
 	}
 
+	public function init(){
+		if (($default_value = Element_OphCiExamination_VisualAcuity::model()->getSetting('default_value'))) {
+			$this->value = $default_value;
+		}
+	}
 	/**
 	 * @return string the associated database table name
 	 */

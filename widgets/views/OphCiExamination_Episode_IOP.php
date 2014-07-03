@@ -18,18 +18,10 @@
  */
 ?>
 <div class="row data-row">
-	<div class="large-1 column">
-		<div class="data-label">Right:</div>
+	<div class="large-6 column">
+		<div class="data-value"><?= $iop ? $iop->getLetter_reading('right') : 'Not recorded' ?></div>
 	</div>
-	<div class="large-11 column">
-		<div class="data-value"><?= $this->renderReading($iop, 'right') ?></div>
-	</div>
-</div>
-<div class="row data-row">
-	<div class="large-1 column">
-		<div class="data-label">Left:</div>
-	</div>
-	<div class="large-11 column">
-		<div class="data-value"><?= $this->renderReading($iop, 'left') ?></div>
+	<div class="large-6 column">
+		<div class="data-value"><?= $iop ? $iop->getLetter_reading('left') : 'Not recorded' ?></div>
 	</div>
 </div>

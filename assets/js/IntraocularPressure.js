@@ -34,13 +34,48 @@ $(document).ready(function () {
 	function deleteReading(e) {
 		var table = $(this).closest('table');
 		if (table.find('tbody tr').length <= 1) table.hide();
+
+		if ($(this).closest('tr').data('side') == 'left') {
+			setCurrentManagementIOP('left');
+		} else {
+			setCurrentManagementIOP('right');
+		}
+
 		$(this).closest('tr').remove();
+
+		return false;
 	}
 
 	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_add_right").click({side: "right"}, addReading);
 	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_add_left").click({side: "left"}, addReading);
 
 
-	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right").on("click", "button.delete", null, deleteReading);
-	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left").on("click", "button.delete", null, deleteReading);
+	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_right").on("click", "a.delete", null, deleteReading);
+	$("#OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure_readings_left").on("click", "a.delete", null, deleteReading);
+
+	$('select.IOPinstrument').die('change').live('change',function(e) {
+		e.preventDefault();
+
+		var instrument_id = $(this).val();
+
+		var scale_td = $(this).closest('tr').children('td.scale_values');
+		var index = $(this).closest('tr').data('index');
+		var side = $(this).closest('tr').data('side');
+
+		$.ajax({
+			'type': 'GET',
+			'url': baseUrl+'/OphCiExamination/default/getScaleForInstrument?instrument_id=' + instrument_id + '&side=' + side + '&index=' + index,
+			'success': function(html) {
+				if (html.length >0) {
+					scale_td.html(html);
+					scale_td.show();
+					scale_td.prev('td').hide();
+				} else {
+					scale_td.html('');
+					scale_td.hide();
+					scale_td.prev('td').show();
+				}
+			}
+		});
+	});
 });
