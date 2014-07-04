@@ -1,4 +1,4 @@
-<?php
+r<?php
 /**
  * (C) OpenEyes Foundation, 2014
  * This file is part of OpenEyes.
@@ -53,7 +53,7 @@ class OphCiExamination_Episode_VisualAcuityHistory extends \EpisodeSummaryWidget
 
 		$this->va_axis = "Visual Acuity ({$this->va_unit->name})";
 
-		$chart = $this->createWidget('FlotChart', array('chart_id' => $this->chart_id, 'legend_id' => "{$this->chart_id}-legend"))
+		$chart = $this->createWidget('FlotChart', array('chart_id' => $this->chart_id))
 			->configureXAxis(array('mode' => 'time'))
 			->configureYAxis($this->va_axis, array('position' => 'left', 'min' => 1, 'max' => 150, 'ticks' => $va_ticks))
 			->configureSeries('Visual Acuity (right)', array('yaxis' => $this->va_axis, 'lines' => array('show' => true), 'points' => array('show' => true)))
