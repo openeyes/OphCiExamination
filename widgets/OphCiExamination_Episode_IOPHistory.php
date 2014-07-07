@@ -91,8 +91,8 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 	{
 		if (($target = $plan->{"{$side}_target_iop"})) {
 			$seriesName = 'Target '.strtoupper($side[0]).'E';
-			$chart->addPoint($seriesName, $chart->getXMin(), $target, "{$target} mmHg");
-			$chart->addPoint($seriesName, $chart->getXMax(), $target, "{$target} mmHg");
+			$chart->addPoint($seriesName, $chart->getXMin(), $target->name, "{$target->name} mmHg");
+			$chart->addPoint($seriesName, $chart->getXMax(), $target->name, "{$target->name} mmHg");
 		}
 	}
 }
