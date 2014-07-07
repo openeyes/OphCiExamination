@@ -708,4 +708,12 @@ class AdminController extends \ModuleAdminController
 			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery',
 		));
 	}
+
+	public function actionManageTargetIOPs()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Target Iop Values',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop',
+		));
+	}
 }
