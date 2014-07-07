@@ -29,7 +29,7 @@ return array(
 			'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
 			'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
 			'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
-			'Drop-relate Problems' => '/OphCiExamination/admin/manageDropRelProbs',
+			'Drop-related Problems' => '/OphCiExamination/admin/manageDropRelProbs',
 			'Drops Options' => '/OphCiExamination/admin/manageDrops',
 			'Management Surgery Options' => '/OphCiExamination/admin/manageManagementSurgery',
 		),
