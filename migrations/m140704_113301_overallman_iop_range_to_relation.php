@@ -21,10 +21,10 @@ class m140704_113301_overallman_iop_range_to_relation extends OEMigration
 		$this->renameColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop', 'right_target_iop_id');
 		$this->renameColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop', 'left_target_iop_id');
 		$this->renameColumn('et_ophciexamination_overallmanagementplan_version', 'right_target_iop', 'right_target_iop_id');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'int(11) NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'int(11) NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'right_target_iop_id', 'int(11) NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop_id', 'int(11) NOT NULL');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'int(11)');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'int(11)');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'right_target_iop_id', 'int(11)');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop_id', 'int(11)');
 
 		$this->addForeignKey('right_target_iop_fk', 'et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'ophciexamination_targetiop', 'id');
 		$this->addForeignKey('left_target_iop_fk', 'et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'ophciexamination_targetiop', 'id');
@@ -48,10 +48,10 @@ class m140704_113301_overallman_iop_range_to_relation extends OEMigration
 			set e.left_target_iop_id = CAST(t.name AS UNSIGNED)
 			");
 
-		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'int(10) unsigned NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'int(10) unsigned NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'right_target_iop_id', 'int(10) unsigned NOT NULL');
-		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop_id', 'int(10) unsigned NOT NULL');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'int(10) unsigned');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'int(10) unsigned');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'right_target_iop_id', 'int(10) unsigned');
+		$this->alterColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop_id', 'int(10) unsigned');
 		$this->renameColumn('et_ophciexamination_overallmanagementplan', 'left_target_iop_id', 'left_target_iop');
 		$this->renameColumn('et_ophciexamination_overallmanagementplan', 'right_target_iop_id', 'right_target_iop');
 		$this->renameColumn('et_ophciexamination_overallmanagementplan_version', 'left_target_iop_id', 'left_target_iop');
