@@ -124,7 +124,7 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 			return 'Not recorded';
 		}
 
-		$return = "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
+		$return = $reading . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
 
 		if ($this->{"{$side}_qualitative_values"}) {
 			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings($side));

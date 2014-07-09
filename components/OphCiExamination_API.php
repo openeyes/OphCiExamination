@@ -1150,7 +1150,7 @@ class OphCiExamination_API extends \BaseAPI
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasLeft()) {
-					return $el->left_value . ' µm';
+					return $el->left_value;
 				}
 			}
 		}
@@ -1167,7 +1167,7 @@ class OphCiExamination_API extends \BaseAPI
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasRight()) {
-					return $el->right_value . ' µm';
+					return $el->right_value;
 				}
 			}
 		}
