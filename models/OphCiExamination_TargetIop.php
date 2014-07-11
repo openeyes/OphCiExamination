@@ -20,18 +20,19 @@
 namespace OEModule\OphCiExamination\models;
 
 /**
- * This is the model class for table "ophciexamination_attribute_element".
+ * This is the model class for table "ophciexamination_targetiop".
  *
  * @property integer $id
- * @property OphCiExamination_Attribute $attribute
- * @property ElementType $element_type
- * @property OphCiExamination_AttributeOption[] $options
+ * @property integer $name - using name despite it being a number so that the Generic admin can be used
+
  */
-class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
+class OphCiExamination_TargetIop extends \BaseActiveRecordVersioned
 {
+	protected $attribute_options = array();
+
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_AttributeElement the static model class
+	 * @return OphCiExamination_TargetIop the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -43,7 +44,7 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_attribute_element';
+		return 'ophciexamination_targetiop';
 	}
 
 	/**
@@ -52,8 +53,9 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-			array('attribute_id, element_type_id', 'required'),
-			array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
+			array('name', 'required'),
+			array('id, name', 'safe', 'on'=>'search'),
+			array('name', 'numerical', 'integerOnly' => true)
 		);
 	}
 
@@ -63,28 +65,12 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'attribute' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Attribute', 'attribute_id'),
-			'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
-			'options' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption', 'attribute_element_id'),
 		);
 	}
 
-	/**
-	 * Fetches all the options for this attribute_element, standard _and_ subspecialty specific
-	 * @param integer $subspecialty_id
-	 * @return OphCiExamination_AttributeOption[]
-	 */
-	public function findAllOptionsForSubspecialty($subspecialty_id = null)
+	public function getAttributeOptions()
 	{
-		$condition = 'attribute_element_id = :attribute_element_id AND ';
-		$params = array(':attribute_element_id' => $this->id);
-		if ($subspecialty_id) {
-			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
-			$params[':subspecialty_id'] = $subspecialty_id;
-		} else {
-			$condition .=  'subspecialty_id IS NULL';
-		}
-		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
+		return $this->attribute_options;
 	}
 
 	/**
@@ -93,12 +79,18 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	 */
 	public function search()
 	{
-		$criteria=new \CDbCriteria;
+		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
+		return new CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

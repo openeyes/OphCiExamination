@@ -860,4 +860,9 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 		}
 		return $res;
 	}
+
+	public function canCopy()
+	{
+		return true;
+	}
 }

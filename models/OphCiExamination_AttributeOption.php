@@ -54,8 +54,9 @@ class OphCiExamination_AttributeOption extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-				array('value, delimiter', 'required'),
-				array('id, value, delimiter', 'safe', 'on'=>'search'),
+			array('value, delimiter', 'required'),
+			array('id, value, delimiter', 'safe', 'on'=>'search'),
+			array('subspecialty_id, attribute_element_id','numerical', 'integerOnly'=>true)
 		);
 	}
 
@@ -93,6 +94,13 @@ class OphCiExamination_AttributeOption extends \BaseActiveRecordVersioned
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'subspecialty_id' => 'Subspecialty',
+		);
 	}
 
 }

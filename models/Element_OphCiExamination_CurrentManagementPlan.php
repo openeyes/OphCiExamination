@@ -82,8 +82,11 @@ class Element_OphCiExamination_CurrentManagementPlan  extends  \SplitEventTypeEl
 		return array(
 			array('event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
 			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, eye_id', 'safe'),
-			array('left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id,
-			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, eye_id ', 'required'),
+			array('left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id',
+				'requiredIfSide', 'side' => 'left'),
+			array('right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id',
+				'requiredIfSide', 'side' => 'right'),
+			array('eye_id ', 'required'),
 			array('id, event_id, left_glaucoma_status_id, left_drop-related_prob_id, left_drops_id, left_surgery_id,
 			right_glaucoma_status_id, right_drop-related_prob_id, right_drops_id, right_surgery_id, eye_id ',
 				'safe', 'on' => 'search'),

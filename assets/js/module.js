@@ -754,10 +754,18 @@ $(document).ready(function() {
 	});
 
 	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
+		// when VA is a root element:
+		/*
 		removeElement($(this).closest('.element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'));
 		var el = $('.optional-elements-list').find('li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
 		el.addClass('clicked');
 		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
+		*/
+		// when VA is a child element:
+		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
+		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
+		el.addClass('clicked');
+		addElement(el, true, true, undefined, {unit_id: $(this).val()});
 	});
 
 	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
@@ -836,8 +844,13 @@ $(document).ready(function() {
 		var method_select = wrapper.find('.colourvision_method');
 		method_select.append('<option value="'+id+'">'+name+'</option>');
 		sort_selectbox(method_select);
+
+		// No readings
 		if ($('.colourvision_table tbody tr', wrapper).length == 0) {
+			// Hide vision table
 			$('.colourvision_table', wrapper).hide();
+			// Hide clear button
+			$(wrapper).find('.clearCV').addClass('hidden');
 		}
 		e.preventDefault();
 	});
@@ -1002,6 +1015,7 @@ $(document).ready(function() {
 	$(this).on('change', '#patientticket_queue', function(e) {
 		var id = $(e.srcElement).val();
 		if (id) {
+			$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').show();
 			$.ajax({
 				url: $('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').data('queue-ass-form-uri') + id,
 				data: {label_width: 3, data_width: 5},
@@ -1011,7 +1025,10 @@ $(document).ready(function() {
 				error: function(jqXHR, status, error) {
 					enableButtons();
 					throw new Error("Unable to retrieve assignment form for queue with id " + id + ": " + error);
-				}
+				},
+				complete: function () {
+					$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').hide();
+				},
 			});
 		}
 		else {
@@ -1120,8 +1137,11 @@ function OphCiExamination_ColourVision_addReading(element, side) {
 		};
 		var form = Mustache.render(template, data);
 
-		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
+		// Show clear button
 		$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .clearCV').removeClass("hidden");
+
+		// Show table
+		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision [data-side="' + side +'"] .colourvision_table');
 		table.show();
 		$('tbody', table).append(form);
 	}

@@ -160,6 +160,9 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 							$valid = true;
 						}
 					}
+					if (!$valid) {
+						$this->addError($side, ucfirst($side) . ' side has no data.');
+					}
 				}
 			}
 			else {

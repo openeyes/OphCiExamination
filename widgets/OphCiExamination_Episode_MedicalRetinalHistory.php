@@ -15,7 +15,7 @@
 
 use OEModule\OphCiExamination\models;
 
-Yii::import('OphCiExamination.widgets.VisualAcuityHistory');
+Yii::import('OphCiExamination.widgets.OphCiExamination_Episode_VisualAcuityHistory');
 
 class OphCiExamination_Episode_MedicalRetinalHistory extends OphCiExamination_Episode_VisualAcuityHistory
 {

@@ -87,4 +87,11 @@ class OphCiExamination_GlaucomaStatus extends \BaseActiveRecordVersioned
 				'criteria'=>$criteria,
 		));
 	}
+
+	public function behaviors()
+	{
+		return array(
+			'LookupTable' => 'LookupTable',
+		);
+	}
 }

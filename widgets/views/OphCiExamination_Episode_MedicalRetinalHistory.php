@@ -15,21 +15,21 @@
 ?>
 <?php if ($chart->hasData()): ?>
 	<div class="row">
-		<div class="column large-9">
-			<div id="mr-history-chart" class="chart" style="width: 740px; height: 500px"></div>
-		</div>
-		<div class="column large-3">
-			<div class="row field-row">
-				<form action="#OphCiExamination_Episode_MedicalRetinalHistory">
-					<label for="mr_history_va_unit_id">Visual Acuity unit</label>
-					<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
-				</form>
-			</div>
-			<div class="row">
-				<div id="mr-history-chart-legend"></div>
-			</div>
+		<div class="data-label column large-9"></div>
+		<div class="data-value column large-3">
+			<form action="#OphCiExamination_Episode_MedicalRetinalHistory">
+				<label for="mr_history_va_unit_id">Visual Acuity unit</label>
+				<?= CHtml::dropDownList('mr_history_va_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
+			</form>
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="column large-12">
+			<div id="mr-history-chart" class="chart" style="width: 100%; height: 500px"></div>
+		</div>
+	</div>
+
 	<?= $chart->run(); ?>
 	<script type="text/javascript">
 		$(document).ready(function () {

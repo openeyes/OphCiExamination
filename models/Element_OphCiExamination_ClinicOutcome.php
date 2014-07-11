@@ -207,7 +207,7 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	 */
 	public function getPatientTicket()
 	{
-		if ($this->event && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+		if ($this->event && $this->event->id && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			return $api->getTicketForEvent($this->event);
 		}
 	}
@@ -222,8 +222,6 @@ class Element_OphCiExamination_ClinicOutcome extends \BaseEventTypeElement
 	{
 		if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			return \CHtml::listData($api->getInitialQueues($firm), 'id', 'name');
-
-			//return \CHtml::listData(\OEModule\PatientTicketing\models\Queue::model()->findAll($criteria), 'id', 'name');
 		}
 	}
 
