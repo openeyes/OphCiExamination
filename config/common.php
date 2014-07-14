@@ -37,4 +37,13 @@ return array(
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',
 	),
+	'components' => array(
+		'clientScript' => array(
+			'packages' => array(
+				'OphCiExamination' => array(
+					'depends' => array('split_event')
+				)
+			)
+		)
+	)
 );

@@ -39,18 +39,10 @@ class DefaultController extends \BaseEventTypeController
 	// if set to true, we are advancing the current event step
 	private $step = false;
 
-	/**
-	 * Need split event files
-	 * @TODO: determine if this should be defined by controller property
-	 *
-	 * @param CAction $action
-	 * @return bool
-	 */
-	protected function beforeAction($action)
+	public function processJsVars()
 	{
-		Yii::app()->assetManager->registerScriptFile('js/spliteventtype.js', null, null, \AssetManager::OUTPUT_SCREEN);
 		$this->jsVars['OE_MODEL_PREFIX'] = 'OEModule_OphCiExamination_models_';
-		return parent::beforeAction($action);
+		parent::processJsVars();
 	}
 
 	/**
