@@ -1621,6 +1621,7 @@ function maskFields(element, ignore) {
 			}
 			$(this).data('stored-val', $(this).val());
 			$(this).val('');
+			$(this).prop('disabled', true);
 		});
 		element.hide();
 	}
@@ -1646,6 +1647,7 @@ function unmaskFields(element, ignore) {
 			else {
 				$(this).val($(this).data('stored-val'));
 			}
+			$(this).prop('disabled', false);
 		});
 		element.show();
 	}
