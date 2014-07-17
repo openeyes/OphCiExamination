@@ -647,7 +647,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 			if ($this->$params['dependent'] && !$this->$attribute) {
 				if ($api = Yii::app()->moduleAPI->get('OphCoTherapyapplication')) {
 					if (count($api->getLevel2Disorders($this->$params['dependent']))) {
-						$disorder = Disorder::model()->findByPk($this->$params['dependent']);
+						$disorder = \Disorder::model()->findByPk($this->$params['dependent']);
 						$this->addError($attribute, $disorder->term . " must be secondary to another diagnosis");
 					}
 				}
