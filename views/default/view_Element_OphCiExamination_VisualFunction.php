@@ -30,7 +30,7 @@
 			<?php if ($element->right_rapd) {?>
 				<div class="data-row">
 					<div class="data-value">
-						<?php echo $element->getAttributeLabel('right_rapd')?>
+						RAPD present
 					</div>
 				</div>
 			<?php }?>
@@ -54,7 +54,7 @@
 			<?php if ($element->left_rapd) {?>
 				<div class="data-row">
 					<div class="data-value">
-						<?php echo $element->getAttributeLabel('left_rapd')?>
+						RAPD present
 					</div>
 				</div>
 			<?php }?>
