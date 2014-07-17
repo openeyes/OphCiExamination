@@ -42,15 +42,14 @@ class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 				'lines' => array('show' => true)
 			))
 			->configureSeries('Target RE', array(
-				'colors' => array("#fff", "#fff", "#fff"),
-				'points' => array('show' => true),
+				'points' => array('show' => false),
 				'dashes' => array(
 					'show' => true,
 					'style' => array(6)
 				)
 			))
 			->configureSeries('Target LE', array(
-				'points' => array('show' => true),
+				'points' => array('show' => false),
 				'dashes' => array(
 					'show' => true,
 					'style' => array(6)
