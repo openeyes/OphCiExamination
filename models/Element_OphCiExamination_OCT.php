@@ -261,6 +261,7 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 
 	/**
 	 * validate that attribute is set if dependency is false
+	 * requires side param
 	 *
 	 * @param $attribute
 	 * @param $params
@@ -269,7 +270,8 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 	{
 		$dependency = $params['dependency'];
 		$side = $params['side'];
-		if ($this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
+		$checker = "has" . ucfirst($side);
+		if ($this->$checker() && $this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
 			!$this->$attribute) {
 			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
 				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
@@ -278,6 +280,7 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 
 	/**
 	 * validate that attribute is not set if dependency is true - should never arise through the forms
+	 * requires side param
 	 *
 	 * @param $attribute
 	 * @param $params
@@ -286,7 +289,8 @@ class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 	{
 		$dependency = $params['dependency'];
 		$side = $params['side'];
-		if ($this->$dependency && $this->$attribute) {
+		$checker = "has" . ucfirst($side);
+		if ($this->$checker() && $this->$dependency && $this->$attribute) {
 			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' cannot be set when ' . $side . ' ' . $this->getAttributeLabel($dependency) . ' is set');
 		}
 	}
