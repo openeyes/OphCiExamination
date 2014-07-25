@@ -736,7 +736,7 @@ $(document).ready(function() {
 		*/
 		// when VA is a child element:
 		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
-		var el = $('.event-content').find('ul.sub-elements-lli[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
+		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
 		el.addClass('clicked');
 		addElement(el, true, true, undefined, {unit_id: $(this).val()});
 	});
@@ -1594,6 +1594,7 @@ function maskFields(element, ignore) {
 			}
 			$(this).data('stored-val', $(this).val());
 			$(this).val('');
+			$(this).prop('disabled', true);
 		});
 		element.hide();
 	}
@@ -1619,6 +1620,7 @@ function unmaskFields(element, ignore) {
 			else {
 				$(this).val($(this).data('stored-val'));
 			}
+			$(this).prop('disabled', false);
 		});
 		element.show();
 	}

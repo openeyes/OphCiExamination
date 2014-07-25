@@ -24,7 +24,7 @@ use OEModule\OphCiExamination\models;
 
 class AdminController extends \ModuleAdminController
 {
-	public $defaultAction = "ViewNoTreatmentReasons";
+	public $defaultAction = "ViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason";
 
 	public function actionEditIOPInstruments()
 	{
@@ -660,5 +660,60 @@ class AdminController extends \ModuleAdminController
 			throw new \Exception("Unable to delete attribute option: ".print_r($option->getErrors(),true));
 		}
 
+	}
+	public function actionManageOverallPeriods()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Overall Periods',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod',
+		));
+	}
+
+	public function actionManageVisitIntervals()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Visit Intervals',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval',
+		));
+	}
+
+	public function actionManageGlaucomaStatuses()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Glaucoma Statuses',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus',
+		));
+	}
+
+	public function actionManageDropRelProbs()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Drop Related Problems',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb',
+		));
+	}
+
+	public function actionManageDrops()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Drops Options',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Drops',
+		));
+	}
+
+	public function actionManageManagementSurgery()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Surgery Management Options',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery',
+		));
+	}
+
+	public function actionManageTargetIOPs()
+	{
+		$this->render('//admin/generic_admin',array(
+			'title' => 'Edit Target Iop Values',
+			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop',
+		));
 	}
 }

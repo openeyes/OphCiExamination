@@ -17,18 +17,34 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+$usedGlaucomaStatuses = array();
+if(isset($element->right_glaucoma_status_id)){$usedGlaucomaStatuses[]=$element->right_glaucoma_status_id;}
+if(isset($element->left_glaucoma_status_id)){$usedGlaucomaStatuses[]=$element->left_glaucoma_status_id;}
+
 $glaucomaStatus =
 	CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus::model()
-		->findAll(array('order'=> 'display_order asc')),'id','name');
+	->activeOrPk($usedGlaucomaStatuses)->findAll(array('order'=> 'display_order asc')),'id','name');
+
+$usedDropRelatProblem = array();
+if(isset($element->{'right_drop-related_prob_id'})){$usedDropRelatProblem[]=$element->{'right_drop-related_prob_id'};}
+if(isset($element->{'left_drop-related_prob_id'})){$usedDropRelatProblem[]=$element->{'left_drop-related_prob_id'};}
 
 $dropRelatProblem = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_DropRelProb::model()
-	->findAll(array('order'=> 'display_order asc')),'id','name');
+	->activeOrPk($usedDropRelatProblem)->findAll(array('order'=> 'display_order asc')),'id','name');
+
+$usedDrops = array();
+if(isset($element->right_drops_id)){$usedDrops[]=$element->right_drops_id;}
+if(isset($element->left_drops_id)){$usedDrops[]=$element->left_drops_id;}
 
 $dropsIds =  CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_Drops::model()
-	->findAll(array('order'=> 'display_order asc')),'id','name');
+	->activeOrPk($usedDrops)->findAll(array('order'=> 'display_order asc')),'id','name');
+
+$usedSurgeryIds = array();
+if(isset($element->right_surgery_id)){$usedSurgeryIds[]=$element->right_surgery_id;}
+if(isset($element->left_surgery_id)){$usedSurgeryIds[]=$element->left_surgery_id;}
 
 $surgeryIds = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery::model()
-	->findAll(array('order'=> 'display_order asc')),'id','name');
+	->activeOrPk($usedSurgeryIds)->findAll(array('order'=> 'display_order asc')),'id','name');
 
 $iop = $element->getLatestIOP($this->patient);
 Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/CurrentManagement.js", CClientScript::POS_HEAD);

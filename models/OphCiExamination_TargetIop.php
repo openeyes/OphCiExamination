@@ -20,19 +20,19 @@
 namespace OEModule\OphCiExamination\models;
 
 /**
- * This is the model class for table "ophciexamination_visitinterval".
+ * This is the model class for table "ophciexamination_targetiop".
  *
  * @property integer $id
- * @property integer $name
+ * @property integer $name - using name despite it being a number so that the Generic admin can be used
 
  */
-class OphCiExamination_VisitInterval extends \BaseActiveRecordVersioned
+class OphCiExamination_TargetIop extends \BaseActiveRecordVersioned
 {
 	protected $attribute_options = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_BlebAssessment_CentralArea the static model class
+	 * @return OphCiExamination_TargetIop the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -44,7 +44,7 @@ class OphCiExamination_VisitInterval extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_visitinterval';
+		return 'ophciexamination_targetiop';
 	}
 
 	/**
@@ -53,8 +53,9 @@ class OphCiExamination_VisitInterval extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+			array('name', 'required'),
+			array('id, name', 'safe', 'on'=>'search'),
+			array('name', 'numerical', 'integerOnly' => true)
 		);
 	}
 
