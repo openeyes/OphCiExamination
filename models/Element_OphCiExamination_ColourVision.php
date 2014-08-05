@@ -271,4 +271,9 @@ class Element_OphCiExamination_ColourVision extends \SplitEventTypeElement
 			}
 		}
 	}
+
+	public function canViewPrevious()
+	{
+		return true;
+	}
 }
