@@ -1251,6 +1251,10 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 	iconHover.hover(function(e) {
 		var sel = $(this).parent().parent().find('select.va-selector');
 		var val = sel.val();
+		if (!val) {
+			// empty value, no tooltip to display
+			return;
+		}
 		var conversions = [];
 
 		sel.find('option').each(function() {
@@ -1259,6 +1263,11 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 				return true;
 			}
 		});
+
+		if (!conversions) {
+			// no data available
+			return;
+		}
 
 		var tooltip_text = '';
 		var approx = false;
