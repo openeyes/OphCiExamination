@@ -189,6 +189,16 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 	public function setDefaultOptions()
 	{
 		$this->unit_id = $this->getSetting('unit_id');
+		if ($rows = $this->getSetting('default_rows')) {
+			$left_readings = array();
+			$right_readings = array();
+			for ($i = 0; $i < $rows; $i++) {
+				$left_readings[]  = new OphCiExamination_VisualAcuity_Reading();
+				$right_readings[]  = new OphCiExamination_VisualAcuity_Reading();
+			}
+			$this->left_readings = $left_readings;
+			$this->right_readings = $right_readings;
+		}
 	}
 
 	/**
