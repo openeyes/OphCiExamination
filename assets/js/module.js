@@ -1264,11 +1264,6 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 			}
 		});
 
-		if (!conversions) {
-			// no data available
-			return;
-		}
-
 		var tooltip_text = '';
 		var approx = false;
 		for (var i = 0; i < conversions.length; i++) {
@@ -1296,6 +1291,12 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 		infoWrap.fadeIn('fast');
 
 	}, function(e) {
+		var sel = $(this).parent().parent().find('select.va-selector');
+		var val = sel.val();
+		if (!val) {
+			// empty value, no tooltip was displayed, no clean up required.
+			return;
+		}
 		$('body > div:last').remove();
 	});
 }
