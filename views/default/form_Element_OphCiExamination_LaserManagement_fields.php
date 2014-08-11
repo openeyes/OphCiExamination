@@ -143,7 +143,7 @@ $model_name = CHtml::modelName($element);
 			</label>
 		</div>
 		<div class="large-8 column">
-			<?php echo $form->textField($element, $side . '_lasertype_other',array('max' => 120, 'nowrapper' => true))?>
+			<?php echo $form->textField($element, $side . '_lasertype_other',array('autocomplete' => Yii::app()->params['html_autocomplete'], 'max' => 120, 'nowrapper' => true))?>
 		</div>
 	</div>
 

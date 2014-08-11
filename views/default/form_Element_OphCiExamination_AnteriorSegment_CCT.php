@@ -25,7 +25,7 @@
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row collapse field-row">
 				<div class="large-2 column">
-					<?php echo $form->textField($element, 'right_value', array('nowrapper' => true, 'class' => 'cct_value')) ?>
+					<?php echo $form->textField($element, 'right_value', array('autocomplete'=>Yii::app()->params['html_autocomplete'], 'nowrapper' => true, 'class' => 'cct_value')) ?>
 				</div>
 				<div class="large-10 column">
 					<div class="postfix align field-info">
@@ -47,7 +47,7 @@
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row collapse field-row">
 				<div class="large-2 column">
-					<?php echo $form->textField($element, 'left_value', array('nowrapper' => true, 'class' => 'cct_value')) ?>
+					<?php echo $form->textField($element, 'left_value', array('autocomplete'=>Yii::app()->params['html_autocomplete'], 'nowrapper' => true, 'class' => 'cct_value')) ?>
 				</div>
 				<div class="large-10 column">
 					<div class="postfix align field-info">
