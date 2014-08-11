@@ -22,6 +22,6 @@
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textField($model,'name'); ?>
+<?php echo $form->textField($model,'name',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
 
-<?php echo $form->textField($model,'letter_str'); ?>
+<?php echo $form->textField($model,'letter_str',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>

@@ -116,7 +116,7 @@
 						echo $form->dropDownList($element, 'role_id', '\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Role', $html_options) ?>
 					</div>
 					<div class="large-3 column end">
-						<?php echo CHtml::activeTextField($element, 'role_comments')?>
+						<?php echo CHtml::activeTextField($element, 'role_comments',array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
 					</div>
 				</div>
 			</div>
