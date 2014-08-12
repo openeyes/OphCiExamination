@@ -716,4 +716,29 @@ class AdminController extends \ModuleAdminController
 			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop',
 		));
 	}
+
+	public function actionManageComorbidities()
+	{
+		$this->render('//admin/generic_admin',array(
+						'title' => 'Edit Comorbities',
+						'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item',
+						'extra_fields' => array(
+							array(
+								'field' => 'subspecialties',
+								'type' => 'multilookup',
+								'htmlOptions' => array(
+										'empty' => '- Please Select -',
+										'nowrapper' => true
+								),
+								'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
+							),
+						),
+						'extra_links' => array(
+								array(
+									'url' => '/OphCiExamination/admin/comorbidities_options',
+									'name' => 'options'
+								),
+						),
+				));
+	}
 }

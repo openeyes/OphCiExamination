@@ -38,6 +38,8 @@ class OphCiExamination_Comorbidities_Item extends \BaseActiveRecordVersioned
 		return parent::model($className);
 	}
 
+	protected $auto_update_relations = true;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -58,6 +60,7 @@ class OphCiExamination_Comorbidities_Item extends \BaseActiveRecordVersioned
 	{
 		return array(
 				array('name, display_order', 'required'),
+				array('subspecialties', 'safe'),
 				array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
@@ -68,6 +71,7 @@ class OphCiExamination_Comorbidities_Item extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
+			'subspecialties' => array(self::MANY_MANY, 'Subspecialty', 'ophciexamination_comorbidities_item_options(comorbidities_item_id, subspecialty_id)'),
 		);
 	}
 
@@ -91,5 +95,21 @@ class OphCiExamination_Comorbidities_Item extends \BaseActiveRecordVersioned
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	public function bySubspecialty($subspecialty)
+	{
+		$criteria = array(
+				'join' => 'left join ophciexamination_comorbidities_item_options on ophciexamination_comorbidities_item_options.comorbidities_item_id = t.id',
+				'condition' => 'ophciexamination_comorbidities_item_options.subspecialty_id is null',
+		);
+		if ($subspecialty) {
+			$criteria['condition'] .= ' OR ophciexamination_comorbidities_item_options.subspecialty_id = :subspecialty_id';
+			$criteria['params'] = array(':subspecialty_id' => $subspecialty->id);
+		}
+
+		$this->getDbCriteria()->mergeWith($criteria);
+
+		return $this;
 	}
 }

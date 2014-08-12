@@ -33,6 +33,7 @@ return array(
 			'Drops Options' => '/OphCiExamination/admin/manageDrops',
 			'Management Surgery Options' => '/OphCiExamination/admin/manageManagementSurgery',
 			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
+			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',
