@@ -566,8 +566,8 @@ class DefaultController extends \BaseEventTypeController
 						$dilations[] = $dilation;
 					}
 				}
-				$element->{$side . '_treatments'} = $dilations;
 			}
+			$element->{$side . '_treatments'} = $dilations;
 		}
 	}
 
