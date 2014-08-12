@@ -726,18 +726,13 @@ class AdminController extends \ModuleAdminController
 							array(
 								'field' => 'subspecialties',
 								'type' => 'multilookup',
+								'noSelectionsMessage' => 'All Subspecialties',
 								'htmlOptions' => array(
 										'empty' => '- Please Select -',
 										'nowrapper' => true
 								),
 								'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
 							),
-						),
-						'extra_links' => array(
-								array(
-									'url' => '/OphCiExamination/admin/comorbidities_options',
-									'name' => 'options'
-								),
 						),
 				));
 	}
