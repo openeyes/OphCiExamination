@@ -40,7 +40,7 @@ else {
 
 <?php echo $form->dropDownList($element, $side . '_method_id', '\OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', array(), false, array('label'=>4,'field'=>3)) ?>
 
-<?php echo $form->textField($element, $side . '_crt', array('append-text' => '&micro;m'),null,array('label'=>4,'field'=>'3','append-text'=>'4')) ?>
+<?php echo $form->textField($element, $side . '_crt', array('autocomplete' => Yii::app()->params['html_autocomplete'], 'append-text' => '&micro;m'),null,array('label'=>4,'field'=>'3','append-text'=>'4')) ?>
 
 <div class="data-row row">
 	<div class="large-4 column">
@@ -49,7 +49,7 @@ else {
 		</label>
 	</div>
 	<div class="large-3 column">
-		<?php echo $form->textField($element, $side . '_sft', array('nowrapper' => true)) ?>
+		<?php echo $form->textField($element, $side . '_sft', array('autocomplete' => Yii::app()->params['html_autocomplete'], 'nowrapper' => true)) ?>
 	</div>
 	<div class="large-4 column end collapse">
 		<span class="field-info">&micro;m&nbsp;&nbsp;</span>

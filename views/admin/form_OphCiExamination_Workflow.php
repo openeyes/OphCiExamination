@@ -18,4 +18,4 @@
  */
 ?>
 <?php echo $form->hiddenField($model, 'id')?>
-<?php echo $form->textField($model, 'name')?>
+<?php echo $form->textField($model, 'name', array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>

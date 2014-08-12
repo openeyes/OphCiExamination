@@ -148,4 +148,9 @@ class Element_OphCiExamination_VisualFunction extends \SplitEventTypeElement
 		}
 		parent::afterValidate();
 	}
+
+	public function canViewPrevious()
+	{
+		return true;
+	}
 }

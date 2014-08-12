@@ -20,7 +20,7 @@
 <div class="box admin">
 	<div class="row field-row">
 		<div class="column large-2">
-			<?php echo CHtml::textField('step_name',$step->name)?>
+			<?php echo CHtml::textField('step_name',$step->name,array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
 		</div>
 		<div class="column large-2 end">
 			<?php echo EventAction::button('Save', 'save_step_name', null, array('class' => 'small'))->toHtml()?>

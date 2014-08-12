@@ -22,6 +22,6 @@
  on element <?php echo $model->attribute_element->element_type->name; ?>
 </h2>
 <?php echo $form->errorSummary($model); ?>
-<?php echo $form->textField($model,'value'); ?>
+<?php echo $form->textField($model,'value',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
 <?php echo $form->dropDownList($model,'subspecialty_id', CHtml::listData(Subspecialty::model()->findAll(),'id','name'), array('empty'=>'- Optional -')); ?>
 
