@@ -98,7 +98,7 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 			$criteria->addCondition('subspecialty_id IS NULL');
 		}
 		$criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id';
-		$criteria->order = 'attribute_element.attribute_id';
+		$criteria->order = 'attribute_element.attribute_id,t.display_order';
 		$all_attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
 		$attributes = array();
 		$attribute = null;
@@ -106,17 +106,15 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 		foreach ($all_attribute_options as $attribute_option) {
 			if (!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
 				if ($attribute) {
-					ksort($attribute_options);
 					$attribute->attribute_options = array_values($attribute_options);
 					$attribute_options = array();
 					$attributes[] = $attribute;
 				}
 				$attribute = $attribute_option->attribute_element->attribute;
 			}
-			$attribute_options[$attribute_option->label] = $attribute_option;
+			$attribute_options[] = $attribute_option;
 		}
 		if ($attribute) {
-			ksort($attribute_options);
 			$attribute->attribute_options = array_values($attribute_options);
 			$attributes[] = $attribute;
 		}
