@@ -28,10 +28,7 @@ class AdminController extends \ModuleAdminController
 
 	public function actionEditIOPInstruments()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Intraocular Pressure Instruments',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
-		));
+		$this->genericAdmin('Edit Intraocular Pressure Instruments', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument');
 	}
 
 	// No Treatment Reason views
@@ -663,66 +660,46 @@ class AdminController extends \ModuleAdminController
 	}
 	public function actionManageOverallPeriods()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Overall Periods',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod',
-		));
+		$this->genericAdmin('Edit Overall Periods', 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod');
 	}
 
 	public function actionManageVisitIntervals()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Visit Intervals',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval',
-		));
+		$this->genericAdmin('Edit Visit Intervals', 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval');
 	}
 
 	public function actionManageGlaucomaStatuses()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Glaucoma Statuses',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus',
-		));
+		$this->genericAdmin('Edit Glaucoma Statuses', 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus');
 	}
 
 	public function actionManageDropRelProbs()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Drop Related Problems',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb',
-		));
+		$this->genericAdmin('Edit Drop Related Problems', 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb');
 	}
 
 	public function actionManageDrops()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Drops Options',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Drops',
-		));
+		$this->genericAdmin('Edit Drops Options', 'OEModule\OphCiExamination\models\OphCiExamination_Drops');
 	}
 
 	public function actionManageManagementSurgery()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Surgery Management Options',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery',
-		));
+		$this->genericAdmin('Edit Surgery Management Options', 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery');
 	}
 
 	public function actionManageTargetIOPs()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Target Iop Values',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop',
-		));
+		$this->genericAdmin('Edit Target Iop Values', 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop');
 	}
 
 	public function actionManageComorbidities()
 	{
-		$this->render('//admin/generic_admin',array(
-						'title' => 'Edit Comorbities',
-						'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item',
-						'extra_fields' => array(
+		$this->genericAdmin(
+			'Edit Comorbities',
+			'OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item',
+			array(
+				'extra_fields' => array(
 							array(
 								'field' => 'subspecialties',
 								'type' => 'multilookup',
@@ -734,6 +711,7 @@ class AdminController extends \ModuleAdminController
 								'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
 							),
 						),
-				));
+				)
+		);
 	}
 }
