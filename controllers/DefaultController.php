@@ -868,4 +868,55 @@ class DefaultController extends \BaseEventTypeController
 		return $errors;
 	}
 
+	protected function setComplexAttributes_Element_OphCiExamination_SurgeryManagement($element, $data, $index)
+	{
+		$procedure_assignments = array();
+		$procedures = array();
+
+		if (!empty($data['OEModule_OphCiExamination_models_Element_OphCiExamination_SurgeryManagement']['procedure_assignments'])) {
+			foreach ($data['OEModule_OphCiExamination_models_Element_OphCiExamination_SurgeryManagement']['procedure_assignments'] as $i => $proc_id) {
+				if (!$procedure = \Procedure::model()->findByPk($proc_id)) {
+					throw new Exception("Procedure not found: $proc_id");
+				}
+
+				if (!@$data['OEModule_OphCiExamination_models_Element_OphCiExamination_SurgeryManagement']['procedure_assignments_id'][$i] ||
+					!($assignment = models\OphCiExamination_SurgeryManagement_Procedure::model()->findByPk($data['OEModule_OphCiExamination_models_Element_OphCiExamination_SurgeryManagement']['procedure_assignments_id'][$i]))) {
+					$assignment = new models\OphCiExamination_SurgeryManagement_Procedure;
+				}
+				$assignment->procedure_id = $proc_id;
+				$assignment->eye_id = @$data['OEModule_OphCiExamination_models_Element_OphCiExamination_SurgeryManagement']['eye_assignments'][$i];
+
+				$procedure_assignments[] = $assignment;
+				$procedures[] = $procedure;
+			}
+		}
+
+		$element->procedure_assignments = $procedure_assignments;
+		$element->procedures = $procedures;
+	}
+
+	protected function saveComplexAttributes_Element_OphCiExamination_SurgeryManagement($element, $data, $index)
+	{
+		$ids = array();
+
+		foreach ($element->procedure_assignments as $assignment) {
+			$assignment->element_id = $element->id;
+
+			if (!$assignment->save()) {
+				throw new Exception("Unable to save procedure assignment: ".print_r($assignment->errors,true));
+			}
+			
+			$ids[] = $assignment->id;
+		}
+
+		$criteria = new \CDbCriteria;
+		$criteria->addCondition('element_id = :eid');
+		$criteria->params[':eid'] = $element->id;
+
+		if (!empty($ids)) {
+			$criteria->addNotInCondition('id',$ids);
+		}
+
+		models\OphCiExamination_SurgeryManagement_Procedure::model()->deleteAll($criteria);
+	}
 }
