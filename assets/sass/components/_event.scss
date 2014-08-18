@@ -23,3 +23,16 @@
 		background-image: image-url("medium.png");
 	}
 }
+
+.selection-priority {
+	display: inline-block;
+	padding: 9px;
+	border: 1px solid #000;
+	font-size: 14pt;
+}
+.selection-priority.priorityLow {
+	background-color: #ff5f5f;
+}
+.selection-priority.priorityHigh {
+	background-color: limegreen;
+}

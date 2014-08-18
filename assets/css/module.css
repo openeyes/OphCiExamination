@@ -22,11 +22,29 @@
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1392372887');
+  background-image: url('../img/watermark.png?1406619604');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1383822301');
+  background-image: url('../img/medium.png?1406619604');
+}
+
+/* line 27, ../sass/components/_event.scss */
+.selection-priority {
+  display: inline-block;
+  padding: 9px;
+  border: 1px solid #000;
+  font-size: 14pt;
+}
+
+/* line 33, ../sass/components/_event.scss */
+.selection-priority.priorityLow {
+  background-color: #ff5f5f;
+}
+
+/* line 36, ../sass/components/_event.scss */
+.selection-priority.priorityHigh {
+  background-color: limegreen;
 }
 
 @media print {
@@ -115,12 +133,12 @@
 /* line 18, ../sass/components/elements/_current-management.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan .past_iop {
   height: 28px;
-  background: url('../img/past_icon.png?1400847356') no-repeat right top;
+  background: url('../img/past_icon.png?1407840966') no-repeat right top;
 }
 
 /* line 17, ../sass/components/_gonio-cross.scss */
 .gonio-cross {
-  background: url('../img/cross.gif?1383822301') no-repeat center center;
+  background: url('../img/cross.gif?1406619604') no-repeat center center;
   height: 110px;
   margin: 0 0 10px 0;
   position: relative;
@@ -130,7 +148,7 @@
   /* line 17, ../sass/components/_gonio-cross.scss */
   .gonio-cross {
     -webkit-print-color-adjust: exact;
-    background: url('../img/cross.gif?1383822301') no-repeat center center !important;
+    background: url('../img/cross.gif?1406619604') no-repeat center center !important;
   }
 }
 /* line 27, ../sass/components/_gonio-cross.scss */

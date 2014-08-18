@@ -1047,7 +1047,55 @@ $(document).ready(function() {
 	});
 
 	updateTextMacros();
+
+	$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[blindness_id]"]').die('click').live('click',function(e) {
+		updateProgramSelectionPriority();
+	});
+	$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[age_id]"]').die('click').live('click',function(e) {
+		updateProgramSelectionPriority();
+	});
+	$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[vip]"]').die('click').live('click',function(e) {
+		updateProgramSelectionPriority();
+	});
+	$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[prognosis_id]"]').die('click').live('click',function(e) {
+		updateProgramSelectionPriority();
+	});
+	$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[suitable_teaching_case]"]').die('click').live('click',function(e) {
+		updateProgramSelectionPriority();
+	});
+	$('input[type="checkbox"][name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[request_special_consideration]"]').die('click').live('click',function(e) {
+		if ($(this).is(':checked')) {
+			$('#OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria_comments').select().focus();
+		}
+	});
 });
+
+function updateProgramSelectionPriority()
+{
+	var show_priority = (
+		$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[blindness_id]"]:checked').length >0 &&
+		$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[age_id]"]:checked').length >0 &&
+		$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[vip]"]:checked').length >0 &&
+		$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[prognosis_id]"]:checked').length >0 &&
+		$('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[suitable_teaching_case]"]:checked').length >0
+	);
+
+	var blindness = $('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[blindness_id]"]:checked').parent().text().trim();
+	var age = $('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[age_id]"]:checked').parent().text().trim();
+	var vip = $('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[vip]"]:checked').parent().text().trim();
+	var prognosis = $('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[prognosis_id]"]:checked').parent().text().trim();
+	var teaching = $('input[name="OEModule_OphCiExamination_models_Element_OphCiExamination_SelectionCriteria[suitable_teaching_case]"]:checked').parent().text().trim();
+
+	var priority = (blindness == 'Unilateral' || age == 'Old' || vip == 'Yes' || prognosis == 'Poor' || teaching == 'No') ? 'Low' : 'High';
+
+	$('.selectionPriority .selection-priority').attr('class','selection-priority field-highlight priority' + priority).html(priority + ' priority');
+
+	if (show_priority && $('.selectionPriority').is(':hidden')) {
+		$('.selectionPriority').slideDown('fast');
+	} else if (!show_priority && !$('.selectionPriority').is(':hidden')) {
+		$('.selectionPriority').slideUp('fast');
+	}
+}
 
 function updateTextMacros() {
 	var active_element_ids = [];
