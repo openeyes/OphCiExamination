@@ -748,6 +748,10 @@ $(document).ready(function() {
 		OphCiExamination_OpticDisc_updateCDRatio(this);
 	});
 
+	$(this).delegate('#event-content .' + OE_MODEL_PREFIX + 'Element_OphCiExamination_Gonioscopy .gonioscopy-mode', 'change', function() {
+		OphCiExamination_Gonioscopy_update(this);
+	});
+
 	$('#event-content').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
@@ -1842,6 +1846,28 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
+
+    ED.Checker.onAllReady(function() {
+	$('.gonioscopy-mode').each(function(_, element) {
+	    OphCiExamination_Gonioscopy_update(element);
+	    $(this).change(function(_) {
+		OphCiExamination_Gonioscopy_update(element);
+	    });
+	});
+    });
+
+}
+
+function OphCiExamination_Gonioscopy_update(field) {
+    var fields = $(field).closest('.eyedraw-fields'),
+	expert = fields.find('.expert-mode'),
+	basic = fields.find('.basic-mode'),
+	isExpert = fields.find('.gonioscopy-mode').val() === "Expert";
+    if(isExpert) {
+	expert.show(); basic.hide();
+    } else {
+	expert.hide(); basic.show();
+    }
 }
 
 function OphCiExamination_OpticDisc_init() {
