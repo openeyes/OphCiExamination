@@ -89,11 +89,13 @@ class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 	 */
 	public function getDefaultElementTypes()
 	{
+		$exam = \EventType::model()->find('class_name=?',array('OphCiExamination'));
+
 		$default_element_types = \ElementType::model()->findAll(array(
-				'condition' => "ophciexamination_element_set_item.set_id = :set_id",
-				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
+				'condition' => "event_type_id = :eti and active = 1 and (ophciexamination_element_set_item.set_id = :set_id or t.required = 1)",
+				'join' => 'LEFT JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
 				'order' => 'display_order',
-				'params' => array(':set_id' => $this->id),
+				'params' => array(':set_id' => $this->id, ':eti' => $exam->id),
 		));
 		return $default_element_types;
 	}

@@ -63,7 +63,7 @@ class DefaultController extends \BaseEventTypeController
 		if (!$this->event || $this->event->isNewRecord) {
 			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
-		else  {
+		else	{
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
@@ -362,7 +362,7 @@ class DefaultController extends \BaseEventTypeController
 
 		$element_types = $set->DefaultElementTypes;
 		foreach ($element_types as $element_type) {
-			if (!$parent_id || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
+			if (!$parent_id || ($parent_id && $element_type->parent_element_type_id == $parent_id) || ($element_type->required)) {
 				$elements[$element_type->id] = $element_type->getInstance();
 			}
 		}
@@ -918,5 +918,31 @@ class DefaultController extends \BaseEventTypeController
 		}
 
 		models\OphCiExamination_SurgeryManagement_Procedure::model()->deleteAll($criteria);
+	}
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_Type(models\Element_OphCiExamination_Type $element, $action)
+	{
+		if ($action == 'create') {
+			$item = null;
+
+			foreach (models\OphCiExamination_Exam_Type::model()->findAll(array('order' => 'display_order asc')) as $exam_type) {
+				if (models\Element_OphCiExamination_Type::model()->with(array(
+						'event' => array(
+							'with' => array(
+								'episode'
+							)
+						)
+					))->find('episode.patient_id = :pi and t.type_id = :ti',array(':pi' => $this->patient->id,':ti' => $exam_type->id))) {
+
+					$item = $exam_type->display_order + 1;
+				}
+			}
+
+			if ($item !== null) {
+				if ($type = models\OphCiExamination_Exam_Type::model()->find('display_order = :do',array(':do' => $item))) {
+					$element->type_id = $type->id;
+				}
+			}
+		}
 	}
 }
