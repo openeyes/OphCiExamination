@@ -1839,6 +1839,23 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	$('.js-diagnoses').append(row);
 }
 
+function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
+	this.notificationHandler = function (message) {
+		switch (message.eventName) {
+			case 'ready':
+			case 'doodlesLoaded':
+				OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, drawing.firstDoodleOfClass('Gonioscopy').getParameter('mode'));
+				break;
+			case 'parameterChanged':
+				if (message.object.doodle.className == 'Gonioscopy' && message.object.parameter == 'mode') {
+					OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, message.object.value);
+				}
+				break;
+		}
+	}
+	drawing.registerForNotifications(this);
+}
+
 function OphCiExamination_Gonioscopy_init() {
 	$(".foster_images_dialog").dialog({
 		autoOpen: false,
@@ -1846,27 +1863,17 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
-
-    ED.Checker.onAllReady(function() {
-	$('.gonioscopy-mode').each(function(_, element) {
-	    OphCiExamination_Gonioscopy_update(element);
-	    $(this).change(function(_) {
-		OphCiExamination_Gonioscopy_update(element);
-	    });
-	});
-    });
-
 }
 
-function OphCiExamination_Gonioscopy_update(field) {
-    var fields = $(field).closest('.eyedraw-fields'),
-	expert = fields.find('.expert-mode'),
-	basic = fields.find('.basic-mode'),
-	isExpert = fields.find('.gonioscopy-mode').val() === "Expert";
-    if(isExpert) {
-	expert.show(); basic.hide();
+function OphCiExamination_Gonioscopy_switch_mode(canvas, mode) {
+	var body = $(canvas).closest('.ed-body');
+	var expert = body.find('.expert-mode');
+	var basic = body.find('.basic-mode');
+
+	if (mode == 'Expert') {
+		expert.show(); basic.hide();
     } else {
-	expert.hide(); basic.show();
+		expert.hide(); basic.show();
     }
 }
 
