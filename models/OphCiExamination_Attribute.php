@@ -98,7 +98,7 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 			$criteria->addCondition('subspecialty_id IS NULL');
 		}
 		$criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id';
-		$criteria->order = 'attribute_element.attribute_id,t.display_order';
+		$criteria->order = 'attribute_element.attribute_id,t.display_order,t.id';
 		$all_attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
 		$attributes = array();
 		$attribute = null;
