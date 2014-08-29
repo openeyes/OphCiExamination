@@ -29,14 +29,7 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_AttributeElement the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+	const SELECTION_ORDER = 'element_type_id,attribute_id';
 
 	/**
 	 * @return string the associated database table name
@@ -87,18 +80,8 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
+	public function getName()
 	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
+		return $this->element_type->name . ' - ' . $this->attribute->name;
 	}
-
 }

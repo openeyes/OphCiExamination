@@ -10,6 +10,6 @@ class m140609_120012_add_ORA_instrument_to_IOP extends OEMigration
 
 	public function down()
 	{
-		$this->dbConnection->createCommand("delete from ophciexamination_instrument where name = 'ORA'")->Execute();
+		$this->dbConnection->createCommand("delete from ophciexamination_instrument where name = 'ORA IOPcc'")->Execute();
 	}
 }

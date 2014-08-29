@@ -1839,6 +1839,23 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	$('.js-diagnoses').append(row);
 }
 
+function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
+	this.notificationHandler = function (message) {
+		switch (message.eventName) {
+			case 'ready':
+			case 'doodlesLoaded':
+				OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, drawing.firstDoodleOfClass('Gonioscopy').getParameter('mode'));
+				break;
+			case 'parameterChanged':
+				if (message.object.doodle.className == 'Gonioscopy' && message.object.parameter == 'mode') {
+					OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, message.object.value);
+				}
+				break;
+		}
+	}
+	drawing.registerForNotifications(this);
+}
+
 function OphCiExamination_Gonioscopy_init() {
 	$(".foster_images_dialog").dialog({
 		autoOpen: false,
@@ -1867,6 +1884,18 @@ function OphCiExamination_Gonioscopy_update(field) {
 	expert.show(); basic.hide();
     } else {
 	expert.hide(); basic.show();
+    }
+}
+
+function OphCiExamination_Gonioscopy_switch_mode(canvas, mode) {
+	var body = $(canvas).closest('.ed-body');
+	var expert = body.find('.expert-mode');
+	var basic = body.find('.basic-mode');
+
+	if (mode == 'Expert') {
+		expert.show(); basic.hide();
+    } else {
+		expert.hide(); basic.show();
     }
 }
 
