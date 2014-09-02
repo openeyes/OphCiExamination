@@ -1075,7 +1075,7 @@ class OphCiExamination_API extends \BaseAPI
 			if(!isset($episode->eye->name)){return;}
 			$eyeName = $episode->eye->name;
 
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if (isset($el->left_value) && ($eyeName == 'Left' || $eyeName == 'Both')) {
 					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .	'. ';
 				}
@@ -1148,7 +1148,7 @@ class OphCiExamination_API extends \BaseAPI
 	public function getCCTLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasLeft()) {
 					return $el->left_value . ' µm';
 				}
@@ -1165,7 +1165,7 @@ class OphCiExamination_API extends \BaseAPI
 	public function getCCTRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasRight()) {
 					return $el->right_value . ' µm';
 				}
