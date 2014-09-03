@@ -104,8 +104,10 @@ class OphCiExamination_Comorbidities_Item extends \BaseActiveRecordVersioned
 				'condition' => 'ophciexamination_comorbidities_item_options.subspecialty_id is null',
 		);
 		if ($subspecialty) {
-			$criteria['condition'] .= ' AND ophciexamination_comorbidities_item_options.subspecialty_id = :subspecialty_id';
+			$criteria['condition'] = 'ophciexamination_comorbidities_item_options.subspecialty_id = :subspecialty_id';
 			$criteria['params'] = array(':subspecialty_id' => $subspecialty->id);
+		} else {
+			$criteria['condition'] = 'ophciexamination_comorbidities_item_options.subspecialty_id is null';
 		}
 
 		$this->getDbCriteria()->mergeWith($criteria);
