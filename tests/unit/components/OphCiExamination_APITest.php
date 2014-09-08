@@ -15,6 +15,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+use OEModule\OphCiExamination\models;
+
 class OphCiExamination_APITest extends CDbTestCase
 {
 	private $api;
@@ -41,6 +43,8 @@ class OphCiExamination_APITest extends CDbTestCase
 		'cct' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT',
 		'cct_method'=> '\OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_CCT_Method',
 		'gonioscopy'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_Gonioscopy',
+		'iop' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
+		'iop_value' => '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'optic_disc' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_OpticDisc',
 		'episode'=> 'Episode'
 	);
@@ -252,6 +256,33 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$expected  = '50 µm';
 		$this->assertEquals($expected, $this->api->getCCTRight($this->patient('patient1')));
+	}
+
+	public function testGetCCTAbbr_Right()
+	{
+		$event = $this->createEvent();
+		$this->createCctElement($event, Eye::RIGHT);
+
+		$expected = 'Right: 50';
+		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
+	}
+
+	public function testGetCCTAbbr_Left()
+	{
+		$event = $this->createEvent();
+		$this->createCctElement($event, Eye::LEFT);
+
+		$expected = 'Left: 50';
+		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
+	}
+
+	public function testGetCCTAbbr_Both()
+	{
+		$event = $this->createEvent();
+		$this->createCctElement($event, Eye::BOTH);
+
+		$expected = 'Right: 50, Left: 50';
+		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
 	}
 
 	public function testGetPricipalVanHerick(){
@@ -486,21 +517,85 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->assertEquals($expected, $principalODD);
 	}
 
+	public function testGetLetterIOPReadingAbbr_Right()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::RIGHT);
+		$this->addIopReading($element, Eye::RIGHT, 1);
+
+		$expected = 'Right: 1';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
+	public function testGetLetterIOPReadingAbbr_Right_Avg()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::RIGHT);
+		$this->addIopReading($element, Eye::RIGHT, 1);
+		$this->addIopReading($element, Eye::RIGHT, 3);
+
+		$expected = 'Right: 2 (avg)';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
+	public function testGetLetterIOPReadingAbbr_Left()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::LEFT);
+		$this->addIopReading($element, Eye::LEFT, 2);
+
+		$expected = 'Left: 2';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
+	public function testGetLetterIOPReadingAbbr_Left_Avg()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::LEFT);
+		$this->addIopReading($element, Eye::LEFT, 2);
+		$this->addIopReading($element, Eye::LEFT, 3);
+
+		$expected = 'Left: 3 (avg)';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
+	public function testGetLetterIOPReadingAbbr_Both()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::BOTH);
+		$this->addIopReading($element, Eye::RIGHT, 1);
+		$this->addIopReading($element, Eye::LEFT, 2);
+
+		$expected = 'Right: 1, Left: 2';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
+	public function testGetLetterIOPReadingAbbr_Both_Avg()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::BOTH);
+		$this->addIopReading($element, Eye::RIGHT, 1);
+		$this->addIopReading($element, Eye::RIGHT, 3);
+		$this->addIopReading($element, Eye::LEFT, 2);
+		$this->addIopReading($element, Eye::LEFT, 3);
+
+		$expected = 'Right: 2 (avg), Left: 3 (avg)';
+		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
+	}
+
 	private function createEvent($event_date = null)
 	{
 		$event = new Event;
 		$event->episode_id = $this->episode['episode2']['id'];
 		$event->event_type_id = Yii::app()->db->createCommand('select id from event_type where class_name = "OphCiExamination"')->queryScalar();
 		if ($event_date) $event->event_date = $event_date;
-		if (!$event->save()) {
-			throw new Exception("Failed to save event: " . print_r($event->getErrors(), true));
-		}
+		$event->save(false);
 		return $event;
 	}
 
 	private function createCctElement(Event $event, $eye_id)
 	{
-		$element = new OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT;
+		$element = new models\Element_OphCiExamination_AnteriorSegment_CCT;
 		$element->event_id = $event->id;
 		$element->eye_id = $eye_id;
 
@@ -514,10 +609,27 @@ class OphCiExamination_APITest extends CDbTestCase
 			$element->right_value = 50;
 		}
 
-		if (!$element->save()) {
-			throw new Exception("Failed to save element: " . print_r($element->getErrors(), true));
-		}
+		$element->save(false);
 
 		return $element;
+	}
+
+	private function createIopElement(Event $event, $eye_id)
+	{
+		$element = new models\Element_OphCiExamination_IntraocularPressure;
+		$element->event_id = $event->id;
+		$element->eye_id = $eye_id;
+		$element->save(false);
+		return $element;
+	}
+
+	private function addIopReading(models\Element_OphCiExamination_IntraocularPressure $element, $eye_id, $value)
+	{
+		$reading = new models\OphCiExamination_IntraocularPressure_Value;
+		$reading->element_id = $element->id;
+		$reading->eye_id = $eye_id;
+		$reading->reading_id = Yii::app()->db->createCommand('select id from ophciexamination_intraocularpressure_reading where value = ?')->queryScalar(array($value));
+		$reading->save(false);
+		return $reading;
 	}
 }
