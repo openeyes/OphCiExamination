@@ -263,7 +263,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$event = $this->createEvent();
 		$this->createCctElement($event, Eye::RIGHT);
 
-		$expected = 'Right: 50';
+		$expected = 'r:50';
 		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
 	}
 
@@ -272,7 +272,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$event = $this->createEvent();
 		$this->createCctElement($event, Eye::LEFT);
 
-		$expected = 'Left: 50';
+		$expected = 'l:50';
 		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
 	}
 
@@ -281,7 +281,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$event = $this->createEvent();
 		$this->createCctElement($event, Eye::BOTH);
 
-		$expected = 'Right: 50, Left: 50';
+		$expected = 'r:50, l:50';
 		$this->assertEquals($expected, $this->api->getCCTAbbr($this->patient('patient1')));
 	}
 
@@ -523,7 +523,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$element = $this->createIopElement($event, Eye::RIGHT);
 		$this->addIopReading($element, Eye::RIGHT, 1);
 
-		$expected = 'Right: 1';
+		$expected = 'r:1';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
@@ -534,7 +534,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->addIopReading($element, Eye::RIGHT, 1);
 		$this->addIopReading($element, Eye::RIGHT, 3);
 
-		$expected = 'Right: 2 (avg)';
+		$expected = 'r:2 (avg)';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
@@ -544,7 +544,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$element = $this->createIopElement($event, Eye::LEFT);
 		$this->addIopReading($element, Eye::LEFT, 2);
 
-		$expected = 'Left: 2';
+		$expected = 'l:2';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
@@ -555,7 +555,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->addIopReading($element, Eye::LEFT, 2);
 		$this->addIopReading($element, Eye::LEFT, 3);
 
-		$expected = 'Left: 3 (avg)';
+		$expected = 'l:3 (avg)';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
@@ -566,7 +566,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->addIopReading($element, Eye::RIGHT, 1);
 		$this->addIopReading($element, Eye::LEFT, 2);
 
-		$expected = 'Right: 1, Left: 2';
+		$expected = 'r:1, l:2';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
@@ -579,7 +579,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->addIopReading($element, Eye::LEFT, 2);
 		$this->addIopReading($element, Eye::LEFT, 3);
 
-		$expected = 'Right: 2 (avg), Left: 3 (avg)';
+		$expected = 'r:2 (avg), l:3 (avg)';
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 

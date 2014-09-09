@@ -115,8 +115,8 @@ class OphCiExamination_API extends \BaseAPI
 	{
 		if (($episode = $patient->getEpisodeForCurrentSubspecialty()) && ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure'))) {
 			$readings = array();
-			if (($reading = $iop->getReading('right'))) $readings[] = "Right: {$reading}" . ($iop->isReadingAverage('right') ? ' (avg)' : '');
-			if (($reading = $iop->getReading('left'))) $readings[] = "Left: {$reading}" . ($iop->isReadingAverage('left') ? ' (avg)' : '');
+			if (($reading = $iop->getReading('right'))) $readings[] = "r:{$reading}" . ($iop->isReadingAverage('right') ? ' (avg)' : '');
+			if (($reading = $iop->getReading('left'))) $readings[] = "l:{$reading}" . ($iop->isReadingAverage('left') ? ' (avg)' : '');
 			return implode(', ', $readings);
 		} else {
 			return null;
@@ -1198,8 +1198,8 @@ class OphCiExamination_API extends \BaseAPI
 		if (($episode = $patient->getEpisodeForCurrentSubspecialty()) &&
 			($cct = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT'))) {
 			$readings = array();
-			if ($cct->hasRight()) $readings[] = 'Right: ' . $cct->right_value;
-			if ($cct->hasLeft()) $readings[] = 'Left: ' . $cct->left_value;
+			if ($cct->hasRight()) $readings[] = 'r:' . $cct->right_value;
+			if ($cct->hasLeft()) $readings[] = 'l:' . $cct->left_value;
 			return implode(', ', $readings);
 		} else {
 			return null;
