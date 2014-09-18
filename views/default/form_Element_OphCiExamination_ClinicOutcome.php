@@ -17,6 +17,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
+<?php
+$queues = array();
+if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+	$queues = $element->getPatientTicketQueues($this->firm, $this->patient);
+}
+?>
+
 <div class="element-fields">
 	<div id="div_<?php echo CHtml::modelName($element)?>_status">
 		<div class="field-row row">
@@ -30,14 +37,18 @@
 				$outcomes = \OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll();
 				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
 				foreach ($outcomes as $opt) {
-					$html_options['options'][(string) $opt->id] = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);
+					$options = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);
+					if ($opt->patientticket && !count($queues)) {
+						$options['disabled'] = true;
+					}
+					$html_options['options'][(string) $opt->id] = $options;
 				}
 				echo $form->dropDownList($element, 'status_id', \CHtml::listData($outcomes, 'id', 'name'), $html_options)?>
 			</div>
 		</div>
 	</div>
 
-	<?php if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) { ?>
+	<?php if ($ticket_api) { ?>
 		<div id="div_<?= CHtml::modelName($element)?>_patientticket"
 				<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>
 				data-queue-ass-form-uri="<?= $ticket_api->getQueueAssignmentFormURI()?>">
@@ -55,8 +66,11 @@
 					</legend>
 					<div class="large-3 column">
 						<?php
-							$queues = $element->getPatientTicketQueues($this->firm);
-							if (count($queues) == 1) {
+							if (count($queues) == 0) { ?>
+								<span>No valid Virtual Clinics available</span>
+							<?php
+							}
+							elseif (count($queues) == 1) {
 								echo reset($queues);
 								$qid = key($queues);
 								$_POST['patientticket_queue'] = $qid;
