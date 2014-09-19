@@ -60,6 +60,13 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 		);
 	}
 
+	public function attributeLabels()
+	{
+		return array(
+			'eye_id' => 'Eye',
+		);
+	}
+
 	/**
 	 * @return array relational rules.
 	 */
