@@ -18,6 +18,10 @@
  */
 
 $iop = $element->getLatestIOP($this->patient);
+
+$exam_api = Yii::app()->moduleAPI->get('OphCiExamination');
+$leftIop = $exam_api->getIOPReadingLeft($this->patient);
+$iop['rightIOP']
 ?>
 <div class="element-data element-eyes row">
 	<script type="text/javascript">
