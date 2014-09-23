@@ -24,4 +24,4 @@
 
 <?php echo $form->dropDownList($model,'disorder_id', CHtml::listData(OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -')); ?>
 
-<?php echo $form->textField($model,'question'); ?>
+<?php echo $form->textField($model,'question',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>

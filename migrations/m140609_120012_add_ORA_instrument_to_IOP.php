@@ -10,6 +10,6 @@ class m140609_120012_add_ORA_instrument_to_IOP extends OEMigration
 
 	public function down()
 	{
-		Yii::app()->db->createCommand("delete from ophciexamination_instrument where name = 'ORA'")->Execute();
+		$this->dbConnection->createCommand("delete from ophciexamination_instrument where name = 'ORA IOPcc'")->Execute();
 	}
 }

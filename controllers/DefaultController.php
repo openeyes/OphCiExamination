@@ -238,31 +238,6 @@ class DefaultController extends \BaseEventTypeController
 		}
 	}
 
-	/**
-	 * Get the open child elements for the given ElementType
-	 *
-	 * @param ElementType $parent_type
-	 * @return BaseEventTypeElement[] $open_elements
-	 */
-	public function getChildElements($parent_type)
-	{
-		$open_child_elements = parent::getChildElements($parent_type);
-
-		if ($this->step) {
-			$current_child_types = array();
-			foreach ($open_child_elements as $open) {
-				$current_child_types[] = $open->getElementType()->class_name;
-			}
-			foreach ($this->getElementsByWorkflow(null, $this->episode, $parent_type->id) as $new_child_element) {
-				if (!in_array($new_child_element->getElementType()->class_name, $current_child_types)) {
-					$open_child_elements[] = $new_child_element;
-				}
-			}
-		}
-
-		return $open_child_elements;
-	}
-
 	public function getOptionalElements()
 	{
 		$elements = parent::getOptionalElements();
@@ -314,9 +289,10 @@ class DefaultController extends \BaseEventTypeController
 
 	/**
 	 * Merge workflow next step elements into existing elements
+	 *
 	 * @param array $elements
 	 * @param ElementType $parent
-	 * @throws CException
+	 * @throws \CException
 	 * @return array
 	 */
 	protected function mergeNextStep($elements, $parent = null)
@@ -590,8 +566,8 @@ class DefaultController extends \BaseEventTypeController
 						$dilations[] = $dilation;
 					}
 				}
-				$element->{$side . '_treatments'} = $dilations;
 			}
+			$element->{$side . '_treatments'} = $dilations;
 		}
 	}
 
@@ -843,7 +819,8 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
 	{
-		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+		if ($element->status && $element->status->patientticket &&
+				isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
 			$queue_data = $api->extractQueueData($queue, $data);
 			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
@@ -861,26 +838,30 @@ class DefaultController extends \BaseEventTypeController
 	{
 		$errors = parent::setAndValidateElementsFromData($data);
 		if (isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-			$err = array();
-			$queue = null;
-			if (!$data['patientticket_queue']) {
-				 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
-			}
-			elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
-				$err['patientticket_queue'] = "Virtual Clinic not found";
-			}
-			if ($queue) {
-				list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
-				$err = array_merge($err, $fld_errs);
-			}
-
-			if (count($err)) {
-				$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
-				if (@$errors[$et_name]) {
-					$errors[$et_name] = array_merge($errors[$et_name], $err);
+			$co_sid = @$data[\CHtml::modelName(models\Element_OphCiExamination_ClinicOutcome::model())]['status_id'];
+			$status = models\OphCiExamination_ClinicOutcome_Status::model()->findByPk($co_sid);
+			if ($status && $status->patientticket) {
+				$err = array();
+				$queue = null;
+				if (!$data['patientticket_queue']) {
+					 $err['patientticket_queue'] = 'You must select a valid Virtual Clinic for referral';
 				}
-				else {
-					$errors[$et_name] = $err;
+				elseif (!$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue'])) {
+					$err['patientticket_queue'] = "Virtual Clinic not found";
+				}
+				if ($queue) {
+					list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
+					$err = array_merge($err, $fld_errs);
+				}
+
+				if (count($err)) {
+					$et_name = models\Element_OphCiExamination_ClinicOutcome::model()->getElementTypeName();
+					if (@$errors[$et_name]) {
+						$errors[$et_name] = array_merge($errors[$et_name], $err);
+					}
+					else {
+						$errors[$et_name] = $err;
+					}
 				}
 			}
 		}

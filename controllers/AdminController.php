@@ -24,14 +24,11 @@ use OEModule\OphCiExamination\models;
 
 class AdminController extends \ModuleAdminController
 {
-	public $defaultAction = "ViewNoTreatmentReasons";
+	public $defaultAction = "ViewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason";
 
 	public function actionEditIOPInstruments()
 	{
-		$this->render('//admin/generic_admin',array(
-			'title' => 'Edit Intraocular Pressure Instruments',
-			'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
-		));
+		$this->genericAdmin('Edit Intraocular Pressure Instruments', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument');
 	}
 
 	// No Treatment Reason views
@@ -591,87 +588,74 @@ class AdminController extends \ModuleAdminController
 
 	public function actionManageElementAttributes()
 	{
-		$request = Yii::app()->request;
-
-		if($request->getRequestType() == 'DELETE'){
-			$optionId =$request->getQuery('id');
-			$model = new models\OphCiExamination_AttributeOption();
-			$option = $model->findByPk($optionId);
-			if ($option->delete()) {
-				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
-				echo 'OK';
-			}
-			else{
-				throw new \Exception("Unable to delete attribute option: ".print_r($option->getErrors(),true));
-			}
-		}
-
-		$model = new models\OphCiExamination_AttributeElement();
-
-		$attEls = $model->with(array('options' => array('select'=>'id, value, subspecialty_id')))->findAll();
-
-		$assetPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets'), false, -1);
-		Yii::app()->clientScript->registerCssFile($assetPath.'/css/components/admin.css');
-
-		foreach($attEls as $attEl){
-			$options = array();
-			foreach($attEl->options as  $option){
-				$options[$option->id] = array(
-					'value' => $option->value,
-					'subspecialty' => $option->subspecialty_id != null ? $option->subspecialty->name : 'Any'
-				);
-			}
-			$attElOptions[$attEl->id] = $options;
-		}
-		$this->render('manage_AttributeElement', array(
-			'model'=>	$model,
-			'attEls' => $attEls,
-			'attElOptions' => $attElOptions,
-			'preloadAttEl' => $request->getQuery('id'),
-			'title' => 'Manage Element Attibutes',
-		));
+		$this->genericAdmin(
+			'Manage Element Attributes',
+			'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption',
+			array(
+				'filter_fields' => array(
+					array('field' => 'attribute_element_id', 'model' => 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement'),
+				),
+				'extra_fields' => array(
+					array('field' => 'subspecialty_id', 'type' => 'lookup', 'model' => 'Subspecialty'),
+				),
+			)
+		);
 	}
 
-	public function actionAddAttributeOption()
+	public function actionManageOverallPeriods()
 	{
-		$request = Yii::app()->request;
-		$model = new models\OphCiExamination_AttributeOption;
-
-		if($request->getRequestType() == 'POST'){
-			$model->attributes = $request->getPost(\CHtml::modelName($model));
-			$model->attribute_element_id = $request->getQuery('id');
-			if ($model->save()) {
-				Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
-				Yii::app()->user->setFlash('success', 'Added Attribute Option of ' . $model->value );
-
-				$this->redirect(array('manageElementAttributes','id' => $model->attribute_element_id));
-			}
-		}
-
-		if(is_int((int)$request->getQuery('id')) && (int)$request->getQuery('id') > 0 ){
-			$model->attribute_element_id = $request->getQuery('id');
-			$this->render('create', array(
-				'model' => $model,
-				'cancel_uri' => '/OphCiExamination/admin/manageElementAttributes/' . $model->attribute_element_id,
-			));
-		}
-
+		$this->genericAdmin('Edit Overall Periods', 'OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod');
 	}
 
-	public function actionDeletetAttOption()
+	public function actionManageVisitIntervals()
 	{
-		$request = Yii::app()->request;
+		$this->genericAdmin('Edit Visit Intervals', 'OEModule\OphCiExamination\models\OphCiExamination_VisitInterval');
+	}
 
-		$optionId =$request->getQuery('id');
-		$model = new models\OphCiExamination_AttributeOption();
-		$option = $model->findByPk($optionId);
-		if ($option->delete()) {
-			Audit::add('admin','create',serialize($model->attributes),false,array('module'=>'OphCiExamination','model'=>'OphCiExamination_OphCiExamination_AttributeOption'));
-			echo 'OK';
-		}
-		else{
-			throw new \Exception("Unable to delete attribute option: ".print_r($option->getErrors(),true));
-		}
+	public function actionManageGlaucomaStatuses()
+	{
+		$this->genericAdmin('Edit Glaucoma Statuses', 'OEModule\OphCiExamination\models\OphCiExamination_GlaucomaStatus');
+	}
 
+	public function actionManageDropRelProbs()
+	{
+		$this->genericAdmin('Edit Drop Related Problems', 'OEModule\OphCiExamination\models\OphCiExamination_DropRelProb');
+	}
+
+	public function actionManageDrops()
+	{
+		$this->genericAdmin('Edit Drops Options', 'OEModule\OphCiExamination\models\OphCiExamination_Drops');
+	}
+
+	public function actionManageManagementSurgery()
+	{
+		$this->genericAdmin('Edit Surgery Management Options', 'OEModule\OphCiExamination\models\OphCiExamination_ManagementSurgery');
+	}
+
+	public function actionManageTargetIOPs()
+	{
+		$this->genericAdmin('Edit Target Iop Values', 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop');
+	}
+
+	public function actionManageComorbidities()
+	{
+		$this->genericAdmin(
+			'Edit Comorbities',
+			'OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item',
+			array(
+				'extra_fields' => array(
+							array(
+								'field' => 'subspecialties',
+								'type' => 'multilookup',
+								'noSelectionsMessage' => 'All Subspecialties',
+								'htmlOptions' => array(
+										'empty' => '- Please Select -',
+										'nowrapper' => true
+								),
+								'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
+							),
+						),
+				)
+		);
 	}
 }

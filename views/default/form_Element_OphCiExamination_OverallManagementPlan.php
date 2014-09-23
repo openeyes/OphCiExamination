@@ -17,13 +17,31 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-$overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()->findAll(
-		array('order'=> 'display_order asc')),'id','name'
+$usedOverallPeriods = array();
+if(isset($element->clinic_interval_id)){	$usedOverallPeriods[]=$element->clinic_interval_id;}
+if(isset($element->photo_id)){	$usedOverallPeriods[]=$element->photo_id;}
+if(isset($element->oct_id)){	$usedOverallPeriods[]=$element->oct_id;}
+if(isset($element->hfa_id)){	$usedOverallPeriods[]=$element->hfa_id;}
+if(isset($element->hrt_id)){	$usedOverallPeriods[]=$element->hrt_id;}
+
+$overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()
+	->activeOrPk($usedOverallPeriods)->findAll(
+	array('order'=> 'display_order asc')),'id','name'
 );
 
-$intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()->findAll(
-		array('order'=> 'display_order asc')),'id','name'
+$intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()
+	->activeOrPk(@$element->gonio_id)
+	->findAll(array('order'=> 'display_order asc')),'id','name'
 );
+
+$usedTargetIOPS = array();
+if(isset($element->right_target_iop_id)){$usedTargetIOPS[]=$element->right_target_iop_id;}
+if(isset($element->left_target_iop_id)){$usedTargetIOPS[]=$element->left_target_iop_id;}
+
+$targetIOPS =
+	CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_TargetIop::model()
+		->activeOrPk($usedTargetIOPS)->findAll(array('order'=> 'display_order asc')),'id','name');
+
 ?>
 
 <div class="element-fields row">
@@ -43,8 +61,8 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row field-row">
-				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[right_target_iop]' ?>">Target IOP:</label></div>
-				<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[right_target_iop_id]' ?>">Target IOP:</label></div>
+				<div class="large-3 column"><?= $form->dropDownList($element, 'right_target_iop_id', $targetIOPS, array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 				<p class="large-1 column end">mmHg</p>
 			</div>
 		</div>
@@ -60,8 +78,8 @@ $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamina
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row field-row">
-				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[left_target_iop]' ?>">Target IOP:</label></div>
-				<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop', array_combine(range(10, 25), range(10, 25)), array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
+				<div class="large-3 column"><label for="<?= CHtml::modelName($element) . '[left_target_iop_id]' ?>">Target IOP:</label></div>
+				<div class="large-3 column"><?= $form->dropDownList($element, 'left_target_iop_id', $targetIOPS, array('nowrapper' => true, 'empty' => '- Select -')) ?></div>
 				<p class="large-1 column end">mmHg</p>
 			</div>
 		</div>

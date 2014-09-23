@@ -49,7 +49,7 @@
 		</label>
 		<div class="row collapse">
 			<div class="large-3 column">
-				<?php echo CHtml::activeTextField($element, $side.'_diameter', array('class' => 'diameter')) ?>
+				<?php echo CHtml::activeTextField($element, $side.'_diameter', array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class' => 'diameter')) ?>
 			</div>
 			<div class="large-9 column">
 				<div class="field-info postfix align">
@@ -62,7 +62,7 @@
 		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_description';?>">
 			<?php echo $element->getAttributeLabel($side.'_description')?>:
 		</label>
-		<?php echo CHtml::activeTextArea($element, $side.'_description', array('rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
+		<?php echo CHtml::activeTextArea($element, $side.'_description', array('autocomplete' => Yii::app()->params['html_autocomplete'], 'rows' => "2", 'cols' => "20", 'class' => 'autosize clearWithEyedraw')) ?>
 	</div>
 	<div class="field-row">
 		<button class="ed_report secondary small">Report</button>

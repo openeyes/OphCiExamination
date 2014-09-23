@@ -50,6 +50,7 @@ class OphCiExamination_IntraocularPressure_Value extends \BaseActiveRecordVersio
 		if (($default_reading_id = Element_OphCiExamination_IntraocularPressure::model()->getSetting('default_reading_id'))) {
 			$this->reading_id = $default_reading_id;
 		}
+		$this->reading_time = date("H:i", time());
 	}
 
 	public function afterValidate()

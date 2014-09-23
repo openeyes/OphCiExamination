@@ -82,6 +82,20 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 		);
 	}
 
+	public function setDefaultOptions()
+	{
+		if ($rows = $this->getSetting('default_rows')) {
+			$left_values = array();
+			$right_values = array();
+			for ($i = 0; $i < $rows; $i++) {
+				$left_values[]  = new OphCiExamination_IntraocularPressure_Value();
+				$right_values[]  = new OphCiExamination_IntraocularPressure_Value();
+			}
+			$this->left_values = $left_values;
+			$this->right_values = $right_values;
+		}
+	}
+
 	public function afterValidate()
 	{
 		foreach (array('right' => 'hasRight', 'left' => 'hasLeft') as $side => $checker) {
@@ -107,7 +121,7 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 
 	public function beforeDelete()
 	{
-		OphCiExamination_Intraocularpressure_Value::model()->deleteAll("element_id = ?", array($this->id));
+		OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($this->id));
 
 		return parent::beforeDelete();
 	}

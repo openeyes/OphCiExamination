@@ -18,7 +18,6 @@
  */
 ?>
 <?php
-$expert = $element->getSetting('expert');
 $html_options = array();
 foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
 	$html_options[(string) $option->id] = array('data-value'=> $option->name);
@@ -26,7 +25,19 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Descriptio
 ?>
 <div class="eyedraw-fields">
 
-	<div<?php if (!$expert) {?> style="display: none;"<?php }?> class="shaffer-grade">
+	<div class="field-row">
+		<label for="<?php echo $side.'_gonioscopy_mode';?>">
+			Mode:
+		</label>
+		<?php echo CHtml::dropDownList($side.'_gonioscopy_mode', 'Basic', array('Basic' => 'Basic', 'Expert' => 'Expert'), array(
+			'class' => 'gonioscopy-mode',
+			'options' => array(
+				'Basic' => array('data-value' => 'Basic'),
+				'Expert' => array('data-value' => 'Expert'),
+			),
+		))?>
+	</div>
+	<div style="display: none;" class="shaffer-grade expert-mode">
 		<div class="field-label">Shaffer grade:</div>
 		<div class="gonio-cross">
 			<div class="gonio-sup">
@@ -44,29 +55,27 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Descriptio
 		</div>
 	</div>
 
-	<?php if (!$expert) { ?>
-		<div class="basic-grade">
-			<div class="field-label">Angle Open?:</div>
-			<?php
-				$basic_options = array('0' => 'No', '1' => 'Yes');
-				$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
-			?>
-			<div class="gonio-cross">
-				<div class="gonio-sup">
-					<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', ($element->{$side.'_gonio_sup'}) ? $element->{$side.'_gonio_sup'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
-				</div>
-				<div class="gonio-tem">
-					<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', ($element->{$side.'_gonio_tem'}) ? $element->{$side.'_gonio_tem'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
-				</div>
-				<div class="gonio-nas">
-					<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', ($element->{$side.'_gonio_nas'}) ? $element->{$side.'_gonio_nas'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
-				</div>
-				<div class="gonio-inf">
-					<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', ($element->{$side.'_gonio_inf'}) ? $element->{$side.'_gonio_inf'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
-				</div>
+	<div style="display:none;" class="basic-mode">
+		<div class="field-label">Angle Open?:</div>
+		<?php
+			$basic_options = array('0' => 'No', '1' => 'Yes');
+			$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
+		?>
+		<div class="gonio-cross">
+			<div class="gonio-sup">
+				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', ($element->{$side.'_gonio_sup'}) ? $element->{$side.'_gonio_sup'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
+			</div>
+			<div class="gonio-tem">
+				<?php echo CHtml::dropDownList($side.'_gonio_tem_basic', ($element->{$side.'_gonio_tem'}) ? $element->{$side.'_gonio_tem'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'tem', 'options' => $html_options))?>
+			</div>
+			<div class="gonio-nas">
+				<?php echo CHtml::dropDownList($side.'_gonio_nas_basic', ($element->{$side.'_gonio_nas'}) ? $element->{$side.'_gonio_nas'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'nas', 'options' => $html_options))?>
+			</div>
+			<div class="gonio-inf">
+				<?php echo CHtml::dropDownList($side.'_gonio_inf_basic', ($element->{$side.'_gonio_inf'}) ? $element->{$side.'_gonio_inf'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'inf', 'options' => $html_options))?>
 			</div>
 		</div>
-	<?php } ?>
+	</div>
 
 	<div class="van_herick field-row">
 		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_van_herick_id';?>">

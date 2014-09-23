@@ -748,16 +748,28 @@ $(document).ready(function() {
 		OphCiExamination_OpticDisc_updateCDRatio(this);
 	});
 
+	$(this).delegate('#event-content .' + OE_MODEL_PREFIX + 'Element_OphCiExamination_Gonioscopy .gonioscopy-mode', 'change', function() {
+		OphCiExamination_Gonioscopy_update(this);
+	});
+
 	$('#event-content').delegate('.element .segmented select', 'change', function() {
 		var field = $(this).nextAll('input');
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
 	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
+		// when VA is a root element:
+		/*
 		removeElement($(this).closest('.element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'));
 		var el = $('.optional-elements-list').find('li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
 		el.addClass('clicked');
 		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
+		*/
+		// when VA is a child element:
+		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
+		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
+		el.addClass('clicked');
+		addElement(el, true, true, undefined, {unit_id: $(this).val()});
 	});
 
 	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
@@ -842,7 +854,7 @@ $(document).ready(function() {
 			// Hide vision table
 			$('.colourvision_table', wrapper).hide();
 			// Hide clear button
-			$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ColourVision .clearCV').addClass('hidden');
+			$(wrapper).find('.clearCV').addClass('hidden');
 		}
 		e.preventDefault();
 	});
@@ -1243,27 +1255,32 @@ function OphCiExamination_VisualAcuity_ReadingTooltip(row) {
 	iconHover.hover(function(e) {
 		var sel = $(this).parent().parent().find('select.va-selector');
 		var val = sel.val();
-		var conversions = [];
-
-		sel.find('option').each(function() {
-			if ($(this).val() == val) {
-				conversions = $(this).data('tooltip');
-				return true;
-			}
-		});
-
 		var tooltip_text = '';
-		var approx = false;
-		for (var i = 0; i < conversions.length; i++) {
-			tooltip_text += conversions[i].name + ": " + conversions[i].value;
-			if (conversions[i].approx) {
-				approx = true;
-				tooltip_text += '*';
+		if (val) {
+			var conversions = [];
+
+			sel.find('option').each(function() {
+				if ($(this).val() == val) {
+					conversions = $(this).data('tooltip');
+					return true;
+				}
+			});
+
+			var approx = false;
+			for (var i = 0; i < conversions.length; i++) {
+				tooltip_text += conversions[i].name + ": " + conversions[i].value;
+				if (conversions[i].approx) {
+					approx = true;
+					tooltip_text += '*';
+				}
+				tooltip_text += "<br />";
 			}
-			tooltip_text += "<br />";
+			if (approx) {
+				tooltip_text += "<i>* Approximate</i>";
+			}
 		}
-		if (approx) {
-			tooltip_text += "<i>* Approximate</i>";
+		else {
+			tooltip_text = 'Please select a VA value';
 		}
 
 		var infoWrap = $('<div class="quicklook">' + tooltip_text + '</div>');
@@ -1613,6 +1630,7 @@ function maskFields(element, ignore) {
 			}
 			$(this).data('stored-val', $(this).val());
 			$(this).val('');
+			$(this).prop('disabled', true);
 		});
 		element.hide();
 	}
@@ -1638,6 +1656,7 @@ function unmaskFields(element, ignore) {
 			else {
 				$(this).val($(this).data('stored-val'));
 			}
+			$(this).prop('disabled', false);
 		});
 		element.show();
 	}
@@ -1820,6 +1839,23 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	$('.js-diagnoses').append(row);
 }
 
+function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
+	this.notificationHandler = function (message) {
+		switch (message.eventName) {
+			case 'ready':
+			case 'doodlesLoaded':
+				OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, drawing.firstDoodleOfClass('Gonioscopy').getParameter('mode'));
+				break;
+			case 'parameterChanged':
+				if (message.object.doodle.className == 'Gonioscopy' && message.object.parameter == 'mode') {
+					OphCiExamination_Gonioscopy_switch_mode(drawing.canvas, message.object.value);
+				}
+				break;
+		}
+	}
+	drawing.registerForNotifications(this);
+}
+
 function OphCiExamination_Gonioscopy_init() {
 	$(".foster_images_dialog").dialog({
 		autoOpen: false,
@@ -1827,6 +1863,18 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
+}
+
+function OphCiExamination_Gonioscopy_switch_mode(canvas, mode) {
+	var body = $(canvas).closest('.ed-body');
+	var expert = body.find('.expert-mode');
+	var basic = body.find('.basic-mode');
+
+	if (mode == 'Expert') {
+		expert.show(); basic.hide();
+    } else {
+		expert.hide(); basic.show();
+    }
 }
 
 function OphCiExamination_OpticDisc_init() {
