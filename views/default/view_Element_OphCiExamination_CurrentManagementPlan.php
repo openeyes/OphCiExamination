@@ -20,8 +20,7 @@
 $iop = $element->getLatestIOP($this->patient);
 
 $exam_api = Yii::app()->moduleAPI->get('OphCiExamination');
-$leftIop = $exam_api->getIOPReadingLeft($this->patient);
-$iop['rightIOP']
+$targetIOP = $exam_api->getTargetIOP($this->patient);
 ?>
 <div class="element-data element-eyes row">
 	<script type="text/javascript">
@@ -33,7 +32,7 @@ $iop['rightIOP']
 				<?php if ($element->hasRight()) {?>
 					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop_id" class="row field-row">
 						<div class="large-5 column"><label>IOP:</label></div>
-						<div class="large-7 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ($iop == null ) ? 'N/A': $iop['rightIOP'].' mmHg'?></div>
+						<div class="large-7 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_right_iop"><?php echo ($iop == null ) ? 'N/A': $iop['rightIOP'].' mmHg'; if($iop['rightIOP'] > $targetIOP['right'] ){ ?> <span class="iop_notification error">*** IOP above target ***</span> <?php } ?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_glaucoma_status_id'))?></div></div>
@@ -64,7 +63,7 @@ $iop['rightIOP']
 				<?php if ($element->hasLeft()) {?>
 					<div id="div_OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop_id" class="row field-row">
 						<div class="large-5 column"><label>IOP:</label></div>
-						<div class="large-7 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ($iop == null) ? 'N/A' : $iop['leftIOP'].' mmHg'?></div>
+						<div class="large-7 column end" id="OEModule_OphCiExamination_models_Element_OphCiExamination_CurrentManagementPlan_left_iop"><?php echo ($iop == null) ? 'N/A' : $iop['leftIOP'].' mmHg'; if($iop['leftIOP'] > $targetIOP['left'] ){ ?> <span class="iop_notification error">*** IOP above target ***</span> <?php } ?></div>
 					</div>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_glaucoma_status_id'))?></div></div>
