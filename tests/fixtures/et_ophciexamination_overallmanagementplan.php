@@ -30,5 +30,33 @@ return array(
 		'hfa_id'=>4,
 		'hrt_id'=>4,
 		'comments' => 'some comment'
+	),
+	'overallmanagementplan2' => array(
+		'id' => 2,
+		'event_id' => 1,
+		'eye_id'=>3,
+		'left_target_iop_id' => null,
+		'right_target_iop_id' => 15,
+		'gonio_id' => 1,
+		'clinic_interval_id' => 1,
+		'photo_id' => 4,
+		'oct_id' => 4,
+		'hfa_id'=>4,
+		'hrt_id'=>4,
+		'comments' => 'some comment'
+	),
+	'overallmanagementplan3' => array(
+		'id' => 3,
+		'event_id' => 1,
+		'eye_id'=>3,
+		'left_target_iop_id' => null,
+		'right_target_iop_id' => null,
+		'gonio_id' => 1,
+		'clinic_interval_id' => 1,
+		'photo_id' => 4,
+		'oct_id' => 4,
+		'hfa_id'=>4,
+		'hrt_id'=>4,
+		'comments' => 'some comment'
 	)
 );

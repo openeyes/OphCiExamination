@@ -536,4 +536,56 @@ class OphCiExamination_APITest extends CDbTestCase {
 		$expected  = array('left' => 10,'right' => 20);
 		$this->assertEquals($expected, $targetIop);
 	}
+
+	public function testGetTargetIOPOneSideNull(){
+		$overall_management = $this->overallmanagementplan('overallmanagementplan2');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OverallManagementPlan')
+			->will($this->returnValue($overall_management));
+
+		$targetIop = $api->getTargetIOP($patient);
+		$expected  = array('left' => null,'right' => 15);
+		$this->assertEquals($expected, $targetIop);
+	}
+
+	public function testGetTargetIOPReturnsNull(){
+		$overall_management = $this->overallmanagementplan('overallmanagementplan3');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue(null));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$targetIop = $api->getTargetIOP($patient);
+		$this->assertNull($targetIop);
+	}
 }
