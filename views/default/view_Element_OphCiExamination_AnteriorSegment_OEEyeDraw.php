@@ -27,6 +27,7 @@
 		'height' => 200,
 		'model' => $element,
 		'attribute' => $side.'_eyedraw',
+		'toggleScale' => 0.72
 	))?>
 </div>
 

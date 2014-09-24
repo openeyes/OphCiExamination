@@ -19,8 +19,11 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-	'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
+	'doodleToolBarArray' => array(
+		array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
         'Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia','Rubeosis','TransilluminationDefect','KrukenbergSpindle'),
+		array('TrabySuture', 'Supramid', 'TubeLigation', 'CornealSuture', 'TrabyFlap', 'ConjunctivalFlap', 'SidePort', 'Patch', 'ConjunctivalSuture', 'ACMaintainer', 'TubeExtender'),
+	),
 	'onReadyCommandArray' => array(
 		array('addDoodle', array('AntSeg')),
 		array('deselectDoodles', array()),
@@ -46,6 +49,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	'attribute' => $side.'_eyedraw',
 	'maxToolbarButtons' => 7,
 	'template' => 'OEEyeDrawWidget_InlineToolbar',
+	'toggleScale' => 0.72,
 	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
 		'form' => $form,
 		'side' => $side,
