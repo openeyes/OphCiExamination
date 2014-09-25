@@ -50,6 +50,7 @@ $key = 0;
 								'side' => $treatment->side,
 								'drug_name' => $treatment->drug->name,
 								'drug_id' => $treatment->drug_id,
+								'data_order' => $treatment->drug->display_order
 							));
 						$key++;
 					}?>
@@ -91,6 +92,7 @@ $key = 0;
 								'side' => $treatment->side,
 								'drug_name' => $treatment->drug->name,
 								'drug_id' => $treatment->drug_id,
+								'data_order' => $treatment->drug->display_order
 							));
 						$key++;
 					}?>
