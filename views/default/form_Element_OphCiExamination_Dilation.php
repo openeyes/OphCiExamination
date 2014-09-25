@@ -115,5 +115,6 @@ $key = 0;
 			'drug_name' => '{{drug_name}}',
 			'drug_id' => '{{drug_id}}',
 			'treatment_time' => '{{treatment_time}}',
+			'data_order' => '{{data_order}}',
 	))?>
 </script>
