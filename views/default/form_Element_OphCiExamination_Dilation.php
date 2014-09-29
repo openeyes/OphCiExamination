@@ -19,6 +19,12 @@
 ?>
 <?php
 $key = 0;
+$dilation_drugs = \OEModule\OphCiExamination\models\OphCiExamination_Dilation_Drugs::model()->findAll();
+
+$dilation_drugs_order = array();
+foreach($dilation_drugs as $d_drug){
+	$dilation_drugs_order[$d_drug['id']] = $d_drug['display_order'];
+}
 ?>
 <div class="element-fields element-eyes row">
 	<input type="hidden" name="dilation_treatments_valid" value="1" />
@@ -27,7 +33,7 @@ $key = 0;
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<?php echo $form->dropDownListNoPost('dilation_drug_right',$element->getUnselectedDilationDrugs('right'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true, 'display_order' => $dilation_drugs_order))?>
 				<button class="small secondary clearDilation">
 					Clear
 				</button>
