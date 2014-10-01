@@ -1954,7 +1954,7 @@ $('a.removeDiagnosis').live('click',function() {
 	if (new_principal) {
 		$('input[name="principal_diagnosis"]:first').attr('checked','checked');
 	}
-
+	$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', true);
 	$.ajax({
 		'type': 'GET',
 		'url': baseUrl+'/disorder/iscommonophthalmicwithsecondary/'+disorder_id,
@@ -1962,46 +1962,28 @@ $('a.removeDiagnosis').live('click',function() {
 		'success': function(data) {
 			if (data.disorder) {
 				var extra_attr = '';
+				var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
+
 				if (data.owned_by) {
-					$('#DiagnosisSelection_disorder_id').children().each(function() {
-						var opt_id = $(this).val();
+					// check if secondary list is displayed and needs updating?
+					var selected = $('#DiagnosisSelection_disorder_id').children('option:selected');
+					if (selected.data('secondary-to')) {
 						for (var i in data.owned_by) {
-							if (data.owned_by[i].id == opt_id) {
-								if ($(this).data('secondary-to')) {
-									var current = $(this).data('secondary-to');
-									current.push(data.disorder);
-									$(this).data('secondary-to', current);
-								}
-								else {
-									$(this).data('secondary-to', '['+JSON.stringify(data.disorder).replace(/\"/g, "&quot;")+']');
-								}
+							if (data.owned_by[i].id == selected.val()
+									|| (data.owned_by[i].id == null && selected.val() == 'NONE')) {
+								updateSecondaryList(selected.data('secondary-to'), selected.val() != 'NONE');
 							}
-						}
-					});
-					return;
-				}
-				else if (data.secondary_to) {
-					var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
-					var final_st = new Array();
-					for (var i in data.secondary_to) {
-						var st = data.secondary_to[i];
-						var add = true;
-						for (var j in current_diagnoses) {
-							if (current_diagnoses[j] == st.id) {
-								add = false;
-								break;
-							}
-						}
-						if (add) {
-							final_st.push(st);
 						}
 					}
-					extra_attr = ' data-secondary-to="'+ JSON.stringify(final_st).replace(/\"/g, "&quot;") + '"';
 				}
-				html = '<option value="'+data.disorder.id+'"'+extra_attr+'>'+data.disorder.term+'</option>';
-				$('#DiagnosisSelection_disorder_id').append(html);
-				sort_selectbox($('#DiagnosisSelection_disorder_id'));
+				else {
+					// must be a primary diagnosis.
+					updatePrimaryList(data.disorder, data.secondary_to);
+				}
 			}
+		},
+		'complete': function() {
+			$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', false);
 		}
 	});
 
