@@ -75,7 +75,7 @@ foreach($dilation_drugs as $d_drug){
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<?php echo $form->dropDownListNoPost('dilation_drug_left',$element->getUnselectedDilationDrugs('left'),'', array('class'=> 'inline dilation_drug', 'empty'=>'--- Please select ---', 'nowrapper' => true, 'display_order' => $dilation_drugs_order))?>
 				<button class="small secondary clearDilation">
 					Clear
 				</button>
