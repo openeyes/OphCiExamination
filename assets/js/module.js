@@ -1960,7 +1960,8 @@ $('a.removeDiagnosis').live('click',function() {
 		'url': baseUrl+'/disorder/iscommonophthalmicwithsecondary/'+disorder_id,
 		'dataType': 'json',
 		'success': function(data) {
-			if (data.disorder) {
+
+			if (data && data.disorder) {
 				var extra_attr = '';
 				var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
 
