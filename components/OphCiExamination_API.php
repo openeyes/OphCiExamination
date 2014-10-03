@@ -1223,4 +1223,38 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getGlaucomaPatientTicket($patient)
+	{
+
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+
+			$left_cct = "";
+			$right_cct = "";
+
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasLeft()) {
+					$left_cct = '['.$el->left_value.']';
+				}
+				if ($el->hasRight()) {
+					$right_cct = '['.$el->right_value.']';
+				}
+			}
+
+			$left_iop = "";
+			$right_iop = "";
+
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				if (($reading = $iop->getReading('left'))) $left_iop = "IOP: LE {$reading}" . ($iop->isReadingAverage('left') ? ' (avg)' : '');
+				if (($reading = $iop->getReading('right'))) $right_iop = "IOP: RE {$reading}" . ($iop->isReadingAverage('right') ? ' (avg)' : '');
+			}
+
+			$glaucoma_risk = self::getGlaucomaRisk($patient);
+
+			return $left_iop.' '.$left_cct.' '.$glaucoma_risk.'<BR />'.$right_iop.' '.$right_cct.' '.$glaucoma_risk;
+		}
+	}
+
+
+
+
 }
