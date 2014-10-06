@@ -583,6 +583,84 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->assertEquals($expected, $this->api->getLetterIOPReadingAbbr($this->patient('patient1')));
 	}
 
+	public function testIOPReadingRightNoUnits()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::BOTH);
+		$this->addIopReading($element, Eye::RIGHT, 1);
+		$this->addIopReading($element, Eye::RIGHT, 3);
+
+		$expected = '2';
+		$this->assertEquals($expected, trim($this->api->getIOPReadingRightNoUnits($this->patient('patient1'))));
+	}
+
+	public function testIOPReadingLeftNoUnits()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::BOTH);
+		$this->addIopReading($element, Eye::LEFT, 3);
+		$this->addIopReading($element, Eye::LEFT, 3);
+
+		$expected = '3';
+		$this->assertEquals($expected, trim($this->api->getIOPReadingLeftNoUnits($this->patient('patient1'))));
+	}
+
+	public function testIOPReadingLeftNoUnitsNotRecorded()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::BOTH);
+		$this->addIopReading($element, Eye::RIGHT, 3);
+
+		$expected = 'NR';
+		$this->assertEquals($expected, trim($this->api->getIOPReadingLeftNoUnits($this->patient('patient1'))));
+	}
+
+	public function testIOPReadingRightNoUnitsNotRecorded()
+	{
+		$event = $this->createEvent();
+		$element = $this->createIopElement($event, Eye::LEFT);
+		$this->addIopReading($element, Eye::LEFT, 3);
+
+		$expected = 'NR';
+		$this->assertEquals($expected, trim($this->api->getIOPReadingRightNoUnits($this->patient('patient1'))));
+	}
+
+	public function testGetCCTRight_NoUnits()
+	{
+		$event = $this->createEvent('2001-01-01');
+		$element = $this->createCctElement($event, Eye::RIGHT);
+
+		$expected  = '50';
+		$this->assertEquals($expected, $this->api->getCCTRightNoUnits($this->patient('patient1')));
+	}
+
+	public function testGetCCTLeft_NoUnits()
+	{
+		$event = $this->createEvent('2001-01-01');
+		$element = $this->createCctElement($event, Eye::LEFT);
+
+		$expected  = '50';
+		$this->assertEquals($expected, $this->api->getCCTLeftNoUnits($this->patient('patient1')));
+	}
+
+	public function testGetCCTRight_NoUnits_NotRecorded()
+	{
+		$event = $this->createEvent('2001-01-01');
+		$element = $this->createCctElement($event, Eye::LEFT);
+
+		$expected  = 'NR';
+		$this->assertEquals($expected, $this->api->getCCTRightNoUnits($this->patient('patient1')));
+	}
+
+	public function testGetCCTLeft_NoUnits_NotRecorded()
+	{
+		$event = $this->createEvent('2001-01-01');
+		$element = $this->createCctElement($event, Eye::RIGHT);
+
+		$expected  = 'NR';
+		$this->assertEquals($expected, $this->api->getCCTLeftNoUnits($this->patient('patient1')));
+	}
+
 	private function createEvent($event_date = null)
 	{
 		$event = new Event;

@@ -1172,6 +1172,18 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getCCTLeftNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasLeft()) {
+					return $el->left_value;
+				}
+			}
+		}
+		return 'NR';
+	}
+
 	/**
 	 * Get the latest right CCT measurement
 	 *
@@ -1187,6 +1199,18 @@ class OphCiExamination_API extends \BaseAPI
 				}
 			}
 		}
+	}
+
+	public function getCCTRightNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasRight()) {
+					return $el->right_value;
+				}
+			}
+		}
+		return 'NR';
 	}
 
 	/**
@@ -1223,38 +1247,30 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
-	public function getGlaucomaPatientTicket($patient)
+	public function getIOPReadingLeftNoUnits($patient)
 	{
-
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-
-			$left_cct = "";
-			$right_cct = "";
-
-			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
-				if ($el->hasLeft()) {
-					$left_cct = '['.$el->left_value.']';
-				}
-				if ($el->hasRight()) {
-					$right_cct = '['.$el->right_value.']';
-				}
-			}
-
-			$left_iop = "";
-			$right_iop = "";
-
 			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
-				if (($reading = $iop->getReading('left'))) $left_iop = "IOP: LE {$reading}" . ($iop->isReadingAverage('left') ? ' (avg)' : '');
-				if (($reading = $iop->getReading('right'))) $right_iop = "IOP: RE {$reading}" . ($iop->isReadingAverage('right') ? ' (avg)' : '');
+				if ($reading = $iop->getReading('left'))
+				{
+					return $reading;
+				}
 			}
-
-			$glaucoma_risk = self::getGlaucomaRisk($patient);
-
-			return $left_iop.' '.$left_cct.' '.$glaucoma_risk.'<BR />'.$right_iop.' '.$right_cct.' '.$glaucoma_risk;
 		}
+		return 'NR';
 	}
 
-
-
+	public function getIOPReadingRightNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				if ($reading = $iop->getReading('right'))
+				{
+					return $reading;
+				}
+			}
+		}
+		return 'NR';
+	}
 
 }
