@@ -48,14 +48,14 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 		</div>
 	</div>
 
-	<?php if ($ticket_api) { ?>
+	<?php if ($ticket_api) {?>
 		<div id="div_<?= CHtml::modelName($element)?>_patientticket"
 				<?php if (!($element->status && $element->status->patientticket)) {?> style="display: none;"<?php }?>
 				data-queue-ass-form-uri="<?= $ticket_api->getQueueAssignmentFormURI()?>">
 			<!-- TODO, this should be pulled from the ticketing module somehow -->
 			<?php
 			$ticket = $element->getPatientTicket();
-			if ($ticket) { ?>
+			if ($ticket) {?>
 
 				<span class="field-info">Already Referred to Virtual Clinic:</span><br />
 				<?php $this->widget($ticket_api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket)); ?>
@@ -66,7 +66,7 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 					</legend>
 					<div class="large-3 column">
 						<?php
-							if (count($queues) == 0) { ?>
+							if (count($queues) == 0) {?>
 								<span>No valid Virtual Clinics available</span>
 							<?php
 							}
@@ -93,9 +93,9 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 						$this->widget($ticket_api::$QUEUE_ASSIGNMENT_WIDGET, array('queue_id' => $_POST['patientticket_queue'], 'label_width' => 3, 'data_width' => 5));
 					}?>
 				</div>
-			<?php } ?>
+			<?php }?>
 		</div>
-	<?php } ?>
+	<?php }?>
 
 	<div id="div_<?php echo CHtml::modelName($element)?>_followup"<?php if (!($element->status && $element->status->followup)) {?> style="display: none;"<?php }?>>
 		<fieldset class="field-row row">
@@ -139,13 +139,13 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 
 	<script type="text/javascript">
 			var Element_OphCiExamination_ClinicOutcome_templates = {
-			<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) { ?>
+			<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Template::model()->findAll() as $template) {?>
 			"<?php echo $template->id?>": {
 				"clinic_outcome_status_id": <?php echo $template->clinic_outcome_status_id ?>,
 				"followup_quantity": "<?php echo $template->followup_quantity ?>",
 				"followup_period_id": "<?php echo $template->followup_period_id ?>"
 			},
-			<?php } ?>
+			<?php }?>
 			};
 	</script>
 </div>

@@ -26,7 +26,7 @@
 				<?php echo $element->getFollowUp()?>
 				with
 				<?php echo $element->role->name?>
-				<?php if ($element->role_comments) { ?>
+				<?php if ($element->role_comments) {?>
 					(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
 				<?php }?>
 			<?php if ($element->community_patient) {?>(Community patient)<?php }?>
