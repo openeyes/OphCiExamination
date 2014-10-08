@@ -105,4 +105,19 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 		));
 	}
 
+	public function bySubspecialty($subspecialty)
+	{
+		$criteria = array(
+			'join' => 'left join ophciexamination_clinicoutcome_status_options on ophciexamination_clinicoutcome_status_options.clinicoutcome_status_id = t.id',
+			'condition' => 'ophciexamination_clinicoutcome_status_options.subspecialty_id is null',
+		);
+		if ($subspecialty) {
+			$criteria['condition'] .= ' OR ophciexamination_clinicoutcome_status_options.subspecialty_id = :subspecialty_id';
+			$criteria['params'] = array(':subspecialty_id' => $subspecialty->id);
+		}
+		$this->getDbCriteria()->mergeWith($criteria);
+
+		return $this;
+	}
+
 }
