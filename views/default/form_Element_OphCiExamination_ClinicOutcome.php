@@ -34,7 +34,7 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 			</div>
 			<div class="large-3 column end">
 				<?php
-				$outcomes = \OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->findAll();
+				$outcomes = \OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()->activeOrPk($element->status_id)->bySubspecialty($this->firm->getSubspecialty())->findAll();
 				$html_options = array('empty'=>'- Please select -', 'nowrapper' => true, 'options' => array());
 				foreach ($outcomes as $opt) {
 					$options = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);

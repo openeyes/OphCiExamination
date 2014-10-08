@@ -16,10 +16,14 @@ class m141007_132435_clinicoutcomestatuses_admin_subspecialty_assign extends OEM
 		$this->addForeignKey('ophciexamination_clinicoutcome_status_options_ssid_fk',
 				'ophciexamination_clinicoutcome_status_options',
 				'subspecialty_id', 'subspecialty', 'id');
+
+		$migrations_path = dirname(__FILE__);
+		$this->initialiseData($migrations_path);
 	}
 
 	public function down()
 	{
 		$this->dropOETable('ophciexamination_clinicoutcome_status_options', true);
+		$this->delete('ophciexamination_clinicoutcome_status', 'name = ? or name = ?', array('Refer to VC', 'Suitable for stable monitoring clinic'));
 	}
 }

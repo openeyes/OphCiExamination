@@ -34,7 +34,7 @@ return array(
 			'Management Surgery Options' => '/OphCiExamination/admin/manageManagementSurgery',
 			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
 			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
-			'Clinical Outcome Statuses' => '/OphCiExamination/admin/manageClinicalOutcomesStatus',
+			'Clinic Outcome Statuses' => '/OphCiExamination/admin/manageClinicOutcomesStatus',
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',

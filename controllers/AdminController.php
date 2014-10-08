@@ -659,7 +659,7 @@ class AdminController extends \ModuleAdminController
 		);
 	}
 
-	public function actionManageClinicalOutcomesStatus()
+	public function actionManageClinicOutcomesStatus()
 	{
 		$this->genericAdmin(
 			'Edit Clinical Outcome Statuses',
@@ -669,7 +669,7 @@ class AdminController extends \ModuleAdminController
 					array(
 						'field' => 'episode_status_id',
 						'type' => 'lookup',
-						'model' => 'EpisodeStatus'
+						'model' => 'EpisodeStatus',
 					),
 					array(
 						'field' => 'subspecialties',
