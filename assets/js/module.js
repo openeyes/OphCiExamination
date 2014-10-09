@@ -349,9 +349,6 @@ $(document).ready(function() {
 			description = side + '_' + description;
 		}
 		description = $('textarea[name$="[' + description + ']"]', element).first();
-		if (description.val()) {
-			text = description.val() + ", " + text.toLowerCase();
-		}
 		description.val(text);
 		description.trigger('autosize');
 
