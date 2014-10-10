@@ -276,7 +276,7 @@ $(document).ready(function() {
 	handleButton($('#et_save'));
 
 	handleButton($('#et_print'),function(e) {
-		printEvent();
+		printEvent(null);
 		e.preventDefault();
 	});
 
