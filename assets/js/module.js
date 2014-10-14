@@ -18,6 +18,7 @@
 
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 var examination_print_url, module_css_path;
+var OphCiExamination_reports = {};
 
 function gradeCalculator(_drawing) {
 	var doodleArray = _drawing.doodleArray;
@@ -349,7 +350,20 @@ $(document).ready(function() {
 			description = side + '_' + description;
 		}
 		description = $('textarea[name$="[' + description + ']"]', element).first();
-		description.val(text);
+
+		if (description.val() == '') {
+			OphCiExamination_reports[element.data('element-type-id')] = text;
+			description.val(text);
+		} else {
+			if (typeof(OphCiExamination_reports[element.data('element-type-id')]) != 'undefined' &&
+				description.val().indexOf(OphCiExamination_reports[element.data('element-type-id')]) != -1) {
+				description.val(description.val().replace(new RegExp(OphCiExamination_reports[element.data('element-type-id')]),text));
+				OphCiExamination_reports[element.data('element-type-id')] = text;
+			} else {
+				description.val(text);
+			}
+		}
+
 		description.trigger('autosize');
 
 		// Update diagnoses
