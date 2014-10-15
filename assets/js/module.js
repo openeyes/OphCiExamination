@@ -269,6 +269,25 @@ function posteriorListener(_drawing) {
 	}
 }
 
+/**
+ * Listener function for Anterior Segment to make the Traby Flap doodle deletable
+ *
+ * @param _drawing
+ */
+function anteriorListener(_drawing) {
+	this.drawing = _drawing;
+
+	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded']);
+
+	this.callBack = function (_messageArray) {
+		var obj = _messageArray.object;
+		if (obj.className == 'TrabyFlap') {
+			obj.isDeletable = true;
+			this.drawing.selectDoodle(obj);
+		}
+	}
+}
+
 $(document).ready(function() {
 	/**
 	 * Save event
@@ -1990,6 +2009,8 @@ $('a.removeDiagnosis').live('click',function() {
 
 	return false;
 });
+
+
 
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = ED.getInstance('ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id'));
