@@ -19,8 +19,11 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-	'doodleToolBarArray' => array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
+	'doodleToolBarArray' => array(
+		array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
         'Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia','Rubeosis','TransilluminationDefect','KrukenbergSpindle'),
+		array('TrabySuture', 'Supramid', 'TubeLigation', 'CornealSuture', 'TrabyFlap', 'SidePort', 'Patch', 'ConjunctivalSuture', 'ACMaintainer', 'Tube', 'TubeExtender'),
+	),
 	'onReadyCommandArray' => array(
 		array('addDoodle', array('AntSeg')),
 		array('deselectDoodles', array()),
@@ -37,6 +40,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 		'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id' => '',
 		'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id' => '',
 	),
+	'listenerArray' => array('anteriorListener'),
 	'idSuffix' => $side.'_'.$element->elementType->id,
 	'side' => ($side == 'right') ? 'R' : 'L',
 	'mode' => 'edit',
@@ -46,6 +50,7 @@ $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
 	'attribute' => $side.'_eyedraw',
 	'maxToolbarButtons' => 7,
 	'template' => 'OEEyeDrawWidget_InlineToolbar',
+	'toggleScale' => 0.72,
 	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
 		'form' => $form,
 		'side' => $side,

@@ -269,6 +269,25 @@ function posteriorListener(_drawing) {
 	}
 }
 
+/**
+ * Listener function for Anterior Segment to make the Traby Flap doodle deletable
+ *
+ * @param _drawing
+ */
+function anteriorListener(_drawing) {
+	this.drawing = _drawing;
+
+	this.drawing.registerForNotifications(this, 'callBack', ['doodleAdded']);
+
+	this.callBack = function (_messageArray) {
+		var obj = _messageArray.object;
+		if (obj.className == 'TrabyFlap' || obj.className == 'Tube') {
+			obj.isDeletable = true;
+			this.drawing.selectDoodle(obj);
+		}
+	}
+}
+
 $(document).ready(function() {
 	/**
 	 * Save event
@@ -900,11 +919,12 @@ $(document).ready(function() {
 		var wrapper = $(this).closest('.side');
 		var side = wrapper.attr('data-side');
 		var row = $(this).closest('tr');
+		var data_order = row.attr('data-order');
 		var id = $('.drugId', row).val();
 		var name = $('.drugName', row).text();
 		row.remove();
 		var dilation_drug = wrapper.find('.dilation_drug');
-		dilation_drug.append('<option value="'+id+'">'+name+'</option>');
+		dilation_drug.append('<option value="'+id+'" data-order="'+ data_order +'">'+name+'</option>');
 		sort_selectbox(dilation_drug);
 		if ($('.dilation_table tbody tr', wrapper).length == 0) {
 			$('.dilation_table', wrapper).hide();
@@ -1164,6 +1184,7 @@ function OphCiExamination_Dilation_getNextKey() {
 
 function OphCiExamination_Dilation_addTreatment(element, side) {
 	var drug_id = $('option:selected', element).val();
+	var data_order = $('option:selected', element).data('order');
 	if(drug_id) {
 		var drug_name = $('option:selected', element).text();
 		$('option:selected', element).remove();
@@ -1172,7 +1193,8 @@ function OphCiExamination_Dilation_addTreatment(element, side) {
 			"key" : OphCiExamination_Dilation_getNextKey(),
 			"side" : side,
 			"drug_name" : drug_name,
-			"drug_id" : drug_id
+			"drug_id" : drug_id,
+			"data_order" : data_order
 		};
 		var form = Mustache.render(template, data);
 		var table = $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_Dilation [data-side="' + side + '"] .dilation_table');
@@ -1973,59 +1995,44 @@ $('a.removeDiagnosis').live('click',function() {
 	if (new_principal) {
 		$('input[name="principal_diagnosis"]:first').attr('checked','checked');
 	}
-
+	$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', true);
 	$.ajax({
 		'type': 'GET',
 		'url': baseUrl+'/disorder/iscommonophthalmicwithsecondary/'+disorder_id,
 		'dataType': 'json',
 		'success': function(data) {
-			if (data.disorder) {
+
+			if (data && data.disorder) {
 				var extra_attr = '';
+				var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
+
 				if (data.owned_by) {
-					$('#DiagnosisSelection_disorder_id').children().each(function() {
-						var opt_id = $(this).val();
+					// check if secondary list is displayed and needs updating?
+					var selected = $('#DiagnosisSelection_disorder_id').children('option:selected');
+					if (selected.data('secondary-to')) {
 						for (var i in data.owned_by) {
-							if (data.owned_by[i].id == opt_id) {
-								if ($(this).data('secondary-to')) {
-									var current = $(this).data('secondary-to');
-									current.push(data.disorder);
-									$(this).data('secondary-to', current);
-								}
-								else {
-									$(this).data('secondary-to', '['+JSON.stringify(data.disorder).replace(/\"/g, "&quot;")+']');
-								}
+							if (data.owned_by[i].id == selected.val()
+									|| (data.owned_by[i].id == null && selected.val() == 'NONE')) {
+								updateSecondaryList(selected.data('secondary-to'), selected.val() != 'NONE');
 							}
-						}
-					});
-					return;
-				}
-				else if (data.secondary_to) {
-					var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
-					var final_st = new Array();
-					for (var i in data.secondary_to) {
-						var st = data.secondary_to[i];
-						var add = true;
-						for (var j in current_diagnoses) {
-							if (current_diagnoses[j] == st.id) {
-								add = false;
-								break;
-							}
-						}
-						if (add) {
-							final_st.push(st);
 						}
 					}
-					extra_attr = ' data-secondary-to="'+ JSON.stringify(final_st).replace(/\"/g, "&quot;") + '"';
 				}
-				html = '<option value="'+data.disorder.id+'"'+extra_attr+'>'+data.disorder.term+'</option>';
-				$('#DiagnosisSelection_disorder_id').append(html);
-				sort_selectbox($('#DiagnosisSelection_disorder_id'));
+				else {
+					// must be a primary diagnosis.
+					updatePrimaryList(data.disorder, data.secondary_to);
+				}
 			}
+		},
+		'complete': function() {
+			$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', false);
 		}
 	});
 
 	return false;
 });
+
+
 
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = ED.getInstance('ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id'));

@@ -988,7 +988,7 @@ class OphCiExamination_API extends \BaseAPI
 				if ($d = $el->{$side . '_diagnosis1'}) {
 					$res = $d->term;
 					if ($d2 = $el->{$side . '_diagnosis2'}) {
-						$res .= ' secondary to ' . $d2->term;
+						$res .= ' associated with ' . $d2->term;
 					}
 					return $res;
 				}
