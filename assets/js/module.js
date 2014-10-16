@@ -281,7 +281,7 @@ function anteriorListener(_drawing) {
 
 	this.callBack = function (_messageArray) {
 		var obj = _messageArray.object;
-		if (obj.className == 'TrabyFlap') {
+		if (obj.className == 'TrabyFlap' || obj.className == 'Tube') {
 			obj.isDeletable = true;
 			this.drawing.selectDoodle(obj);
 		}
