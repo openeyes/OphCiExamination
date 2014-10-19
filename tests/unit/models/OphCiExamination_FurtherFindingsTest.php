@@ -15,18 +15,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_Further_FindingsTest extends CDbTestCase {
+class OphCiExamination_FurtherFindingsTest extends CDbTestCase {
 
 	protected $model;
 	public $fixtures = array(
-		'furtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_Further_Findings',
+		'furtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
 		'furtherFindingsAssignment' => ':ophciexamination_further_findings_assignment',
 		'subspecialty' => '\Subspecialty'
 	);
 
 	protected function setUp() {
 		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\OphCiExamination_Further_Findings;
+		$this->model = new OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings;
 	}
 
 	protected function tearDown() {
@@ -34,7 +34,7 @@ class OphCiExamination_Further_FindingsTest extends CDbTestCase {
 
 	public function testBySubspecialty()
 	{
-		$findingsBySubspecialty = OEModule\OphCiExamination\models\OphCiExamination_Further_Findings::model()
+		$findingsBySubspecialty = OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings::model()
 			->bySubspecialty($this->subspecialty('subspecialty1'))->findAll();
 
 		$this->assertCount(3, $findingsBySubspecialty);

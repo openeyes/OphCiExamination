@@ -13,8 +13,13 @@ class m141016_134200_add_further_findings_element extends OEMigration
 
 		$this->createOETable('ophciexamination_further_findings',
 			array('id' => 'pk','name' => 'varchar(255)','display_order' => 'int(10) unsigned NOT NULL DEFAULT 1',
-				'active' => 'tinyint(1) unsigned not null DEFAULT 1', 'UNIQUE KEY (`name`)'
+				'active' => 'tinyint(1) unsigned not null DEFAULT 1'
 			), true);
+
+		$this->createIndex(
+			'ophciexamination_further_findings_unique_name', 'ophciexamination_further_findings',
+			'name', true
+		);
 
 		$this->createOETable('et_ophciexamination_further_findings', array(
 			'id' => 'pk',

@@ -28,11 +28,11 @@ namespace OEModule\OphCiExamination\models;
  * @active integer $active
 
  */
-class OphCiExamination_Further_Findings extends \BaseActiveRecordVersioned
+class OphCiExamination_FurtherFindings extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Further_Findings the static model class
+	 * @return OphCiExamination_FurtherFindings the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -55,7 +55,7 @@ class OphCiExamination_Further_Findings extends \BaseActiveRecordVersioned
 	}
 
 	/**
-	 * @return array validation rules for model OphCiExamination_Further_Findings.
+	 * @return array validation rules for model OphCiExamination_FurtherFindings.
 	 */
 	public function rules()
 	{

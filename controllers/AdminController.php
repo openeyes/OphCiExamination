@@ -663,7 +663,7 @@ class AdminController extends \ModuleAdminController
 	{
 		$this->genericAdmin(
 			'Edit Further Findings',
-			'OEModule\OphCiExamination\models\OphCiExamination_Further_Findings',
+			'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
 			array(
 				'extra_fields' => array(
 					array(
