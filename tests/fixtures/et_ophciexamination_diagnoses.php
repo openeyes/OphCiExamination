@@ -16,20 +16,12 @@
  */
 
 return array(
-	'ex_further_finding_ass1' => array(
+	'et_further_diagnoses1' => array(
 		'id' => 1,
-		'further_finding_id' => 2,
-		'element_id' => 1
+		'event_id' => 1,
 	),
-	'ex_further_finding_ass2' => array(
+	'et_further_diagnoses2' => array(
 		'id' => 2,
-		'further_finding_id' => 1,
-		'element_id' => 2
+		'event_id' => 2,
 	),
-	'ex_further_finding_ass3' => array(
-		'id' => 3,
-		'further_finding_id' => 3,
-		'element_id' => 2
-	),
-
 );

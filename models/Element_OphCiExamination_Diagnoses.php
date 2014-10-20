@@ -271,6 +271,10 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 			$text .= "Secondary diagnosis: ".$diagnosis->eye->adjective." ".$diagnosis->disorder->term."\n";
 		}
 
+		if($ff = Element_OphCiExamination_FurtherFindings::model()->find('event_id=?',array($this->event_id))){
+			$text .= "Further Findings: ". $ff->getFurtherFindingsAssignedString() ."\n";
+		}
+
 		return $text;
 	}
 

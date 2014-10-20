@@ -142,4 +142,21 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 
 		return $further_findings;
 	}
+
+	public function getFurtherFindingsAssignedString()
+	{
+		$further_findings = array();
+
+		if (count($this->further_findings) > 0 ) {
+			foreach ($this->further_findings as $ff) {
+				$further_findings[] = $ff->name;
+			}
+			$further_findings = implode(', ', $further_findings);
+		}
+		else{
+			return '';
+		}
+
+		return $further_findings;
+	}
 }

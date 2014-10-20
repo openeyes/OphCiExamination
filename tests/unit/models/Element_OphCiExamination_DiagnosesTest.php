@@ -17,16 +17,17 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-class Element_OphCiExamination_FurtherFindings_Test extends CDbTestCase {
+class Element_OphCiExamination_DiagnosesTest extends CDbTestCase {
 
 	/**
-	 * @var Element_OphCiExamination_FurtherFindings
+	 * @var Element_OphCiExamination_Diagnoses
 	 */
 	protected $model;
 	public $fixtures = array(
-		'furtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
+		'furtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses',
 		'etFurtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
 		'furtherFindingsAssignment' => ':ophciexamination_further_findings_assignment',
+		'diagnoses' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses',
 	);
 
 	/**
@@ -35,28 +36,27 @@ class Element_OphCiExamination_FurtherFindings_Test extends CDbTestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings;
+		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses;
 	}
 
 	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::model
+	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses::model
 	 */
 	public function testModel() {
-		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', get_class($this->model), 'Class name should match model.');
+		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses', get_class($this->model), 'Class name should match model.');
 	}
 
 	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::tableName
+	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses::tableName
 	 */
 	public function testTableName() {
-		$this->assertEquals('et_ophciexamination_further_findings', $this->model->tableName());
+		$this->assertEquals('et_ophciexamination_diagnoses', $this->model->tableName());
 	}
 
-	public function testGetFurtherFindingsAssigned(){
-		$etFF = $this->furtherFindings('et_further_findings1')->getFurtherFindingsAssigned();
-		$this->assertCount(1, $etFF);
 
-		$this->assertEquals(2, $etFF[0]);
+	public function testGetLetter_string(){
+		$etDiagString = $this->diagnoses('et_further_diagnoses1')->getLetter_string();
+		$this->assertEquals("Further Findings: Finding 2\n", $etDiagString);
 	}
 
 }
