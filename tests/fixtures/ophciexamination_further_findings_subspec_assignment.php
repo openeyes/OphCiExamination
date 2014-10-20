@@ -15,27 +15,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_FurtherFindingsTest extends CDbTestCase {
-	public $fixtures = array(
-		'furtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
-		'furtherFindingsSubspecAssignment' => ':ophciexamination_further_findings_subspec_assignment',
-		'subspecialty' => '\Subspecialty'
-	);
+return array(
+	'ex_further_finding_ass1' => array(
+		'id' => 1,
+		'further_finding_id' => 2,
+		'subspecialty_id' => 1
+	),
+	'ex_further_finding_ass2' => array(
+		'id' => 2,
+		'further_finding_id' => 3,
+		'subspecialty_id' => 2
+	),
+	'ex_further_finding_ass3' => array(
+		'id' => 3,
+		'further_finding_id' => 3,
+		'subspecialty_id' => 2
+	),
 
-	protected function setUp() {
-		parent::setUp();
-	}
-
-	public function testBySubspecialty()
-	{
-		$findingsBySubspecialty = OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings::model()
-			->bySubspecialty($this->subspecialty('subspecialty1'))->findAll();
-
-		$this->assertCount(2, $findingsBySubspecialty);
-
-		foreach($findingsBySubspecialty as $findingsBySubspecialty){
-			$this->assertNotEquals('Not active option', $findingsBySubspecialty->name);
-		}
-	}
-
-}
+);

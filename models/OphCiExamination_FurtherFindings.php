@@ -73,6 +73,7 @@ class OphCiExamination_FurtherFindings extends \BaseActiveRecordVersioned
 	{
 		return array(
 			'subspecialties' => array(self::MANY_MANY, 'Subspecialty', 'ophciexamination_further_findings_subspec_assignment(further_finding_id, subspecialty_id)'),
+			'et_further_findings' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', 'ophciexamination_further_findings_assignment( further_finding_id, element_id)'),
 		);
 	}
 

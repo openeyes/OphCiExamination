@@ -64,6 +64,7 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	{
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_FurtherFindings', 'element_id'),
+			'further_finding' => array(self::BELONGS_TO,'OphCiExamination_FurtherFindings', 'further_finding_id'),
 		);
 	}
 

@@ -16,21 +16,19 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-
-$furtherFindingsAssigned = $element->getFurtherFindingsAssigned();
-//var_dump($element->further_findings);die;
 ?>
 <div class="sub-element-data">
 	<div class="data-row">
 		<div class="data-value">
-			<?php if (count($furtherFindingsAssigned)>0) {?>
+			<?php if (count($element->further_findings)>0) {?>
 				<div class="data-row">
 					<div class="data-value">
-						<?php //echo $element->unit->name?>
 						<?php
+						$fFindings = array();
 						foreach($element->further_findings as $finding){
-							echo $finding->name . ' , ';
+							$fFindings[] = $finding->name ;
 						}
+						echo implode(', ', $fFindings);
 						?>
 					</div>
 				</div>

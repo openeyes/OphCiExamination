@@ -73,7 +73,7 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				//array('further', 'safe'),
+				array('further_findings', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
@@ -88,17 +88,10 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			//'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
 			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			//'fluidtype_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
-			//'left_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::LEFT),
-			'further_findings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',array('further_finding_id'=>'id'), 'through' => 'further_findings_assignments'),
-			'further_findings_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment' , 'element_id' ),
-
-
-			//'further_findings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings', 'element_id'),
+			'further_findings' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings', 'ophciexamination_further_findings_assignment(element_id, further_finding_id)', 'order' => 'display_order, name'),
 		);
 	}
 
@@ -112,206 +105,6 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 			'event_id' => 'Event',
 			'further_findings' => 'Findings',
 		);
-	}
-
-	/**
-	 * Perform dependent validation for readings and flags.
-	 */
-	/*protected function afterValidate()
-	{
-		$contra_flags = array('_unable_to_assess', '_eye_missing');
-		foreach (array('left', 'right') as $side) {
-			$check = 'has'.ucfirst($side);
-			if ($this->$check()) {
-				if ($this->{$side . '_readings'}) {
-					foreach ($this->{$side . '_readings'} as $i => $reading) {
-						if (!$reading->validate()) {
-							foreach ($reading->getErrors() as $fld => $err) {
-								$this->addError($side . '_readings', ucfirst($side) . ' reading(' .($i+1) . '): ' . implode(', ', $err) );
-							}
-						}
-					}
-					foreach ($contra_flags as $f) {
-						if ($this->{$side . $f}) {
-							$this->addError($side . $f, 'Cannot be ' . $this->getAttributeLabel($side.$f) . ' with VA readings.');
-						}
-					}
-				}
-				else {
-					$valid = false;
-					foreach ($contra_flags as $f) {
-						if ($this->{$side . $f}) {
-							$valid = true;
-						}
-					}
-					if (!$valid) {
-						$this->addError($side, ucfirst($side) . ' side has no data.');
-					}
-				}
-			}
-		}
-
-		parent::afterValidate();
-	}
-
-	/*public function setDefaultOptions()
-	{
-		$this->unit_id = $this->getSetting('unit_id');
-		if ($rows = $this->getSetting('default_rows')) {
-			$left_readings = array();
-			$right_readings = array();
-			for ($i = 0; $i < $rows; $i++) {
-				$left_readings[]  = new OphCiExamination_VisualAcuity_Reading();
-				$right_readings[]  = new OphCiExamination_VisualAcuity_Reading();
-			}
-			$this->left_readings = $left_readings;
-			$this->right_readings = $right_readings;
-		}
-	}*/
-
-	/**
-	 * Array of unit values for dropdown
-	 * @param integer $unit_id
-	 * @param boolean $selectable - whether want selectable values or all unit values
-	 * @return array
-	 */
-	/*public function getUnitValues($unit_id = null, $selectable=true)
-	{
-		if ($unit_id) {
-			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
-		} else {
-			$unit = $this->unit;
-		}
-		if ($selectable) {
-			return \CHtml::listData($unit->selectableValues, 'base_value', 'value');
-		} else {
-			return \CHtml::listData($unit->values, 'base_value', 'value');
-		}
-	}*/
-
-	/*public function getUnitValuesForForm($unit_id = null)
-	{
-		if ($unit_id) {
-			$unit = OphCiExamination_VisualAcuityUnit::model()->findByPk($unit_id);
-		} else {
-			$unit = $this->unit;
-		}
-
-		$unit_values = $unit->selectableValues;
-
-		$criteria = new \CDbCriteria();
-		$criteria->condition = 'id <> :unit_id AND active = 1';
-		$criteria->params = array(':unit_id' => $unit->id);
-		$criteria->order = 'name';
-		$tooltip_units = OphCiExamination_VisualAcuityUnit::model()->findAll($criteria);
-
-		$options = array();
-
-		// getting the conversion values
-		foreach ($unit_values as $uv) {
-			$idx = (string) $uv->base_value;
-			$options[$idx] = array('data-tooltip' => array());
-			foreach ($tooltip_units as $tt) {
-				$last = null;
-				foreach ($tt->values as $tt_val) {
-
-					if ($tt_val->base_value <= $uv->base_value) {
-						$val = $tt_val->value;
-
-						if ($last != null && (abs($uv->base_value - $tt_val->base_value) > abs($uv->base_value - $last->base_value))) {
-							$val = $last->value;
-						}
-						$map = array('name' => $tt->name, 'value' => $val, 'approx' => false);
-						if ($tt_val->base_value < $uv->base_value) {
-							$map['approx'] = true;
-						}
-						$options[$idx]['data-tooltip'][] = $map;
-						break;
-					}
-
-					$last = $tt_val;
-
-				}
-			}
-			// need to JSONify the options data
-			$options[$idx]['data-tooltip'] = \CJSON::encode($options[$idx]['data-tooltip']);
-		}
-
-		return array(\CHtml::listData($unit_values, 'base_value', 'value'), $options);
-
-	}
-
-	/**
-	 * Get a combined string of the different readings. If a unit_id is given, the readings will
-	 * be converted to unit type of that id.
-	 *
-	 * @param string $side
-	 * @param null $unit_id
-	 * @return string
-	 */
-	/*public function getCombined($side, $unit_id = null)
-	{
-		$combined = array();
-		foreach ($this->{$side.'_readings'} as $reading) {
-			$combined[] = $reading->convertTo($reading->value, $unit_id) . ' ' . $reading->method->name;
-		}
-		return implode(', ',$combined);
-	}
-
-	/**
-	 * Get the best reading for the given side
-	 *
-	 * @param string $side
-	 * @return OphCiExamination_VisualAcuity_Reading|null
-	 */
-	/*public function getBestReading($side)
-	{
-		$best = null;
-		foreach ($this->{$side.'_readings'} as $reading) {
-			if (!$best || $reading->value >= $best->value) {
-				$best = $reading;
-			}
-		}
-		return $best;
-	}
-
-	/**
-	 * Get the best reading for the specified side in current units
-	 * @param string $side
-	 * @return string
-	 */
-	/*public function getBest($side)
-	{
-		$best = $this->getBestReading($side);
-		if ($best) {
-			return $best->convertTo($best->value);
-		}
-	}
-
-	/**
-	 * Convenience function for generating string of why a reading wasn't recorded for a side.
-	 *
-	 * @param $side
-	 * @return string
-	 */
-	/*public function getTextForSide($side)
-	{
-		$checkFunc = 'has' . ucfirst($side);
-		if ($this->$checkFunc() && !$this->{$side . '_readings'}) {
-			if ($this->{$side . '_unable_to_assess'}) {
-				$text = $this->getAttributeLabel($side . '_unable_to_assess');
-				if ($this->{$side . '_eye_missing'}) {
-					$text .= ", " . $this->getAttributeLabel($side . '_eye_missing');
-				}
-				return $text;
-			}
-			elseif ($this->{$side . '_eye_missing'}) {
-				return $this->getAttributeLabel($side . '_eye_missing');
-			}
-			else {
-				return "not recorded";
-			}
-		}
 	}
 
 	/**
