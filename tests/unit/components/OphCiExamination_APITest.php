@@ -227,10 +227,10 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetPrincipalCCT_NotLatestEvent()
 	{
-		$event1 = $this->createEvent('2001-01-01');
+		$event1 = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event1, Eye::BOTH);
 
-		$event2 = $this->createEvent('2002-02-02');
+		$event2 = $this->createEvent(date('Y-m-d 23:59:59'));
 
 		$expected  = 'Left Eye: 50 µm using Ultrasound pachymetry. Right Eye: 50 µm using Ultrasound pachymetry. ';
 		$this->assertEquals($expected, $this->api->getPrincipalCCT($this->patient('patient1')));
@@ -238,10 +238,10 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTLeft_NotLatestEvent()
 	{
-		$event1 = $this->createEvent('2001-01-01');
+		$event1 = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event1, Eye::LEFT);
 
-		$event2 = $this->createEvent('2002-02-02');
+		$event2 = $this->createEvent(date('Y-m-d 23:59:59'));
 
 		$expected  = '50 µm';
 		$this->assertEquals($expected, $this->api->getCCTLeft($this->patient('patient1')));
@@ -249,15 +249,14 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTRight_NotLatestEvent()
 	{
-		$event1 = $this->createEvent('2001-01-01');
+		$event1 = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event1, Eye::RIGHT);
 
-		$event2 = $this->createEvent('2002-02-02');
+		$event2 = $this->createEvent(date('Y-m-d 23:59:59'));
 
 		$expected  = '50 µm';
 		$this->assertEquals($expected, $this->api->getCCTRight($this->patient('patient1')));
 	}
-
 	public function testGetCCTAbbr_Right()
 	{
 		$event = $this->createEvent();
@@ -627,7 +626,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTRight_NoUnits()
 	{
-		$event = $this->createEvent('2001-01-01');
+		$event = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event, Eye::RIGHT);
 
 		$expected  = '50';
@@ -636,7 +635,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTLeft_NoUnits()
 	{
-		$event = $this->createEvent('2001-01-01');
+		$event = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event, Eye::LEFT);
 
 		$expected  = '50';
@@ -645,7 +644,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTRight_NoUnits_NotRecorded()
 	{
-		$event = $this->createEvent('2001-01-01');
+		$event = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event, Eye::LEFT);
 
 		$expected  = 'NR';
@@ -654,7 +653,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 	public function testGetCCTLeft_NoUnits_NotRecorded()
 	{
-		$event = $this->createEvent('2001-01-01');
+		$event = $this->createEvent(date('Y-m-d 23:59:58'));
 		$element = $this->createCctElement($event, Eye::RIGHT);
 
 		$expected  = 'NR';
