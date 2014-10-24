@@ -1281,14 +1281,11 @@ class OphCiExamination_API extends \BaseAPI
 				$i=0;
 				$output = '<table>';
 				while(isset($iopVals['right'][$i]) || isset($iopVals['left'][$i])){
-					if($i === 0)
-						$output .= '<tr><th class="large-6">Right Eye IOPs</th><th class="large-6">Left Eye IOPs</th></tr>';
-
 					$output .= '<tr>';
 					if(isset($iopVals['right'][$i])){
 						$right =$iopVals['right'][$i];
 						$readingNameRight = $right->instrument->scale ? $right->qualitative_reading->name : $right->reading->name;
-						$output .= "<td>" . $right->instrument->name . ": " . $readingNameRight . "</td>";
+						$output .= "<td>" . $right->instrument->name . " RE:" . $readingNameRight . "</td>";
 					}
 					else{
 						$output .= "<td>&nbsp;</td>";
@@ -1296,7 +1293,7 @@ class OphCiExamination_API extends \BaseAPI
 					if(isset($iopVals['left'][$i])){
 						$left =$iopVals['left'][$i];
 						$readingNameLeft = $left->instrument->scale ? $left->qualitative_reading->name : $left->reading->name;
-						$output .= "<td>" . $left->instrument->name . ": " . $readingNameLeft . "</td>";
+						$output .= "<td>" . $left->instrument->name . " LE:" . $readingNameLeft . "</td>";
 					}
 					else{
 						$output .= "<td>&nbsp;</td>";
