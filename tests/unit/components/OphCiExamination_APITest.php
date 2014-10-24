@@ -46,7 +46,9 @@ class OphCiExamination_APITest extends CDbTestCase
 		'iop' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
 		'iop_value' => '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'optic_disc' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_OpticDisc',
-		'episode'=> 'Episode'
+		'episode'=> 'Episode',
+		'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
+		'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 	);
 
 
@@ -658,6 +660,37 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$expected  = 'NR';
 		$this->assertEquals($expected, $this->api->getCCTLeftNoUnits($this->patient('patient1')));
+	}
+
+	public function testGetIOPValuesAsTable(){
+		$iopEl = $this->et_iop('et_iop1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode1');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_IntraocularPressure')
+			->will($this->returnValue($iopEl));
+
+		$iopTable = $api->getIOPValuesAsTable($patient);
+		$expected  = '<table><tr><th class="large-6">Right Eye IOPs</th><th class="large-6">Left Eye IOPs</th></tr><tr><td>Goldmann: 6</td>'.
+			'<td>Goldmann: 7</td></tr><tr><td>Dynamic Contour Tonometry: 27</td><td>ORA IOPcc: 2</td></tr>'.
+			'<tr><td>&nbsp;</td><td>I-care: 4</td></tr></table>';
+		$this->assertEquals($expected, $iopTable);
 	}
 
 	private function createEvent($event_date = null)

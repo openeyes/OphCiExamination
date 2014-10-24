@@ -1273,4 +1273,40 @@ class OphCiExamination_API extends \BaseAPI
 		return 'NR';
 	}
 
+	public function getIOPValuesAsTable($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				$iopVals = $iop->getValues();
+				$i=0;
+				$output = '<table>';
+				while(isset($iopVals['right'][$i]) || isset($iopVals['left'][$i])){
+					if($i === 0)
+						$output .= '<tr><th class="large-6">Right Eye IOPs</th><th class="large-6">Left Eye IOPs</th></tr>';
+
+					$output .= '<tr>';
+					if(isset($iopVals['right'][$i])){
+						$right =$iopVals['right'][$i];
+						$output .= "<td>" . $right->instrument->name . ": " . $right->reading->name . "</td>";
+					}
+					else{
+						$output .= "<td>&nbsp;</td>";
+					}
+					if(isset($iopVals['left'][$i])){
+						$left =$iopVals['left'][$i];
+						$output .= "<td>" . $left->instrument->name . ": " . $left->reading->name . "</td>";
+					}
+					else{
+						$output .= "<td>&nbsp;</td>";
+					}
+					$output .= '</tr>';
+					$i++;
+				}
+				$output .= '</table>';
+				return $output;
+			}
+		}
+		return '';
+	}
+
 }
