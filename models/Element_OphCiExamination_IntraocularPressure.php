@@ -194,15 +194,5 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 	}
 	public function getValues(){
 		return array('right'=> $this->right_values, 'left'=>$this->left_values);
-		/*
-		 * $return = array('right'=> array(), 'left'=> array());
-		foreach($this->left_values as $left){
-			$return['left'][] =$left;
-		}
-		foreach($this->right_values as $right){
-			$return['right'][] =$right;
-		}
-		return $return;
-		 */
 	}
 }
