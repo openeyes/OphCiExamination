@@ -673,13 +673,16 @@ class DefaultController extends \BaseEventTypeController
 
 		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
-		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
-			$diagnoses[] = array(
-				'eye_id' => $eyes[$i],
-				'disorder_id' => $disorder_id,
-				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
-			);
+		if (!empty($data['selected_diagnoses'])) {
+			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
+				$diagnoses[] = array(
+					'eye_id' => $eyes[$i],
+					'disorder_id' => $disorder_id,
+					'principal' => (@$data['principal_diagnosis'] == $disorder_id)
+				);
+			}
 		}
+
 		$element->updateDiagnoses($diagnoses);
 	}
 
