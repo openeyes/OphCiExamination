@@ -687,9 +687,9 @@ class OphCiExamination_APITest extends CDbTestCase
 			->will($this->returnValue($iopEl));
 
 		$iopTable = $api->getIOPValuesAsTable($patient);
-		$expected  = '<table><tr><td>Goldmann RE:6</td>'.
-			'<td>Goldmann LE:7</td></tr><tr><td>Dynamic Contour Tonometry RE:27</td><td>ORA IOPcc LE:2</td></tr>'.
-			'<tr><td>&nbsp;</td><td>I-care LE:4</td></tr></table>';
+		$expected  = '<table><tr><th class="large-6">RE [NR]</th><th class="large-6">LE [NR]</th></tr><tr><td>Goldmann:6</td>'.
+			'<td>Goldmann:7</td></tr><tr><td>Dynamic Contour Tonometry:27</td><td>ORA IOPcc:2</td></tr>'.
+			'<tr><td>&nbsp;</td><td>I-care:4</td></tr></table>';
 		$this->assertEquals($expected, $iopTable);
 	}
 
