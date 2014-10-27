@@ -63,7 +63,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('diagnoses', 'required'),
+				//array('diagnoses', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
@@ -269,6 +269,10 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 
 		foreach (OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0',array($this->id)) as $diagnosis) {
 			$text .= "Secondary diagnosis: ".$diagnosis->eye->adjective." ".$diagnosis->disorder->term."\n";
+		}
+
+		if($ff = Element_OphCiExamination_FurtherFindings::model()->find('event_id=?',array($this->event_id))){
+			$text .= "Further Findings: ". $ff->getFurtherFindingsAssignedString() ."\n";
 		}
 
 		return $text;
