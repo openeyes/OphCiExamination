@@ -285,13 +285,40 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	public function afterValidate()
 	{
 		if (count($this->diagnoses)) {
+			$principal = false;
+
 			foreach ($this->diagnoses as $diagnosis) {
 				if ($diagnosis->principal) {
-					return;
+					$principal = true;
 				}
 			}
-			$this->addError('diagnoses','Principal diagnosis required.');
+
+			if (!$principal) {
+				$this->addError('diagnoses','Principal diagnosis required.');
+			}
 		}
+
+		// This isn't very nice but there isn't a clean alternative at the moment
+		$controller = \Yii::app()->getController();
+
+		if ($controller instanceof \BaseEventTypeController) {
+			$et_diagnoses = \ElementType::model()->find('class_name=?',array('OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses'));
+
+			$children = $controller->getChildElements($et_diagnoses);
+
+			$have_further_findings = false;
+
+			foreach ($controller->getChildElements($et_diagnoses) as $element) {
+				if (\CHtml::modelName($element) == 'OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings') {
+					$have_further_findings = true;
+				}
+			}
+
+			if (!$have_further_findings && !$this->diagnoses) {
+				$this->addError('diagnoses','Please select at least one diagnosis.');
+			}
+		}
+
 		parent::afterValidate();
 	}
 

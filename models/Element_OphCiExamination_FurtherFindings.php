@@ -74,6 +74,7 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 		// will receive user inputs.
 		return array(
 				array('further_findings', 'safe'),
+				array('further_findings', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
 				array('id, event_id', 'safe', 'on' => 'search'),
