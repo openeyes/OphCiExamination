@@ -1291,16 +1291,18 @@ class OphCiExamination_API extends \BaseAPI
 					$output .= '<tr>';
 					if(isset($iopVals['right'][$i])){
 						$right =$iopVals['right'][$i];
+						$instr = isset($right->instrument->short_name)?$right->instrument->short_name : $right->instrument->name;
 						$readingNameRight = $right->instrument->scale ? $right->qualitative_reading->name : $right->reading->name;
-						$output .= "<td>" . $right->instrument->name . ":" . $readingNameRight . "</td>";
+						$output .= "<td>" . $readingNameRight . ":" . $instr . "</td>";
 					}
 					else{
 						$output .= "<td>&nbsp;</td>";
 					}
 					if(isset($iopVals['left'][$i])){
 						$left =$iopVals['left'][$i];
+						$instr = isset($left->instrument->short_name)?$left->instrument->short_name : $left->instrument->name;
 						$readingNameLeft = $left->instrument->scale ? $left->qualitative_reading->name : $left->reading->name;
-						$output .= "<td>" . $left->instrument->name . ":" . $readingNameLeft . "</td>";
+						$output .= "<td>" . $readingNameLeft . ":" . $instr  ."</td>";
 					}
 					else{
 						$output .= "<td>&nbsp;</td>";

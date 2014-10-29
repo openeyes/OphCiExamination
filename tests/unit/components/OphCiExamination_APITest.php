@@ -49,8 +49,8 @@ class OphCiExamination_APITest extends CDbTestCase
 		'episode'=> 'Episode',
 		'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
 		'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
+		'instrument'=> '\OEModule\OphCiExamination\models\OphCiExamination_Instrument',
 	);
-
 
 	public function testgetLetterVisualAcuityForEpisode_Side_hasReading()
 	{
@@ -678,7 +678,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array( 'getElementForLatestEventInEpisode', 'getModuleClass'))
 			->getMock();
 
 		$api->expects($this->once())
@@ -686,10 +686,14 @@ class OphCiExamination_APITest extends CDbTestCase
 			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_IntraocularPressure')
 			->will($this->returnValue($iopEl));
 
+		$api->expects($this->any())
+			->method('getModuleClass')
+			->will($this->returnValue('OphCiExamination'));
+
 		$iopTable = $api->getIOPValuesAsTable($patient);
-		$expected  = '<table><tr><th class="large-6">RE [NR]</th><th class="large-6">LE [NR]</th></tr><tr><td>Goldmann:6</td>'.
-			'<td>Goldmann:7</td></tr><tr><td>Dynamic Contour Tonometry:27</td><td>ORA IOPcc:2</td></tr>'.
-			'<tr><td>&nbsp;</td><td>I-care:4</td></tr></table>';
+		$expected  = '<table><tr><th class="large-6">RE [NR]</th><th class="large-6">LE [NR]</th></tr><tr><td>6:Gold</td>'.
+			'<td>7:Gold</td></tr><tr><td>27:DCT</td><td>2:IOPcc</td></tr>'.
+			'<tr><td>&nbsp;</td><td>4:I-care</td></tr></table>';
 		$this->assertEquals($expected, $iopTable);
 	}
 
