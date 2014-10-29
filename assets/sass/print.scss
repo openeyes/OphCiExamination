@@ -17,6 +17,12 @@
 @import "openeyes/module";
 @import "openeyes/components/print/event";
 
+.metadata {
+	width: 100% !important;
+}
+
 .info {
-	width: 50% !important;
+	width: 100% !important;
+	font-size: 9pt !important;
+	display: block !important;
 }
