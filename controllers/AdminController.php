@@ -28,7 +28,16 @@ class AdminController extends \ModuleAdminController
 
 	public function actionEditIOPInstruments()
 	{
-		$this->genericAdmin('Edit Intraocular Pressure Instruments', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument');
+		$this->genericAdmin(
+			'Edit Intraocular Pressure Instruments',
+			'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
+			array(
+				'extra_fields' => array(
+					array('field' => 'short_name', 'type' => 'text',
+						'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument'),
+				),
+			)
+		);
 	}
 
 	// No Treatment Reason views
