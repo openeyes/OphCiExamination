@@ -1190,4 +1190,16 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getTargetIOP($patient){
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($oManPlan = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_OverallManagementPlan')) {
+				return array(
+					'left' => ($oManPlan->left_target_iop ? $oManPlan->left_target_iop->name : null),
+					'right' => ($oManPlan->right_target_iop ? $oManPlan->right_target_iop->name : null),
+				);
+			}
+		}
+		return null;
+	}
+
 }
