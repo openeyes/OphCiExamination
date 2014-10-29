@@ -83,3 +83,7 @@
     margin: 10px 0;
   }
 }
+/* line 20, ../sass/print.scss */
+.info {
+  width: 50% !important;
+}
