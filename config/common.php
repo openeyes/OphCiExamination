@@ -31,7 +31,7 @@ return array(
 			'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
 			'Drop-related Problems' => '/OphCiExamination/admin/manageDropRelProbs',
 			'Drops Options' => '/OphCiExamination/admin/manageDrops',
-			'Management Surgery Options' => '/OphCiExamination/admin/manageManagementSurgery',
+			'Surgery Management Options' => '/OphCiExamination/admin/manageManagementSurgery',
 			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
 			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
 			'Further Findings' => '/OphCiExamination/admin/manageFurtherFindings',
