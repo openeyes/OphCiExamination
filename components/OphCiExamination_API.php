@@ -646,6 +646,12 @@ class OphCiExamination_API extends \BaseAPI
 	 */
 	public function getLetterOutcomeFollowUpPeriod($patient)
 	{
+		if($api = \Yii::app()->moduleAPI->get('PatientTicketing')){
+			if($patient_ticket_followup = $api->getLatestFollowUp($patient)){
+				return $patient_ticket_followup->followup_quantity . " " . $patient_ticket_followup->followup_period;
+			}
+		}
+
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($o = $this->getElementForLatestEventInEpisode($patient, $episode, 'models\Element_OphCiExamination_ClinicOutcome')) {
 				if ($o->followup_quantity) {
