@@ -91,6 +91,18 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 	}
 
 	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'followup' => 'Show Follow Up Options',
+			'patientticket' => 'Generate Patient Ticket',
+			'episode_status_id' => 'Episode Status',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
