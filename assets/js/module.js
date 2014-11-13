@@ -1049,19 +1049,19 @@ $(document).ready(function() {
 	updateTextMacros();
 
 	$('.signField').die('change').live('change',function(e) {
-		var sign = $(this).val();
+		var sign_id = $(this).val() >0 ? 1 : 2;
 		var type = $(this).data('type');
-		var side = $(this).data('side');
-		var obj = $(this);
-		var value = obj.next('select').val();
+		var value = $(this).next('select').val();
 
-		$.ajax({
-			'type': 'GET',
-			'url': baseUrl + '/OphCiExamination/default/getRefractionOptions?sign=' + sign + '&type=' + type + '&side=' + side + '&value=' + value,
-			'success': function(html) {
-				obj.next('select').html(html);
-			}
-		});
+		$(this).next('select').html('');
+
+		var list = window['Element_OphCiExamination_Refraction_' + type][sign_id];
+
+		for (var i in list) {
+			$(this).next('select').append('<option value="' + list[i] + '">' + list[i] + '</option>');
+		}
+
+		$(this).next('select').val(value);
 	});
 });
 
