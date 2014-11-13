@@ -34,6 +34,7 @@ class DefaultController extends \BaseEventTypeController
 		'loadInjectionQuestions' => self::ACTION_TYPE_FORM,
 		'getScaleForInstrument' => self::ACTION_TYPE_FORM,
 		'getPreviousIOPAverage' => self::ACTION_TYPE_FORM,
+		'getRefractionOptions' => self::ACTION_TYPE_FORM,
 	);
 
 	// if set to true, we are advancing the current event step
@@ -868,4 +869,21 @@ class DefaultController extends \BaseEventTypeController
 		return $errors;
 	}
 
+	public function actionGetRefractionOptions()
+	{
+		if (@$_GET['type'] == 'sphere') {
+			$model = \OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sphere_Integer::model();
+		} else if (@$_GET['type'] == 'cylinder') {
+			$model = \OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sphere_Integer::model();
+		} else {
+			throw new Exception("Unknown refraction integer type: ".@$_GET['type']);
+		}
+
+		if (!in_array(@$_GET['side'],array('left','right'))) {
+			throw new Exception("Invalid side: ".@$_GET['side']);
+		}
+
+		$sign_id = (@$_GET['sign'] > 0) ? 1 : 2;
+		echo \CHtml::dropDownList('OEModule_OphCiExamination_models_Element_OphCiExamination_Refraction_'.$_GET['side'].'_'.$_GET['type'].'_integer', abs((int) @$_GET['value']), \CHtml::listData($model->findAll('sign_id='.$sign_id),'value','value'), array('class'=>'inline'));
+	}
 }

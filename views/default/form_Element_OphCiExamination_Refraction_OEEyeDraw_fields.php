@@ -22,7 +22,7 @@
 		<?php echo $element->getAttributeLabel($side.'_sphere')?>:
 	</legend>
 	<div class="large-9 column">
-		<?php Yii::app()->getController()->renderPartial('_segmented_field', array('element' => $element, 'field' => $side.'_sphere'), false, false)?>
+		<?php Yii::app()->getController()->renderPartial('_segmented_field', array('element' => $element, 'side' => $side, 'field' => 'sphere', 'model' => 'OphCiExamination_Refraction_Sphere_Integer'), false, false)?>
 	</div>
 </fieldset>
 <fieldset class="row field-row">
@@ -30,7 +30,7 @@
 		<?php echo $element->getAttributeLabel($side.'_cylinder')?>:
 	</legend>
 	<div class="large-9 column">
-		<?php Yii::app()->getController()->renderPartial('_segmented_field', array('element' => $element, 'field' => $side.'_cylinder'), false, false)?>
+		<?php Yii::app()->getController()->renderPartial('_segmented_field', array('element' => $element, 'side' => $side, 'field' => 'cylinder', 'model' => 'OphCiExamination_Refraction_Cylinder_Integer'), false, false)?>
 	</div>
 </fieldset>
 <div class="row field-row">
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; } ?>">
+	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; }?>">
 		<div class="large-3 column">
 			<label>Other:</label>
 		</div>

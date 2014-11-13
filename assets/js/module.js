@@ -1047,6 +1047,22 @@ $(document).ready(function() {
 	});
 
 	updateTextMacros();
+
+	$('.signField').die('change').live('change',function(e) {
+		var sign = $(this).val();
+		var type = $(this).data('type');
+		var side = $(this).data('side');
+		var obj = $(this);
+		var value = obj.next('select').val();
+
+		$.ajax({
+			'type': 'GET',
+			'url': baseUrl + '/OphCiExamination/default/getRefractionOptions?sign=' + sign + '&type=' + type + '&side=' + side + '&value=' + value,
+			'success': function(html) {
+				obj.next('select').html(html);
+			}
+		});
+	});
 });
 
 function updateTextMacros() {
