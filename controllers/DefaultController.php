@@ -874,7 +874,7 @@ class DefaultController extends \BaseEventTypeController
 		if (@$_GET['type'] == 'sphere') {
 			$model = \OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sphere_Integer::model();
 		} else if (@$_GET['type'] == 'cylinder') {
-			$model = \OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sphere_Integer::model();
+			$model = \OEModule\OphCiExamination\models\OphCiExamination_Refraction_Cylinder_Integer::model();
 		} else {
 			throw new Exception("Unknown refraction integer type: ".@$_GET['type']);
 		}
