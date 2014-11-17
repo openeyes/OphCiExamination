@@ -648,7 +648,10 @@ class OphCiExamination_API extends \BaseAPI
 	{
 		if($api = \Yii::app()->moduleAPI->get('PatientTicketing')){
 			if($patient_ticket_followup = $api->getLatestFollowUp($patient)){
-				return $patient_ticket_followup->followup_quantity . " " . $patient_ticket_followup->followup_period;
+				if(@$patient_ticket_followup['followup_quantity']==1 && @$patient_ticket_followup['followup_period']) {
+					$patient_ticket_followup['followup_period'] = rtrim($patient_ticket_followup['followup_period'],'s');
+				}
+				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'];
 			}
 		}
 
