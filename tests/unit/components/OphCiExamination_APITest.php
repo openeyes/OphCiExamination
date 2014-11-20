@@ -47,9 +47,12 @@ class OphCiExamination_APITest extends CDbTestCase
 		'iop_value' => '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'optic_disc' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_OpticDisc',
 		'episode'=> 'Episode',
+
 		'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
 		'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'instrument'=> '\OEModule\OphCiExamination\models\OphCiExamination_Instrument',
+		'targetiop' => '\OEModule\OphCiExamination\models\OphCiExamination_TargetIop',
+		'overallmanagementplan'=>'\OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'
 	);
 
 	public function testgetLetterVisualAcuityForEpisode_Side_hasReading()
@@ -88,7 +91,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 			$api->expects($this->once())
 				->method('getElementForLatestEventInEpisode')
-				->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
+				->with($this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 				->will($this->returnValue($va));
 
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
@@ -131,7 +134,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 			$api->expects($this->exactly(2))
 					->method('getElementForLatestEventInEpisode')
-					->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
+					->with($this->equalTo($episode), 'models\Element_OphCiExamination_VisualAcuity')
 					->will($this->returnValue($va));
 			$method = 'getLetterVisualAcuityForEpisode' . $side;
 			$this->assertEquals('Expected Result', $api->$method($episode, true));
@@ -185,6 +188,7 @@ class OphCiExamination_APITest extends CDbTestCase
 	public function testGetPrincipalCCTNoPrincipalEye()
 	{
 		$episode = $this->episode('episode2');
+
 		$episode->eye_id = null;
 		if (!$episode->save()) {
 			throw new Exception("Failed to save episode: " . print_r($episode->getErrors(), true));
@@ -210,6 +214,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$expected  = 'Right Eye: 50 µm using Ultrasound pachymetry. ';
 		$this->assertEquals($expected, $principalCCT);
 	}
+
 
 	public function testGetPrincipalCCTLeft()
 	{
@@ -237,6 +242,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		$expected  = 'Left Eye: 50 µm using Ultrasound pachymetry. Right Eye: 50 µm using Ultrasound pachymetry. ';
 		$this->assertEquals($expected, $this->api->getPrincipalCCT($this->patient('patient1')));
 	}
+
 
 	public function testGetCCTLeft_NotLatestEvent()
 	{
@@ -302,12 +308,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
 			->will($this->returnValue($gonio));
 
 		$principalVH = $api->getPrincipalVanHerick($patient);
@@ -331,12 +337,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->any())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
 			->will($this->returnValue($gonio));
 
 		$principalVH = $api->getPrincipalVanHerick($patient);
@@ -360,12 +366,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
 			->will($this->returnValue($gonio));
 
 		$principalVH = $api->getPrincipalVanHerick($patient);
@@ -389,12 +395,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_Gonioscopy')
 			->will($this->returnValue($gonio));
 
 		$principalVH = $api->getPrincipalVanHerick($patient);
@@ -418,12 +424,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
 			->will($this->returnValue($opticdisc));
 
 		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
@@ -447,12 +453,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->any())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
 			->will($this->returnValue($opticdisc));
 
 		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
@@ -476,12 +482,12 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
 			->will($this->returnValue($opticdisc));
 
 		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
@@ -505,18 +511,19 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()
-			->setMethods(array( 'getElementForLatestEventInEpisode'))
+			->setMethods(array('getElementForLatestEventInEpisode'))
 			->getMock();
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OpticDisc')
 			->will($this->returnValue($opticdisc));
 
 		$principalODD = $api->getPrincipalOpticDiscDescription($patient);
 		$expected  = 'Left Eye: Not Checked Well. ';
 		$this->assertEquals($expected, $principalODD);
 	}
+
 
 	public function testGetLetterIOPReadingAbbr_Right()
 	{
@@ -662,6 +669,87 @@ class OphCiExamination_APITest extends CDbTestCase
 		$this->assertEquals($expected, $this->api->getCCTLeftNoUnits($this->patient('patient1')));
 	}
 
+	public function testGetTargetIOP(){
+		$overall_management = $this->overallmanagementplan('overallmanagementplan1');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array('getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OverallManagementPlan')
+			->will($this->returnValue($overall_management));
+
+		$targetIop = $api->getTargetIOP($patient);
+		$expected  = array('left' => 10,'right' => 20);
+		$this->assertEquals($expected, $targetIop);
+	}
+
+	public function testGetTargetIOPOneSideNull(){
+		$overall_management = $this->overallmanagementplan('overallmanagementplan2');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue($episode));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array('getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getElementForLatestEventInEpisode')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_OverallManagementPlan')
+			->will($this->returnValue($overall_management));
+
+		$targetIop = $api->getTargetIOP($patient);
+		$expected  = array('left' => null,'right' => 15);
+		$this->assertEquals($expected, $targetIop);
+	}
+
+	public function testGetTargetIOPReturnsNull(){
+		$overall_management = $this->overallmanagementplan('overallmanagementplan3');
+
+		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
+			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
+			->getMock();
+
+		$episode = $this->episode('episode4');
+		$episode->patient = $patient;
+
+		$patient->expects($this->any())
+			->method('getEpisodeForCurrentSubspecialty')
+			->will($this->returnValue(null));
+
+		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+			->disableOriginalConstructor()
+			->setMethods(array('getElementForLatestEventInEpisode'))
+			->getMock();
+
+		$targetIop = $api->getTargetIOP($patient);
+		$this->assertNull($targetIop);
+	}
+
 	public function testGetIOPValuesAsTable(){
 		$iopEl = $this->et_iop('et_iop1');
 
@@ -683,7 +771,7 @@ class OphCiExamination_APITest extends CDbTestCase
 
 		$api->expects($this->once())
 			->method('getElementForLatestEventInEpisode')
-			->with($this->equalTo($patient), $this->equalTo($episode), 'models\Element_OphCiExamination_IntraocularPressure')
+			->with($this->equalTo($episode), 'models\Element_OphCiExamination_IntraocularPressure')
 			->will($this->returnValue($iopEl));
 
 		$api->expects($this->any())
@@ -691,7 +779,7 @@ class OphCiExamination_APITest extends CDbTestCase
 			->will($this->returnValue('OphCiExamination'));
 
 		$iopTable = $api->getIOPValuesAsTable($patient);
-		$expected  = '<table><tr><th class="large-6">RE [NR]</th><th class="large-6">LE [NR]</th></tr><tr><td>6:Gold</td>'.
+		$expected  = '<table><tr><th class="large-6">RE [20]</th><th class="large-6">LE [NR]</th></tr><tr><td>6:Gold</td>'.
 			'<td>7:Gold</td></tr><tr><td>27:DCT</td><td>2:IOPcc</td></tr>'.
 			'<tr><td>&nbsp;</td><td>4:I-care</td></tr></table>';
 		$this->assertEquals($expected, $iopTable);

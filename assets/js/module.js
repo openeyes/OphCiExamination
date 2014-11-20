@@ -17,7 +17,7 @@
  */
 
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
-var examination_print_url, module_css_path;
+var module_css_path;
 
 function gradeCalculator(_drawing) {
 	var doodleArray = _drawing.doodleArray;
@@ -276,7 +276,7 @@ $(document).ready(function() {
 	handleButton($('#et_save'));
 
 	handleButton($('#et_print'),function(e) {
-		OphCiExamination_do_print();
+		printEvent(null);
 		e.preventDefault();
 	});
 
@@ -2044,7 +2044,3 @@ $('#Element_OphCiExamination_AnteriorSegment_left_pupil_id').live('change',funct
 });
 
 var eyedraw_added_diagnoses = [];
-
-function OphCiExamination_do_print() {
-	printIFrameUrl(OE_print_url, null);
-}
