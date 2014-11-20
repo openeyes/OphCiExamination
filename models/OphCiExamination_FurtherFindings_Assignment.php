@@ -24,7 +24,7 @@ namespace OEModule\OphCiExamination\models;
  *
  * @property integer $id
  * @property integer $element_id
- * @property integer $further_finding_id
+ * @property integer $finding_id
 
  */
 class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersioned
@@ -52,8 +52,8 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	public function rules()
 	{
 		return array(
-				array('element_id, further_finding_id', 'required'),
-				array('id, element_id, further_finding_id', 'safe', 'on'=>'search'),
+				array('element_id, finding_id', 'required'),
+				array('id, element_id, finding_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +64,7 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	{
 		return array(
 			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_FurtherFindings', 'element_id'),
-			'further_finding' => array(self::BELONGS_TO,'OphCiExamination_FurtherFindings', 'further_finding_id'),
+			'finding' => array(self::BELONGS_TO,'Finding', 'finding_id'),
 		);
 	}
 
@@ -77,7 +77,7 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('element_id',$this->element_id,true);
-		$criteria->compare('further_finding_id',$this->item_id,true);
+		$criteria->compare('finding_id',$this->item_id,true);
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

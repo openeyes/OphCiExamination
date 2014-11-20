@@ -92,7 +92,7 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'further_findings' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings', 'ophciexamination_further_findings_assignment(element_id, further_finding_id)', 'order' => 'display_order, name'),
+			'further_findings' => array(self::MANY_MANY, 'Finding', 'ophciexamination_further_findings_assignment(element_id, finding_id)', 'order' => 'display_order, name'),
 		);
 	}
 
@@ -137,7 +137,7 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 
 		if ($this->id) {
 			foreach (OphCiExamination_FurtherFindings_Assignment::model()->findAll('element_id=?',array($this->id)) as $ff) {
-				$further_findings[] = $ff->further_finding_id;
+				$further_findings[] = $ff->finding_id;
 			}
 		}
 

@@ -24,9 +24,9 @@ class Element_OphCiExamination_FurtherFindingsTest extends CDbTestCase {
 	 */
 	protected $model;
 	public $fixtures = array(
-		'furtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
-		'etFurtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
-		'furtherFindingsAssignment' => ':ophciexamination_further_findings_assignment',
+		'finding' => '\Finding',
+		'elFurtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
+		'furtherFindingsAssignment' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment',
 	);
 
 	/**
@@ -53,14 +53,14 @@ class Element_OphCiExamination_FurtherFindingsTest extends CDbTestCase {
 	}
 
 	public function testGetFurtherFindingsAssigned(){
-		$etFF = $this->furtherFindings('et_further_findings1')->getFurtherFindingsAssigned();
+		$etFF = $this->elFurtherFindings('et_further_findings1')->getFurtherFindingsAssigned();
 		$this->assertCount(1, $etFF);
 
 		$this->assertEquals(2, $etFF[0]);
 	}
 
 	public function testGetFurtherFindingsAssignedString(){
-		$etFFString = $this->furtherFindings('et_further_findings2')->getFurtherFindingsAssignedString();
+		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString();
 		$this->assertEquals('Finding 1, Finding 3', $etFFString);
 	}
 

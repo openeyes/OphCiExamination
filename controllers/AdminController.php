@@ -659,25 +659,4 @@ class AdminController extends \ModuleAdminController
 		);
 	}
 
-	public function actionManageFurtherFindings()
-	{
-		$this->genericAdmin(
-			'Edit Further Findings',
-			'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
-			array(
-				'extra_fields' => array(
-					array(
-						'field' => 'subspecialties',
-						'type' => 'multilookup',
-						'noSelectionsMessage' => 'All Subspecialties',
-						'htmlOptions' => array(
-							'empty' => '- Please Select -',
-							'nowrapper' => true
-						),
-						'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
-					),
-				),
-			)
-		);
-	}
 }

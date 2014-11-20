@@ -24,10 +24,10 @@ class Element_OphCiExamination_DiagnosesTest extends CDbTestCase {
 	 */
 	protected $model;
 	public $fixtures = array(
-		'furtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses',
-		'etFurtherFindings' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings',
-		'furtherFindingsAssignment' => ':ophciexamination_further_findings_assignment',
-		'diagnoses' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses',
+		'finding' => '\Finding',
+		'elFurtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
+		'furtherFindingsAssignment' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment',
+		'elDiagnoses' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_Diagnoses',
 	);
 
 	/**
@@ -55,7 +55,7 @@ class Element_OphCiExamination_DiagnosesTest extends CDbTestCase {
 
 
 	public function testGetLetter_string(){
-		$etDiagString = $this->diagnoses('et_further_diagnoses1')->getLetter_string();
+		$etDiagString = $this->elDiagnoses('et_further_diagnoses1')->getLetter_string();
 		$this->assertEquals("Further Findings: Finding 2\n", $etDiagString);
 	}
 
