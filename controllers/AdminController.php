@@ -676,6 +676,10 @@ class AdminController extends \ModuleAdminController
 						),
 						'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
 					),
+					array(
+						'field' => 'requires_description',
+						'type' => 'boolean',
+					),
 				),
 			)
 		);

@@ -52,7 +52,7 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	public function rules()
 	{
 		return array(
-				array('element_id, further_finding_id', 'required'),
+				array('further_finding_id', 'required'),
 				array('id, element_id, further_finding_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -63,8 +63,8 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	public function relations()
 	{
 		return array(
-			'element' => array(self::BELONGS_TO, 'Element_OphCiExamination_FurtherFindings', 'element_id'),
-			'further_finding' => array(self::BELONGS_TO,'OphCiExamination_FurtherFindings', 'further_finding_id'),
+			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', 'element_id'),
+			'further_finding' => array(self::BELONGS_TO,'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings', 'further_finding_id'),
 		);
 	}
 
@@ -83,4 +83,14 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 		));
 	}
 
+	public function afterValidate()
+	{
+		if ($this->further_finding && $this->further_finding->requires_description) {
+			if (strlen($this->description) <1) {
+				$this->addError('description','Description required for '.$this->further_finding->name);
+			}
+		}
+
+		return parent::afterValidate();
+	}
 }

@@ -20,6 +20,6 @@
 ?>
 <div class="sub-element-fields">
 	<div class="field-row furtherfindings-multi-select">
-		<?php echo $form->multiSelectList($element, CHtml::modelName($element) . '[further_findings]', 'further_findings', 'id', CHtml::encodeArray(CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings::model()->activeOrPk($element->furtherFindingsAssigned)->bySubspecialty($this->firm->getSubspecialty())->findAll(), 'id', 'name')), array(), array('empty' => '-- Add --', 'label' => 'Findings', 'nowrapper' => true), false, true, 'No further findings',true,true)?>
+		<?php echo $form->multiSelectList($element, CHtml::modelName($element) . '[further_findings_assignment]', 'further_findings_assignment', 'further_finding_id', CHtml::encodeArray(CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings::model()->activeOrPk($element->furtherFindingsAssigned)->bySubspecialty($this->firm->getSubspecialty())->findAll(), 'id', 'name')), array(), array('empty' => '-- Add --', 'label' => 'Findings', 'nowrapper' => true, 'requires_description_field' => 'requires_description'), false, true, 'No further findings',true,true,array(),'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings')?>
 	</div>
 </div>

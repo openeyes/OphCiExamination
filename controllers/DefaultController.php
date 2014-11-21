@@ -63,7 +63,7 @@ class DefaultController extends \BaseEventTypeController
 		if (!$this->event || $this->event->isNewRecord) {
 			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
-		else  {
+		else	{
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
@@ -871,4 +871,50 @@ class DefaultController extends \BaseEventTypeController
 		return $errors;
 	}
 
+	protected function setComplexAttributes_Element_OphCiExamination_FurtherFindings($element, $data, $index)
+	{
+		$assignments = array();
+
+		if (!empty($data['OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']['further_findings_assignment'])) {
+			foreach ($data['OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']['further_findings_assignment'] as $i => $item) {
+				if (!$finding = models\OphCiExamination_FurtherFindings::model()->findByPk($item['id'])) {
+					throw new Exception("Finding not found: {$item['id']}");
+				}
+				$assignment = new models\OphCiExamination_FurtherFindings_Assignment;
+				$assignment->further_finding_id = $finding->id;
+				$assignment->description = @$item['description'];
+
+				$assignments[] = $assignment;
+			}
+		}
+
+		$element->further_findings_assignment = $assignments;
+	}
+
+	protected function saveComplexAttributes_Element_OphCiExamination_FurtherFindings($element, $data, $index)
+	{
+		$ids = array();
+
+		if (!empty($element->further_findings_assignment)) {
+			foreach ($element->further_findings_assignment as $assignment) {
+				$assignment->element_id = $element->id;
+
+				if (!$assignment->save()) {
+					throw new \Exception("Unable to save further finding assignment: ".print_r($assignment->errors,true));
+				}
+
+				$ids[] = $assignment->id;
+			}
+		}
+
+		$criteria = new \CDbCriteria;
+		$criteria->addCondition('element_id = :eid');
+		$criteria->params[':eid'] = $element->id;
+
+		if (!empty($ids)) {
+			$criteria->addNotInCondition('id',$ids);
+		}
+
+		models\OphCiExamination_FurtherFindings_Assignment::model()->deleteAll($criteria);
+	}
 }

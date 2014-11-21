@@ -30,6 +30,8 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_FurtherFindings extends \BaseActiveRecordVersioned
 {
+	public $description;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return OphCiExamination_FurtherFindings the static model class
@@ -81,6 +83,13 @@ class OphCiExamination_FurtherFindings extends \BaseActiveRecordVersioned
 	{
 		return array(
 			'LookupTable' => 'LookupTable',
+		);
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'requires_description' => 'Requires description',
 		);
 	}
 
