@@ -24,11 +24,13 @@
 				<div class="data-row">
 					<div class="data-value">
 						<?php
-						$fFindings = array();
-						foreach($element->further_findings as $finding){
-							$fFindings[] = $finding->name ;
+						foreach ($element->further_findings_assignment as $i => $finding) {
+							if ($i >0) echo ", ";
+							echo $finding->finding->name;
+							if (strlen($finding->description) >0) {
+								echo ": ".CHtml::encode($finding->description);
+							}
 						}
-						echo implode(', ', $fFindings);
 						?>
 					</div>
 				</div>

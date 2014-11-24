@@ -658,5 +658,4 @@ class AdminController extends \ModuleAdminController
 				)
 		);
 	}
-
 }

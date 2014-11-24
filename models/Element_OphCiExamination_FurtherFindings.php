@@ -37,68 +37,30 @@ use Yii;
 
 class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 {
-	public $service;
-	protected $auto_update_relations = true;
-	/*protected $relation_defaults = array(
-		'left_readings' => array(
-		'side' => OphCiExamination_FurtherFindings_Reading::LEFT
-		),
-		'right_readings' => array(
-		'side' => OphCiExamination_FurtherFindings_Reading::RIGHT
-		),
-	);*/
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
-
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
 		return 'et_ophciexamination_further_findings';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-				array('further_findings', 'safe'),
-				array('further_findings', 'required'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id', 'safe', 'on' => 'search'),
+				array('further_findings_assignment', 'safe'),
+				array('further_findings_assignment', 'required'),
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'further_findings' => array(self::MANY_MANY, 'Finding', 'ophciexamination_further_findings_assignment(element_id, finding_id)', 'order' => 'display_order, name'),
+			'further_findings_assignment' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment', 'element_id'),
+			'further_findings' => array(self::HAS_MANY, 'Finding', 'finding_id', 'through' => 'further_findings_assignment'),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
 	public function attributeLabels()
 	{
 		return array(
@@ -106,24 +68,6 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 			'event_id' => 'Event',
 			'further_findings' => 'Findings',
 		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria = new \CDbCriteria;
-
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
 	}
 
 	public function canViewPrevious()
@@ -159,5 +103,18 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 		}
 
 		return $further_findings;
+	}
+
+	public function afterValidate()
+	{
+		foreach ($this->further_findings_assignment as $assignment) {
+			if (!$assignment->validate()) {
+				foreach ($assignment->errors as $field => $errors) {
+					$this->addError($field,$errors[0]);
+				}
+			}
+		}
+
+		return parent::afterValidate();
 	}
 }
