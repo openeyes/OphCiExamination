@@ -53,6 +53,7 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 	{
 		return array(
 				array('finding_id', 'required'),
+				array('description', 'RequiredIfFieldValidator', 'field' => 'finding.requires_description', 'value' => '1'),
 				array('id, element_id, finding_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -81,16 +82,5 @@ class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersi
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
-	}
-
-	public function afterValidate()
-	{
-		if ($this->finding && $this->finding->requires_description) {
-			if (strlen($this->description) <1) {
-				$this->addError('description','Description required for '.$this->finding->name);
-			}
-		}
-
-		return parent::afterValidate();
 	}
 }
