@@ -3,7 +3,7 @@ class m141119_164500_move_findings_to_core extends OEMigration
 {
 	public function up()
 	{
-		if(Yii::app()->db->schema->getTable('finding', true) === null) {
+		if($this->dbConnection->schema->getTable('finding', true) === null) {
 			echo "Run core migration to create finding table first\n";
 			return false;
 		}
@@ -15,13 +15,13 @@ class m141119_164500_move_findings_to_core extends OEMigration
 		$this->renameColumn('ophciexamination_further_findings_subspec_assignment', 'further_finding_id', 'finding_id');
 
 		// Copy findings to core
-		$findings = Yii::app()->db->createCommand('SELECT * FROM ophciexamination_further_findings')->queryAll();
+		$findings = $this->dbConnection->createCommand('SELECT * FROM ophciexamination_further_findings')->queryAll();
 		foreach($findings as $finding) {
 			$this->insert('finding', $finding);
 		}
 
 		// Copy finding subspecialty assignments to core
-		$assignments = Yii::app()->db->createCommand('SELECT * FROM ophciexamination_further_findings_subspec_assignment')->queryAll();
+		$assignments = $this->dbConnection->createCommand('SELECT * FROM ophciexamination_further_findings_subspec_assignment')->queryAll();
 		foreach($assignments as $assignment) {
 			$this->insert('findings_subspec_assignment', $assignment);
 		}
@@ -50,15 +50,15 @@ class m141119_164500_move_findings_to_core extends OEMigration
 		$this->renameColumn('ophciexamination_further_findings_assignment', 'finding_id', 'further_finding_id');
 
 		// Check to see if core findings table still exists before trying to migrate data
-		if (Yii::app()->db->schema->getTable('finding', true)) {
+		if ($this->dbConnection->schema->getTable('finding', true)) {
 			// Copy finding subspecialty assignments from core
-			$assignments = Yii::app()->db->createCommand('SELECT * FROM findings_subspec_assignment')->queryAll();
+			$assignments = $this->dbConnection->createCommand('SELECT * FROM findings_subspec_assignment')->queryAll();
 			foreach($assignments as $assignment) {
 				$this->insert('ophciexamination_further_findings_subspec_assignment', $assignment);
 				$this->delete('findings_subspec_assignment', 'id = :id', array(':id' => $assignment['id']));
 			}
 			// Copy findings from core
-			$findings = Yii::app()->db->createCommand('SELECT * FROM finding')->queryAll();
+			$findings = $this->dbConnection->createCommand('SELECT * FROM finding')->queryAll();
 			foreach($findings as $finding) {
 				$this->insert('ophciexamination_further_findings', $finding);
 				$this->delete('finding', 'id = :id', array(':id' => $finding['id']));
