@@ -18,18 +18,18 @@
 return array(
 	'ex_further_finding_ass1' => array(
 		'id' => 1,
-		'further_finding_id' => 2,
+		'finding_id' => 2,
 		'element_id' => 1
 	),
 	'ex_further_finding_ass2' => array(
 		'id' => 2,
-		'further_finding_id' => 1,
+		'finding_id' => 1,
 		'element_id' => 2
 	),
 	'ex_further_finding_ass3' => array(
 		'id' => 3,
-		'further_finding_id' => 3,
-		'element_id' => 2
+		'finding_id' => 3,
+		'element_id' => 2,
+		'description' => 'test twotwotwo'
 	),
-
 );

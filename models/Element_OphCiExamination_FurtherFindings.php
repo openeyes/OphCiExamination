@@ -92,17 +92,14 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 	{
 		$further_findings = array();
 
-		if (count($this->further_findings) > 0 ) {
-			foreach ($this->further_findings as $ff) {
-				$further_findings[] = $ff->name;
+		if (!empty($this->further_findings_assignment)) {
+			foreach ($this->further_findings_assignment as $assignment) {
+				$further_findings[] = $assignment->finding->requires_description ? $assignment->finding->name.": ".$assignment->description : $assignment->finding->name;
 			}
-			$further_findings = implode(', ', $further_findings);
-		}
-		else{
-			return '';
+			return implode(', ', $further_findings);
 		}
 
-		return $further_findings;
+		return '';
 	}
 
 	public function afterValidate()
