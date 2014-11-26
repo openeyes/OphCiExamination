@@ -24,4 +24,28 @@ return array(
 		'id' => 2,
 		'event_id' => 2,
 	),
+	'et_further_findings3' => array(
+		'id' => 3,
+		'event_id' => 6,
+	),
+	'et_further_findings4' => array(
+		'id' => 4,
+		'event_id' => 14,
+	),
+	'et_further_findings5' => array(
+		'id' => 5,
+		'event_id' => 15,
+	),
+	'et_further_findings6' => array(
+		'id' => 6,
+		'event_id' => 16,
+	),
+	'et_further_findings7' => array(
+		'id' => 7,
+		'event_id' => 17,
+	),
+	'et_further_findings8' => array(
+		'id' => 8,
+		'event_id' => 18,
+	),
 );

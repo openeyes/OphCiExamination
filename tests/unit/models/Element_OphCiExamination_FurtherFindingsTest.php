@@ -64,4 +64,11 @@ class Element_OphCiExamination_FurtherFindingsTest extends CDbTestCase {
 		$this->assertEquals('Finding 1, Finding 3: test twotwotwo', $etFFString);
 	}
 
+	public function testGetFurtherFindingsAssignedString_ignoreids(){
+		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(1));
+		$this->assertEquals('Finding 3: test twotwotwo', $etFFString);
+
+		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(3));
+		$this->assertEquals('Finding 1', $etFFString);
+	}
 }

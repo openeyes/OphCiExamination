@@ -88,13 +88,15 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 		return $further_findings;
 	}
 
-	public function getFurtherFindingsAssignedString()
+	public function getFurtherFindingsAssignedString($ignore_ids=array())
 	{
 		$further_findings = array();
 
 		if (!empty($this->further_findings_assignment)) {
 			foreach ($this->further_findings_assignment as $assignment) {
-				$further_findings[] = $assignment->finding->requires_description ? $assignment->finding->name.": ".$assignment->description : $assignment->finding->name;
+				if (!in_array($assignment->finding_id,$ignore_ids)) {
+					$further_findings[] = $assignment->finding->requires_description ? $assignment->finding->name.": ".$assignment->description : $assignment->finding->name;
+				}
 			}
 			return implode(', ', $further_findings);
 		}
