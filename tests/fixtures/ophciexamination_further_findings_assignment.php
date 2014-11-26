@@ -32,4 +32,55 @@ return array(
 		'element_id' => 2,
 		'description' => 'test twotwotwo'
 	),
+	'ex_further_finding_ass4' => array(
+		'id' => 4,
+		'finding_id' => 3,
+		'element_id' => 3,
+		'description' => 'test twotwotwo'
+	),
+	'ex_further_finding_ass5' => array(
+		'id' => 5,
+		'finding_id' => 1,
+		'element_id' => 3,
+	),
+	'ex_further_finding_ass6' => array(
+		'id' => 6,
+		'finding_id' => 1,
+		'element_id' => 4,
+	),
+	'ex_further_finding_ass7' => array(
+		'id' => 7,
+		'finding_id' => 1,
+		'element_id' => 5,
+	),
+	'ex_further_finding_ass8' => array(
+		'id' => 8,
+		'finding_id' => 2,
+		'element_id' => 6,
+	),
+	'ex_further_finding_ass9' => array(
+		'id' => 9,
+		'finding_id' => 2,
+		'element_id' => 7,
+	),
+	'ex_further_finding_ass10' => array(
+		'id' => 10,
+		'finding_id' => 1,
+		'element_id' => 8,
+	),
+	'ex_further_finding_ass11' => array(
+		'id' => 11,
+		'finding_id' => 2,
+		'element_id' => 8,
+	),
+	'ex_further_finding_ass12' => array(
+		'id' => 12,
+		'finding_id' => 3,
+		'element_id' => 8,
+	),
+	'ex_further_finding_ass13' => array(
+		'id' => 13,
+		'finding_id' => 4,
+		'element_id' => 8,
+	),
 );
