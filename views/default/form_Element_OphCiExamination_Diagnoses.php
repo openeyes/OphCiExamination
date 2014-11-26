@@ -25,11 +25,11 @@
 	<?php
 	$conditions = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
 	$this->widget('application.widgets.DiagnosisSelection', array(
-		'field' => 'condition', // This is only used for naming
-		'options' => $conditions, // FIXME: New property?
-		'code' => '130', // Ophthamology // FIXME: Is this actually needed?
+		'field' => 'condition',
+		'options' => $conditions,
+		'code' => '130', // Ophthamology
 		'callback' => 'OphCiExamination_AddDisorderOrFinding',
-		'filterCallback' => 'OphCiExamination_GetCurrentConditions', // FIXME: Add support in diagnosis widget
+		'filterCallback' => 'OphCiExamination_GetCurrentConditions',
 		'layout' => 'includefindings',
 		'layoutColumns' => array(
 			'label' => 2,

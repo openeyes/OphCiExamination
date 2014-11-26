@@ -1074,8 +1074,14 @@ $(document).ready(function() {
 
 	// Refresh common ophthalmic diagnosis widget when findings element is changed
 	$('.js-active-elements').on('MultiSelectChanged', '#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment', function() {
-		// FIXME: What happens if findings element is closed? Need to trigger refresh somehow
 		OphCiExamination_RefreshCommonOphDiagnoses();
+	});
+
+	// Refresh common ophthalmic diagnosis widget when findings element is removed
+	$(document).on('ElementRemoved', '.js-active-elements', function(event, element_class) {
+		if(element_class == 'OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings') {
+			OphCiExamination_RefreshCommonOphDiagnoses();
+		}
 	});
 
 	// Handle removal of diagnoses from diagnosis element and trigger refresh of widget
@@ -1879,11 +1885,14 @@ function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
 }
 
 function OphCiExamination_AddFinding(finding_id, label) {
-	console.log("FIXME: Implement OphCiExamination_AddFinding");
-	// TODO: Open findings element if it's not already
-	// TODO: Add finding by hooking into the multiselect. Simulate change event on select?
-	//addElement($('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings'), true, true);
-	$('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment').val(finding_id).trigger('change');
+	var updateFindings = function() {
+		$('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment').val(finding_id).trigger('change');
+	};
+	if($('.OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings').length > 0) {
+		updateFindings();
+	} else {
+		addElement($("[data-element-type-class='OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']").first(), false, true, 0, {}, updateFindings);
+	}
 	OphCiExamination_RefreshCommonOphDiagnoses();
 }
 
@@ -2027,7 +2036,6 @@ function OphCiExamination_OpticDisc_updateCDRatio(field) {
 }
 
 function OphCiExamination_RefreshCommonOphDiagnoses() {
-	console.log('Refreshing common ophthalmic diagnosis lists');
 	DiagnosisSelection_updateSelections();
 }
 
