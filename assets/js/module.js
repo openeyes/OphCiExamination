@@ -1052,7 +1052,7 @@ $(document).ready(function() {
 				},
 				complete: function () {
 					$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').hide();
-				},
+				}
 			});
 		}
 		else {
@@ -1815,6 +1815,27 @@ function OphCiExamination_InjectionManagementComplex_init() {
 }
 
 // END InjectionManagementComplex
+
+/**
+ * Add disorder or finding to exam
+ * @param string type
+ * @param integer condition_id
+ * @param string label
+ * @constructor
+ */
+function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
+	if(type == 'disorder') {
+		OphCiExamination_AddDiagnosis(condition_id, label);
+	} else if(type == 'finding') {
+		OphCiExamination_AddFinding(condition_id, label);
+	} else {
+		console.log("Error: Unknown type: "+type);
+	}
+}
+
+function OphCiExamination_AddFinding(finding_id, label) {
+	console.log("FIXME: Implement OphCiExamination_AddFinding");
+}
 
 function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	var max_id = -1;

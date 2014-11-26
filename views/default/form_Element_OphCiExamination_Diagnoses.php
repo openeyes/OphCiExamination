@@ -19,16 +19,18 @@
 ?>
 <div class="element-fields">
 	<input type="hidden" name="<?php echo CHtml::modelName($element);?>[force_validation]" />
-	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
+	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye',
+		($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(),
+		array('label' => 2, 'field' => 10)) ?>
 	<?php
-	list($options, $secondary_to) = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
+	$conditions = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
 	$this->widget('application.widgets.DiagnosisSelection', array(
-		'field' => 'disorder_id',
-		'options' => $options,
-		'secondary_to' => $secondary_to,
-		'code' => '130', // Ophthamology
-		'callback' => 'OphCiExamination_AddDiagnosis',
-		'layout' => 'minimal',
+		'field' => 'condition', // This is only used for naming
+		'options' => $conditions, // FIXME: New property?
+		'code' => '130', // Ophthamology // FIXME: Is this actually needed?
+		'callback' => 'OphCiExamination_AddDisorderOrFinding',
+		//'filterCallback' => 'OphCiExamination_GetCurrentConditions', // FIXME: Add support in diagnosis widget
+		'layout' => 'minimal', // FIXME: Use correct layout
 		'layoutColumns' => array(
 			'label' => 2,
 			'field' => 5,

@@ -212,37 +212,20 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 	}
 
 	/**
-	 * Gets the common ophthalmic disorders for the given firm, not including those
-	 * already part of the element diagnoses
+	 * Gets the common ophthalmic disorders for the given firm
 	 *
-	 * @param $firm_id
-	 * @return array { id => Disorder }
+	 * @param int $firm_id
+	 * @return array
 	 */
 	public function getCommonOphthalmicDisorders($firm_id)
 	{
-		$disorder_ids = $this->getSelectedDisorderIDs();
-		$disorders = array();
-		$secondary_to = array();
-		list($common, $common_secondary_to) = \CommonOphthalmicDisorder::getListWithSecondaryTo(\Firm::model()->findByPk($firm_id));
-		// pre-filter to remove disorders patient already has
-		foreach ($common as $id => $disorder) {
-			if (!in_array($id,$disorder_ids)) {
-				$disorders[$id] = $disorder;
-			}
+		if (empty($firm_id)) {
+			throw new CException('Firm is required');
 		}
-		// pre-filter to remove any disorders in the secondary-to lists the patient already has
-		foreach ($common_secondary_to as $id => $secondary_tos) {
-			if (!in_array($id, $disorder_ids)) {
-				$secondary_to[$id] = array();
-				foreach ($secondary_tos as $stid => $term) {
-					if (!in_array($stid, $disorder_ids)) {
-						$secondary_to[$id][$stid] = $term;
-					}
-				}
-			}
+		$firm = \Firm::model()->findByPk($firm_id);
+		if($firm) {
+			return \CommonOphthalmicDisorder::getListWithSecondaryTo($firm);
 		}
-
-		return array($disorders, $secondary_to);
 	}
 
 	/**
