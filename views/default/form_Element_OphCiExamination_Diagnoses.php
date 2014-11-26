@@ -30,7 +30,7 @@
 		'code' => '130', // Ophthamology // FIXME: Is this actually needed?
 		'callback' => 'OphCiExamination_AddDisorderOrFinding',
 		//'filterCallback' => 'OphCiExamination_GetCurrentConditions', // FIXME: Add support in diagnosis widget
-		'layout' => 'minimal', // FIXME: Use correct layout
+		'layout' => 'includeFindings',
 		'layoutColumns' => array(
 			'label' => 2,
 			'field' => 5,
