@@ -1071,6 +1071,38 @@ $(document).ready(function() {
 	});
 
 	updateTextMacros();
+
+	// Refresh common ophthalmic diagnosis widget when findings element is changed
+	$('.js-active-elements').on('MultiSelectChanged', '#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment', function() {
+		OphCiExamination_RefreshCommonOphDiagnoses();
+	});
+
+	// Handle removal of diagnoses from diagnosis element and trigger refresh of widget
+	$('.js-active-elements').on('click', 'a.removeDiagnosis', function() {
+		var disorder_id = $(this).attr('rel');
+		var new_principal = false;
+
+		if ($('input[name="principal_diagnosis"]:checked').val() == disorder_id) {
+			new_principal = true;
+		}
+
+		$('.js-diagnoses').find('input[type="hidden"]').map(function() {
+			if ($(this).val() == disorder_id) {
+				$(this).remove();
+			}
+		});
+
+		$(this).parent().parent().remove();
+
+		if (new_principal) {
+			$('input[name="principal_diagnosis"]:first').attr('checked','checked');
+		}
+
+		OphCiExamination_RefreshCommonOphDiagnoses();
+
+		return false;
+	});
+
 });
 
 function updateTextMacros() {
@@ -1816,6 +1848,11 @@ function OphCiExamination_InjectionManagementComplex_init() {
 
 // END InjectionManagementComplex
 
+function OphCiExamination_GetCurrentConditions() {
+	console.log("FIXME: Implement OphCiExamination_GetCurrentConditions");
+	return new Array();
+}
+
 /**
  * Add disorder or finding to exam
  * @param string type
@@ -1835,6 +1872,7 @@ function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
 
 function OphCiExamination_AddFinding(finding_id, label) {
 	console.log("FIXME: Implement OphCiExamination_AddFinding");
+	OphCiExamination_RefreshCommonOphDiagnoses();
 }
 
 function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
@@ -1880,6 +1918,7 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 	'</tr>';
 
 	$('.js-diagnoses').append(row);
+	OphCiExamination_RefreshCommonOphDiagnoses();
 }
 
 function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
@@ -1975,63 +2014,10 @@ function OphCiExamination_OpticDisc_updateCDRatio(field) {
 	}
 }
 
-$('a.removeDiagnosis').live('click',function() {
-	var disorder_id = $(this).attr('rel');
-	var new_principal = false;
-
-	if ($('input[name="principal_diagnosis"]:checked').val() == disorder_id) {
-		new_principal = true;
-	}
-
-	$('.js-diagnoses').find('input[type="hidden"]').map(function() {
-		if ($(this).val() == disorder_id) {
-			$(this).remove();
-		}
-	});
-
-	$(this).parent().parent().remove();
-
-	if (new_principal) {
-		$('input[name="principal_diagnosis"]:first').attr('checked','checked');
-	}
-	$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', true);
-	$.ajax({
-		'type': 'GET',
-		'url': baseUrl+'/disorder/iscommonophthalmicwithsecondary/'+disorder_id,
-		'dataType': 'json',
-		'success': function(data) {
-
-			if (data && data.disorder) {
-				var extra_attr = '';
-				var current_diagnoses = $("."+OE_MODEL_PREFIX+"Element_OphCiExamination_Diagnoses input[name='selected_diagnoses\\[\\]']").map(function(){return $(this).val();});
-
-				if (data.owned_by) {
-					// check if secondary list is displayed and needs updating?
-					var selected = $('#DiagnosisSelection_disorder_id').children('option:selected');
-					if (selected.data('secondary-to')) {
-						for (var i in data.owned_by) {
-							if (data.owned_by[i].id == selected.val()
-									|| (data.owned_by[i].id == null && selected.val() == 'NONE')) {
-								updateSecondaryList(selected.data('secondary-to'), selected.val() != 'NONE');
-							}
-						}
-					}
-				}
-				else {
-					// must be a primary diagnosis.
-					updatePrimaryList(data.disorder, data.secondary_to);
-				}
-			}
-		},
-		'complete': function() {
-			$('#DiagnosisSelection_disorder_id, #DiagnosisSelection_disorder_id_secondary_to').prop('disabled', false);
-		}
-	});
-
-	return false;
-});
-
-
+function OphCiExamination_RefreshCommonOphDiagnoses() {
+	console.log('Refreshing common ophthalmic diagnosis lists');
+	DiagnosisSelection_updateSelections();
+}
 
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = ED.getInstance('ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id'));
