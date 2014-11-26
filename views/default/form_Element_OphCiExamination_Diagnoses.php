@@ -29,7 +29,7 @@
 		'options' => $conditions, // FIXME: New property?
 		'code' => '130', // Ophthamology // FIXME: Is this actually needed?
 		'callback' => 'OphCiExamination_AddDisorderOrFinding',
-		//'filterCallback' => 'OphCiExamination_GetCurrentConditions', // FIXME: Add support in diagnosis widget
+		'filterCallback' => 'OphCiExamination_GetCurrentConditions', // FIXME: Add support in diagnosis widget
 		'layout' => 'includefindings',
 		'layoutColumns' => array(
 			'label' => 2,

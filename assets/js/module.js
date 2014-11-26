@@ -1858,7 +1858,7 @@ function OphCiExamination_GetCurrentConditions() {
 	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-selections li input").map(function() {
 		return {'type': 'finding', 'id': $(this).val()};
 	});
-	return disorders.add(findings);
+	return {disorders: disorders, findings: findings};
 }
 
 /**
@@ -1882,6 +1882,8 @@ function OphCiExamination_AddFinding(finding_id, label) {
 	console.log("FIXME: Implement OphCiExamination_AddFinding");
 	// TODO: Open findings element if it's not already
 	// TODO: Add finding by hooking into the multiselect. Simulate change event on select?
+	//addElement($('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings'), true, true);
+	$('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment').val(finding_id).trigger('change');
 	OphCiExamination_RefreshCommonOphDiagnoses();
 }
 
