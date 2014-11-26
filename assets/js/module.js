@@ -1074,6 +1074,7 @@ $(document).ready(function() {
 
 	// Refresh common ophthalmic diagnosis widget when findings element is changed
 	$('.js-active-elements').on('MultiSelectChanged', '#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment', function() {
+		// FIXME: What happens if findings element is closed? Need to trigger refresh somehow
 		OphCiExamination_RefreshCommonOphDiagnoses();
 	});
 
@@ -1102,6 +1103,8 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+	OphCiExamination_GetCurrentConditions();
 
 });
 
@@ -1849,8 +1852,13 @@ function OphCiExamination_InjectionManagementComplex_init() {
 // END InjectionManagementComplex
 
 function OphCiExamination_GetCurrentConditions() {
-	console.log("FIXME: Implement OphCiExamination_GetCurrentConditions");
-	return new Array();
+	var disorders = $("input[name='selected_diagnoses[]'").map(function() {
+		return {'type': 'disorder', 'id': $(this).val()};
+	});
+	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-selections li input").map(function() {
+		return {'type': 'finding', 'id': $(this).val()};
+	});
+	return disorders.add(findings);
 }
 
 /**
@@ -1872,6 +1880,8 @@ function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
 
 function OphCiExamination_AddFinding(finding_id, label) {
 	console.log("FIXME: Implement OphCiExamination_AddFinding");
+	// TODO: Open findings element if it's not already
+	// TODO: Add finding by hooking into the multiselect. Simulate change event on select?
 	OphCiExamination_RefreshCommonOphDiagnoses();
 }
 
