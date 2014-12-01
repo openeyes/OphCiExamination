@@ -221,7 +221,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		}
 		$firm = \Firm::model()->findByPk($firm_id);
 		if($firm) {
-			return \CommonOphthalmicDisorder::getListWithSecondaryTo($firm);
+			return \CommonOphthalmicDisorder::getListByGroupWithSecondaryTo($firm);
 		}
 	}
 
