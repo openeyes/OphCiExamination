@@ -25,7 +25,7 @@ namespace OEModule\OphCiExamination\models;
  * @property integer $id
  * @property string $name
  */
-class OphCiExamination_Refraction_Integer extends \BaseActiveRecordVersioned
+class OphCiExamination_Refraction_Sphere_Integer extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,7 +41,7 @@ class OphCiExamination_Refraction_Integer extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_refraction_integer';
+		return 'ophciexamination_refraction_sphere_integer';
 	}
 
 	public function defaultScope()

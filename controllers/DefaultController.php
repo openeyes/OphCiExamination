@@ -108,6 +108,18 @@ class DefaultController extends \BaseEventTypeController
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
 		}
+
+		$this->jsVars['Element_OphCiExamination_Refraction_sphere'] = array();
+
+		foreach (models\OphCiExamination_Refraction_Sphere_Integer::model()->findAll(array('order' => 'display_order asc')) as $si) {
+			$this->jsVars['Element_OphCiExamination_Refraction_sphere'][$si->sign_id][] = $si->value;
+		}
+
+		$this->jsVars['Element_OphCiExamination_Refraction_cylinder'] = array();
+
+		foreach (models\OphCiExamination_Refraction_Cylinder_Integer::model()->findAll(array('order' => 'display_order asc')) as $si) {
+			$this->jsVars['Element_OphCiExamination_Refraction_cylinder'][$si->sign_id][] = $si->value;
+		}
 	}
 
 	/**
