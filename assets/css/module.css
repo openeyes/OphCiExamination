@@ -29,6 +29,11 @@
   background-image: url('../img/medium.png?1382439347');
 }
 
+/* line 27, ../sass/components/_event.scss */
+.refractionNotes {
+  margin-top: 1em;
+}
+
 @media print {
   /* line 19, ../sass/components/elements/_intraocular-pressure.scss */
   .OEModule_OphCiExamination_models_Element_OphCiExamination_IntraocularPressure .element-data,

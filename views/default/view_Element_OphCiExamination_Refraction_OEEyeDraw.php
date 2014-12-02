@@ -34,3 +34,10 @@
 		Spherical equivalent: <?php echo number_format($element->{$side.'_sphere'} + 0.5 * $element->{$side.'_cylinder'},2)?>
 	</div>
 </div>
+<div class="column fluid refractionNotes">
+	<div class="data-value">
+		<?php if ($element->{$side."_notes"}) {?>
+			<?php echo $element->textWithLineBreaks($side."_notes")?>
+		<?php }?>
+	</div>
+</div>

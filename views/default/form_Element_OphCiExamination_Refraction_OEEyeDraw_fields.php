@@ -64,4 +64,12 @@
 			<?php echo CHtml::activeTextField($element, $side.'_type_other',array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class'=>'refraction-type-other-field'))?>
 		</div>
 	</div>
+	<div class="row field-row">
+		<div class="large-3 column">
+			<label>Comments:</label>
+		</div>
+		<div class="large-6 column end">
+			<?php echo CHtml::activeTextArea($element, $side.'_notes')?>
+		</div>
+	</div>
 </div>
