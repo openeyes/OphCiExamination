@@ -819,11 +819,17 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
 	{
-		if ($element->status && $element->status->patientticket &&
-				isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
-			$queue_data = $api->extractQueueData($queue, $data);
-			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+		if ($element->status && $element->status->patientticket && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			if (isset($data['patientticket_queue'])) {
+				$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
+				$queue_data = $api->extractQueueData($queue, $data);
+				$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+			} else {
+				if (!$ticket = $api->getTicketForEvent($this->event)) {
+					throw new Exception("Ticket not found for event $this->event");
+				}
+				$api->updateTicketForEvent($ticket);
+			}
 		}
 	}
 
