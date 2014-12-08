@@ -1201,4 +1201,20 @@ class OphCiExamination_API extends \BaseAPI
 		return null;
 	}
 
+	public function getLetterDiagnosesAndFindings($patient)
+	{
+		$text = '';
+
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($diag = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_Diagnoses')) {
+				$text .= $diag->letter_string;
+
+				if ($findings = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_FurtherFindings')) {
+					$text .= $findings->furtherFindingsAssignedString;
+				}
+			}
+		}
+
+		return $text;
+	}
 }
