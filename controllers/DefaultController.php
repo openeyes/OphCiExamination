@@ -480,9 +480,9 @@ class DefaultController extends \BaseEventTypeController
 					}
 				}
 				if (isset($data[$model_name][$side . '_risks']) ) {
-					foreach ($data[$model_name][$side . '_risks'] as $risk_id) {
-						if ($risk = models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk_id)) {
-							$risks[] = $risk;
+					foreach ($data[$model_name][$side . '_risks'] as $risk) {
+						if ($_risk = models\OphCiExamination_InjectionManagementComplex_Risk::model()->findByPk($risk['id'])) {
+							$risks[] = $_risk;
 						}
 					}
 				}
