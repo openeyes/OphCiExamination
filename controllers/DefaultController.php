@@ -825,10 +825,7 @@ class DefaultController extends \BaseEventTypeController
 				$queue_data = $api->extractQueueData($queue, $data);
 				$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
 			} else {
-				if (!$ticket = $api->getTicketForEvent($this->event)) {
-					throw new Exception("Ticket not found for event $this->event");
-				}
-				$api->updateTicketForEvent($ticket);
+				$api->updateTicketForEvent($this->event);
 			}
 		}
 	}
