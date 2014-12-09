@@ -657,11 +657,11 @@ class DefaultController extends \BaseEventTypeController
 			array());
 		$element->updateRisks(\Eye::LEFT,
 			$element->hasLeft() && isset($data[$model_name]['left_risks']) ?
-			array_map(function ($a) { return $a['id']; }, $data[$model_name]['left_risks']) :
+			$data[$model_name]['left_risks'] :
 			array());
 		$element->updateRisks(\Eye::RIGHT,
 			$element->hasRight() && isset($data[$model_name]['right_risks']) ?
-			array_map(function ($a) { return $a['id']; }, $data[$model_name]['right_risks']) :
+			$data[$model_name]['right_risks'] :
 			array());
 	}
 
