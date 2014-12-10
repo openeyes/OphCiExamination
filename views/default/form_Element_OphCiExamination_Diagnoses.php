@@ -19,16 +19,18 @@
 ?>
 <div class="element-fields">
 	<input type="hidden" name="<?php echo CHtml::modelName($element);?>[force_validation]" />
-	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye', ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(), array('label' => 2, 'field' => 10))?>
+	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye',
+		($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(),
+		array('label' => 2, 'field' => 10)) ?>
 	<?php
-	list($options, $secondary_to) = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
+	$conditions = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
 	$this->widget('application.widgets.DiagnosisSelection', array(
-		'field' => 'disorder_id',
-		'options' => $options,
-		'secondary_to' => $secondary_to,
+		'field' => 'condition',
+		'options' => $conditions,
 		'code' => '130', // Ophthamology
-		'callback' => 'OphCiExamination_AddDiagnosis',
-		'layout' => 'minimal',
+		'callback' => 'OphCiExamination_AddDisorderOrFinding',
+		'filterCallback' => 'OphCiExamination_GetCurrentConditions',
+		'layout' => 'includefindings',
 		'layoutColumns' => array(
 			'label' => 2,
 			'field' => 5,

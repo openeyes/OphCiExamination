@@ -173,8 +173,8 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 				'right_no_treatment_reason_other' => 'Please provide other reason for no treatment',
 				'left_diagnosis1_id' => 'Diagnosis',
 				'right_diagnosis1_id' => 'Diagnosis',
-				'left_diagnosis2_id' => 'Secondary to',
-				'right_diagnosis2_id' => 'Secondary to',
+				'left_diagnosis2_id' => 'Associated with',
+				'right_diagnosis2_id' => 'Associated with',
 				'left_risks' => 'Risks',
 				'right_risks' => 'Risks',
 				'left_comments' => 'Comments',
@@ -648,7 +648,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 				if ($api = Yii::app()->moduleAPI->get('OphCoTherapyapplication')) {
 					if (count($api->getLevel2Disorders($this->$params['dependent']))) {
 						$disorder = \Disorder::model()->findByPk($this->$params['dependent']);
-						$this->addError($attribute, $disorder->term . " must be secondary to another diagnosis");
+						$this->addError($attribute, $disorder->term . " must be associated with another diagnosis");
 					}
 				}
 			}
@@ -773,7 +773,7 @@ class Element_OphCiExamination_InjectionManagementComplex extends \SplitEventTyp
 			$res = $this->{$side . '_diagnosis1'}->term;
 		}
 		if ($this->{$side . '_diagnosis2_id'}) {
-			$res .= ' secondary to ' . $this->{$side . '_diagnosis2'}->term;
+			$res .= ' associated with ' . $this->{$side . '_diagnosis2'}->term;
 		}
 		return $res;
 	}

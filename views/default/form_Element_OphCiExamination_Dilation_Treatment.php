@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="dilationTreatment" data-key="<?php echo $key ?>">
+<tr class="dilationTreatment" data-key="<?php echo $key ?>" data-order="<?php echo $data_order ?>">
 	<td>
 		<?php echo CHtml::textField($name_stub . '['.$key.'][treatment_time]',isset($treatment) ? substr($treatment->treatment_time,0,5) : date('H:i'),array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class' => 'input-time'))?>
 	</td>

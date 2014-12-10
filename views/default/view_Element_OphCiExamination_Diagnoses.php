@@ -17,15 +17,46 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="element-data">
-	<?php foreach ($element->diagnoses as $diagnosis) {?>
-		<div class="data-row">
-			<div class="data-value">
-				<?php if ($diagnosis->principal) {?><strong><?php }?>
-				<?php echo $diagnosis->eye->adjective?>
-				<?php echo $diagnosis->disorder->term?>
-				<?php if ($diagnosis->principal) {?></strong><?php }?>
+<div class="element-data element-eyes row">
+	<div class="element-eye right-eye column">
+		<?php if ($principal =  OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (2,3)',array($element->id))) {?>
+			<div class="data-row">
+				<div class="data-value">
+					<strong>
+						<?php echo $principal->eye->adjective?>
+						<?php echo $principal->disorder->term?>
+					</strong>
+				</div>
 			</div>
-		</div>
-	<?php }?>
+		<?php }?>
+		<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (2,3)',array($element->id)) as $diagnosis) {?>
+			<div class="data-row">
+				<div class="data-value">
+					<?php echo $diagnosis->eye->adjective?>
+					<?php echo $diagnosis->disorder->term?>
+				</div>
+			</div>
+		<?php }?>
+	</div>
+	<div class="element-eye left-eye column">
+		<?php if ($principal = \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->find('element_diagnoses_id=? and principal=1 and eye_id in (1,3)',array($element->id))) {?>
+			<div class="data-row">
+				<div class="data-value">
+					<strong>
+						<?php echo $principal->eye->adjective?>
+						<?php echo $principal->disorder->term?>
+					</strong>
+				</div>
+			</div>
+		<?php }?>
+		<?php foreach (\OEModule\OphCiExamination\models\OphCiExamination_Diagnosis::model()->findAll('element_diagnoses_id=? and principal=0 and eye_id in (1,3)',array($element->id)) as $diagnosis) {?>
+			<div class="data-row">
+				<div class="data-value">
+					<?php echo $diagnosis->eye->adjective?>
+					<?php echo $diagnosis->disorder->term?>
+				</div>
+			</div>
+		<?php }?>
+	</div>
 </div>
+

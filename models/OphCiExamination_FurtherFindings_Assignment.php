@@ -20,20 +20,18 @@
 namespace OEModule\OphCiExamination\models;
 
 /**
- * This is the model class for table "ophciexamination_diagnosis".
+ * This is the model class for table "ophciexamination_further_findings_assignment".
  *
  * @property integer $id
- * @property integer $element_diagnoses_id
- * @property integer $disorder_id
- * @property integer $eye_id
- * @property boolean $principal
+ * @property integer $element_id
+ * @property integer $finding_id
 
  */
-class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
+class OphCiExamination_FurtherFindings_Assignment extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Diagnosis the static model class
+	 * @return OphCiExamination_Comorbidities_Assignment the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -45,25 +43,18 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_diagnosis';
+		return 'ophciexamination_further_findings_assignment';
 	}
 
 	/**
-	 * @return array validation rules for model diagnosiss.
+	 * @return array validation rules for model OphCiExamination_Comorbidities_Assignment.
 	 */
 	public function rules()
 	{
 		return array(
-				array('element_diagnoses_id,disorder_id,eye_id', 'required'),
-				array('element_diagnoses_id,disorder_id,eye_id,principal', 'safe'),
-				array('id, name', 'safe', 'on'=>'search'),
-		);
-	}
-
-	public function attributeLabels()
-	{
-		return array(
-			'eye_id' => 'Eye',
+				array('finding_id', 'required'),
+				array('description', 'RequiredIfFieldValidator', 'field' => 'finding.requires_description', 'value' => '1'),
+				array('id, element_id, finding_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,20 +64,9 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-			'element_diagnoses' => array(self::BELONGS_TO, 'Element_OphCiExamination_Diagnoses', 'element_diagnoses_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
+			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', 'element_id'),
+			'finding' => array(self::BELONGS_TO,'Finding', 'finding_id'),
 		);
-	}
-
-	/**
-	 *
-	 * @param BaseEventTypeElement $element
-	 */
-	public function findAllByElement($element)
-	{
-		$element_type = $element->getElementType();
-		return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
 	}
 
 	/**
@@ -97,7 +77,8 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 	{
 		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('element_id',$this->element_id,true);
+		$criteria->compare('finding_id',$this->item_id,true);
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

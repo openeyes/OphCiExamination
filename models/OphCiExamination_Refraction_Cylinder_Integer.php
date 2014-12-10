@@ -20,20 +20,16 @@
 namespace OEModule\OphCiExamination\models;
 
 /**
- * This is the model class for table "ophciexamination_diagnosis".
+ * This is the model class for table "ophciexamination_refraction_integer".
  *
  * @property integer $id
- * @property integer $element_diagnoses_id
- * @property integer $disorder_id
- * @property integer $eye_id
- * @property boolean $principal
-
+ * @property string $name
  */
-class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
+class OphCiExamination_Refraction_Cylinder_Integer extends \BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Diagnosis the static model class
+	 * @return OphCiExamination_Instrument the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -45,25 +41,22 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_diagnosis';
+		return 'ophciexamination_refraction_cylinder_integer';
+	}
+
+	public function defaultScope()
+	{
+		return array('order' => $this->getTableAlias(true, false) . '.display_order');
 	}
 
 	/**
-	 * @return array validation rules for model diagnosiss.
+	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
 	{
 		return array(
-				array('element_diagnoses_id,disorder_id,eye_id', 'required'),
-				array('element_diagnoses_id,disorder_id,eye_id,principal', 'safe'),
+				array('name', 'required'),
 				array('id, name', 'safe', 'on'=>'search'),
-		);
-	}
-
-	public function attributeLabels()
-	{
-		return array(
-			'eye_id' => 'Eye',
 		);
 	}
 
@@ -72,21 +65,7 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 	 */
 	public function relations()
 	{
-		return array(
-			'element_diagnoses' => array(self::BELONGS_TO, 'Element_OphCiExamination_Diagnoses', 'element_diagnoses_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
-		);
-	}
-
-	/**
-	 *
-	 * @param BaseEventTypeElement $element
-	 */
-	public function findAllByElement($element)
-	{
-		$element_type = $element->getElementType();
-		return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
+		return array();
 	}
 
 	/**
@@ -102,4 +81,5 @@ class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 				'criteria'=>$criteria,
 		));
 	}
+
 }

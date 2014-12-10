@@ -63,7 +63,7 @@ class DefaultController extends \BaseEventTypeController
 		if (!$this->event || $this->event->isNewRecord) {
 			$elements = $this->getElementsByWorkflow(null, $this->episode);
 		}
-		else  {
+		else	{
 			$elements = $this->event->getElements();
 			if ($this->step) {
 				$elements = $this->mergeNextStep($elements);
@@ -107,6 +107,18 @@ class DefaultController extends \BaseEventTypeController
 
 		if (Yii::app()->hasModule('OphCoTherapyapplication')) {
 			$this->jsVars['OphCiExamination_loadQuestions_url'] = $this->createURL('loadInjectionQuestions');
+		}
+
+		$this->jsVars['Element_OphCiExamination_Refraction_sphere'] = array();
+
+		foreach (models\OphCiExamination_Refraction_Sphere_Integer::model()->findAll(array('order' => 'display_order asc')) as $si) {
+			$this->jsVars['Element_OphCiExamination_Refraction_sphere'][$si->sign_id][] = $si->value;
+		}
+
+		$this->jsVars['Element_OphCiExamination_Refraction_cylinder'] = array();
+
+		foreach (models\OphCiExamination_Refraction_Cylinder_Integer::model()->findAll(array('order' => 'display_order asc')) as $si) {
+			$this->jsVars['Element_OphCiExamination_Refraction_cylinder'][$si->sign_id][] = $si->value;
 		}
 	}
 
@@ -673,13 +685,16 @@ class DefaultController extends \BaseEventTypeController
 
 		$eyes = isset($data[$model_name]) ? array_values($data[$model_name]) : array();
 
-		foreach (@$data['selected_diagnoses'] as $i => $disorder_id) {
-			$diagnoses[] = array(
-				'eye_id' => $eyes[$i],
-				'disorder_id' => $disorder_id,
-				'principal' => (@$data['principal_diagnosis'] == $disorder_id)
-			);
+		if (!empty($data['selected_diagnoses'])) {
+			foreach ($data['selected_diagnoses'] as $i => $disorder_id) {
+				$diagnoses[] = array(
+					'eye_id' => $eyes[$i],
+					'disorder_id' => $disorder_id,
+					'principal' => (@$data['principal_diagnosis'] == $disorder_id)
+				);
+			}
 		}
+
 		$element->updateDiagnoses($diagnoses);
 	}
 
@@ -876,4 +891,50 @@ class DefaultController extends \BaseEventTypeController
 		return $errors;
 	}
 
+	protected function setComplexAttributes_Element_OphCiExamination_FurtherFindings($element, $data, $index)
+	{
+		$assignments = array();
+
+		if (!empty($data['OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']['further_findings_assignment'])) {
+			foreach ($data['OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']['further_findings_assignment'] as $i => $item) {
+				if (!$finding = \Finding::model()->findByPk($item['id'])) {
+					throw new Exception("Finding not found: {$item['id']}");
+				}
+				$assignment = new models\OphCiExamination_FurtherFindings_Assignment;
+				$assignment->finding_id = $finding->id;
+				$assignment->description = @$item['description'];
+
+				$assignments[] = $assignment;
+			}
+		}
+
+		$element->further_findings_assignment = $assignments;
+	}
+
+	protected function saveComplexAttributes_Element_OphCiExamination_FurtherFindings($element, $data, $index)
+	{
+		$ids = array();
+
+		if (!empty($element->further_findings_assignment)) {
+			foreach ($element->further_findings_assignment as $assignment) {
+				$assignment->element_id = $element->id;
+
+				if (!$assignment->save()) {
+					throw new \Exception("Unable to save further finding assignment: ".print_r($assignment->errors,true));
+				}
+
+				$ids[] = $assignment->id;
+			}
+		}
+
+		$criteria = new \CDbCriteria;
+		$criteria->addCondition('element_id = :eid');
+		$criteria->params[':eid'] = $element->id;
+
+		if (!empty($ids)) {
+			$criteria->addNotInCondition('id',$ids);
+		}
+
+		models\OphCiExamination_FurtherFindings_Assignment::model()->deleteAll($criteria);
+	}
 }

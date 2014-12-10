@@ -16,28 +16,20 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
 ?>
-<div class="column fixed">
-	<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-			'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
-			'side' => ($side == 'right') ? 'R' : 'L',
-			'mode' => 'view',
-			'width' => 100,
-			'height' => 100,
-			'model' => $element,
-			'attribute' => $side.'_axis_eyedraw',
-	))?>
-</div>
-<div class="column fluid">
-	<div class="data-value">
-		<?= Yii::app()->format->text($element->getCombined($side)) ?><br/>
-		Spherical equivalent: <?php echo number_format($element->{$side.'_sphere'} + 0.5 * $element->{$side.'_cylinder'},2)?>
-	</div>
-</div>
-<div class="column fluid refractionNotes">
-	<div class="data-value">
-		<?php if ($element->{$side."_notes"}) {?>
-			<?php echo $element->textWithLineBreaks($side."_notes")?>
-		<?php }?>
+<div class="sub-element-fields">
+	<div class="field-row furtherfindings-multi-select">
+		<?php echo $form->multiSelectListFreeText($element, CHtml::modelName($element) . '[further_findings_assignment]',
+			'further_findings_assignment', 'finding_id', CHtml::encodeArray(CHtml::listData(
+				Finding::model()->activeOrPk($element->furtherFindingsAssigned)->bySubspecialty($this->firm->getSubspecialty())->findAll(),
+				'id',
+				'name'
+			)), array(), array(
+				'empty' => '-- Add --',
+				'label' => 'Findings',
+				'nowrapper' => true,
+				'requires_description_field' => 'requires_description'
+			), false, true, 'No further findings', true, true, array(),'Finding') ?>
 	</div>
 </div>

@@ -68,7 +68,7 @@ class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 	public function rules()
 	{
 		return array(
-				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id', 'safe'),
+				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id, left_notes, right_notes', 'safe'),
 				array('left_axis', 'requiredIfSide', 'side' => 'left'),
 				array('left_axis', 'numerical', 'integerOnly'=>true),
 				array('left_type_other', 'requiredIfRefractionTypeOther', 'side' => 'left'),

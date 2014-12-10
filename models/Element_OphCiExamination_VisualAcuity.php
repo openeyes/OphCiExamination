@@ -92,7 +92,7 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 
 	public function sidedFields()
 	{
-		return array();
+		return array('unable_to_assess', 'eye_missing', 'readings');
 	}
 
 	/**
@@ -163,22 +163,6 @@ class Element_OphCiExamination_VisualAcuity extends \SplitEventTypeElement
 					if (!$valid) {
 						$this->addError($side, ucfirst($side) . ' side has no data.');
 					}
-				}
-			}
-			else {
-				$error = false;
-				if ($this->{$side . '_readings'}) {
-					$error =  true;
-				}
-				else {
-					foreach ($contra_flags as $f) {
-						if ($this->{$side . $f}) {
-							$error = true;
-						}
-					}
-				}
-				if ($error) {
-					$this->addError('eye_id', ucfirst($side) . ' data not allowed for VA when ' . $side . ' side not set.');
 				}
 			}
 		}
