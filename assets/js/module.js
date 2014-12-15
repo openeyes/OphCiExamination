@@ -1869,7 +1869,7 @@ function OphCiExamination_InjectionManagementComplex_init() {
 // END InjectionManagementComplex
 
 function OphCiExamination_GetCurrentConditions() {
-	var disorders = $("input[name='selected_diagnoses[]'").map(function() {
+	var disorders = $("input[name='selected_diagnoses[]']").map(function() {
 		return {'type': 'disorder', 'id': $(this).val()};
 	});
 	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-selections li input").map(function() {
