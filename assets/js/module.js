@@ -1902,13 +1902,14 @@ function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
 function OphCiExamination_AddFinding(finding_id, label) {
 	var updateFindings = function() {
 		$('#OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings_further_findings_assignment').val(finding_id).trigger('change');
+		OphCiExamination_RefreshCommonOphDiagnoses();
 	};
 	if($('.OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings').length > 0) {
 		updateFindings();
 	} else {
 		addElement($("[data-element-type-class='OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings']").first(), false, true, 0, {}, updateFindings);
 	}
-	OphCiExamination_RefreshCommonOphDiagnoses();
+
 }
 
 function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
