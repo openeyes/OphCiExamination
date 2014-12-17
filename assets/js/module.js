@@ -1876,7 +1876,7 @@ function OphCiExamination_GetCurrentConditions() {
 	var disorders = $("input[name='selected_diagnoses[]'").map(function() {
 		return {'type': 'disorder', 'id': $(this).val()};
 	});
-	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-selections li input").map(function() {
+	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-free-text-selections li input").map(function() {
 		return {'type': 'finding', 'id': $(this).val()};
 	});
 	return {disorders: disorders, findings: findings};
