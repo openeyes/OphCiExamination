@@ -29,7 +29,7 @@ use Yii;
 
  *
  * The followings are the available model relations:
- * @property OphCiExamination_VisualAcuityUnit $unit
+ * @property Finding[] $further_findings
  * @property User $user
  * @property User $usermodified
  * @property Event $event
@@ -37,6 +37,21 @@ use Yii;
 
 class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 {
+
+	protected $auto_update_relations = true;
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return Element_OphCiExamination_FurtherFindings the static model class
+	 */
+	public static function model($className = __CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
 		return 'et_ophciexamination_further_findings';
@@ -45,8 +60,8 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 	public function rules()
 	{
 		return array(
-				array('further_findings_assignment', 'safe'),
-				array('further_findings_assignment', 'required'),
+			array('further_findings', 'safe'),
+			array('id, event_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -57,7 +72,7 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
 			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 			'further_findings_assignment' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment', 'element_id'),
-			'further_findings' => array(self::HAS_MANY, 'Finding', 'finding_id', 'through' => 'further_findings_assignment'),
+			'further_findings' => array(self::MANY_MANY, 'Finding', 'ophciexamination_further_findings_assignment(element_id, finding_id)', 'order' => 'display_order, name')
 		);
 	}
 
@@ -98,22 +113,24 @@ class Element_OphCiExamination_FurtherFindings extends \BaseEventTypeElement
 					$further_findings[] = $assignment->finding->requires_description ? $assignment->finding->name.": ".$assignment->description : $assignment->finding->name;
 				}
 			}
-			return implode(', ', $further_findings);
 		}
-
-		return '';
+		return implode(', ', $further_findings);
 	}
 
 	public function afterValidate()
 	{
-		foreach ($this->further_findings_assignment as $assignment) {
-			if (!$assignment->validate()) {
-				foreach ($assignment->errors as $field => $errors) {
-					$this->addError($field,$errors[0]);
+		if($this->further_findings_assignment) {
+			foreach ($this->further_findings_assignment as $assignment) {
+				if (!$assignment->validate()) {
+					foreach ($assignment->errors as $field => $errors) {
+						$this->addError($field,$errors[0]);
+					}
 				}
 			}
+		} else {
+			$this->addError('further_findings_assignment', 'Please select at least one finding');
 		}
-
-		return parent::afterValidate();
+		parent::afterValidate();
 	}
+
 }
