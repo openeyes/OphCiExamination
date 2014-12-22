@@ -64,7 +64,7 @@ class Element_OphCiExamination_CurrentManagementPlan_Test extends CDbTestCase {
 	/**
 	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::getLatestIOP
 	 */
-	public function testGetLatestIOP() {xdebug_enable();
+	public function testGetLatestIOP() {
 		$patient = $this->patient('patient1');
 		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
 			->disableOriginalConstructor()

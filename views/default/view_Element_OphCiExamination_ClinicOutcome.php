@@ -34,11 +34,12 @@
 		</div>
 	</div>
 	<?php if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-		if ($element->status && $element->status->patientticket) {?>
+		if ($element->status && $element->status->patientticket &&
+			$ticket = $api->getTicketForEvent($this->event)
+			) {?>
 			<div class="data-row">
 				<div class="data-value">
 					<?php
-						$ticket = $api->getTicketForEvent($this->event);
 						$this->widget($api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket));
 					?>
 				</div>

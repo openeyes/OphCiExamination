@@ -28,7 +28,16 @@ class AdminController extends \ModuleAdminController
 
 	public function actionEditIOPInstruments()
 	{
-		$this->genericAdmin('Edit Intraocular Pressure Instruments', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument');
+		$this->genericAdmin(
+			'Edit Intraocular Pressure Instruments',
+			'OEModule\OphCiExamination\models\OphCiExamination_Instrument',
+			array(
+				'extra_fields' => array(
+					array('field' => 'short_name', 'type' => 'text',
+						'model' => 'OEModule\OphCiExamination\models\OphCiExamination_Instrument'),
+				),
+			)
+		);
 	}
 
 	// No Treatment Reason views
@@ -656,6 +665,46 @@ class AdminController extends \ModuleAdminController
 							),
 						),
 				)
+		);
+	}
+
+	public function actionManageClinicOutcomesStatus()
+	{
+		$extra_fields = array(
+			array(
+				'field' => 'episode_status_id',
+				'type' => 'lookup',
+				'model' => 'EpisodeStatus',
+			),
+			array(
+				'field' => 'subspecialties',
+				'type' => 'multilookup',
+				'noSelectionsMessage' => 'All Subspecialties',
+				'htmlOptions' => array(
+					'empty' => '- Please Select -',
+					'nowrapper' => true
+				),
+				'options' => \CHtml::listData(\Subspecialty::model()->findAll(), 'id', 'name')
+			),
+			array(
+				'field' => 'followup',
+				'type' => 'boolean'
+			)
+		);
+
+		if (Yii::app()->moduleAPI->get('PatientTicketing')) {
+			$extra_fields[] = array(
+				'field' => 'patientticket',
+				'type' => 'boolean'
+			);
+		}
+
+		$this->genericAdmin(
+			'Edit Clinical Outcome Statuses',
+			'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status',
+			array(
+				'extra_fields' => $extra_fields
+			)
 		);
 	}
 }

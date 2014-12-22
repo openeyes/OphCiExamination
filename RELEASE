@@ -3,6 +3,14 @@ Release History
 
 This document is intended to summarise the changes made for each release. It should be noted that this document was only introduced with version 1.4, and therefore doesn't cover earlier releases.
 
+1.8.0
+-----
++ enhancements related to the glacoma subspecialty, specifically changes to the diagnoses element and a new element called "further findings"
+
+1.7.3
+-----
++ added support for PDF printing using wkhtmltopdf
+
 1.7.2
 -----
 + IOP warning message improvements

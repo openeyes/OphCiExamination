@@ -18,23 +18,14 @@
  */
 ?>
 <div class="segmented">
-<?php echo CHtml::dropDownList(
-	CHTML::modelName($element).'_'.$field.'_sign',
-	($element->$field > 0) ? 1 : -1,
-	CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sign::model()->findAll(), 'name', 'value'),
-	array('class'=>'inline')
-)?>
-<?php echo CHtml::dropDownList(
-	CHTML::modelName($element).'_'.$field.'_integer',
-	abs((int) $element->$field),
-	CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Refraction_Integer::model()->findAll(),'value','value'),
-	array('class'=>'inline')
-)?>
-<?php echo CHtml::dropDownList(
-	CHTML::modelName($element).'_'.$field.'_fraction',
-	number_format(abs($element->$field) - (abs((int) $element->$field)),2),
-	CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Refraction_Fraction::model()->findAll(),'name','value'),
-	array('class'=>'inline')
-)?>
-<?php echo CHtml::activeHiddenField($element, $field)?>
+	<?php
+	preg_match('/OphCiExamination_Refraction_(.*?)_Integer/',$model,$m);
+	$type = strtolower($m[1]);
+	echo CHtml::dropDownList(CHTML::modelName($element).'_'.$side.'_'.$field.'_sign', ($element->{$side."_".$field} > 0) ? 1 : -1, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Refraction_Sign::model()->findAll(), 'name', 'value'), array('class'=>'inline signField', 'data-type' => $type));
+	$model = 'OEModule\OphCiExamination\models\\'.$model;
+	$sign_id = ($element->{$side."_".$field} > 0) ? 1 : 2;
+	echo CHtml::dropDownList(CHTML::modelName($element).'_'.$side.'_'.$field.'_integer', abs((int) $element->{$side."_".$field}), CHtml::listData($model::model()->findAll('sign_id='.$sign_id),'value','value'), array('class'=>'inline'));
+	echo CHtml::dropDownList(CHTML::modelName($element).'_'.$side.'_'.$field.'_fraction', number_format(abs($element->{$side."_".$field}) - (abs((int) $element->{$side."_".$field})),2), CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Refraction_Fraction::model()->findAll(),'name','value'), array('class'=>'inline'));
+	echo CHtml::activeHiddenField($element, $side."_".$field);
+	?>
 </div>
