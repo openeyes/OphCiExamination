@@ -33,6 +33,8 @@ class Element_OphCiExamination_DiagnosesTest extends CDbTestCase {
 		'common_oph' => '\CommonOphthalmicDisorder',
 		'secto' => '\SecondaryToCommonOphthalmicDisorder',
 		'firms' => '\Firm',
+		'ServiceSubspecialtyAssignment',
+		'Subspecialty',
 	);
 
 	/**
