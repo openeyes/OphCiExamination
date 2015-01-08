@@ -650,7 +650,7 @@ class OphCiExamination_API extends \BaseAPI
 				if(@$patient_ticket_followup['followup_quantity']==1 && @$patient_ticket_followup['followup_period']) {
 					$patient_ticket_followup['followup_period'] = rtrim($patient_ticket_followup['followup_period'],'s');
 				}
-				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'];
+				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'] . " in " . $patient_ticket_followup['clinic_location']  ;
 			}
 		}
 
