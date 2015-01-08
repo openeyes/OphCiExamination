@@ -88,6 +88,15 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getLetterIOPReadingBothFirst($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getLetter_reading_first('right')." on the right, and ".$iop->getLetter_reading_first('left')." on the left";
+			}
+		}
+	}
+
 	public function getLetterIOPReadingLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
