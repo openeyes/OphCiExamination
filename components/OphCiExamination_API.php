@@ -88,6 +88,15 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getLetterIOPReadingBothFirst($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getLetter_reading_first('right')." on the right, and ".$iop->getLetter_reading_first('left')." on the left";
+			}
+		}
+	}
+
 	public function getLetterIOPReadingLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
@@ -103,6 +112,22 @@ class OphCiExamination_API extends \BaseAPI
 			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
 				return $iop->getLetter_reading('right');
 			}
+		}
+	}
+
+	/**
+	 * @param Patient $patient
+	 * @return string|null
+	 */
+	public function getLetterIOPReadingAbbr(\Patient $patient)
+	{
+		if (($episode = $patient->getEpisodeForCurrentSubspecialty()) && ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure'))) {
+			$readings = array();
+			if (($reading = $iop->getReading('right'))) $readings[] = "r:{$reading}" . ($iop->isReadingAverage('right') ? ' (avg)' : '');
+			if (($reading = $iop->getReading('left'))) $readings[] = "l:{$reading}" . ($iop->isReadingAverage('left') ? ' (avg)' : '');
+			return implode(', ', $readings);
+		} else {
+			return null;
 		}
 	}
 
@@ -629,6 +654,15 @@ class OphCiExamination_API extends \BaseAPI
 	 */
 	public function getLetterOutcomeFollowUpPeriod($patient)
 	{
+		if($api = \Yii::app()->moduleAPI->get('PatientTicketing')){
+			if($patient_ticket_followup = $api->getLatestFollowUp($patient)){
+				if(@$patient_ticket_followup['followup_quantity']==1 && @$patient_ticket_followup['followup_period']) {
+					$patient_ticket_followup['followup_period'] = rtrim($patient_ticket_followup['followup_period'],'s');
+				}
+				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'] . " in " . $patient_ticket_followup['clinic_location']  ;
+			}
+		}
+
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
 			if ($o = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_ClinicOutcome')) {
 				if ($o->followup_quantity) {
@@ -1074,7 +1108,8 @@ class OphCiExamination_API extends \BaseAPI
 			if(!isset($episode->eye->name)){return;}
 			$eyeName = $episode->eye->name;
 
-			if ($el = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if (isset($el->left_value) && ($eyeName == 'Left' || $eyeName == 'Both')) {
 					$str = $str . 'Left Eye: ' . $el->left_value . ' µm using ' . $el->left_method->name .	'. ';
 				}
@@ -1147,12 +1182,24 @@ class OphCiExamination_API extends \BaseAPI
 	public function getCCTLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasLeft()) {
 					return $el->left_value . ' µm';
 				}
 			}
 		}
+	}
+
+	public function getCCTLeftNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasLeft()) {
+					return $el->left_value;
+				}
+			}
+		}
+		return 'NR';
 	}
 
 	/**
@@ -1164,11 +1211,40 @@ class OphCiExamination_API extends \BaseAPI
 	public function getCCTRight($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
-			if ($el = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
 				if ($el->hasRight()) {
 					return $el->right_value . ' µm';
 				}
 			}
+		}
+	}
+
+	public function getCCTRightNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($el = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT')) {
+				if ($el->hasRight()) {
+					return $el->right_value;
+				}
+			}
+		}
+		return 'NR';
+	}
+
+	/**
+	 * @param Patient $patient
+	 * @return string|null;
+	 */
+	public function getCCTAbbr(\Patient $patient)
+	{
+		if (($episode = $patient->getEpisodeForCurrentSubspecialty()) &&
+			($cct = $this->getMostRecentElementInEpisode($episode->id, $this->getEventType()->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_AnteriorSegment_CCT'))) {
+			$readings = array();
+			if ($cct->hasRight()) $readings[] = 'r:' . $cct->right_value;
+			if ($cct->hasLeft()) $readings[] = 'l:' . $cct->left_value;
+			return implode(', ', $readings);
+		} else {
+			return null;
 		}
 	}
 
@@ -1187,6 +1263,79 @@ class OphCiExamination_API extends \BaseAPI
 					return $el->risk->name;
 			}
 		}
+	}
+
+
+	public function getIOPReadingLeftNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				if ($reading = $iop->getReading('left'))
+				{
+					return $reading;
+				}
+			}
+		}
+		return 'NR';
+	}
+
+	public function getIOPReadingRightNoUnits($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				if ($reading = $iop->getReading('right'))
+				{
+					return $reading;
+				}
+			}
+		}
+		return 'NR';
+	}
+
+	public function getIOPValuesAsTable($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				$iopVals = $iop->getValues();
+				$i=0;
+				$output = '<table>';
+				while(isset($iopVals['right'][$i]) || isset($iopVals['left'][$i])){
+					if($i === 0){
+						$lCCT = $this->getCCTLeftNoUnits($patient);
+						$rCCT = $this->getCCTRightNoUnits($patient);
+						$output .= '<tr><th class="large-6">RE [' . $rCCT . ']</th><th class="large-6">LE [' . $lCCT . ']</th></tr>';
+					}
+
+
+					$output .= '<tr>';
+					if(isset($iopVals['right'][$i])){
+						$right =$iopVals['right'][$i];
+						$instr = (isset($right->instrument->short_name) && strlen($right->instrument->short_name)>0)?
+							$right->instrument->short_name : $right->instrument->name;
+						$readingNameRight = $right->instrument->scale ? $right->qualitative_reading->name : $right->reading->name;
+						$output .= "<td>" . $readingNameRight . ":" . $instr . "</td>";
+					}
+					else{
+						$output .= "<td>&nbsp;</td>";
+					}
+					if(isset($iopVals['left'][$i])){
+						$left =$iopVals['left'][$i];
+						$instr = (isset($left->instrument->short_name) && strlen($left->instrument->short_name)>0)?
+							$left->instrument->short_name : $left->instrument->name;
+						$readingNameLeft = $left->instrument->scale ? $left->qualitative_reading->name : $left->reading->name;
+						$output .= "<td>" . $readingNameLeft . ":" . $instr  ."</td>";
+					}
+					else{
+						$output .= "<td>&nbsp;</td>";
+					}
+					$output .= '</tr>';
+					$i++;
+				}
+				$output .= '</table>';
+				return $output;
+			}
+		}
+		return '';
 	}
 
 	public function getTargetIOP($patient){

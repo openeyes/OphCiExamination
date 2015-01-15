@@ -40,6 +40,8 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 		return parent::model($className);
 	}
 
+	protected $auto_update_relations = true;
+
 	public function __toString()
 	{
 		return $this->name;
@@ -64,8 +66,9 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
-				array('name, display_order, episode_status_id', 'required'),
-				array('id, name, display_order', 'safe', 'on'=>'search'),
+			array('name, display_order, episode_status_id', 'required'),
+			array('subspecialties', 'safe'),
+			array('id, name, display_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,7 +78,8 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id')
+			'episode_status' => array(self::BELONGS_TO, 'EpisodeStatus', 'episode_status_id'),
+			'subspecialties' => array(self::MANY_MANY, 'Subspecialty', 'ophciexamination_clinicoutcome_status_options(clinicoutcome_status_id, subspecialty_id)'),
 		);
 	}
 
@@ -83,6 +87,18 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 	{
 		return array(
 			'LookupTable' => 'LookupTable',
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'followup' => 'Show Follow Up Options',
+			'patientticket' => 'Generate Patient Ticket',
+			'episode_status_id' => 'Episode Status',
 		);
 	}
 
@@ -99,6 +115,21 @@ class OphCiExamination_ClinicOutcome_Status extends \BaseActiveRecordVersioned
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	public function bySubspecialty($subspecialty)
+	{
+		$criteria = array(
+			'join' => 'left join ophciexamination_clinicoutcome_status_options on ophciexamination_clinicoutcome_status_options.clinicoutcome_status_id = t.id',
+			'condition' => 'ophciexamination_clinicoutcome_status_options.subspecialty_id is null',
+		);
+		if ($subspecialty) {
+			$criteria['condition'] .= ' OR ophciexamination_clinicoutcome_status_options.subspecialty_id = :subspecialty_id';
+			$criteria['params'] = array(':subspecialty_id' => $subspecialty->id);
+		}
+		$this->getDbCriteria()->mergeWith($criteria);
+
+		return $this;
 	}
 
 }

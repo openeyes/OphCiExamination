@@ -834,11 +834,14 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function saveComplexAttributes_Element_OphCiExamination_ClinicOutcome($element, $data, $index)
 	{
-		if ($element->status && $element->status->patientticket &&
-				isset($data['patientticket_queue']) && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-			$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
-			$queue_data = $api->extractQueueData($queue, $data);
-			$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+		if ($element->status && $element->status->patientticket && $api = Yii::app()->moduleAPI->get('PatientTicketing')) {
+			if (isset($data['patientticket_queue'])) {
+				$queue = $api->getQueueForUserAndFirm(Yii::app()->user, $this->firm, $data['patientticket_queue']);
+				$queue_data = $api->extractQueueData($queue, $data);
+				$api->createTicketForEvent($this->event, $queue, Yii::app()->user, $this->firm, $queue_data);
+			} else {
+				$api->updateTicketForEvent($this->event);
+			}
 		}
 	}
 
@@ -865,8 +868,13 @@ class DefaultController extends \BaseEventTypeController
 					$err['patientticket_queue'] = "Virtual Clinic not found";
 				}
 				if ($queue) {
-					list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
-					$err = array_merge($err, $fld_errs);
+					if (!$api->canAddPatientToQueue($this->patient, $queue)) {
+						$err['patientticket_queue'] = "Cannot add Patient to Queue";
+					}
+					else {
+						list($ignore, $fld_errs) = $api->extractQueueData($queue, $data, true);
+						$err = array_merge($err, $fld_errs);
+					}
 				}
 
 				if (count($err)) {

@@ -57,7 +57,7 @@ class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
 	{
 		return array(
 				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('id, name, short_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,6 +87,7 @@ class OphCiExamination_Instrument extends \BaseActiveRecordVersioned
 		$criteria=new \CDbCriteria;
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('short_name',$this->name,true);
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));

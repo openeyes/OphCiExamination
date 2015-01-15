@@ -138,13 +138,34 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 			return 'Not recorded';
 		}
 
-		$return = "{$reading} mmHg" . (count($this->{"{$side}_values"}) > 1 ? ' (average)' : '');
+		$return = "{$reading} mmHg" . ($this->isReadingAverage($side) ? ' (average)' : '');
 
 		if ($this->{"{$side}_qualitative_values"}) {
 			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
 		}
 
 		return $return;
+	}
+
+	public function getLetter_reading_first($side)
+	{
+		$reading = $this->getFirstReading($side);
+
+		if (!$reading) {
+			if ($this->{"{$side}_qualitative_values"}) {
+				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
+			}
+
+			return 'Not recorded';
+		}
+
+		return "{$reading} mmHg";
+	}
+
+	public function getFirstReading($side)
+	{
+		if (!$values = $this->{"{$side}_integer_values"}) return null;
+		return $values[0]->reading->value;
 	}
 
 	public function getQualitativeReadings($side)
@@ -174,6 +195,15 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 		return round($sum / count($values)) ;
 	}
 
+	/**
+	 * @param string $side
+	 * @return boolean
+	 */
+	public function isReadingAverage($side)
+	{
+		return (count($this->{"{$side}_values"}) > 1);
+	}
+
 	public function getLetter_string()
 	{
 		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
@@ -182,5 +212,8 @@ class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElemen
 	public function canViewPrevious()
 	{
 		return true;
+	}
+	public function getValues(){
+		return array('right'=> $this->right_values, 'left'=>$this->left_values);
 	}
 }

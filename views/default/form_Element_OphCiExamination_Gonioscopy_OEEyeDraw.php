@@ -21,7 +21,7 @@
 $doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 $bindingArray = array(
 	'Gonioscopy' => array (
-		'mode' => array('id' => $side.'_gonioscopy_mode')
+		'mode' => array('id' => $side.'_gonioscopy_mode', 'attrivate' => 'data-value')
 	)
 );
 $onReadyCommandArray = array(

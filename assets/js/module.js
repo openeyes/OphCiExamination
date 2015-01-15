@@ -18,6 +18,7 @@
 
 var dr_grade_et_class = 'Element_OphCiExamination_DRGrading';
 var module_css_path;
+var OphCiExamination_reports = {};
 
 function gradeCalculator(_drawing) {
 	var doodleArray = _drawing.doodleArray;
@@ -368,10 +369,20 @@ $(document).ready(function() {
 			description = side + '_' + description;
 		}
 		description = $('textarea[name$="[' + description + ']"]', element).first();
-		if (description.val()) {
-			text = description.val() + ", " + text.toLowerCase();
+
+		if (description.val() == '') {
+			OphCiExamination_reports[element.data('element-type-id')] = text;
+			description.val(text);
+		} else {
+			if (typeof(OphCiExamination_reports[element.data('element-type-id')]) != 'undefined' &&
+				description.val().indexOf(OphCiExamination_reports[element.data('element-type-id')]) != -1) {
+				description.val(description.val().replace(new RegExp(OphCiExamination_reports[element.data('element-type-id')]),text));
+				OphCiExamination_reports[element.data('element-type-id')] = text;
+			} else {
+				description.val(text);
+			}
 		}
-		description.val(text);
+
 		description.trigger('autosize');
 
 		// Update diagnoses
@@ -809,7 +820,6 @@ $(document).ready(function() {
 
 	$(this).delegate('.addReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
-        console.log('side ' + side);
 		OphCiExamination_VisualAcuity_addReading(side);
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
@@ -1037,26 +1047,26 @@ $(document).ready(function() {
 	});
 
 	$(this).on('change', '#patientticket_queue', function(e) {
-		var id = $(e.srcElement).val();
+		var id = $(e.target).val(),
+			placeholder = $('#queue-assignment-placeholder'),
+			loader = $('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader');
+		placeholder.html('');
 		if (id) {
-			$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').show();
+			loader.show();
 			$.ajax({
 				url: $('#div_'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome_patientticket').data('queue-ass-form-uri') + id,
 				data: {label_width: 3, data_width: 5},
 				success: function(response) {
-					$('#queue-assignment-placeholder').html(response)
+					placeholder.html(response);
 				},
 				error: function(jqXHR, status, error) {
 					enableButtons();
 					throw new Error("Unable to retrieve assignment form for queue with id " + id + ": " + error);
 				},
-				complete: function () {
-					$('.OEModule_OphCiExamination_models_Element_OphCiExamination_ClinicOutcome .loader').hide();
+				complete: function() {
+					loader.hide();
 				}
 			});
-		}
-		else {
-			$('#queue-assignment-placeholder').html('');
 		}
 	});
 	// end of clinic outcome functions
@@ -1390,13 +1400,11 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 }
 
 function OphCiExamination_VisualAcuity_addReading(side) {
-    console.log('Add reading: with side ' + side)
 	var template = $('#visualacuity_reading_template').html();
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
 		"side" : side
 	};
-    console.log('Add reading: data ' + data + ' template ' + template)
 	var form = Mustache.render(template, data);
 
 	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
@@ -1580,7 +1588,6 @@ function OphCiExamination_DRGrading_canUpdate(side) {
  * @param side
  */
 function OphCiExamination_DRGrading_update(side) {
-    console.log('DR Grading update with side ' + side + ' model prefix ' + OE_MODEL_PREFIX)
 	var physical_side = 'left';
 	if (side == 'left') {
 		physical_side = 'right';
@@ -1873,7 +1880,7 @@ function OphCiExamination_InjectionManagementComplex_init() {
 // END InjectionManagementComplex
 
 function OphCiExamination_GetCurrentConditions() {
-	var disorders = $("input[name='selected_diagnoses[]'").map(function() {
+	var disorders = $("input[name='selected_diagnoses[]']").map(function() {
 		return {'type': 'disorder', 'id': $(this).val()};
 	});
 	var findings = $(".OEModule_OphCiExamination_models_Element_OphCiExamination_FurtherFindings .multi-select-free-text-selections li input").map(function() {
@@ -1982,6 +1989,28 @@ function OphCiExamination_Gonioscopy_init() {
 		resizable: false,
 		width: 480
 	});
+
+    ED.Checker.onAllReady(function() {
+	$('.gonioscopy-mode').each(function(_, element) {
+	    OphCiExamination_Gonioscopy_update(element);
+	    $(this).change(function(_) {
+		OphCiExamination_Gonioscopy_update(element);
+	    });
+	});
+    });
+
+}
+
+function OphCiExamination_Gonioscopy_update(field) {
+    var fields = $(field).closest('.eyedraw-fields'),
+	expert = fields.find('.expert-mode'),
+	basic = fields.find('.basic-mode'),
+	isExpert = fields.find('.gonioscopy-mode').val() === "Expert";
+    if(isExpert) {
+	expert.show(); basic.hide();
+    } else {
+	expert.hide(); basic.show();
+    }
 }
 
 function OphCiExamination_Gonioscopy_switch_mode(canvas, mode) {

@@ -35,6 +35,7 @@ class OphCiExamination_IntraocularPressure_Value extends \BaseActiveRecordVersio
 	public function relations()
 	{
 		return array(
+			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
 			'reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', 'reading_id'),
 			'instrument' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', 'instrument_id'),
 			'qualitative_reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale_Value', 'qualitative_reading_id'),
