@@ -1,0 +1,7 @@
+{
+  "name" : "openeyes/oph-ci-examination",
+  "description": "Examination module for OpenEyes",
+  "require": {
+    "openeyes/eyedraw": "dev-hotfix/composer"
+  }
+}
