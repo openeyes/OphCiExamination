@@ -2,6 +2,7 @@
   "name" : "openeyes/oph-ci-examination",
   "description": "Examination module for OpenEyes",
   "require": {
-    "openeyes/eyedraw": "dev-hotfix/composer"
+    "openeyes/eyedraw": "dev-hotfix/composer",
+    "openeyes/ohp-tr-laser": "dev-hotfix/composer"
   }
 }
