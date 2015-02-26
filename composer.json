@@ -3,6 +3,6 @@
   "description": "Examination module for OpenEyes",
   "require": {
     "openeyes/eyedraw": "dev-hotfix/composer",
-    "openeyes/ohp-tr-laser": "dev-hotfix/composer"
+    "openeyes/oph-tr-laser": "dev-hotfix/composer"
   }
 }
