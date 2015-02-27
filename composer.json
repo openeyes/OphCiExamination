@@ -3,6 +3,7 @@
   "description": "Examination module for OpenEyes",
   "type": "yii-module",
   "require": {
+    "composer/installers": "~1.0",
     "openeyes/eyedraw": "dev-hotfix/composer",
     "openeyes/oph-tr-laser": "dev-hotfix/composer"
   }
