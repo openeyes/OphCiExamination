@@ -1,10 +1,8 @@
 {
   "name" : "openeyes/oph-ci-examination",
   "description": "Examination module for OpenEyes",
-  "type": "yii-module",
+  "type": "openeyes-module",
   "require": {
-    "composer/installers": "~1.0",
-    "openeyes/eyedraw": "dev-hotfix/composer",
-    "openeyes/oph-tr-laser": "dev-hotfix/composer"
+    "openeyes/module-installer": "*"
   }
 }
