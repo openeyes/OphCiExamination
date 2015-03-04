@@ -88,6 +88,15 @@ class OphCiExamination_API extends \BaseAPI
 		}
 	}
 
+	public function getLetterIOPReadingBothFirst($patient)
+	{
+		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
+			if ($iop = $this->getElementForLatestEventInEpisode($episode, 'models\Element_OphCiExamination_IntraocularPressure')) {
+				return $iop->getLetter_reading_first('right')." on the right, and ".$iop->getLetter_reading_first('left')." on the left";
+			}
+		}
+	}
+
 	public function getLetterIOPReadingLeft($patient)
 	{
 		if ($episode = $patient->getEpisodeForCurrentSubspecialty()) {
@@ -650,7 +659,7 @@ class OphCiExamination_API extends \BaseAPI
 				if(@$patient_ticket_followup['followup_quantity']==1 && @$patient_ticket_followup['followup_period']) {
 					$patient_ticket_followup['followup_period'] = rtrim($patient_ticket_followup['followup_period'],'s');
 				}
-				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'];
+				return $patient_ticket_followup['followup_quantity'] . " " . $patient_ticket_followup['followup_period'] . " in " . $patient_ticket_followup['clinic_location']  ;
 			}
 		}
 
