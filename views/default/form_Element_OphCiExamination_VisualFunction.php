@@ -24,8 +24,22 @@
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row row">
-				<div class="large-4 column end">
-					<?php echo $form->checkbox($element,'right_rapd',array('text-align'=>'right','nowrapper'=>true))?>
+				<div class="large-12 column end">
+					<?php echo $form->radioButtons($element,'right_rapd', array(
+							0 => 'Not Checked',
+							1 => 'Yes',
+							2 => 'No'
+						),
+						$element->right_rapd,
+						false,
+						false,
+						false,
+						true,
+						array(
+							'text-align'=>'right',
+							'nowrapper'=>false
+						));
+					?>
 				</div>
 			</div>
 			<div class="field-row">
@@ -44,8 +58,22 @@
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row row">
-				<div class="large-4 column end">
-					<?php echo $form->checkbox($element,'left_rapd',array('text-align'=>'right','nowrapper'=>true))?>
+				<div class="large-12 column end">
+					<?php echo $form->radioButtons($element,'left_rapd', array(
+							0 => 'Not Checked',
+							1 => 'Yes',
+							2 => 'No'
+						),
+						$element->left_rapd,
+						false,
+						false,
+						false,
+						true,
+						array(
+							'text-align'=>'right',
+							'nowrapper'=>false
+						));
+					?>
 				</div>
 			</div>
 			<div class="field-row">
