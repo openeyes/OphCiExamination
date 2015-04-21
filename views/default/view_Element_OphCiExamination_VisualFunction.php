@@ -27,7 +27,7 @@
 					</div>
 				</div>
 			<?php }?>
-			<?php if ($element->right_rapd) {?>
+			<?php if ($element->right_rapd === "1") {?>
 				<div class="data-row">
 					<div class="data-value">
 						RAPD present
@@ -51,7 +51,7 @@
 					</div>
 				</div>
 			<?php }?>
-			<?php if ($element->left_rapd) {?>
+			<?php if ($element->left_rapd === "1") {?>
 				<div class="data-row">
 					<div class="data-value">
 						RAPD present
