@@ -290,6 +290,7 @@ function anteriorListener(_drawing) {
 }
 
 $(document).ready(function() {
+
 	/**
 	 * Save event
 	 */

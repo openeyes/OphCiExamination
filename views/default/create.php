@@ -32,7 +32,18 @@
 		)
 	));
 	?>
+
+      <?php
+
+         if (!empty($errors))  ?>
+		 <script type='text/javascript'>
+            $(document).ready( function(){
+                 window.formHasChanged = true;
+            });
+         </script>
+
 		<?php $this->displayErrors($errors)?>
+
 		<?php $this->renderPartial('//patient/event_elements', array('form' => $form));?>
 		<?php $this->displayErrors($errors, true)?>
 
