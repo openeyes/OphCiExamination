@@ -30,7 +30,7 @@
 							1 => 'Yes',
 							2 => 'No'
 						),
-						$element->right_rapd,
+						($element->right_rapd !== null) ? $element->right_rapd : 0,
 						false,
 						false,
 						false,
@@ -64,7 +64,7 @@
 							1 => 'Yes',
 							2 => 'No'
 						),
-						$element->left_rapd,
+						($element->left_rapd !== null) ? $element->left_rapd : 0,
 						false,
 						false,
 						false,
