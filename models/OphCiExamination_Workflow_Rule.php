@@ -159,6 +159,10 @@ class OphCiExamination_Workflow_Rule extends \BaseActiveRecordVersioned
 			$whereParams[':episode_status_id'] = $this->episode_status_id;
 		}
 
+		if (OphCiExamination_Workflow_Rule::model()->find($where,$whereParams)) {
+			//$this->addError('id','There is already a rule for this subspecialty and episode status combination');
+		}
+
 		return parent::beforeValidate();
 	}
 }
