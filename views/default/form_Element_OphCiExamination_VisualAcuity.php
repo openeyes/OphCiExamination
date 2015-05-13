@@ -56,9 +56,7 @@ $this->endClip('element-title-additional');
 							'values' => $values,
 							'val_options' => $val_options,
 							'methods' => $methods,
-							'asset_path' => $this->getAssetPathForElement($element),
-							'form' => $form,
-							'element' => $element
+							'asset_path' => $this->getAssetPathForElement($element)
 					));
 					$key++;
 					}?>
@@ -153,8 +151,6 @@ $this->endClip('element-title-additional');
 	$assetManager = Yii::app()->getAssetManager();
 	$baseAssetsPath = Yii::getPathOfAlias('application.assets');
 	$assetManager->publish($baseAssetsPath.'/components/chosen/');
-	//$assetManager->publish($baseAssetsPath.'/components/chosen/chosen.jquery.min.js');
-	//$assetManager->publish($baseAssetsPath.'/components/chosen/chosen.min.css');
 
 	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.jquery.min.js');
 	Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.min.css');
