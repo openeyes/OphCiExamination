@@ -56,7 +56,9 @@ $this->endClip('element-title-additional');
 							'values' => $values,
 							'val_options' => $val_options,
 							'methods' => $methods,
-							'asset_path' => $this->getAssetPathForElement($element)
+							'asset_path' => $this->getAssetPathForElement($element),
+							'form' => $form,
+							'element' => $element
 					));
 					$key++;
 					}?>
@@ -147,8 +149,24 @@ $this->endClip('element-title-additional');
 	));
 	?>
 </script>
+<?php
+	$assetManager = Yii::app()->getAssetManager();
+	$baseAssetsPath = Yii::getPathOfAlias('application.assets');
+	$assetManager->publish($baseAssetsPath.'/components/chosen/');
+	//$assetManager->publish($baseAssetsPath.'/components/chosen/chosen.jquery.min.js');
+	//$assetManager->publish($baseAssetsPath.'/components/chosen/chosen.min.css');
+
+	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.jquery.min.js');
+	Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.min.css');
+
+?>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('.va-selector').chosen();
+		$(".chosen-drop").show(0, function () {
+			$(this).parents("div").css("overflow", "visible");
+		});
+
 		OphCiExamination_VisualAcuity_method_ids = [ <?php
 		$first = true;
 		foreach ($methods as $index => $method) {
