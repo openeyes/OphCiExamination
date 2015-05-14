@@ -788,22 +788,28 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
-	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
-		// when VA is a root element:
-		/*
-		removeElement($(this).closest('.element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'));
-		var el = $('.optional-elements-list').find('li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
-		el.addClass('clicked');
-		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
-		*/
-		// when VA is a child element:
-		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
-		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
-		el.addClass('clicked');
-		addElement(el, true, true, undefined, {unit_id: $(this).val()});
+    function visualAcuityChange(target, near) {
+        var suffix = 'VisualAcuity';
+        if(near === 'near'){
+            suffix = 'NearVisualAcuity';
+        }
+        removeElement($(target).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_'+suffix+'"]'), true);
+        var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_'+suffix+'"]');
+        el.addClass('clicked');
+        addElement(el, true, true, false, {unit_id: $(target).val()});
+    }
+
+    $(this).delegate('#nearvisualacuity_unit_change', 'change', function(e) {
+        visualAcuityChange(this, 'near');
+    });
+
+    $(this).delegate('#visualacuity_unit_change', 'change', function(e) {
+        visualAcuityChange(this, '');
 	});
 
-	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
+	$(this).delegate(
+        '.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading, .'+OE_MODEL_PREFIX+'Element_OphCiExamination_NearVisualAcuity .removeReading',
+        'click', function(e) {
 		var activeForm = $(this).closest('.active-form');
 
 		$(this).closest('tr').remove();
@@ -1460,6 +1466,16 @@ function OphCiExamination_VisualAcuity_init() {
 		});
 	});
 }
+
+function OphCiExamination_NearVisualAcuity_init() {
+    // ensure tooltip works when loading for an edit
+    $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_NearVisualAcuity .side').each(function() {
+        $(this).find('tr.nearvisualAcuityReading').each(function() {
+            OphCiExamination_VisualAcuity_ReadingTooltip($(this));
+        });
+    });
+}
+
 
 // setup the dr grading fields (called once the Posterior Segment is fully loaded)
 // will verify whether the form values match that of the loaded eyedraws, and if not, mark as dirty
