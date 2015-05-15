@@ -93,7 +93,8 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 		return array(
 			'attribute.name' => 'Attribute Name',
 			'attribute.label' => 'Attribute Label',
-			'element_type.name' => 'Element Mapping'
+			'element_type.name' => 'Element Mapping',
+			'attribute_elements.name' => 'Element Mapping'
 		);
 	}
 }

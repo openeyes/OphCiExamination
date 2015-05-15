@@ -67,7 +67,7 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 	{
 		return array(
 				//Original
-				//'attribute_elements' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
+				'attribute_elements1' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
 
 				//'attribute_elements1' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'id'),
 				//'attribute_elements' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'id')
@@ -145,6 +145,16 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'name' => 'Attribute Name',
+			'label' => 'Attribute Label',
+			'element_type.name' => 'Element Mapping',
+			'attribute_elements.name' => 'Element Mapping'
+		);
 	}
 
 }
