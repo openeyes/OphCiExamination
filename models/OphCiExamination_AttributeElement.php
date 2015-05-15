@@ -84,4 +84,16 @@ class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 	{
 		return $this->element_type->name . ' - ' . $this->attribute->name;
 	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'attribute.name' => 'Attribute Name',
+			'attribute.label' => 'Attribute Label',
+			'element_type.name' => 'Element Mapping'
+		);
+	}
 }
