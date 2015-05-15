@@ -50,6 +50,15 @@ class Element_OphCiExamination_NearVisualAcuity extends Element_OphCiExamination
 	}
 
 	/**
+	 * Returns the static model of the specified AR class.
+	 * @return the static model class
+	 */
+	public static function model($className = __CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
 	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
 	 * as this is assumed to be the standard for correspondence.
 	 *
