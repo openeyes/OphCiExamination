@@ -290,6 +290,7 @@ function anteriorListener(_drawing) {
 }
 
 $(document).ready(function() {
+
 	/**
 	 * Save event
 	 */
@@ -823,6 +824,7 @@ $(document).ready(function() {
 		OphCiExamination_VisualAcuity_addReading(side);
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
+        $('.va-selector').chosen();
 		e.preventDefault();
 	});
 
@@ -1673,7 +1675,7 @@ function OphCiExamination_DRGrading_init() {
 			top = top - (infoWrap.height()/2) + 8;
 
 			if (left + infoWrap.width() > 1150) left = left - infoWrap.width() - 40;
-			infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px"});
+			infoWrap.css({'position': 'absolute', 'top': top + "px", 'left': left + "px", 'z-index': 110});
 			infoWrap.fadeIn('fast');
 		},function(e){
 			$('body > div:last').remove();

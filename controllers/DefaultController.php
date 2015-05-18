@@ -372,10 +372,12 @@ class DefaultController extends \BaseEventTypeController
 			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
 		}
 
-		$element_types = $set->DefaultElementTypes;
-		foreach ($element_types as $element_type) {
-			if (!$parent_id || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
-				$elements[$element_type->id] = $element_type->getInstance();
+		if ($set){
+			$element_types = $set->DefaultElementTypes;
+			foreach ($element_types as $element_type) {
+				if (!$parent_id || ($parent_id && $element_type->parent_element_type_id == $parent_id)) {
+					$elements[$element_type->id] = $element_type->getInstance();
+				}
 			}
 		}
 
