@@ -33,7 +33,7 @@ if ($element->isNewRecord) { ?>
 		CHtml::listData(
 			OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()
 				->activeOrPk(@$element->unit_id)
-				->findAll()
+				->findAllByAttributes(array('is_near' => '1'))
 			,'id','name'),
 		array('class'=>'inline'));
 	?>

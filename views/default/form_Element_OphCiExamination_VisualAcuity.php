@@ -27,7 +27,7 @@ $key = 0;
 <?php
 $this->beginClip('element-title-additional');
 if ($element->isNewRecord) { ?>
-	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->activeOrPk(@$element->unit_id)->findAll(),'id','name'), array('class'=>'inline')); ?>
+	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->activeOrPk(@$element->unit_id)->findAllByAttributes(array('is_near' => '0')),'id','name'), array('class'=>'inline')); ?>
 <?php } ?>
 <?php if ($element->unit->information) {?>
 	<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>
