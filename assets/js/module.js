@@ -825,9 +825,13 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$(this).delegate('.addReading', 'click', function(e) {
+	$(this).delegate('.addReading, .addNearReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
-		OphCiExamination_VisualAcuity_addReading(side);
+        if($(this).hasClass('addNearReading')){
+            OphCiExamination_NearVisualAcuity_addReading(side);
+        } else {
+            OphCiExamination_VisualAcuity_addReading(side);
+        }
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
         $('.va-selector').chosen();
@@ -1406,21 +1410,30 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 		return 0;
 	}
 }
+function OphCiExamination_NearVisualAcuity_addReading(side){
+    var template = $('#nearvisualacuity_reading_template').html();
+    OphCiExamination_VisualAcuity_addReading(side, template, 'NearVisualAcuity')
+}
 
-function OphCiExamination_VisualAcuity_addReading(side) {
-	var template = $('#visualacuity_reading_template').html();
+function OphCiExamination_VisualAcuity_addReading(side, template, suffix) {
+    if(typeof template === 'undefined'){
+        template = $('#visualacuity_reading_template').html();
+    }
+    if(typeof suffix === 'undefined'){
+        suffix = 'VisualAcuity';
+    }
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
 		"side" : side
 	};
 	var form = Mustache.render(template, data);
 
-	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
+	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+'"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
 		$(this).attr('checked', false);
 	});
-	var table = $('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table.va_readings');
+	var table = $('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+'"] .element-eye[data-side="'+side+'"] table.va_readings');
 	table.show();
-	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
+	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side, suffix);
 	$('tbody', table).append(form);
 	$('.method_id', table).last().val(nextMethodId);
 
@@ -1434,9 +1447,9 @@ function OphCiExamination_VisualAcuity_addReading(side) {
  * @param side
  * @returns integer
  */
-function OphCiExamination_VisualAcuity_getNextMethodId(side) {
+function OphCiExamination_VisualAcuity_getNextMethodId(side, suffix) {
 	var method_ids = OphCiExamination_VisualAcuity_method_ids;
-	$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .method_id').each(function() {
+	$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+' [data-side="' + side + '"] .method_id').each(function() {
 		var method_id = $(this).val();
 		method_ids = $.grep(method_ids, function(value) {
 			return value != method_id;

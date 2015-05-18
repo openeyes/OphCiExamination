@@ -81,7 +81,7 @@ $this->endClip('element-title-additional');
 				</div>
 			</div>
 			<div class="field-row">
-				<button class="button small secondary addReading">
+				<button class="button small secondary addNearReading">
 					Add
 				</button>
 			</div>
@@ -126,7 +126,7 @@ $this->endClip('element-title-additional');
 				</div>
 			</div>
 			<div class="field-row">
-				<button class="button small secondary addReading">
+				<button class="button small secondary addNearReading">
 					Add
 				</button>
 			</div>
@@ -156,8 +156,21 @@ $this->endClip('element-title-additional');
 	));
 	?>
 </script>
+<?php
+$assetManager = Yii::app()->getAssetManager();
+$baseAssetsPath = Yii::getPathOfAlias('application.assets');
+$assetManager->publish($baseAssetsPath.'/components/chosen/');
+
+Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.jquery.min.js');
+Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.min.css');
+
+?>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('.va-selector').chosen();
+		$(".chosen-drop").show(0, function () {
+			$(this).parents("div").css("overflow", "visible");
+		});
 		OphCiExamination_VisualAcuity_method_ids = [ <?php
 		$first = true;
 		foreach ($methods as $index => $method) {
