@@ -824,6 +824,7 @@ $(document).ready(function() {
 		OphCiExamination_VisualAcuity_addReading(side);
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
+        $('.va-selector').chosen();
 		e.preventDefault();
 	});
 
