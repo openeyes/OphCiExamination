@@ -56,7 +56,7 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 	{
 		return array(
 				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
+				array('id, name, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,7 +66,8 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 	public function relations()
 	{
 		return array(
-				'attribute_elements' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
+				'attribute_elements_id' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
+			    'attribute_elements' => array(self::MANY_MANY, 'ElementType', 'ophciexamination_attribute_element(attribute_id,element_type_id)')
 		);
 	}
 
@@ -138,6 +139,16 @@ class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 		return new \CActiveDataProvider(get_class($this), array(
 				'criteria'=>$criteria,
 		));
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'name' => 'Attribute Name',
+			'label' => 'Attribute Label',
+			'element_type.name' => 'Element Mapping',
+			'attribute_elements.name' => 'Element Mapping'
+		);
 	}
 
 }
