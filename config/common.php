@@ -25,7 +25,7 @@ return array(
 			'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
 			'Workflows' => '/OphCiExamination/admin/viewWorkflows',
 			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
-			'Element Attributes' => '/OphCiExamination/admin/manageElementAttributes',
+			'Element Attributes' => array('OphCiExamination'=>'/oeadmin/ExaminationElementAttributes/list'),
 			'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
 			'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
 			'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
