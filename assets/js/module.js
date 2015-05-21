@@ -788,22 +788,28 @@ $(document).ready(function() {
 		OphCiExamination_Refraction_updateSegmentedField(field);
 	});
 
-	$(this).delegate('#visualacuity_unit_change', 'change', function(e) {
-		// when VA is a root element:
-		/*
-		removeElement($(this).closest('.element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'));
-		var el = $('.optional-elements-list').find('li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
-		el.addClass('clicked');
-		addElement(el, true, undefined, undefined, {unit_id: $(this).val()});
-		*/
-		// when VA is a child element:
-		removeElement($(this).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]'), true);
-		var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_VisualAcuity"]');
-		el.addClass('clicked');
-		addElement(el, true, true, undefined, {unit_id: $(this).val()});
+    function visualAcuityChange(target, near) {
+        var suffix = 'VisualAcuity';
+        if(near === 'near'){
+            suffix = 'NearVisualAcuity';
+        }
+        removeElement($(target).closest('.sub-element[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_'+suffix+'"]'), true);
+        var el = $('.event-content').find('ul.sub-elements-list li[data-element-type-class="' + OE_MODEL_PREFIX + 'Element_OphCiExamination_'+suffix+'"]');
+        el.addClass('clicked');
+        addElement(el, true, true, false, {unit_id: $(target).val()});
+    }
+
+    $(this).delegate('#nearvisualacuity_unit_change', 'change', function(e) {
+        visualAcuityChange(this, 'near');
+    });
+
+    $(this).delegate('#visualacuity_unit_change', 'change', function(e) {
+        visualAcuityChange(this, '');
 	});
 
-	$(this).delegate('.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading', 'click', function(e) {
+	$(this).delegate(
+        '.'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity .removeReading, .'+OE_MODEL_PREFIX+'Element_OphCiExamination_NearVisualAcuity .removeReading',
+        'click', function(e) {
 		var activeForm = $(this).closest('.active-form');
 
 		$(this).closest('tr').remove();
@@ -819,9 +825,13 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$(this).delegate('.addReading', 'click', function(e) {
+	$(this).delegate('.addReading, .addNearReading', 'click', function(e) {
 		var side = $(this).closest('.side').attr('data-side');
-		OphCiExamination_VisualAcuity_addReading(side);
+        if($(this).hasClass('addNearReading')){
+            OphCiExamination_NearVisualAcuity_addReading(side);
+        } else {
+            OphCiExamination_VisualAcuity_addReading(side);
+        }
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
         $('.va-selector').chosen();
@@ -1400,21 +1410,30 @@ function OphCiExamination_VisualAcuity_getNextKey() {
 		return 0;
 	}
 }
+function OphCiExamination_NearVisualAcuity_addReading(side){
+    var template = $('#nearvisualacuity_reading_template').html();
+    OphCiExamination_VisualAcuity_addReading(side, template, 'NearVisualAcuity')
+}
 
-function OphCiExamination_VisualAcuity_addReading(side) {
-	var template = $('#visualacuity_reading_template').html();
+function OphCiExamination_VisualAcuity_addReading(side, template, suffix) {
+    if(typeof template === 'undefined'){
+        template = $('#visualacuity_reading_template').html();
+    }
+    if(typeof suffix === 'undefined'){
+        suffix = 'VisualAcuity';
+    }
 	var data = {
 		"key" : OphCiExamination_VisualAcuity_getNextKey(),
 		"side" : side
 	};
 	var form = Mustache.render(template, data);
 
-	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
+	$('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+'"] .element-eye.'+side+'-eye .noReadings').hide().find('input:checkbox').each(function() {
 		$(this).attr('checked', false);
 	});
-	var table = $('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity"] .element-eye[data-side="'+side+'"] table.va_readings');
+	var table = $('section[data-element-type-class="'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+'"] .element-eye[data-side="'+side+'"] table.va_readings');
 	table.show();
-	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side);
+	var nextMethodId = OphCiExamination_VisualAcuity_getNextMethodId(side, suffix);
 	$('tbody', table).append(form);
 	$('.method_id', table).last().val(nextMethodId);
 
@@ -1428,9 +1447,9 @@ function OphCiExamination_VisualAcuity_addReading(side) {
  * @param side
  * @returns integer
  */
-function OphCiExamination_VisualAcuity_getNextMethodId(side) {
+function OphCiExamination_VisualAcuity_getNextMethodId(side, suffix) {
 	var method_ids = OphCiExamination_VisualAcuity_method_ids;
-	$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_VisualAcuity [data-side="' + side + '"] .method_id').each(function() {
+	$('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_'+suffix+' [data-side="' + side + '"] .method_id').each(function() {
 		var method_id = $(this).val();
 		method_ids = $.grep(method_ids, function(value) {
 			return value != method_id;
@@ -1461,6 +1480,16 @@ function OphCiExamination_VisualAcuity_init() {
 		});
 	});
 }
+
+function OphCiExamination_NearVisualAcuity_init() {
+    // ensure tooltip works when loading for an edit
+    $('#event-content .'+OE_MODEL_PREFIX+'Element_OphCiExamination_NearVisualAcuity .side').each(function() {
+        $(this).find('tr.nearvisualAcuityReading').each(function() {
+            OphCiExamination_VisualAcuity_ReadingTooltip($(this));
+        });
+    });
+}
+
 
 // setup the dr grading fields (called once the Posterior Segment is fully loaded)
 // will verify whether the form values match that of the loaded eyedraws, and if not, mark as dirty
