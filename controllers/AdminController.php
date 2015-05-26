@@ -646,6 +646,14 @@ class AdminController extends \ModuleAdminController
 		$this->genericAdmin('Edit Target Iop Values', 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop');
 	}
 
+	/**
+	 * Admin for primary reason for surgery table
+	 */
+	public function actionPrimaryReasonForSurgery()
+	{
+		$this->genericAdmin('Edit Reasons for Surgery', 'OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery');
+	}
+
 	public function actionManageComorbidities()
 	{
 		$this->genericAdmin(
