@@ -31,6 +31,7 @@
 			<thead>
 				<tr>
 					<th>Element type</th>
+					<th>Hidden</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -39,6 +40,7 @@
 				foreach ($step->items as $i => $item) {?>
 					<tr class="clickable" data-id="<?php echo $item->id?>">
 						<td><?php echo $item->element_type->name?></td>
+						<td><?php echo CHtml::activeCheckBox($item, 'is_hidden', array('class' => 'workflow-item-attr'))?></td>
 						<td><a href="#" class="removeElementType" rel="<?php echo $item->id?>" data-element-type-id="<?php echo $item->element_type_id?>">Remove</a></td>
 					</tr>
 				<?php }?>

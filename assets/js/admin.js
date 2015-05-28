@@ -149,6 +149,23 @@ $(document).ready(function() {
 		});
 	});
 
+	$('div.column.content').on('click', '.workflow-item-attr',  function(){
+		var itemId = $(this).parent().parent().data('id'),
+			itemObj = {};
+
+		itemObj[this.name] = this.checked ? 1 : 0;
+		itemObj['YII_CSRF_TOKEN'] = YII_CSRF_TOKEN;
+
+		$.ajax({
+			'type': 'POST',
+			'data': itemObj,
+			'url': baseUrl+'/OphCiExamination/admin/updateElementAttribute/' + itemId,
+			'success': function(resp) {
+				console.log(resp);
+			}
+		});
+	});
+
 	$('#et_add_step').click(function(e) {
 		e.preventDefault();
 
