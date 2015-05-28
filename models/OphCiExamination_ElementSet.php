@@ -130,6 +130,19 @@ class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 		return $hiddenElementTypes;
 	}
 
+	public function getMandatoryElementTypes()
+	{
+		$hiddenElementTypes = \ElementType::model()->findAll(array(
+			'condition' => "event_type.class_name = 'OphCiExamination' AND
+					 ophciexamination_element_set_item.is_mandatory = 1",
+			'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
+					AND ophciexamination_element_set_item.set_id = :set_id)',
+			'params' => array(':set_id' => $this->id),
+		));
+		return $hiddenElementTypes;
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

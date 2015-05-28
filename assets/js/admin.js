@@ -150,9 +150,12 @@ $(document).ready(function() {
 	});
 
 	$('div.column.content').on('click', '.workflow-item-attr',  function(){
-		var itemId = $(this).parent().parent().data('id'),
+		var td = this,
+            $itemTd = $(this).parent(),
+            itemId = $itemTd.parent().data('id'),
 			itemObj = {};
 
+        $itemTd.append('<img src="'+baseUrl+OE_core_asset_path+'/img/ajax-loader.gif" class="loader" />');
 		itemObj[this.name] = this.checked ? 1 : 0;
 		itemObj['YII_CSRF_TOKEN'] = YII_CSRF_TOKEN;
 
@@ -161,8 +164,13 @@ $(document).ready(function() {
 			'data': itemObj,
 			'url': baseUrl+'/OphCiExamination/admin/updateElementAttribute/' + itemId,
 			'success': function(resp) {
-				console.log(resp);
-			}
+                $itemTd.find('.loader').remove();
+			},
+            error: function(resp){
+                td.checked = false;
+                $itemTd.find('.loader').remove();
+                alert('An issue occured trying to save the attribute, please try again');
+            }
 		});
 	});
 

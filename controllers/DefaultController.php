@@ -41,6 +41,8 @@ class DefaultController extends \BaseEventTypeController
 
 	protected $set;
 
+	protected $mandatoryElements;
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -387,6 +389,7 @@ class DefaultController extends \BaseEventTypeController
 					$elements[$element_type->id] = $element_type->getInstance();
 				}
 			}
+			$this->mandatoryElements = $set->MandatoryElementTypes;
 		}
 
 		$this->set = $set;
@@ -972,5 +975,23 @@ class DefaultController extends \BaseEventTypeController
 		foreach ($elements as $element) {
 			$this->renderOptionalElement($element, $action, $form, $data);
 		}
+	}
+
+	/**
+	 * Is this element required in the UI? (Prevents the user from being able
+	 * to remove the element.)
+	 * @param  BaseEventTypeElement  $element
+	 * @return boolean
+	 */
+	public function isRequiredInUI(\BaseEventTypeElement $element)
+	{
+		if(isset($this->mandatoryElements)){
+			foreach($this->mandatoryElements as $mandatoryElement){
+				if(get_class($element) === $mandatoryElement->class_name){
+					return true;
+				}
+			}
+		}
+		return parent::isRequiredInUI($element);
 	}
 }
