@@ -53,6 +53,7 @@ class OphCiExamination_ElementSetItem extends \BaseActiveRecordVersioned
 	public function rules()
 	{
 		return array(
+				array('is_hidden', 'safe'),
 				array('id', 'safe', 'on'=>'search'),
 		);
 	}
