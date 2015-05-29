@@ -57,7 +57,7 @@
 				'OEModule_OphCiExamination_models_Element_OphCiExamination_CataractSurgicalManagement[reasonForSurgery]',
 				'reasonForSurgery',
 				'id',
-				\CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery::model()->findAll(), 'id', 'name'),
+				\CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery::model()->findAllByAttributes(array(), 'active=1'), 'id', 'name'),
 				array(),
 				array(
 					'empty' => '',
