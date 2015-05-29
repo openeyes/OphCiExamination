@@ -26,10 +26,15 @@
 		<div class="row field-row"></div>
 	</div>
 <?php
+
 $patientId = Yii::app()->request->getParam('patient_id');
+
 if($patientId == ""){
 	$patientId = Yii::app()->request->getParam('patientId');
+}elseif($patientId == ""){
+	$patientId = $this->patient->hos_num;
 }
+
 $this->patient = Patient::model()->findByPk((int) $patientId );
 //var_dump($this->patient);
 //riskAssignments
@@ -107,6 +112,83 @@ $criteria1->params = array(":patient_id" => 10001);
 $criteria1->order="et_ophciexamination_opticdisc.last_modified_date DESC";
 //$criteria1->limit="1";
 $all_opticdiscs = Episode::model()->findAll($criteria1);
+
+
+
+/*SELECT e.id, od.* FROM openeyes.episode as ep
+JOIN event as e ON e.episode_id = ep.id
+JOIN et_ophciexamination_anteriorsegment as od ON od.event_id = e.id
+Where ep.patient_id = 10001
+ORDER BY od.last_modified_date DESC
+LIMIT 1;
+
+	SELECT e.id, od.left_eyedraw, od.right_eyedraw FROM openeyes.episode as ep
+JOIN event as e ON e.episode_id = ep.id
+JOIN et_ophciexamination_anteriorsegment as od ON od.event_id = e.id
+Where ep.patient_id = 10001
+ORDER BY od.last_modified_date DESC
+LIMIT 1;
+*/
+/*
+$json = '[{"scaleLevel": 1,"version":1.1,"subclass":"AntSeg","pupilSize":"Small","apexY":-100,"rotation":0,"pxe":true,"coloboma":false,"colour":"Blue","ectropion":false,"order":0}]';
+
+$books = json_decode($json, true);
+// numeric/associative array access
+echo $books[0]['pupilSize'];
+print_r($books[0]);
+die();*/
+
+
+$anteriorsegment = Yii::app()->db->createCommand()
+	->select('as.*')
+	->from('episode as ep')
+	->join('event as e', 'e.episode_id = ep.id')
+	->join('et_ophciexamination_anteriorsegment as', 'as.event_id = e.id')
+	->where('ep.patient_id=:pid', array(':pid'=>$patientId))
+	->order('as.last_modified_date DESC')
+	->limit (1)
+	->queryRow();
+
+//$left_eyedraw_json = ($anteriorsegment['left_eyedraw']);
+//$right_eyedraw_json =  ($anteriorsegment['right_eyedraw']);
+
+$left_eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
+$right_eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
+
+/*echo 'psize->'.($left_eyedraw[0]['pupilSize']);
+echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);
+
+echo '<br><br>psize->'.($left_eyedraw[0]['pupilSize']);
+echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);
+
+echo '<br><br>pxe->'.($left_eyedraw[0]['pxe']);
+echo '<br>right pxe->'.($right_eyedraw[0]['pxe']);
+*/
+
+//$session = new CHttpSession;
+//$session->open();
+//echo '<br><pre>>';
+//print_r($session);
+$user = Yii::app()->session['user'];
+//print_r($user);
+
+$user_data = User::model()->findByPk($user->id);
+$doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];
+
+//SELECT axial_length_left, axial_length_right FROM openeyes.et_ophinbiometry_lenstype;
+//SELECT * FROM openeyes.et_ophinbiometry_lenstype;
+
+$lenstype = Yii::app()->db->createCommand()
+	->select('as.*')
+	->from('episode as ep')
+	->join('event as e', 'e.episode_id = ep.id')
+	->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
+	->where('ep.patient_id=:pid', array(':pid'=>$patientId))
+	->order('as.last_modified_date DESC')
+	->limit (1)
+	->queryRow();
+//echo $lenstype['axial_length_left'];
+//echo $lenstype['axial_length_right'];
 ?>
 	<div class="row field-row">
 
@@ -301,17 +383,7 @@ $all_opticdiscs = Episode::model()->findAll($criteria1);
 			</label>
 		</div>
 		<div class="large-4 column">
-			<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -'));?>
-			<!--<select>
-				<option value="">- Select Doctor Grade -</option>
-				<option value="1" selected="selected">Consultant</option>
-				<option value="2">Associate specialist</option>
-				<option value="3">Trust doctor</option>
-				<option value="4">Fellow</option>
-				<option value="5">Specialist Registrar</option>
-				<option value="6">Senior House Officer</option>
-				<option value="7">House officer</option>
-			</select>-->
+			<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($doctor_grade_id=>array('selected'=>true))));?>
 		</div>
 	</div>
 
