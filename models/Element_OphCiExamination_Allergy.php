@@ -20,32 +20,13 @@
 namespace OEModule\OphCiExamination\models;
 use Yii;
 
-/**
- * This is the model class for table "et_ophciexamination_history".
- *
- * The followings are the available columns in table:
- * @property string $id
- * @property integer $event_id
- * @property string $description
- *
- * The followings are the available model relations:
- */
 
 class Element_OphCiExamination_Allergy extends \PatientAllergyAssignment
 {
 
-	/**
-	 * Set default values for forms on create
-	 */
-	public function setDefaultOptions() {
-		/*if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
-			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
-				if ($history = $api->getHistoryForLatestCataractReferralInEpisode($episode->id)) {
-					$this->description = $history;
-				}
-			}
-		}*/
+	public function rules()
+	{
+		return array();
 	}
-
 
 }

@@ -701,6 +701,37 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
+	 * Save allergies - because it's part of the History element it need to be saved from that element
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		$patient = \Patient::model()->findByPk($this->patient->id);
+
+		if ( isset($data['no_allergies']) && $data['no_allergies']) {
+			$patient->setNoAllergies();
+		} else  {
+			// we remove all current allergy data
+
+			$currentAllergies = \PatientAllergyAssignment::model();
+			$currentAllergies->deleteAll('patient_id = '.$this->patient->id);
+
+			if (!empty($data['selected_allergies'])) {
+				foreach ($data['selected_allergies'] as $i => $allergy_id) {
+					$allergyObject = \Allergy::model()->findByPk($allergy_id);
+					if($data['other_names'][$i] == 'undefined'){
+						$data['other_names'][$i] = "";
+					}
+					$patient->addAllergy($allergyObject, $data['other_names'][$i], $data['allergy_comments'][$i], false);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Save the dilation treatments
 	 *
 	 * @param models\Element_OphCiExamination_Dilation $element

@@ -15,16 +15,21 @@ class m150527_140023_allergy_element extends CDbMigration
 				'display_order' => 10,
 				'default' => 1,
 				'parent_element_type_id' => $historyElementId,
-				'required' => 1
+				'required' => 0
 			);
 			$this->insert('element_type', $allergyElement);
 		}
+
+		$this->addColumn('patient_allergy_assignment','event_id','int(10) unsigned');
+		$this->addColumn('patient_allergy_assignment_version','event_id','int(10) unsigned');
 
 	}
 
 	public function down()
 	{
 		$this->delete('element_type', 'class_name LIKE "%Element_OphCiExamination_Allergy"');
+		$this->dropColumn('patient_allergy_assignment','event_id');
+		$this->dropColumn('patient_allergy_assignment_version','event_id');
 	}
 
 	/*

@@ -19,32 +19,8 @@
 ?>
 <div class="element-fields">
 	<div class="field-row row">
-		<div class="large-12 column">
-			<table>
-				<thead>
-					<tr>
-						<th>Allergies</th>
-						<th>Comments</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($this->patient->allergyAssignments as $aa) { ?>
-					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
-						<td><?= CHtml::encode($aa->name) ?></td>
-						<td><?= CHtml::encode($aa->comments) ?></td>
-						<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
-							<td>
-								<a href="#" rel="<?php echo $aa->id?>" class="small removeAllergy">
-									Remove
-								</a>
-							</td>
-						<?php } ?>
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-			<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
+		<div class="large-6 column">
+				<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
 				<div id="add_allergy">
 					<?php
 					$form = $this->beginWidget('FormLayout', array(
@@ -57,7 +33,7 @@
 							'field' => 9
 						),
 					))?>
-
+					<input type="hidden" name="<?php echo CHtml::modelName($element);?>[force_validation]" />
 					<div class="allergies_confirm_no field-row row" <?php if ($this->patient->hasAllergyStatus() && !$this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
 						<div class="allergies">
 							<div class="<?php echo $form->columns('label');?>">
@@ -77,7 +53,7 @@
 							<label for="allergy_id">Add allergy:</label>
 						</div>
 						<div class="<?php echo $form->columns('field');?>">
-							<?php //echo CHtml::dropDownList('allergy_id', null, CHtml::listData($this->allergyList(), 'id', 'name'), array('empty' => '-- Select --'))?>
+							<?php echo CHtml::dropDownList('allergy_id', null, CHtml::listData($element->allergyList($this->patient->id), 'id', 'name'), array('empty' => '-- Select --'))?>
 						</div>
 					</div>
 					<div id="allergy_other" class="row field-row hidden">
@@ -85,7 +61,7 @@
 							<label for="allergy_id">Other allergy:</label>
 						</div>
 						<div class="<?php echo $form->columns('field');?>">
-							<?= CHtml::textField('other','',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
+							<?= CHtml::textField('other_allergy','',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
 						</div>
 					</div>
 					<div class="field-row row allergy_field" <?php if ($this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
@@ -97,15 +73,47 @@
 						</div>
 					</div>
 
-					<div class="buttons">
+					<div class="buttons large-12 column">
 						<img src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" class="add_allergy_loader" style="display: none;" />
-						<button class="secondary small btn_save_allergy">Save</button>
+						<button type="button" class="secondary small btn_save_allergy">Add</button>
 					</div>
 
 					<?php $this->endWidget()?>
 				</div>
 
 			<?php } ?>
+		</div>
+	</div>
+	<div class="field-row row">
+		<div class="large-12 column">
+			<table>
+				<thead>
+				<tr>
+					<th>Allergies</th>
+					<th>Comments</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
+				<tbody id="OphCiExamination_allergy">
+				<?php foreach ($this->patient->allergyAssignments as $aa) { ?>
+					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
+						<td><?= CHtml::encode($aa->name) ?>
+							<input type="hidden" name="selected_allergies[]" value="<?= $aa->allergy->id ?>">
+							<input type="hidden" name="allergy_comments[]" value="<?= $aa->comments ?>">
+							<input type="hidden" name="other_names[]" value="<?= $aa->other ?>">
+						</td>
+						<td><?= CHtml::encode($aa->comments) ?></td>
+						<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
+							<td>
+								<a href="#" rel="<?php echo $aa->id?>" class="small removeAllergy">
+									Remove
+								</a>
+							</td>
+						<?php } ?>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
