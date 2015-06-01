@@ -2164,6 +2164,7 @@ function OphCiExamination_AddAllergy(){
             row += '</td><td>' + comments + '</td><td><a href="#" class="small removeAllergy">Remove</a></td></tr>';
             $('#OphCiExamination_allergy').append(row);
             $('.allergies_confirm_no').slideUp('fast');
+            $('#no_allergies').prop('checked', false);
             $('#comments').val('');
             $('#other_allergy').val('');
             $('#allergy_other').slideUp('fast');  //close the div

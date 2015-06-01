@@ -19,21 +19,9 @@
 ?>
 <div class="element-fields">
 	<div class="field-row row">
-		<div class="large-6 column">
+		<div class="large-12 column">
 				<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
 				<div id="add_allergy">
-					<?php
-					$form = $this->beginWidget('FormLayout', array(
-						'id'=>'add-allergy',
-						'enableAjaxValidation'=>false,
-						'htmlOptions' => array('class'=>'form add-data'),
-						'action'=>array('patient/addAllergy'),
-						'layoutColumns'=>array(
-							'label' => 3,
-							'field' => 9
-						),
-					))?>
-					<input type="hidden" name="<?php echo CHtml::modelName($element);?>[force_validation]" />
 					<div class="allergies_confirm_no field-row row" <?php if ($this->patient->hasAllergyStatus() && !$this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
 						<div class="allergies">
 							<div class="<?php echo $form->columns('label');?>">
@@ -48,7 +36,7 @@
 					<input type="hidden" name="edit_allergy_id" id="edit_allergy_id" value="" />
 					<input type="hidden" name="patient_id" value="<?php echo $this->patient->id?>" />
 
-					<div class="row field-row allergy_field" <?php if ($this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
+					<div class="row field-row allergy_field">
 						<div class="<?php echo $form->columns('label');?>">
 							<label for="allergy_id">Add allergy:</label>
 						</div>
@@ -64,7 +52,7 @@
 							<?= CHtml::textField('other_allergy','',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
 						</div>
 					</div>
-					<div class="field-row row allergy_field" <?php if ($this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
+					<div class="field-row row allergy_field">
 						<div class="<?php echo $form->columns('label');?>">
 							<label for="comments">Comments:</label>
 						</div>
@@ -77,8 +65,6 @@
 						<img src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" class="add_allergy_loader" style="display: none;" />
 						<button type="button" class="secondary small btn_save_allergy">Add</button>
 					</div>
-
-					<?php $this->endWidget()?>
 				</div>
 
 			<?php } ?>
