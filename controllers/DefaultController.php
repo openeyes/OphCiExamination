@@ -939,4 +939,34 @@ class DefaultController extends \BaseEventTypeController
 
 		models\OphCiExamination_FurtherFindings_Assignment::model()->deleteAll($criteria);
 	}
+
+	public function getPCRData($patient_id, $side){
+		$pcr = array();
+		//models\OphCiExamination_Attribute::model()
+
+		$this->patient = \Patient::model()->findByPk((int) $patient_id );
+
+		$patientAge = $this->patient->getAge();
+
+		if($patientAge < 60){
+			$ageGroup = 1;
+		}elseif(($patientAge >= 60)&& ($patientAge < 70)){
+			$ageGroup = 2;
+		}elseif(($patientAge >= 70)&& ($patientAge < 80)){
+			$ageGroup = 3;
+		}elseif(($patientAge >= 80)&& ($patientAge < 90)){
+			$ageGroup = 4;
+		}elseif(($patientAge >= 90)){
+			$ageGroup = 5;
+		}
+
+		$gender = ucfirst($this->patient->getGenderString());
+
+		$pcr['patient_id'] = $patient_id;
+		$pcr['side'] = $side;
+		$pcr['age_group'] = $ageGroup;
+		$pcr['gender'] = $gender;
+
+		return $pcr;
+	}
 }

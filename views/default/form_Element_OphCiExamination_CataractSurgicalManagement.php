@@ -17,9 +17,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="sub-element-fields">
+<div class="sub-element-fields" xmlns="http://www.w3.org/1999/html">
 	<div class="field-row">
 		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:showhidePCR('optCiExaminationPCRDiv')">Left Eye - PCR Risk </a>
+		&nbsp;|&nbsp;<a href="javascript:showhidePCR('optCiExaminationRightEyePCRDiv')">Right Eye - PCR Risk</a>
 	</div>
 	<div class="field-row">
 		<?php echo $form->checkbox($element, 'city_road', array('nowrapper'=>true))?>
@@ -44,4 +46,14 @@
 	</div>
 	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery', array(), array('label' => 3, 'field' => 9))?>
 	<?php echo $form->radioBoolean($element, 'vitrectomised_eye', array(), array('label' => 3, 'field' => 9))?>
+	<div id="optCiExaminationPCRDiv" style="border-width:1px; border-style: solid; border-color: #ffffff; display:none;">
+		<?php
+		$this->renderPartial('form_Element_OphCiExamination_PCRRisk', array('side' => 'left', 'element' => $element));
+		?>
+	</div>
+	<div id="optCiExaminationRightEyePCRDiv" style="border-width:1px; border-style: solid; border-color: #ffffff; display:none;">
+		<?php
+		$this->renderPartial('form_Element_OphCiExamination_PCRRisk', array('side' => 'right', 'element' => $element));
+		?>
+	</div>
 </div>

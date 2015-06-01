@@ -16,12 +16,15 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+if(!isset($side))
+	$side = 'left';
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection" >
 	<div>
 		<header class="sub-element-header">
-			<h4 class="sub-element-title"> PCR Risk</h4>
+			<h4 class="sub-element-title"> PCR Risk (<?php echo $side ;?>) </h4>
 		</header>
 		<div class="row field-row"></div>
 	</div>
@@ -35,10 +38,10 @@ if($patientId == ""){
 	$patientId = $this->patient->hos_num;
 }
 
+$PCR = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
+print_r($PCR);
+
 $this->patient = Patient::model()->findByPk((int) $patientId );
-//var_dump($this->patient);
-//riskAssignments
-//die;
 $patientAge = $this->patient->getAge();
 
 if($patientAge < 60){
@@ -155,15 +158,70 @@ $anteriorsegment = Yii::app()->db->createCommand()
 $left_eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
 $right_eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
 
-/*echo 'psize->'.($left_eyedraw[0]['pupilSize']);
+/*echo '<pre>CNT->';
+echo count($left_eyedraw);
+
+echo '<br> RIGHT <br> CNT->';
+echo count($right_eyedraw);*/
+
+
+
+
+foreach($left_eyedraw as $key => $val)
+{
+	$left_eye_ps = $val['pupilSize'];
+	$left_eye_pxe = $val['pxe'];
+	//echo '<br>';
+	//print_r($val);
+}
+
+/*echo '<br> PS-> '.$left_eye_ps;
+echo '<br> PXE-> '.$left_eye_pxe;*/
+
+foreach($right_eyedraw as $key => $val)
+{
+	if(!empty($val['pupilSize']))
+		$right_eye_ps = $val['pupilSize'];
+
+	if(!empty($val['pxe']))
+		$right_eye_pxe = $val['pxe'];
+}
+
+/*echo '<br> PS-> '.$right_eye_ps;
+echo '<br> RIGHT PXE->'.$right_eye_pxe;
+echo "<br>-----------<br>";
+die;
+
+if(!empty($left_eyedraw[0]['pupilSize']))
+	echo 'Left psize->'.($left_eyedraw[0]['pupilSize']);
+
+if(!empty($right_eyedraw[1]['pupilSize']))
+	echo '<br>right psize->'.($right_eyedraw[1]['pupilSize']);*/
+
+echo '<br>Left Nuclear ID->'.($anteriorsegment['left_nuclear_id']);
+echo '<br>Right Nuclear ID->'.($anteriorsegment['right_nuclear_id']);
+
+echo '<br>Left Cortical ID->'.($anteriorsegment['left_cortical_id']);
+echo '<br>Right Cortical ID->'.($anteriorsegment['right_cortical_id']);
+
+/*die;
+echo 'psize->'.($left_eyedraw[0]['pupilSize']);
 echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);
 
 echo '<br><br>psize->'.($left_eyedraw[0]['pupilSize']);
-echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);
+echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);*/
 
-echo '<br><br>pxe->'.($left_eyedraw[0]['pxe']);
-echo '<br>right pxe->'.($right_eyedraw[0]['pxe']);
-*/
+
+//PXF (Pseudoexfoliation) / Phacodonesis
+/*if(!empty($left_eyedraw[0]['pxe'])) {
+	echo '<br><br>Left Pxe->' . ($left_eyedraw[0]['pxe']);
+}
+
+if(!empty($right_eyedraw[0]['pxe'])) {
+	echo '<br>Right Pxe->' . ($right_eyedraw[0]['pxe']);
+}
+
+die;*/
 
 //$session = new CHttpSession;
 //$session->open();
@@ -190,225 +248,224 @@ $lenstype = Yii::app()->db->createCommand()
 //echo $lenstype['axial_length_left'];
 //echo $lenstype['axial_length_right'];
 ?>
-	<div class="row field-row">
-
-		<div class="large-2 column">
-			<label>
-				Age
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select name="age">
-				<?php if($ageGroup ==1) {?>
-					<option value="1" selected value="1">< 60</option>
-				<?php } else {?>
-					<option value="1">< 60</option>
-				<?php }
-				if($ageGroup ==2) {?>
-					<option value="2" selected>60 - 69</option>
-				<?php } else {?>
-					<option value="2">60 - 69</option>
-				<?php }
-				if($ageGroup ==3) {?>
-					<option value="3" selected>70 - 79</option>
-				<?php } else {?>
-					<option value="3">70 - 79</option>
-				<?php }
-				if($ageGroup ==4) {?>
-					<option value="4" selected>80 - 89 </option>
-				<?php } else {?>
-					<option value="4" >80 - 89 </option>
-				<?php }
-				if($ageGroup ==5) {?>
-					<option value="5" selected>90 + </option>
-				<?php } else {?>
-					<option value="5">90 + </option>
-				<?php } ?>
-			</select>
-		</div>
-		<div class="large-2 column">
-			<label>
-				PXF/ Phacodonesis
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select class="dropDownTextSelection delimited">
-				<option>No</option>
-				<option>Yes</option>
-			</select>
-		</div>
-	</div>
-
-	<div class="row field-row">
-		<div class="large-2 column">
-			<label>
-				Gender
-			</label>
-		</div>
-		<div class="large-4 column">
-			<?php
-			echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($gender=>array('selected'=>true))));
-			?>
-		</div>
-		<div class="large-2 column">
-			<label>
-				Pupil Size
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select>
-				<option>Large</option>
-				<option>Medium</option>
-				<option>Small</option>
-			</select>
-		</div>
-	</div>
-
-	<div class="row field-row">
-		<div class="large-2 column">
-			<label>
-				Glaucoma
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select>
-				<?php if($is_glaucoma) { ?>
-					<option value="N">No Glaucoma</option>
-					<option selected="selected" value="Y">Glaucoma present</option>
-				<?php } else { ?>
-					<option value="N" selected="selected">No Glaucoma</option>
-					<option value="Y">Glaucoma present</option>
-				<?php } ?>
-			</select>
-		</div>
-		<div class="large-2 column">
-			<label>
-				Axial Length (mm)
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select>
-				<option> < 26 </option>
-				<option> <= 26 </option>
-			</select>
-		</div>
-	</div>
-
-	<div class="row field-row">
-		<div class="large-2 column">
-			<label>
-				Diabetic Retinopathy
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select>
-				<?php if($is_diabetic) { ?>
-					<option value="N">No Diabetes</option>
-					<option selected="selected" value="Y">Diabetes present</option>
-				<?php } else { ?>
-					<option value="N" selected="selected">No Diabetes</option>
-					<option value="Y">Diabetes present</option>
-				<?php } ?>
-			</select>
-		</div>
-		<div class="large-2 column">
-			<label>
-				Alpha receptor blocker
-			</label>
-		</div>
-		<div class="large-4 column">
-			<select>
-				<option>No</option>
-				<option>Yes</option>
-			</select>
-		</div>
-	</div>
-
-	<div class="row field-row">
-		<div class="large-2 column">
-			<label>
-				No fundal view/ vitreous opacities
-			</label>
-		</div>
-		<div class="large-2 column">
-			<select name="fundal_view" style="width: 200px">
-				<?php if(count($noview_opticdisc) >= 1) { ?>
-					<option value="N">No</option>
-					<option selected="selected" value="Y">Yes</option>
-				<?php } else { ?>
-					<option value="N" selected="selected">No</option>
-					<option value="Y">Yes</option>
-				<?php } ?>
-			</select>
-
-		</div>
-		<div class="large-2 column">
-			<?php if(count($all_opticdiscs) == 0){?>
-					<div style="width: 140px; top:-15px" class="alert-box alert with-icon">Not Known</div>
-			<?php } ?>&nbsp;
+	<div id="left_eye_pcr">
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					Age
+				</label>
 			</div>
-		<div class="large-2 column">
-			<label>
-				Able to lie flat
-			</label>
+			<div class="large-4 column">
+				<select name="age">
+					<?php if($ageGroup ==1) {?>
+						<option value="1" selected value="1">< 60</option>
+					<?php } else {?>
+						<option value="1">< 60</option>
+					<?php }
+					if($ageGroup ==2) {?>
+						<option value="2" selected>60 - 69</option>
+					<?php } else {?>
+						<option value="2">60 - 69</option>
+					<?php }
+					if($ageGroup ==3) {?>
+						<option value="3" selected>70 - 79</option>
+					<?php } else {?>
+						<option value="3">70 - 79</option>
+					<?php }
+					if($ageGroup ==4) {?>
+						<option value="4" selected>80 - 89 </option>
+					<?php } else {?>
+						<option value="4" >80 - 89 </option>
+					<?php }
+					if($ageGroup ==5) {?>
+						<option value="5" selected>90 + </option>
+					<?php } else {?>
+						<option value="5">90 + </option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="large-2 column">
+				<label>
+					PXF/ Phacodonesis
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select class="dropDownTextSelection delimited">
+					<option>No</option>
+					<option>Yes</option>
+				</select>
+			</div>
 		</div>
-		<div class="large-4 column">
-			<select name="abletolieflat" id="abletolieflat">
-				<?php if($able_to_lie_flat) { ?>
-					<option value="N" selected="selected">No</option>
-					<option value="Y">Yes</option>
-				<?php } else { ?>
-					<option value="N">No</option>
-					<option selected="selected" value="Y">Yes</option>
-				<?php } ?>
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					Gender
+				</label>
+			</div>
+			<div class="large-4 column">
+				<?php
+				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($gender=>array('selected'=>true))));
+				?>
+			</div>
+			<div class="large-2 column">
+				<label>
+					Pupil Size
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select>
+					<option>Large</option>
+					<option>Medium</option>
+					<option>Small</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					Glaucoma
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select>
+					<?php if($is_glaucoma) { ?>
+						<option value="N">No Glaucoma</option>
+						<option selected="selected" value="Y">Glaucoma present</option>
+					<?php } else { ?>
+						<option value="N" selected="selected">No Glaucoma</option>
+						<option value="Y">Glaucoma present</option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="large-2 column">
+				<label>
+					Axial Length (mm)
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select>
+					<option> < 26 </option>
+					<option> <= 26 </option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					Diabetic
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select>
+					<?php if($is_diabetic) { ?>
+						<option value="N">No Diabetes</option>
+						<option selected="selected" value="Y">Diabetes present</option>
+					<?php } else { ?>
+						<option value="N" selected="selected">No Diabetes</option>
+						<option value="Y">Diabetes present</option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="large-2 column">
+				<label>
+					Alpha receptor blocker
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select>
+					<option>No</option>
+					<option>Yes</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					No fundal view/ vitreous opacities
+				</label>
+			</div>
+			<div class="large-2 column">
+				<select name="fundal_view" style="width: 200px">
+					<?php if(count($noview_opticdisc) >= 1) { ?>
+						<option value="N">No</option>
+						<option selected="selected" value="Y">Yes</option>
+					<?php } else { ?>
+						<option value="N" selected="selected">No</option>
+						<option value="Y">Yes</option>
+					<?php } ?>
+				</select>
+
+			</div>
+			<div class="large-2 column">
+				<?php if(count($all_opticdiscs) == 0){?>
+						<div style="width: 140px; top:-15px" class="alert-box alert with-icon">Not Known</div>
+				<?php } ?>&nbsp;
+				</div>
+			<div class="large-2 column">
+				<label>
+					Can lie flat
+				</label>
+			</div>
+			<div class="large-4 column">
+				<select name="abletolieflat" id="abletolieflat">
+					<?php if($able_to_lie_flat) { ?>
+						<option value="N" selected="selected">No</option>
+						<option value="Y">Yes</option>
+					<?php } else { ?>
+						<option value="N">No</option>
+						<option selected="selected" value="Y">Yes</option>
+					<?php } ?>
 
 
-			</select>
-		</div>
-	</div>
-
-	<div class="row field-row">
-		<div class="large-2 column">
-			<label>
-				Psuedoexfoliation
-			</label>
-		</div>
-		<div class="large-4 column">
-			<?php  //echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(array('no'=>'yes','no'=>'no')), array('empty' => '- Select Doctor Grade -'));?>
-			<?php echo CHtml::dropDownList('Psuedoexfoliation','sex',array('N'=>'No','Y'=>'Yes'));?>
-		</div>
-		<div class="large-2 column">
-			<label>
-				Surgeon Grade
-			</label>
-		</div>
-		<div class="large-4 column">
-			<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($doctor_grade_id=>array('selected'=>true))));?>
-		</div>
-	</div>
-
-	<div>
-		<div class="row field-row" align="center">
-			<input type="button" value="Calculate" id="et_pcr_calculate" class=" save event-action button secondary small">
-		</div>
-	</div>
-	<div class="row field-row">
-		<div class="large-1 column">
-			&nbsp;
-		</div>
-		<div class="large-2 column" id="pcr_risk_div" style="background-color: red;">
-			<label>
-				PCR Risk <strong> <span style="background-color: white; width: 100px; "> 6.1</span> %</strong>
-			</label>
-		</div>
-		<div class="large-3 column">
-			&nbsp;
+				</select>
+			</div>
 		</div>
 
-		<div class="large-6 column">
-			<label>
- 				Excess risk compared to average eye  <span style="background-color: white;  ;"> <strong> <span> 3  </span></strong> </span> times
-			</label>
+		<div class="row field-row">
+			<div class="large-2 column">
+				<label>
+					Brunescent/ White Cataract
+				</label>
+			</div>
+			<div class="large-4 column">
+				<?php echo CHtml::dropDownList('Psuedoexfoliation','sex',array('N'=>'No','Y'=>'Yes'));?>
+			</div>
+			<div class="large-2 column">
+				<label>
+					Surgeon Grade
+				</label>
+			</div>
+			<div class="large-4 column">
+				<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($doctor_grade_id=>array('selected'=>true))));?>
+			</div>
+		</div>
+
+		<div>
+			<div class="row field-row" align="center">
+				<input type="button" value="Calculate" id="et_pcr_calculate" class=" save event-action button secondary small">
+			</div>
+		</div>
+		<div class="row field-row">
+			<div class="large-1 column">
+				&nbsp;
+			</div>
+			<div class="large-2 column" id="pcr_risk_div" style="background-color: red;">
+				<label>
+					PCR Risk <strong> <span style="background-color: white; width: 100px; "> 6.1</span> %</strong>
+				</label>
+			</div>
+			<div class="large-3 column">
+				&nbsp;
+			</div>
+
+			<div class="large-6 column">
+				<label>
+					Excess risk compared to average eye  <span style="background-color: white;  ;"> <strong> <span> 3  </span></strong> </span> times
+				</label>
+			</div>
 		</div>
 	</div>
 </div>
