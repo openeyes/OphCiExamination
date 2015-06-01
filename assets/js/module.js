@@ -323,7 +323,13 @@ $(document).ready(function() {
     });
 
     $('.removeAllergy').live('click',function() {
-        $(this).parent().parent().remove(); // removing <tr>
+        var row = $(this).parent().parent();
+        var allergy_id = row.data('allergy-id');
+        var allergy_name = row.data('allergy-name');
+        if(allergy_name != 'Other') {
+            $('#allergy_id').append('<option value="' + allergy_id + '">' + allergy_name + '</option>');
+        }
+        row.remove(); // we remove the <tr>
         if($('#OphCiExamination_allergy tr').length == 0 ){
             $('.allergies_confirm_no').slideDown('fast');
         }
@@ -2142,22 +2148,30 @@ function OphCiExamination_AddAllergy(){
             other_name = $('#other_allergy').val();
         }
 
-        row = '<tr><td>';
-        if (other_name !== undefined) {
-            row += other_name;
-        } else {
-            row += $('#allergy_id').find(':selected').text();
+        if($('#allergy_id').find(':selected').text() == 'Other' && other_name == ''){
+            alert("Please specify other allergy name!");
+        }else {
+
+            row = '<tr data-allergy-name="'+$('#allergy_id').find(':selected').text()+'" data-allergy-id="'+allergy_id+'"><td>';
+            if (other_name !== undefined) {
+                row += other_name;
+            } else {
+                row += $('#allergy_id').find(':selected').text();
+            }
+            row += '<input type="hidden" name="selected_allergies[]" value="' + allergy_id + '">';
+            row += '<input type="hidden" name="allergy_comments[]" value="' + comments + '">';
+            row += '<input type="hidden" name="other_names[]" value="' + other_name + '">';
+            row += '</td><td>' + comments + '</td><td><a href="#" class="small removeAllergy">Remove</a></td></tr>';
+            $('#OphCiExamination_allergy').append(row);
+            $('.allergies_confirm_no').slideUp('fast');
+            $('#comments').val('');
+            $('#other_allergy').val('');
+            $('#allergy_other').slideUp('fast');  //close the div
+            if( $('#allergy_id').find(':selected').text() != 'Other' ) {
+                $('#allergy_id').find('option:selected').remove();
+            }
+            $('#allergy_id').val('');
         }
-        row += '<input type="hidden" name="selected_allergies[]" value="' + allergy_id + '">'
-        row += '<input type="hidden" name="allergy_comments[]" value="' + comments + '">'
-        row += '<input type="hidden" name="other_names[]" value="' + other_name + '">'
-        row += '</td><td>' + comments + '</td><td><a href="#" rel="<?php echo $aa->id?>" class="small removeAllergy">Remove</a></td></tr>';
-        $('#OphCiExamination_allergy').append(row);
-        $('.allergies_confirm_no').slideUp('fast');
-        $('#comments').val('');
-        $('#other_allergy').val('');
-        $('#allergy_other').slideUp('fast');  //close the div
-        $('#allergy_id').val('');
     }else{
         alert("Please select an option from the allergies!");
    }
