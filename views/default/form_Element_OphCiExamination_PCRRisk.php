@@ -38,13 +38,13 @@ if($patientId == ""){
 	$patientId = $this->patient->hos_num;
 }
 
-$PCR = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
-//print_r($PCR);
+$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
+//echo '<pre>'; print_r($pcr);
 
-$this->patient = Patient::model()->findByPk((int) $patientId );
-$patientAge = $this->patient->getAge();
+/*$this->patient = Patient::model()->findByPk((int) $patientId );*/
+//$patientAge = $this->patient->getAge();
 
-if($patientAge < 60){
+/*if($patientAge < 60){
 	$ageGroup = 1;
 }elseif(($patientAge >= 60)&& ($patientAge < 70)){
 	$ageGroup = 2;
@@ -54,13 +54,17 @@ if($patientAge < 60){
 	$ageGroup = 4;
 }elseif(($patientAge >= 90)){
 	$ageGroup = 5;
-}
+}*/
 
-$gender = ucfirst($this->patient->getGenderString());
+
+
+/*echo '<pre>1. CNT->'.count($all_opticdiscs);
+print_r($all_opticdiscs);*/
+//$gender = ucfirst($this->patient->getGenderString());
 
 //echo ' SYS -> '.$this->patient->getSyd();
 //echo ' DIA-> '. $this->patient->getDmt();
-
+/*
 $is_diabetic = 0;
 if (strpos($this->patient->getSyd(),'diabetes mellitus') !== false) {
 	$is_diabetic = 1;
@@ -70,14 +74,14 @@ if (strpos($this->patient->getSyd(),'diabetes mellitus') !== false) {
 $is_glaucoma = 0;
 if (strpos($this->patient->getSdl(),'glaucoma') !== false) {
 	$is_glaucoma = 1;
-}
+}*/
 
 
-$risk = PatientRiskAssignment::model()->findByAttributes(array("patient_id" => $patientId));
+/*$risk = PatientRiskAssignment::model()->findByAttributes(array("patient_id" => $patientId));
 $able_to_lie_flat = 0;
 if(is_object($risk)){
 	$able_to_lie_flat  = $risk->risk_id;
-}
+}*/
 
 //print_r($this->patient->getSdl());
 
@@ -93,7 +97,7 @@ ORDER BY od.last_modified_date DESC
 LIMIT 1;
 */
 
-$criteria = new CDbCriteria;
+/*$criteria = new CDbCriteria;
 $criteria->select = 'event.id, ophciexamination_opticdisc_cd_ratio.name';
 $criteria->join ='JOIN event ON event.episode_id = t.id
 	JOIN et_ophciexamination_opticdisc ON et_ophciexamination_opticdisc.event_id = event.id
@@ -104,6 +108,8 @@ $criteria->order="et_ophciexamination_opticdisc.last_modified_date DESC";
 $criteria->limit="1";
 $noview_opticdisc = Episode::model()->findAll($criteria);
 
+
+//die;
 
 $criteria1 = new CDbCriteria;
 $criteria1->select = 'event.id, ophciexamination_opticdisc_cd_ratio.name';
@@ -116,7 +122,8 @@ $criteria1->order="et_ophciexamination_opticdisc.last_modified_date DESC";
 //$criteria1->limit="1";
 $all_opticdiscs = Episode::model()->findAll($criteria1);
 
-
+echo '<pre>2 . CNT->'.count($all_opticdiscs);
+print_r($all_opticdiscs);*/
 
 /*SELECT e.id, od.* FROM openeyes.episode as ep
 JOIN event as e ON e.episode_id = ep.id
@@ -141,6 +148,16 @@ echo $books[0]['pupilSize'];
 print_r($books[0]);
 die();*/
 
+$ageGroup = $pcr['age_group'];
+$gender = $pcr['gender'];
+$is_diabetic =  $pcr['diabetic'];
+$is_glaucoma = $pcr['glaucoma'];
+$able_to_lie_flat = $pcr['lie_flat'];
+$noview_opticdisc = $pcr['noview'];
+$all_opticdiscs = $pcr['allod'];
+$doctor_grade_id = $pcr['doctor_grade_id'];
+
+//echo 'PS-> '.$pcr['anteriorsegment']['pupil_size'];
 
 $anteriorsegment = Yii::app()->db->createCommand()
 	->select('as.*')
@@ -166,28 +183,28 @@ echo count($right_eyedraw);*/
 
 
 
-
+/*
 foreach($left_eyedraw as $key => $val)
 {
 	$left_eye_ps = $val['pupilSize'];
 	$left_eye_pxe = $val['pxe'];
 	//echo '<br>';
 	//print_r($val);
-}
+}*/
 
 /*echo '<br> PS-> '.$left_eye_ps;
 echo '<br> PXE-> '.$left_eye_pxe;*/
 
-foreach($right_eyedraw as $key => $val)
+/*foreach($right_eyedraw as $key => $val)
 {
 	if(!empty($val['pupilSize']))
 		$right_eye_ps = $val['pupilSize'];
 
 	if(!empty($val['pxe']))
 		$right_eye_pxe = $val['pxe'];
-}
+}*/
 
-/*echo '<br> PS-> '.$right_eye_ps;
+/* echo '<br> PS-> '.$right_eye_ps;
 echo '<br> RIGHT PXE->'.$right_eye_pxe;
 echo "<br>-----------<br>";
 die;
@@ -211,7 +228,6 @@ echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);
 echo '<br><br>psize->'.($left_eyedraw[0]['pupilSize']);
 echo '<br>right psize->'.($right_eyedraw[0]['pupilSize']);*/
 
-
 //PXF (Pseudoexfoliation) / Phacodonesis
 /*if(!empty($left_eyedraw[0]['pxe'])) {
 	echo '<br><br>Left Pxe->' . ($left_eyedraw[0]['pxe']);
@@ -227,16 +243,16 @@ die;*/
 //$session->open();
 //echo '<br><pre>>';
 //print_r($session);
-$user = Yii::app()->session['user'];
+/*$user = Yii::app()->session['user'];
 //print_r($user);
 
 $user_data = User::model()->findByPk($user->id);
-$doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];
+$doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];*/
 
 //SELECT axial_length_left, axial_length_right FROM openeyes.et_ophinbiometry_lenstype;
 //SELECT * FROM openeyes.et_ophinbiometry_lenstype;
 
-$lenstype = Yii::app()->db->createCommand()
+/*$lenstype = Yii::app()->db->createCommand()
 	->select('as.*')
 	->from('episode as ep')
 	->join('event as e', 'e.episode_id = ep.id')
@@ -245,8 +261,8 @@ $lenstype = Yii::app()->db->createCommand()
 	->order('as.last_modified_date DESC')
 	->limit (1)
 	->queryRow();
-//echo $lenstype['axial_length_left'];
-//echo $lenstype['axial_length_right'];
+echo 'LAL-> '.$lenstype['axial_length_left'];
+echo ' RAL-> '.$lenstype['axial_length_right'];*/
 ?>
 	<div id="left_eye_pcr">
 		<div class="row field-row">
@@ -256,33 +272,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select name="age">
-					<?php if($ageGroup ==1) {?>
-						<option value="1" selected value="1">< 60</option>
-					<?php } else {?>
-						<option value="1">< 60</option>
-					<?php }
-					if($ageGroup ==2) {?>
-						<option value="2" selected>60 - 69</option>
-					<?php } else {?>
-						<option value="2">60 - 69</option>
-					<?php }
-					if($ageGroup ==3) {?>
-						<option value="3" selected>70 - 79</option>
-					<?php } else {?>
-						<option value="3">70 - 79</option>
-					<?php }
-					if($ageGroup ==4) {?>
-						<option value="4" selected>80 - 89 </option>
-					<?php } else {?>
-						<option value="4" >80 - 89 </option>
-					<?php }
-					if($ageGroup ==5) {?>
-						<option value="5" selected>90 + </option>
-					<?php } else {?>
-						<option value="5">90 + </option>
-					<?php } ?>
-				</select>
+				<?php
+				echo CHtml::dropDownList('age','age',array(1=>'<60',2=>'60-69',3=>'70-79',4=>'80-89',5=>'90+'), array('options' => array($pcr['age_group']=>array('selected'=>true))));
+				?>
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -304,7 +296,7 @@ $lenstype = Yii::app()->db->createCommand()
 			</div>
 			<div class="large-4 column">
 				<?php
-				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($gender=>array('selected'=>true))));
+				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($pcr['gender']=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column">
@@ -313,11 +305,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<option>Large</option>
-					<option>Medium</option>
-					<option>Small</option>
-				</select>
+				<?php
+				echo CHtml::dropDownList('pupil_size','pupil_size',array('Large'=>'Large','Medium'=>'Medium','Small'=>'Small'), array('options' => array($pcr['anteriorsegment']['pupil_size']=>array('selected'=>true))));
+				?>
 			</div>
 		</div>
 
@@ -328,15 +318,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<?php if($is_glaucoma) { ?>
-						<option value="N">No Glaucoma</option>
-						<option selected="selected" value="Y">Glaucoma present</option>
-					<?php } else { ?>
-						<option value="N" selected="selected">No Glaucoma</option>
-						<option value="Y">Glaucoma present</option>
-					<?php } ?>
-				</select>
+				<?php
+				echo CHtml::dropDownList('glaucoma','glaucoma',array('N'=>'No Glaucoma','Y'=>'Glaucoma present'), array('options' => array($pcr['glaucoma']=>array('selected'=>true))));
+				?>
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -344,10 +328,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<option> < 26 </option>
-					<option> <= 26 </option>
-				</select>
+				<?php
+				echo CHtml::dropDownList('axial_length','axial_length',array(1=>'< 26',2=>'> or = 26'), array('options' => array($pcr['axial_length_group']=>array('selected'=>true))));
+				?>
 			</div>
 		</div>
 
@@ -358,15 +341,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<?php if($is_diabetic) { ?>
-						<option value="N">No Diabetes</option>
-						<option selected="selected" value="Y">Diabetes present</option>
-					<?php } else { ?>
-						<option value="N" selected="selected">No Diabetes</option>
-						<option value="Y">Diabetes present</option>
-					<?php } ?>
-				</select>
+				<?php
+				echo CHtml::dropDownList('diabetic','diabetic',array('N'=>'No Diabetes','Y'=>'Diabetes present'), array('options' => array($pcr['diabetic']=>array('selected'=>true))));
+				?>
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -388,16 +365,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-2 column">
-				<select name="fundal_view" style="width: 200px">
-					<?php if(count($noview_opticdisc) >= 1) { ?>
-						<option value="N">No</option>
-						<option selected="selected" value="Y">Yes</option>
-					<?php } else { ?>
-						<option value="N" selected="selected">No</option>
-						<option value="Y">Yes</option>
-					<?php } ?>
-				</select>
-
+				<?php
+				echo CHtml::dropDownList('no_fundal_view','no_fundal_view',array('N'=>'No','Y'=>'Yes'), array('options' => array($pcr['noview']=>array('selected'=>true))));
+				?>
 			</div>
 			<div class="large-2 column">
 				<?php //if(count($all_opticdiscs) == 0){?>
@@ -411,17 +381,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select name="abletolieflat" id="abletolieflat">
-					<?php if($able_to_lie_flat) { ?>
-						<option value="N" selected="selected">No</option>
-						<option value="Y">Yes</option>
-					<?php } else { ?>
-						<option value="N">No</option>
-						<option selected="selected" value="Y">Yes</option>
-					<?php } ?>
-
-
-				</select>
+				<?php
+				echo CHtml::dropDownList('abletolieflat','abletolieflat',array('N'=>'No','Y'=>'Yes'), array('options' => array($pcr['lie_flat']=>array('selected'=>true))));
+				?>
 			</div>
 		</div>
 
