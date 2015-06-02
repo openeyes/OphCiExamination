@@ -217,7 +217,14 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function setElementDefaultOptions_Element_OphCiExamination_History($element, $action )
 	{
-		if($action == 'create') {
+		if($action == 'create' || $action == 'update') {
+			$this->allergies = $this->patient->allergyAssignments;
+		}
+	}
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_Allergy($element, $action )
+	{
+		if($action == 'create' || $action == 'update') {
 			$this->allergies = $this->patient->allergyAssignments;
 		}
 	}
