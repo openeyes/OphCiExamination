@@ -581,6 +581,7 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	protected function setComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
 	{
+		$allergies = array();
 		if (!empty($data['selected_allergies'])) {
 			foreach ($data['selected_allergies'] as $i => $allergy_id) {
 				if($data['other_names'][$i] == 'undefined'){
