@@ -19,6 +19,14 @@
 
 if(!isset($side))
 	$side = 'left';
+
+if($side == 'left'){
+	$assetManager = Yii::app()->getAssetManager();
+	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
+
+	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
+}
+
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection" >
@@ -166,26 +174,10 @@ echo count($right_eyedraw);*/
 
 
 
-
-foreach($left_eyedraw as $key => $val)
-{
-	$left_eye_ps = $val['pupilSize'];
-	$left_eye_pxe = $val['pxe'];
-	//echo '<br>';
-	//print_r($val);
-}
-
 /*echo '<br> PS-> '.$left_eye_ps;
 echo '<br> PXE-> '.$left_eye_pxe;*/
 
-foreach($right_eyedraw as $key => $val)
-{
-	if(!empty($val['pupilSize']))
-		$right_eye_ps = $val['pupilSize'];
 
-	if(!empty($val['pxe']))
-		$right_eye_pxe = $val['pxe'];
-}
 
 /*echo '<br> PS-> '.$right_eye_ps;
 echo '<br> RIGHT PXE->'.$right_eye_pxe;
