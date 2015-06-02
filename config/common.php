@@ -35,6 +35,7 @@ return array(
 			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
 			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
 			'Clinic Outcome Statuses' => '/OphCiExamination/admin/manageClinicOutcomesStatus',
+			'Cataract surgery reasons' => '/OphCiExamination/admin/primaryReasonForSurgery'
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',

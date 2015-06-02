@@ -90,7 +90,7 @@ class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 	public function getDefaultElementTypes()
 	{
 		$default_element_types = \ElementType::model()->findAll(array(
-				'condition' => "ophciexamination_element_set_item.set_id = :set_id",
+				'condition' => "ophciexamination_element_set_item.set_id = :set_id AND ophciexamination_element_set_item.is_hidden = 0",
 				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
 				'order' => 'display_order',
 				'params' => array(':set_id' => $this->id),
@@ -106,7 +106,8 @@ class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 	{
 		$optional_element_types = \ElementType::model()->findAll(array(
 				'condition' => "event_type.class_name = 'OphCiExamination' AND
-					ophciexamination_element_set_item.id IS NULL",
+					ophciexamination_element_set_item.id IS NULL
+					OR ophciexamination_element_set_item.is_hidden = 0",
 				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
 					AND ophciexamination_element_set_item.set_id = :set_id)',
@@ -114,6 +115,32 @@ class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 				'params' => array(':set_id' => $this->id),
 		));
 		return $optional_element_types;
+	}
+
+	public function getHiddenElementTypes()
+	{
+		$hiddenElementTypes = \ElementType::model()->findAll(array(
+			'condition' => "event_type.class_name = 'OphCiExamination' AND
+					 ophciexamination_element_set_item.is_hidden = 1",
+			'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
+					AND ophciexamination_element_set_item.set_id = :set_id)',
+			'params' => array(':set_id' => $this->id),
+		));
+		return $hiddenElementTypes;
+	}
+
+	public function getMandatoryElementTypes()
+	{
+		$mandatoryElementTypes = \ElementType::model()->findAll(array(
+			'condition' => "event_type.class_name = 'OphCiExamination' AND
+					 ophciexamination_element_set_item.is_mandatory = 1",
+			'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
+					AND ophciexamination_element_set_item.set_id = :set_id)',
+			'params' => array(':set_id' => $this->id),
+		));
+		return $mandatoryElementTypes;
 	}
 
 	/**

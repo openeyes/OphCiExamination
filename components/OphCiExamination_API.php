@@ -1360,4 +1360,18 @@ class OphCiExamination_API extends \BaseAPI
 
 		return null;
 	}
+
+	/**
+	 * Return list of allergies belonging to a patient
+	 *
+	 * @param \Patient $patient
+	 * @return string
+	 */
+	public function getAllergies(\Patient $patient)
+	{
+		if(count($patient->allergies)){
+			return implode(', ', $patient->allergies);
+		}
+		return 'none';
+	}
 }

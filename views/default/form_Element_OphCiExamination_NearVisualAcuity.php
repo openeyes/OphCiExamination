@@ -167,10 +167,7 @@ Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAs
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.va-selector').chosen();
-		$(".chosen-drop").show(0, function () {
-			$(this).parents("div").css("overflow", "visible");
-		});
+
 		OphCiExamination_VisualAcuity_method_ids = [ <?php
 		$first = true;
 		foreach ($methods as $index => $method) {

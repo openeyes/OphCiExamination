@@ -1,6 +1,5 @@
 <?php
-
-/**
+ /**
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
@@ -18,21 +17,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+
 namespace OEModule\OphCiExamination\models;
 
-/**
- * This is the model class for table "ophciexamination_element_set_item".
- *
- * @property string $id
- * @property OphCiExamination_ElementSet $set
- * @property ElementType $element_type
- * @property integer $default
- */
-class OphCiExamination_ElementSetItem extends \BaseActiveRecordVersioned
+
+class OphCiExamination_Primary_Reason_For_Surgery extends \BaseEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_ElementSetItem the static model class
+	 * @return OphCiExamination_AnteriorSegment_CCT_Method
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -44,52 +37,17 @@ class OphCiExamination_ElementSetItem extends \BaseActiveRecordVersioned
 	 */
 	public function tableName()
 	{
-		return 'ophciexamination_element_set_item';
+		return 'ophciexamination_primary_reason_for_surgery';
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array validation rules for model visualacuity_methods.
 	 */
 	public function rules()
 	{
 		return array(
-				array('is_hidden, is_mandatory', 'safe'),
-				array('id', 'safe', 'on'=>'search'),
+			array('name', 'required'),
+			array('id, name', 'safe'),
 		);
 	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'set' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSet', 'set_id'),
-				'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
 }

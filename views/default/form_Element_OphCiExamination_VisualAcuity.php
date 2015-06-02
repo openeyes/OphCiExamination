@@ -158,10 +158,6 @@ $this->endClip('element-title-additional');
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.va-selector').chosen();
-		$(".chosen-drop").show(0, function () {
-			$(this).parents("div").css("overflow", "visible");
-		});
 
 		OphCiExamination_VisualAcuity_method_ids = [ <?php
 		$first = true;

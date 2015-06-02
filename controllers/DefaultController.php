@@ -39,6 +39,10 @@ class DefaultController extends \BaseEventTypeController
 	// if set to true, we are advancing the current event step
 	private $step = false;
 
+	protected $set;
+
+	protected $mandatoryElements;
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -86,6 +90,12 @@ class DefaultController extends \BaseEventTypeController
 			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagement');
 		} else {
 			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex');
+		}
+
+		if($this->set){
+			foreach($this->set->HiddenElementTypes as $element){
+				$remove[] = $element->class_name;
+			}
 		}
 
 		$final = array();
@@ -379,7 +389,10 @@ class DefaultController extends \BaseEventTypeController
 					$elements[$element_type->id] = $element_type->getInstance();
 				}
 			}
+			$this->mandatoryElements = $set->MandatoryElementTypes;
 		}
+
+		$this->set = $set;
 
 		return $this->filterElements($elements);
 	}
@@ -938,6 +951,48 @@ class DefaultController extends \BaseEventTypeController
 		}
 
 		models\OphCiExamination_FurtherFindings_Assignment::model()->deleteAll($criteria);
+	}
+
+	/**
+	 * Render the optional child elements for the given parent element type
+	 *
+	 * @param BaseEventTypeElement $parent_element
+	 * @param string $action
+	 * @param BaseCActiveBaseEventTypeCActiveForm $form
+	 * @param array $data
+	 * @throws Exception
+	 */
+	public function renderChildOptionalElements($parent_element, $action, $form=null, $data=null)
+	{
+		if (!$this->set) {
+			$firm_id = $this->firm->id;
+			$status_id = ($this->episode) ? $this->episode->episode_status_id : 1;
+			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$this->set = $set;
+		}
+		$elements = $this->getChildOptionalElements($parent_element->getElementType());
+		$this->filterElements($elements);
+		foreach ($elements as $element) {
+			$this->renderOptionalElement($element, $action, $form, $data);
+		}
+	}
+
+	/**
+	 * Is this element required in the UI? (Prevents the user from being able
+	 * to remove the element.)
+	 * @param  BaseEventTypeElement  $element
+	 * @return boolean
+	 */
+	public function isRequiredInUI(\BaseEventTypeElement $element)
+	{
+		if(isset($this->mandatoryElements)){
+			foreach($this->mandatoryElements as $mandatoryElement){
+				if(get_class($element) === $mandatoryElement->class_name){
+					return true;
+				}
+			}
+		}
+		return parent::isRequiredInUI($element);
 	}
 
 	public function getPCRData($patient_id, $side){

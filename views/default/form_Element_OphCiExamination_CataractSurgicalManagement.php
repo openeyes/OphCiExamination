@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<div class="sub-element-fields" xmlns="http://www.w3.org/1999/html">
+<div class="sub-element-fields">
 	<div class="field-row">
 		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:showhidePCR('optCiExaminationRightEyePCRDiv')">Right Eye - PCR Risk</a>
@@ -46,6 +46,39 @@
 	</div>
 	<?php echo $form->radioBoolean($element, 'previous_refractive_surgery', array(), array('label' => 3, 'field' => 9))?>
 	<?php echo $form->radioBoolean($element, 'vitrectomised_eye', array(), array('label' => 3, 'field' => 9))?>
+	<div class="row field-row">
+		<div class="large-3 column">
+			<label for="<?php echo get_class($element).'reasonForSurgery';?>">
+				<?php echo $element->getAttributeLabel('reasonForSurgery')?>:
+			</label>
+		</div>
+		<div class="large-6 column">
+			<?php
+			echo $form->multiSelectList(
+				$element,
+				'OEModule_OphCiExamination_models_Element_OphCiExamination_CataractSurgicalManagement[reasonForSurgery]',
+				'reasonForSurgery',
+				'id',
+				\CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery::model()->findAllByAttributes(array(), 'active=1'), 'id', 'name'),
+				array(),
+				array(
+					'empty' => '',
+					'label' => 'Primary Reason For Cataract Surgery',
+					'nowrapper' => true
+				),
+				false,
+				true,
+				null,
+				false,
+				false,
+				array('label' => 3, 'field' => 9)
+			);
+			?>
+		</div>
+		<div class="large-3 column">
+		</div>
+	</div>
+</div>
 	<div id="optCiExaminationPCRDiv" style="border-width:1px; border-style: solid; border-color: #ffffff; display:none;">
 		<?php
 		$this->renderPartial('form_Element_OphCiExamination_PCRRisk', array('side' => 'left', 'element' => $element));

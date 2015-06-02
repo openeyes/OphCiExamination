@@ -101,6 +101,19 @@
 						<?php echo $element->vitrectomised_eye ? 'Yes' : 'No'?>
 					</td>
 				</tr>
+				<tr>
+					<td scope="row">
+						<?php echo $element->getAttributeLabel('reasonForSurgery')?>:
+					</td>
+					<td>
+						<?php
+						if( $element->reasonForSurgery) {
+							foreach($element->reasonForSurgery as $reason){
+								echo $reason->name . '<br />';
+							}
+						}?>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
