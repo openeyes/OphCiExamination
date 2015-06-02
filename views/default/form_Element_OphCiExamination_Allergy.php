@@ -21,6 +21,7 @@
 	<div class="field-row row">
 		<div class="large-12 column">
 				<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
+				<input type="hidden" name="OEModule_OphCiExamination_models_Element_OphCiExamination_Allergy[allergy_loaded]" value="1">
 				<div id="add_allergy">
 					<div class="allergies_confirm_no field-row row" <?php if ($this->patient->hasAllergyStatus() && !$this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
 						<div class="allergies">
@@ -81,7 +82,7 @@
 				</tr>
 				</thead>
 				<tbody id="OphCiExamination_allergy">
-				<?php foreach ($this->patient->allergyAssignments as $aa) { ?>
+				<?php foreach ($this->allergies as $aa) { ?>
 					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
 						<td><?= CHtml::encode($aa->name) ?>
 							<input type="hidden" name="selected_allergies[]" value="<?= $aa->allergy->id ?>">
@@ -91,7 +92,7 @@
 						<td><?= CHtml::encode($aa->comments) ?></td>
 						<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
 							<td>
-								<a href="#" rel="<?php echo $aa->id?>" class="small removeAllergy">
+								<a rel="<?php echo $aa->id?>" class="small removeAllergy">
 									Remove
 								</a>
 							</td>

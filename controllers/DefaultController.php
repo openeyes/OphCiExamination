@@ -39,6 +39,8 @@ class DefaultController extends \BaseEventTypeController
 	// if set to true, we are advancing the current event step
 	private $step = false;
 
+	protected $allergies = array();
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -192,6 +194,21 @@ class DefaultController extends \BaseEventTypeController
 				}
 			}
 			$element->diagnoses = $_diagnoses;
+		}
+	}
+
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setElementDefaultOptions_Element_OphCiExamination_History($element, $action )
+	{
+		if($action == 'create') {
+			$this->allergies = $this->patient->allergyAssignments;
 		}
 	}
 
@@ -553,6 +570,33 @@ class DefaultController extends \BaseEventTypeController
 		}
 		$element->diagnoses = $diagnoses;
 	}
+
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		if (!empty($data['selected_allergies'])) {
+			foreach ($data['selected_allergies'] as $i => $allergy_id) {
+				if($data['other_names'][$i] == 'undefined'){
+					$data['other_names'][$i] = "";
+				}
+				$newAllergy = new \PatientAllergyAssignment;
+				$newAllergy->allergy_id = $allergy_id;
+				$newAllergy->other = $data['other_names'][$i];
+				$newAllergy->comments = $data['allergy_comments'][$i];
+				$allergies[] = $newAllergy;
+			}
+		}
+
+		$this->allergies = $allergies;
+	}
+
 
 	/**
 	 * set the dilation treatments against the element from the provided data

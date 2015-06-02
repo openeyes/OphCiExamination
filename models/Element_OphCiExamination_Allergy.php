@@ -45,6 +45,8 @@ class Element_OphCiExamination_Allergy extends \PatientAllergyAssignment
 		return true;
 	}
 
+	// the saveComplexAttributes_Element_OphCiExamination_History function is
+	// responsible for saving in the DefaultController
 	public function save( $validation = false, $attributes = NULL, $allow_overriding=false){
 		return true;
 	}
