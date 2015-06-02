@@ -150,10 +150,17 @@ $(document).ready(function() {
 	});
 
 	$('div.column.content').on('click', '.workflow-item-attr',  function(){
-		var td = this,
+        var item = this,
             $itemTd = $(this).parent(),
-            itemId = $itemTd.parent().data('id'),
+            $itemTr = $itemTd.parent(),
+            itemId = $itemTr.data('id'),
 			itemObj = {};
+
+        if(($itemTr.find(':checkbox:checked[id*="is_hidden"]').length && $itemTr.find(':checkbox:checked[id*="is_mandatory"]').length)){
+            alert('An element cannot be both Mandatory and Hidden. Please correct this error before saving.');
+            item.checked = false;
+            //return;
+        }
 
         $itemTd.append('<img src="'+baseUrl+OE_core_asset_path+'/img/ajax-loader.gif" class="loader" />');
 		itemObj[this.name] = this.checked ? 1 : 0;
@@ -167,9 +174,9 @@ $(document).ready(function() {
                 $itemTd.find('.loader').remove();
 			},
             error: function(resp){
-                td.checked = false;
+                item.checked = false;
                 $itemTd.find('.loader').remove();
-                alert('An issue occured trying to save the attribute, please try again');
+                alert('An issue occurred trying to save the attribute, please try again');
             }
 		});
 	});
