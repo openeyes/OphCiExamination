@@ -18,7 +18,7 @@ class m150512_092929_near_visual_acuity extends OEMigration
 		'50',
 	);
 	protected $nearUnits = array(
-		'Reduced LogMAR Equivalent' => array(
+		'Reduced LogMAR' => array(
 			'0.0',
 			'0.1',
 			'0.2',
@@ -33,7 +33,7 @@ class m150512_092929_near_visual_acuity extends OEMigration
 			'1.1',
 			'1.2',
 		),
-		'Reduced Snellen Equivalent (40cm)' => array(
+		'Reduced Snellen' => array(
 			'6/6',
 			'6/7.5',
 			'6/9.5',
@@ -48,7 +48,7 @@ class m150512_092929_near_visual_acuity extends OEMigration
 			'6/75',
 			'6/95',
 		),
-		'Faculty of Ophthalmologists Approved Near Vision Chart (Points)' => array(
+		'N Scale' => array(
 			'N3.2',
 			'N4',
 			'N5',
@@ -120,7 +120,7 @@ class m150512_092929_near_visual_acuity extends OEMigration
 				'name' => 'Near Visual Acuity',
 				'class_name' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_NearVisualAcuity',
 				'event_type_id' => $eventType['id'],
-				'display_order' => 50,
+				'display_order' => 20,
 				'default' => 1,
 				'parent_element_type_id' => $visualFunction['id'],
 				'required' => 0
