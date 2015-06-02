@@ -43,6 +43,8 @@ class DefaultController extends \BaseEventTypeController
 
 	protected $mandatoryElements;
 
+	protected $allergies = array();
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -202,6 +204,21 @@ class DefaultController extends \BaseEventTypeController
 				}
 			}
 			$element->diagnoses = $_diagnoses;
+		}
+	}
+
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setElementDefaultOptions_Element_OphCiExamination_History($element, $action )
+	{
+		if($action == 'create') {
+			$this->allergies = $this->patient->allergyAssignments;
 		}
 	}
 
@@ -568,6 +585,33 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		if (!empty($data['selected_allergies'])) {
+			foreach ($data['selected_allergies'] as $i => $allergy_id) {
+				if($data['other_names'][$i] == 'undefined'){
+					$data['other_names'][$i] = "";
+				}
+				$newAllergy = new \PatientAllergyAssignment;
+				$newAllergy->allergy_id = $allergy_id;
+				$newAllergy->other = $data['other_names'][$i];
+				$newAllergy->comments = $data['allergy_comments'][$i];
+				$allergies[] = $newAllergy;
+			}
+		}
+
+		$this->allergies = $allergies;
+	}
+
+
+	/**
 	 * set the dilation treatments against the element from the provided data
 	 *
 	 * @param models\Element_OphCiExamination_Dilation $element
@@ -711,6 +755,37 @@ class DefaultController extends \BaseEventTypeController
 		}
 
 		$element->updateDiagnoses($diagnoses);
+	}
+
+	/**
+	 * Save allergies - because it's part of the History element it need to be saved from that element
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		$patient = \Patient::model()->findByPk($this->patient->id);
+
+		if ( isset($data['no_allergies']) && $data['no_allergies']) {
+			$patient->setNoAllergies();
+		} else  {
+			// we remove all current allergy data
+
+			$currentAllergies = \PatientAllergyAssignment::model();
+			$currentAllergies->deleteAll('patient_id = '.$this->patient->id);
+
+			if (!empty($data['selected_allergies'])) {
+				foreach ($data['selected_allergies'] as $i => $allergy_id) {
+					$allergyObject = \Allergy::model()->findByPk($allergy_id);
+					if($data['other_names'][$i] == 'undefined'){
+						$data['other_names'][$i] = "";
+					}
+					$patient->addAllergy($allergyObject, $data['other_names'][$i], $data['allergy_comments'][$i], false);
+				}
+			}
+		}
 	}
 
 	/**

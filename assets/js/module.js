@@ -311,6 +311,30 @@ $(document).ready(function() {
 	 */
 	handleButton($('#et_canceldelete'));
 
+
+    // because these elements will be loaded later with AJAX we need to use live()
+    $('.btn_save_allergy').live('click',OphCiExamination_AddAllergy);
+    $('#allergy_id').live('change', function () {
+        if ($(this).find(':selected').text() == 'Other') {
+            $('#allergy_other').slideDown('fast');
+        } else {
+            $('#allergy_other').slideUp('fast');
+        }
+    });
+
+    $('.removeAllergy').live('click',function() {
+        var row = $(this).parent().parent();
+        var allergy_id = row.data('allergy-id');
+        var allergy_name = row.data('allergy-name');
+        if(allergy_name != 'Other') {
+            $('#allergy_id').append('<option value="' + allergy_id + '">' + allergy_name + '</option>');
+        }
+        row.remove(); // we remove the <tr>
+        if($('#OphCiExamination_allergy tr').length == 0 ){
+            $('.allergies_confirm_no').slideDown('fast');
+        }
+    });
+
 	$(this).delegate('#'+OE_MODEL_PREFIX+'Element_OphCiExamination_GlaucomaRisk_risk_id', 'change', function(e) {
 		// Update Clinic Outcome follow up
 		var clinic_outcome_element = $('.js-active-elements .'+OE_MODEL_PREFIX+'Element_OphCiExamination_ClinicOutcome');
@@ -2113,6 +2137,45 @@ function OphCiExamination_OpticDisc_updateCDRatio(field) {
 
 function OphCiExamination_RefreshCommonOphDiagnoses() {
 	DiagnosisSelection_updateSelections();
+}
+
+function OphCiExamination_AddAllergy(){
+    var other_name;
+    var allergy_id = $('#allergy_id').val();
+    if( allergy_id > 0) {
+        var comments = $('#comments').val();
+        if ($('#allergy_id').find(':selected').text() == 'Other') {
+            other_name = $('#other_allergy').val();
+        }
+
+        if($('#allergy_id').find(':selected').text() == 'Other' && other_name == ''){
+            alert("Please specify other allergy name!");
+        }else {
+
+            row = '<tr data-allergy-name="'+$('#allergy_id').find(':selected').text()+'" data-allergy-id="'+allergy_id+'"><td>';
+            if (other_name !== undefined) {
+                row += other_name;
+            } else {
+                row += $('#allergy_id').find(':selected').text();
+            }
+            row += '<input type="hidden" name="selected_allergies[]" value="' + allergy_id + '">';
+            row += '<input type="hidden" name="allergy_comments[]" value="' + comments + '">';
+            row += '<input type="hidden" name="other_names[]" value="' + other_name + '">';
+            row += '</td><td>' + comments + '</td><td><a href="#" class="small removeAllergy">Remove</a></td></tr>';
+            $('#OphCiExamination_allergy').append(row);
+            $('.allergies_confirm_no').slideUp('fast');
+            $('#no_allergies').prop('checked', false);
+            $('#comments').val('');
+            $('#other_allergy').val('');
+            $('#allergy_other').slideUp('fast');  //close the div
+            if( $('#allergy_id').find(':selected').text() != 'Other' ) {
+                $('#allergy_id').find('option:selected').remove();
+            }
+            $('#allergy_id').val('');
+        }
+    }else{
+        alert("Please select an option from the allergies!");
+   }
 }
 
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
