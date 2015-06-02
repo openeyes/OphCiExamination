@@ -82,7 +82,10 @@
 				</tr>
 				</thead>
 				<tbody id="OphCiExamination_allergy">
-				<?php foreach ($this->allergies as $aa) { ?>
+				<?php
+
+					foreach ($this->allergies as $aa) {
+						?>
 					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
 						<td><?= CHtml::encode($aa->name) ?>
 							<input type="hidden" name="selected_allergies[]" value="<?= $aa->allergy->id ?>">
