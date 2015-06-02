@@ -39,7 +39,7 @@ if($patientId == ""){
 }
 
 $PCR = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
-print_r($PCR);
+//print_r($PCR);
 
 $this->patient = Patient::model()->findByPk((int) $patientId );
 $patientAge = $this->patient->getAge();
@@ -198,11 +198,11 @@ if(!empty($left_eyedraw[0]['pupilSize']))
 if(!empty($right_eyedraw[1]['pupilSize']))
 	echo '<br>right psize->'.($right_eyedraw[1]['pupilSize']);*/
 
-echo '<br>Left Nuclear ID->'.($anteriorsegment['left_nuclear_id']);
+/*echo '<br>Left Nuclear ID->'.($anteriorsegment['left_nuclear_id']);
 echo '<br>Right Nuclear ID->'.($anteriorsegment['right_nuclear_id']);
 
 echo '<br>Left Cortical ID->'.($anteriorsegment['left_cortical_id']);
-echo '<br>Right Cortical ID->'.($anteriorsegment['right_cortical_id']);
+echo '<br>Right Cortical ID->'.($anteriorsegment['right_cortical_id']);*/
 
 /*die;
 echo 'psize->'.($left_eyedraw[0]['pupilSize']);
@@ -400,9 +400,10 @@ $lenstype = Yii::app()->db->createCommand()
 
 			</div>
 			<div class="large-2 column">
-				<?php if(count($all_opticdiscs) == 0){?>
-						<div style="width: 140px; top:-15px" class="alert-box alert with-icon">Not Known</div>
-				<?php } ?>&nbsp;
+				<?php //if(count($all_opticdiscs) == 0){?>
+						<div style="width: 140px; height:10px; top:-10px" class="alert-box alert with-icon">Not Known</div>
+				<?php //} ?>
+				&nbsp;
 				</div>
 			<div class="large-2 column">
 				<label>
@@ -443,11 +444,11 @@ $lenstype = Yii::app()->db->createCommand()
 			</div>
 		</div>
 
-		<div>
+<!--		<div>
 			<div class="row field-row" align="center">
 				<input type="button" value="Calculate" id="et_pcr_calculate" class=" save event-action button secondary small">
 			</div>
-		</div>
+		</div>-->
 		<div class="row field-row">
 			<div class="large-1 column">
 				&nbsp;

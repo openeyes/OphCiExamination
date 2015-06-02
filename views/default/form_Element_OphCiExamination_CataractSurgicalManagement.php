@@ -20,8 +20,8 @@
 <div class="sub-element-fields" xmlns="http://www.w3.org/1999/html">
 	<div class="field-row">
 		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:showhidePCR('optCiExaminationPCRDiv')">Left Eye - PCR Risk </a>
-		&nbsp;|&nbsp;<a href="javascript:showhidePCR('optCiExaminationRightEyePCRDiv')">Right Eye - PCR Risk</a>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:showhidePCR('optCiExaminationRightEyePCRDiv')">Right Eye - PCR Risk</a>
+		&nbsp;|&nbsp;<a href="javascript:showhidePCR('optCiExaminationPCRDiv')">Left Eye - PCR Risk </a>
 	</div>
 	<div class="field-row">
 		<?php echo $form->checkbox($element, 'city_road', array('nowrapper'=>true))?>
