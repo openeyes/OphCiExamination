@@ -304,11 +304,12 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($pcr['gender']=>array('selected'=>true))));
+				echo CHtml::dropDownList('gender','gender',array('Male'=>'Male','Female'=>'Female'), array('options' => array($pcr['gender']=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
+			</div>
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -436,7 +437,7 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 				</label>
 			</div>
 			<div class="large-2 column">
-				<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($pcr['doctor_grade_id']=>array('selected'=>true))));?>
+				<?php  echo CHtml::dropDownList('doctor_grade_id','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($pcr['doctor_grade_id']=>array('selected'=>true))));?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
