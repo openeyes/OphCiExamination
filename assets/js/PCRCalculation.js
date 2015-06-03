@@ -96,8 +96,8 @@ function pcrCalculate( side ){
             pcrColor = 'red';
         }
     }else{
-        pcrRisk = "";
-        excessRisk = "";
+        pcrRisk = "N/A";
+        excessRisk = "N/A";
         pcrColor = 'white';
     }
     $('#ophCiExaminationPCRDiv' + side).find('#pcr_risk_div').css('background', pcrColor);
