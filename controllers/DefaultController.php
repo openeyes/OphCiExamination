@@ -1136,6 +1136,12 @@ class DefaultController extends \BaseEventTypeController
 
 	public function getPatientAnteriorSegment($patient_id, $side)
 	{
+		$as['pxf_phako'] = 'N';
+		$as['pxe'] = null;
+		$as['phakodonesis']=null;
+		$as['pupil_size'] = "";
+		$as['brunescent_white_cataract'] = 'N';
+		$as['pxf_phako_nk'] = 0;
 		$anteriorsegment = Yii::app()->db->createCommand()
 			->select('as.*')
 			->from('episode as ep')
@@ -1147,13 +1153,15 @@ class DefaultController extends \BaseEventTypeController
 			->queryRow();
 
 		if ($side == 'right') {
-			$eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
+			$eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
 			$as['nuclear_id'] = $anteriorsegment['right_nuclear_id'];
 			$as['cortical_id'] = $anteriorsegment['right_cortical_id'];
+			$as['phakodonesis'] = $anteriorsegment['right_phako'];
 		} elseif ($side == 'left') {
-			$eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
+			$eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
 			$as['nuclear_id'] = $anteriorsegment['left_nuclear_id'];
 			$as['cortical_id'] = $anteriorsegment['left_cortical_id'];
+			$as['phakodonesis'] = $anteriorsegment['left_phako'];
 		}
 
 		foreach ($eyedraw as $key => $val) {
@@ -1165,6 +1173,22 @@ class DefaultController extends \BaseEventTypeController
 				$as['pxe'] = $val['pxe'];
 			}
 		}
+
+		if(($as['phakodonesis']) || ($as['pxe']))
+		{
+			$as['pxf_phako'] = 'Y';
+		}
+
+		if(is_null($as['phakodonesis']) && is_null($as['pxe']))
+		{
+			$as['pxf_phako_nk'] = 1;
+		}
+
+		if($as['nuclear_id'] == 4 && $as['cortical_id'] == 4)
+		{
+			$as['brunescent_white_cataract'] = 'Y';
+		}
+
 		return $as;
 	}
 

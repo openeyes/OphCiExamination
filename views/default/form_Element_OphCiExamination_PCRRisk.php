@@ -159,7 +159,7 @@ $doctor_grade_id = $pcr['doctor_grade_id'];
 
 //echo 'PS-> '.$pcr['anteriorsegment']['pupil_size'];
 
-$anteriorsegment = Yii::app()->db->createCommand()
+/*$anteriorsegment = Yii::app()->db->createCommand()
 	->select('as.*')
 	->from('episode as ep')
 	->join('event as e', 'e.episode_id = ep.id')
@@ -167,13 +167,13 @@ $anteriorsegment = Yii::app()->db->createCommand()
 	->where('ep.patient_id=:pid', array(':pid'=>$patientId))
 	->order('as.last_modified_date DESC')
 	->limit (1)
-	->queryRow();
+	->queryRow();*/
 
 //$left_eyedraw_json = ($anteriorsegment['left_eyedraw']);
 //$right_eyedraw_json =  ($anteriorsegment['right_eyedraw']);
 
-$left_eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
-$right_eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
+/*$left_eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
+$right_eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);*/
 
 /*echo '<pre>CNT->';
 echo count($left_eyedraw);
@@ -271,21 +271,29 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Age
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('age','age',array(1=>'<60',2=>'60-69',3=>'70-79',4=>'80-89',5=>'90+'), array('options' => array($pcr['age_group']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
 					PXF/ Phacodonesis
 				</label>
 			</div>
-			<div class="large-4 column">
-				<select class="dropDownTextSelection delimited">
-					<option>No</option>
-					<option>Yes</option>
-				</select>
+			<div class="large-2 column">
+				<?php
+				echo CHtml::dropDownList('pxf_phako','pxf_phako',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array($pcr['anteriorsegment']['pxf_phako']=>array('selected'=>true))));
+				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				<?php if($pcr['anteriorsegment']['pxf_phako_nk']){?>
+					<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php } ?>
+				&nbsp;
 			</div>
 		</div>
 		<div class="row field-row">
@@ -294,20 +302,27 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Gender
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($pcr['gender']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
 					Pupil Size
 				</label>
 			</div>
-			<div class="large-4 column">
+
+			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('pupil_size','pupil_size',array('Large'=>'Large','Medium'=>'Medium','Small'=>'Small'), array('options' => array($pcr['anteriorsegment']['pupil_size']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 		</div>
 
@@ -317,20 +332,26 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Glaucoma
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('glaucoma','glaucoma',array('N'=>'No Glaucoma','Y'=>'Glaucoma present'), array('options' => array($pcr['glaucoma']=>array('selected'=>true))));
+				echo CHtml::dropDownList('glaucoma','glaucoma',array('NK'=>'Not Known','N'=>'No Glaucoma','Y'=>'Glaucoma present'), array('options' => array($pcr['glaucoma']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 			<div class="large-2 column">
 				<label>
 					Axial Length (mm)
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('axial_length','axial_length',array(1=>'< 26',2=>'> or = 26'), array('options' => array($pcr['axial_length_group']=>array('selected'=>true))));
+				echo CHtml::dropDownList('axial_length','axial_length',array('NK'=>'Not Known',1=>'< 26',2=>'> or = 26'), array('options' => array($pcr['axial_length_group']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 		</div>
 
@@ -340,21 +361,26 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Diabetic
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('diabetic','diabetic',array('N'=>'No Diabetes','Y'=>'Diabetes present'), array('options' => array($pcr['diabetic']=>array('selected'=>true))));
+				echo CHtml::dropDownList('diabetic','diabetic',array('NK'=>'Not Known','N'=>'No Diabetes','Y'=>'Diabetes present'), array('options' => array($pcr['diabetic']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 			<div class="large-2 column">
 				<label>
 					Alpha receptor blocker
 				</label>
 			</div>
-			<div class="large-4 column">
-				<select>
-					<option>No</option>
-					<option>Yes</option>
-				</select>
+			<div class="large-2 column">
+				<?php
+				echo CHtml::dropDownList('arb','arb',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array('N'=>array('selected'=>true))));
+				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+					<div class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 		</div>
 
@@ -366,12 +392,12 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('no_fundal_view','no_fundal_view',array('N'=>'No','Y'=>'Yes'), array('options' => array($pcr['noview']=>array('selected'=>true))));
+				echo CHtml::dropDownList('no_fundal_view','no_fundal_view',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array($pcr['noview']=>array('selected'=>true))));
 				?>
 			</div>
-			<div class="large-2 column">
+			<div class="large-2 column pcr-nkr">
 				<?php //if(count($all_opticdiscs) == 0){?>
-						<div style="width: 140px; height:10px; top:-10px" class="alert-box alert with-icon">Not Known</div>
+						<div class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php //} ?>
 				&nbsp;
 				</div>
@@ -380,10 +406,13 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Can lie flat
 				</label>
 			</div>
-			<div class="large-4 column">
+			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('abletolieflat','abletolieflat',array('N'=>'No','Y'=>'Yes'), array('options' => array($pcr['lie_flat']=>array('selected'=>true))));
 				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 		</div>
 
@@ -393,31 +422,33 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 					Brunescent/ White Cataract
 				</label>
 			</div>
-			<div class="large-4 column">
-				<?php echo CHtml::dropDownList('Psuedoexfoliation','sex',array('N'=>'No','Y'=>'Yes'));?>
+			<div class="large-2 column">
+				<?php
+				echo CHtml::dropDownList('brunescent_white_cataract','brunescent_white_cataract',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array($pcr['anteriorsegment']['brunescent_white_cataract']=>array('selected'=>true))));
+				?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
 					Surgeon Grade
 				</label>
 			</div>
-			<div class="large-4 column">
-				<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($doctor_grade_id=>array('selected'=>true))));?>
+			<div class="large-2 column">
+				<?php  echo CHtml::dropDownList('DoctorGrade','doctor_grade_id', CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'), array('empty' => '- Select Doctor Grade -', 'options' => array($pcr['doctor_grade_id']=>array('selected'=>true))));?>
+			</div>
+			<div class="large-2 column pcr-nkr">
+				&nbsp;
 			</div>
 		</div>
-
-<!--		<div>
-			<div class="row field-row" align="center">
-				<input type="button" value="Calculate" id="et_pcr_calculate" class=" save event-action button secondary small">
-			</div>
-		</div>-->
 		<div class="row field-row">
 			<div class="large-1 column">
 				&nbsp;
 			</div>
-			<div class="large-2 column" id="pcr_risk_div" style="background-color: red;">
+			<div class="large-2 column" id="pcr-risk-div">
 				<label>
-					PCR Risk <strong> <span style="background-color: white; width: 100px; "> 6.1</span> %</strong>
+					PCR Risk <span class="pcr-span"> 6.1 </span> %
 				</label>
 			</div>
 			<div class="large-3 column">
@@ -426,20 +457,9 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 
 			<div class="large-6 column">
 				<label>
-					Excess risk compared to average eye  <span style="background-color: white;  ;"> <strong> <span> 3  </span></strong> </span> times
+					Excess risk compared to average eye  <span class="pcr-erisk"> <strong> <span> 3  </span></strong> </span> times
 				</label>
 			</div>
 		</div>
 	</div>
 </div>
-
-<script type="application/javascript">
-	$(document).ready(function() {
-		$("#et_pcr_calculate").bind("click", function (e) {
-			//$("#et_pcr_calculate").click(function() {
-			alert('PCR Cal');
-			pcrCalculate();
-		});
-	});
-
-	</script>
