@@ -1083,21 +1083,28 @@ class DefaultController extends \BaseEventTypeController
 		return parent::isRequiredInUI($element);
 	}
 
+	/**
+	 * @param $patient_id
+	 * @param $side
+	 * @return array
+	 */
+
 	public function getPCRData($patient_id, $side){
 		$pcr = array();
-		//models\OphCiExamination_Attribute::model()
 
 		$this->patient = \Patient::model()->findByPk((int) $patient_id );
 
+
 		$patientAge = $this->patient->getAge();
 
+		$ageGroup = 0;
 		if($patientAge < 60){
 			$ageGroup = 1;
-		}elseif(($patientAge >= 60)&& ($patientAge < 70)){
+		}elseif(($patientAge >= 60) && ($patientAge < 70)){
 			$ageGroup = 2;
-		}elseif(($patientAge >= 70)&& ($patientAge < 80)){
+		}elseif(($patientAge >= 70) && ($patientAge < 80)){
 			$ageGroup = 3;
-		}elseif(($patientAge >= 80)&& ($patientAge < 90)){
+		}elseif(($patientAge >= 80) && ($patientAge < 90)){
 			$ageGroup = 4;
 		}elseif(($patientAge >= 90)){
 			$ageGroup = 5;
@@ -1105,11 +1112,221 @@ class DefaultController extends \BaseEventTypeController
 
 		$gender = ucfirst($this->patient->getGenderString());
 
+		$is_diabetic = 'N';
+		if (strpos($this->patient->getSyd(),'diabetes') !== false) {
+			$is_diabetic = 'Y';
+		}
+
+		$is_glaucoma = 'N';
+		if (strpos($this->patient->getSdl(),'glaucoma') !== false) {
+			$is_glaucoma = 'Y';
+		}
+
+		$able_to_lie_flat = 'Y';
+
+		$risk = \PatientRiskAssignment::model()->findByAttributes(array("patient_id" => $patient_id));
+
+		if(is_object($risk)){
+
+			if($risk->risk_id == 1){
+				$able_to_lie_flat  = 'N';
+			}
+			else
+			{
+				$able_to_lie_flat  = 'Y';
+			}
+		}
+
+
+		$user = Yii::app()->session['user'];
+		$user_data = \User::model()->findByPk($user->id);
+		$doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];
+
+
 		$pcr['patient_id'] = $patient_id;
 		$pcr['side'] = $side;
 		$pcr['age_group'] = $ageGroup;
 		$pcr['gender'] = $gender;
+		$pcr['diabetic'] = $is_diabetic;
+		$pcr['glaucoma'] = $is_glaucoma;
+		$pcr['lie_flat'] = \OEModule\OphCiExamination\controllers\DefaultController::getCannotLieFlat($patient_id);
+
+		$no_view = 'N';
+		$no_view_data =  \OEModule\OphCiExamination\controllers\DefaultController::getOpticDisc($patient_id,$side);
+		if(count($no_view_data) >= 1)
+		{
+			$no_view = 'Y';
+		}
+		$pcr['noview'] = $no_view;
+
+		$pcr['allod'] = \OEModule\OphCiExamination\controllers\DefaultController::getOpticDisc($patient_id,$side,1);
+
+		$pcr['anteriorsegment'] = \OEModule\OphCiExamination\controllers\DefaultController::getPatientAnteriorSegment($patient_id,$side);
+		$pcr['doctor_grade_id'] = $doctor_grade_id;
+		$pcr['axial_length_group'] = \OEModule\OphCiExamination\controllers\DefaultController::getAxialLength($patient_id,$side);
 
 		return $pcr;
+	}
+
+	/**
+	 * @param $patient_id
+	 * @param $side
+	 * @param int $is_all
+	 * @return mixed
+	 */
+
+	public function getOpticDisc($patient_id, $side, $is_all=0)
+	{
+
+		$criteria = new \CDbCriteria;
+		$criteria->select = 'event.id, ophciexamination_opticdisc_cd_ratio.name';
+
+		if ($side == 'right') {
+
+			$criteria->join = 'JOIN event ON event.episode_id = t.id
+	JOIN et_ophciexamination_opticdisc ON et_ophciexamination_opticdisc.event_id = event.id
+	JOIN ophciexamination_opticdisc_cd_ratio ON et_ophciexamination_opticdisc.right_cd_ratio_id = ophciexamination_opticdisc_cd_ratio.id';
+
+		} elseif ($side == 'left') {
+
+			$criteria->join = 'JOIN event ON event.episode_id = t.id
+	JOIN et_ophciexamination_opticdisc ON et_ophciexamination_opticdisc.event_id = event.id
+	JOIN ophciexamination_opticdisc_cd_ratio ON et_ophciexamination_opticdisc.left_cd_ratio_id = ophciexamination_opticdisc_cd_ratio.id';
+
+		}
+
+
+		if($is_all)
+		{
+			$criteria->condition = 't.patient_id = :patient_id';
+			$criteria->params = array(":patient_id" => $patient_id);
+		}
+		else
+		{
+			$criteria->condition = 't.patient_id = :patient_id and ophciexamination_opticdisc_cd_ratio.name = :name';
+			$criteria->params = array(":patient_id" => $patient_id, ":name" => "No view");
+		}
+
+		$criteria->order = "et_ophciexamination_opticdisc.last_modified_date DESC";
+
+		if(!$is_all)
+			$criteria->limit = "1";
+
+		return \Episode::model()->findAll($criteria);
+
+	}
+
+	/**
+	 * @param $patient_id
+	 * @param $side
+	 * @return mixed
+	 */
+
+	public function getPatientAnteriorSegment($patient_id, $side)
+	{
+		$as['pxf_phako'] = 'N';
+		$as['pxe'] = null;
+		$as['phakodonesis']=null;
+		$as['pupil_size'] = "";
+		$as['brunescent_white_cataract'] = 'N';
+		$as['pxf_phako_nk'] = 0;
+		$anteriorsegment = Yii::app()->db->createCommand()
+			->select('as.*')
+			->from('episode as ep')
+			->join('event as e', 'e.episode_id = ep.id')
+			->join('et_ophciexamination_anteriorsegment as', 'as.event_id = e.id')
+			->where('ep.patient_id=:pid', array(':pid' => $patient_id))
+			->order('as.last_modified_date DESC')
+			->limit(1)
+			->queryRow();
+
+		if ($side == 'right') {
+			$eyedraw = json_decode($anteriorsegment['right_eyedraw'], true);
+			$as['nuclear_id'] = $anteriorsegment['right_nuclear_id'];
+			$as['cortical_id'] = $anteriorsegment['right_cortical_id'];
+			$as['phakodonesis'] = $anteriorsegment['right_phako'];
+		} elseif ($side == 'left') {
+			$eyedraw = json_decode($anteriorsegment['left_eyedraw'], true);
+			$as['nuclear_id'] = $anteriorsegment['left_nuclear_id'];
+			$as['cortical_id'] = $anteriorsegment['left_cortical_id'];
+			$as['phakodonesis'] = $anteriorsegment['left_phako'];
+		}
+
+		foreach ($eyedraw as $key => $val) {
+			if (!empty($val['pupilSize'])) {
+				$as['pupil_size'] = $val['pupilSize'];
+			}
+
+			if (!empty($val['pxe'])) {
+				$as['pxe'] = $val['pxe'];
+			}
+		}
+
+		if(($as['phakodonesis']) || ($as['pxe']))
+		{
+			$as['pxf_phako'] = 'Y';
+		}
+
+		if(is_null($as['phakodonesis']) && is_null($as['pxe']))
+		{
+			$as['pxf_phako_nk'] = 1;
+		}
+
+		if($as['nuclear_id'] == 4 && $as['cortical_id'] == 4)
+		{
+			$as['brunescent_white_cataract'] = 'Y';
+		}
+
+		return $as;
+	}
+
+	/**
+	 * @param $patient_id
+	 * @param $side
+	 */
+	public function getAxialLength($patient_id, $side)
+	{
+		$axial_length_group = 1;
+		$lenstype = Yii::app()->db->createCommand()
+			->select('as.*')
+			->from('episode as ep')
+			->join('event as e', 'e.episode_id = ep.id')
+			->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
+			->where('ep.patient_id=:pid', array(':pid' => $patient_id))
+			->order('as.last_modified_date DESC')
+			->limit(1)
+			->queryRow();
+
+		if ($side == 'right') {
+			$axial_length = $lenstype['axial_length_right'];
+		} elseif ($side == 'left') {
+			$axial_length = $lenstype['axial_length_left'];
+		}
+
+
+		if($axial_length >= 26){
+			$axial_length_group = 1;
+		}else{
+			$axial_length_group = 2;
+		}
+
+		return $axial_length_group;
+	}
+
+	public function getCannotLieFlat($patient_id)
+	{
+
+		$cnt = Yii::app()->db->createCommand()
+			->select('count(*) as cnt')
+			->from('patient_risk_assignment as prs')
+			->join('risk as r', 'r.id = prs.risk_id')
+			->where('prs.patient_id=:pid and r.name=:name', array(':pid' => $patient_id,':name' => 'Cannot Lie Flat'))
+			->queryRow();
+
+			if($cnt['cnt'] >=1)
+				$lieflat = 'N';
+			else
+				$lieflat = 'Y';
+		return $lieflat;
 	}
 }
