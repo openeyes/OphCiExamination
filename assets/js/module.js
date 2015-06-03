@@ -2178,6 +2178,12 @@ function OphCiExamination_AddAllergy(){
    }
 }
 
+function removeAllergyFromSelect( allergy_id, allergy_name ){
+    if( allergy_name != 'Other') {
+        $('#allergy_id').find("option[value='" + allergy_id + "']").remove();
+    }
+}
+
 $('#Element_OphCiExamination_AnteriorSegment_right_pupil_id').live('change',function() {
 	var eyedraw = ED.getInstance('ed_drawing_edit_right_' + $(this).closest('.element').attr('data-element-type-id'));
 	var doodle = eyedraw.firstDoodleOfClass('AntSeg');
