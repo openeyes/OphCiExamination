@@ -20,7 +20,7 @@
 <div class="sub-element-fields">
 	<div class="field-row">
 		<?php echo $form->radioButtons($element, 'eye_id', CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye::model()->findAll(),'id','name'),null,false,false,false,false,array('nowrapper'=>true))?>
-		<span class="pcr-exam-link"><a href="javascript:showhidePCR('optCiExaminationPCRRiskRightEye')">Right Eye - PCR Risk</a>&nbsp;|&nbsp;<a href="javascript:showhidePCR('optCiExaminationPCRRiskLeftEye')">Left Eye - PCR Risk </a> </span>
+		<span class="pcr-exam-link"><a href="javascript:showhidePCR('ophCiExaminationPCRRiskRightEye')">Right Eye - PCR Risk</a>&nbsp;|&nbsp;<a href="javascript:showhidePCR('ophCiExaminationPCRRiskLeftEye')">Left Eye - PCR Risk </a> </span>
 	</div>
 	<div class="field-row">
 		<?php echo $form->checkbox($element, 'city_road', array('nowrapper'=>true))?>
@@ -78,12 +78,12 @@
 		</div>
 	</div>
 </div>
-	<div id="optCiExaminationPCRRiskLeftEye" class="pcr-opnote-eye">
+	<div id="ophCiExaminationPCRRiskLeftEye" class="pcr-opnote-eye">
 		<?php
 		$this->renderPartial('form_Element_OphCiExamination_PCRRisk', array('side' => 'left', 'element' => $element));
 		?>
 	</div>
-	<div id="optCiExaminationPCRRiskRightEye" class="pcr-opnote-eye">
+	<div id="ophCiExaminationPCRRiskRightEye" class="pcr-opnote-eye">
 		<?php
 		$this->renderPartial('form_Element_OphCiExamination_PCRRisk', array('side' => 'right', 'element' => $element));
 		?>
