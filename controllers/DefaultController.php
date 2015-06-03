@@ -1164,13 +1164,15 @@ class DefaultController extends \BaseEventTypeController
 			$as['phakodonesis'] = $anteriorsegment['left_phako'];
 		}
 
-		foreach ($eyedraw as $key => $val) {
-			if (!empty($val['pupilSize'])) {
-				$as['pupil_size'] = $val['pupilSize'];
-			}
+		if(is_array($eyedraw)) {
+			foreach ($eyedraw as $key => $val) {
+				if (!empty($val['pupilSize'])) {
+					$as['pupil_size'] = $val['pupilSize'];
+				}
 
-			if (!empty($val['pxe'])) {
-				$as['pxe'] = $val['pxe'];
+				if (!empty($val['pxe'])) {
+					$as['pxe'] = $val['pxe'];
+				}
 			}
 		}
 
@@ -1198,28 +1200,37 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	public function getAxialLength($patient_id, $side)
 	{
-		$axial_length_group = 1;
-		$lenstype = Yii::app()->db->createCommand()
-			->select('as.*')
-			->from('episode as ep')
-			->join('event as e', 'e.episode_id = ep.id')
-			->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
-			->where('ep.patient_id=:pid', array(':pid' => $patient_id))
-			->order('as.last_modified_date DESC')
-			->limit(1)
-			->queryRow();
 
-		if ($side == 'right') {
-			$axial_length = $lenstype['axial_length_right'];
-		} elseif ($side == 'left') {
-			$axial_length = $lenstype['axial_length_left'];
-		}
+		if (Yii::app()->db->schema->getTable('et_ophinbiometry_lenstype',true) === null)
+		{
+			$axial_length_group = 'NK';
+		} else {
+			$lenstype = Yii::app()->db->createCommand()
+				->select('as.*')
+				->from('episode as ep')
+				->join('event as e', 'e.episode_id = ep.id')
+				->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
+				->where('ep.patient_id=:pid', array(':pid' => $patient_id))
+				->order('as.last_modified_date DESC')
+				->limit(1)
+				->queryRow();
+
+			if ($side == 'right') {
+				$axial_length = $lenstype['axial_length_right'];
+			} elseif ($side == 'left') {
+				$axial_length = $lenstype['axial_length_left'];
+			}
 
 
-		if($axial_length >= 26){
-			$axial_length_group = 1;
-		}else{
-			$axial_length_group = 2;
+			if (!empty($axial_length)) {
+				$axial_length_group = 'NK';
+			} else {
+				if ($axial_length >= 26) {
+					$axial_length_group = 1;
+				} else {
+					$axial_length_group = 2;
+				}
+			}
 		}
 
 		return $axial_length_group;
@@ -1227,7 +1238,6 @@ class DefaultController extends \BaseEventTypeController
 
 	public function getCannotLieFlat($patient_id)
 	{
-
 		$cnt = Yii::app()->db->createCommand()
 			->select('count(*) as cnt')
 			->from('patient_risk_assignment as prs')

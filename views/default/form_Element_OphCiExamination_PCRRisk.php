@@ -19,6 +19,13 @@
 
 if(!isset($side))
 	$side = 'left';
+
+if($side == 'left'){
+	$assetManager = Yii::app()->getAssetManager();
+	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
+
+	//Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
+}
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection" >
@@ -148,14 +155,14 @@ echo $books[0]['pupilSize'];
 print_r($books[0]);
 die();*/
 
-$ageGroup = $pcr['age_group'];
+/*$ageGroup = $pcr['age_group'];
 $gender = $pcr['gender'];
 $is_diabetic =  $pcr['diabetic'];
 $is_glaucoma = $pcr['glaucoma'];
 $able_to_lie_flat = $pcr['lie_flat'];
 $noview_opticdisc = $pcr['noview'];
 $all_opticdiscs = $pcr['allod'];
-$doctor_grade_id = $pcr['doctor_grade_id'];
+$doctor_grade_id = $pcr['doctor_grade_id'];*/
 
 //echo 'PS-> '.$pcr['anteriorsegment']['pupil_size'];
 
@@ -263,6 +270,8 @@ $doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];*/
 	->queryRow();
 echo 'LAL-> '.$lenstype['axial_length_left'];
 echo ' RAL-> '.$lenstype['axial_length_right'];*/
+
+
 ?>
 	<div id="left_eye_pcr">
 		<div class="row field-row">
@@ -286,12 +295,12 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('pxf_phako','pxf_phako',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array($pcr['anteriorsegment']['pxf_phako']=>array('selected'=>true))));
+				echo CHtml::dropDownList('pxf_phako','pxf_phako',array('N'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array($pcr['anteriorsegment']['pxf_phako']=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if($pcr['anteriorsegment']['pxf_phako_nk']){?>
-					<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php if(($pcr['anteriorsegment']['pxf_phako']) =='N'){?>
+					<div id='nkpxf' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>
 				&nbsp;
 			</div>
@@ -334,11 +343,13 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('glaucoma','glaucoma',array('NK'=>'Not Known','N'=>'No Glaucoma','Y'=>'Glaucoma present'), array('options' => array($pcr['glaucoma']=>array('selected'=>true))));
+				echo CHtml::dropDownList('glaucoma','glaucoma',array('N'=>'Not Known','N'=>'No Glaucoma','Y'=>'Glaucoma present'), array('options' => array($pcr['glaucoma']=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php if($pcr['glaucoma'] == 'N') { ?>
+					<div id='nkglaucoma' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -351,7 +362,9 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php if($pcr['axial_length_group'] == 'NK') { ?>
+					<div id='nkaxial' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php } ?>&nbsp;
 			</div>
 		</div>
 
@@ -363,11 +376,13 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('diabetic','diabetic',array('NK'=>'Not Known','N'=>'No Diabetes','Y'=>'Diabetes present'), array('options' => array($pcr['diabetic']=>array('selected'=>true))));
+				echo CHtml::dropDownList('diabetic','diabetic',array('N'=>'Not Known','N'=>'No Diabetes','Y'=>'Diabetes present'), array('options' => array($pcr['diabetic']=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php if($pcr['diabetic'] == 'N') { ?>
+					<div id='nkdiabetic' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -376,11 +391,11 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('arb','arb',array('NK'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array('N'=>array('selected'=>true))));
+				echo CHtml::dropDownList('arb','arb',array('N'=>'Not Known','N'=>'No','Y'=>'Yes'), array('options' => array('N'=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-					<div class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nkarb' class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 		</div>
 
@@ -396,9 +411,9 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php //if(count($all_opticdiscs) == 0){?>
-						<div class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php //} ?>
+				<?php if($pcr['noview'] == 'N') { ?>
+					<div id='nknofv' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php } ?>
 				&nbsp;
 				</div>
 			<div class="large-2 column">
