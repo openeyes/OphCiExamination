@@ -85,7 +85,7 @@ function pcrCalculate( side ){
         excessRisk = "N/A";
         pcrColor = 'white';
     }
-    $('#ophCiExaminationPCRRisk'+side+'Eye').find('#ppcr-risk-div').css('background', pcrColor);
+    $('#ophCiExaminationPCRRisk'+side+'Eye').find('#pcr-risk-div').css('background', pcrColor);
     $('#ophCiExaminationPCRRisk'+side+'Eye').find('.pcr-span').html(pcrRisk);
     $('#ophCiExaminationPCRRisk'+side+'Eye').find('.pcr-erisk').html(excessRisk);
 
