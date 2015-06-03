@@ -10,8 +10,7 @@ class m150602_155541_update_visual_function_order extends CDbMigration
 
 	public function down()
 	{
-		echo "m150602_155541_update_visual_function_order does not support migration down.\n";
-		return false;
+		return true;
 	}
 
 	/*
