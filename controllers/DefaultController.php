@@ -222,6 +222,11 @@ class DefaultController extends \BaseEventTypeController
 		}
 	}
 
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 *
+	 */
+
 	protected function setElementDefaultOptions_Element_OphCiExamination_Allergy($element, $action )
 	{
 		if($action == 'create' || $action == 'update') {
