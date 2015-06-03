@@ -310,7 +310,6 @@ echo ' RAL-> '.$lenstype['axial_length_right'];*/
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
 			</div>
-			</div>
 			<div class="large-2 column">
 				<label>
 					Pupil Size
