@@ -70,8 +70,6 @@ function calculateORValue( inputValues ){
 }
 
 function pcrCalculate( side ){
-    //alert('PCR pcrCalculate called from main');
-
     side = side.capitalizeFirstLetter();  // we use this to keep camelCase div names
 
     var pcrDataValues = collectValues( side );
@@ -94,13 +92,8 @@ function pcrCalculate( side ){
         pcrColor = 'red';
     }
 
-    $('#pcr_risk_div').css('background', pcrColor);
-    $('#pcr_risk_value').html(pcrRisk.toFixed(2));
-
-    console.log(ORValue);
-    console.log(individualRisk);
-    console.log(pcrRisk);
-
+    $('#ophCiExaminationPCRDiv'+side).find('#pcr_risk_div').css('background', pcrColor);
+    $('#ophCiExaminationPCRDiv'+side).find('#pcr_risk_value').html(pcrRisk.toFixed(2));
 }
 
 
