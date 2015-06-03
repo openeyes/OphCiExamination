@@ -64,6 +64,9 @@ function calculateORValue( inputValues ){
     OR.doctorgrade = {'1':1, '2':0.87, '3':0.36, '4':1.65, '5':1.60, '6': 3.73, '7':1};
 
     for (var key in inputValues) {
+        if( inputValues[key] == "NK" || inputValues[key] == 0){
+            return false;
+        }
         ORMultiplicated *= OR[key][inputValues[key]];
     }
     return ORMultiplicated;
@@ -73,27 +76,34 @@ function pcrCalculate( side ){
     side = side.capitalizeFirstLetter();  // we use this to keep camelCase div names
 
     var pcrDataValues = collectValues( side );
-
     var ORValue = calculateORValue( pcrDataValues );
-
-    var individualRisk = ORValue*(0.00736/(1-0.00736))/(1+(ORValue*0.00736/(1-0.00736)))*100;
-
-    var averageRiskConst = 1.92;
-
-    var pcrRisk = individualRisk / averageRiskConst;
-
+    var pcrRisk;
+    var excessRisk;
     var pcrColor;
 
-    if( pcrRisk <= 1){
-        pcrColor = 'green';
-    }else if( pcrRisk > 1 && pcrRisk <= 5 ){
-        pcrColor = 'orange';
-    }else{
-        pcrColor = 'red';
-    }
+    if( ORValue ) {
+        var pcrRisk = ORValue * (0.00736 / (1 - 0.00736)) / (1 + (ORValue * 0.00736 / (1 - 0.00736))) * 100;
+        var averageRiskConst = 1.92;
+        excessRisk = pcrRisk / averageRiskConst;
+        excessRisk = excessRisk.toFixed(2);
+        pcrRisk = pcrRisk.toFixed(2);
 
-    $('#ophCiExaminationPCRDiv'+side).find('#pcr_risk_div').css('background', pcrColor);
-    $('#ophCiExaminationPCRDiv'+side).find('#pcr_risk_value').html(pcrRisk.toFixed(2));
+        if (pcrRisk <= 1) {
+            pcrColor = 'green';
+        } else if (pcrRisk > 1 && pcrRisk <= 5) {
+            pcrColor = 'orange';
+        } else {
+            pcrColor = 'red';
+        }
+    }else{
+        pcrRisk = "";
+        excessRisk = "";
+        pcrColor = 'white';
+    }
+    $('#ophCiExaminationPCRDiv' + side).find('#pcr_risk_div').css('background', pcrColor);
+    $('#ophCiExaminationPCRDiv' + side).find('#pcr_risk_value').html(pcrRisk);
+    $('#ophCiExaminationPCRDiv' + side).find('#excess_risk_value').html(excessRisk);
+
 }
 
 

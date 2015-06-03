@@ -367,6 +367,7 @@ $lenstype = Yii::app()->db->createCommand()
 			</div>
 			<div class="large-4 column">
 				<select name="alpaReceptorBlocker">
+					<option value="NK">NK</option>
 					<option value="N">No</option>
 					<option value="Y">Yes</option>
 				</select>
@@ -456,7 +457,7 @@ $lenstype = Yii::app()->db->createCommand()
 
 			<div class="large-6 column">
 				<label>
-					Excess risk compared to average eye  <span style="background-color: white;  ;"> <strong> <span> 3  </span></strong> </span> times
+					Excess risk compared to average eye  <span style="background-color: white;  ;"> <strong> <span id="excess_risk_value"> 3  </span></strong> </span> times
 				</label>
 			</div>
 		</div>
