@@ -282,9 +282,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select class="dropDownTextSelection delimited">
-					<option>No</option>
-					<option>Yes</option>
+				<select class="dropDownTextSelection delimited" name="pxf">
+					<option value="N">No</option>
+					<option value="Y">Yes</option>
 				</select>
 			</div>
 		</div>
@@ -296,7 +296,7 @@ $lenstype = Yii::app()->db->createCommand()
 			</div>
 			<div class="large-4 column">
 				<?php
-				echo CHtml::dropDownList('Gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($gender=>array('selected'=>true))));
+				echo CHtml::dropDownList('gender','sex',array('Male'=>'Male','Female'=>'Female'), array('options' => array($gender=>array('selected'=>true))));
 				?>
 			</div>
 			<div class="large-2 column">
@@ -305,7 +305,7 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
+				<select name="pupilSize">
 					<option>Large</option>
 					<option>Medium</option>
 					<option>Small</option>
@@ -320,7 +320,7 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
+				<select name="glaucoma">
 					<?php if($is_glaucoma) { ?>
 						<option value="N">No Glaucoma</option>
 						<option selected="selected" value="Y">Glaucoma present</option>
@@ -336,9 +336,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<option> < 26 </option>
-					<option> <= 26 </option>
+				<select name="axialLength">
+					<option value="1"> < 26 </option>
+					<option value="2"> <= 26 </option>
 				</select>
 			</div>
 		</div>
@@ -350,7 +350,7 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
+				<select name="diabetic">
 					<?php if($is_diabetic) { ?>
 						<option value="N">No Diabetes</option>
 						<option selected="selected" value="Y">Diabetes present</option>
@@ -366,9 +366,9 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-4 column">
-				<select>
-					<option>No</option>
-					<option>Yes</option>
+				<select name="alpaReceptorBlocker">
+					<option value="N">No</option>
+					<option value="Y">Yes</option>
 				</select>
 			</div>
 		</div>
@@ -380,7 +380,7 @@ $lenstype = Yii::app()->db->createCommand()
 				</label>
 			</div>
 			<div class="large-2 column">
-				<select name="fundal_view" style="width: 200px">
+				<select name="fundalView">
 					<?php if(count($noview_opticdisc) >= 1) { ?>
 						<option value="N">No</option>
 						<option selected="selected" value="Y">Yes</option>
@@ -447,7 +447,7 @@ $lenstype = Yii::app()->db->createCommand()
 			</div>
 			<div class="large-2 column" id="pcr_risk_div" style="background-color: red;">
 				<label>
-					PCR Risk <strong> <span style="background-color: white; width: 100px; "> 6.1</span> %</strong>
+					PCR Risk <strong> <span id="pcr_risk_value" style="background-color: white; width: 100px; "> 6.1</span> %</strong>
 				</label>
 			</div>
 			<div class="large-3 column">
@@ -462,14 +462,3 @@ $lenstype = Yii::app()->db->createCommand()
 		</div>
 	</div>
 </div>
-
-<script type="application/javascript">
-	$(document).ready(function() {
-		$("#et_pcr_calculate").bind("click", function (e) {
-			//$("#et_pcr_calculate").click(function() {
-			alert('PCR Cal');
-			pcrCalculate();
-		});
-	});
-
-	</script>
