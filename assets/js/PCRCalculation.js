@@ -1,38 +1,22 @@
-
-
-$(document).ready( function (){
-    $('#ophCiExaminationPCRDivRight').hide();
-    $('#ophCiExaminationPCRDivLeft').hide();
-
-    $('#PCRRiskToggleRight').on('click', function(){
-        console.log('toggle right');
-        $('#ophCiExaminationPCRDivRight').toggle();
-    });
-    $('#PCRRiskToggleLeft').on('click', function(){
-        console.log('toggle left');
-        $('#ophCiExaminationPCRDivLeft').toggle();
-    });
-});
-
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 function collectValues( side ){
     var pcrdata = {};
-
-    pcrdata.age = $('#ophCiExaminationPCRDiv'+side).find("select[name='age']").val();
-    pcrdata.gender = $('#ophCiExaminationPCRDiv'+side).find("select[name='gender']").val();
-    pcrdata.glaucoma = $('#ophCiExaminationPCRDiv'+side).find("select[name='glaucoma']").val();
-    pcrdata.diabetic = $('#ophCiExaminationPCRDiv'+side).find("select[name='diabetic']").val();
-    pcrdata.fundalview = $('#ophCiExaminationPCRDiv'+side).find("select[name='fundalView']").val();
-    pcrdata.psuedoexfoliation = $('#ophCiExaminationPCRDiv'+side).find("select[name='Psuedoexfoliation']").val();
-    pcrdata.pxf = $('#ophCiExaminationPCRDiv'+side).find("select[name='pxf']").val();
-    pcrdata.pupilsize = $('#ophCiExaminationPCRDiv'+side).find("select[name='pupilSize']").val();
-    pcrdata.axiallength = $('#ophCiExaminationPCRDiv'+side).find("select[name='axialLength']").val();
-    pcrdata.alpareceptorblocker = $('#ophCiExaminationPCRDiv'+side).find("select[name='alpaReceptorBlocker']").val();
-    pcrdata.abletolieflat = $('#ophCiExaminationPCRDiv'+side).find("select[name='abletolieflat']").val();
-    pcrdata.doctorgrade = $('#ophCiExaminationPCRDiv'+side).find("select[name='DoctorGrade']").val();
+    
+    pcrdata.age = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='age']").val();
+    pcrdata.gender = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='gender']").val();
+    pcrdata.glaucoma = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='glaucoma']").val();
+    pcrdata.diabetic = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='diabetic']").val();
+    pcrdata.fundalview = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='no_fundal_view']").val();
+    pcrdata.brunescentwhitecataract = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='brunescent_white_cataract']").val();
+    pcrdata.pxf = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='pxf_phako']").val();
+    pcrdata.pupilsize = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='pupil_size']").val();
+    pcrdata.axiallength = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='axial_length']").val();
+    pcrdata.alpareceptorblocker = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='arb']").val();
+    pcrdata.abletolieflat = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='abletolieflat']").val();
+    pcrdata.doctorgrade = $('#ophCiExaminationPCRRisk'+side+'Eye').find("select[name='doctor_grade_id']").val();
 
     return pcrdata;
 }
@@ -41,12 +25,13 @@ function calculateORValue( inputValues ){
     var OR ={};
     var ORMultiplicated = 1;  // base value
 
+    // multipliers for the attributes and selected values
     OR.age = {'1':1, '2':1.14, '3':1.42, '4':1.58, '5':2.37};
     OR.gender = {'Male':1.28, 'Female':1};
     OR.glaucoma = {'Y':1.30, 'N':1};
     OR.diabetic = {'Y':1.63, 'N':1};
     OR.fundalview = {'Y':2.46, 'N':1};
-    OR.psuedoexfoliation = {'Y':2.99, 'N':1};
+    OR.brunescentwhitecataract = {'Y':2.99, 'N':1};
     OR.pxf = {'Y':2.92, 'N':1};
     OR.pupilsize = {'Small': 1.45, 'Medium':1.14, 'Large':1};
     OR.axiallength = {'1':1, '2':1.47};
@@ -100,9 +85,9 @@ function pcrCalculate( side ){
         excessRisk = "N/A";
         pcrColor = 'white';
     }
-    $('#ophCiExaminationPCRDiv' + side).find('#pcr_risk_div').css('background', pcrColor);
-    $('#ophCiExaminationPCRDiv' + side).find('#pcr_risk_value').html(pcrRisk);
-    $('#ophCiExaminationPCRDiv' + side).find('#excess_risk_value').html(excessRisk);
+    $('#ophCiExaminationPCRRisk'+side+'Eye').find('#ppcr-risk-div').css('background', pcrColor);
+    $('#ophCiExaminationPCRRisk'+side+'Eye').find('.pcr-span').html(pcrRisk);
+    $('#ophCiExaminationPCRRisk'+side+'Eye').find('.pcr-erisk').html(excessRisk);
 
 }
 

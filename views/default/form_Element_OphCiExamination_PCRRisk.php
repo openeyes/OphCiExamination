@@ -19,6 +19,15 @@
 
 if(!isset($side))
 	$side = 'left';
+
+// we need to load the JS only once...
+if($side == 'left'){
+	$assetManager = Yii::app()->getAssetManager();
+	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
+
+	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
+}
+
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element)?>_injection" >
