@@ -43,7 +43,7 @@
 						</div>
 						<div class="<?php echo $form->columns('field');?>">
 							<?php
-								$allAllergies = \Allergy::model()->findAll(array('order'=>'display_order'));
+								$allAllergies = \Allergy::model()->findAll(array('order'=>'display_order','condition'=>'active=1'));
 								echo CHtml::dropDownList('allergy_id', null, CHtml::listData($allAllergies, 'id', 'name'), array('empty' => '-- Select --'));
 							?>
 						</div>
