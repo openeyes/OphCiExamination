@@ -25,7 +25,7 @@ if ($side == 'left') {
 	$assetManager = Yii::app()->getAssetManager();
 	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
 
-	//Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
+	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
 }
 ?>
 
@@ -79,7 +79,7 @@ if ($side == 'left') {
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if (($pcr['anteriorsegment']['pxf_phako']) == 'N') { ?>
-					<div id='nkpxf' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nkpxf<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>
 				&nbsp;
 			</div>
@@ -132,7 +132,7 @@ if ($side == 'left') {
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['glaucoma'] == 'N') { ?>
-					<div id='nkglaucoma' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nkglaucoma<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
@@ -143,13 +143,13 @@ if ($side == 'left') {
 			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('axial_length', 'axial_length',
-					array('NK' => 'Not Known', 1 => '< 26', 2 => '> or = 26'),
+					array('N' => 'Not Known', 1 => '< 26', 2 => '> or = 26'),
 					array('options' => array($pcr['axial_length_group'] => array('selected' => true))));
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['axial_length_group'] == 'NK') { ?>
-					<div id='nkaxial' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nkaxial<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 		</div>
@@ -169,7 +169,7 @@ if ($side == 'left') {
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['diabetic'] == 'N') { ?>
-					<div id='nkdiabetic' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nkdiabetic<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
@@ -184,7 +184,7 @@ if ($side == 'left') {
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<div id='nkarb' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<div id='nkarb<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 		</div>
 
@@ -203,7 +203,7 @@ if ($side == 'left') {
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['noview'] == 'N') { ?>
-					<div id='nknofv' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='nknofv<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>
 				&nbsp;
 			</div>
