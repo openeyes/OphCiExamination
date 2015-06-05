@@ -912,6 +912,12 @@ class DefaultController extends \BaseEventTypeController
 		echo $result;
 	}
 
+	public function actionCreate()
+	{
+		$this->setCurrentSet();
+		parent::actionCreate();
+	}
+
 	public function getPupilliaryAbnormalitiesList($selected_id)
 	{
 		$criteria = new \CDbCriteria;
@@ -1052,12 +1058,7 @@ class DefaultController extends \BaseEventTypeController
 	 */
 	public function renderChildOptionalElements($parent_element, $action, $form=null, $data=null)
 	{
-		if (!$this->set) {
-			$firm_id = $this->firm->id;
-			$status_id = ($this->episode) ? $this->episode->episode_status_id : 1;
-			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
-			$this->set = $set;
-		}
+		$this->setCurrentSet();
 		$elements = $this->getChildOptionalElements($parent_element->getElementType());
 		$this->filterElements($elements);
 		foreach ($elements as $element) {
@@ -1081,5 +1082,19 @@ class DefaultController extends \BaseEventTypeController
 			}
 		}
 		return parent::isRequiredInUI($element);
+	}
+
+	/**
+	 * @throws models\CException
+	 */
+	protected function setCurrentSet()
+	{
+		if (!$this->set) {
+			$firm_id = $this->firm->id;
+			$status_id = ($this->episode) ? $this->episode->episode_status_id : 1;
+			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$this->set = $set;
+			$this->mandatoryElements = $set->MandatoryElementTypes;
+		}
 	}
 }
