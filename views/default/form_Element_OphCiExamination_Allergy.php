@@ -42,7 +42,10 @@
 							<label for="allergy_id">Add allergy:</label>
 						</div>
 						<div class="<?php echo $form->columns('field');?>">
-							<?php echo CHtml::dropDownList('allergy_id', null, CHtml::listData($element->allergyList($this->patient->id), 'id', 'name'), array('empty' => '-- Select --'))?>
+							<?php
+								$allAllergies = \Allergy::model()->findAll(array('order'=>'display_order','condition'=>'active=1'));
+								echo CHtml::dropDownList('allergy_id', null, CHtml::listData($allAllergies, 'id', 'name'), array('empty' => '-- Select --'));
+							?>
 						</div>
 					</div>
 					<div id="allergy_other" class="row field-row hidden">
@@ -64,7 +67,7 @@
 
 					<div class="buttons large-12 column">
 						<img src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" class="add_allergy_loader" style="display: none;" />
-						<button type="button" class="secondary small btn_save_allergy">Add</button>
+						<button type="button" class="secondary small btn_save_allergy right">Add</button>
 					</div>
 				</div>
 
@@ -83,6 +86,9 @@
 				</thead>
 				<tbody id="OphCiExamination_allergy">
 				<?php foreach ($this->allergies as $aa) { ?>
+					<script type="text/javascript">
+						removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
+					</script>
 					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
 						<td><?= CHtml::encode($aa->name) ?>
 							<input type="hidden" name="selected_allergies[]" value="<?= $aa->allergy->id ?>">
