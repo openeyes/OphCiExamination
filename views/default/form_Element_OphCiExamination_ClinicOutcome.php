@@ -40,7 +40,7 @@ if ($ticket_api = Yii::app()->moduleAPI->get('PatientTicketing')) {
 
 				foreach ($outcomes as $opt) {
 					$options = array('data-followup' => $opt->followup, 'data-ticket' => $opt->patientticket);
-					if ($opt->patientticket && !count($queues) && !isset($authRoles["Patient Tickets"])) {
+					if ($opt->patientticket && (!count($queues) || !isset($authRoles["Patient Tickets"]))) {
 						$options['disabled'] = true;
 					}
 					$html_options['options'][(string) $opt->id] = $options;
