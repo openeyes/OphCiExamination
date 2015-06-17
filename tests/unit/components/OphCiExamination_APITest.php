@@ -322,7 +322,7 @@ class OphCiExamination_APITest extends CDbTestCase
 	}
 
 	public function testGetPricipalVanHerickNoPrincipalEye(){
-		$gonio = $this->gonioscopy('gonioscopy1');
+		$gonio = $this->gonioscopy('gonioscopy2');
 
 		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
 			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))
@@ -438,7 +438,7 @@ class OphCiExamination_APITest extends CDbTestCase
 	}
 
 	public function testGetPricipalOpticDiscDescriptionNoPrincipalEye(){
-		$opticdisc = $this->optic_disc('opticdisc1');
+		$opticdisc = false;
 
 		$patient = $this->getMockBuilder('Patient')->disableOriginalConstructor()
 			->setMethods(array( 'getEpisodeForCurrentSubspecialty'))

@@ -35,4 +35,13 @@ return array(
 		'right_value' => null,
 		'left_value' => 20,
 	),
+	'cct3' => array(
+		'id' => 3,
+		'event_id' => 15,
+		'eye_id'=>2,
+		'left_method_id' => 1,
+		'right_method_id' => null,
+		'right_value' => 20,
+		'left_value' => null,
+	),
 );
