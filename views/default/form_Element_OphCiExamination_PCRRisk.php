@@ -38,16 +38,15 @@ if ($side == 'left') {
 	</div>
 	<?php
 
-	$patientId = Yii::app()->request->getParam('patient_id');
-
+	$patientId = $this->patient->id;
+	if ($patientId == "") {
+		$patientId = Yii::app()->request->getParam('patient_id');
+	}
 	if ($patientId == "") {
 		$patientId = Yii::app()->request->getParam('patientId');
-	} elseif ($patientId == "") {
-		$patientId = $this->patient->hos_num;
 	}
-
-	$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
-	//echo '<pre>'; print_r($pcr);
+	if(isset($patientId))
+		$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
 	?>
 	<div id="left_eye_pcr">
 		<div class="row field-row">
