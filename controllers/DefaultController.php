@@ -1104,7 +1104,7 @@ class DefaultController extends \BaseEventTypeController
 	 * @return array
 	 */
 
-	public function getPCRData($patient_id, $side){
+	public function getPCRData($patient_id, $side, $element){
 		$pcr = array();
 
 		$this->patient = \Patient::model()->findByPk((int) $patient_id );
@@ -1152,9 +1152,12 @@ class DefaultController extends \BaseEventTypeController
 			}
 		}
 
-
 		$user = Yii::app()->session['user'];
-		$user_data = \User::model()->findByPk($user->id);
+		$user_id = $user->id;
+		if (strpos(get_class($element),'OphTrOperationnote') !== false) {
+			$user_id = \OEModule\OphCiExamination\controllers\DefaultController::getOperationNoteSurgeonId($patient_id);
+		}
+		$user_data = \User::model()->findByPk($user_id);
 		$doctor_grade_id = $user_data['originalAttributes']['doctor_grade_id'];
 
 
@@ -1213,13 +1216,13 @@ class DefaultController extends \BaseEventTypeController
 
 		if($is_all)
 		{
-			$criteria->condition = 't.patient_id = :patient_id';
-			$criteria->params = array(":patient_id" => $patient_id);
+			$criteria->condition = 't.patient_id = :patient_id and event.deleted=:del';
+			$criteria->params = array(":patient_id" => $patient_id, ":del" => 0);
 		}
 		else
 		{
-			$criteria->condition = 't.patient_id = :patient_id and ophciexamination_opticdisc_cd_ratio.name = :name';
-			$criteria->params = array(":patient_id" => $patient_id, ":name" => "No view");
+			$criteria->condition = 't.patient_id = :patient_id and ophciexamination_opticdisc_cd_ratio.name = :name and event.deleted=:del';
+			$criteria->params = array(":patient_id" => $patient_id, ":name" => "No view", ":del" => 0);
 		}
 
 		$criteria->order = "et_ophciexamination_opticdisc.last_modified_date DESC";
@@ -1242,7 +1245,7 @@ class DefaultController extends \BaseEventTypeController
 		$as['pxf_phako'] = 'N';
 		$as['pxe'] = null;
 		$as['phakodonesis']=null;
-		$as['pupil_size'] = "";
+		$as['pupil_size'] = "Medium";
 		$as['brunescent_white_cataract'] = 'N';
 		$as['pxf_phako_nk'] = 0;
 		$anteriorsegment = Yii::app()->db->createCommand()
@@ -1250,7 +1253,7 @@ class DefaultController extends \BaseEventTypeController
 			->from('episode as ep')
 			->join('event as e', 'e.episode_id = ep.id')
 			->join('et_ophciexamination_anteriorsegment as', 'as.event_id = e.id')
-			->where('ep.patient_id=:pid', array(':pid' => $patient_id))
+			->where('ep.patient_id=:pid and e.deleted=:del', array(':pid' => $patient_id,':del' => 0))
 			->order('as.last_modified_date DESC')
 			->limit(1)
 			->queryRow();
@@ -1289,7 +1292,7 @@ class DefaultController extends \BaseEventTypeController
 			$as['pxf_phako_nk'] = 1;
 		}
 
-		if($as['nuclear_id'] == 4 && $as['cortical_id'] == 4)
+		if($as['nuclear_id'] == 4 || $as['cortical_id'] == 4)
 		{
 			$as['brunescent_white_cataract'] = 'Y';
 		}
@@ -1306,14 +1309,17 @@ class DefaultController extends \BaseEventTypeController
 
 		if (Yii::app()->db->schema->getTable('et_ophinbiometry_lenstype',true) === null)
 		{
-			$axial_length_group = 'NK';
+			$axial_length_group = 'N';
 		} else {
+
+			$axial_length_group = 'N';
+
 			$lenstype = Yii::app()->db->createCommand()
 				->select('as.*')
 				->from('episode as ep')
 				->join('event as e', 'e.episode_id = ep.id')
 				->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
-				->where('ep.patient_id=:pid', array(':pid' => $patient_id))
+				->where('ep.patient_id=:pid and e.deleted=:del', array(':pid' => $patient_id,':del' => 0))
 				->order('as.last_modified_date DESC')
 				->limit(1)
 				->queryRow();
@@ -1325,13 +1331,13 @@ class DefaultController extends \BaseEventTypeController
 			}
 
 
-			if (!empty($axial_length)) {
-				$axial_length_group = 'NK';
+			if (empty($axial_length)) {
+				$axial_length_group = 'N';
 			} else {
 				if ($axial_length >= 26) {
-					$axial_length_group = 1;
-				} else {
 					$axial_length_group = 2;
+				} else {
+					$axial_length_group = 1;
 				}
 			}
 		}
@@ -1353,5 +1359,27 @@ class DefaultController extends \BaseEventTypeController
 			else
 				$lieflat = 'Y';
 		return $lieflat;
+	}
+
+	/**
+	 * @param $patient_id
+	 */
+	public function getOperationNoteSurgeonId($patient_id)
+	{
+		$surgeon_id = 0;
+
+			$surgeon = Yii::app()->db->createCommand()
+				->select('as.*')
+				->from('episode as ep')
+				->join('event as e', 'e.episode_id = ep.id')
+				->join('et_ophtroperationnote_surgeon as', 'as.event_id = e.id')
+				->where('ep.patient_id=:pid and e.deleted=:del', array(':pid' => $patient_id,':del' => 0))
+				->order('as.last_modified_date DESC')
+				->limit(1)
+				->queryRow();
+		if(isset($surgeon['surgeon_id']))
+			$surgeon_id = $surgeon['surgeon_id'];
+
+		return $surgeon_id;
 	}
 }

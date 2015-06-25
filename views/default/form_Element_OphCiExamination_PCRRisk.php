@@ -48,7 +48,7 @@ if ($side == 'left') {
 	}
 
 if(isset($patientId))
-	$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side);
+	$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side, $element);
 	//echo '<pre>'; print_r($pcr);
 	?>
 	<div id="left_eye_pcr">
@@ -109,8 +109,11 @@ if(isset($patientId))
 
 			<div class="large-2 column">
 				<?php
+				if(trim($pcr['anteriorsegment']['pupil_size']) == ""){
+					$pcr['anteriorsegment']['pupil_size'] = "Medium";
+				}
 				echo CHtml::dropDownList('pupil_size', 'pupil_size',
-					array('Large' => 'Large', 'Medium' => 'Medium', 'Small' => 'Small'),
+					array('Large' => 'Large', 'Medium' => 'Medium','Small' => 'Small'),
 					array('options' => array($pcr['anteriorsegment']['pupil_size'] => array('selected' => true))));
 				?>
 			</div>
@@ -199,7 +202,7 @@ if(isset($patientId))
 			<div class="large-2 column">
 				<?php
 				echo CHtml::dropDownList('no_fundal_view', 'no_fundal_view',
-					array('NK' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
+					array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
 					array('options' => array($pcr['noview'] => array('selected' => true))));
 				?>
 			</div>
