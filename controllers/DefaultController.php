@@ -1330,15 +1330,10 @@ class DefaultController extends \BaseEventTypeController
 				$axial_length = $lenstype['axial_length_left'];
 			}
 
-
-			if (empty($axial_length)) {
-				$axial_length_group = 'N';
+			if ($axial_length >= 26) {
+				$axial_length_group = 2;
 			} else {
-				if ($axial_length >= 26) {
-					$axial_length_group = 2;
-				} else {
-					$axial_length_group = 1;
-				}
+				$axial_length_group = 1;
 			}
 		}
 
