@@ -273,7 +273,7 @@ class Element_OphCiExamination_Diagnoses extends \BaseEventTypeElement
 		$used_disorder_ids = array();
 		$used_finding_ids = array();
 
-		if (isset(\Yii::app()->session['selected_firm_id'])) {
+		if (isset(\Yii::app()->session['selected_firm_id']) && \Yii::app()->session['selected_firm_id'] !== null) {
 			$firm = \Firm::model()->findByPk(\Yii::app()->session['selected_firm_id']);
 			$subspecialty = $firm->serviceSubspecialtyAssignment->subspecialty;
 
