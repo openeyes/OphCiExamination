@@ -858,7 +858,6 @@ $(document).ready(function() {
         }
 		// VA can affect DR
 		OphCiExamination_DRGrading_update(side);
-        $('.va-selector').chosen();
 		e.preventDefault();
 	});
 
