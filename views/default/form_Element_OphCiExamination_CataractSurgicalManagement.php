@@ -113,6 +113,7 @@
 </div>
 <script type="text/javascript">
 	$('#OEModule_OphCiExamination_models_Element_OphCiExamination_CataractSurgicalManagement_target_postop_refraction').change(function() {
+
 		if( $(this).val() < $('#refraction_slider').slider( "option", "min") ){
 			$(this).val($('#refraction_slider').slider( "option", "min"));
 		}
@@ -122,5 +123,7 @@
 		$('#refraction_slider').slider("value", $(this).val());
 
 	});
+
 	$('#refraction_slider').after('<div style="width:410px;margin-top:-14px;margin-bottom:20px;margin-left:240px;font-size:10px;"><span>-10</span><span style="margin-left:194px;">0</span><span style="margin-left:194px;">10</span></div>');
+
 </script>
