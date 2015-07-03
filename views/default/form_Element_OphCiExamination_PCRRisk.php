@@ -27,6 +27,7 @@ if ($side == 'left') {
 
 	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
 }
+$criteria = new CDbCriteria();
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element) ?>_injection">
