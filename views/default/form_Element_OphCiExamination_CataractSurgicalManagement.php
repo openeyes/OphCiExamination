@@ -30,7 +30,26 @@
 		<?php echo $form->checkbox($element, 'satellite', array('nowrapper'=>true))?>
 		<?php echo $form->checkbox($element, 'fast_track', array('nowrapper'=>true))?>
 	</div>
-	<?php echo $form->slider($element, 'target_postop_refraction', array('min'=>-10,'max'=>10,'step'=>0.25), array(), array('label' => 3, 'field' => 6))?>
+
+	<?php echo $form->textfield($element, 'target_postop_refraction', array(), array(), array('label' => 3, 'field' => 1));
+		$this->widget('zii.widgets.jui.CJuiSliderInput',array(
+			'name'=>'refraction',
+			'value'=>$element->target_postop_refraction,
+			'event'=>'change',
+			'attribute'=>'value',
+			// additional javascript options for the slider plugin
+			'options'=>array(
+				'min'=>-10,
+				'max'=>10,
+				'step'=>0.25,
+				'animate'=>true,
+				'slide'=>'js:function(event,ui){$("#OEModule_OphCiExamination_models_Element_OphCiExamination_CataractSurgicalManagement_target_postop_refraction").val(ui.value);}',
+			),
+			'htmlOptions'=>array(
+				'style'=>'height:10px; width:400px;margin-top:-10px;margin-bottom:20px;margin-left:250px;',
+			),
+		));
+	?>
 	<?php echo $form->radioBoolean($element, 'correction_discussed', array(), array('label' => 3, 'field' => 9))?>
 	<div class="row field-row">
 		<div class="large-3 column">
@@ -92,3 +111,19 @@
 		?>
 	</div>
 </div>
+<script type="text/javascript">
+	$('#OEModule_OphCiExamination_models_Element_OphCiExamination_CataractSurgicalManagement_target_postop_refraction').change(function() {
+
+		if( $(this).val() < $('#refraction_slider').slider( "option", "min") ){
+			$(this).val($('#refraction_slider').slider( "option", "min"));
+		}
+		if($(this).val() > $('#refraction_slider').slider( "option", "max")){
+			$(this).val($('#refraction_slider').slider( "option", "max"));
+		}
+		$('#refraction_slider').slider("value", $(this).val());
+
+	});
+
+	$('#refraction_slider').after('<div style="width:410px;margin-top:-14px;margin-bottom:20px;margin-left:240px;font-size:10px;"><span>-10</span><span style="margin-left:194px;">0</span><span style="margin-left:194px;">10</span></div>');
+
+</script>
