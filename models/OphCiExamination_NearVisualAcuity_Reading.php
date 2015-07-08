@@ -24,6 +24,15 @@ namespace OEModule\OphCiExamination\models;
 class OphCiExamination_NearVisualAcuity_Reading extends OphCiExamination_VisualAcuity_Reading
 {
 
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return OphCiExamination_VisualAcuity_Reading the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	public function tableName()
 	{
 		return 'ophciexamination_nearvisualacuity_reading';
