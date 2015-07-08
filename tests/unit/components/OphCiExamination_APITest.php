@@ -47,7 +47,7 @@ class OphCiExamination_APITest extends CDbTestCase
 		'iop_value' => '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'optic_disc' => '\OEModule\OphCiExamination\models\Element_OphCiExamination_OpticDisc',
 		'episode'=> 'Episode',
-
+		'event_type' => 'EventType',
 		'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
 		'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
 		'instrument'=> '\OEModule\OphCiExamination\models\OphCiExamination_Instrument',
@@ -777,6 +777,10 @@ class OphCiExamination_APITest extends CDbTestCase
 		$api->expects($this->any())
 			->method('getModuleClass')
 			->will($this->returnValue('OphCiExamination'));
+
+		$api->expects($this->any())
+			->method('getEventType')
+			->will($this->returnValue($this->event_type('event_type3')));
 
 		$iopTable = $api->getIOPValuesAsTable($patient);
 		$expected  = '<table><tr><th class="large-6">RE [20]</th><th class="large-6">LE [NR]</th></tr><tr><td>6:Gold</td>'.
