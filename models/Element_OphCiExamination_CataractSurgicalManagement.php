@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
+
 use Yii;
 
 /**
@@ -32,152 +33,152 @@ use Yii;
 
 class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventTypeElement
 {
-	public $service;
+    public $service;
 
-	protected $auto_update_relations = true;
+    protected $auto_update_relations = true;
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_CataractSurgicalManagement the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return Element_OphCiExamination_CataractSurgicalManagement the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_cataractsurgicalmanagement';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_cataractsurgicalmanagement';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id, reasonForSurgery', 'safe'),
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'required'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+                array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id, reasonForSurgery', 'safe'),
+                array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'required'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
-				'eye' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
-				'reasonForSurgery' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery', 'et_ophciexamination_cataractsurgicalmanagement_surgery_reasons(cataractsurgicalmanagement_id,primary_reason_for_surgery_id)'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+                'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+                'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+                'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+                'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+                'suitable_for_surgeon' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
+                'eye' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
+                'reasonForSurgery' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery', 'et_ophciexamination_cataractsurgicalmanagement_surgery_reasons(cataractsurgicalmanagement_id,primary_reason_for_surgery_id)'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'city_road' => 'At City Road',
-				'satellite' => 'At Satellite',
-				'fast_track' => 'Straightforward case',
-				'target_postop_refraction' => 'Post operative refractive target in dioptres',
-				'correction_discussed' => 'The post operative refractive target has been discussed with the patient',
-				'suitable_for_surgeon_id' => 'Suitable for surgeon',
-				'supervised' => 'Supervised',
-				'previous_refractive_surgery' => 'Previous refractive surgery',
-				'vitrectomised_eye' => 'Vitrectomised eye',
-				'eye_id' => 'Eye',
-				'reason_for_surgery_id' => 'Primary Reason For Surgery'
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+                'id' => 'ID',
+                'event_id' => 'Event',
+                'city_road' => 'At City Road',
+                'satellite' => 'At Satellite',
+                'fast_track' => 'Straightforward case',
+                'target_postop_refraction' => 'Post operative refractive target in dioptres',
+                'correction_discussed' => 'The post operative refractive target has been discussed with the patient',
+                'suitable_for_surgeon_id' => 'Suitable for surgeon',
+                'supervised' => 'Supervised',
+                'previous_refractive_surgery' => 'Previous refractive surgery',
+                'vitrectomised_eye' => 'Vitrectomised eye',
+                'eye_id' => 'Eye',
+                'reason_for_surgery_id' => 'Primary Reason For Surgery'
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria = new \CDbCriteria;
+        $criteria = new \CDbCriteria;
 
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('description', $this->description);
+        $criteria->compare('description', $this->description);
 
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+        ));
+    }
 
-	public function getLetter_string()
-	{
-		$text = array();
+    public function getLetter_string()
+    {
+        $text = array();
 
-		if ($this->city_road) {
-			$text[]= "at City Road";
-		}
-		if ($this->satellite) {
-			$text[] = "at satellite";
-		}
-		if ($this->fast_track) {
-			$text[] = "straightforward case";
-		}
-		$text[] = "target post-op refraction: ".$this->target_postop_refraction;
+        if ($this->city_road) {
+            $text[]= "at City Road";
+        }
+        if ($this->satellite) {
+            $text[] = "at satellite";
+        }
+        if ($this->fast_track) {
+            $text[] = "straightforward case";
+        }
+        $text[] = "target post-op refraction: ".$this->target_postop_refraction;
 
-		if ($this->correction_discussed) {
-			$text[] = "refractive correction discussed with patient";
-		}
+        if ($this->correction_discussed) {
+            $text[] = "refractive correction discussed with patient";
+        }
 
-		$text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
+        $text[] = "suitable for ".$this->suitable_for_surgeon->name.' ('.($this->supervised ? 'supervised' : 'unsupervised').')';
 
-		return "Cataract management: ".implode(', ',$text)."\n";
-	}
+        return "Cataract management: ".implode(', ', $text)."\n";
+    }
 
-	public function getPrint_view()
-	{
-		return 'print_'.$this->getDefaultView();
-	}
+    public function getPrint_view()
+    {
+        return 'print_'.$this->getDefaultView();
+    }
 
-	public function canCopy()
-	{
-		return true;
-	}
+    public function canCopy()
+    {
+        return true;
+    }
 
-	public function setDefaultOptions()
-	{
-		if (in_array(Yii::app()->getController()->getAction()->id,array('created','ElementForm'))) {
-			if ($api = Yii::app()->moduleAPI->get('OphTrOperationnote')) {
-				if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
-					throw new Exception("Patient not found: ".@$_GET['patient_id']);
-				}
+    public function setDefaultOptions()
+    {
+        if (in_array(Yii::app()->getController()->getAction()->id, array('created', 'ElementForm'))) {
+            if ($api = Yii::app()->moduleAPI->get('OphTrOperationnote')) {
+                if (!$patient = \Patient::model()->findByPk(@$_GET['patient_id'])) {
+                    throw new Exception("Patient not found: ".@$_GET['patient_id']);
+                }
 
-				if ($api->getOpnoteWithCataractElementInCurrentEpisode($patient)) {
-					$this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?',array('Second eye'))->id;
-				} else {
-					$this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?',array('First eye'))->id;
-				}
-			}
-		}
-	}
+                if ($api->getOpnoteWithCataractElementInCurrentEpisode($patient)) {
+                    $this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?', array('Second eye'))->id;
+                } else {
+                    $this->eye_id = OphCiExamination_CataractSurgicalManagement_Eye::model()->find('name=?', array('First eye'))->id;
+                }
+            }
+        }
+    }
 }

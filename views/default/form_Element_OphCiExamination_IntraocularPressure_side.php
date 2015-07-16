@@ -18,8 +18,11 @@
  */
 
 use OEModule\OphCiExamination\models;
+
 ?>
-	<table id="<?= CHtml::modelName($element) . "_readings_" . $side ?>"<?php if (!$element->{"{$side}_values"}) echo ' class="hidden"'; ?>>
+	<table id="<?= CHtml::modelName($element) . "_readings_" . $side ?>"<?php if (!$element->{"{$side}_values"}) {
+    echo ' class="hidden"';
+} ?>>
 		<thead>
 			<tr>
 				<th width="76">Time</th>
@@ -32,20 +35,20 @@ use OEModule\OphCiExamination\models;
 		</thead>
 		<tbody>
 			<?php
-				foreach ($element->{"{$side}_values"} as $index => $value) {
-					$this->renderPartial(
-						"{$element->form_view}_reading",
-						array(
-							"element" => $element,
-							"form" => $form,
-							"side" => $side,
-							"index" => $index,
-							"time" => substr($value->reading_time, 0, 5),
-							"value" => $value,
-						)
-					);
-				}
-			?>
+                foreach ($element->{"{$side}_values"} as $index => $value) {
+                    $this->renderPartial(
+                        "{$element->form_view}_reading",
+                        array(
+                            "element" => $element,
+                            "form" => $form,
+                            "side" => $side,
+                            "index" => $index,
+                            "time" => substr($value->reading_time, 0, 5),
+                            "value" => $value,
+                        )
+                    );
+                }
+            ?>
 		</tbody>
 	</table>
 	<div class="field-row">
@@ -56,18 +59,18 @@ use OEModule\OphCiExamination\models;
 	</div>
 	<script type="text/template" id="<?= CHtml::modelName($element) . "_reading_template_" . $side ?>" class="hidden">
 		<?php
-			$this->renderPartial(
-				"{$element->form_view}_reading",
-				array(
-					"element" => $element,
-					"form" => $form,
-					"side" => $side,
-					"index" => "{{index}}",
-					"time" => "{{time}}",
-					"value" => new models\OphCiExamination_IntraocularPressure_Value,
-				)
-			);
-		?>
+            $this->renderPartial(
+                "{$element->form_view}_reading",
+                array(
+                    "element" => $element,
+                    "form" => $form,
+                    "side" => $side,
+                    "index" => "{{index}}",
+                    "time" => "{{time}}",
+                    "value" => new models\OphCiExamination_IntraocularPressure_Value,
+                )
+            );
+        ?>
 	</script>
 
 

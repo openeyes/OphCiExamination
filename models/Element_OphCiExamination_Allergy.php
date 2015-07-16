@@ -18,37 +18,37 @@
  */
 
 namespace OEModule\OphCiExamination\models;
-use Yii;
 
+use Yii;
 
 class Element_OphCiExamination_Allergy extends \PatientAllergyAssignment
 {
+    public function rules()
+    {
+        return array(
+            array('event_id, no_allergies' ,'safe')
+        );
+    }
 
-	public function rules()
-	{
-		return array(
-			array('event_id, no_allergies' ,'safe')
-		);
-	}
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id')
+        );
+    }
 
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id')
-		);
-	}
+    // we are using custom save methods in DefaultController
+    public function __set($name, $value)
+    {
+        return true;
+    }
 
-	// we are using custom save methods in DefaultController
-	public function __set ($name, $value){
-		return true;
-	}
-
-	// the saveComplexAttributes_Element_OphCiExamination_History function is
-	// responsible for saving in the DefaultController
-	public function save( $validation = false, $attributes = NULL, $allow_overriding=false){
-		return true;
-	}
-
+    // the saveComplexAttributes_Element_OphCiExamination_History function is
+    // responsible for saving in the DefaultController
+    public function save($validation = false, $attributes = null, $allow_overriding=false)
+    {
+        return true;
+    }
 }

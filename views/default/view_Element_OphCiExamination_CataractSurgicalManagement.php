@@ -107,11 +107,11 @@
 					</td>
 					<td>
 						<?php
-						if( $element->reasonForSurgery) {
-							foreach($element->reasonForSurgery as $reason){
-								echo $reason->name . '<br />';
-							}
-						}?>
+                        if ($element->reasonForSurgery) {
+                            foreach ($element->reasonForSurgery as $reason) {
+                                echo $reason->name . '<br />';
+                            }
+                        }?>
 					</td>
 				</tr>
 			</tbody>

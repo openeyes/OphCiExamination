@@ -31,54 +31,54 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_AttributeOption extends \BaseActiveRecordVersioned
 {
-	const SELECTION_LABEL_FIELD = 'value';
+    const SELECTION_LABEL_FIELD = 'value';
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_attribute_option';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_attribute_option';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-			array('value, delimiter', 'required'),
-			array('id, value, delimiter', 'safe', 'on'=>'search'),
-			array('subspecialty_id, attribute_element_id','numerical', 'integerOnly'=>true)
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+            array('value, delimiter', 'required'),
+            array('id, value, delimiter', 'safe', 'on'=>'search'),
+            array('subspecialty_id, attribute_element_id','numerical', 'integerOnly'=>true)
+        );
+    }
 
-	public function getLabel()
-	{
-		return ucfirst($this->value);
-	}
+    public function getLabel()
+    {
+        return ucfirst($this->value);
+    }
 
-	public function getSlug()
-	{
-		return $this->value . $this->delimiter . ' ';
-	}
+    public function getSlug()
+    {
+        return $this->value . $this->delimiter . ' ';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'attribute_element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_element_id'),
-				'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+                'attribute_element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_element_id'),
+                'subspecialty' => array(self::BELONGS_TO, 'Subspecialty', 'subspecialty_id'),
+        );
+    }
 
-	public function attributeLabels()
-	{
-		return array(
-			'attribute_element_id' => 'Element Attribute',
-			'subspecialty_id' => 'Subspecialty',
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'attribute_element_id' => 'Element Attribute',
+            'subspecialty_id' => 'Subspecialty',
+        );
+    }
 }

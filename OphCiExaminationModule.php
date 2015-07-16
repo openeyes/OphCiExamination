@@ -21,5 +21,5 @@ namespace OEModule\OphCiExamination;
 
 class OphCiExaminationModule extends \BaseEventTypeModule
 {
-	public $controllerNamespace = '\OEModule\OphCiExamination\controllers';
+    public $controllerNamespace = '\OEModule\OphCiExamination\controllers';
 }

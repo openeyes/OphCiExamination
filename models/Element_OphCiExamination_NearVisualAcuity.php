@@ -20,101 +20,97 @@
 
 namespace OEModule\OphCiExamination\models;
 
-
 class Element_OphCiExamination_NearVisualAcuity extends Element_OphCiExamination_VisualAcuity
 {
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_nearvisualacuity';
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_nearvisualacuity';
-	}
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+            'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+            'unit' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit', 'unit_id', 'on' => 'unit.is_near = 1'),
+            'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id'),
+            'right_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = ' . OphCiExamination_VisualAcuity_Reading::RIGHT),
+            'left_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = ' . OphCiExamination_VisualAcuity_Reading::LEFT),
+        );
+    }
 
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'unit' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit', 'unit_id', 'on' => 'unit.is_near = 1'),
-			'readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id'),
-			'right_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id', 'on' => 'right_readings.side = ' . OphCiExamination_VisualAcuity_Reading::RIGHT),
-			'left_readings' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading', 'element_id', 'on' => 'left_readings.side = ' . OphCiExamination_VisualAcuity_Reading::LEFT),
-		);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * returns the default letter string for the va readings. Converts all readings to Snellen Metre
+     * as this is assumed to be the standard for correspondence.
+     *
+     * @TODO: The units for correspondence should become a configuration variable
+     *
+     * @throws Exception
+     * @return string
+     */
+    public function getLetter_string()
+    {
+        if (!$unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array(Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']))) {
+            throw new Exception("Configured visual acuity correspondence unit was not found: ".Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']);
+        }
 
-	/**
-	 * returns the default letter string for the va readings. Converts all readings to Snellen Metre
-	 * as this is assumed to be the standard for correspondence.
-	 *
-	 * @TODO: The units for correspondence should become a configuration variable
-	 *
-	 * @throws Exception
-	 * @return string
-	 */
-	public function getLetter_string()
-	{
-		if (!$unit = OphCiExamination_VisualAcuityUnit::model()->find('name = ?', array(Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']))) {
-			throw new Exception("Configured visual acuity correspondence unit was not found: ".Yii::app()->params['ophciexamination_visualacuity_correspondence_unit']);
-		}
+        $text = "Near Visual acuity:\n";
 
-		$text = "Near Visual acuity:\n";
+        if ($this->hasRight()) {
+            $text .= "Right Eye: ";
+            if ($this->getCombined('right')) {
+                $text .= $this->getCombined('right', $unit->id);
+            } else {
+                $text .= $this->getTextForSide('right');
+            }
+        } else {
+            $text .= "Right Eye: not recorded";
+        }
+        $text .= "\n";
 
-		if ($this->hasRight()) {
-			$text .= "Right Eye: ";
-			if ($this->getCombined('right')) {
-				$text .= $this->getCombined('right', $unit->id);
-			} else {
-				$text .= $this->getTextForSide('right');
-			}
-		}
-		else {
-			$text .= "Right Eye: not recorded";
-		}
-		$text .= "\n";
+        if ($this->hasLeft()) {
+            $text .= "Left Eye: ";
+            if ($this->getCombined('left')) {
+                $text .= $this->getCombined('left', $unit->id);
+            } else {
+                $text .= $this->getTextForSide('left');
+            }
+        } else {
+            $text .= "Left Eye: not recorded";
+        }
 
-		if ($this->hasLeft()) {
-			$text .= "Left Eye: ";
-			if ($this->getCombined('left')) {
-				$text .= $this->getCombined('left', $unit->id);
-			} else {
-				$text .= $this->getTextForSide('left');
-			}
-		}
-		else {
-			$text .= "Left Eye: not recorded";
-		}
+        return $text."\n";
+    }
 
-		return $text."\n";
-	}
-
-	public function setDefaultOptions()
-	{
-		$this->unit_id = $this->getSetting('unit_id');
-		if ($rows = $this->getSetting('default_rows')) {
-			$left_readings = array();
-			$right_readings = array();
-			for ($i = 0; $i < $rows; $i++) {
-				$left_readings[]  = new OphCiExamination_NearVisualAcuity_Reading();
-				$right_readings[]  = new OphCiExamination_NearVisualAcuity_Reading();
-			}
-			$this->left_readings = $left_readings;
-			$this->right_readings = $right_readings;
-		}
-	}
+    public function setDefaultOptions()
+    {
+        $this->unit_id = $this->getSetting('unit_id');
+        if ($rows = $this->getSetting('default_rows')) {
+            $left_readings = array();
+            $right_readings = array();
+            for ($i = 0; $i < $rows; $i++) {
+                $left_readings[]  = new OphCiExamination_NearVisualAcuity_Reading();
+                $right_readings[]  = new OphCiExamination_NearVisualAcuity_Reading();
+            }
+            $this->left_readings = $left_readings;
+            $this->right_readings = $right_readings;
+        }
+    }
 }

@@ -33,187 +33,192 @@ namespace OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_IntraocularPressure extends \SplitEventTypeElement
 {
-	public $service;
+    public $service;
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_intraocularpressure';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_intraocularpressure';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-			array('eye_id', 'required'),
-			array('eye_id, left_comments, right_comments', 'safe'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+            array('eye_id', 'required'),
+            array('eye_id, left_comments, right_comments', 'safe'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-			'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
-			'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
-			'right_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_integer_values.eye_id = ' . \Eye::RIGHT. ' and right_integer_values.reading_id is not null'),
-			'left_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_integer_values.eye_id = ' . \Eye::LEFT . ' and left_integer_values.reading_id is not null'),
-			'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.qualitative_reading_id is not null'),
-			'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::LEFT . ' and left_qualitative_values.qualitative_reading_id is not null'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+            'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+            'right_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_values.eye_id = ' . \Eye::RIGHT),
+            'left_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_values.eye_id = ' . \Eye::LEFT),
+            'right_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_integer_values.eye_id = ' . \Eye::RIGHT. ' and right_integer_values.reading_id is not null'),
+            'left_integer_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_integer_values.eye_id = ' . \Eye::LEFT . ' and left_integer_values.reading_id is not null'),
+            'right_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'right_qualitative_values.eye_id = ' . \Eye::RIGHT . ' and right_qualitative_values.qualitative_reading_id is not null'),
+            'left_qualitative_values' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', 'element_id', 'on' => 'left_qualitative_values.eye_id = ' . \Eye::LEFT . ' and left_qualitative_values.qualitative_reading_id is not null'),
+        );
+    }
 
-	public function setDefaultOptions()
-	{
-		if ($rows = $this->getSetting('default_rows')) {
-			$left_values = array();
-			$right_values = array();
-			for ($i = 0; $i < $rows; $i++) {
-				$left_values[]  = new OphCiExamination_IntraocularPressure_Value();
-				$right_values[]  = new OphCiExamination_IntraocularPressure_Value();
-			}
-			$this->left_values = $left_values;
-			$this->right_values = $right_values;
-		}
-	}
+    public function setDefaultOptions()
+    {
+        if ($rows = $this->getSetting('default_rows')) {
+            $left_values = array();
+            $right_values = array();
+            for ($i = 0; $i < $rows; $i++) {
+                $left_values[]  = new OphCiExamination_IntraocularPressure_Value();
+                $right_values[]  = new OphCiExamination_IntraocularPressure_Value();
+            }
+            $this->left_values = $left_values;
+            $this->right_values = $right_values;
+        }
+    }
 
-	public function afterValidate()
-	{
-		foreach (array('right' => 'hasRight', 'left' => 'hasLeft') as $side => $checker) {
-			if ($this->$checker()) {
-				if ($this->{"{$side}_values"}) {
-					foreach ($this->{"{$side}_values"} as $value) {
-						if (!$value->validate()) {
-							foreach ($value->getErrors() as $field => $errors) {
-								foreach ($errors as $error) {
-									$this->addError("{$side}_values.{$field}", $error);
-								}
-							}
-						}
-					}
-				} else {
-					if (!$this->{"{$side}_comments"}) {
-						$this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
-					}
-				}
-			}
-		}
-	}
+    public function afterValidate()
+    {
+        foreach (array('right' => 'hasRight', 'left' => 'hasLeft') as $side => $checker) {
+            if ($this->$checker()) {
+                if ($this->{"{$side}_values"}) {
+                    foreach ($this->{"{$side}_values"} as $value) {
+                        if (!$value->validate()) {
+                            foreach ($value->getErrors() as $field => $errors) {
+                                foreach ($errors as $error) {
+                                    $this->addError("{$side}_values.{$field}", $error);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (!$this->{"{$side}_comments"}) {
+                        $this->addError("{$side}_comments", "Comments are required when no readings are recorded ($side)");
+                    }
+                }
+            }
+        }
+    }
 
-	public function beforeDelete()
-	{
-		OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($this->id));
+    public function beforeDelete()
+    {
+        OphCiExamination_IntraocularPressure_Value::model()->deleteAll("element_id = ?", array($this->id));
 
-		return parent::beforeDelete();
-	}
+        return parent::beforeDelete();
+    }
 
-	public function getLetter_reading($side)
-	{
-		$reading = $this->getReading($side);
+    public function getLetter_reading($side)
+    {
+        $reading = $this->getReading($side);
 
-		if (!$reading) {
-			if ($this->{"{$side}_qualitative_values"}) {
-				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
-			}
+        if (!$reading) {
+            if ($this->{"{$side}_qualitative_values"}) {
+                return 'Qualitative readings: '.implode(',', $this->getQualitativeReadings($side));
+            }
 
-			return 'Not recorded';
-		}
+            return 'Not recorded';
+        }
 
-		$return = "{$reading} mmHg" . ($this->isReadingAverage($side) ? ' (average)' : '');
+        $return = "{$reading} mmHg" . ($this->isReadingAverage($side) ? ' (average)' : '');
 
-		if ($this->{"{$side}_qualitative_values"}) {
-			$return .= ', qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
-		}
+        if ($this->{"{$side}_qualitative_values"}) {
+            $return .= ', qualitative readings: '.implode(',', $this->getQualitativeReadings($side));
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	public function getLetter_reading_first($side)
-	{
-		$reading = $this->getFirstReading($side);
+    public function getLetter_reading_first($side)
+    {
+        $reading = $this->getFirstReading($side);
 
-		if (!$reading) {
-			if ($this->{"{$side}_qualitative_values"}) {
-				return 'Qualitative readings: '.implode(',',$this->getQualitativeReadings($side));
-			}
+        if (!$reading) {
+            if ($this->{"{$side}_qualitative_values"}) {
+                return 'Qualitative readings: '.implode(',', $this->getQualitativeReadings($side));
+            }
 
-			return 'Not recorded';
-		}
+            return 'Not recorded';
+        }
 
-		return "{$reading} mmHg";
-	}
+        return "{$reading} mmHg";
+    }
 
-	public function getFirstReading($side)
-	{
-		if (!$values = $this->{"{$side}_integer_values"}) return null;
-		return $values[0]->reading->value;
-	}
+    public function getFirstReading($side)
+    {
+        if (!$values = $this->{"{$side}_integer_values"}) {
+            return null;
+        }
+        return $values[0]->reading->value;
+    }
 
-	public function getQualitativeReadings($side)
-	{
-		if ($this->{"{$side}_qualitative_values"}) {
-			$qualitative_values = array();
+    public function getQualitativeReadings($side)
+    {
+        if ($this->{"{$side}_qualitative_values"}) {
+            $qualitative_values = array();
 
-			foreach ($this->{"{$side}_qualitative_values"} as $value) {
-				$qualitative_values[] = $value->qualitative_reading->name;
-			}
-			return $qualitative_values;
-		}
+            foreach ($this->{"{$side}_qualitative_values"} as $value) {
+                $qualitative_values[] = $value->qualitative_reading->name;
+            }
+            return $qualitative_values;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function getReading($side)
-	{
-		if (!$values = $this->{"{$side}_integer_values"}) return null;
+    public function getReading($side)
+    {
+        if (!$values = $this->{"{$side}_integer_values"}) {
+            return null;
+        }
 
-		$sum = 0;
-		foreach ($values as $value) {
-			if ($value->reading) {
-				$sum += $value->reading->value;
-			}
-		}
-		return round($sum / count($values)) ;
-	}
+        $sum = 0;
+        foreach ($values as $value) {
+            if ($value->reading) {
+                $sum += $value->reading->value;
+            }
+        }
+        return round($sum / count($values)) ;
+    }
 
-	/**
-	 * @param string $side
-	 * @return boolean
-	 */
-	public function isReadingAverage($side)
-	{
-		return (count($this->{"{$side}_values"}) > 1);
-	}
+    /**
+     * @param string $side
+     * @return boolean
+     */
+    public function isReadingAverage($side)
+    {
+        return (count($this->{"{$side}_values"}) > 1);
+    }
 
-	public function getLetter_string()
-	{
-		return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
-	}
+    public function getLetter_string()
+    {
+        return "Intra-ocular pressure:\nright: ".$this->getLetter_reading('right')."\nleft: ".$this->getLetter_reading('left')."\n";
+    }
 
-	public function canViewPrevious()
-	{
-		return true;
-	}
-	public function getValues(){
-		return array('right'=> $this->right_values, 'left'=>$this->left_values);
-	}
+    public function canViewPrevious()
+    {
+        return true;
+    }
+    public function getValues()
+    {
+        return array('right'=> $this->right_values, 'left'=>$this->left_values);
+    }
 }

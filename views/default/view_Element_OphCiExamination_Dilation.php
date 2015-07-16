@@ -20,7 +20,8 @@
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
 		<div class="data-row">
-			<?php if ($element->hasRight()) {?>
+			<?php if ($element->hasRight()) {
+    ?>
 				<table class="element-table">
 					<thead>
 						<tr>
@@ -30,23 +31,33 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($element->right_treatments as $treatment) {?>
+						<?php foreach ($element->right_treatments as $treatment) {
+    ?>
 							<tr>
 								<td><?php echo date('H:i', strtotime($treatment->treatment_time))?></td>
 								<td><?php echo $treatment->drug->name?></td>
-								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {?>s<?php }?></td>
+								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {
+    ?>s<?php 
+}
+    ?></td>
 							</tr>
-						<?php }?>
+						<?php 
+}
+    ?>
 					</tbody>
 				</table>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">None given</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="data-row">
-			<?php if ($element->hasLeft()) {?>
+			<?php if ($element->hasLeft()) {
+    ?>
 				<table class="element-table">
 					<thead>
 						<tr>
@@ -56,18 +67,27 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($element->left_treatments as $treatment) {?>
+						<?php foreach ($element->left_treatments as $treatment) {
+    ?>
 							<tr>
 								<td><?php echo date('H:i', strtotime($treatment->treatment_time))?></td>
 								<td><?php echo $treatment->drug->name?></td>
-								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {?>s<?php }?></td>
+								<td><?php echo $treatment->drops?> drop<?php if ($treatment->drops != 1) {
+    ?>s<?php 
+}
+    ?></td>
 							</tr>
-						<?php }?>
+						<?php 
+}
+    ?>
 					</tbody>
 				</table>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">None given</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 </div>

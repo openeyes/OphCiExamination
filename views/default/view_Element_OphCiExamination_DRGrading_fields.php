@@ -53,7 +53,8 @@
 		</div>
 	</div>
 </div>
-<?php if ($element->{$side.'_clinicalmac'}) {?>
+<?php if ($element->{$side.'_clinicalmac'}) {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -66,7 +67,8 @@
 			</div>
 		</div>
 	</div>
-<?php }?>
+<?php 
+}?>
 <div class="row data-row">
 	<div class="large-4 column">
 		<div class="data-label">

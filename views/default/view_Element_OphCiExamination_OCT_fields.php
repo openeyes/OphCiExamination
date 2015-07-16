@@ -62,12 +62,12 @@
 	<div class="large-8 column">
 		<div class="data-value">
 			<?php
-				if ($element->{$side . '_thickness_increase'} === null) {
-					echo "Not recorded";
-				} else {
-					echo $element->{$side . '_thickness_increase'} ? 'Yes' : 'No';
-				}
-			?>
+                if ($element->{$side . '_thickness_increase'} === null) {
+                    echo "Not recorded";
+                } else {
+                    echo $element->{$side . '_thickness_increase'} ? 'Yes' : 'No';
+                }
+            ?>
 		</div>
 	</div>
 </div>
@@ -79,7 +79,8 @@
 		<div class="data-value"><?php echo $element->{'get' . ucfirst($side) . 'FluidString'}();?></div>
 	</div>
 </div>
-<?php if ($element->{$side . '_comments'}) { ?>
+<?php if ($element->{$side . '_comments'}) {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side . '_comments') ?>:</div>
@@ -88,4 +89,5 @@
 			<div class="data-value"><?= Yii::app()->format->Ntext($element->{"{$side}_comments"}) ?></div>
 		</div>
 	</div>
-<?php }
+<?php 
+}

@@ -21,7 +21,7 @@
 $key = 0;
 $method_values = array();
 foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::model()->findAll() as $method) {
-	$method_values[] = "'" . $method->id . "' : " . json_encode(CHtml::listData($method->values, 'id', 'name'));
+    $method_values[] = "'" . $method->id . "' : " . json_encode(CHtml::listData($method->values, 'id', 'name'));
 }
 
 ?>
@@ -32,16 +32,22 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 		};
 	</script>
 	<?php echo $form->hiddenField($element, 'eye_id', array('class' => 'sideField'))?>
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('colourvision_method_right',CHtml::listData($element->getUnusedReadingMethods('right'), 'id', 'name'),'', array('class'=> 'inline colourvision_method', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
-				<button class="small secondary clearCV<?php if (!$element->right_readings) { echo " hidden"; }?>">
+				<?php echo $form->dropDownListNoPost('colourvision_method_right', CHtml::listData($element->getUnusedReadingMethods('right'), 'id', 'name'), '', array('class'=> 'inline colourvision_method', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<button class="small secondary clearCV<?php if (!$element->right_readings) {
+    echo " hidden";
+}?>">
 					Clear
 				</button>
 			</div>
-			<table class="plain grid colourvision_table"<?php if (!$element->right_readings) {?> style="display: none;"<?php }?>>
+			<table class="plain grid colourvision_table"<?php if (!$element->right_readings) {
+    ?> style="display: none;"<?php 
+}?>>
 				<thead>
 					<tr>
 						<th>Method</th>
@@ -51,16 +57,16 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 				</thead>
 				<tbody class="plain" id="colourvision_right">
 					<?php foreach ($element->right_readings as $reading) {
-							$this->renderPartial('form_OphCiExamination_ColourVision_Reading',array(
-								'name_stub' => CHtml::modelName($element) . '[right_readings]',
-								'reading' => $reading,
-								'key' => $key,
-								'side' => 'right',
-								'method_name' => $reading->method->name,
-								''
-							));
-						$key++;
-					}?>
+    $this->renderPartial('form_OphCiExamination_ColourVision_Reading', array(
+                                'name_stub' => CHtml::modelName($element) . '[right_readings]',
+                                'reading' => $reading,
+                                'key' => $key,
+                                'side' => 'right',
+                                'method_name' => $reading->method->name,
+                                ''
+                            ));
+    $key++;
+}?>
 				</tbody>
 			</table>
 		</div>
@@ -72,16 +78,22 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row">
-				<?php echo $form->dropDownListNoPost('colourvision_method_left',CHtml::listData($element->getUnusedReadingMethods('left'), 'id', 'name'),'', array('class'=> 'inline colourvision_method', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
-				<button class="small secondary clearCV<?php if (!$element->left_readings) { echo " hidden"; }?>">
+				<?php echo $form->dropDownListNoPost('colourvision_method_left', CHtml::listData($element->getUnusedReadingMethods('left'), 'id', 'name'), '', array('class'=> 'inline colourvision_method', 'empty'=>'--- Please select ---', 'nowrapper' => true))?>
+				<button class="small secondary clearCV<?php if (!$element->left_readings) {
+    echo " hidden";
+}?>">
 					Clear
 				</button>
 			</div>
-			<table class="plain grid colourvision_table"<?php if (!$element->left_readings) {?> style="display: none;"<?php }?>>
+			<table class="plain grid colourvision_table"<?php if (!$element->left_readings) {
+    ?> style="display: none;"<?php 
+}?>>
 				<thead>
 					<tr>
 						<th>Method</th>
@@ -91,15 +103,15 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 				</thead>
 				<tbody class="plain" id="colourvision_left">
 					<?php foreach ($element->left_readings as $reading) {
-							$this->renderPartial('form_OphCiExamination_ColourVision_Reading',array(
-								'name_stub' => CHtml::modelName($element) . '[left_readings]',
-								'reading' => $reading,
-								'key' => $key,
-								'side' => 'left',
-								'method_name' => $reading->method->name,
-							));
-						$key++;
-					}?>
+    $this->renderPartial('form_OphCiExamination_ColourVision_Reading', array(
+                                'name_stub' => CHtml::modelName($element) . '[left_readings]',
+                                'reading' => $reading,
+                                'key' => $key,
+                                'side' => 'left',
+                                'method_name' => $reading->method->name,
+                            ));
+    $key++;
+}?>
 				</tbody>
 			</table>
 		</div>
@@ -114,12 +126,12 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method::
 </div>
 <script id="colourvision_reading_template" type="text/html">
 	<?php
-	$this->renderPartial('form_OphCiExamination_ColourVision_Reading', array(
-			'name_stub' => CHtml::modelName($element) . '[{{side}}_readings]',
-			'key' => '{{key}}',
-			'side' => '{{side}}',
-			'method_name' => '{{method_name}}',
-			'method_id' => '{{method_id}}',
-			'method_values' => '{{& method_values}}'
-	))?>
+    $this->renderPartial('form_OphCiExamination_ColourVision_Reading', array(
+            'name_stub' => CHtml::modelName($element) . '[{{side}}_readings]',
+            'key' => '{{key}}',
+            'side' => '{{side}}',
+            'method_name' => '{{method_name}}',
+            'method_id' => '{{method_id}}',
+            'method_values' => '{{& method_values}}'
+    ))?>
 </script>

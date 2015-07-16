@@ -20,22 +20,24 @@
 
 <?php $this->beginContent('//patient/event_container'); ?>
 	<?php
-		$this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'examination-create'));
-	?>
+        $this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'examination-create'));
+    ?>
 
 	<?php $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
-		'id'=>'examination-create',
-		'enableAjaxValidation'=>false,
-		'layoutColumns' => array(
-			'label' => 4,
-			'field' => 8
-		)
-	));
-	?>
+        'id'=>'examination-create',
+        'enableAjaxValidation'=>false,
+        'layoutColumns' => array(
+            'label' => 4,
+            'field' => 8
+        )
+    ));
+    ?>
 
       <?php
 
-         if (!empty($errors))  ?>
+         if (!empty($errors)) {
+             ;
+         }  ?>
 		 <script type='text/javascript'>
             $(document).ready( function(){
                  window.formHasChanged = true;

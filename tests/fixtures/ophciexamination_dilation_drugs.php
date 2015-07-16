@@ -17,19 +17,19 @@
  */
 
 return array(
-	'drug1' => array(
-		'id' => 1,
-		'name' => 'Dilation Drug 1',
-		'display_order' => 1,
-	),
-	'drug2' => array(
-		'id' => 2,
-		'name' => 'Dilation Drug 2',
-		'display_order' => 2,
-	),
-	'drug3' => array(
-			'id' => 3,
-			'name' => 'Dilation Drug 3',
-			'display_order' => 3,
-	),
+    'drug1' => array(
+        'id' => 1,
+        'name' => 'Dilation Drug 1',
+        'display_order' => 1,
+    ),
+    'drug2' => array(
+        'id' => 2,
+        'name' => 'Dilation Drug 2',
+        'display_order' => 2,
+    ),
+    'drug3' => array(
+            'id' => 3,
+            'name' => 'Dilation Drug 3',
+            'display_order' => 3,
+    ),
 );

@@ -18,14 +18,14 @@
  */
 
 if (!isset($side)) {
-	$side = 'left';
+    $side = 'left';
 }
 
 if ($side == 'left') {
-	$assetManager = Yii::app()->getAssetManager();
-	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
+    $assetManager = Yii::app()->getAssetManager();
+    $baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
 
-	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
+    Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
 }
 ?>
 
@@ -38,19 +38,20 @@ if ($side == 'left') {
 	</div>
 	<?php
 
-	$patientId = Yii::app()->request->getParam('patient_id');
+    $patientId = Yii::app()->request->getParam('patient_id');
 
-	if ($patientId == "") {
-		$patientId = Yii::app()->request->getParam('patientId');
-	}
-	if ($patientId == "") {
-		$patientId = $this->patient->id;
-	}
+    if ($patientId == "") {
+        $patientId = Yii::app()->request->getParam('patientId');
+    }
+    if ($patientId == "") {
+        $patientId = $this->patient->id;
+    }
 
-if(isset($patientId))
-	$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side, $element);
-	//echo '<pre>'; print_r($pcr);
-	?>
+if (isset($patientId)) {
+    $pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side, $element);
+}
+    //echo '<pre>'; print_r($pcr);
+    ?>
 	<div id="left_eye_pcr">
 		<div class="row field-row">
 			<div class="large-2 column">
@@ -60,10 +61,10 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('age', 'age',
-					array(1 => '<60', 2 => '60-69', 3 => '70-79', 4 => '80-89', 5 => '90+'),
-					array('options' => array($pcr['age_group'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('age', 'age',
+                    array(1 => '<60', 2 => '60-69', 3 => '70-79', 4 => '80-89', 5 => '90+'),
+                    array('options' => array($pcr['age_group'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
@@ -75,14 +76,17 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('pxf_phako', 'pxf_phako', array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
-					array('options' => array($pcr['anteriorsegment']['pxf_phako'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('pxf_phako', 'pxf_phako', array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
+                    array('options' => array($pcr['anteriorsegment']['pxf_phako'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if (($pcr['anteriorsegment']['pxf_phako']) == 'N') { ?>
-					<div id='nkpxf<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php } ?>
+				<?php if (($pcr['anteriorsegment']['pxf_phako']) == 'N') {
+    ?>
+					<div id='nkpxf<?php echo $side;
+    ?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php 
+} ?>
 				&nbsp;
 			</div>
 		</div>
@@ -94,9 +98,9 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('gender', 'gender', array('Male' => 'Male', 'Female' => 'Female'),
-					array('options' => array($pcr['gender'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('gender', 'gender', array('Male' => 'Male', 'Female' => 'Female'),
+                    array('options' => array($pcr['gender'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
@@ -109,13 +113,13 @@ if(isset($patientId))
 
 			<div class="large-2 column">
 				<?php
-				if(trim($pcr['anteriorsegment']['pupil_size']) == ""){
-					$pcr['anteriorsegment']['pupil_size'] = "Medium";
-				}
-				echo CHtml::dropDownList('pupil_size', 'pupil_size',
-					array('Large' => 'Large', 'Medium' => 'Medium','Small' => 'Small'),
-					array('options' => array($pcr['anteriorsegment']['pupil_size'] => array('selected' => true))));
-				?>
+                if (trim($pcr['anteriorsegment']['pupil_size']) == "") {
+                    $pcr['anteriorsegment']['pupil_size'] = "Medium";
+                }
+                echo CHtml::dropDownList('pupil_size', 'pupil_size',
+                    array('Large' => 'Large', 'Medium' => 'Medium', 'Small' => 'Small'),
+                    array('options' => array($pcr['anteriorsegment']['pupil_size'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
@@ -130,15 +134,18 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('glaucoma', 'glaucoma',
-					array('N' => 'Not Known', 'N' => 'No Glaucoma', 'Y' => 'Glaucoma present'),
-					array('options' => array($pcr['glaucoma'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('glaucoma', 'glaucoma',
+                    array('N' => 'Not Known', 'N' => 'No Glaucoma', 'Y' => 'Glaucoma present'),
+                    array('options' => array($pcr['glaucoma'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if ($pcr['glaucoma'] == 'N') { ?>
-					<div id='nkglaucoma<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php } ?>&nbsp;
+				<?php if ($pcr['glaucoma'] == 'N') {
+    ?>
+					<div id='nkglaucoma<?php echo $side;
+    ?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php 
+} ?>&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -147,15 +154,18 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('axial_length', 'axial_length',
-					array('N' => 'Not Known', 1 => '< 26', 2 => '> or = 26'),
-					array('options' => array($pcr['axial_length_group'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('axial_length', 'axial_length',
+                    array('N' => 'Not Known', 1 => '< 26', 2 => '> or = 26'),
+                    array('options' => array($pcr['axial_length_group'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if ($pcr['axial_length_group'] == 'NK') { ?>
-					<div id='nkaxial<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php } ?>&nbsp;
+				<?php if ($pcr['axial_length_group'] == 'NK') {
+    ?>
+					<div id='nkaxial<?php echo $side;
+    ?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php 
+} ?>&nbsp;
 			</div>
 		</div>
 
@@ -167,15 +177,18 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('diabetic', 'diabetic',
-					array('N' => 'Not Known', 'N' => 'No Diabetes', 'Y' => 'Diabetes present'),
-					array('options' => array($pcr['diabetic'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('diabetic', 'diabetic',
+                    array('N' => 'Not Known', 'N' => 'No Diabetes', 'Y' => 'Diabetes present'),
+                    array('options' => array($pcr['diabetic'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if ($pcr['diabetic'] == 'N') { ?>
-					<div id='nkdiabetic<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php } ?>&nbsp;
+				<?php if ($pcr['diabetic'] == 'N') {
+    ?>
+					<div id='nkdiabetic<?php echo $side;
+    ?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php 
+} ?>&nbsp;
 			</div>
 			<div class="large-2 column">
 				<label>
@@ -184,9 +197,9 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('arb', 'arb', array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
-					array('options' => array('N' => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('arb', 'arb', array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
+                    array('options' => array('N' => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<div id='nkarb<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
@@ -201,15 +214,18 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('no_fundal_view', 'no_fundal_view',
-					array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
-					array('options' => array($pcr['noview'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('no_fundal_view', 'no_fundal_view',
+                    array('N' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
+                    array('options' => array($pcr['noview'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<?php if ($pcr['noview'] == 'N') { ?>
-					<div id='nknofv<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
-				<?php } ?>
+				<?php if ($pcr['noview'] == 'N') {
+    ?>
+					<div id='nknofv<?php echo $side;
+    ?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<?php 
+} ?>
 				&nbsp;
 			</div>
 			<div class="large-2 column">
@@ -219,9 +235,9 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('abletolieflat', 'abletolieflat', array('N' => 'No', 'Y' => 'Yes'),
-					array('options' => array($pcr['lie_flat'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('abletolieflat', 'abletolieflat', array('N' => 'No', 'Y' => 'Yes'),
+                    array('options' => array($pcr['lie_flat'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
@@ -236,10 +252,10 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php
-				echo CHtml::dropDownList('brunescent_white_cataract', 'brunescent_white_cataract',
-					array('NK' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
-					array('options' => array($pcr['anteriorsegment']['brunescent_white_cataract'] => array('selected' => true))));
-				?>
+                echo CHtml::dropDownList('brunescent_white_cataract', 'brunescent_white_cataract',
+                    array('NK' => 'Not Known', 'N' => 'No', 'Y' => 'Yes'),
+                    array('options' => array($pcr['anteriorsegment']['brunescent_white_cataract'] => array('selected' => true))));
+                ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
@@ -251,11 +267,11 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php echo CHtml::dropDownList('doctor_grade_id', 'doctor_grade_id',
-					CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'),
-					array(
-						'empty' => '- Select Doctor Grade -',
-						'options' => array($pcr['doctor_grade_id'] => array('selected' => true))
-					)); ?>
+                    CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'),
+                    array(
+                        'empty' => '- Select Doctor Grade -',
+                        'options' => array($pcr['doctor_grade_id'] => array('selected' => true))
+                    )); ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;

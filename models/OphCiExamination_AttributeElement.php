@@ -29,72 +29,72 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_AttributeElement extends \BaseActiveRecordVersioned
 {
-	const SELECTION_ORDER = 'element_type_id,attribute_id';
+    const SELECTION_ORDER = 'element_type_id,attribute_id';
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_attribute_element';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_attribute_element';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-			array('attribute_id, element_type_id', 'required'),
-			array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+            array('attribute_id, element_type_id', 'required'),
+            array('id, attribute_id, element_type_id', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			'attribute' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Attribute', 'attribute_id'),
-			'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
-			'options' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption', 'attribute_element_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'attribute' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Attribute', 'attribute_id'),
+            'element_type' => array(self::BELONGS_TO, 'ElementType', 'element_type_id'),
+            'options' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeOption', 'attribute_element_id'),
+        );
+    }
 
-	/**
-	 * Fetches all the options for this attribute_element, standard _and_ subspecialty specific
-	 * @param integer $subspecialty_id
-	 * @return OphCiExamination_AttributeOption[]
-	 */
-	public function findAllOptionsForSubspecialty($subspecialty_id = null)
-	{
-		$condition = 'attribute_element_id = :attribute_element_id AND ';
-		$params = array(':attribute_element_id' => $this->id);
-		if ($subspecialty_id) {
-			$condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
-			$params[':subspecialty_id'] = $subspecialty_id;
-		} else {
-			$condition .=  'subspecialty_id IS NULL';
-		}
-		return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
-	}
+    /**
+     * Fetches all the options for this attribute_element, standard _and_ subspecialty specific
+     * @param integer $subspecialty_id
+     * @return OphCiExamination_AttributeOption[]
+     */
+    public function findAllOptionsForSubspecialty($subspecialty_id = null)
+    {
+        $condition = 'attribute_element_id = :attribute_element_id AND ';
+        $params = array(':attribute_element_id' => $this->id);
+        if ($subspecialty_id) {
+            $condition .=  '(subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL)';
+            $params[':subspecialty_id'] = $subspecialty_id;
+        } else {
+            $condition .=  'subspecialty_id IS NULL';
+        }
+        return OphCiExamination_AttributeOption::model()->findAll($condition, $params);
+    }
 
-	public function getName()
-	{
-		return $this->element_type->name . ' - ' . $this->attribute->name;
-	}
+    public function getName()
+    {
+        return $this->element_type->name . ' - ' . $this->attribute->name;
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'attribute.name' => 'Attribute Name',
-			'attribute.label' => 'Attribute Label',
-			'element_type.name' => 'Element Mapping',
-			'attribute_elements.name' => 'Element Mapping'
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'attribute.name' => 'Attribute Name',
+            'attribute.label' => 'Attribute Label',
+            'element_type.name' => 'Element Mapping',
+            'attribute_elements.name' => 'Element Mapping'
+        );
+    }
 }

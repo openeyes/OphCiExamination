@@ -15,33 +15,34 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_ClinicOutcome_StatusTest extends CDbTestCase {
+class OphCiExamination_ClinicOutcome_StatusTest extends CDbTestCase
+{
+    protected $model;
+    public $fixtures = array(
+        'clinicOutcomeStatus' => 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status',
+        'clinicOutcomeStatusOptions' => ':ophciexamination_clinicoutcome_status_options',
+        'subspecialty' => '\Subspecialty'
+    );
 
-	protected $model;
-	public $fixtures = array(
-		'clinicOutcomeStatus' => 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status',
-		'clinicOutcomeStatusOptions' => ':ophciexamination_clinicoutcome_status_options',
-		'subspecialty' => '\Subspecialty'
-	);
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->model = new OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status;
+    }
 
-	protected function setUp() {
-		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status;
-	}
+    protected function tearDown()
+    {
+    }
 
-	protected function tearDown() {
-	}
+    public function testBySubspecialty()
+    {
+        $statusesBySubspecialty = OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()
+            ->bySubspecialty($this->subspecialty('subspecialty1'))->findAll();
 
-	public function testBySubspecialty()
-	{
-		$statusesBySubspecialty = OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status::model()
-			->bySubspecialty($this->subspecialty('subspecialty1'))->findAll();
+        $this->assertCount(3, $statusesBySubspecialty);
 
-		$this->assertCount(3, $statusesBySubspecialty);
-
-		foreach($statusesBySubspecialty as $statusBySubspecialty){
-			$this->assertNotEquals('Not active option', $statusBySubspecialty->name);
-		}
-	}
-
+        foreach ($statusesBySubspecialty as $statusBySubspecialty) {
+            $this->assertNotEquals('Not active option', $statusBySubspecialty->name);
+        }
+    }
 }

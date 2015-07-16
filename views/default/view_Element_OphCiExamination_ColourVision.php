@@ -19,7 +19,8 @@
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
 		<div class="data-row">
-			<?php if ($element->hasRight()) {?>
+			<?php if ($element->hasRight()) {
+    ?>
 				<table class="element-table">
 					<thead>
 					<tr>
@@ -28,22 +29,29 @@
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($element->right_readings as $reading) {?>
+					<?php foreach ($element->right_readings as $reading) {
+    ?>
 						<tr>
 							<td><?php echo $reading->method->name ?></td>
 							<td><?php echo $reading->value->name ?></td>
 						</tr>
-					<?php }?>
+					<?php 
+}
+    ?>
 					</tbody>
 				</table>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">None given</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="data-row">
-			<?php if ($element->hasLeft()) {?>
+			<?php if ($element->hasLeft()) {
+    ?>
 				<table class="element-table">
 					<thead>
 					<tr>
@@ -52,17 +60,23 @@
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($element->left_readings as $reading) {?>
+					<?php foreach ($element->left_readings as $reading) {
+    ?>
 						<tr>
 							<td><?php echo $reading->method->name ?></td>
 							<td><?php echo $reading->value->name ?></td>
 						</tr>
-					<?php }?>
+					<?php 
+}
+    ?>
 					</tbody>
 				</table>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">None given</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 </div>

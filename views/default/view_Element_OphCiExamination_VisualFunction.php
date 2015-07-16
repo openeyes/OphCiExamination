@@ -19,51 +19,71 @@
 ?>
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
-		<?php if ($element->hasRight()) {?>
-			<?php if ($element->right_comments) {?>
+		<?php if ($element->hasRight()) {
+    ?>
+			<?php if ($element->right_comments) {
+    ?>
 				<div class="data-row">
 					<div class="data-value">
 						<?= Yii::app()->format->Ntext($element->right_comments) ?>
 					</div>
 				</div>
-			<?php }?>
-			<?php if ($element->right_rapd === "1") {?>
+			<?php 
+}
+    ?>
+			<?php if ($element->right_rapd === "1") {
+    ?>
 				<div class="data-row">
 					<div class="data-value">
 						RAPD present
 					</div>
 				</div>
-			<?php }?>
-		<?php }else{?>
+			<?php 
+}
+    ?>
+		<?php 
+} else {
+    ?>
 			<div class="data-row">
 				<div class="data-value">
 					Not recorded
 				</div>
 			</div>
-		<?php }?>
+		<?php 
+}?>
 	</div>
 	<div class="element-eye left-eye column">
-		<?php if ($element->hasLeft()) {?>
-			<?php if ($element->left_comments) {?>
+		<?php if ($element->hasLeft()) {
+    ?>
+			<?php if ($element->left_comments) {
+    ?>
 				<div class="data-row">
 					<div class="data-value">
 						<?= Yii::app()->format->Ntext($element->left_comments) ?>
 					</div>
 				</div>
-			<?php }?>
-			<?php if ($element->left_rapd === "1") {?>
+			<?php 
+}
+    ?>
+			<?php if ($element->left_rapd === "1") {
+    ?>
 				<div class="data-row">
 					<div class="data-value">
 						RAPD present
 					</div>
 				</div>
-			<?php }?>
-		<?php }else{?>
+			<?php 
+}
+    ?>
+		<?php 
+} else {
+    ?>
 			<div class="data-row">
 				<div class="data-value">
 					Not recorded
 				</div>
 			</div>
-		<?php }?>
+		<?php 
+}?>
 	</div>
 </div>

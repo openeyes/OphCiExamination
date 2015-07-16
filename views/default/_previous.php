@@ -18,7 +18,8 @@
  */
 ?>
 <div id="previous_elements" class="event previous-elements">
-	<?php foreach ($elements as $element) { ?>
+	<?php foreach ($elements as $element) {
+    ?>
 		<div class="element-container">
 			<section class="element <?php echo CHtml::modelName($element) ?>"
 				data-element-id="<?php echo $element->id ?>"
@@ -28,9 +29,10 @@
 				data-element-display-order="<?php echo $element->elementType->display_order ?>">
 
 				<?php $this->renderPartial(
-					$element->view_view,
-					array('element' => $element)
-				); ?>
+                    $element->view_view,
+                    array('element' => $element)
+                );
+    ?>
 
 			</section>
 			<div class="metadata">
@@ -41,14 +43,18 @@
 					on <?php echo $element->event->NHSDate('last_modified_date') ?>
 					at <?php echo date('H:i', strtotime($element->event->last_modified_date)) ?></span>
 			</div>
-			<?php if ($element->canCopy()) {?>
+			<?php if ($element->canCopy()) {
+    ?>
 				<div class="actions">
 					<button name="copy" class="copy_element small"
 						data-element-id="<?php echo $element->id ?>" data-element-type-class="<?php echo CHtml::modelName($element) ?>">
 						Copy
 					</button>
 				</div>
-			<?php }?>
+			<?php 
+}
+    ?>
 		</div>
-	<?php } ?>
+	<?php 
+} ?>
 </div>

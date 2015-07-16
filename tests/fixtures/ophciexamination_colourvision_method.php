@@ -18,16 +18,16 @@
  */
 
 return array(
-	'method1' => array(
-		'id' => 1,
-		'name' => 'Method 1',
-		'display_order' => 1,
-		'active' => true
-	),
-	'method2' => array(
-		'id' => 2,
-		'name' => 'Method 2',
-		'display_order' => 2,
-		'active' => true
-	)
+    'method1' => array(
+        'id' => 1,
+        'name' => 'Method 1',
+        'display_order' => 1,
+        'active' => true
+    ),
+    'method2' => array(
+        'id' => 2,
+        'name' => 'Method 2',
+        'display_order' => 2,
+        'active' => true
+    )
 );

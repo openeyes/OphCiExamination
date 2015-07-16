@@ -20,34 +20,34 @@
 <?php
 $doodleToolBarArray = array('AngleNV', 'AntSynech', 'AngleRecession');
 $bindingArray = array(
-	'Gonioscopy' => array (
-		'mode' => array('id' => $side.'_gonioscopy_mode', 'attrivate' => 'data-value')
-	)
+    'Gonioscopy' => array(
+        'mode' => array('id' => $side.'_gonioscopy_mode', 'attrivate' => 'data-value')
+    )
 );
 $onReadyCommandArray = array(
-	array('addDoodle', array('Gonioscopy', array('mode' => 'Basic')))
+    array('addDoodle', array('Gonioscopy', array('mode' => 'Basic')))
 );
-foreach (array('AngleGradeNorth' => 'sup','AngleGradeEast' => 'nas','AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
-	$bindingArray[$doodleClass]['grade'] = array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
-	$bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
-	$onReadyCommandArray[] = array('addDoodle', array($doodleClass));
+foreach (array('AngleGradeNorth' => 'sup', 'AngleGradeEast' => 'nas', 'AngleGradeSouth' => 'inf', 'AngleGradeWest' => 'tem') as $doodleClass => $position) {
+    $bindingArray[$doodleClass]['grade'] = array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_Gonioscopy_'.$side.'_gonio_'.$position.'_id', 'attribute' => 'data-value');
+    $bindingArray[$doodleClass]['seen'] = array('id' => $side.'_gonio_'.$position.'_basic', 'attribute' => 'data-value');
+    $onReadyCommandArray[] = array('addDoodle', array($doodleClass));
 }
 $onReadyCommandArray[] = array('deselectDoodles', array());
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-	'doodleToolBarArray' => $doodleToolBarArray,
-	'onReadyCommandArray' => $onReadyCommandArray,
-	'bindingArray' => $bindingArray,
-	'listenerArray' => array('OphCiExamination_Gonioscopy_Eyedraw_Controller'),
-	'idSuffix' => $side.'_'.$element->elementType->id,
-	'side' => ($side == 'right') ? 'R' : 'L',
-	'mode' => 'edit',
-	'model' => $element,
-	'attribute' => $side.'_eyedraw',
-	'template' => 'OEEyeDrawWidget_InlineToolbar',
-	'maxToolbarButtons' => 7,
-	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
-		'form' => $form,
-		'side' => $side,
-		'element' => $element
-	), true)
+    'doodleToolBarArray' => $doodleToolBarArray,
+    'onReadyCommandArray' => $onReadyCommandArray,
+    'bindingArray' => $bindingArray,
+    'listenerArray' => array('OphCiExamination_Gonioscopy_Eyedraw_Controller'),
+    'idSuffix' => $side.'_'.$element->elementType->id,
+    'side' => ($side == 'right') ? 'R' : 'L',
+    'mode' => 'edit',
+    'model' => $element,
+    'attribute' => $side.'_eyedraw',
+    'template' => 'OEEyeDrawWidget_InlineToolbar',
+    'maxToolbarButtons' => 7,
+    'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+        'form' => $form,
+        'side' => $side,
+        'element' => $element
+    ), true)
 ))?>

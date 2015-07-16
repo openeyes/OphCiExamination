@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
+
 use Yii;
 
 /**
@@ -40,117 +41,117 @@ use Yii;
 
 class Element_OphCiExamination_VisualFunction extends \SplitEventTypeElement
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_visualfunction';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_visualfunction';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('left_comments, right_comments,  eye_id, left_rapd, right_rapd', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+                array('left_comments, right_comments,  eye_id, left_rapd, right_rapd', 'safe'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, event_id, left_comments, right_comments, eye_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function sidedFields()
-	{
-		return array('comments', 'rapd');
-	}
+    public function sidedFields()
+    {
+        return array('comments', 'rapd');
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+            'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'event_id' => 'Event',
-			'left_comments' => 'Comments',
-			'right_comments' => 'Comments',
-			'left_rapd' => 'RAPD',
-			'right_rapd' => 'RAPD',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'event_id' => 'Event',
+            'left_comments' => 'Comments',
+            'right_comments' => 'Comments',
+            'left_rapd' => 'RAPD',
+            'right_rapd' => 'RAPD',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria = new \CDbCriteria;
+        $criteria = new \CDbCriteria;
 
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_comments', $this->left_comments);
-		$criteria->compare('right_comments', $this->right_comments);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('event_id', $this->event_id, true);
+        $criteria->compare('left_comments', $this->left_comments);
+        $criteria->compare('right_comments', $this->right_comments);
 
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+        ));
+    }
 
-	public function afterValidate()
-	{
-		if ($this->scenario == 'formHasNoChildren') {
-			$values = false;
-			if ($this->hasLeft()) {
-				if ($this->left_rapd || $this->left_comments) {
-					$values = true;
-				}
-			}
-			if (!$values && $this->hasRight()) {
-				if ($this->right_rapd || $this->right_comments) {
-					$values = true;
-				}
-			}
-			if (!$values) {
-				$this->addError(null, "Visual Function requires data");
-			}
-		}
-		parent::afterValidate();
-	}
+    public function afterValidate()
+    {
+        if ($this->scenario == 'formHasNoChildren') {
+            $values = false;
+            if ($this->hasLeft()) {
+                if ($this->left_rapd || $this->left_comments) {
+                    $values = true;
+                }
+            }
+            if (!$values && $this->hasRight()) {
+                if ($this->right_rapd || $this->right_comments) {
+                    $values = true;
+                }
+            }
+            if (!$values) {
+                $this->addError(null, "Visual Function requires data");
+            }
+        }
+        parent::afterValidate();
+    }
 
-	public function canViewPrevious()
-	{
-		return true;
-	}
+    public function canViewPrevious()
+    {
+        return true;
+    }
 }

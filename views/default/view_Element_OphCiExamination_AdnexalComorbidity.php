@@ -22,10 +22,12 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasRight()) {
-					echo Yii::app()->format->Ntext($element->right_description);
-				} else {?>
+    echo Yii::app()->format->Ntext($element->right_description);
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>
@@ -33,10 +35,12 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasLeft()) {
-					echo Yii::app()->format->Ntext($element->left_description);
-				} else {?>
+    echo Yii::app()->format->Ntext($element->left_description);
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>

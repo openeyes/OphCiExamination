@@ -31,75 +31,75 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_Diagnosis extends \BaseActiveRecordVersioned
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Diagnosis the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_Diagnosis the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_diagnosis';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_diagnosis';
+    }
 
-	/**
-	 * @return array validation rules for model diagnosiss.
-	 */
-	public function rules()
-	{
-		return array(
-				array('element_diagnoses_id,disorder_id,eye_id', 'required'),
-				array('element_diagnoses_id,disorder_id,eye_id,principal', 'safe'),
-				array('id, name', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model diagnosiss.
+     */
+    public function rules()
+    {
+        return array(
+                array('element_diagnoses_id,disorder_id,eye_id', 'required'),
+                array('element_diagnoses_id,disorder_id,eye_id,principal', 'safe'),
+                array('id, name', 'safe', 'on'=>'search'),
+        );
+    }
 
-	public function attributeLabels()
-	{
-		return array(
-			'eye_id' => 'Eye',
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'eye_id' => 'Eye',
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			'element_diagnoses' => array(self::BELONGS_TO, 'Element_OphCiExamination_Diagnoses', 'element_diagnoses_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'element_diagnoses' => array(self::BELONGS_TO, 'Element_OphCiExamination_Diagnoses', 'element_diagnoses_id'),
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'disorder' => array(self::BELONGS_TO, 'Disorder', 'disorder_id'),
+        );
+    }
 
-	/**
-	 *
-	 * @param BaseEventTypeElement $element
-	 */
-	public function findAllByElement($element)
-	{
-		$element_type = $element->getElementType();
-		return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
-	}
+    /**
+     *
+     * @param BaseEventTypeElement $element
+     */
+    public function findAllByElement($element)
+    {
+        $element_type = $element->getElementType();
+        return $this->findAll('element_type_id = :element_type_id', array(':element_type_id' => $element_type->id));
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('name', $this->name, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 }

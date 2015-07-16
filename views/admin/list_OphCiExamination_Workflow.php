@@ -20,14 +20,14 @@
 <?php $this->renderPartial('//base/_messages')?>
 <div class="hidden" id="add-new-form" style="margin-bottom: 10px">
 	<?php
-	$form = $this->beginWidget('BaseEventTypeCActiveForm', array(
-			'id'=>'clinical-create',
-			'enableAjaxValidation'=>false,
-			'action' => Yii::app()->createURL($this->module->getName() . '/admin/addEmailRecipient')
-	));
+    $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
+            'id'=>'clinical-create',
+            'enableAjaxValidation'=>false,
+            'action' => Yii::app()->createURL($this->module->getName() . '/admin/addEmailRecipient')
+    ));
 
-	$this->endWidget();
-	?>
+    $this->endWidget();
+    ?>
 </div>
 <div class="box admin">
 	<h2><?php echo $title ?></h2>
@@ -40,14 +40,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($model_list as $i => $model) {?>
+				<?php foreach ($model_list as $i => $model) {
+    ?>
 					<tr class="clickable" data-id="<?php echo $model->id?>" data-uri="OphCiExamination/admin/editWorkflow/<?php echo $model->id?>">
 						<td><input type="checkbox" name="workflows[]" value="<?php echo $model->id?>" /></td>
 						<td>
 							<?php echo $model->name?>
 						</td>
 					</tr>
-				<?php }?>
+				<?php 
+}?>
 			</tbody>
 			<tfoot class="pagination-container">
 				<tr>

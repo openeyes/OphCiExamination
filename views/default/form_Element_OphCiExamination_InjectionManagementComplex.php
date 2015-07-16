@@ -21,12 +21,12 @@
 <?php
 $no_treatment_reasons = $element->getNoTreatmentReasons();
 $no_treatment_reasons_opts = array(
-	'options' => array(),
-	'empty'=>'- Please select -',
-	'nowrapper' => true,
+    'options' => array(),
+    'empty'=>'- Please select -',
+    'nowrapper' => true,
 );
 foreach ($no_treatment_reasons as $ntr) {
-	$no_treatment_reasons_opts['options'][$ntr->id] = array('data-other' => $ntr->other ? '1' : '0');
+    $no_treatment_reasons_opts['options'][$ntr->id] = array('data-other' => $ntr->other ? '1' : '0');
 }
 ?>
 
@@ -38,31 +38,33 @@ $l1_options = array();
 $l2_disorders = array();
 
 foreach ($l1_disorders as $disorder) {
-	if ($td_l2 = $element->getLevel2Disorders($disorder)) {
-		$jsn_arry = array();
-		foreach ($td_l2 as $l2) {
-			$jsn_arry[] = array('id' => $l2->id, 'term' => $l2->term);
-		}
-		$l1_options[$disorder->id] = array('data-level2' => CJSON::encode($jsn_arry));
-		$l2_disorders[$disorder->id] = $td_l2;
-	}
+    if ($td_l2 = $element->getLevel2Disorders($disorder)) {
+        $jsn_arry = array();
+        foreach ($td_l2 as $l2) {
+            $jsn_arry[] = array('id' => $l2->id, 'term' => $l2->term);
+        }
+        $l1_options[$disorder->id] = array('data-level2' => CJSON::encode($jsn_arry));
+        $l2_disorders[$disorder->id] = $td_l2;
+    }
 }
 ?>
 <div class="sub-element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array(
-				'side' => 'right',
-				'element' => $element,
-				'form' => $form,
-				'no_treatment_reasons' => $no_treatment_reasons,
-				'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
-				'l1_disorders' => $l1_disorders,
-				'l1_opts' => $l1_options,
-				'l2_disorders' => $l2_disorders,
-			))?>
+                'side' => 'right',
+                'element' => $element,
+                'form' => $form,
+                'no_treatment_reasons' => $no_treatment_reasons,
+                'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
+                'l1_disorders' => $l1_disorders,
+                'l1_opts' => $l1_options,
+                'l2_disorders' => $l2_disorders,
+            ))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
@@ -72,19 +74,21 @@ foreach ($l1_disorders as $disorder) {
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array(
-				'side' => 'left',
-				'element' => $element,
-				'form' => $form,
-				'no_treatment_reasons' => $no_treatment_reasons,
-				'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
-				'l1_disorders' => $l1_disorders,
-				'l1_opts' => $l1_options,
-				'l2_disorders' => $l2_disorders,
-			))?>
+                'side' => 'left',
+                'element' => $element,
+                'form' => $form,
+                'no_treatment_reasons' => $no_treatment_reasons,
+                'no_treatment_reasons_opts' => $no_treatment_reasons_opts,
+                'l1_disorders' => $l1_disorders,
+                'l1_opts' => $l1_options,
+                'l2_disorders' => $l2_disorders,
+            ))?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">

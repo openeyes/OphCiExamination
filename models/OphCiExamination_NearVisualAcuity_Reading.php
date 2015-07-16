@@ -20,38 +20,37 @@
 
 namespace OEModule\OphCiExamination\models;
 
-
 class OphCiExamination_NearVisualAcuity_Reading extends OphCiExamination_VisualAcuity_Reading
 {
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_VisualAcuity_Reading the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_VisualAcuity_Reading the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'ophciexamination_nearvisualacuity_reading';
+    }
 
-	public function tableName()
-	{
-		return 'ophciexamination_nearvisualacuity_reading';
-	}
+    public function init()
+    {
+        if (($default_value = Element_OphCiExamination_VisualAcuity::model()->getSetting('default_value'))) {
+            $this->value = $default_value;
+        }
+    }
 
-	public function init(){
-		if (($default_value = Element_OphCiExamination_VisualAcuity::model()->getSetting('default_value'))) {
-			$this->value = $default_value;
-		}
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_NearVisualAcuity', 'element_id'),
-			'method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method', 'method_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_NearVisualAcuity', 'element_id'),
+            'method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method', 'method_id'),
+        );
+    }
 }

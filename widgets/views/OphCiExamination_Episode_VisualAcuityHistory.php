@@ -20,7 +20,7 @@
 		<div class="data-value column large-3">
 			<form action="#OphCiExamination_Episode_VisualAcuityHistory">
 				<label for="va_history_unit_id">Visual Acuity unit</label>
-				<?= CHtml::dropDownList('va_history_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(),'id','name'))?>
+				<?= CHtml::dropDownList('va_history_unit_id', $va_unit->id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->active()->findAll(), 'id', 'name'))?>
 			</form>
 		</div>
 	</div>

@@ -18,26 +18,26 @@
  */
 
 return array(
-	'params' => array(
-		'admin_menu' => array(
-			'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
-			'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
-			'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
-			'Workflows' => '/OphCiExamination/admin/viewWorkflows',
-			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
-			'Element Attributes' => array('OphCiExamination'=>'/oeadmin/ExaminationElementAttributes/list'),
-			'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
-			'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
-			'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
-			'Drop-related Problems' => '/OphCiExamination/admin/manageDropRelProbs',
-			'Drops Options' => '/OphCiExamination/admin/manageDrops',
-			'Surgery Management Options' => '/OphCiExamination/admin/manageManagementSurgery',
-			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
-			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
-			'Clinic Outcome Statuses' => '/OphCiExamination/admin/manageClinicOutcomesStatus',
-			'Cataract surgery reasons' => '/OphCiExamination/admin/primaryReasonForSurgery'
-		),
-		'ophciexamination_drgrading_type_required' => false,
-		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',
-	),
+    'params' => array(
+        'admin_menu' => array(
+            'Inject. Mgmt - No Treatment Reasons' => '/OphCiExamination/admin/viewAllOphCiExamination_InjectionManagementComplex_NoTreatmentReason',
+            'Inject. Mgmt - Diagnosis Questions' => '/OphCiExamination/admin/viewOphCiExamination_InjectionManagementComplex_Question',
+            'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
+            'Workflows' => '/OphCiExamination/admin/viewWorkflows',
+            'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
+            'Element Attributes' => array('OphCiExamination'=>'/oeadmin/ExaminationElementAttributes/list'),
+            'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
+            'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
+            'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
+            'Drop-related Problems' => '/OphCiExamination/admin/manageDropRelProbs',
+            'Drops Options' => '/OphCiExamination/admin/manageDrops',
+            'Surgery Management Options' => '/OphCiExamination/admin/manageManagementSurgery',
+            'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
+            'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
+            'Clinic Outcome Statuses' => '/OphCiExamination/admin/manageClinicOutcomesStatus',
+            'Cataract surgery reasons' => '/OphCiExamination/admin/primaryReasonForSurgery'
+        ),
+        'ophciexamination_drgrading_type_required' => false,
+        'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',
+    ),
 );

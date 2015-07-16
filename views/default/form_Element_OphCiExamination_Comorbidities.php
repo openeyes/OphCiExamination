@@ -18,15 +18,15 @@
  */
 
 if (isset($_POST['comorbidities_items_valid']) && $_POST['comorbidities_items_valid']) {
-	$item_ids = @$_POST['comorbidities_items'];
+    $item_ids = @$_POST['comorbidities_items'];
 } else {
-	$item_ids = $element->getItemIds();
+    $item_ids = $element->getItemIds();
 }
 ?>
 <div class="sub-element-fields">
 	<?php echo CHtml::hiddenField("comorbidities_items_valid", 1, array('id' => 'comorbidities_items_valid'))?>
 	<div class="field-row comorbidities-multi-select">
-		<?php echo $form->multiSelectList($element, CHtml::modelName($element) . '[items]', 'items', 'id', CHtml::encodeArray(CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item::model()->activeOrPk($element->comorbidityItemValues)->bySubspecialty($this->firm->getSubspecialty())->findAll(), 'id', 'name')), array(), array('empty' => '-- Add --', 'label' => 'Comorbidities', 'nowrapper' => true), false, true, 'No comorbidities',true,true)?>
+		<?php echo $form->multiSelectList($element, CHtml::modelName($element) . '[items]', 'items', 'id', CHtml::encodeArray(CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Comorbidities_Item::model()->activeOrPk($element->comorbidityItemValues)->bySubspecialty($this->firm->getSubspecialty())->findAll(), 'id', 'name')), array(), array('empty' => '-- Add --', 'label' => 'Comorbidities', 'nowrapper' => true), false, true, 'No comorbidities', true, true)?>
 	</div>
 	<div class="field-row">
 		<?php echo $form->textArea($element, 'comments', array('rows' => "1", 'cols' => "80", 'class' => 'autosize', 'nowrapper'=>true), false, array('placeholder' => 'Enter comments here'))?>

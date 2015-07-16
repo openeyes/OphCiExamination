@@ -19,29 +19,29 @@
 ?>
 
 <?php
-	$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'doodleToolBarArray' => array(
-			array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
-			array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
-			array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
-			array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
-		),
-		'onReadyCommandArray' => array(
-			array('addDoodle', array('PostPole')),
-			array('deselectDoodles', array()),
-		),
-		'listenerArray' => array('posteriorListener'),
-		'idSuffix' => $side.'_'.$element->elementType->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'edit',
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
-		'template' => 'OEEyeDrawWidget_InlineToolbar',
-		'maxToolbarButtons' => 7,
-		'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
-			'form' => $form,
-			'side' => $side,
-			'element' => $element
-		), true)
-	));
+    $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+        'doodleToolBarArray' => array(
+            array('HardDrusen', 'Geographic', 'CNV', 'RPEDetachment', 'EpiretinalMembrane', 'MacularHole', 'MacularDystrophy', 'Macroaneurysm', 'RetinalVeinOcclusionPostPole', 'RetinalArteryOcclusionPostPole'),
+            array('Microaneurysm', 'BlotHaemorrhage', 'HardExudate', 'IRMA', 'Circinate', 'MacularThickening', 'CystoidMacularOedema', 'PreRetinalHaemorrhage', 'CottonWoolSpot', 'DiabeticNV', 'VitreousOpacity', 'FibrousProliferation', 'TractionRetinalDetachment'),
+            array('SwollenDisc', 'Telangiectasis', 'ChoroidalHaemorrhage', 'ChoroidalNaevus'),
+            array('LaserSpot', 'FocalLaser', 'MacularGrid', 'SectorPRPPostPole', 'PRPPostPole'),
+        ),
+        'onReadyCommandArray' => array(
+            array('addDoodle', array('PostPole')),
+            array('deselectDoodles', array()),
+        ),
+        'listenerArray' => array('posteriorListener'),
+        'idSuffix' => $side.'_'.$element->elementType->id,
+        'side' => ($side == 'right') ? 'R' : 'L',
+        'mode' => 'edit',
+        'model' => $element,
+        'attribute' => $side.'_eyedraw',
+        'template' => 'OEEyeDrawWidget_InlineToolbar',
+        'maxToolbarButtons' => 7,
+        'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+            'form' => $form,
+            'side' => $side,
+            'element' => $element
+        ), true)
+    ));
 ?>

@@ -49,307 +49,305 @@ namespace OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_OCT extends \SplitEventTypeElement
 {
-	protected $auto_update_relations = true;
-	protected $relation_defaults = array(
-			'left_fluidtypes' => array(
-				'eye_id' => \Eye::LEFT,
-			),
-			'right_fluidtypes' => array(
-					'eye_id' => \Eye::RIGHT,
-			),
-	);
+    protected $auto_update_relations = true;
+    protected $relation_defaults = array(
+            'left_fluidtypes' => array(
+                'eye_id' => \Eye::LEFT,
+            ),
+            'right_fluidtypes' => array(
+                    'eye_id' => \Eye::RIGHT,
+            ),
+    );
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return Element_OphCiExamination_AnteriorSegment_CCT
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return Element_OphCiExamination_AnteriorSegment_CCT
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_oct';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_oct';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('eye_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+                array('eye_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
 					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
 					right_dry, right_fluidstatus_id, right_comments', 'safe'),
-				array('left_method_id, left_sft, left_dry', 'requiredIfSide', 'side' => 'left'),
-				array('right_method_id, right_sft, right_dry', 'requiredIfSide', 'side' => 'right'),
-				array('left_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
-						'tooBig' => 'Left {attribute} must be between 250 and 600',
-						'tooSmall' => 'Left {attribute} must be between 250 and 600'),
-				array('right_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
-						'tooBig' => 'Right {attribute} must be between 250 and 600',
-						'tooSmall' => 'Right {attribute} must be between 250 and 600'),
-				array('left_crt, left_thickness_increase, left_comments, right_crt, right_thickness_increase,
+                array('left_method_id, left_sft, left_dry', 'requiredIfSide', 'side' => 'left'),
+                array('right_method_id, right_sft, right_dry', 'requiredIfSide', 'side' => 'right'),
+                array('left_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
+                        'tooBig' => 'Left {attribute} must be between 250 and 600',
+                        'tooSmall' => 'Left {attribute} must be between 250 and 600'),
+                array('right_crt', 'numerical', 'allowEmpty' => true, 'integerOnly' => true, 'max' => 600, 'min' => 250,
+                        'tooBig' => 'Right {attribute} must be between 250 and 600',
+                        'tooSmall' => 'Right {attribute} must be between 250 and 600'),
+                array('left_crt, left_thickness_increase, left_comments, right_crt, right_thickness_increase,
 					right_comments', 'default', 'setOnEmpty' => true, 'value' => null),
-				array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 1500, 'min' => 50,
-						'tooBig' => 'Left {attribute} must be between 50 and 1500',
-						'tooSmall' => 'Left {attribute} must be between 50 and 1500'),
-				array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 1500, 'min' => 50,
-						'tooBig' => 'Right {attribute} must be between 50 and 1500',
-						'tooSmall' => 'Right {attribute} must be between 50 and 1500'),
-				array('left_fluidstatus_id',
-					'notAllowedIfTrue', 'side' => 'left', 'dependency' => 'left_dry'),
-				array('right_fluidstatus_id',
-					'notAllowedIfTrue', 'side' => 'right', 'dependency' => 'right_dry'),
-				array('left_fluidstatus_id, left_fluidtypes', 'requiredIfFalse', 'side' => 'left', 'dependency' => 'left_dry'),
-				array('right_fluidstatus_id, right_fluidtypes', 'requiredIfFalse', 'side' => 'right', 'dependency' => 'right_dry'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
+                array('left_sft', 'numerical', 'integerOnly' => true, 'max' => 1500, 'min' => 50,
+                        'tooBig' => 'Left {attribute} must be between 50 and 1500',
+                        'tooSmall' => 'Left {attribute} must be between 50 and 1500'),
+                array('right_sft', 'numerical', 'integerOnly' => true, 'max' => 1500, 'min' => 50,
+                        'tooBig' => 'Right {attribute} must be between 50 and 1500',
+                        'tooSmall' => 'Right {attribute} must be between 50 and 1500'),
+                array('left_fluidstatus_id',
+                    'notAllowedIfTrue', 'side' => 'left', 'dependency' => 'left_dry'),
+                array('right_fluidstatus_id',
+                    'notAllowedIfTrue', 'side' => 'right', 'dependency' => 'right_dry'),
+                array('left_fluidstatus_id, left_fluidtypes', 'requiredIfFalse', 'side' => 'left', 'dependency' => 'left_dry'),
+                array('right_fluidstatus_id, right_fluidtypes', 'requiredIfFalse', 'side' => 'right', 'dependency' => 'right_dry'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, event_id, left_method_id, left_crt, left_sft, left_thickness_increase, left_dry,
 					left_fluidstatus_id, left_comments, right_method_id, right_crt, right_sft, right_thickness_increase,
 					right_dry, right_fluidstatus_id, right_comments', 'safe', 'on' => 'search'),
-		);
-	}
+        );
+    }
 
-	public function sidedFields()
-	{
-		return array('method_id', 'crt', 'sft', 'dry', 'fluidstatus_id', 'comments');
-	}
+    public function sidedFields()
+    {
+        return array('method_id', 'crt', 'sft', 'dry', 'fluidstatus_id', 'comments');
+    }
 
-	public function sidedDefaults()
-	{
-		return array();
-	}
+    public function sidedDefaults()
+    {
+        return array();
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'left_method_id'),
-				'right_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'right_method_id'),
-				'fluidtype_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
-				'left_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::LEFT),
-				'right_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments' , 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::RIGHT),
-				'left_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'left_fluidstatus_id'),
-				'right_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'right_fluidstatus_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+                'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+                'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+                'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+                'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+                'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+                'left_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'left_method_id'),
+                'right_method' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_Method', 'right_method_id'),
+                'fluidtype_assignments' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidTypeAssignment' , 'element_id' ),
+                'left_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments', 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::LEFT),
+                'right_fluidtypes' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidType', 'fluidtype_id', 'through' => 'fluidtype_assignments' , 'on' => 'fluidtype_assignments.eye_id = ' . \Eye::RIGHT),
+                'left_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'left_fluidstatus_id'),
+                'right_fluidstatus' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_OCT_FluidStatus', 'right_fluidstatus_id'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'event_id' => 'Event',
-			'left_method_id' => 'Image Type',
-			'right_method_id' => 'Image Type',
-			'left_crt' => 'Maximum CRT',
-			'right_crt' => 'Maximum CRT',
-			'left_sft' => 'Central SFT',
-			'right_sft' => 'Central SFT',
-			'left_thickness_increase' => 'Thickness increase of 100µm',
-			'right_thickness_increase' => 'Thickness increase of 100µm',
-			'left_dry' => 'Dry',
-			'right_dry' => 'Dry',
-			'left_fluidtypes' => 'Findings',
-			'right_fluidtypes' => 'Findings',
-			'left_fluidstatus_id' => 'Findings Type',
-			'right_fluidstatus_id' => 'Findings Type',
-			'left_comments' => 'Comments',
-			'right_comments' => 'Comments',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'event_id' => 'Event',
+            'left_method_id' => 'Image Type',
+            'right_method_id' => 'Image Type',
+            'left_crt' => 'Maximum CRT',
+            'right_crt' => 'Maximum CRT',
+            'left_sft' => 'Central SFT',
+            'right_sft' => 'Central SFT',
+            'left_thickness_increase' => 'Thickness increase of 100µm',
+            'right_thickness_increase' => 'Thickness increase of 100µm',
+            'left_dry' => 'Dry',
+            'right_dry' => 'Dry',
+            'left_fluidtypes' => 'Findings',
+            'right_fluidtypes' => 'Findings',
+            'left_fluidstatus_id' => 'Findings Type',
+            'right_fluidstatus_id' => 'Findings Type',
+            'left_comments' => 'Comments',
+            'right_comments' => 'Comments',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria = new \CDbCriteria;
+        $criteria = new \CDbCriteria;
 
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('left_method_id', $this->left_method_id);
-		$criteria->compare('right_method_id', $this->right_method_id);
-		$criteria->compare('left_crt', $this->left_crt);
-		$criteria->compare('right_crt', $this->right_crt);
-		$criteria->compare('left_sft', $this->left_sft);
-		$criteria->compare('right_sft', $this->right_sft);
-		$criteria->compare('left_thickness_increase', $this->left_thickness_increase);
-		$criteria->compare('right_thickness_increase', $this->right_thickness_increase);
-		$criteria->compare('left_dry', $this->left_dry);
-		$criteria->compare('right_dry', $this->right_dry);
-		$criteria->compare('left_fluidtypes', $this->left_fluidtypes);
-		$criteria->compare('right_fluidtypes', $this->right_fluidtypes);
-		$criteria->compare('left_fluidstatus_id', $this->left_fluidstatus_id);
-		$criteria->compare('right_fluidstatus_id', $this->right_fluidstatus_id);
-		$criteria->compare('left_comments', $this->left_comments);
-		$criteria->compare('right_comments', $this->right_comments);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('event_id', $this->event_id, true);
+        $criteria->compare('left_method_id', $this->left_method_id);
+        $criteria->compare('right_method_id', $this->right_method_id);
+        $criteria->compare('left_crt', $this->left_crt);
+        $criteria->compare('right_crt', $this->right_crt);
+        $criteria->compare('left_sft', $this->left_sft);
+        $criteria->compare('right_sft', $this->right_sft);
+        $criteria->compare('left_thickness_increase', $this->left_thickness_increase);
+        $criteria->compare('right_thickness_increase', $this->right_thickness_increase);
+        $criteria->compare('left_dry', $this->left_dry);
+        $criteria->compare('right_dry', $this->right_dry);
+        $criteria->compare('left_fluidtypes', $this->left_fluidtypes);
+        $criteria->compare('right_fluidtypes', $this->right_fluidtypes);
+        $criteria->compare('left_fluidstatus_id', $this->left_fluidstatus_id);
+        $criteria->compare('right_fluidstatus_id', $this->right_fluidstatus_id);
+        $criteria->compare('left_comments', $this->left_comments);
+        $criteria->compare('right_comments', $this->right_comments);
 
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+        ));
+    }
 
-	/**
-	 * returns the appropriate string for displaying the fluid finding value(s) for the given side
-	 *
-	 * @param string $side left or right
-	 * @param boolean $notrecorded - flag to indicate whether we want a string for it not being recorded
-	 * @return string
-	 *
-	 */
-	protected function getFluidString($side, $notrecorded = true)
-	{
-		// we check that dry is not null here, because if it is then it indicates the OCT
-		// was recorded prior to the introduction of the fluid fields
-		if ($this->{'has' . ucfirst($side)}() && $this->{$side . '_dry'} !== null) {
-			if ($this->{$side . '_dry'}) {
-				return 'Dry';
-			}
-			else {
-				$fts = array();
-				foreach ($this->{$side . '_fluidtypes'} as $ft) {
-					$fts[] = $ft->name;
-				}
-				return $this->{$side .'_fluidstatus'}->name . ' ' . implode(", ", $fts);
-			}
-		}
-		else {
-			return 'Not recorded';
-		}
-	}
+    /**
+     * returns the appropriate string for displaying the fluid finding value(s) for the given side
+     *
+     * @param string $side left or right
+     * @param boolean $notrecorded - flag to indicate whether we want a string for it not being recorded
+     * @return string
+     *
+     */
+    protected function getFluidString($side, $notrecorded = true)
+    {
+        // we check that dry is not null here, because if it is then it indicates the OCT
+        // was recorded prior to the introduction of the fluid fields
+        if ($this->{'has' . ucfirst($side)}() && $this->{$side . '_dry'} !== null) {
+            if ($this->{$side . '_dry'}) {
+                return 'Dry';
+            } else {
+                $fts = array();
+                foreach ($this->{$side . '_fluidtypes'} as $ft) {
+                    $fts[] = $ft->name;
+                }
+                return $this->{$side .'_fluidstatus'}->name . ' ' . implode(", ", $fts);
+            }
+        } else {
+            return 'Not recorded';
+        }
+    }
 
-	/**
-	 * get the fluid findings string for the left
-	 *
-	 * @return string
-	 */
-	public function getLeftFluidString()
-	{
-		return $this->getFluidString('left');
-	}
+    /**
+     * get the fluid findings string for the left
+     *
+     * @return string
+     */
+    public function getLeftFluidString()
+    {
+        return $this->getFluidString('left');
+    }
 
-	/**
-	 * get the fluid findings string for the right
-	 *
-	 * @return string
-	 */
-	public function getRightFluidString()
-	{
-		return $this->getFluidString('right');
-	}
+    /**
+     * get the fluid findings string for the right
+     *
+     * @return string
+     */
+    public function getRightFluidString()
+    {
+        return $this->getFluidString('right');
+    }
 
-	/**
-	 * validate that attribute is set if dependency is false
-	 * requires side param
-	 *
-	 * @param $attribute
-	 * @param $params
-	 */
-	public function requiredIfFalse($attribute, $params)
-	{
-		$dependency = $params['dependency'];
-		$side = $params['side'];
-		$checker = "has" . ucfirst($side);
-		if ($this->$checker() && $this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
-			!$this->$attribute) {
-			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
-				ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
-		}
-	}
+    /**
+     * validate that attribute is set if dependency is false
+     * requires side param
+     *
+     * @param $attribute
+     * @param $params
+     */
+    public function requiredIfFalse($attribute, $params)
+    {
+        $dependency = $params['dependency'];
+        $side = $params['side'];
+        $checker = "has" . ucfirst($side);
+        if ($this->$checker() && $this->$dependency !== null && $this->$dependency != '' && !$this->$dependency &&
+            !$this->$attribute) {
+            $this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' is required when ' .
+                ucfirst($side) . ' ' . $this->getAttributeLabel($dependency) .  ' is no');
+        }
+    }
 
-	/**
-	 * validate that attribute is not set if dependency is true - should never arise through the forms
-	 * requires side param
-	 *
-	 * @param $attribute
-	 * @param $params
-	 */
-	public function notAllowedIfTrue($attribute, $params)
-	{
-		$dependency = $params['dependency'];
-		$side = $params['side'];
-		$checker = "has" . ucfirst($side);
-		if ($this->$checker() && $this->$dependency && $this->$attribute) {
-			$this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' cannot be set when ' . $side . ' ' . $this->getAttributeLabel($dependency) . ' is set');
-		}
-	}
+    /**
+     * validate that attribute is not set if dependency is true - should never arise through the forms
+     * requires side param
+     *
+     * @param $attribute
+     * @param $params
+     */
+    public function notAllowedIfTrue($attribute, $params)
+    {
+        $dependency = $params['dependency'];
+        $side = $params['side'];
+        $checker = "has" . ucfirst($side);
+        if ($this->$checker() && $this->$dependency && $this->$attribute) {
+            $this->addError($attribute, ucfirst($side) . ' ' . $this->getAttributeLabel($attribute) . ' cannot be set when ' . $side . ' ' . $this->getAttributeLabel($dependency) . ' is set');
+        }
+    }
 
-	/**
-	 * get the letter string for the given side
-	 *
-	 * @param $side
-	 * @return string
-	 */
-	protected function getLetterStringForSide($side)
-	{
-		$res = ucfirst($side) . " Eye:\n";
-		$res .= $this->getAttributeLabel($side . '_method_id') . ": " . $this->{$side . '_method'}->name . "\n";
-		if ($this->{$side . '_crt'}) {
-			$res .= $this->getAttributeLabel($side . '_crt') . ": " . $this->{$side . '_crt'} . " microns\n";
-		}
-		$res .= $this->getAttributeLabel($side . '_sft') . ": " . $this->{$side . '_sft'} . " microns\n";
-		if ($this->{$side . '_thickness_increase'} !== null) {
-			$res .= "Thickness increase over 100 microns: " . ($this->{$side . '_thickness_increase'} ? 'Yes' : 'No');
-			$res .= "\n";
-		}
+    /**
+     * get the letter string for the given side
+     *
+     * @param $side
+     * @return string
+     */
+    protected function getLetterStringForSide($side)
+    {
+        $res = ucfirst($side) . " Eye:\n";
+        $res .= $this->getAttributeLabel($side . '_method_id') . ": " . $this->{$side . '_method'}->name . "\n";
+        if ($this->{$side . '_crt'}) {
+            $res .= $this->getAttributeLabel($side . '_crt') . ": " . $this->{$side . '_crt'} . " microns\n";
+        }
+        $res .= $this->getAttributeLabel($side . '_sft') . ": " . $this->{$side . '_sft'} . " microns\n";
+        if ($this->{$side . '_thickness_increase'} !== null) {
+            $res .= "Thickness increase over 100 microns: " . ($this->{$side . '_thickness_increase'} ? 'Yes' : 'No');
+            $res .= "\n";
+        }
 
-		if ($fluid = $this->getFluidString($side, false)) {
-			$res .= 'Finding: ' . $fluid . "\n";
-		}
+        if ($fluid = $this->getFluidString($side, false)) {
+            $res .= 'Finding: ' . $fluid . "\n";
+        }
 
-		if ($this->{$side . '_comments'}) {
-			$res .= $this->{$side . '_comments'} . "\n";
-		}
-		return $res;
-	}
+        if ($this->{$side . '_comments'}) {
+            $res .= $this->{$side . '_comments'} . "\n";
+        }
+        return $res;
+    }
 
-	/**
-	 * get the letter string for the element
-	 * used by correspondence if installed
-	 *
-	 * @return string
-	 */
-	public function getLetter_string()
-	{
-		$res = "OCT:\n";
-		if ($this->hasRight()) {
-			$res .= $this->getLetterStringForSide('right');
-		}
-		if ($this->hasLeft()) {
-			$res .= $this->getLetterStringForSide('left');
-		}
-		return $res;
-	}
+    /**
+     * get the letter string for the element
+     * used by correspondence if installed
+     *
+     * @return string
+     */
+    public function getLetter_string()
+    {
+        $res = "OCT:\n";
+        if ($this->hasRight()) {
+            $res .= $this->getLetterStringForSide('right');
+        }
+        if ($this->hasLeft()) {
+            $res .= $this->getLetterStringForSide('left');
+        }
+        return $res;
+    }
 
-	public function getFluidTypeValues()
-	{
-		$fluidtype_values = array();
+    public function getFluidTypeValues()
+    {
+        $fluidtype_values = array();
 
-		foreach ($this->fluidtype_assignments as $fluidtype_assignment) {
-			$fluidtype_values[] = $fluidtype_assignment->fluidtype_id;
-		}
+        foreach ($this->fluidtype_assignments as $fluidtype_assignment) {
+            $fluidtype_values[] = $fluidtype_assignment->fluidtype_id;
+        }
 
-		return $fluidtype_values;
-	}
+        return $fluidtype_values;
+    }
 }

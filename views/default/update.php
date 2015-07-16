@@ -20,20 +20,22 @@
 
 <?php $this->beginContent('//patient/event_container'); ?>
 	<?php
-		$this->breadcrumbs=array($this->module->id);
-		$this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'examination-update'));
-	?>
+        $this->breadcrumbs=array($this->module->id);
+        $this->event_actions[] = EventAction::button('Save', 'save', array('level' => 'save'), array('form'=>'examination-update'));
+    ?>
 	<?php $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
-		'id'=>'examination-update',
-		'enableAjaxValidation'=>false,
-		'layoutColumns' => array(
-			'label' => 4,
-			'field' => 8
-		)
-	));
-	?>
+        'id'=>'examination-update',
+        'enableAjaxValidation'=>false,
+        'layoutColumns' => array(
+            'label' => 4,
+            'field' => 8
+        )
+    ));
+    ?>
     <?php
-		if (!empty($errors))  ?>
+        if (!empty($errors)) {
+            ;
+        }  ?>
 		<script type='text/javascript'>
 			$(document).ready( function(){
 				window.formHasChanged = true;

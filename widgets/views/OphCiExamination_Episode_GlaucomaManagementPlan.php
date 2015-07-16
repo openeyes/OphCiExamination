@@ -38,29 +38,37 @@
 						<th scope="col">Gonio</th>
 						<td><?= $plan->gonio->name ?></td>
 					</tr>
-					<?php if (isset($plan->hrt)) { ?>
+					<?php if (isset($plan->hrt)) {
+    ?>
 					<tr>
 						<th scope="col">HRT</th>
 						<td><?= $plan->hrt->name ?></td>
 					</tr>
-					<?php } ?>
+					<?php 
+} ?>
 				</tbody>
 			</table>
 		</div>
 		<div class="large-6 column">
-			<?php if ($plan->comments) {?>
+			<?php if ($plan->comments) {
+    ?>
 				<div class="data-label">Comments:</div>
 				<div class="data-value panel comments"><?= Yii::app()->format->nText($plan->comments) ?></div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="large-6 column">
-			<?php if ($plan->hasRight()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'right')); ?>
+			<?php if ($plan->hasRight()) {
+    $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'right'));
+} ?>
 		</div>
 		<div class="large-6 column">
-			<?php if ($plan->hasLeft()) $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'left')); ?>
+			<?php if ($plan->hasLeft()) {
+    $this->render('OphCiExamination_Episode_GlaucomaManagementPlan_side', array('plan' => $plan, 'side' => 'left'));
+} ?>
 		</div>
 	</div>
 <?php else: ?>

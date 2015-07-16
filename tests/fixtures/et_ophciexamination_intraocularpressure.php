@@ -17,18 +17,18 @@
  */
 
 return array(
-	'et_iop1' => array(
-		'id' => 1,
-		'event_id' => 1,
-		'eye_id'=>2,
-		'left_comments' => 'Some comment left 1',
-		'right_comments' => 'Some comment right 1',
-	),
-	'et_iop2' => array(
-		'id' => 2,
-		'event_id' => 2,
-		'eye_id'=>3,
-		'left_comments' => 'Some comment left 2',
-		'right_comments' => 'Some comment right 2',
-	)
+    'et_iop1' => array(
+        'id' => 1,
+        'event_id' => 1,
+        'eye_id'=>2,
+        'left_comments' => 'Some comment left 1',
+        'right_comments' => 'Some comment right 1',
+    ),
+    'et_iop2' => array(
+        'id' => 2,
+        'event_id' => 2,
+        'eye_id'=>3,
+        'left_comments' => 'Some comment left 2',
+        'right_comments' => 'Some comment right 2',
+    )
 );
