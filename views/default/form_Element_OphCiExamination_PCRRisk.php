@@ -48,9 +48,9 @@ $criteria = new CDbCriteria();
 		$patientId = $this->patient->id;
 	}
 
-if(isset($patientId))
-	$pcr = OEModule\OphCiExamination\controllers\DefaultController::getPCRData($patientId, $side, $element);
-	//echo '<pre>'; print_r($pcr);
+	if(isset($patientId)):
+		$pcrRisk = new OEModule\OphCiExamination\components\PcrRisk();
+		$pcr = $pcrRisk->getPCRData($patientId, $side, $element);
 	?>
 	<div id="left_eye_pcr">
 		<div class="row field-row">
@@ -283,4 +283,5 @@ if(isset($patientId))
 			</div>
 		</div>
 	</div>
+	<?php endif;?>
 </div>
