@@ -27,6 +27,7 @@ if ($side == 'left') {
 
 	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
 }
+$criteria = new CDbCriteria();
 ?>
 
 <div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element) ?>_injection">
@@ -251,7 +252,7 @@ if(isset($patientId))
 			</div>
 			<div class="large-2 column">
 				<?php echo CHtml::dropDownList('doctor_grade_id', 'doctor_grade_id',
-					CHtml::listData(DoctorGrade::model()->findAll(array('order' => 'display_order')), 'id', 'grade'),
+					CHtml::listData(DoctorGrade::model()->findAll($criteria->condition = "grade != 'House officer'", array('order' => 'display_order')), 'id', 'grade'),
 					array(
 						'empty' => '- Select Doctor Grade -',
 						'options' => array($pcr['doctor_grade_id'] => array('selected' => true))
