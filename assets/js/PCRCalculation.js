@@ -1,7 +1,6 @@
 $(document).ready(function()
 {
-    pcrCalculate('left');
-    pcrCalculate('right');
+    setSurgeonFromNote($('#Element_OphTrOperationnote_Surgeon_surgeon_id').val());
 
     $(document.body).on('change','#ophCiExaminationPCRRiskLeftEye',function(){
         pcrCalculate('left');
@@ -10,7 +9,32 @@ $(document).ready(function()
     $(document.body).on('change','#ophCiExaminationPCRRiskRightEye',function(){
         pcrCalculate('right');
     });
+
+    $('#Element_OphTrOperationnote_Surgeon_surgeon_id').on('change', function(){
+        setSurgeonFromNote($(this).val());
+    });
 });
+
+function setSurgeonFromNote(surgeonId)
+{
+    if(!surgeonId){
+        $('.pcr_doctor_grade').val('');
+        pcrCalculate('left');
+        pcrCalculate('right');
+        return;
+    }
+
+    $.ajax({
+        'type': 'GET',
+        'url': '/user/surgeonGrade/',
+        'data': {'id': surgeonId},
+        'success': function(data){
+            $('.pcr_doctor_grade').val(data.id);
+            pcrCalculate('left');
+            pcrCalculate('right');
+        }
+    });
+}
 
 function capitalizeFirstLetter( input) {
     return input.charAt(0).toUpperCase() + input.slice(1);

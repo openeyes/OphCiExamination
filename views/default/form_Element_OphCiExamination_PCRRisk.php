@@ -21,16 +21,12 @@ if (!isset($side)) {
 	$side = 'left';
 }
 
-if ($side == 'left') {
-	$assetManager = Yii::app()->getAssetManager();
-	$baseAssetsPath = Yii::getPathOfAlias('application.modules.OphCiExamination.assets');
+Yii::app()->assetManager->registerScriptFile('/js/PCRCalculation.js','application.modules.OphCiExamination.assets' , CClientScript::POS_HEAD);
 
-	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath)."/js/PCRCalculation.js", CClientScript::POS_HEAD);
-}
 $criteria = new CDbCriteria();
 ?>
 
-<div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element) ?>_injection">
+<div class="sub-element-fields" id="div_<?php echo CHtml::modelName($element) ?>_pcr_risk">
 	<div>
 		<header class="sub-element-header">
 			<h4 class="sub-element-title"> PCR Risk (<?php echo $side; ?>) </h4>
@@ -251,12 +247,19 @@ $criteria = new CDbCriteria();
 				</label>
 			</div>
 			<div class="large-2 column">
-				<?php echo CHtml::dropDownList('doctor_grade_id', 'doctor_grade_id',
-					CHtml::listData(DoctorGrade::model()->findAll($criteria->condition = "grade != 'House officer'", array('order' => 'display_order')), 'id', 'grade'),
+				<?php echo
+				CHtml::dropDownList('doctor_grade_id', 'doctor_grade_id',
+					CHtml::listData(
+						DoctorGrade::model()->findAll($criteria->condition = "grade != 'House officer'", array('order' => 'display_order')),
+						'id',
+						'grade'
+					),
 					array(
 						'empty' => '- Select Doctor Grade -',
-						'options' => array($pcr['doctor_grade_id'] => array('selected' => true))
-					)); ?>
+						'options' => array($pcr['doctor_grade_id'] => array('selected' => true)),
+						'class' => 'pcr_doctor_grade'
+					)
+				); ?>
 			</div>
 			<div class="large-2 column pcr-nkr">
 				&nbsp;
