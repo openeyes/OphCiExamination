@@ -45,6 +45,8 @@ class DefaultController extends \BaseEventTypeController
 
 	protected $allergies = array();
 
+	protected $deletedAllergies = array();
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -607,6 +609,24 @@ class DefaultController extends \BaseEventTypeController
 	protected function setComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
 	{
 		$allergies = array();
+		// we add the original rows
+		foreach($this->patient->allergyAssignments as $paa){
+			$allergies[] = $paa;
+		}
+
+		// we remove the deleted ones
+		if (!empty($data['deleted_allergies'])) {
+			$this->deletedAllergies = $data['deleted_allergies'];
+			foreach ($this->deletedAllergies as $deletedAssignmentId) {
+				foreach($allergies as $key=>$allergyRow){
+					if($allergyRow->id == $deletedAssignmentId){
+						unset($allergies[$key]);
+					}
+				}
+			}
+		}
+
+		// and finally we just add the new ones
 		if (!empty($data['selected_allergies'])) {
 			foreach ($data['selected_allergies'] as $i => $allergy_id) {
 				if($data['other_names'][$i] == 'undefined'){
@@ -621,6 +641,7 @@ class DefaultController extends \BaseEventTypeController
 		}
 
 		$this->allergies = $allergies;
+
 	}
 
 
@@ -781,21 +802,28 @@ class DefaultController extends \BaseEventTypeController
 	{
 		$patient = \Patient::model()->findByPk($this->patient->id);
 
+		// we remove all current allergy data
+		if( !empty($data['deleted_allergies'])){
+			foreach ($data['deleted_allergies'] as $i => $assignment_id) {
+				if( $assignment_id >0 ) {
+					$allergyToDel = \PatientAllergyAssignment::model()->findByPk($assignment_id);
+					if ($allergyToDel) {
+						$allergyToDel->delete();
+					}
+				}
+			}
+		}
+
 		if ( isset($data['no_allergies']) && $data['no_allergies']) {
 			$patient->setNoAllergies();
 		} else  {
-			// we remove all current allergy data
-
-			$currentAllergies = \PatientAllergyAssignment::model();
-			$currentAllergies->deleteAll('patient_id = '.$this->patient->id);
-
 			if (!empty($data['selected_allergies'])) {
 				foreach ($data['selected_allergies'] as $i => $allergy_id) {
 					$allergyObject = \Allergy::model()->findByPk($allergy_id);
 					if($data['other_names'][$i] == 'undefined'){
 						$data['other_names'][$i] = "";
 					}
-					$patient->addAllergy($allergyObject, $data['other_names'][$i], $data['allergy_comments'][$i], false);
+					$patient->addAllergy($allergyObject, $data['other_names'][$i], $data['allergy_comments'][$i], false, $this->event->id);
 				}
 			}
 		}
