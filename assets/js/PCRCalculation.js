@@ -248,6 +248,8 @@ function pcrCalculate( side ){
 $(document).ready(function()
 {
     mapExaminationToPcr();
+    pcrCalculate('left');
+    pcrCalculate('right');
     //setSurgeonFromNote($('#Element_OphTrOperationnote_Surgeon_surgeon_id').val());
 
     $(document.body).on('change','#ophCiExaminationPCRRiskLeftEye',function(){
