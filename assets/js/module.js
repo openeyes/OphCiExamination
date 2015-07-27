@@ -329,7 +329,10 @@ $(document).ready(function() {
         if(allergy_name != 'Other') {
             $('#allergy_id').append('<option value="' + allergy_id + '">' + allergy_name + '</option>');
         }
-        row.remove(); // we remove the <tr>
+		if( row.data('assignment-id') !== undefined) {
+			$('#OphCiExamination_allergy').append('<input type="hidden" name="deleted_allergies[]" value="' + row.data('assignment-id') + '">');
+		}
+		row.remove(); // we remove the <tr>
         if($('#OphCiExamination_allergy tr').length == 0 ){
             $('.allergies_confirm_no').slideDown('fast');
         }

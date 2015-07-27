@@ -85,15 +85,13 @@
 				</tr>
 				</thead>
 				<tbody id="OphCiExamination_allergy">
-				<?php foreach ($this->allergies as $aa) { ?>
+				<?php
+					foreach ($this->allergies as $aa) { ?>
 					<script type="text/javascript">
 						removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
 					</script>
 					<tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
 						<td><?= CHtml::encode($aa->name) ?>
-							<input type="hidden" name="selected_allergies[]" value="<?= $aa->allergy->id ?>">
-							<input type="hidden" name="allergy_comments[]" value="<?= $aa->comments ?>">
-							<input type="hidden" name="other_names[]" value="<?= $aa->other ?>">
 						</td>
 						<td><?= CHtml::encode($aa->comments) ?></td>
 						<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
@@ -102,9 +100,18 @@
 									Remove
 								</a>
 							</td>
-						<?php } ?>
+						<?php
+							if(!isset($aa->id)){?>
+								<input type="hidden" value="<?php echo $aa->allergy->id; ?>" name="selected_allergies[]">
+								<input type="hidden" value="<?php echo $aa->comments; ?>" name="allergy_comments[]">
+								<input type="hidden" value="<?php echo $aa->other; ?>" name="other_names[]">
+							<?php }
+						} ?>
 					</tr>
-				<?php } ?>
+				<?php }
+					foreach($this->deletedAllergies as $deletedId){
+						echo '<input type="hidden" value="'.$deletedId.'" name="deleted_allergies[]">';
+					}?>
 				</tbody>
 			</table>
 		</div>
