@@ -105,7 +105,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 				'previous_refractive_surgery' => 'Previous refractive surgery',
 				'vitrectomised_eye' => 'Vitrectomised eye',
 				'eye_id' => 'Eye',
-				'reason_for_surgery_id' => 'Primary Reason For Surgery'
+				'reasonForSurgery' => 'Primary reason for cataract surgery'
 		);
 	}
 
