@@ -51,8 +51,11 @@ function getPcrContainer(ev)
 
 function setSurgeonFromNote(ev, pcrEl)
 {
-    var surgeonId = $(ev.target).val();
+    if(!pcrEl){
+        pcrEl = ev.data;
+    }
 
+    var surgeonId = $(ev.target).val();
     if(!surgeonId){
         $('.pcr_doctor_grade').val('');
         pcrCalculate('left');
@@ -250,7 +253,6 @@ $(document).ready(function()
     mapExaminationToPcr();
     pcrCalculate('left');
     pcrCalculate('right');
-    //setSurgeonFromNote($('#Element_OphTrOperationnote_Surgeon_surgeon_id').val());
 
     $(document.body).on('change','#ophCiExaminationPCRRiskLeftEye',function(){
         pcrCalculate('left');
@@ -260,7 +262,4 @@ $(document).ready(function()
         pcrCalculate('right');
     });
 
-    $('#Element_OphTrOperationnote_Surgeon_surgeon_id').on('change', function(){
-        setSurgeonFromNote($(this).val());
-    });
 });
