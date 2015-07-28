@@ -25,6 +25,11 @@ function mapExaminationToPcr()
                 "func": setDiabeticDisorder,
                 "init": true
             },
+            ":input[name^='glaucoma_diagnoses']": {
+                "pcr": 'select[name="glaucoma"]',
+                "func": setGlaucomaDisorder,
+                "init": true
+            }
         },
         examinationObj,
         examinationEl;
@@ -61,6 +66,19 @@ function setDiabeticDisorder(ev, pcrEl)
     }
 
     if($('input[name^="diabetic_diagnoses"]').length){
+        $(pcrEl).val('Y');
+    }
+
+    $(pcrEl).trigger('change');
+}
+
+function setGlaucomaDisorder(ev, pcrEl)
+{
+    if (!pcrEl) {
+        pcrEl = ev.data;
+    }
+
+    if($('input[name^="glaucoma_diagnoses"]').length){
         $(pcrEl).val('Y');
     }
 

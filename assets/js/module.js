@@ -1953,9 +1953,9 @@ function OphCiExamination_GetCurrentConditions() {
  * @param string label
  * @constructor
  */
-function OphCiExamination_AddDisorderOrFinding(type, conditionId, label, isDiabetic) {
+function OphCiExamination_AddDisorderOrFinding(type, conditionId, label, isDiabetic, isGlaucoma) {
 	if(type == 'disorder') {
-		OphCiExamination_AddDiagnosis(conditionId, label, null, isDiabetic);
+		OphCiExamination_AddDiagnosis(conditionId, label, null, isDiabetic, isGlaucoma);
 	} else if(type == 'finding') {
 		OphCiExamination_AddFinding(conditionId, label);
 	} else {
@@ -1976,7 +1976,7 @@ function OphCiExamination_AddFinding(finding_id, label) {
 
 }
 
-function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic) {
+function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic, isGlaucoma) {
 	var max_id = -1;
 	var count = 0;
 	$('#OphCiExamination_diagnoses').children('tr').map(function() {
@@ -1999,6 +1999,7 @@ function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic) {
 	var row = '<tr>'+
 		'<td>'+
 		((isDiabetic) ? '<input type="hidden" name="diabetic_diagnoses[]" value="1" /> ' : '') +
+		((isGlaucoma) ? '<input type="hidden" name="glaucoma_diagnoses[]" value="1" /> ' : '') +
 		'<input type="hidden" name="selected_diagnoses[]" value="'+disorderId+'" /> '+name+' </td>'+
 		'<td class="eye">'+
 			'<label class="inline">'+
@@ -2023,6 +2024,7 @@ function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic) {
 	OphCiExamination_RefreshCommonOphDiagnoses();
 	//Adding new element to array doesn't trigger change so do it manually
 	$(":input[name^='diabetic_diagnoses']").trigger('change',  ['select[name="diabetic"]']);
+	$(":input[name^='glaucoma_diagnoses']").trigger('change',  ['select[name="glaucoma"]']);
 }
 
 function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
