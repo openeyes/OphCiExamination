@@ -62,9 +62,8 @@ function setDiabeticDisorder(ev, pcrEl)
 
     if($('input[name^="diabetic_diagnoses"]').length){
         $(pcrEl).val('Y');
-    } else {
-        $(pcrEl).val('N');
     }
+
     $(pcrEl).trigger('change');
 }
 
