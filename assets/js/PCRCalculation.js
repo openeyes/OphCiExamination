@@ -20,6 +20,11 @@ function mapExaminationToPcr()
                 "pcr":  'select[name="pupil_size"]',
                 "func": setPcrPupil
             },
+            ":input[name^='diabetic_diagnoses']": {
+                "pcr": 'select[name="diabetic"]',
+                "func": setDiabeticDisorder,
+                "init": true
+            },
         },
         examinationObj,
         examinationEl;
@@ -49,6 +54,20 @@ function getPcrContainer(ev)
     return $container;
 }
 
+function setDiabeticDisorder(ev, pcrEl)
+{
+    if (!pcrEl) {
+        pcrEl = ev.data;
+    }
+
+    if($('input[name^="diabetic_diagnoses"]').length){
+        $(pcrEl).val('Y');
+    } else {
+        $(pcrEl).val('N');
+    }
+    $(pcrEl).trigger('change');
+}
+
 function setSurgeonFromNote(ev, pcrEl)
 {
     if(!pcrEl){
@@ -57,9 +76,8 @@ function setSurgeonFromNote(ev, pcrEl)
 
     var surgeonId = $(ev.target).val();
     if(!surgeonId){
-        $('.pcr_doctor_grade').val('');
-        pcrCalculate('left');
-        pcrCalculate('right');
+        $(pcrEl).val('');
+        $(pcrEl).trigger('change');
         return;
     }
 
@@ -69,10 +87,10 @@ function setSurgeonFromNote(ev, pcrEl)
         'data': {'id': surgeonId},
         'success': function(data){
             $(pcrEl).val(data.id);
-            pcrCalculate('left');
-            pcrCalculate('right');
+            $(pcrEl).trigger('change');
         }
     });
+    $(pcrEl).trigger('change');
 }
 
 function setPcrBrunescent(ev, pcrEl)
@@ -88,8 +106,8 @@ function setPcrBrunescent(ev, pcrEl)
     } else {
         $container.find(pcrEl).val('N');
     }
-    pcrCalculate('left');
-    pcrCalculate('right');
+    $(pcrEl).trigger('change');
+
 }
 
 function setPcrPxf(ev, pcrEl)
@@ -105,8 +123,8 @@ function setPcrPxf(ev, pcrEl)
     } else {
         $container.find(pcrEl).val('N');
     }
-    pcrCalculate('left');
-    pcrCalculate('right');
+    $(pcrEl).trigger('change');
+
 }
 
 function setPcrPupil(ev, pcrEl)
@@ -117,8 +135,8 @@ function setPcrPupil(ev, pcrEl)
 
     var $container = getPcrContainer(ev);
     $container.find(pcrEl).val($(ev.target).val());
-    pcrCalculate('left');
-    pcrCalculate('right');
+    $(pcrEl).trigger('change');
+
 }
 
 function capitalizeFirstLetter( input) {
@@ -211,14 +229,15 @@ function pcrCalculate( side ){
    // alert('Called '+side);
     side = capitalizeFirstLetter(side);  // we use this to keep camelCase div names
 
-    var pcrDataValues = collectValues( side );
-    var ORValue = calculateORValue( pcrDataValues );
-    var pcrRisk;
-    var excessRisk;
-    var pcrColor;
+    var pcrDataValues = collectValues( side),
+        ORValue = calculateORValue( pcrDataValues),
+        pcrRisk,
+        excessRisk,
+        pcrColor,
+        averageRiskConst;
 
     if( ORValue ) {
-        var pcrRisk = ORValue * (0.00736 / (1 - 0.00736)) / (1 + (ORValue * 0.00736 / (1 - 0.00736))) * 100;
+        pcrRisk = ORValue * (0.00736 / (1 - 0.00736)) / (1 + (ORValue * 0.00736 / (1 - 0.00736))) * 100;
         var averageRiskConst = 1.92;
         excessRisk = pcrRisk / averageRiskConst;
         excessRisk = excessRisk.toFixed(2);

@@ -1949,15 +1949,15 @@ function OphCiExamination_GetCurrentConditions() {
 /**
  * Add disorder or finding to exam
  * @param string type
- * @param integer condition_id
+ * @param integer conditionId
  * @param string label
  * @constructor
  */
-function OphCiExamination_AddDisorderOrFinding(type, condition_id, label) {
+function OphCiExamination_AddDisorderOrFinding(type, conditionId, label, isDiabetic) {
 	if(type == 'disorder') {
-		OphCiExamination_AddDiagnosis(condition_id, label);
+		OphCiExamination_AddDiagnosis(conditionId, label, null, isDiabetic);
 	} else if(type == 'finding') {
-		OphCiExamination_AddFinding(condition_id, label);
+		OphCiExamination_AddFinding(conditionId, label);
 	} else {
 		console.log("Error: Unknown type: "+type);
 	}
@@ -1976,10 +1976,9 @@ function OphCiExamination_AddFinding(finding_id, label) {
 
 }
 
-function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
+function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic) {
 	var max_id = -1;
 	var count = 0;
-
 	$('#OphCiExamination_diagnoses').children('tr').map(function() {
 		var id = parseInt($(this).children('td:nth-child(2)').children('label:nth-child(1)').children('input').attr('name').match(/[0-9]+/));
 		if (id >= max_id) {
@@ -1990,15 +1989,17 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 
 	var id = max_id + 1;
 
-	eye_id = eye_id || $('input[name="'+OE_MODEL_PREFIX+'OphCiExamination_Diagnosis[eye_id]"]:checked').val();
+	eyeId = eyeId || $('input[name="'+OE_MODEL_PREFIX+'OphCiExamination_Diagnosis[eye_id]"]:checked').val();
 
-	var checked_right = (eye_id == 2 ? 'checked="checked" ' : '');
-	var checked_both = (eye_id == 3 ? 'checked="checked" ' : '');
-	var checked_left = (eye_id == 1 ? 'checked="checked" ' : '');
+	var checked_right = (eyeId == 2 ? 'checked="checked" ' : '');
+	var checked_both = (eyeId == 3 ? 'checked="checked" ' : '');
+	var checked_left = (eyeId == 1 ? 'checked="checked" ' : '');
 	var checked_principal = (count == 0 ? 'checked="checked" ' : '');
 
 	var row = '<tr>'+
-		'<td><input type="hidden" name="selected_diagnoses[]" value="'+disorder_id+'" /> '+name+' </td>'+
+		'<td>'+
+		((isDiabetic) ? '<input type="hidden" name="diabetic_diagnoses[]" value="1" /> ' : '') +
+		'<input type="hidden" name="selected_diagnoses[]" value="'+disorderId+'" /> '+name+' </td>'+
 		'<td class="eye">'+
 			'<label class="inline">'+
 				'<input type="radio" name="'+OE_MODEL_PREFIX+'Element_OphCiExamination_Diagnoses[eye_id_'+id+']" value="2" '+checked_right+'/> Right'+
@@ -2011,15 +2012,17 @@ function OphCiExamination_AddDiagnosis(disorder_id, name, eye_id) {
 			'</label> '+
 		'</td>'+
 		'<td>'+
-			'<input type="radio" name="principal_diagnosis" value="'+disorder_id+'" '+checked_principal+'/>'+
+			'<input type="radio" name="principal_diagnosis" value="'+disorderId+'" '+checked_principal+'/>'+
 		'</td>'+
 		'<td>'+
-			'<a href="#" class="removeDiagnosis" rel="'+disorder_id+'">Remove</a>'+
+			'<a href="#" class="removeDiagnosis" rel="'+disorderId+'">Remove</a>'+
 		'</td>'+
 	'</tr>';
 
 	$('.js-diagnoses').append(row);
 	OphCiExamination_RefreshCommonOphDiagnoses();
+	//Adding new element to array doesn't trigger change so do it manually
+	$(":input[name^='diabetic_diagnoses']").trigger('change',  ['select[name="diabetic"]']);
 }
 
 function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
@@ -2035,7 +2038,7 @@ function OphCiExamination_Gonioscopy_Eyedraw_Controller(drawing) {
 				}
 				break;
 		}
-	}
+	};
 	drawing.registerForNotifications(this);
 }
 

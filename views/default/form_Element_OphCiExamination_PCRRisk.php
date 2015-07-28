@@ -20,13 +20,15 @@
 if (!isset($side)) {
 	$side = 'left';
 }
-$jsPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.OphCiExamination.assets.js'), false, -1);
-?>
-<script type="text/javascript">
-	$.getScript('<?=$jsPath?>/PCRCalculation.js');
-</script>
-<?php
-
+if($side === 'left') {
+	$jsPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.OphCiExamination.assets.js'),
+		false, -1);
+	?>
+	<script type="text/javascript">
+		$.getScript('<?=$jsPath?>/PCRCalculation.js');
+	</script>
+	<?php
+}
 $criteria = new CDbCriteria();
 ?>
 
