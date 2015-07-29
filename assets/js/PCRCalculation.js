@@ -29,6 +29,10 @@ function mapExaminationToPcr()
                 "pcr": 'select[name="glaucoma"]',
                 "func": setGlaucomaDisorder,
                 "init": true
+            },
+            "#OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_right_cd_ratio_id,#OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_left_cd_ratio_id": {
+                "pcr": 'select[name="no_fundal_view"]',
+                "func": setFundalView
             }
         },
         examinationObj,
@@ -57,6 +61,22 @@ function getPcrContainer(ev)
     }
 
     return $container;
+}
+
+function setFundalView(ev, pcrEl)
+{
+    if (!pcrEl) {
+        pcrEl = ev.data;
+    }
+
+    var $container = getPcrContainer(ev);
+    if($(ev.target).find(':selected').data('value') === 'No view'){
+        $container.find(pcrEl).val('Y');
+    } else {
+        $container.find(pcrEl).val('N');
+    }
+
+    $(pcrEl).trigger('change');
 }
 
 function setDiabeticDisorder(ev, pcrEl)
