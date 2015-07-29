@@ -32,7 +32,8 @@ function mapExaminationToPcr()
             },
             "#OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_right_cd_ratio_id,#OEModule_OphCiExamination_models_Element_OphCiExamination_OpticDisc_left_cd_ratio_id": {
                 "pcr": 'select[name="no_fundal_view"]',
-                "func": setFundalView
+                "func": setFundalView,
+                "init": true
             }
         },
         examinationObj,
