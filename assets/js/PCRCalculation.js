@@ -14,11 +14,11 @@ function mapExaminationToPcr()
                 "pcr": 'select[name="brunescent_white_cataract"]',
                 "func": setPcrBrunescent
             },
-            "#ed_canvas_edit_left_39_pxe_control,#ed_canvas_edit_right_39_pxe_control": {
+            ":input[id*='_pxe_control']": {
                 "pcr":  'select[name="pxf_phako"]',
                 "func": setPcrPxf
             },
-            "#ed_canvas_edit_left_39_pupilSize_control,#ed_canvas_edit_right_39_pupilSize_control": {
+            ":input[id*='_pupilSize_control']": {
                 "pcr":  'select[name="pupil_size"]',
                 "func": setPcrPupil
             },
