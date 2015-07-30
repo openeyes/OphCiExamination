@@ -4,11 +4,11 @@ $(document).ready(function()
     pcrCalculate('right');
 
     $(document.body).on('change','#ophCiExaminationPCRRiskLeftEye',function(){
-        pcrCalculate('left')
+        pcrCalculate('left');
     });
 
     $(document.body).on('change','#ophCiExaminationPCRRiskRightEye',function(){
-        pcrCalculate('right')
+        pcrCalculate('right');
     });
 });
 
