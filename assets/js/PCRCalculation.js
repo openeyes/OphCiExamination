@@ -1,5 +1,7 @@
-
-
+/**
+ * Maps elements in examination or op not to their respective elements in PCR risk so changes in the
+ * examination are reflected in the PCR risk calculation automatically
+ */
 function mapExaminationToPcr()
 {
     var examinationMap = {
@@ -45,6 +47,7 @@ function mapExaminationToPcr()
             if(typeof examinationObj.func === 'function'){
                 $('#event-content').on('change', examinationEl, examinationObj.pcr, examinationObj.func);
             }
+            //Some stuff is set from PHP on page load, some is not so we need to init them
             if(typeof examinationObj.init !== 'undefined' && examinationObj.init){
                 $(examinationEl).trigger('change', [examinationObj.pcr]);
             }
@@ -52,6 +55,12 @@ function mapExaminationToPcr()
     }
 }
 
+/**
+ * Takes the element that has been changed and worked out which eye it should be altering in PCR risk
+ *
+ * @param ev
+ * @returns {*|jQuery|HTMLElement}
+ */
 function getPcrContainer(ev)
 {
     var isRight = (ev.target.id.indexOf('right') > -1),
@@ -64,6 +73,12 @@ function getPcrContainer(ev)
     return $container;
 }
 
+/**
+ * Checks if no view is set in C/D in Optic Disc element
+ *
+ * @param ev
+ * @param pcrEl
+ */
 function setFundalView(ev, pcrEl)
 {
     if (!pcrEl) {
@@ -80,6 +95,12 @@ function setFundalView(ev, pcrEl)
     $(pcrEl).trigger('change');
 }
 
+/**
+ * Sets Diabetes Present in PCR risk if a diabetic disorder is diagnosed.
+ *
+ * @param ev
+ * @param pcrEl
+ */
 function setDiabeticDisorder(ev, pcrEl)
 {
     if (!pcrEl) {
@@ -93,6 +114,12 @@ function setDiabeticDisorder(ev, pcrEl)
     $(pcrEl).trigger('change');
 }
 
+/**
+ * Sets Glaucoma Present in PCR risk if glaucoma is diagnosed.
+ *
+ * @param ev
+ * @param pcrEl
+ */
 function setGlaucomaDisorder(ev, pcrEl)
 {
     if (!pcrEl) {
@@ -106,6 +133,14 @@ function setGlaucomaDisorder(ev, pcrEl)
     $(pcrEl).trigger('change');
 }
 
+/**
+ * Sets the grade of the surgeon
+ *
+ * Does an ajax lookup to get the grade of the surgeon based on the ID and sets the grade in PCR risk
+ *
+ * @param ev
+ * @param pcrEl
+ */
 function setSurgeonFromNote(ev, pcrEl)
 {
     if(!pcrEl){
@@ -131,6 +166,12 @@ function setSurgeonFromNote(ev, pcrEl)
     $(pcrEl).trigger('change');
 }
 
+/**
+ * Sets whether or not the cataract is brunescent in PCR risk
+ *
+ * @param ev
+ * @param pcrEl
+ */
 function setPcrBrunescent(ev, pcrEl)
 {
     if(!pcrEl){
@@ -148,6 +189,11 @@ function setPcrBrunescent(ev, pcrEl)
 
 }
 
+/**
+ * Sets PXF/Phacodonesis from Anteriror Segment
+ * @param ev
+ * @param pcrEl
+ */
 function setPcrPxf(ev, pcrEl)
 {
     if(!pcrEl){
@@ -165,6 +211,11 @@ function setPcrPxf(ev, pcrEl)
 
 }
 
+/**
+ * Sets Pupil Size
+ * @param ev
+ * @param pcrEl
+ */
 function setPcrPupil(ev, pcrEl)
 {
     if(!pcrEl){
@@ -177,11 +228,22 @@ function setPcrPupil(ev, pcrEl)
 
 }
 
+/**
+ * Capitalises the first letter of a string
+ *
+ * @param input
+ * @returns {string}
+ */
 function capitalizeFirstLetter( input) {
     return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-
+/**
+ * Collects the data from the form in to an object
+ *
+ * @param side
+ * @returns {{}}
+ */
 function collectValues( side ){
     var pcrdata = {},
         $eyeSide = $('#ophCiExaminationPCRRisk' + side + 'Eye');
@@ -226,6 +288,11 @@ function collectValues( side ){
     return pcrdata;
 }
 
+/**
+ *
+ * @param inputValues
+ * @returns {*}
+ */
 function calculateORValue( inputValues ){
     var OR ={};
     var ORMultiplicated = 1;  // base value
@@ -262,9 +329,13 @@ function calculateORValue( inputValues ){
     return ORMultiplicated;
 }
 
+/**
+ * Calculates the PCR risk for a given side
+ *
+ * @param side
+ */
 function pcrCalculate( side ){
 
-   // alert('Called '+side);
     side = capitalizeFirstLetter(side);  // we use this to keep camelCase div names
 
     var pcrDataValues = collectValues( side),
@@ -276,7 +347,7 @@ function pcrCalculate( side ){
 
     if( ORValue ) {
         pcrRisk = ORValue * (0.00736 / (1 - 0.00736)) / (1 + (ORValue * 0.00736 / (1 - 0.00736))) * 100;
-        var averageRiskConst = 1.92;
+        averageRiskConst = 1.92;
         excessRisk = pcrRisk / averageRiskConst;
         excessRisk = excessRisk.toFixed(2);
         pcrRisk = pcrRisk.toFixed(2);
@@ -307,7 +378,9 @@ function pcrCalculate( side ){
 
 $(document).ready(function()
 {
+    //Map the elements
     mapExaminationToPcr();
+    //Make the initial calculations
     pcrCalculate('left');
     pcrCalculate('right');
 
