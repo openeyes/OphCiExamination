@@ -20,16 +20,23 @@
 <div class="element-fields">
 	<div class="field-row row">
 		<div class="large-12 column">
-				<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
+				<?php if ($this->checkAccess('OprnEditAllergy')) {
+    ?>
 				<input type="hidden" name="OEModule_OphCiExamination_models_Element_OphCiExamination_Allergy[allergy_loaded]" value="1">
 				<div id="add_allergy">
-					<div class="allergies_confirm_no field-row row" <?php if ($this->patient->hasAllergyStatus() && !$this->patient->no_allergies_date) { echo 'style="display: none;"'; }?>>
+					<div class="allergies_confirm_no field-row row" <?php if ($this->patient->hasAllergyStatus() && !$this->patient->no_allergies_date) {
+    echo 'style="display: none;"';
+}
+    ?>>
 						<div class="allergies">
-							<div class="<?php echo $form->columns('label');?>">
+							<div class="<?php echo $form->columns('label');
+    ?>">
 								<label for="no_allergies">Confirm patient has no allergies:</label>
 							</div>
-							<div class="<?php echo $form->columns('field');?>">
-								<?php echo CHtml::checkBox('no_allergies', $this->patient->no_allergies_date ? true : false); ?>
+							<div class="<?php echo $form->columns('field');
+    ?>">
+								<?php echo CHtml::checkBox('no_allergies', $this->patient->no_allergies_date ? true : false);
+    ?>
 							</div>
 						</div>
 					</div>
@@ -38,30 +45,37 @@
 					<input type="hidden" name="patient_id" value="<?php echo $this->patient->id?>" />
 
 					<div class="row field-row allergy_field">
-						<div class="<?php echo $form->columns('label');?>">
+						<div class="<?php echo $form->columns('label');
+    ?>">
 							<label for="allergy_id">Add allergy:</label>
 						</div>
-						<div class="<?php echo $form->columns('field');?>">
+						<div class="<?php echo $form->columns('field');
+    ?>">
 							<?php
-								$allAllergies = \Allergy::model()->findAll(array('order'=>'display_order','condition'=>'active=1'));
-								echo CHtml::dropDownList('allergy_id', null, CHtml::listData($allAllergies, 'id', 'name'), array('empty' => '-- Select --'));
-							?>
+                                $allAllergies = \Allergy::model()->findAll(array('order'=>'display_order', 'condition'=>'active=1'));
+    echo CHtml::dropDownList('allergy_id', null, CHtml::listData($allAllergies, 'id', 'name'), array('empty' => '-- Select --'));
+    ?>
 						</div>
 					</div>
 					<div id="allergy_other" class="row field-row hidden">
-						<div class="<?php echo $form->columns('label');?>">
+						<div class="<?php echo $form->columns('label');
+    ?>">
 							<label for="allergy_id">Other allergy:</label>
 						</div>
-						<div class="<?php echo $form->columns('field');?>">
-							<?= CHtml::textField('other_allergy','',array('autocomplete'=>Yii::app()->params['html_autocomplete'])); ?>
+						<div class="<?php echo $form->columns('field');
+    ?>">
+							<?= CHtml::textField('other_allergy', '', array('autocomplete'=>Yii::app()->params['html_autocomplete']));
+    ?>
 						</div>
 					</div>
 					<div class="field-row row allergy_field">
-						<div class="<?php echo $form->columns('label');?>">
+						<div class="<?php echo $form->columns('label');
+    ?>">
 							<label for="comments">Comments:</label>
 						</div>
-						<div class="<?php echo $form->columns('field');?>">
-							<?php echo CHtml::textField('comments','',array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
+						<div class="<?php echo $form->columns('field');
+    ?>">
+							<?php echo CHtml::textField('comments', '', array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
 						</div>
 					</div>
 
@@ -71,7 +85,8 @@
 					</div>
 				</div>
 
-			<?php } ?>
+			<?php 
+} ?>
 		</div>
 	</div>
 	<div class="field-row row">
@@ -86,7 +101,8 @@
 				</thead>
 				<tbody id="OphCiExamination_allergy">
 				<?php
-					foreach ($this->allergies as $aa) { ?>
+                    foreach ($this->allergies as $aa) {
+                        ?>
 					<script type="text/javascript">
 						removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
 					</script>
@@ -94,24 +110,32 @@
 						<td><?= CHtml::encode($aa->name) ?>
 						</td>
 						<td><?= CHtml::encode($aa->comments) ?></td>
-						<?php if ($this->checkAccess('OprnEditAllergy')) { ?>
+						<?php if ($this->checkAccess('OprnEditAllergy')) {
+    ?>
 							<td>
 								<a rel="<?php echo $aa->id?>" class="small removeAllergy">
 									Remove
 								</a>
 							</td>
 						<?php
-							if(!isset($aa->id)){?>
-								<input type="hidden" value="<?php echo $aa->allergy->id; ?>" name="selected_allergies[]">
-								<input type="hidden" value="<?php echo $aa->comments; ?>" name="allergy_comments[]">
-								<input type="hidden" value="<?php echo $aa->other; ?>" name="other_names[]">
-							<?php }
-						} ?>
+                            if (!isset($aa->id)) {
+                                ?>
+								<input type="hidden" value="<?php echo $aa->allergy->id;
+                                ?>" name="selected_allergies[]">
+								<input type="hidden" value="<?php echo $aa->comments;
+                                ?>" name="allergy_comments[]">
+								<input type="hidden" value="<?php echo $aa->other;
+                                ?>" name="other_names[]">
+							<?php 
+                            }
+}
+                        ?>
 					</tr>
-				<?php }
-					foreach($this->deletedAllergies as $deletedId){
-						echo '<input type="hidden" value="'.$deletedId.'" name="deleted_allergies[]">';
-					}?>
+				<?php 
+                    }
+                    foreach ($this->deletedAllergies as $deletedId) {
+                        echo '<input type="hidden" value="'.$deletedId.'" name="deleted_allergies[]">';
+                    }?>
 				</tbody>
 			</table>
 		</div>
