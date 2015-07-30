@@ -25,6 +25,10 @@ use Yii;
 class PcrRisk
 {
 	/**
+	 * @var \Patient
+	 */
+	protected $patient;
+	/**
 	 * @param $patientId
 	 * @param $side
 	 * @param $element
@@ -54,7 +58,7 @@ class PcrRisk
 		$gender = ucfirst($this->patient->getGenderString());
 
 		$is_diabetic = 'N';
-		if (strpos($this->patient->getSyd(),'diabetes') !== false) {
+		if ($this->patient->getDiabetes()) {
 			$is_diabetic = 'Y';
 		}
 

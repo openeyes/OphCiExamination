@@ -16,41 +16,29 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+?>
 
-namespace OEModule\OphCiExamination\models;
-use Yii;
-
-
-class Element_OphCiExamination_Allergy extends \BaseEventTypeElement
-{
-	public function tableName(){
-		return 'et_ophciexamination_allergy';
-	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('event_id', 'safe')
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-		);
-	}
-
-}
+<div class="field-row row">
+    <div class="large-12 column">
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Comments</th>
+            </tr>
+            </thead>
+            <tbody id="OphCiExamination_allergy">
+            <?php foreach ($this->patient->allergyAssignments as $aa) { ?>
+                <script type="text/javascript">
+                    removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
+                </script>
+                <tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
+                    <td><?= CHtml::encode($aa->name) ?>
+                    </td>
+                    <td><?= CHtml::encode($aa->comments) ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
