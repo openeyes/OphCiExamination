@@ -18,7 +18,7 @@
  */
 ?>
 <?php
-list($values, $val_options) = $element->getUnitValuesForForm();
+list($values, $val_options) = $element->getUnitValuesForForm(null, true);
 $methods = CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Method::model()->findAll(), 'id', 'name');
 $key = 0;
 ?>
