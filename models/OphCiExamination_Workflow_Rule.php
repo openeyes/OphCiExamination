@@ -104,7 +104,7 @@ class OphCiExamination_Workflow_Rule extends \BaseActiveRecordVersioned
             return $rule->workflow;
         }
 
-        throw new CException('Cannot find default workflow rule');
+        throw new \CException('Cannot find default workflow rule');
     }
 
     /**
