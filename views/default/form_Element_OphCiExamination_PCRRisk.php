@@ -72,7 +72,7 @@ $criteria = new CDbCriteria();
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['glaucoma'] == 'N') { ?>
-					<div id='nkglaucoma<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='glaucoma_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
@@ -88,7 +88,7 @@ $criteria = new CDbCriteria();
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if (($pcr['anteriorsegment']['pxf_phako']) == 'N') { ?>
-					<div id='nkpxf<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='pxf_phako_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>
 				&nbsp;
 			</div>
@@ -108,7 +108,7 @@ $criteria = new CDbCriteria();
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['diabetic'] == 'N') { ?>
-					<div id='nkdiabetic<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='diabetic_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 			<div class="large-2 column">
@@ -147,7 +147,7 @@ $criteria = new CDbCriteria();
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['noview'] == 'N') { ?>
-					<div id='nknofv<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='no_fundal_view_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>
 				&nbsp;
 			</div>
@@ -165,7 +165,7 @@ $criteria = new CDbCriteria();
 			</div>
 			<div class="large-2 column pcr-nkr">
 				<?php if ($pcr['axial_length_group'] == 'NK') { ?>
-					<div id='nkaxial<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+					<div id='axial_length_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 				<?php } ?>&nbsp;
 			</div>
 		</div>
@@ -198,7 +198,7 @@ $criteria = new CDbCriteria();
 				?>
 			</div>
 			<div class="large-2 column pcr-nkr">
-				<div id='nkarb<?php echo $side;?>' class="alert-box alert with-icon pcr-nk">Not Known</div>
+				<div id='arb_nk' class="alert-box alert with-icon pcr-nk">Not Known</div>
 			</div>
 		</div>
 
@@ -249,6 +249,7 @@ $criteria = new CDbCriteria();
 			<div class="large-2 column" id="pcr-risk-div">
 				<label>
 					PCR Risk <span class="pcr-span"> 6.1 </span> %
+					<span class="pcr-risk-info-icon" id="pcr-risk-info" title="Calculation data derived from Narendran et al. The Cataract National Dataset electronic multicentre audit of 55,567 operations: risk stratification for posterior capsule rupture and vitreous loss. Eye (Lond). 2009 Jan;23(1):31-7."><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 				</label>
 			</div>
 			<div class="large-3 column">

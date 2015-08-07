@@ -229,6 +229,18 @@ function setPcrPupil(ev, pcrEl)
 }
 
 /**
+ * Hides the Not Known alert message for the selected element
+ * @param ev
+ *
+ */
+function removeNotKnownAlert(element){
+    //console.log('#'+$(ev.target).parent().attr('id')+'_nk');
+    var $container = $(element).closest('[id*="ophCiExaminationPCRRisk"]');
+
+    $container.find('#'+$(element).attr('id')+'_nk').hide();
+}
+
+/**
  * Capitalises the first letter of a string
  *
  * @param input
@@ -260,30 +272,6 @@ function collectValues( side ){
     pcrdata.alpareceptorblocker = $eyeSide.find("select[name='arb']").val();
     pcrdata.abletolieflat = $eyeSide.find("select[name='abletolieflat']").val();
     pcrdata.doctorgrade = $eyeSide.find("select[name='doctor_grade_id']").val();
-
-    if(pcrdata.glaucoma == 'Y') {
-        $("#nkglaucoma"+side.toLowerCase()).hide();
-    }
-
-    if(pcrdata.pxf == 'Y') {
-        $("#nkpxf"+side.toLowerCase()).hide();
-    }
-
-    if(pcrdata.alpareceptorblocker  == 'Y') {
-        $("#nkarb"+side.toLowerCase()).hide();
-    }
-
-    if(pcrdata.axiallength > 0) {
-        $("#nkaxial"+side.toLowerCase()).hide();
-    }
-
-    if(pcrdata.diabetic == 'Y') {
-        $("#nkdiabetic"+side.toLowerCase()).hide();
-    }
-
-    if(pcrdata.fundalview == 'Y') {
-        $("#nknofv"+side.toLowerCase()).hide();
-    }
 
     return pcrdata;
 }
@@ -390,6 +378,30 @@ $(document).ready(function()
 
     $(document.body).on('change','#ophCiExaminationPCRRiskRightEye',function(){
         pcrCalculate('right');
+    });
+
+    $('#glaucoma>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
+    });
+
+    $('#pxf_phako>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
+    });
+
+    $('#diabetic>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
+    });
+
+    $('#axial_length>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
+    });
+
+    $('#no_fundal_view>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
+    });
+
+    $('#arb>option').click(function(event){
+        removeNotKnownAlert($(this).parent());
     });
 
 });
