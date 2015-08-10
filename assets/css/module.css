@@ -106,7 +106,6 @@
 /* line 19, ../sass/components/elements/_visual-acuity.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_VisualAcuity .visual-acuity-reading select, .OEModule_OphCiExamination_models_Element_OphCiExamination_VisualAcuity .near-visual-acuity-reading select, .OEModule_OphCiExamination_models_Element_OphCiExamination_NearVisualAcuity .visual-acuity-reading select, .OEModule_OphCiExamination_models_Element_OphCiExamination_NearVisualAcuity .near-visual-acuity-reading select {
   width: auto;
-  padding-left: 25px;
 }
 /* line 24, ../sass/components/elements/_visual-acuity.scss */
 .OEModule_OphCiExamination_models_Element_OphCiExamination_VisualAcuity .noReadings label, .OEModule_OphCiExamination_models_Element_OphCiExamination_NearVisualAcuity .noReadings label {
