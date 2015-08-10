@@ -312,6 +312,13 @@ $(document).ready(function() {
 	handleButton($('#et_canceldelete'));
 
 
+	$('#pcr-risk-info').tooltip(
+		{show: {
+			effect: "slideDown",
+			delay: 250}
+		}
+	);
+
     // because these elements will be loaded later with AJAX we need to use live()
     $('.btn_save_allergy').live('click',OphCiExamination_AddAllergy);
     $('#allergy_id').live('change', function () {

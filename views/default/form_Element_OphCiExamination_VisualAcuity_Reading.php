@@ -25,6 +25,8 @@
 		<?php 
 }?>
 		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][value]', @$reading->value, $values, array('empty' => '--', 'class' => 'va-selector', 'style'=>'width:82px;z-index:1000;', 'options' => $val_options))?>
+	</td>
+	<td>
 		<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 	</td>
 	<td>
