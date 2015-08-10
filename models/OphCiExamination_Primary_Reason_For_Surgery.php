@@ -1,5 +1,5 @@
 <?php
-/**
+ /**
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
@@ -16,21 +16,38 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-<tr class="visualAcuityReading visual-acuity-reading" data-key="<?php echo $key?>">
-	<td>
-		<?php if (isset($reading) && $reading->id) {?>
-			<input type="hidden" name="<?=$name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
-		<?php }?>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][value]', @$reading->value, $values, array('empty' => '--', 'class' => 'va-selector', 'style'=>'width:82px;z-index:1000;', 'options' => $val_options))?>
-	</td>
-	<td>
-		<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
-	</td>
-	<td>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id'))?>
-	</td>
-	<td class="readingActions">
-		<a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+
+namespace OEModule\OphCiExamination\models;
+
+
+class OphCiExamination_Primary_Reason_For_Surgery extends \BaseEventTypeElement
+{
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return OphCiExamination_AnteriorSegment_CCT_Method
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'ophciexamination_primary_reason_for_surgery';
+	}
+
+	/**
+	 * @return array validation rules for model visualacuity_methods.
+	 */
+	public function rules()
+	{
+		return array(
+			array('name', 'required'),
+			array('id, name', 'safe'),
+		);
+	}
+}

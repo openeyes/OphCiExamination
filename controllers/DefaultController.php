@@ -39,6 +39,14 @@ class DefaultController extends \BaseEventTypeController
 	// if set to true, we are advancing the current event step
 	private $step = false;
 
+	protected $set;
+
+	protected $mandatoryElements;
+
+	protected $allergies = array();
+
+	protected $deletedAllergies = array();
+
 	/**
 	 * Need split event files
 	 * @TODO: determine if this should be defined by controller property
@@ -86,6 +94,12 @@ class DefaultController extends \BaseEventTypeController
 			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagement');
 		} else {
 			$remove = array('OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex');
+		}
+
+		if($this->set){
+			foreach($this->set->HiddenElementTypes as $element){
+				$remove[] = $element->class_name;
+			}
 		}
 
 		$final = array();
@@ -192,6 +206,33 @@ class DefaultController extends \BaseEventTypeController
 				}
 			}
 			$element->diagnoses = $_diagnoses;
+		}
+	}
+
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setElementDefaultOptions_Element_OphCiExamination_History($element, $action )
+	{
+		if($action == 'create' || $action == 'update') {
+			$this->allergies = $this->patient->allergyAssignments;
+		}
+	}
+
+	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 *
+	 */
+
+	protected function setElementDefaultOptions_Element_OphCiExamination_Allergy($element, $action )
+	{
+		if($action == 'create' || $action == 'update') {
+			$this->allergies = $this->patient->allergyAssignments;
 		}
 	}
 
@@ -379,7 +420,10 @@ class DefaultController extends \BaseEventTypeController
 					$elements[$element_type->id] = $element_type->getInstance();
 				}
 			}
+			$this->mandatoryElements = $set->MandatoryElementTypes;
 		}
+
+		$this->set = $set;
 
 		return $this->filterElements($elements);
 	}
@@ -555,6 +599,53 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
+	 * Set the allergies against the Element_OphCiExamination_Allergy element
+	 * It's a child element of History
+	 *
+	 * @param Element_OphCiExamination_History $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function setComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		$allergies = array();
+		// we add the original rows
+		foreach($this->patient->allergyAssignments as $paa){
+			$allergies[] = $paa;
+		}
+
+		// we remove the deleted ones
+		if (!empty($data['deleted_allergies'])) {
+			$this->deletedAllergies = $data['deleted_allergies'];
+			foreach ($this->deletedAllergies as $deletedAssignmentId) {
+				foreach($allergies as $key=>$allergyRow){
+					if($allergyRow->id == $deletedAssignmentId){
+						unset($allergies[$key]);
+					}
+				}
+			}
+		}
+
+		// and finally we just add the new ones
+		if (!empty($data['selected_allergies'])) {
+			foreach ($data['selected_allergies'] as $i => $allergy_id) {
+				if($data['other_names'][$i] == 'undefined'){
+					$data['other_names'][$i] = "";
+				}
+				$newAllergy = new \PatientAllergyAssignment;
+				$newAllergy->allergy_id = $allergy_id;
+				$newAllergy->other = $data['other_names'][$i];
+				$newAllergy->comments = $data['allergy_comments'][$i];
+				$allergies[] = $newAllergy;
+			}
+		}
+
+		$this->allergies = $allergies;
+
+	}
+
+
+	/**
 	 * set the dilation treatments against the element from the provided data
 	 *
 	 * @param models\Element_OphCiExamination_Dilation $element
@@ -701,6 +792,44 @@ class DefaultController extends \BaseEventTypeController
 	}
 
 	/**
+	 * Save allergies - because it's part of the History element it need to be saved from that element
+	 *
+	 * @param $element
+	 * @param $data
+	 * @param $index
+	 */
+	protected function saveComplexAttributes_Element_OphCiExamination_History($element, $data, $index)
+	{
+		$patient = \Patient::model()->findByPk($this->patient->id);
+
+		// we remove all current allergy data
+		if( !empty($data['deleted_allergies'])){
+			foreach ($data['deleted_allergies'] as $i => $assignment_id) {
+				if( $assignment_id >0 ) {
+					$allergyToDel = \PatientAllergyAssignment::model()->findByPk($assignment_id);
+					if ($allergyToDel) {
+						$allergyToDel->delete();
+					}
+				}
+			}
+		}
+
+		if ( isset($data['no_allergies']) && $data['no_allergies']) {
+			$patient->setNoAllergies();
+		} else  {
+			if (!empty($data['selected_allergies'])) {
+				foreach ($data['selected_allergies'] as $i => $allergy_id) {
+					$allergyObject = \Allergy::model()->findByPk($allergy_id);
+					if($data['other_names'][$i] == 'undefined'){
+						$data['other_names'][$i] = "";
+					}
+					$patient->addAllergy($allergyObject, $data['other_names'][$i], $data['allergy_comments'][$i], false, $this->event->id);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Save the dilation treatments
 	 *
 	 * @param models\Element_OphCiExamination_Dilation $element
@@ -809,6 +938,12 @@ class DefaultController extends \BaseEventTypeController
 		$result = $api->{"getLastIOPReading{$side}"}($patient);
 
 		echo $result;
+	}
+
+	public function actionCreate()
+	{
+		$this->setCurrentSet();
+		parent::actionCreate();
 	}
 
 	public function getPupilliaryAbnormalitiesList($selected_id)
@@ -939,4 +1074,56 @@ class DefaultController extends \BaseEventTypeController
 
 		models\OphCiExamination_FurtherFindings_Assignment::model()->deleteAll($criteria);
 	}
+
+	/**
+	 * Render the optional child elements for the given parent element type
+	 *
+	 * @param BaseEventTypeElement $parent_element
+	 * @param string $action
+	 * @param BaseCActiveBaseEventTypeCActiveForm $form
+	 * @param array $data
+	 * @throws Exception
+	 */
+	public function renderChildOptionalElements($parent_element, $action, $form=null, $data=null)
+	{
+		$this->setCurrentSet();
+		$elements = $this->getChildOptionalElements($parent_element->getElementType());
+		$this->filterElements($elements);
+		foreach ($elements as $element) {
+			$this->renderOptionalElement($element, $action, $form, $data);
+		}
+	}
+
+	/**
+	 * Is this element required in the UI? (Prevents the user from being able
+	 * to remove the element.)
+	 * @param  BaseEventTypeElement  $element
+	 * @return boolean
+	 */
+	public function isRequiredInUI(\BaseEventTypeElement $element)
+	{
+		if(isset($this->mandatoryElements)){
+			foreach($this->mandatoryElements as $mandatoryElement){
+				if(get_class($element) === $mandatoryElement->class_name){
+					return true;
+				}
+			}
+		}
+		return parent::isRequiredInUI($element);
+	}
+
+	/**
+	 * @throws models\CException
+	 */
+	protected function setCurrentSet()
+	{
+		if (!$this->set) {
+			$firm_id = $this->firm->id;
+			$status_id = ($this->episode) ? $this->episode->episode_status_id : 1;
+			$set = models\OphCiExamination_Workflow_Rule::findWorkflow($firm_id, $status_id)->getFirstStep();
+			$this->set = $set;
+			$this->mandatoryElements = $set->MandatoryElementTypes;
+		}
+	}
+
 }

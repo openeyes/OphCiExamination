@@ -17,20 +17,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<tr class="visualAcuityReading visual-acuity-reading" data-key="<?php echo $key?>">
-	<td>
-		<?php if (isset($reading) && $reading->id) {?>
-			<input type="hidden" name="<?=$name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
-		<?php }?>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][value]', @$reading->value, $values, array('empty' => '--', 'class' => 'va-selector', 'style'=>'width:82px;z-index:1000;', 'options' => $val_options))?>
-	</td>
-	<td>
-		<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
-	</td>
-	<td>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id'))?>
-	</td>
-	<td class="readingActions">
-		<a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+<div class="field-row row">
+    <div class="large-12 column">
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Comments</th>
+            </tr>
+            </thead>
+            <tbody id="OphCiExamination_allergy">
+            <?php foreach ($this->patient->allergyAssignments as $aa) { ?>
+                <script type="text/javascript">
+                    removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
+                </script>
+                <tr data-assignment-id="<?= $aa->id ?>" data-allergy-id="<?= $aa->allergy->id ?>" data-allergy-name="<?= $aa->allergy->name ?>">
+                    <td><?= CHtml::encode($aa->name) ?>
+                    </td>
+                    <td><?= CHtml::encode($aa->comments) ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>

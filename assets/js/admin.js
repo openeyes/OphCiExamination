@@ -149,6 +149,38 @@ $(document).ready(function() {
 		});
 	});
 
+	$('div.column.content').on('click', '.workflow-item-attr',  function(){
+        var item = this,
+            $itemTd = $(this).parent(),
+            $itemTr = $itemTd.parent(),
+            itemId = $itemTr.data('id'),
+			itemObj = {};
+
+        if(($itemTr.find(':checkbox:checked[id*="is_hidden"]').length && $itemTr.find(':checkbox:checked[id*="is_mandatory"]').length)){
+            alert('An element cannot be both Mandatory and Hidden. Please correct this error before saving.');
+            item.checked = false;
+            //return;
+        }
+
+        $itemTd.append('<img src="'+baseUrl+OE_core_asset_path+'/img/ajax-loader.gif" class="loader" />');
+		itemObj[this.name] = this.checked ? 1 : 0;
+		itemObj['YII_CSRF_TOKEN'] = YII_CSRF_TOKEN;
+
+		$.ajax({
+			'type': 'POST',
+			'data': itemObj,
+			'url': baseUrl+'/OphCiExamination/admin/updateElementAttribute/' + itemId,
+			'success': function(resp) {
+                $itemTd.find('.loader').remove();
+			},
+            error: function(resp){
+                item.checked = false;
+                $itemTd.find('.loader').remove();
+                alert('An issue occurred trying to save the attribute, please try again');
+            }
+		});
+	});
+
 	$('#et_add_step').click(function(e) {
 		e.preventDefault();
 

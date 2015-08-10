@@ -449,6 +449,22 @@ class AdminController extends \ModuleAdminController
 		echo "1";
 	}
 
+	public function actionUpdateElementAttribute($id)
+	{
+		$item = models\OphCiExamination_ElementSetItem::model()->findByPk($id);
+		if(!$item){
+			throw new \CHttpException('404', 'Could not find item set');
+		}
+
+		$item->attributes = \Yii::app()->request->getPost('OEModule_OphCiExamination_models_OphCiExamination_ElementSetItem');
+
+		if (!$item->save()) {
+			throw new \Exception("Unable to update element set item: ".print_r($item->getErrors(),true));
+		}
+
+		echo "1";
+	}
+
 	public function actionAddworkflowStep()
 	{
 		if (!$workflow = models\OphCiExamination_Workflow::model()->findByPk(@$_POST['workflow_id'])) {
@@ -644,6 +660,14 @@ class AdminController extends \ModuleAdminController
 	public function actionManageTargetIOPs()
 	{
 		$this->genericAdmin('Edit Target Iop Values', 'OEModule\OphCiExamination\models\OphCiExamination_TargetIop');
+	}
+
+	/**
+	 * Admin for primary reason for surgery table
+	 */
+	public function actionPrimaryReasonForSurgery()
+	{
+		$this->genericAdmin('Edit Reasons for Surgery', 'OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery');
 	}
 
 	public function actionManageComorbidities()

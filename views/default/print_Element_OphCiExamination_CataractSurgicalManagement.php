@@ -43,5 +43,13 @@
 		<li>
 			<?php echo $element->vitrectomised_eye ? 'Vitrectomised eye' : 'Non-vitrectomised eye'?>
 		</li>
+		<li>
+			<?php
+			if( $element->reasonForSurgery) {
+				foreach($element->reasonForSurgery as $reason){
+					echo $reason->name . '<br />';
+				}
+			}?>
+		</li>
 	</ul>
 </div>

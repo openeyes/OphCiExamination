@@ -27,7 +27,16 @@ $key = 0;
 <?php
 $this->beginClip('element-title-additional');
 if ($element->isNewRecord) { ?>
-	<?php echo CHtml::dropDownList('visualacuity_unit_change', @$element->unit_id, CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()->activeOrPk(@$element->unit_id)->findAllByAttributes(array('is_near' => '0')),'id','name'), array('class'=>'inline')); ?>
+	<?php echo CHtml::dropDownList(
+		'nearvisualacuity_unit_change',
+		@$element->unit_id,
+		CHtml::listData(
+			OEModule\OphCiExamination\models\OphCiExamination_VisualAcuityUnit::model()
+				->activeOrPk(@$element->unit_id)
+				->findAllByAttributes(array('is_near' => '1'))
+			,'id','name'),
+		array('class'=>'inline'));
+	?>
 <?php } ?>
 <?php if ($element->unit->information) {?>
 	<div class="info"><small><em><?php echo $element->unit->information ?></em></small></div>
@@ -37,7 +46,7 @@ $this->endClip('element-title-additional');
 
 
 <div class="element-fields element-eyes row">
-	<input type="hidden" name="visualacuity_readings_valid" value="1" />
+	<input type="hidden" name="nearvisualacuity_readings_valid" value="1" />
 	<?php echo $form->hiddenInput($element, 'unit_id', false); ?>
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
@@ -48,7 +57,7 @@ $this->endClip('element-title-additional');
 					<?php foreach ($element->right_readings as $reading) {
 						// Adjust currently element readings to match unit steps
 						$reading->loadClosest($element->unit->id);
-						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+						$this->renderPartial('form_Element_OphCiExamination_NearVisualAcuity_Reading', array(
 							'name_stub' => CHtml::modelName($element) . '[right_readings]',
 							'key' => $key,
 							'reading' => $reading,
@@ -72,7 +81,7 @@ $this->endClip('element-title-additional');
 				</div>
 			</div>
 			<div class="field-row">
-				<button class="button small secondary addReading">
+				<button class="button small secondary addNearReading">
 					Add
 				</button>
 			</div>
@@ -93,7 +102,7 @@ $this->endClip('element-title-additional');
 					<?php foreach ($element->left_readings as $reading) {
 						// Adjust currently element readings to match unit steps
 						$reading->loadClosest($element->unit->id);
-						$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+						$this->renderPartial('form_Element_OphCiExamination_NearVisualAcuity_Reading', array(
 							'name_stub' => CHtml::modelName($element) . '[left_readings]',
 							'key' => $key,
 							'reading' => $reading,
@@ -117,7 +126,7 @@ $this->endClip('element-title-additional');
 				</div>
 			</div>
 			<div class="field-row">
-				<button class="button small secondary addReading">
+				<button class="button small secondary addNearReading">
 					Add
 				</button>
 			</div>
@@ -131,11 +140,11 @@ $this->endClip('element-title-additional');
 		</div>
 	</div>
 </div>
-<script id="visualacuity_reading_template" type="text/html">
+<script id="nearvisualacuity_reading_template" type="text/html">
 	<?php
-	$default_reading = OEModule\OphCiExamination\models\OphCiExamination_VisualAcuity_Reading::model();
+	$default_reading = OEModule\OphCiExamination\models\OphCiExamination_NearVisualAcuity_Reading::model();
 	$default_reading->init();
-	$this->renderPartial('form_Element_OphCiExamination_VisualAcuity_Reading', array(
+	$this->renderPartial('form_Element_OphCiExamination_NearVisualAcuity_Reading', array(
 			'name_stub' => CHtml::modelName($element) . '[{{side}}_readings]',
 			'key' => '{{key}}',
 			'side' => '{{side}}',
@@ -148,12 +157,12 @@ $this->endClip('element-title-additional');
 	?>
 </script>
 <?php
-	$assetManager = Yii::app()->getAssetManager();
-	$baseAssetsPath = Yii::getPathOfAlias('application.assets');
-	$assetManager->publish($baseAssetsPath.'/components/chosen/');
+$assetManager = Yii::app()->getAssetManager();
+$baseAssetsPath = Yii::getPathOfAlias('application.assets');
+$assetManager->publish($baseAssetsPath.'/components/chosen/');
 
-	Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.jquery.min.js');
-	Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.min.css');
+Yii::app()->clientScript->registerScriptFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.jquery.min.js');
+Yii::app()->clientScript->registerCssFile($assetManager->getPublishedUrl($baseAssetsPath.'/components/chosen/').'/chosen.min.css');
 
 ?>
 <script type="text/javascript">

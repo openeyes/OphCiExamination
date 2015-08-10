@@ -16,21 +16,41 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-?>
-<tr class="visualAcuityReading visual-acuity-reading" data-key="<?php echo $key?>">
-	<td>
-		<?php if (isset($reading) && $reading->id) {?>
-			<input type="hidden" name="<?=$name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $reading->id?>" />
-		<?php }?>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][value]', @$reading->value, $values, array('empty' => '--', 'class' => 'va-selector', 'style'=>'width:82px;z-index:1000;', 'options' => $val_options))?>
-	</td>
-	<td>
-		<span class="va-info-icon"><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
-	</td>
-	<td>
-		<?php echo CHtml::dropDownList($name_stub.'['.$key.'][method_id]', @$reading->method_id, $methods, array('class' => 'method_id'))?>
-	</td>
-	<td class="readingActions">
-		<a class="removeReading" href="#">Remove</a>
-	</td>
-</tr>
+
+namespace OEModule\OphCiExamination\models;
+use Yii;
+
+
+class Element_OphCiExamination_Allergy extends \BaseEventTypeElement
+{
+	public function tableName(){
+		return 'et_ophciexamination_allergy';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('event_id', 'safe')
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+			'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+		);
+	}
+
+}

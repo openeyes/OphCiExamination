@@ -25,7 +25,7 @@ return array(
 			'Edit IOP Instruments' => '/OphCiExamination/admin/EditIOPInstruments',
 			'Workflows' => '/OphCiExamination/admin/viewWorkflows',
 			'Workflow rules' => '/OphCiExamination/admin/viewWorkflowRules',
-			'Element Attributes' => '/OphCiExamination/admin/manageElementAttributes',
+			'Element Attributes' => array('OphCiExamination'=>'/oeadmin/ExaminationElementAttributes/list'),
 			'Overall Periods' => '/OphCiExamination/admin/manageOverallPeriods',
 			'Visit Intervals' => '/OphCiExamination/admin/manageVisitIntervals',
 			'Glaucoma Statuses' => '/OphCiExamination/admin/manageGlaucomaStatuses',
@@ -35,6 +35,7 @@ return array(
 			'Target IOP Values' => '/OphCiExamination/admin/manageTargetIOPs',
 			'Comorbidities' => '/OphCiExamination/admin/manageComorbidities',
 			'Clinic Outcome Statuses' => '/OphCiExamination/admin/manageClinicOutcomesStatus',
+			'Cataract surgery reasons' => '/OphCiExamination/admin/primaryReasonForSurgery'
 		),
 		'ophciexamination_drgrading_type_required' => false,
 		'ophciexamination_visualacuity_correspondence_unit' => 'Snellen Metre',

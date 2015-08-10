@@ -34,6 +34,8 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 {
 	public $service;
 
+	protected $auto_update_relations = true;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Element_OphCiExamination_CataractSurgicalManagement the static model class
@@ -59,7 +61,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'safe'),
+				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id, reasonForSurgery', 'safe'),
 				array('city_road, satellite, fast_track, target_postop_refraction, correction_discussed, suitable_for_surgeon_id, supervised, previous_refractive_surgery, vitrectomised_eye, eye_id', 'required'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
@@ -81,6 +83,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
 				'suitable_for_surgeon' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_SuitableForSurgeon', 'suitable_for_surgeon_id'),
 				'eye' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_CataractSurgicalManagement_Eye', 'eye_id'),
+				'reasonForSurgery' => array(self::MANY_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_Primary_Reason_For_Surgery', 'et_ophciexamination_cataractsurgicalmanagement_surgery_reasons(cataractsurgicalmanagement_id,primary_reason_for_surgery_id)'),
 		);
 	}
 
@@ -102,6 +105,7 @@ class Element_OphCiExamination_CataractSurgicalManagement extends \BaseEventType
 				'previous_refractive_surgery' => 'Previous refractive surgery',
 				'vitrectomised_eye' => 'Vitrectomised eye',
 				'eye_id' => 'Eye',
+				'reasonForSurgery' => 'Primary reason for cataract surgery'
 		);
 	}
 
