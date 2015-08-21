@@ -20,7 +20,7 @@
 <?php
 $html_options = array();
 foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Description::model()->findAll() as $option) {
-	$html_options[(string) $option->id] = array('data-value'=> $option->name);
+    $html_options[(string) $option->id] = array('data-value'=> $option->name);
 }
 ?>
 <div class="eyedraw-fields">
@@ -30,12 +30,12 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Descriptio
 			Mode:
 		</label>
 		<?php echo CHtml::dropDownList($side.'_gonioscopy_mode', 'Basic', array('Basic' => 'Basic', 'Expert' => 'Expert'), array(
-			'class' => 'gonioscopy-mode',
-			'options' => array(
-				'Basic' => array('data-value' => 'Basic'),
-				'Expert' => array('data-value' => 'Expert'),
-			),
-		))?>
+            'class' => 'gonioscopy-mode',
+            'options' => array(
+                'Basic' => array('data-value' => 'Basic'),
+                'Expert' => array('data-value' => 'Expert'),
+            ),
+        ))?>
 	</div>
 	<div style="display: none;" class="shaffer-grade expert-mode">
 		<div class="field-label">Shaffer grade:</div>
@@ -58,9 +58,9 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Descriptio
 	<div style="display:none;" class="basic-mode">
 		<div class="field-label">Angle Open?:</div>
 		<?php
-			$basic_options = array('0' => 'No', '1' => 'Yes');
-			$html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
-		?>
+            $basic_options = array('0' => 'No', '1' => 'Yes');
+            $html_options = array('1' => array('data-value'=> 'Yes'), '0' => array('data-value'=> 'No'));
+        ?>
 		<div class="gonio-cross">
 			<div class="gonio-sup">
 				<?php echo CHtml::dropDownList($side.'_gonio_sup_basic', ($element->{$side.'_gonio_sup'}) ? $element->{$side.'_gonio_sup'}->seen : true, $basic_options, array('class' => 'inline gonioGrade gonioBasic', 'data-position' => 'sup', 'options' => $html_options))?>
@@ -84,7 +84,7 @@ foreach (OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Descriptio
 			<?php echo CHtml::link('images', '#', array('class' => 'foster_images_link')); ?>
 			):
 		</label>
-		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Van_Herick::model()->findAll(),'id','name'), array('class' => 'inline clearWithEyedraw')); ?>
+		<?php echo CHtml::activeDropDownList($element, $side.'_van_herick_id', array(0 => 'NR') + CHtml::listData(OEModule\OphCiExamination\models\OphCiExamination_Gonioscopy_Van_Herick::model()->findAll(), 'id', 'name'), array('class' => 'inline clearWithEyedraw')); ?>
 		<div data-side="<?php echo $side?>" class="foster_images_dialog"
 			title="Foster Images">
 			<img usemap="#<?php echo $side ?>_foster_images_map"

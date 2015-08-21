@@ -33,21 +33,22 @@
 		</div>
 		<div class="large-6 column end">
 			<?php
-			echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(),'id','term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
-			?>
+            echo CHtml::dropDownList('disorder_id', $disorder_id, CHtml::listData(OEModule\OphCiExamination\models\Element_OphCiExamination_InjectionManagementComplex::model()->getAllDisorders(), 'id', 'term'), array('empty'=>'- Please select -', 'id' => 'question_disorder'));
+            ?>
 		</div>
 	</div>
 
 
 	<?php
-	if (!$disorder_id) {
-	?>
+    if (!$disorder_id) {
+        ?>
 		<div class="alert-box">
 			<strong>Please select a disorder to view the questions</strong>
 		</div>
 	<?php
-	} elseif (count($model_list)) {
-	?>
+
+    } elseif (count($model_list)) {
+        ?>
 		<table class="grid">
 			<thead>
 				<tr>
@@ -57,19 +58,28 @@
 			</thead>
 			<tbody>
 				<?php
-				foreach ($model_list as $i => $model) {?>
+                foreach ($model_list as $i => $model) {
+                    ?>
 					<tr data-attr-id="<?php echo $model->id?>" data-attr-name="Question">
 						<td><a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . Helper::getNSShortname($model), array('id'=> $model->id)) ?>"><?php echo $model->question ?></a></td>
 						<td>
-							<input type="checkbox" class="model_enabled" <?php if ($model->active) { echo "checked"; }?> />
+							<input type="checkbox" class="model_enabled" <?php if ($model->active) {
+    echo "checked";
+}
+                    ?> />
 						</td>
 					</tr>
-				<?php }?>
+				<?php 
+                }
+        ?>
 			</tbody>
 		</table>
-	<?php } else { ?>
+	<?php 
+    } else {
+        ?>
 		<div class="alert-box">
 			<strong>No questions set for this disorder</strong>
 		</div>
-	<?php } ?>
+	<?php 
+    } ?>
 </div>

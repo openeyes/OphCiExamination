@@ -28,7 +28,8 @@
             </tr>
             </thead>
             <tbody id="OphCiExamination_allergy">
-            <?php foreach ($this->patient->allergyAssignments as $aa) { ?>
+            <?php foreach ($this->patient->allergyAssignments as $aa) {
+    ?>
                 <script type="text/javascript">
                     removeAllergyFromSelect(<?= $aa->allergy->id?>, '<?= $aa->allergy->name ?>');
                 </script>
@@ -37,7 +38,8 @@
                     </td>
                     <td><?= CHtml::encode($aa->comments) ?></td>
                 </tr>
-            <?php } ?>
+            <?php 
+} ?>
             </tbody>
         </table>
     </div>

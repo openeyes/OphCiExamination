@@ -19,42 +19,42 @@
 ?>
 <?php
 $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-	'doodleToolBarArray' => array(
-		array('NuclearCataract','CorticalCataract','PostSubcapCataract','PCIOL','ACIOL','Bleb','PI',
-        'Fuchs','RK','LasikFlap','CornealScar','SectorIridectomy','PosteriorSynechia','Rubeosis','TransilluminationDefect','KrukenbergSpindle'),
-		array('TrabySuture', 'Supramid', 'TubeLigation', 'CornealSuture', 'TrabyFlap', 'SidePort', 'Patch', 'ConjunctivalSuture', 'ACMaintainer', 'Tube', 'TubeExtender'),
-	),
-	'onReadyCommandArray' => array(
-		array('addDoodle', array('AntSeg')),
-		array('deselectDoodles', array()),
-	),
-	'bindingArray' => array(
-		'NuclearCataract' => array(
-			'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id', 'attribute' => 'data-value'),
-		),
-		'CorticalCataract' => array(
-			'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id', 'attribute' => 'data-value'),
-		),
-	),
-	'deleteValueArray' => array(
-		'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id' => '',
-		'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id' => '',
-	),
-	'listenerArray' => array('anteriorListener'),
-	'idSuffix' => $side.'_'.$element->elementType->id,
-	'side' => ($side == 'right') ? 'R' : 'L',
-	'mode' => 'edit',
-	'width' => 300,
-	'height' => 300,
-	'model' => $element,
-	'attribute' => $side.'_eyedraw',
-	'maxToolbarButtons' => 7,
-	'template' => 'OEEyeDrawWidget_InlineToolbar',
-	'toggleScale' => 0.72,
-	'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
-		'form' => $form,
-		'side' => $side,
-		'element' => $element
-	), true)
+    'doodleToolBarArray' => array(
+        array('NuclearCataract', 'CorticalCataract', 'PostSubcapCataract', 'PCIOL', 'ACIOL', 'Bleb', 'PI',
+        'Fuchs', 'RK', 'LasikFlap', 'CornealScar', 'SectorIridectomy', 'PosteriorSynechia', 'Rubeosis', 'TransilluminationDefect', 'KrukenbergSpindle'),
+        array('TrabySuture', 'Supramid', 'TubeLigation', 'CornealSuture', 'TrabyFlap', 'SidePort', 'Patch', 'ConjunctivalSuture', 'ACMaintainer', 'Tube', 'TubeExtender'),
+    ),
+    'onReadyCommandArray' => array(
+        array('addDoodle', array('AntSeg')),
+        array('deselectDoodles', array()),
+    ),
+    'bindingArray' => array(
+        'NuclearCataract' => array(
+            'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id', 'attribute' => 'data-value'),
+        ),
+        'CorticalCataract' => array(
+            'grade' => array('id' => 'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id', 'attribute' => 'data-value'),
+        ),
+    ),
+    'deleteValueArray' => array(
+        'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_nuclear_id' => '',
+        'OEModule_OphCiExamination_models_Element_OphCiExamination_AnteriorSegment_'.$side.'_cortical_id' => '',
+    ),
+    'listenerArray' => array('anteriorListener'),
+    'idSuffix' => $side.'_'.$element->elementType->id,
+    'side' => ($side == 'right') ? 'R' : 'L',
+    'mode' => 'edit',
+    'width' => 300,
+    'height' => 300,
+    'model' => $element,
+    'attribute' => $side.'_eyedraw',
+    'maxToolbarButtons' => 7,
+    'template' => 'OEEyeDrawWidget_InlineToolbar',
+    'toggleScale' => 0.72,
+    'fields' => $this->renderPartial($element->form_view . '_OEEyeDraw_fields', array(
+        'form' => $form,
+        'side' => $side,
+        'element' => $element
+    ), true)
 ));
 ?>

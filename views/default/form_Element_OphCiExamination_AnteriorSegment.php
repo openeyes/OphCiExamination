@@ -19,15 +19,17 @@
 ?>
 <div class="element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div class="element-eye right-eye column side left<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column side left<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="eyedraw-row anterior-segment">
 				<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array(
-					'form' => $form,
-					'side' => 'right',
-					'element' => $element
-				))?>
+                    'form' => $form,
+                    'side' => 'right',
+                    'element' => $element
+                ))?>
 			</div>
 		</div>
 		<div class="inactive-form">
@@ -38,15 +40,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="element-eye right-eye column side right<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye right-eye column side right<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="eyedraw-row anterior-segment">
 				<?php $this->renderPartial($element->form_view . '_OEEyeDraw', array(
-					'form' => $form,
-					'side' => 'left',
-					'element' => $element
-				))?>
+                    'form' => $form,
+                    'side' => 'left',
+                    'element' => $element
+                ))?>
 			</div>
 		</div>
 		<div class="inactive-form">

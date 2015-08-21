@@ -20,18 +20,20 @@
 <div class="sub-element-fields">
 	<div class="field-row row collapse">
 		<div class="large-2 column">
-			<div class="field-highlight<?php if ($element->risk) {?> <?php echo $element->risk->class?><?php }?> risk">
+			<div class="field-highlight<?php if ($element->risk) {
+    ?> <?php echo $element->risk->class?><?php 
+}?> risk">
 				<?php
-					$html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
-					$risks = OEModule\OphCiExamination\models\OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
-					foreach ($risks as $option) {
-						$html_options['options'][(string) $option->id] = array(
-							'data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id,
-							'class' => $option->class,
-						);
-					}
-					echo $form->dropdownList($element, 'risk_id', CHtml::listData($risks, 'id', 'name'), $html_options);
-				?>
+                    $html_options = array('nowrapper' => true, 'empty' => '--- Please select ---');
+                    $risks = OEModule\OphCiExamination\models\OphCiExamination_GlaucomaRisk_Risk::model()->findAll();
+                    foreach ($risks as $option) {
+                        $html_options['options'][(string) $option->id] = array(
+                            'data-clinicoutcome-template-id'=> $option->clinicoutcome_template_id,
+                            'class' => $option->class,
+                        );
+                    }
+                    echo $form->dropdownList($element, 'risk_id', CHtml::listData($risks, 'id', 'name'), $html_options);
+                ?>
 			</div>
 		</div>
 		<div class="large-10 column">
@@ -42,7 +44,8 @@
 	</div>
 	<div class="field-row row glaucoma-risk-descriptions" id="<?= CHtml::modelName($element) ?>_descriptions">
 		<dl>
-			<?php foreach ($risks as $option) {?>
+			<?php foreach ($risks as $option) {
+    ?>
 				<dt class="pill <?php echo $option->class ?>">
 					<a href="#" data-risk-id="<?php echo $option->id ?>">
 						<?php echo $option->name ?>
@@ -51,7 +54,8 @@
 				<dd class="<?php echo $option->class ?>">
 					<?php echo nl2br($option->description) ?>
 				</dd>
-			<?php }?>
+			<?php 
+}?>
 		</dl>
 	</div>
 </div>

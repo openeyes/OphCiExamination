@@ -2,14 +2,14 @@
 
 class m131127_113657_remove_visual_fields_element extends CDbMigration
 {
-	public function up()
-	{
-		$this->dropTable('et_ophciexamination_visual_fields');
-	}
+    public function up()
+    {
+        $this->dropTable('et_ophciexamination_visual_fields');
+    }
 
-	public function down()
-	{
-		$this->execute("CREATE TABLE `et_ophciexamination_visual_fields` (
+    public function down()
+    {
+        $this->execute("CREATE TABLE `et_ophciexamination_visual_fields` (
 				`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				`event_id` int(10) unsigned NOT NULL,
 				`left_eyedraw` text,
@@ -32,5 +32,5 @@ class m131127_113657_remove_visual_fields_element extends CDbMigration
 				CONSTRAINT `et_ophciexamination_visual_acuity_eye_id_fk` FOREIGN KEY (`eye_id`) REFERENCES `eye` (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
-	}
+    }
 }

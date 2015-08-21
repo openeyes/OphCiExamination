@@ -17,71 +17,74 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-class Element_OphCiExamination_IntraocularPressureTest extends CDbTestCase {
+class Element_OphCiExamination_IntraocularPressureTest extends CDbTestCase
+{
+    /**
+     * @var Element_OphCiExamination_BlebAssessment
+     */
+    protected $model;
+    public $fixtures = array(
+        'patient' => 'Patient',
+        'episode' => 'Episode',
+        'event' => 'Event',
+        'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
+        'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
+    );
 
-	/**
-	 * @var Element_OphCiExamination_BlebAssessment
-	 */
-	protected $model;
-	public $fixtures = array(
-		'patient' => 'Patient',
-		'episode' => 'Episode',
-		'event' => 'Event',
-		'et_iop'=> '\OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure',
-		'iop_values'=> '\OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value',
-	);
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure;
+    }
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure;
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::model
+     */
+    public function testModel()
+    {
+        $this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure', get_class($this->model), 'Class name should match model.');
+        $this->assertTrue(is_subclass_of($this->model, 'SplitEventTypeElement'));
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::model
-	 */
-	public function testModel() {
-		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure', get_class($this->model), 'Class name should match model.');
-		$this->assertTrue(is_subclass_of($this->model, 'SplitEventTypeElement'));
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::tableName
+     */
+    public function testTableName()
+    {
+        $this->assertEquals('et_ophciexamination_intraocularpressure', $this->model->tableName());
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_BlebAssessment::tableName
-	 */
-	public function testTableName() {
-		$this->assertEquals('et_ophciexamination_intraocularpressure', $this->model->tableName());
-	}
-
-	public function testGetValues() {
-		$values = $this->et_iop('et_iop2')->getValues();
-		$this->assertInternalType('array', $values);
-		$this->assertArrayHasKey('right', $values);
-		$this->assertArrayHasKey('left', $values);
-		$this->assertEmpty($values['right']);
-		$this->assertEmpty($values['left']);
-		$values = $this->et_iop('et_iop1')->getValues();
-		$this->assertInternalType('array', $values);
-		$this->assertArrayHasKey('right', $values);
-		$this->assertArrayHasKey('left', $values);
-		$this->assertCount(3, $values['left']);
-		$this->assertCount(2, $values['right']);
-		foreach($values['left'] as $leftVal){
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', $leftVal);
-			$this->assertEquals('Left', $leftVal->eye->name);
-			$this->assertStringMatchesFormat('%d%d:%d%d:%d%d', $leftVal->reading_time);
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', $leftVal->reading);
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_Instrument', $leftVal->instrument);
-		}
-		foreach($values['right'] as $rightVal){
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', $rightVal);
-			$this->assertEquals('Right', $rightVal->eye->name);
-			$this->assertStringMatchesFormat('%d%d:%d%d:%d%d', $rightVal->reading_time);
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', $rightVal->reading);
-			$this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_Instrument', $rightVal->instrument);
-		}
-	}
-
+    public function testGetValues()
+    {
+        $values = $this->et_iop('et_iop2')->getValues();
+        $this->assertInternalType('array', $values);
+        $this->assertArrayHasKey('right', $values);
+        $this->assertArrayHasKey('left', $values);
+        $this->assertEmpty($values['right']);
+        $this->assertEmpty($values['left']);
+        $values = $this->et_iop('et_iop1')->getValues();
+        $this->assertInternalType('array', $values);
+        $this->assertArrayHasKey('right', $values);
+        $this->assertArrayHasKey('left', $values);
+        $this->assertCount(3, $values['left']);
+        $this->assertCount(2, $values['right']);
+        foreach ($values['left'] as $leftVal) {
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', $leftVal);
+            $this->assertEquals('Left', $leftVal->eye->name);
+            $this->assertStringMatchesFormat('%d%d:%d%d:%d%d', $leftVal->reading_time);
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', $leftVal->reading);
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_Instrument', $leftVal->instrument);
+        }
+        foreach ($values['right'] as $rightVal) {
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Value', $rightVal);
+            $this->assertEquals('Right', $rightVal->eye->name);
+            $this->assertStringMatchesFormat('%d%d:%d%d:%d%d', $rightVal->reading_time);
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', $rightVal->reading);
+            $this->assertInstanceOf('OEModule\OphCiExamination\models\OphCiExamination_Instrument', $rightVal->instrument);
+        }
+    }
 }

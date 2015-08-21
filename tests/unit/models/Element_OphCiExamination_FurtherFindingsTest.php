@@ -17,58 +17,64 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-class Element_OphCiExamination_FurtherFindingsTest extends CDbTestCase {
+class Element_OphCiExamination_FurtherFindingsTest extends CDbTestCase
+{
+    /**
+     * @var Element_OphCiExamination_FurtherFindings
+     */
+    protected $model;
+    public $fixtures = array(
+        'finding' => '\Finding',
+        'elFurtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
+        'furtherFindingsAssignment' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment',
+    );
 
-	/**
-	 * @var Element_OphCiExamination_FurtherFindings
-	 */
-	protected $model;
-	public $fixtures = array(
-		'finding' => '\Finding',
-		'elFurtherFindings' => 'OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings',
-		'furtherFindingsAssignment' => 'OEModule\OphCiExamination\models\OphCiExamination_FurtherFindings_Assignment',
-	);
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings;
+    }
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings;
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::model
+     */
+    public function testModel()
+    {
+        $this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', get_class($this->model), 'Class name should match model.');
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::model
-	 */
-	public function testModel() {
-		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings', get_class($this->model), 'Class name should match model.');
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::tableName
+     */
+    public function testTableName()
+    {
+        $this->assertEquals('et_ophciexamination_further_findings', $this->model->tableName());
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_FurtherFindings::tableName
-	 */
-	public function testTableName() {
-		$this->assertEquals('et_ophciexamination_further_findings', $this->model->tableName());
-	}
+    public function testGetFurtherFindingsAssigned()
+    {
+        $etFF = $this->elFurtherFindings('et_further_findings1')->getFurtherFindingsAssigned();
+        $this->assertCount(1, $etFF);
 
-	public function testGetFurtherFindingsAssigned(){
-		$etFF = $this->elFurtherFindings('et_further_findings1')->getFurtherFindingsAssigned();
-		$this->assertCount(1, $etFF);
+        $this->assertEquals(2, $etFF[0]);
+    }
 
-		$this->assertEquals(2, $etFF[0]);
-	}
+    public function testGetFurtherFindingsAssignedString()
+    {
+        $etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString();
+        $this->assertEquals('Finding 1, Finding 3: test twotwotwo', $etFFString);
+    }
 
-	public function testGetFurtherFindingsAssignedString(){
-		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString();
-		$this->assertEquals('Finding 1, Finding 3: test twotwotwo', $etFFString);
-	}
+    public function testGetFurtherFindingsAssignedString_ignoreids()
+    {
+        $etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(1));
+        $this->assertEquals('Finding 3: test twotwotwo', $etFFString);
 
-	public function testGetFurtherFindingsAssignedString_ignoreids(){
-		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(1));
-		$this->assertEquals('Finding 3: test twotwotwo', $etFFString);
-
-		$etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(3));
-		$this->assertEquals('Finding 1', $etFFString);
-	}
+        $etFFString = $this->elFurtherFindings('et_further_findings2')->getFurtherFindingsAssignedString(array(3));
+        $this->assertEquals('Finding 1', $etFFString);
+    }
 }

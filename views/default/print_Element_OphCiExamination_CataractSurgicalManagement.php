@@ -20,23 +20,33 @@
 <div class="element-data row">
 	<ul>
 		<li><?php echo $element->eye ? $element->eye->name : 'Eye no specified'?></li>
-		<?php if ($element->city_road) {?>
+		<?php if ($element->city_road) {
+    ?>
 			<li>At City Road</li>
-		<?php }?>
-		<?php if ($element->satellite) {?>
+		<?php 
+}?>
+		<?php if ($element->satellite) {
+    ?>
 			<li>At satellite</li>
-		<?php }?>
-		<?php if ($element->fast_track) {?>
+		<?php 
+}?>
+		<?php if ($element->fast_track) {
+    ?>
 			<li>Suitable for fast-track</li>
-		<?php }?>
+		<?php 
+}?>
 		<li>
 			Target post-op refractive correction is <?php echo $element->target_postop_refraction?> Dioptres
 		</li>
-		<?php if ($element->correction_discussed) {?>
+		<?php if ($element->correction_discussed) {
+    ?>
 			<li>Post-op refractive correction has been discussed with the patient</li>
-		<?php } else {?>
+		<?php 
+} else {
+    ?>
 			<li>Post-op refractive correction has not been discussed with the patient</li>
-		<?php }?>
+		<?php 
+}?>
 		<li>
 			Suitable for <?php echo $element->suitable_for_surgeon->name?> surgeon (<?php echo $element->supervised ? 'supervised' : 'unsupervised'?>)
 		</li>
@@ -45,11 +55,11 @@
 		</li>
 		<li>
 			<?php
-			if( $element->reasonForSurgery) {
-				foreach($element->reasonForSurgery as $reason){
-					echo $reason->name . '<br />';
-				}
-			}?>
+            if ($element->reasonForSurgery) {
+                foreach ($element->reasonForSurgery as $reason) {
+                    echo $reason->name . '<br />';
+                }
+            }?>
 		</li>
 	</ul>
 </div>

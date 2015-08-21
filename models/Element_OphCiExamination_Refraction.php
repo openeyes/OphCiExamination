@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\OphCiExamination\models;
+
 use Yii;
 
 /**
@@ -43,167 +44,169 @@ use Yii;
 
 class Element_OphCiExamination_Refraction extends \SplitEventTypeElement
 {
-	public $service;
+    public $service;
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_refraction';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_refraction';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id, left_notes, right_notes', 'safe'),
-				array('left_axis', 'requiredIfSide', 'side' => 'left'),
-				array('left_axis', 'numerical', 'integerOnly'=>true),
-				array('left_type_other', 'requiredIfRefractionTypeOther', 'side' => 'left'),
-				array('right_axis', 'requiredIfSide', 'side' => 'right'),
-				array('right_axis', 'numerical', 'integerOnly'=>true),
-				array('right_type_other', 'requiredIfRefractionTypeOther', 'side' => 'right'),
-				array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, left_type_other, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, right_type_other, eye_id, left_notes, right_notes', 'safe'),
+                array('left_axis', 'requiredIfSide', 'side' => 'left'),
+                array('left_axis', 'numerical', 'integerOnly'=>true),
+                array('left_type_other', 'requiredIfRefractionTypeOther', 'side' => 'left'),
+                array('right_axis', 'requiredIfSide', 'side' => 'right'),
+                array('right_axis', 'numerical', 'integerOnly'=>true),
+                array('right_type_other', 'requiredIfRefractionTypeOther', 'side' => 'right'),
+                array('id, event_id, left_sphere, left_cylinder, left_axis, left_axis_eyedraw, left_type_id, right_sphere, right_cylinder, right_axis, right_axis_eyedraw, right_type_id, eye_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function requiredIfRefractionTypeOther($attribute, $params)
-	{
-		if (($params['side'] == 'left' && $this->left_type_id=='') || ($params['side'] == 'right' && $this->right_type_id=='')) {
-			if(empty($this->{$params['side'].'_type_other'})){
-				$this->addError($attribute, ucfirst($params['side']).' Other cannot be blank.');
-			}
-		}
-	}
+    public function requiredIfRefractionTypeOther($attribute, $params)
+    {
+        if (($params['side'] == 'left' && $this->left_type_id=='') || ($params['side'] == 'right' && $this->right_type_id=='')) {
+            if (empty($this->{$params['side'].'_type_other'})) {
+                $this->addError($attribute, ucfirst($params['side']).' Other cannot be blank.');
+            }
+        }
+    }
 
-	public function sidedFields()
-	{
-		return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
-	}
+    public function sidedFields()
+    {
+        return array('sphere', 'cylinder', 'axis', 'axis_eyedraw', 'type_id', 'type_other');
+    }
 
-	public function sidedDefaults()
-	{
-		return array('axis' => 0, 'type_id' => 1);
-	}
+    public function sidedDefaults()
+    {
+        return array('axis' => 0, 'type_id' => 1);
+    }
 
-	public function canCopy()
-	{
-		return true;
-	}
+    public function canCopy()
+    {
+        return true;
+    }
 
-	public function setDefaultOptions() {
-		$this->left_axis = 0;
-		$this->right_axis = 0;
-		if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
-			if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
-				if ($refraction = $api->getRefractionForLatestCataractReferralInEpisode($episode->id)) {
-					foreach ($refraction as $key => $value) {
-						if (preg_match('/^left_(?!graph)/',$key) || preg_match('/^right_(?!graph)/',$key))
-							$this->{$key} = $value;
-					}
-				}
-			}
-		}
-	}
+    public function setDefaultOptions()
+    {
+        $this->left_axis = 0;
+        $this->right_axis = 0;
+        if ($api = Yii::app()->moduleAPI->get('OphCoCataractReferral')) {
+            if ($episode = Yii::app()->getController()->patient->getEpisodeForCurrentSubspecialty()) {
+                if ($refraction = $api->getRefractionForLatestCataractReferralInEpisode($episode->id)) {
+                    foreach ($refraction as $key => $value) {
+                        if (preg_match('/^left_(?!graph)/', $key) || preg_match('/^right_(?!graph)/', $key)) {
+                            $this->{$key} = $value;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'left_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'left_type_id'),
-				'right_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'right_type_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+                'eventType' => array(self::BELONGS_TO, 'EventType', 'event_type_id'),
+                'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+                'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+                'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+                'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+                'left_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'left_type_id'),
+                'right_type' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Refraction_Type', 'right_type_id'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'left_sphere' => 'Sphere',
-				'left_cylinder' => 'Cylinder',
-				'left_axis' => 'Axis',
-				'left_type_id' => 'Type',
-				'left_type_other' => 'Other Type',
-				'right_sphere' => 'Sphere',
-				'right_cylinder' => 'Cylinder',
-				'right_axis' => 'Axis',
-				'right_type_id' => 'Type',
-				'right_type_other' => 'Other Type',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+                'id' => 'ID',
+                'event_id' => 'Event',
+                'left_sphere' => 'Sphere',
+                'left_cylinder' => 'Cylinder',
+                'left_axis' => 'Axis',
+                'left_type_id' => 'Type',
+                'left_type_other' => 'Other Type',
+                'right_sphere' => 'Sphere',
+                'right_cylinder' => 'Cylinder',
+                'right_axis' => 'Axis',
+                'right_type_id' => 'Type',
+                'right_type_other' => 'Other Type',
+        );
+    }
 
-	public function getCombined($side)
-	{
-		return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '° ' . $this->getType($side);
-	}
+    public function getCombined($side)
+    {
+        return $this->{$side.'_sphere'} . '/' . $this->{$side.'_cylinder'} . ' @ ' . $this->{$side.'_axis'} . '° ' . $this->getType($side);
+    }
 
-	public function getType($side)
-	{
-		if ($this->{$side.'_type_id'}) {
-			return $this->{$side.'_type'}->name;
-		} else {
-			return $this->{$side.'_type_other'};
-		}
-	}
+    public function getType($side)
+    {
+        if ($this->{$side.'_type_id'}) {
+            return $this->{$side.'_type'}->name;
+        } else {
+            return $this->{$side.'_type_other'};
+        }
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria = new \CDbCriteria;
+        $criteria = new \CDbCriteria;
 
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('left_sphere', $this->left_sphere);
-		$criteria->compare('left_cylinder', $this->left_cylinder);
-		$criteria->compare('left_axis', $this->left_axis);
-		$criteria->compare('left_type_id', $this->left_type_id);
-		$criteria->compare('left_type_other', $this->left_type_other);
-		$criteria->compare('right_sphere', $this->right_sphere);
-		$criteria->compare('right_cylinder', $this->right_cylinder);
-		$criteria->compare('right_axis', $this->right_axis);
-		$criteria->compare('right_type_id', $this->right_type_id);
-		$criteria->compare('right_type_other', $this->right_type_other);
+        $criteria->compare('left_sphere', $this->left_sphere);
+        $criteria->compare('left_cylinder', $this->left_cylinder);
+        $criteria->compare('left_axis', $this->left_axis);
+        $criteria->compare('left_type_id', $this->left_type_id);
+        $criteria->compare('left_type_other', $this->left_type_other);
+        $criteria->compare('right_sphere', $this->right_sphere);
+        $criteria->compare('right_cylinder', $this->right_cylinder);
+        $criteria->compare('right_axis', $this->right_axis);
+        $criteria->compare('right_type_id', $this->right_type_id);
+        $criteria->compare('right_type_other', $this->right_type_other);
 
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+        ));
+    }
 
-	public function getLetter_string()
-	{
-		return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('left')."\n";
-	}
+    public function getLetter_string()
+    {
+        return "Refraction:\nright: ".$this->getCombined('right')."\nleft: ".$this->getCombined('left')."\n";
+    }
 }

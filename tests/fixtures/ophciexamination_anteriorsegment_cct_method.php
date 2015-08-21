@@ -17,14 +17,14 @@
  */
 
 return array(
-	'method1' => array(
-		'id' => 1,
-		'name' => 'Ultrasound pachymetry',
-		'display_order' => 1,
-	),
-	'method2' => array(
-		'id' => 2,
-		'name' => 'Corneal specular microscopy',
-		'display_order' => 2,
-	),
+    'method1' => array(
+        'id' => 1,
+        'name' => 'Ultrasound pachymetry',
+        'display_order' => 1,
+    ),
+    'method2' => array(
+        'id' => 2,
+        'name' => 'Corneal specular microscopy',
+        'display_order' => 2,
+    ),
 );

@@ -29,61 +29,60 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_ClinicOutcome_Template extends \BaseActiveRecordVersioned
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_ClinicOutcome_Status the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_ClinicOutcome_Status the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_clinicoutcome_template';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_clinicoutcome_template';
+    }
 
-	/**
-	 * @return array validation rules for model
-	 */
-	public function rules()
-	{
-		return array(
-				array('clinic_outcome_status_id', 'required'),
-				array('followup_quantity, followup_period_id', 'safe'),
-				array('followup_quantity', 'numerical', 'integerOnly' => true,
-						'min' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MIN,
-						'max' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MAX
-				),
-				array('id, clinic_outcome_status_id, followup_quantity, followup_period_id', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model
+     */
+    public function rules()
+    {
+        return array(
+                array('clinic_outcome_status_id', 'required'),
+                array('followup_quantity, followup_period_id', 'safe'),
+                array('followup_quantity', 'numerical', 'integerOnly' => true,
+                        'min' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MIN,
+                        'max' => Element_OphCiExamination_ClinicOutcome::FOLLOWUP_Q_MAX
+                ),
+                array('id, clinic_outcome_status_id, followup_quantity, followup_period_id', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'clinic_outcome_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
-				'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+                'clinic_outcome_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ClinicOutcome_Status', 'clinic_outcome_status_id'),
+                'followup_period' => array(self::BELONGS_TO, 'Period', 'followup_period_id'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 }

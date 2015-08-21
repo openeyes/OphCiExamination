@@ -21,10 +21,11 @@
 	<div class="data-row">
 		<div class="data-value">
 			<?php echo $element->summary?>
-			<?php if ($element->comments) {?>
+			<?php if ($element->comments) {
+    ?>
 				<br/>
 				<?php echo Yii::app()->format->Ntext($element->comments);
-			}?>
+}?>
 		</div>
 	</div>
 </div>

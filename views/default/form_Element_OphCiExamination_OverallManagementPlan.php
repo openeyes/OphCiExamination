@@ -18,46 +18,62 @@
  */
 
 $usedOverallPeriods = array();
-if(isset($element->clinic_interval_id)){	$usedOverallPeriods[]=$element->clinic_interval_id;}
-if(isset($element->photo_id)){	$usedOverallPeriods[]=$element->photo_id;}
-if(isset($element->oct_id)){	$usedOverallPeriods[]=$element->oct_id;}
-if(isset($element->hfa_id)){	$usedOverallPeriods[]=$element->hfa_id;}
-if(isset($element->hrt_id)){	$usedOverallPeriods[]=$element->hrt_id;}
+if (isset($element->clinic_interval_id)) {
+    $usedOverallPeriods[]=$element->clinic_interval_id;
+}
+if (isset($element->photo_id)) {
+    $usedOverallPeriods[]=$element->photo_id;
+}
+if (isset($element->oct_id)) {
+    $usedOverallPeriods[]=$element->oct_id;
+}
+if (isset($element->hfa_id)) {
+    $usedOverallPeriods[]=$element->hfa_id;
+}
+if (isset($element->hrt_id)) {
+    $usedOverallPeriods[]=$element->hrt_id;
+}
 
 $overallPeriods = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_OverallPeriod::model()
-	->activeOrPk($usedOverallPeriods)->findAll(
-	array('order'=> 'display_order asc')),'id','name'
+    ->activeOrPk($usedOverallPeriods)->findAll(
+    array('order'=> 'display_order asc')), 'id', 'name'
 );
 
 $intervalVisits = CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_VisitInterval::model()
-	->activeOrPk(@$element->gonio_id)
-	->findAll(array('order'=> 'display_order asc')),'id','name'
+    ->activeOrPk(@$element->gonio_id)
+    ->findAll(array('order'=> 'display_order asc')), 'id', 'name'
 );
 
 $usedTargetIOPS = array();
-if(isset($element->right_target_iop_id)){$usedTargetIOPS[]=$element->right_target_iop_id;}
-if(isset($element->left_target_iop_id)){$usedTargetIOPS[]=$element->left_target_iop_id;}
+if (isset($element->right_target_iop_id)) {
+    $usedTargetIOPS[]=$element->right_target_iop_id;
+}
+if (isset($element->left_target_iop_id)) {
+    $usedTargetIOPS[]=$element->left_target_iop_id;
+}
 
 $targetIOPS =
-	CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_TargetIop::model()
-		->activeOrPk($usedTargetIOPS)->findAll(array('order'=> 'display_order asc')),'id','name');
+    CHtml::listData(\OEModule\OphCiExamination\models\OphCiExamination_TargetIop::model()
+        ->activeOrPk($usedTargetIOPS)->findAll(array('order'=> 'display_order asc')), 'id', 'name');
 
 ?>
 
 <div class="element-fields row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
 
-	<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( ), false , array('label'=>4, 'field'=>3))?>
-	<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-	<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-	<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
-	<?php echo $form->dropDownList($element, 'gonio_id',$intervalVisits,array(),false , array('label'=>4, 'field'=>3)) ?>
-	<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false , array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'clinic_interval_id', $overallPeriods, array( ), false, array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'photo_id', $overallPeriods, array(), false, array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'oct_id', $overallPeriods, array(), false, array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'hfa_id', $overallPeriods, array(), false, array('label'=>4, 'field'=>3))?>
+	<?php echo $form->dropDownList($element, 'gonio_id', $intervalVisits, array(), false, array('label'=>4, 'field'=>3)) ?>
+	<?php echo $form->dropDownList($element, 'hrt_id', $overallPeriods, array(), false, array('label'=>4, 'field'=>3))?>
 	<?php echo $form->textArea($element, 'comments', array('rows' => 6, 'cols' => 80), false, array(), array('label'=>2, 'field'=>7))?>
 
 </div>
 <div class="element-fields element-eyes row">
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row field-row">
@@ -74,7 +90,9 @@ $targetIOPS =
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="row field-row">
@@ -99,6 +117,6 @@ $targetIOPS =
 	}
 </script>
 <?php
-	Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/OverallManagement.js", CClientScript::POS_HEAD);
+    Yii::app()->clientScript->registerScriptFile("{$this->assetPath}/js/OverallManagement.js", CClientScript::POS_HEAD);
 ?>
 

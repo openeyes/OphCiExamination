@@ -20,22 +20,24 @@
 <div class="row posterior-pole">
 	<div class="column fixed">
 		<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-			'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
-			'side' => ($side == 'right') ? 'R' : 'L',
-			'mode' => 'view',
-			'width' => 200,
-			'height' => 200,
-			'model' => $element,
-			'attribute' => $side.'_eyedraw',
-		))?>
+            'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
+            'side' => ($side == 'right') ? 'R' : 'L',
+            'mode' => 'view',
+            'width' => 200,
+            'height' => 200,
+            'model' => $element,
+            'attribute' => $side.'_eyedraw',
+        ))?>
 	</div>
 	<div class="column fluid">
-		<?php if ($element->{$side . '_description'}) {?>
+		<?php if ($element->{$side . '_description'}) {
+    ?>
 			<div class="data-row">
 				<div class="data-value">
 					<?= Yii::app()->format->Ntext($element->{$side.'_description'}) ?>
 				</div>
 			</div>
-		<?php }?>
+		<?php 
+}?>
 	</div>
 </div>

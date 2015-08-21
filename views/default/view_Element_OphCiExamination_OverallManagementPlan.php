@@ -51,31 +51,39 @@
 	<div class="element-eye right-eye column">
 		<div class="data-row">
 			<div class="data-value">
-				<?php if ($element->hasRight()) {?>
+				<?php if ($element->hasRight()) {
+    ?>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('right_target_iop_id'))?></div></div>
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_right_target_iop_id"><?php echo $element->right_target_iop->name?> mmHg</div></div>
 					</div>
 
 				<?php
-				} else {?>
+
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="data-row">
 			<div class="data-value">
-				<?php if ($element->hasLeft()) {?>
+				<?php if ($element->hasLeft()) {
+    ?>
 					<div class="row data-row">
 						<div class="large-5 column"><div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('left_target_iop_id'))?></div></div>
 						<div class="large-7 column end"><div class="data-value" id="OEModule_OphCiExamination_models_Element_OphCiExamination_OverallManagementPlan_left_target_iop_id"><?php echo $element->left_target_iop->name?> mmHg</div></div>
 					</div>
 				<?php
-				} else {?>
+
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>

@@ -20,70 +20,74 @@
 
 use OEModule\OphCiExamination\components\OphCiExamination_API;
 
-class Element_OphCiExamination_CurrentManagementPlan_Test extends CDbTestCase {
+class Element_OphCiExamination_CurrentManagementPlan_Test extends CDbTestCase
+{
+    /**
+     * @var Element_OphCiExamination_CurrentManagementPlan
+     */
+    protected $model;
+    public $fixtures = array(
+        'patient' => 'Patient'
+    );
 
-	/**
-	 * @var Element_OphCiExamination_CurrentManagementPlan
-	 */
-	protected $model;
-	public $fixtures = array(
-		'patient' => 'Patient'
-	);
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan;
+    }
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->model = new OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan;
-	}
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+    }
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::model
+     */
+    public function testModel()
+    {
+        $this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan', get_class($this->model), 'Class name should match model.');
+        $this->assertTrue(is_subclass_of($this->model, 'SplitEventTypeElement'));
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::model
-	 */
-	public function testModel() {
-		$this->assertEquals('OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan', get_class($this->model), 'Class name should match model.');
-		$this->assertTrue(is_subclass_of($this->model, 'SplitEventTypeElement'));
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::tableName
+     */
+    public function testTableName()
+    {
+        $this->assertEquals('et_ophciexamination_currentmanagementplan', $this->model->tableName());
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::tableName
-	 */
-	public function testTableName() {
-		$this->assertEquals('et_ophciexamination_currentmanagementplan', $this->model->tableName());
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::getLatestIOP
+     */
+    public function testGetLatestIOP()
+    {
+        $patient = $this->patient('patient1');
+        $api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
+            ->disableOriginalConstructor()
+            //->setMethods(array('getIOPReadingLeft', 'getIOPReadingRight'))
+            ->getMock();
+        //$api = $this->getMock('\OEModule\OphCiExamination\components\OphCiExamination_API');
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\Element_OphCiExamination_CurrentManagementPlan::getLatestIOP
-	 */
-	public function testGetLatestIOP() {
-		$patient = $this->patient('patient1');
-		$api = $this->getMockBuilder('\OEModule\OphCiExamination\components\OphCiExamination_API')
-			->disableOriginalConstructor()
-			//->setMethods(array('getIOPReadingLeft', 'getIOPReadingRight'))
-			->getMock();
-		//$api = $this->getMock('\OEModule\OphCiExamination\components\OphCiExamination_API');
+        $api->expects($this->any())->method('getIOPReadingLeft')
+            ->with($this->equalTo($patient))
+            ->will($this->returnValue('10'));
+        $api->expects($this->any())->method('getIOPReadingRight')
+            ->with($this->equalTo($patient))
+            ->will($this->returnValue('20'));
 
-		$api->expects($this->any())->method('getIOPReadingLeft')
-			->with($this->equalTo($patient))
-			->will($this->returnValue('10'));
-		$api->expects($this->any())->method('getIOPReadingRight')
-			->with($this->equalTo($patient))
-			->will($this->returnValue('20'));
+        $result = $this->model->getLatestIOP($patient, $api);
+        $expected = array('leftIOP'=>'10', 'rightIOP'=>'20');
 
-		$result = $this->model->getLatestIOP($patient, $api);
-		$expected = array('leftIOP'=>'10', 'rightIOP'=>'20');
-
-		$this->assertInternalType('array', $result);
-		$this->assertEquals($expected, $result);
-	}
-
+        $this->assertInternalType('array', $result);
+        $this->assertEquals($expected, $result);
+    }
 }

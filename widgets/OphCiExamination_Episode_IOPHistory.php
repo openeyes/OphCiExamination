@@ -17,82 +17,82 @@ use OEModule\OphCiExamination\models;
 
 class OphCiExamination_Episode_IOPHistory extends \EpisodeSummaryWidget
 {
-	public $collapsible = true;
-	public $openOnPageLoad = true;
+    public $collapsible = true;
+    public $openOnPageLoad = true;
 
-	public function run()
-	{
-		$chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart'))
-			->configureChart(array(
-				'colors' => array('#4daf4a', '#984ea3', '#4daf4a', '#984ea3'),
-			))
-			->configureXAxis(array('mode' => 'time'))
-			->configureYAxis('mmHg', array(
-				'min' => 0,
-				'max' => 80
-			))
-			->configureSeries('RE', array(
-				'points' => array('show' => true),
-				'lines' => array(
-					'show' => true
-				)
-			))
-			->configureSeries('LE', array(
-				'points' => array('show' => true),
-				'lines' => array('show' => true)
-			))
-			->configureSeries('Target RE', array(
-				'colors' => array("#fff", "#fff", "#fff"),
-				'points' => array('show' => true),
-				'dashes' => array(
-					'show' => true,
-					'style' => array(6)
-				)
-			))
-			->configureSeries('Target LE', array(
-				'points' => array('show' => true),
-				'dashes' => array(
-					'show' => true,
-					'style' => array(6)
-				)
-			));
+    public function run()
+    {
+        $chart = $this->createWidget('FlotChart', array('chart_id' => 'iop-history-chart'))
+            ->configureChart(array(
+                'colors' => array('#4daf4a', '#984ea3', '#4daf4a', '#984ea3'),
+            ))
+            ->configureXAxis(array('mode' => 'time'))
+            ->configureYAxis('mmHg', array(
+                'min' => 0,
+                'max' => 80
+            ))
+            ->configureSeries('RE', array(
+                'points' => array('show' => true),
+                'lines' => array(
+                    'show' => true
+                )
+            ))
+            ->configureSeries('LE', array(
+                'points' => array('show' => true),
+                'lines' => array('show' => true)
+            ))
+            ->configureSeries('Target RE', array(
+                'colors' => array("#fff", "#fff", "#fff"),
+                'points' => array('show' => true),
+                'dashes' => array(
+                    'show' => true,
+                    'style' => array(6)
+                )
+            ))
+            ->configureSeries('Target LE', array(
+                'points' => array('show' => true),
+                'dashes' => array(
+                    'show' => true,
+                    'style' => array(6)
+                )
+            ));
 
-		$events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
+        $events = $this->event_type->api->getEventsInEpisode($this->episode->patient, $this->episode);
 
-		foreach ($events as $event) {
-			if (($iop = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'))) {
-				$timestamp = Helper::mysqlDate2JsTimestamp($event->event_date);
-				$this->addIop($chart, $iop, $timestamp, 'right');
-				$this->addIop($chart, $iop, $timestamp, 'left');
-			}
-		}
+        foreach ($events as $event) {
+            if (($iop = $event->getElementByClass('OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'))) {
+                $timestamp = Helper::mysqlDate2JsTimestamp($event->event_date);
+                $this->addIop($chart, $iop, $timestamp, 'right');
+                $this->addIop($chart, $iop, $timestamp, 'left');
+            }
+        }
 
-		$plan = $this->event_type->api->getMostRecentElementInEpisode(
-			$this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'
-		);
+        $plan = $this->event_type->api->getMostRecentElementInEpisode(
+            $this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_OverallManagementPlan'
+        );
 
-		if ($plan) {
-			$this->addTargetIop($chart, $plan, 'right');
-			$this->addTargetIop($chart, $plan, 'left');
-		}
+        if ($plan) {
+            $this->addTargetIop($chart, $plan, 'right');
+            $this->addTargetIop($chart, $plan, 'left');
+        }
 
-		$this->render('OphCiExamination_Episode_IOPHistory', array('chart' => $chart));
-	}
+        $this->render('OphCiExamination_Episode_IOPHistory', array('chart' => $chart));
+    }
 
-	protected function addIop(\FlotChart $chart, models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
-	{
-		if (($reading = $iop->getReading($side))) {
-			$seriesName = strtoupper($side[0]).'E';
-			$chart->addPoint($seriesName, $timestamp, $reading, "{$reading} mmHg");
-		}
-	}
+    protected function addIop(\FlotChart $chart, models\Element_OphCiExamination_IntraocularPressure $iop, $timestamp, $side)
+    {
+        if (($reading = $iop->getReading($side))) {
+            $seriesName = strtoupper($side[0]).'E';
+            $chart->addPoint($seriesName, $timestamp, $reading, "{$reading} mmHg");
+        }
+    }
 
-	protected function addTargetIop(\FlotChart $chart, models\Element_OphCiExamination_OverallManagementPlan $plan, $side)
-	{
-		if (($target = $plan->{"{$side}_target_iop"})) {
-			$seriesName = 'Target '.strtoupper($side[0]).'E';
-			$chart->addPoint($seriesName, $chart->getXMin(), $target->name, "{$target->name} mmHg");
-			$chart->addPoint($seriesName, $chart->getXMax(), $target->name, "{$target->name} mmHg");
-		}
-	}
+    protected function addTargetIop(\FlotChart $chart, models\Element_OphCiExamination_OverallManagementPlan $plan, $side)
+    {
+        if (($target = $plan->{"{$side}_target_iop"})) {
+            $seriesName = 'Target '.strtoupper($side[0]).'E';
+            $chart->addPoint($seriesName, $chart->getXMin(), $target->name, "{$target->name} mmHg");
+            $chart->addPoint($seriesName, $chart->getXMax(), $target->name, "{$target->name} mmHg");
+        }
+    }
 }

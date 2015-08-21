@@ -17,7 +17,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 ?>
-<?php if ($element->{$side.'_no_treatment'}) {?>
+<?php if ($element->{$side.'_no_treatment'}) {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -30,7 +31,9 @@
 			</div>
 		</div>
 	</div>
-<?php }else{?>
+<?php 
+} else {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -43,7 +46,8 @@
 			</div>
 		</div>
 	</div>
-	<?php if ($element->{$side.'_diagnosis2_id'}) { ?>
+	<?php if ($element->{$side.'_diagnosis2_id'}) {
+    ?>
 		<div class="row data-row">
 			<div class="large-4 column">
 				<div class="data-label">
@@ -56,8 +60,11 @@
 				</div>
 			</div>
 		</div>
-	<?php }?>
-	<?php foreach ($element->{$side.'_answers'} as $answer) {?>
+	<?php 
+}
+    ?>
+	<?php foreach ($element->{$side.'_answers'} as $answer) {
+    ?>
 		<div class="row data-row">
 			<div class="large-4 column">
 				<div class="data-label">
@@ -70,8 +77,11 @@
 				</div>
 			</div>
 		</div>
-	<?php }?>
-	<?php if ($element->{$side.'_treatment'}) {?>
+	<?php 
+}
+    ?>
+	<?php if ($element->{$side.'_treatment'}) {
+    ?>
 		<div class="row data-row">
 			<div class="large-4 column">
 				<div class="data-label">
@@ -84,7 +94,9 @@
 				</div>
 			</div>
 		</div>
-	<?php }?>
+	<?php 
+}
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -94,12 +106,13 @@
 		<div class="large-8 column">
 			<div class="data-value">
 				<?php if (!$element->{$side.'_risks'}) {
-					echo "None";
-				} else {
-					foreach ($element->{$side.'_risks'} as $item) {
-						echo $item->name."<br />";
-					}
-				}?>
+    echo "None";
+} else {
+    foreach ($element->{$side.'_risks'} as $item) {
+        echo $item->name."<br />";
+    }
+}
+    ?>
 			</div>
 		</div>
 	</div>
@@ -115,4 +128,5 @@
 			</div>
 		</div>
 	</div>
-<?php }?>
+<?php 
+}?>

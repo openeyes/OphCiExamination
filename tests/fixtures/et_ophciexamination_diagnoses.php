@@ -16,76 +16,76 @@
  */
 
 return array(
-	'et_further_diagnoses1' => array(
-		'id' => 1,
-		'event_id' => 1,
-	),
-	'et_further_diagnoses2' => array(
-		'id' => 2,
-		'event_id' => 2,
-	),
-	'et_further_diagnoses3' => array(
-		'id' => 3,
-		'event_id' => 3,
-	),
-	'et_further_diagnoses4' => array(
-		'id' => 4,
-		'event_id' => 4,
-	),
-	'et_further_diagnoses5' => array(
-		'id' => 5,
-		'event_id' => 5,
-	),
-	'et_further_diagnoses6' => array(
-		'id' => 6,
-		'event_id' => 6,
-	),
-	'et_further_diagnoses7' => array(
-		'id' => 7,
-		'event_id' => 7,
-	),
-	'et_further_diagnoses8' => array(
-		'id' => 8,
-		'event_id' => 8,
-	),
-	'et_further_diagnoses9' => array(
-		'id' => 9,
-		'event_id' => 9,
-	),
-	'et_further_diagnoses10' => array(
-		'id' => 10,
-		'event_id' => 10,
-	),
-	'et_further_diagnoses11' => array(
-		'id' => 11,
-		'event_id' => 11,
-	),
-	'et_further_diagnoses12' => array(
-		'id' => 12,
-		'event_id' => 12,
-	),
-	'et_further_diagnoses13' => array(
-		'id' => 13,
-		'event_id' => 13,
-	),
-	'et_further_diagnoses14' => array(
-		'id' => 14,
-		'event_id' => 14,
-	),
-	'et_further_diagnoses15' => array(
-		'id' => 15,
-		'event_id' => 15,
-	),
-	'et_further_diagnoses16' => array(
-		'id' => 16,
-		'event_id' => 16,
-	),
-	'et_further_diagnoses17' => array(
-		'id' => 17,
-		'event_id' => 17,
-	),
-	'et_further_diagnoses18' => array(
-		'id' => 18,
-		'event_id' => 18,
-	),
+    'et_further_diagnoses1' => array(
+        'id' => 1,
+        'event_id' => 1,
+    ),
+    'et_further_diagnoses2' => array(
+        'id' => 2,
+        'event_id' => 2,
+    ),
+    'et_further_diagnoses3' => array(
+        'id' => 3,
+        'event_id' => 3,
+    ),
+    'et_further_diagnoses4' => array(
+        'id' => 4,
+        'event_id' => 4,
+    ),
+    'et_further_diagnoses5' => array(
+        'id' => 5,
+        'event_id' => 5,
+    ),
+    'et_further_diagnoses6' => array(
+        'id' => 6,
+        'event_id' => 6,
+    ),
+    'et_further_diagnoses7' => array(
+        'id' => 7,
+        'event_id' => 7,
+    ),
+    'et_further_diagnoses8' => array(
+        'id' => 8,
+        'event_id' => 8,
+    ),
+    'et_further_diagnoses9' => array(
+        'id' => 9,
+        'event_id' => 9,
+    ),
+    'et_further_diagnoses10' => array(
+        'id' => 10,
+        'event_id' => 10,
+    ),
+    'et_further_diagnoses11' => array(
+        'id' => 11,
+        'event_id' => 11,
+    ),
+    'et_further_diagnoses12' => array(
+        'id' => 12,
+        'event_id' => 12,
+    ),
+    'et_further_diagnoses13' => array(
+        'id' => 13,
+        'event_id' => 13,
+    ),
+    'et_further_diagnoses14' => array(
+        'id' => 14,
+        'event_id' => 14,
+    ),
+    'et_further_diagnoses15' => array(
+        'id' => 15,
+        'event_id' => 15,
+    ),
+    'et_further_diagnoses16' => array(
+        'id' => 16,
+        'event_id' => 16,
+    ),
+    'et_further_diagnoses17' => array(
+        'id' => 17,
+        'event_id' => 17,
+    ),
+    'et_further_diagnoses18' => array(
+        'id' => 18,
+        'event_id' => 18,
+    ),
 );

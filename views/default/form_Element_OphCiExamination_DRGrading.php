@@ -20,15 +20,19 @@
 
 <?php $this->beginClip('element-title-additional');?>
 <div class="info">
-	<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {?>
+	<?php if (file_exists(Yii::getPathOfAlias('application.modules.'.$this->getModule()->name.'.assets') . "/img/drgrading.jpg")) {
+    ?>
 			<a href="#" class="drgrading_images_link"><img src="<?php echo $this->assetPath ?>/img/photo_sm.png" /></a>
 			<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
 			<div class="drgrading_images_dialog" title="DR Grading Images">
 				<img src="<?php echo $this->assetPath ?>/img/drgrading.jpg">
 			</div>
-	<?php }else{?>
+	<?php 
+} else {
+    ?>
 		<a href="#" id="drgrading_dirty" style="display: none;">re-sync</a>
-	<?php }?>
+	<?php 
+}?>
 </div>
 <?php $this->endClip('element-title-additional');?>
 
@@ -40,17 +44,21 @@
 		</legend>
 		<div class="large-10 column">
 			<?php
-				if ($diabetes = $this->patient->getDiabetesType()) {
-					echo '<span class="data-value">'.$diabetes->term.'</span>';
-				} else {
-					$form->radioButtons($element, 'secondarydiagnosis_disorder_id', $element->getDiabetesTypes(), null, false, false, false, false, array('nowrapper' => true));
-				}
-			?>
+                if ($diabetes = $this->patient->getDiabetesType()) {
+                    echo '<span class="data-value">'.$diabetes->term.'</span>';
+                } else {
+                    $form->radioButtons($element, 'secondarydiagnosis_disorder_id', $element->getDiabetesTypes(), null, false, false, false, false, array('nowrapper' => true));
+                }
+            ?>
 		</div>
 	</fieldset>
 </div>
 <div class="sub-element-fields element-eyes row">
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?><?php if ($element->id || !empty($_POST)) {
+    ?> uninitialised<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'right', 'element' => $element, 'form' => $form))?>
@@ -64,7 +72,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?><?php if ($element->id || !empty($_POST)) {?> uninitialised<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?><?php if ($element->id || !empty($_POST)) {
+    ?> uninitialised<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields', array('side' => 'left', 'element' => $element, 'form' => $form))?>

@@ -18,28 +18,28 @@
  */
 
 return array(
-	'm1v1' => array(
-		'id' => 1,
-		'name' => 'v1',
-		'method_id' => 1,
-		'display_order' => 1,
-	),
-	'm1v2' => array(
-			'id' => 2,
-			'name' => 'v2',
-			'method_id' => 1,
-			'display_order' => 2,
-	),
-	'm2v1' => array(
-		'id' => 3,
-		'name' => 'one',
-		'method_id' => 2,
-		'display_order' => 1,
-	),
-	'm2v2' => array(
-			'id' => 4,
-			'name' => 'two',
-			'method_id' => 2,
-			'display_order' => 2,
-	)
+    'm1v1' => array(
+        'id' => 1,
+        'name' => 'v1',
+        'method_id' => 1,
+        'display_order' => 1,
+    ),
+    'm1v2' => array(
+            'id' => 2,
+            'name' => 'v2',
+            'method_id' => 1,
+            'display_order' => 2,
+    ),
+    'm2v1' => array(
+        'id' => 3,
+        'name' => 'one',
+        'method_id' => 2,
+        'display_order' => 1,
+    ),
+    'm2v2' => array(
+            'id' => 4,
+            'name' => 'two',
+            'method_id' => 2,
+            'display_order' => 2,
+    )
 );

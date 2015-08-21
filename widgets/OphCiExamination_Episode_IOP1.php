@@ -17,20 +17,20 @@ use OEModule\OphCiExamination\models;
 
 class OphCiExamination_Episode_IOP1 extends \EpisodeSummaryWidget
 {
-	public function run()
-	{
-		$criteria = new CDbCriteria;
-		$criteria->compare('episode_id', $this->episode->id);
-		$criteria->compare('event_type_id', $this->event_type->id);
-		$criteria->order = 'event_date';
+    public function run()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('episode_id', $this->episode->id);
+        $criteria->compare('event_type_id', $this->event_type->id);
+        $criteria->order = 'event_date';
 
-		$iop = null;
-		foreach (Event::model()->findAll($criteria) as $event) {
-			if (($iop = models\Element_OphCiExamination_IntraocularPressure::model()->find('event_id=?', array($event->id)))) {
-				break;
-			}
-		}
+        $iop = null;
+        foreach (Event::model()->findAll($criteria) as $event) {
+            if (($iop = models\Element_OphCiExamination_IntraocularPressure::model()->find('event_id=?', array($event->id)))) {
+                break;
+            }
+        }
 
-		$this->render('OphCiExamination_Episode_IOP', array('iop' => $iop));
-	}
+        $this->render('OphCiExamination_Episode_IOP', array('iop' => $iop));
+    }
 }
