@@ -19,28 +19,31 @@
 ?>
 <div class="column fixed">
 	<?php
-	$this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-		'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
-		'side' => ($side == 'right') ? 'R' : 'L',
-		'mode' => 'view',
-		'width' => 200,
-		'height' => 200,
-		'model' => $element,
-		'attribute' => $side.'_eyedraw',
-		'toggleScale' => 0.72
-	))?>
+    $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
+        'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
+        'side' => ($side == 'right') ? 'R' : 'L',
+        'mode' => 'view',
+        'width' => 200,
+        'height' => 200,
+        'model' => $element,
+        'attribute' => $side.'_eyedraw',
+        'toggleScale' => 0.72
+    ))?>
 </div>
 
 <div class="column fluid">
-	<?php if ($description = $element->{$side.'_description'}) { ?>
+	<?php if ($description = $element->{$side.'_description'}) {
+    ?>
 		<div class="data-row description">
 			<div class="data-value">
 				<?php echo CHtml::encode($description)?>
 			</div>
 		</div>
-	<?php } ?>
+	<?php 
+} ?>
 	<?php /* See OE-4283 */ ?>
-	<?php if ($element->{$side.'_pupil'}) { ?>
+	<?php if ($element->{$side.'_pupil'}) {
+    ?>
 		<div class="row data-row">
 			<div class="large-4 column">
 				<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pupil_id')?>:</div>
@@ -49,7 +52,8 @@
 				<div class="data-value"><?php echo $element->{$side.'_pupil'}->name?></div>
 			</div>
 		</div>
-	<?php } ?>
+	<?php 
+} ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:</div>
@@ -67,17 +71,17 @@
 		</div>
 	</div>
 	<?php
-	/* See OE-4283 */
-	/*
-	<div class="row data-row">
-		<div class="large-4 column">
-			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_pxe')?>:</div>
-		</div>
-		<div class="large-8 column">
-			<div class="data-value"><?php echo $element->{$side.'_pxe'} ? 'Yes' : 'No'?></div>
-		</div>
-	</div>
-	*/?>
+    /* See OE-4283 */
+    /*
+    <div class="row data-row">
+        <div class="large-4 column">
+            <div class="data-label"><?php echo $element->getAttributeLabel($side.'_pxe')?>:</div>
+        </div>
+        <div class="large-8 column">
+            <div class="data-value"><?php echo $element->{$side.'_pxe'} ? 'Yes' : 'No'?></div>
+        </div>
+    </div>
+    */?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label"><?php echo $element->getAttributeLabel($side.'_phako')?>:</div>

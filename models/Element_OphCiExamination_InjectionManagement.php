@@ -34,138 +34,137 @@ namespace OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_InjectionManagement extends \BaseEventTypeElement
 {
-	public $service;
+    public $service;
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'et_ophciexamination_injectionmanagement';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'et_ophciexamination_injectionmanagement';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe'),
-				array('injection_status_id', 'required'),
-				array('injection_status_id', 'injectionDependencyValidation'),
-				array('injection_deferralreason_id', 'injectionDeferralReasonDependencyValidation'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+                array('injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe'),
+                array('injection_status_id', 'required'),
+                array('injection_status_id', 'injectionDependencyValidation'),
+                array('injection_deferralreason_id', 'injectionDeferralReasonDependencyValidation'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, injection_status_id, injection_deferralreason_id, injection_deferralreason_other', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
-				'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
-				'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
-				'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
-				'injection_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'injection_status_id'),
-				'injection_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'injection_deferralreason_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+                'element_type' => array(self::HAS_ONE, 'ElementType', 'id','on' => "element_type.class_name='".get_class($this)."'"),
+                'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+                'user' => array(self::BELONGS_TO, 'User', 'created_user_id'),
+                'usermodified' => array(self::BELONGS_TO, 'User', 'last_modified_user_id'),
+                'injection_status' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_Status', 'injection_status_id'),
+                'injection_deferralreason' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason', 'injection_deferralreason_id'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'event_id' => 'Event',
-				'injection_status_id' => "Injection",
-				'injection_deferralreason_id' => 'Injection deferral reason',
-				'injection_deferralreason_other' => 'Injection deferral reason',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+                'id' => 'ID',
+                'event_id' => 'Event',
+                'injection_status_id' => "Injection",
+                'injection_deferralreason_id' => 'Injection deferral reason',
+                'injection_deferralreason_other' => 'Injection deferral reason',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria = new \CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria = new \CDbCriteria;
 
-		$criteria->compare('id', $this->id, true);
-		$criteria->compare('event_id', $this->event_id, true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('event_id', $this->event_id, true);
 
-		$criteria->compare('injection_status_id', $this->injection_status_id);
-		$criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
-		$criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
+        $criteria->compare('injection_status_id', $this->injection_status_id);
+        $criteria->compare('injection_deferralreason_id', $this->injection_deferral_reason_id);
+        $criteria->compare('injection_deferralreason_other', $this->injection_deferralreason_other);
 
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+        ));
+    }
 
-	/*
-	 * deferral reason is only required for injection status that are flagged deferred
-	*/
-	public function injectionDependencyValidation($attribute)
-	{
-		if ($this->injection_status && $this->injection_status->deferred) {
-			$v = \CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
-			$v->validate($this);
-		}
-	}
+    /*
+     * deferral reason is only required for injection status that are flagged deferred
+    */
+    public function injectionDependencyValidation($attribute)
+    {
+        if ($this->injection_status && $this->injection_status->deferred) {
+            $v = \CValidator::createValidator('required', $this, array('injection_deferralreason_id'));
+            $v->validate($this);
+        }
+    }
 
-	/*
-	 * only need a text "other" reason for reasons that are flagged "other"
-	*/
-	public function injectionDeferralReasonDependencyValidation($attribute)
-	{
-		if ($this->injection_deferralreason && $this->injection_deferralreason->other) {
-			$v = \CValidator::createValidator('required', $this, array('injection_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->injection_deferralreason));
-			$v->validate($this);
-		}
-	}
+    /*
+     * only need a text "other" reason for reasons that are flagged "other"
+    */
+    public function injectionDeferralReasonDependencyValidation($attribute)
+    {
+        if ($this->injection_deferralreason && $this->injection_deferralreason->other) {
+            $v = \CValidator::createValidator('required', $this, array('injection_deferralreason_other'), array('message' => '{attribute} required when deferral reason is ' . $this->injection_deferralreason));
+            $v->validate($this);
+        }
+    }
 
-	/*
-	 * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
-	 *
-	 * @returns string
-	 */
-	public function getInjectionDeferralReason()
-	{
-		if ($this->injection_deferralreason) {
-			if ($this->injection_deferralreason->other) {
-				return $this->injection_deferralreason_other;
-			} else {
-				return $this->injection_deferralreason->name;
-			}
-		} else {
-			// shouldn't get to this point really
-			return "N/A";
-		}
-	}
+    /*
+     * returns the reason the injection has been deferred (switches between text value of fk, or the entered 'other' reason)
+     *
+     * @returns string
+     */
+    public function getInjectionDeferralReason()
+    {
+        if ($this->injection_deferralreason) {
+            if ($this->injection_deferralreason->other) {
+                return $this->injection_deferralreason_other;
+            } else {
+                return $this->injection_deferralreason->name;
+            }
+        } else {
+            // shouldn't get to this point really
+            return "N/A";
+        }
+    }
 
-	public function canCopy()
-	{
-		return true;
-	}
-
+    public function canCopy()
+    {
+        return true;
+    }
 }

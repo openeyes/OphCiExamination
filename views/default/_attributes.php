@@ -18,14 +18,14 @@
  */
 ?>
 <?php
-	foreach ($this->getAttributes($element, $this->firm->serviceSubspecialtyAssignment->subspecialty_id) as $attribute) {
-		$options = CHtml::listData($attribute->getAttributeOptions(), 'slug', 'label');
-		$html_options = array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro inline', 'delimited' => true, 'nowrapper'=>true);
-		foreach ($attribute->getAttributeOptions() as $option) {
-			$html_options['options'][(string) $option->slug] = array(
-				'data-element-type-id'=> $option->attribute_element->element_type_id,
-			);
-		}
-		echo $form->dropDownTextSelection($element, $field, $options, $html_options);
-	}
+    foreach ($this->getAttributes($element, $this->firm->serviceSubspecialtyAssignment->subspecialty_id) as $attribute) {
+        $options = CHtml::listData($attribute->getAttributeOptions(), 'slug', 'label');
+        $html_options = array('empty' => '-- '.$attribute->label.' --', 'class' => 'textMacro inline', 'delimited' => true, 'nowrapper'=>true);
+        foreach ($attribute->getAttributeOptions() as $option) {
+            $html_options['options'][(string) $option->slug] = array(
+                'data-element-type-id'=> $option->attribute_element->element_type_id,
+            );
+        }
+        echo $form->dropDownTextSelection($element, $field, $options, $html_options);
+    }
 ?>

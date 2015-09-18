@@ -21,7 +21,8 @@
 	<div class="element-eye right-eye column">
 		<div class="data-row">
 			<div class="data-value">
-				<?php if ($element->hasRight()) {?>
+				<?php if ($element->hasRight()) {
+    ?>
 					<table cellspacing="0">
 						<thead>
 						<tr>
@@ -33,24 +34,32 @@
 						</thead>
 						<tbody>
 						<tr>
-							<td style="text-align: center;"><?php echo $element->right_central_area->area;?></td>
-							<td style="text-align: center;"><?php echo $element->right_max_area->area;?></td>
-							<td style="text-align: center;"><?php echo $element->right_height->height;?></td>
-							<td style="text-align: center;"><?php echo $element->right_vasc->vascularity;?></td>
+							<td style="text-align: center;"><?php echo $element->right_central_area->area;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->right_max_area->area;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->right_height->height;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->right_vasc->vascularity;
+    ?></td>
 						</tr>
 						</tbody>
 					</table>
 					<?php
-				} else {?>
+
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="data-row">
 			<div class="data-value">
-				<?php if ($element->hasLeft()) {?>
+				<?php if ($element->hasLeft()) {
+    ?>
 					<table cellspacing="0">
 						<thead>
 						<tr>
@@ -62,17 +71,24 @@
 						</thead>
 						<tbody>
 						<tr>
-							<td style="text-align: center;"><?php echo $element->left_central_area->area;?></td>
-							<td style="text-align: center;"><?php echo $element->left_max_area->area;?></td>
-							<td style="text-align: center;"><?php echo $element->left_height->height;?></td>
-							<td style="text-align: center;"><?php echo $element->left_vasc->vascularity;?></td>
+							<td style="text-align: center;"><?php echo $element->left_central_area->area;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->left_max_area->area;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->left_height->height;
+    ?></td>
+							<td style="text-align: center;"><?php echo $element->left_vasc->vascularity;
+    ?></td>
 						</tr>
 						</tbody>
 					</table>
 					<?php
-				} else {?>
+
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>

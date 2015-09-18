@@ -30,7 +30,8 @@
 			</div>
 		</div>
 	</div>
-	<?php if ($element->injection_status && $element->injection_status->deferred) {?>
+	<?php if ($element->injection_status && $element->injection_status->deferred) {
+    ?>
 		<div class="row data-row">
 			<div class="large-4 column">
 				<div class="data-label">
@@ -43,5 +44,6 @@
 				</div>
 			</div>
 		</div>
-	<?php }?>
+	<?php 
+}?>
 </div>

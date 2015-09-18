@@ -30,13 +30,15 @@
 			</thead>
 			<tbody class="sortable">
 				<?php
-				foreach ($model->steps as $i => $step) {?>
+                foreach ($model->steps as $i => $step) {
+                    ?>
 					<tr class="selectable" data-id="<?php echo $step->id?>">
 						<td><?php echo $step->position?></td>
 						<td><?php echo $step->name?></td>
 						<td><a href="#" class="removeElementSet" rel="<?php echo $step->id?>">Remove</a></td>
 					</tr>
-				<?php }?>
+				<?php 
+                }?>
 			</tbody>
 			<tfoot class="pagination-container">
 				<tr>

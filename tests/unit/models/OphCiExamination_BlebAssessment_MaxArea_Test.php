@@ -17,43 +17,46 @@
  * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-class OphCiExamination_BlebAssessment_MaxArea_Test extends CDbTestCase {
+class OphCiExamination_BlebAssessment_MaxArea_Test extends CDbTestCase
+{
+    /**
+     * @var OphCiExamination_BlebAssessment_MaxArea
+     */
+    protected $model;
+    public $fixtures = array(
+    );
 
-	/**
-	 * @var OphCiExamination_BlebAssessment_MaxArea
-	 */
-	protected $model;
-	public $fixtures = array(
-	);
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->model = new \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea;
+    }
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->model = new \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea;
-	}
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+    }
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
+    /**
+     * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model
+     */
+    public function testModel()
+    {
+        $this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', get_class($this->model), 'Class name should match model.');
+    }
 
-	/**
-	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model
-	 */
-	public function testModel() {
-		$this->assertEquals('OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea', get_class($this->model), 'Class name should match model.');
-	}
-
-	/**
-	 * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::tableName
-	 */
-	public function testTableName() {
-		$this->assertEquals('ophciexamination_bleb_assessment_max_area', $this->model->tableName());
-	}
-
+    /**
+     * @covers OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::tableName
+     */
+    public function testTableName()
+    {
+        $this->assertEquals('ophciexamination_bleb_assessment_max_area', $this->model->tableName());
+    }
 }

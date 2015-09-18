@@ -15,11 +15,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class OphCiExamination_ColourVision_ReadingTest extends PHPUnit_Framework_TestCase {
-
-	public function testgetMethod()
-	{
-		$this->markTestIncomplete('To be written');
-	}
-
+class OphCiExamination_ColourVision_ReadingTest extends PHPUnit_Framework_TestCase
+{
+    public function testgetMethod()
+    {
+        $this->markTestIncomplete('To be written');
+    }
 }

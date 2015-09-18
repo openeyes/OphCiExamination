@@ -22,10 +22,12 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasRight()) {
-					echo $element->right_abnormality->name;
-				} else {?>
+    echo $element->right_abnormality->name;
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>
@@ -33,10 +35,12 @@
 		<div class="data-row">
 			<div class="data-value">
 				<?php if ($element->hasLeft()) {
-					echo $element->left_abnormality->name;
-				} else {?>
+    echo $element->left_abnormality->name;
+} else {
+    ?>
 					Not recorded
-				<?php }?>
+				<?php 
+}?>
 			</div>
 		</div>
 	</div>

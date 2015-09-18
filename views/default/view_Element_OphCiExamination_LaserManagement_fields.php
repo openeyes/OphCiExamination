@@ -29,7 +29,8 @@
 		</div>
 	</div>
 </div>
-<?php if ($element->{$side . '_laser_status'}->deferred) { ?>
+<?php if ($element->{$side . '_laser_status'}->deferred) {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -42,7 +43,9 @@
 			</div>
 		</div>
 	</div>
-<?php } else if ($element->{$side . '_laser_status'}->book || $element->{$side . '_laser_status'}->event) { ?>
+<?php 
+} elseif ($element->{$side . '_laser_status'}->book || $element->{$side . '_laser_status'}->event) {
+    ?>
 	<div class="row data-row">
 		<div class="large-4 column">
 			<div class="data-label">
@@ -63,9 +66,10 @@
 		</div>
 		<div class="large-8 column">
 			<div class="data-value">
-				<?php echo $element->{$side . '_comments'} ? Yii::app()->format->Ntext($element->{$side . '_comments'}) : 'None'; ?>
+				<?php echo $element->{$side . '_comments'} ? Yii::app()->format->Ntext($element->{$side . '_comments'}) : 'None';
+    ?>
 			</div>
 		</div>
 	</div>
-<?php }
-
+<?php 
+}

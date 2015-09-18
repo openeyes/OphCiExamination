@@ -22,6 +22,6 @@
 </div>
 <?php echo $form->errorSummary($model)?>
 <?php echo $form->dropDownList($model, 'subspecialty_id', 'Subspecialty', array('empty' => '- All -'))?>
-<?php echo $form->dropDownList($model, 'firm_id', CHtml::listData(Firm::model()->activeOrPk($model->firm_id)->findAll(),'id','nameAndSubspecialty'), array('empty' => '- All -'))?>
+<?php echo $form->dropDownList($model, 'firm_id', CHtml::listData(Firm::model()->activeOrPk($model->firm_id)->findAll(), 'id', 'nameAndSubspecialty'), array('empty' => '- All -'))?>
 <?php echo $form->dropDownList($model, 'episode_status_id', 'EpisodeStatus', array('empty' => '- All -'))?>
 <?php echo $form->dropDownList($model, 'workflow_id', 'OEModule\OphCiExamination\models\OphCiExamination_Workflow')?>

@@ -33,78 +33,77 @@ namespace OEModule\OphCiExamination\models;
 
 class OphCiExamination_InjectionManagementComplex_NoTreatmentReason extends \BaseActiveRecordVersioned
 {
-	const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
+    const DEFAULT_LETTER_STRING = 'The patient did not receive an intra-vitreal injection today.';
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 *
-	 * @return the static model class
-	 */
-	public static function model($className = __CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     *
+     * @return the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_injectmanagecomplex_notreatmentreason';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_injectmanagecomplex_notreatmentreason';
+    }
 
-	public function defaultScope()
-	{
-		return array('order' => $this->getTableAlias(true, false) . '.display_order');
-	}
+    public function defaultScope()
+    {
+        return array('order' => $this->getTableAlias(true, false) . '.display_order');
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('name, letter_str, display_order, active, other', 'safe'),
-				array('name, display_order', 'required'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, name, letter_str, display_order, active, other', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('name, letter_str, display_order, active, other', 'safe'),
+                array('name, display_order', 'required'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, name, letter_str, display_order, active, other', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'letter_str' => 'Correspondence Letter Text',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'letter_str' => 'Correspondence Letter Text',
+        );
+    }
 
 
 
-	/**
-	 * Get the string to be used in correspondence for this no treatment reason
-	 *
-	 * @return string
-	 */
-	public function getLetter_string()
-	{
-		$res = $this::DEFAULT_LETTER_STRING;
-		if ($this->letter_str) {
-			$res = $this->letter_str;
-		}
-		elseif (!$this->other) {
-			$res .= " " . $this->name . ".";
-		}
-		return $res;
-	}
+    /**
+     * Get the string to be used in correspondence for this no treatment reason
+     *
+     * @return string
+     */
+    public function getLetter_string()
+    {
+        $res = $this::DEFAULT_LETTER_STRING;
+        if ($this->letter_str) {
+            $res = $this->letter_str;
+        } elseif (!$this->other) {
+            $res .= " " . $this->name . ".";
+        }
+        return $res;
+    }
 
-	public function behaviors()
-	{
-		return array(
-			'LookupTable' => 'LookupTable',
-		);
-	}
+    public function behaviors()
+    {
+        return array(
+            'LookupTable' => 'LookupTable',
+        );
+    }
 }

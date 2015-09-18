@@ -31,141 +31,140 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_ElementSet extends \BaseActiveRecordVersioned
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_ElementSet the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_ElementSet the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_element_set';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_element_set';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('name', 'required'),
+                array('id, name', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'workflow' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow', 'workflow_id'),
-				'items' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSetItem', 'set_id',
-						'with' => 'element_type',
-						'order' => 'element_type.name',
-				),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+                'workflow' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Workflow', 'workflow_id'),
+                'items' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_ElementSetItem', 'set_id',
+                        'with' => 'element_type',
+                        'order' => 'element_type.name',
+                ),
+        );
+    }
 
-	public function getNextStep()
-	{
-		$criteria = new \CDbCriteria(array(
-			'condition' => 'workflow_id = :workflow_id AND position >= :position AND id <> :id',
-			'order' => 'position, id',
-			'params' => array(':position' => $this->position, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
-		));
-		return $this->find($criteria);
-	}
+    public function getNextStep()
+    {
+        $criteria = new \CDbCriteria(array(
+            'condition' => 'workflow_id = :workflow_id AND position >= :position AND id <> :id',
+            'order' => 'position, id',
+            'params' => array(':position' => $this->position, ':workflow_id' => $this->workflow_id, ':id' => $this->id),
+        ));
+        return $this->find($criteria);
+    }
 
-	/**
-	 * Get an array of ElementTypes corresponding with the items in this set
-	 * @return ElementType[]
-	 */
-	public function getDefaultElementTypes()
-	{
-		$default_element_types = \ElementType::model()->findAll(array(
-				'condition' => "ophciexamination_element_set_item.set_id = :set_id AND ophciexamination_element_set_item.is_hidden = 0",
-				'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
-				'order' => 'display_order',
-				'params' => array(':set_id' => $this->id),
-		));
-		return $default_element_types;
-	}
+    /**
+     * Get an array of ElementTypes corresponding with the items in this set
+     * @return ElementType[]
+     */
+    public function getDefaultElementTypes()
+    {
+        $default_element_types = \ElementType::model()->findAll(array(
+                'condition' => "ophciexamination_element_set_item.set_id = :set_id AND ophciexamination_element_set_item.is_hidden = 0",
+                'join' => 'JOIN ophciexamination_element_set_item ON ophciexamination_element_set_item.element_type_id = t.id',
+                'order' => 'display_order',
+                'params' => array(':set_id' => $this->id),
+        ));
+        return $default_element_types;
+    }
 
-	/**
-	 * Get an array of ElementTypes corresponding with the items NOT in this set
-	 * @return ElementType[]
-	 */
-	public function getOptionalElementTypes()
-	{
-		$optional_element_types = \ElementType::model()->findAll(array(
-				'condition' => "event_type.class_name = 'OphCiExamination' AND
+    /**
+     * Get an array of ElementTypes corresponding with the items NOT in this set
+     * @return ElementType[]
+     */
+    public function getOptionalElementTypes()
+    {
+        $optional_element_types = \ElementType::model()->findAll(array(
+                'condition' => "event_type.class_name = 'OphCiExamination' AND
 					ophciexamination_element_set_item.id IS NULL
 					OR ophciexamination_element_set_item.is_hidden = 0",
-				'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+                'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
 					AND ophciexamination_element_set_item.set_id = :set_id)',
-				'order' => 'display_order',
-				'params' => array(':set_id' => $this->id),
-		));
-		return $optional_element_types;
-	}
+                'order' => 'display_order',
+                'params' => array(':set_id' => $this->id),
+        ));
+        return $optional_element_types;
+    }
 
-	public function getHiddenElementTypes()
-	{
-		$hiddenElementTypes = \ElementType::model()->findAll(array(
-			'condition' => "event_type.class_name = 'OphCiExamination' AND
+    public function getHiddenElementTypes()
+    {
+        $hiddenElementTypes = \ElementType::model()->findAll(array(
+            'condition' => "event_type.class_name = 'OphCiExamination' AND
 					 ophciexamination_element_set_item.is_hidden = 1",
-			'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+            'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
 					AND ophciexamination_element_set_item.set_id = :set_id)',
-			'params' => array(':set_id' => $this->id),
-		));
-		return $hiddenElementTypes;
-	}
+            'params' => array(':set_id' => $this->id),
+        ));
+        return $hiddenElementTypes;
+    }
 
-	public function getMandatoryElementTypes()
-	{
-		$mandatoryElementTypes = \ElementType::model()->findAll(array(
-			'condition' => "event_type.class_name = 'OphCiExamination' AND
+    public function getMandatoryElementTypes()
+    {
+        $mandatoryElementTypes = \ElementType::model()->findAll(array(
+            'condition' => "event_type.class_name = 'OphCiExamination' AND
 					 ophciexamination_element_set_item.is_mandatory = 1",
-			'join' => 'JOIN event_type ON event_type.id = t.event_type_id
+            'join' => 'JOIN event_type ON event_type.id = t.event_type_id
 					LEFT JOIN ophciexamination_element_set_item ON (ophciexamination_element_set_item.element_type_id = t.id
 					AND ophciexamination_element_set_item.set_id = :set_id)',
-			'params' => array(':set_id' => $this->id),
-		));
-		return $mandatoryElementTypes;
-	}
+            'params' => array(':set_id' => $this->id),
+        ));
+        return $mandatoryElementTypes;
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'name' => 'Name',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+                'id' => 'ID',
+                'name' => 'Name',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('name', $this->name, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 }

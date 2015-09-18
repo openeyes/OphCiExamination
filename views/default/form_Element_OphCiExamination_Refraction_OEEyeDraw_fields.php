@@ -56,12 +56,14 @@
 			</div>
 		</div>
 	</div>
-	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') { echo 'style="display:none"'; }?>">
+	<div class="row field-row refraction-type-other" <?php if ($element->{$side.'_type'} && $element->{$side.'_type'}->name!='Other') {
+    echo 'style="display:none"';
+}?>">
 		<div class="large-3 column">
 			<label>Other:</label>
 		</div>
 		<div class="large-6 column end">
-			<?php echo CHtml::activeTextField($element, $side.'_type_other',array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class'=>'refraction-type-other-field'))?>
+			<?php echo CHtml::activeTextField($element, $side.'_type_other', array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class'=>'refraction-type-other-field'))?>
 		</div>
 	</div>
 	<div class="row field-row">

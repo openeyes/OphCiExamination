@@ -17,49 +17,49 @@ namespace OEModule\OphCiExamination\models;
 
 class OphCiExamination_IntraocularPressure_Value extends \BaseActiveRecordVersioned
 {
-	public function tableName()
-	{
-		return 'ophciexamination_intraocularpressure_value';
-	}
+    public function tableName()
+    {
+        return 'ophciexamination_intraocularpressure_value';
+    }
 
-	public function rules()
-	{
-		return array(
-			array('eye_id, reading_time, reading_id, instrument_id, qualitative_reading_id', 'safe'),
-			array('eye_id, reading_time', 'required'),
-			array('eye_id', 'in', 'range' => array(\Eye::LEFT, \Eye::RIGHT)),
-			array('reading_time', 'match', 'pattern' => '/^\d{2}:\d{2}$/', 'message' => '{attribute} must be in format HH:MM'),
-		);
-	}
+    public function rules()
+    {
+        return array(
+            array('eye_id, reading_time, reading_id, instrument_id, qualitative_reading_id', 'safe'),
+            array('eye_id, reading_time', 'required'),
+            array('eye_id', 'in', 'range' => array(\Eye::LEFT, \Eye::RIGHT)),
+            array('reading_time', 'match', 'pattern' => '/^\d{2}:\d{2}$/', 'message' => '{attribute} must be in format HH:MM'),
+        );
+    }
 
-	public function relations()
-	{
-		return array(
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', 'reading_id'),
-			'instrument' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', 'instrument_id'),
-			'qualitative_reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale_Value', 'qualitative_reading_id'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', 'reading_id'),
+            'instrument' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', 'instrument_id'),
+            'qualitative_reading' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_Qualitative_Scale_Value', 'qualitative_reading_id'),
+        );
+    }
 
-	public function init()
-	{
-		if (($default_instrument_id = Element_OphCiExamination_IntraocularPressure::model()->getSetting('default_instrument_id'))) {
-			$this->instrument_id = $default_instrument_id;
-		}
+    public function init()
+    {
+        if (($default_instrument_id = Element_OphCiExamination_IntraocularPressure::model()->getSetting('default_instrument_id'))) {
+            $this->instrument_id = $default_instrument_id;
+        }
 
-		if (($default_reading_id = Element_OphCiExamination_IntraocularPressure::model()->getSetting('default_reading_id'))) {
-			$this->reading_id = $default_reading_id;
-		}
-		$this->reading_time = date("H:i", time());
-	}
+        if (($default_reading_id = Element_OphCiExamination_IntraocularPressure::model()->getSetting('default_reading_id'))) {
+            $this->reading_id = $default_reading_id;
+        }
+        $this->reading_time = date("H:i", time());
+    }
 
-	public function afterValidate()
-	{
-		if (!$this->reading_id && !$this->qualitative_reading_id) {
-			$this->addError('reading_id','Either a numerical reading or a qualitative reading must be specified.');
-		}
+    public function afterValidate()
+    {
+        if (!$this->reading_id && !$this->qualitative_reading_id) {
+            $this->addError('reading_id', 'Either a numerical reading or a qualitative reading must be specified.');
+        }
 
-		return parent::afterValidate();
-	}
+        return parent::afterValidate();
+    }
 }

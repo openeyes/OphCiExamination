@@ -20,26 +20,28 @@
 
 <div class="element-fields element-eyes row">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField')); ?>
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row row">
 				<div class="large-12 column end">
-					<?php echo $form->radioButtons($element,'right_rapd', array(
-							0 => 'Not Checked',
-							1 => 'Yes',
-							2 => 'No'
-						),
-						($element->right_rapd !== null) ? $element->right_rapd : 0,
-						false,
-						false,
-						false,
-						true,
-						array(
-							'text-align'=>'right',
-							'nowrapper'=>false
-						));
-					?>
+					<?php echo $form->radioButtons($element, 'right_rapd', array(
+                            0 => 'Not Checked',
+                            1 => 'Yes',
+                            2 => 'No'
+                        ),
+                        ($element->right_rapd !== null) ? $element->right_rapd : 0,
+                        false,
+                        false,
+                        false,
+                        true,
+                        array(
+                            'text-align'=>'right',
+                            'nowrapper'=>false
+                        ));
+                    ?>
 				</div>
 			</div>
 			<div class="field-row">
@@ -54,26 +56,28 @@
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<div class="field-row row">
 				<div class="large-12 column end">
-					<?php echo $form->radioButtons($element,'left_rapd', array(
-							0 => 'Not Checked',
-							1 => 'Yes',
-							2 => 'No'
-						),
-						($element->left_rapd !== null) ? $element->left_rapd : 0,
-						false,
-						false,
-						false,
-						true,
-						array(
-							'text-align'=>'right',
-							'nowrapper'=>false
-						));
-					?>
+					<?php echo $form->radioButtons($element, 'left_rapd', array(
+                            0 => 'Not Checked',
+                            1 => 'Yes',
+                            2 => 'No'
+                        ),
+                        ($element->left_rapd !== null) ? $element->left_rapd : 0,
+                        false,
+                        false,
+                        false,
+                        true,
+                        array(
+                            'text-align'=>'right',
+                            'nowrapper'=>false
+                        ));
+                    ?>
 				</div>
 			</div>
 			<div class="field-row">

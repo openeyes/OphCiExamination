@@ -20,23 +20,23 @@
 <div class="element-fields">
 	<input type="hidden" name="<?php echo CHtml::modelName($element);?>[force_validation]" />
 	<?php echo $form->radioButtons(new \OEModule\OphCiExamination\models\OphCiExamination_Diagnosis, 'eye_id', 'Eye',
-		($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(),
-		array('label' => 2, 'field' => 10)) ?>
+        ($this->episode && $this->episode->eye_id) ? $this->episode->eye_id : 2, false, false, false, false, array(),
+        array('label' => 2, 'field' => 10)) ?>
 	<?php
-	$conditions = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
-	$this->widget('application.widgets.DiagnosisSelection', array(
-		'field' => 'condition',
-		'options' => $conditions,
-		'code' => '130', // Ophthamology
-		'callback' => 'OphCiExamination_AddDisorderOrFinding',
-		'filterCallback' => 'OphCiExamination_GetCurrentConditions',
-		'layout' => 'includefindings',
-		'layoutColumns' => array(
-			'label' => 2,
-			'field' => 5,
-		),
-		'label' => true,
-	))?>
+    $conditions = $element->getCommonOphthalmicDisorders($this->selectedFirmId);
+    $this->widget('application.widgets.DiagnosisSelection', array(
+        'field' => 'condition',
+        'options' => $conditions,
+        'code' => '130', // Ophthamology
+        'callback' => 'OphCiExamination_AddDisorderOrFinding',
+        'filterCallback' => 'OphCiExamination_GetCurrentConditions',
+        'layout' => 'includefindings',
+        'layoutColumns' => array(
+            'label' => 2,
+            'field' => 5,
+        ),
+        'label' => true,
+    ))?>
 
 	<table class="plain grid">
 		<thead>
@@ -48,21 +48,31 @@
 			</tr>
 		</thead>
 		<tbody class="js-diagnoses" id="OphCiExamination_diagnoses">
-			<?php foreach ($element->diagnoses as $i => $diagnosis) {?>
+			<?php foreach ($element->diagnoses as $i => $diagnosis) {
+    ?>
 				<tr>
 					<td>
 						<input type="hidden" name="selected_diagnoses[]" value="<?php echo $diagnosis->disorder->id?>" />
 						<?php echo $diagnosis->disorder->term?>
 					</td>
 					<td class="eye">
-						<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {?>
+						<?php foreach (Eye::model()->findAll(array('order'=>'display_order')) as $eye) {
+    ?>
 							<label class="inline">
-								<input type="radio" name="<?php echo CHtml::modelName($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis->eye_id == $eye->id) {?>checked="checked" <?php }?>/> <?php echo $eye->name?>
+								<input type="radio" name="<?php echo CHtml::modelName($element)?>[eye_id_<?php echo $i?>]" value="<?php echo $eye->id?>" <?php if ($diagnosis->eye_id == $eye->id) {
+    ?>checked="checked" <?php 
+}
+    ?>/> <?php echo $eye->name?>
 							</label>
-						<?php }?>
+						<?php 
+}
+    ?>
 					</td>
 					<td>
-						<input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis->principal) {?>checked="checked" <?php }?>/>
+						<input type="radio" name="principal_diagnosis" value="<?php echo $diagnosis['disorder']->id?>" <?php if ($diagnosis->principal) {
+    ?>checked="checked" <?php 
+}
+    ?>/>
 					</td>
 					<td>
 						<a href="#" class="removeDiagnosis" rel="<?php echo $diagnosis->disorder->id?>">
@@ -70,7 +80,8 @@
 						</a>
 					</td>
 				</tr>
-			<?php }?>
+			<?php 
+}?>
 		</tbody>
 	</table>
 </div>

@@ -20,95 +20,94 @@ use OEModule\OphCiExamination\models;
 
 class Element_OphCiExamination_DilationTest extends CDbTestCase
 {
-	public $fixtures = array(
-		'ep' => 'Episode',
-		'ev' => 'Event',
-		'drugs' => ':ophciexamination_dilation_drugs'
-	);
+    public $fixtures = array(
+        'ep' => 'Episode',
+        'ev' => 'Event',
+        'drugs' => ':ophciexamination_dilation_drugs'
+    );
 
-	public $delete_element_ids = array();
+    public $delete_element_ids = array();
 
-	public function setUp()
-	{
-		parent::setUp();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+    }
 
-	public function tearDown()
-	{
-		foreach ($this->delete_element_ids as $id) {
-			foreach (models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ?', array($id)) as $t) {
-				$t->noVersion()->delete();
-			}
-			models\Element_OphCiExamination_Dilation::model()->noVersion()->deleteByPk($id);
-		}
-		$this->delete_element_ids = array();
-	}
+    public function tearDown()
+    {
+        foreach ($this->delete_element_ids as $id) {
+            foreach (models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ?', array($id)) as $t) {
+                $t->noVersion()->delete();
+            }
+            models\Element_OphCiExamination_Dilation::model()->noVersion()->deleteByPk($id);
+        }
+        $this->delete_element_ids = array();
+    }
 
-	public function getValidTreatmentMock()
-	{
-		$treatment = $this->getMockBuilder('\OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment')
-				->disableOriginalConstructor()
-				->setMethods(array('validate'))
-				->getMock();
-		$treatment->expects($this->once())
-				->method('validate')
-				->will($this->returnValue(true));
-		return $treatment;
-	}
+    public function getValidTreatmentMock()
+    {
+        $treatment = $this->getMockBuilder('\OEModule\OphCiExamination\models\OphCiExamination_Dilation_Treatment')
+                ->disableOriginalConstructor()
+                ->setMethods(array('validate'))
+                ->getMock();
+        $treatment->expects($this->once())
+                ->method('validate')
+                ->will($this->returnValue(true));
+        return $treatment;
+    }
 
-	public function testValidate_treatments()
-	{
-		$event = $this->ev('event1');
+    public function testValidate_treatments()
+    {
+        $event = $this->ev('event1');
 
-		foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT, 'both' => \Eye::BOTH) as $side => $eye_id) {
-			$el = new models\Element_OphCiExamination_Dilation();
-			$el->event_id = $event->id;
-			$el->eye_id = $eye_id;
+        foreach (array('left' => \Eye::LEFT, 'right' => \Eye::RIGHT, 'both' => \Eye::BOTH) as $side => $eye_id) {
+            $el = new models\Element_OphCiExamination_Dilation();
+            $el->event_id = $event->id;
+            $el->eye_id = $eye_id;
 
-			$this->assertEquals(false, $el->validate());
+            $this->assertEquals(false, $el->validate());
 
-			$treatment = $this->getValidTreatmentMock();
+            $treatment = $this->getValidTreatmentMock();
 
-			if ($side != 'both') {
-				$el->{$side . '_treatments'} = array($treatment);
-				$this->assertTrue($el->validate(), 'Validation should be successful for {$side} treatment');
-			}
-			else {
-				$treatment2 = $this->getValidTreatmentMock();
+            if ($side != 'both') {
+                $el->{$side . '_treatments'} = array($treatment);
+                $this->assertTrue($el->validate(), 'Validation should be successful for {$side} treatment');
+            } else {
+                $treatment2 = $this->getValidTreatmentMock();
 
-				$el->left_treatments = array($treatment);
-				$el->right_treatments = array($treatment2);
-				$this->assertTrue($el->validate(), 'Validation should be successful for {$side} treatment');
-			}
-		}
-	}
+                $el->left_treatments = array($treatment);
+                $el->right_treatments = array($treatment2);
+                $this->assertTrue($el->validate(), 'Validation should be successful for {$side} treatment');
+            }
+        }
+    }
 
-	public function testUpdateTreatments()
-	{
-		$event = $this->ev('event1');
-		$el = new models\Element_OphCiExamination_Dilation();
-		$el->event_id = $event->id;
-		$el->eye_id = \Eye::BOTH;
+    public function testUpdateTreatments()
+    {
+        $event = $this->ev('event1');
+        $el = new models\Element_OphCiExamination_Dilation();
+        $el->event_id = $event->id;
+        $el->eye_id = \Eye::BOTH;
 
-		$el->left_treatments = array($this->getValidTreatmentMock());
-		$el->right_treatments = array($this->getValidTreatmentMock());
-		$el->save();
+        $el->left_treatments = array($this->getValidTreatmentMock());
+        $el->right_treatments = array($this->getValidTreatmentMock());
+        $el->save();
 
-		$this->delete_element_ids[] = $el->id;
+        $this->delete_element_ids[] = $el->id;
 
-		$el->updateTreatments(\Eye::LEFT, array(array(
-					'drug_id' => $this->drugs['drug1']['id'],
-					'drops' => 2,
-					'treatment_time' => '11:00',
-				)));
+        $el->updateTreatments(\Eye::LEFT, array(array(
+                    'drug_id' => $this->drugs['drug1']['id'],
+                    'drops' => 2,
+                    'treatment_time' => '11:00',
+                )));
 
-		$el->updateTreatments(\Eye::RIGHT, array(array(
-						'drug_id' => $this->drugs['drug2']['id'],
-						'drops' => 2,
-						'treatment_time' => '11:00',
-				)));
+        $el->updateTreatments(\Eye::RIGHT, array(array(
+                        'drug_id' => $this->drugs['drug2']['id'],
+                        'drops' => 2,
+                        'treatment_time' => '11:00',
+                )));
 
-		$this->assertCount(1, models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ? AND side = ?', array($el->id, models\OphCiExamination_Dilation_Treatment::LEFT)));
-		$this->assertCount(1, models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ? AND side = ?', array($el->id, models\OphCiExamination_Dilation_Treatment::RIGHT)));
-	}
+        $this->assertCount(1, models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ? AND side = ?', array($el->id, models\OphCiExamination_Dilation_Treatment::LEFT)));
+        $this->assertCount(1, models\OphCiExamination_Dilation_Treatment::model()->findAll('element_id = ? AND side = ?', array($el->id, models\OphCiExamination_Dilation_Treatment::RIGHT)));
+    }
 }

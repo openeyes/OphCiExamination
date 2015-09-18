@@ -15,43 +15,44 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-class Element_OphCiExamination_ColourVisionTest extends CDbTestCase {
+class Element_OphCiExamination_ColourVisionTest extends CDbTestCase
+{
+    public $fixtures = array(
+            'methods' => 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method',
+    );
 
-	public $fixtures = array(
-			'methods' => 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Method',
-	);
+    public function testValidation_validatesReadings()
+    {
+        $lreading = $this->getMockBuilder('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading')
+                ->disableOriginalConstructor()
+                ->setMethods(array('validate'))
+                ->getMock();
 
-	public function testValidation_validatesReadings() {
-		$lreading = $this->getMockBuilder('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading')
-				->disableOriginalConstructor()
-				->setMethods(array('validate'))
-				->getMock();
+        $lreading->expects($this->once())
+            ->method('validate')
+            ->will($this->returnValue(false));
 
-		$lreading->expects($this->once())
-			->method('validate')
-			->will($this->returnValue(false));
+        $test = $this->getMockBuilder('OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision')
+            ->disableOriginalConstructor()
+            ->setMethods(array('hasLeft', 'hasRight'))
+            ->getMock();
+        $test->expects($this->any())
+            ->method('hasLeft')
+            ->will($this->returnValue(true));
+        $test->expects($this->any())
+                ->method('hasRight')
+                ->will($this->returnValue(false));
 
-		$test = $this->getMockBuilder('OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision')
-			->disableOriginalConstructor()
-			->setMethods(array('hasLeft', 'hasRight'))
-			->getMock();
-		$test->expects($this->any())
-			->method('hasLeft')
-			->will($this->returnValue(true));
-		$test->expects($this->any())
-				->method('hasRight')
-				->will($this->returnValue(false));
+        $test->left_readings = array($lreading);
+        $this->assertFalse($test->validate());
+    }
 
-		$test->left_readings = array($lreading);
-		$this->assertFalse($test->validate());
-	}
+    public function testGetUnusedReadingMethods()
+    {
+        $test = new OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision();
+        $test->left_readings = array(ComponentStubGenerator::generate('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', array('method' => $this->methods('method1'))));
 
-	public function testGetUnusedReadingMethods() {
-		$test = new OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision();
-		$test->left_readings = array(ComponentStubGenerator::generate('OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Reading', array('method' => $this->methods('method1'))));
-
-		$this->assertEquals(array($this->methods('method2')), $test->getUnusedReadingMethods('left'), 'Left methods should be restricted');
-		$this->assertEquals(array($this->methods('method1'), $this->methods('method2')), $test->getUnusedReadingMethods('right'), 'Right should return both methods');
-	}
-
+        $this->assertEquals(array($this->methods('method2')), $test->getUnusedReadingMethods('left'), 'Left methods should be restricted');
+        $this->assertEquals(array($this->methods('method1'), $this->methods('method2')), $test->getUnusedReadingMethods('right'), 'Right should return both methods');
+    }
 }

@@ -21,28 +21,39 @@
 	<div class="data-row">
 		<div class="data-value">
 			<?php echo $element->status?>
-			<?php if ($element->status && $element->status->followup) {?>
+			<?php if ($element->status && $element->status->followup) {
+    ?>
 				in
 				<?php echo $element->getFollowUp()?>
 				with
 				<?php echo $element->role->name?>
-				<?php if ($element->role_comments) { ?>
+				<?php if ($element->role_comments) {
+    ?>
 					(<?= Yii::app()->format->Ntext($element->role_comments) ?>)
-				<?php }?>
-			<?php if ($element->community_patient) {?>(Community patient)<?php }?>
-			<?php }?>
+				<?php 
+}
+    ?>
+			<?php if ($element->community_patient) {
+    ?>(Community patient)<?php 
+}
+    ?>
+			<?php 
+}?>
 		</div>
 	</div>
 	<?php if ($api = Yii::app()->moduleAPI->get('PatientTicketing')) {
-		if ($element->status && $element->status->patientticket &&
-			$ticket = $api->getTicketForEvent($this->event)
-			) {?>
+    if ($element->status && $element->status->patientticket &&
+            $ticket = $api->getTicketForEvent($this->event)
+            ) {
+        ?>
 			<div class="data-row">
 				<div class="data-value">
 					<?php
-						$this->widget($api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket));
-					?>
+                        $this->widget($api::$TICKET_SUMMARY_WIDGET, array('ticket' => $ticket));
+        ?>
 				</div>
 			</div>
-	<?php } }?>
+	<?php 
+    }
+}?>
 </div>

@@ -29,76 +29,77 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_BlebAssessment_Vascularity extends \BaseActiveRecordVersioned
 {
-	protected $attribute_options = array();
+    protected $attribute_options = array();
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_BlebAssessment_Vascularity the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_BlebAssessment_Vascularity the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_bleb_assessment_vascularity';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_bleb_assessment_vascularity';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('area', 'required'),
-				array('id, area', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('area', 'required'),
+                array('id, area', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			//'attribute_elements' => array(self::HAS_MANY, 'OphCiExamination_BlebAssessment_VascularityElement', 'attribute_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            //'attribute_elements' => array(self::HAS_MANY, 'OphCiExamination_BlebAssessment_VascularityElement', 'attribute_id'),
+        );
+    }
 
 
 
-	public function getAttributeOptions()
-	{
-		return $this->attribute_options;
-	}
+    public function getAttributeOptions()
+    {
+        return $this->attribute_options;
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('area',$this->name,true);
-		return new CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('area', $this->name, true);
+        return new CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 
-	public function behaviors()
-	{
-		return array(
-			'LookupTable' => 'LookupTable',
-			'FieldImages' => 'FieldImages'
-		);
-	}
+    public function behaviors()
+    {
+        return array(
+            'LookupTable' => 'LookupTable',
+            'FieldImages' => 'FieldImages'
+        );
+    }
 
-	public function fieldImages(){
-		return array('vascularity');
-	}
+    public function fieldImages()
+    {
+        return array('vascularity');
+    }
 }

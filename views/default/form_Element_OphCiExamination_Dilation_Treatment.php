@@ -19,20 +19,27 @@
 ?>
 <tr class="dilationTreatment" data-key="<?php echo $key ?>" data-order="<?php echo $data_order ?>">
 	<td>
-		<?php echo CHtml::textField($name_stub . '['.$key.'][treatment_time]',isset($treatment) ? substr($treatment->treatment_time,0,5) : date('H:i'),array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class' => 'input-time'))?>
+		<?php echo CHtml::textField($name_stub . '['.$key.'][treatment_time]', isset($treatment) ? substr($treatment->treatment_time, 0, 5) : date('H:i'), array('autocomplete' => Yii::app()->params['html_autocomplete'], 'class' => 'input-time'))?>
 	</td>
 	<td>
-		<?php if (isset($treatment) && $treatment->id) {?>
+		<?php if (isset($treatment) && $treatment->id) {
+    ?>
 			<input type="hidden" name="<?= $name_stub ?>[<?php echo $key ?>][id]" value="<?php echo $treatment->id?>" />
-		<?php }?>
+		<?php 
+}?>
 		<span class="drugName"><?php echo $drug_name?></span>
 		<input type="hidden" class="drugId" name="<?= $name_stub ?>[<?php echo $key ?>][drug_id]" value="<?php echo @$drug_id ?>" />
 	</td>
 	<td>
 		<select name="<?= $name_stub ?>[<?php echo $key ?>][drops]">
-			<?php for ($i=1;$i<=10;$i++) {?>
-				<option value="<?php echo $i?>"<?php if ($i == @$treatment->drops) {?> selected="selected"<?php }?>><?php echo $i?></option>
-			<?php }?>
+			<?php for ($i=1;$i<=10;$i++) {
+    ?>
+				<option value="<?php echo $i?>"<?php if ($i == @$treatment->drops) {
+    ?> selected="selected"<?php 
+}
+    ?>><?php echo $i?></option>
+			<?php 
+}?>
 		</select>
 	</td>
 	<td class="treatmentActions">

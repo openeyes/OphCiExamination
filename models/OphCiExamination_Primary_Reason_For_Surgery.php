@@ -20,34 +20,33 @@
 
 namespace OEModule\OphCiExamination\models;
 
-
 class OphCiExamination_Primary_Reason_For_Surgery extends \BaseEventTypeElement
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_AnteriorSegment_CCT_Method
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_AnteriorSegment_CCT_Method
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_primary_reason_for_surgery';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_primary_reason_for_surgery';
+    }
 
-	/**
-	 * @return array validation rules for model visualacuity_methods.
-	 */
-	public function rules()
-	{
-		return array(
-			array('name', 'required'),
-			array('id, name', 'safe'),
-		);
-	}
+    /**
+     * @return array validation rules for model visualacuity_methods.
+     */
+    public function rules()
+    {
+        return array(
+            array('name', 'required'),
+            array('id, name', 'safe'),
+        );
+    }
 }

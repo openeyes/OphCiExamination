@@ -20,7 +20,7 @@
 <div class="box admin">
 	<div class="row field-row">
 		<div class="column large-2">
-			<?php echo CHtml::textField('step_name',$step->name,array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
+			<?php echo CHtml::textField('step_name', $step->name, array('autocomplete'=>Yii::app()->params['html_autocomplete']))?>
 		</div>
 		<div class="column large-2 end">
 			<?php echo EventAction::button('Save', 'save_step_name', null, array('class' => 'small'))->toHtml()?>
@@ -38,14 +38,16 @@
 			</thead>
 			<tbody>
 				<?php
-				foreach ($step->items as $i => $item) {?>
+                foreach ($step->items as $i => $item) {
+                    ?>
 					<tr class="clickable" data-id="<?php echo $item->id?>">
 						<td><?php echo $item->element_type->name?></td>
 						<td><?php echo CHtml::activeCheckBox($item, 'is_hidden', array('class' => 'workflow-item-attr'))?></td>
 						<td><?php echo CHtml::activeCheckBox($item, 'is_mandatory', array('class' => 'workflow-item-attr'))?></td>
 						<td><a href="#" class="removeElementType" rel="<?php echo $item->id?>" data-element-type-id="<?php echo $item->element_type_id?>">Remove</a></td>
 					</tr>
-				<?php }?>
+				<?php 
+                }?>
 			</tbody>
 			<tfoot class="pagination-container">
 				<tr>
@@ -53,7 +55,7 @@
 						<div class="grid-view">
 							<div class="row">
 								<div class="large-3 column">
-									<?php echo CHtml::dropDownList('element_type_id','',CHtml::listData($element_types,'id','name'),array('empty' => '- Select -'))?>
+									<?php echo CHtml::dropDownList('element_type_id', '', CHtml::listData($element_types, 'id', 'name'), array('empty' => '- Select -'))?>
 								</div>
 								<div class="large-3 column end">
 									<?php echo EventAction::button('Add element type', 'add_element_type', null, array('class' => 'small'))->toHtml()?>

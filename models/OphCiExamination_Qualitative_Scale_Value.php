@@ -29,33 +29,33 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_Qualitative_Scale_Value extends \BaseActiveRecordVersioned
 {
-	protected $attribute_options = array();
+    protected $attribute_options = array();
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_GlaucomaStatusa the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_GlaucomaStatusa the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_qualitative_scale_value';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_qualitative_scale_value';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('name', 'required'),
-				array('id, name', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('name', 'required'),
+                array('id, name', 'safe', 'on'=>'search'),
+        );
+    }
 }

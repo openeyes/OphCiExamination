@@ -29,83 +29,82 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_Management_Status extends \BaseActiveRecordVersioned
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Risks_Assignment the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_Risks_Assignment the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public function __toString()
-	{
-		return $this->name;
-	}
+    public function __toString()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_management_status';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_management_status';
+    }
 
-	/**
-	 * @return array validation rules for model OphCiExamination_Risks_Assignment.
-	 */
-	public function rules()
-	{
-		return array(
-				array('name, display_order, deferred', 'required'),
-				array('id, name, display_order, deferred', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model OphCiExamination_Risks_Assignment.
+     */
+    public function rules()
+    {
+        return array(
+                array('name, display_order, deferred', 'required'),
+                array('id, name, display_order, deferred', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+        );
+    }
 
-	/**
-	 * default the sort order
-	 *
-	 * (non-PHPdoc)
-	 * @see CActiveRecord::defaultScope()
-	 */
-	public function defaultScope()
-	{
-		$alias = $this->getTableAlias(false, false);
-		return array(
-			'order' => $alias . '.display_order ASC',
-		);
-	}
+    /**
+     * default the sort order
+     *
+     * (non-PHPdoc)
+     * @see CActiveRecord::defaultScope()
+     */
+    public function defaultScope()
+    {
+        $alias = $this->getTableAlias(false, false);
+        return array(
+            'order' => $alias . '.display_order ASC',
+        );
+    }
 
-	public function behaviors()
-	{
-		return array(
-			'LookupTable' => 'LookupTable',
-		);
-	}
+    public function behaviors()
+    {
+        return array(
+            'LookupTable' => 'LookupTable',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('display_order',$this->display_order,true);
-		$criteria->compare('deferred',$this->deferred,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
-
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('display_order', $this->display_order, true);
+        $criteria->compare('deferred', $this->deferred, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 }

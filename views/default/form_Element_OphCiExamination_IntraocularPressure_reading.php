@@ -17,13 +17,17 @@ $base_name = CHtml::modelName($value) . "[{$side}_values][{$index}]";
 ?>
 <tr data-index="<?= $index ?>" data-side="<?php echo $side?>" data-index="<?php echo $index?>">
 	<td><?= CHtml::textField("{$base_name}[reading_time]", $time, array('autocomplete' => Yii::app()->params['html_autocomplete'])) ?>
-	<td<?php if ($value->instrument && $value->instrument->scale) {?> style="display: none"<?php }?>>
+	<td<?php if ($value->instrument && $value->instrument->scale) {
+    ?> style="display: none"<?php 
+}?>>
 		<?= $form->dropDownList($value, 'reading_id', 'OEModule\OphCiExamination\models\OphCiExamination_IntraocularPressure_Reading', array("nowrapper" => true, 'data-base-name' => $base_name, "name" => "{$base_name}[reading_id]", 'prompt' => '--')) ?>
 	</td>
-	<td class="scale_values"<?php if (!$value->instrument || !$value->instrument->scale) {?> style="display: none"<?php }?>>
+	<td class="scale_values"<?php if (!$value->instrument || !$value->instrument->scale) {
+    ?> style="display: none"<?php 
+}?>>
 		<?php if ($value->instrument && $value->instrument->scale) {
-			echo $this->renderPartial('_qualitative_scale',array('value' => $value, 'side' => $side, 'index' => $index, 'scale' => $value->instrument->scale));
-		}?>
+    echo $this->renderPartial('_qualitative_scale', array('value' => $value, 'side' => $side, 'index' => $index, 'scale' => $value->instrument->scale));
+}?>
 	</td>
 	<?php if ($element->getSetting('show_instruments')): ?>
 		<td><?= $form->dropDownList($value, 'instrument_id', 'OEModule\OphCiExamination\models\OphCiExamination_Instrument', array("nowrapper" => true, 'class' => 'IOPinstrument', "name" => "{$base_name}[instrument_id]")) ?></td>

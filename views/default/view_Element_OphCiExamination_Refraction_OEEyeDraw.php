@@ -19,25 +19,27 @@
 ?>
 <div class="column fixed">
 	<?php $this->widget('application.modules.eyedraw.OEEyeDrawWidget', array(
-			'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
-			'side' => ($side == 'right') ? 'R' : 'L',
-			'mode' => 'view',
-			'width' => 100,
-			'height' => 100,
-			'model' => $element,
-			'attribute' => $side.'_axis_eyedraw',
-	))?>
+            'idSuffix' => $side.'_'.$element->elementType->id.'_'.$element->id,
+            'side' => ($side == 'right') ? 'R' : 'L',
+            'mode' => 'view',
+            'width' => 100,
+            'height' => 100,
+            'model' => $element,
+            'attribute' => $side.'_axis_eyedraw',
+    ))?>
 </div>
 <div class="column fluid">
 	<div class="data-value">
 		<?= Yii::app()->format->text($element->getCombined($side)) ?><br/>
-		Spherical equivalent: <?php echo number_format($element->{$side.'_sphere'} + 0.5 * $element->{$side.'_cylinder'},2)?>
+		Spherical equivalent: <?php echo number_format($element->{$side.'_sphere'} + 0.5 * $element->{$side.'_cylinder'}, 2)?>
 	</div>
 </div>
 <div class="column fluid refractionNotes">
 	<div class="data-value">
-		<?php if ($element->{$side."_notes"}) {?>
+		<?php if ($element->{$side."_notes"}) {
+    ?>
 			<?php echo $element->textWithLineBreaks($side."_notes")?>
-		<?php }?>
+		<?php 
+}?>
 	</div>
 </div>

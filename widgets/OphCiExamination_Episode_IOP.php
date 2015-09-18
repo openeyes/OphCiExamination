@@ -15,12 +15,12 @@
 
 class OphCiExamination_Episode_IOP extends \EpisodeSummaryWidget
 {
-	public function run()
-	{
-		$iop = $this->event_type->api->getMostRecentElementInEpisode(
-			$this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'
-		);
+    public function run()
+    {
+        $iop = $this->event_type->api->getMostRecentElementInEpisode(
+            $this->episode->id, $this->event_type->id, 'OEModule\OphCiExamination\models\Element_OphCiExamination_IntraocularPressure'
+        );
 
-		$this->render('OphCiExamination_Episode_IOP', array('iop' => $iop));
-	}
+        $this->render('OphCiExamination_Episode_IOP', array('iop' => $iop));
+    }
 }

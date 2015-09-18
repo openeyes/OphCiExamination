@@ -16,20 +16,20 @@
  */
 
 return array(
-	'ex_clinical_status_option1' => array(
-		'id' => 1,
-		'clinicoutcome_status_id' => 3,
-		'subspecialty_id' => 1
-	),
-	'ex_clinical_status_option2' => array(
-		'id' => 2,
-		'clinicoutcome_status_id' => 3,
-		'subspecialty_id' => 2
-	),
-	'ex_clinical_status_option3' => array(
-		'id' => 3,
-		'clinicoutcome_status_id' => 4,
-		'subspecialty_id' => 2
-	),
+    'ex_clinical_status_option1' => array(
+        'id' => 1,
+        'clinicoutcome_status_id' => 3,
+        'subspecialty_id' => 1
+    ),
+    'ex_clinical_status_option2' => array(
+        'id' => 2,
+        'clinicoutcome_status_id' => 3,
+        'subspecialty_id' => 2
+    ),
+    'ex_clinical_status_option3' => array(
+        'id' => 3,
+        'clinicoutcome_status_id' => 4,
+        'subspecialty_id' => 2
+    ),
 
 );

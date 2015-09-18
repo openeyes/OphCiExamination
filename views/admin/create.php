@@ -20,27 +20,27 @@
 
 <div class="box admin">
 	<?php
-		$form=$this->beginWidget('BaseEventTypeCActiveForm', array(
-			'id'=>'OphCiExamination_adminform',
-			'enableAjaxValidation'=>false,
-			'layoutColumns' => array(
-				'label' => 2,
-				'field' => 5
-			)
-		));
+        $form=$this->beginWidget('BaseEventTypeCActiveForm', array(
+            'id'=>'OphCiExamination_adminform',
+            'enableAjaxValidation'=>false,
+            'layoutColumns' => array(
+                'label' => 2,
+                'field' => 5
+            )
+        ));
 
-		$this->renderPartial('form_' . Helper::getNSShortname($model), array(
-				'model' => $model,
-				'form' => $form,
-		));
+        $this->renderPartial('form_' . Helper::getNSShortname($model), array(
+                'model' => $model,
+                'form' => $form,
+        ));
 
-		echo $form->formActions(array(
-			'submit' => $model->isNewRecord ? 'Create' : 'Save',
-			'cancel' => isset($cancel_uri)? 'Cancel' : false,
-			'delete' => false,
-			'cancel-uri' => @$cancel_uri,
-		));
+        echo $form->formActions(array(
+            'submit' => $model->isNewRecord ? 'Create' : 'Save',
+            'cancel' => isset($cancel_uri)? 'Cancel' : false,
+            'delete' => false,
+            'cancel-uri' => @$cancel_uri,
+        ));
 
-		$this->endWidget();
-	?>
+        $this->endWidget();
+    ?>
 </div>

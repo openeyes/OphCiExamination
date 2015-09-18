@@ -23,24 +23,24 @@
 			<?php echo $element->getAttributeLabel($side.'_nuclear_id')?>:
 		</label>
 		<?php
-			$html_options = array();
-			foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear::model()->findAll() as $option) {
-				$html_options[(string) $option->id] = array('data-value'=> $option->value);
-			}
-			echo $form->dropDownList($element, $side.'_nuclear_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear', array('options' => $html_options, 'nowrapper' => true));
-		?>
+            $html_options = array();
+            foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear::model()->findAll() as $option) {
+                $html_options[(string) $option->id] = array('data-value'=> $option->value);
+            }
+            echo $form->dropDownList($element, $side.'_nuclear_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Nuclear', array('options' => $html_options, 'nowrapper' => true));
+        ?>
 	</div>
 	<div class="field-row">
 		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_cortical_id';?>">
 			<?php echo $element->getAttributeLabel($side.'_cortical_id')?>:
 		</label>
 		<?php
-			$html_options = array();
-			foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical::model()->findAll() as $option) {
-				$html_options[(string) $option->id] = array('data-value'=> $option->value);
-			}
-			echo $form->dropDownList($element, $side.'_cortical_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical', array('options' => $html_options, 'nowrapper' => true));
-		?>
+            $html_options = array();
+            foreach (OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical::model()->findAll() as $option) {
+                $html_options[(string) $option->id] = array('data-value'=> $option->value);
+            }
+            echo $form->dropDownList($element, $side.'_cortical_id', 'OEModule\OphCiExamination\models\OphCiExamination_AnteriorSegment_Cortical', array('options' => $html_options, 'nowrapper' => true));
+        ?>
 	</div>
 	<div class="field-row">
 		<label for="<?php echo CHtml::modelName($element).'_'.$side.'_description';?>">

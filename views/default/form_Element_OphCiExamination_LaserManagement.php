@@ -21,33 +21,35 @@
 $statuses = \OEModule\OphCiExamination\models\OphCiExamination_Management_Status::model()->activeOrPk(array($element->left_laser_status_id, $element->right_laser_status_id))->findAll();
 $status_options = array('empty'=>'- Please select -', 'options' => array());
 foreach ($statuses as $opt) {
-	$status_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
+    $status_options['options'][(string) $opt->id] = array('data-deferred' => $opt->deferred, 'data-book' => $opt->book, 'data-event' => $opt->event);
 }
 
 $deferrals = \OEModule\OphCiExamination\models\OphCiExamination_Management_DeferralReason::model()->activeOrPk(array($element->left_laser_deferralreason_id, $element->right_laser_deferralreason_id))->findAll();
 $deferral_options = array('empty'=>'- Please select -', 'options' => array());
 foreach ($deferrals as $opt) {
-	$deferral_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
+    $deferral_options['options'][(string) $opt->id] = array('data-other' => $opt->other);
 }
 
-$lasertypes = \OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType::model()->activeOrPk(array($element->right_lasertype_id,$element->left_lasertype_id))->findAll();
+$lasertypes = \OEModule\OphCiExamination\models\OphCiExamination_LaserManagement_LaserType::model()->activeOrPk(array($element->right_lasertype_id, $element->left_lasertype_id))->findAll();
 $lasertype_options = array();
 
 foreach ($lasertypes as $lt) {
-	$lasertype_options[(string)$lt->id] = array('data-other' => $lt->other);
+    $lasertype_options[(string)$lt->id] = array('data-other' => $lt->other);
 }
 ?>
 
 <div class="element-eyes sub-element-fields jsTreatmentFields" id="div_<?php echo CHtml::modelName($element)?>_treatment_fields">
 	<?php echo $form->hiddenInput($element, 'eye_id', false, array('class' => 'sideField'))?>
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) { ?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields',
-				array('side' => 'right', 'element' => $element, 'form' => $form,
-					'statuses' => $statuses, 'status_options' => $status_options,
-					'deferrals' => $deferrals, 'deferral_options' => $deferral_options,
-					'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
+                array('side' => 'right', 'element' => $element, 'form' => $form,
+                    'statuses' => $statuses, 'status_options' => $status_options,
+                    'deferrals' => $deferrals, 'deferral_options' => $deferral_options,
+                    'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">
@@ -57,14 +59,16 @@ foreach ($lasertypes as $lt) {
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) { ?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<?php $this->renderPartial($element->form_view . '_fields',
-				array('side' => 'left', 'element' => $element, 'form' => $form,
-					'statuses' => $statuses, 'status_options' => $status_options,
-					'deferrals' => $deferrals, 'deferral_options' => $deferral_options,
-					'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
+                array('side' => 'left', 'element' => $element, 'form' => $form,
+                    'statuses' => $statuses, 'status_options' => $status_options,
+                    'deferrals' => $deferrals, 'deferral_options' => $deferral_options,
+                    'lasertypes' => $lasertypes, 'lasertype_options' => $lasertype_options)); ?>
 		</div>
 		<div class="inactive-form">
 			<div class="add-side">

@@ -20,24 +20,34 @@
 <div class="element-data element-eyes row">
 	<div class="element-eye right-eye column">
 		<div class="data-row">
-			<?php if ($element->hasRight()) {?>
+			<?php if ($element->hasRight()) {
+    ?>
 				<div class="row refraction">
-					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element));?>
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'right', 'element' => $element));
+    ?>
 				</div>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">Not recorded</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 	<div class="element-eye left-eye column">
 		<div class="data-row">
-			<?php if ($element->hasLeft()) {?>
+			<?php if ($element->hasLeft()) {
+    ?>
 				<div class="row refraction">
-					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element));?>
+					<?php $this->renderPartial($element->view_view . '_OEEyeDraw', array('side' => 'left', 'element' => $element));
+    ?>
 				</div>
-			<?php } else {?>
+			<?php 
+} else {
+    ?>
 				<div class="data-value">Not recorded</div>
-			<?php }?>
+			<?php 
+}?>
 		</div>
 	</div>
 </div>

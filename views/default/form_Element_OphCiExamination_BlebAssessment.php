@@ -20,34 +20,30 @@
 <?php
 
 $centralAreas = CHtml::listData(
-	\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
-		array($element->right_central_area_id,$element->left_central_area_id))->findAll(array('order' => 'display_order')
-		)
-	,'id','area'
+    \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model()->activeOrPk(
+        array($element->right_central_area_id, $element->left_central_area_id))->findAll(array('order' => 'display_order')
+        ), 'id', 'area'
 );
 $centralAreaFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_CentralArea::model()->getFieldImages();
 
 $maxAreas = CHtml::listData(
-		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
-		array($element->right_max_area_id,$element->left_max_area_id))->findAll(array('order' => 'display_order')
-		)
-	,'id','area'
+        \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model()->activeOrPk(
+        array($element->right_max_area_id, $element->left_max_area_id))->findAll(array('order' => 'display_order')
+        ), 'id', 'area'
 );
 $maxAreaFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_MaxArea::model()->getFieldImages();
 
 $heights = CHtml::listData(
-		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
-		array($element->right_height_id,$element->left_height_id))->findAll(array('order' => 'display_order')
-		)
-	,'id','height'
+        \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model()->activeOrPk(
+        array($element->right_height_id, $element->left_height_id))->findAll(array('order' => 'display_order')
+        ), 'id', 'height'
 );
 $heightFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Height::model()->getFieldImages();
 
 $vascularities = CHtml::listData(
-		\OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
-		array($element->right_vasc_id,$element->left_vasc_id))->findAll(array('order' => 'display_order')
-		)
-	,'id','vascularity'
+        \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity::model()->activeOrPk(
+        array($element->right_vasc_id, $element->left_vasc_id))->findAll(array('order' => 'display_order')
+        ), 'id', 'vascularity'
 );
 $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_BlebAssessment_Vascularity::model()->getFieldImages();
 
@@ -74,21 +70,23 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 				{id:'vascularity',selects:<?php echo json_encode($vascularities) ;?>}
 		};
 		var FieldImages = <?php
-			$fieldImages = array(
-				'height'=>$heightFieldImages,
-				'maxArea'=>$maxAreaFieldImages,
-				'centralArea'=>$centralAreaFieldImages,
-				'vascularity'=>$vascularitiesFieldImages
-			);
-			echo json_encode($fieldImages) ;
-			 ?>;
+            $fieldImages = array(
+                'height'=>$heightFieldImages,
+                'maxArea'=>$maxAreaFieldImages,
+                'centralArea'=>$centralAreaFieldImages,
+                'vascularity'=>$vascularitiesFieldImages
+            );
+            echo json_encode($fieldImages) ;
+             ?>;
 		var oeFieldImages = new OpenEyes.UI.FieldImages({idToImages:idToImagesArr,images:FieldImages});
 		$(document).ready(function() {
 			oeFieldImages.setFieldButtons();
 		});
 	</script>
 
-	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {?> inactive<?php }?>" data-side="right">
+	<div class="element-eye right-eye column left side<?php if (!$element->hasRight()) {
+    ?> inactive<?php 
+}?>" data-side="right">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<table class="bleb-assessment">
@@ -105,30 +103,26 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 						<!-- Area (Central) -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'right_central_area_id', $centralAreas
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'right_central_area_id', $centralAreas, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 						<!-- Area (Maximal) -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'right_max_area_id', $maxAreas
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'right_max_area_id', $maxAreas, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 						<!-- Height -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'right_height_id', $heights
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'right_height_id', $heights, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 						<!-- Vascularity -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'right_vasc_id', $vascularities
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'right_vasc_id', $vascularities, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 					</tr>
 				</tbody>
@@ -142,7 +136,9 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 			</div>
 		</div>
 	</div>
-	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {?> inactive<?php }?>" data-side="left">
+	<div class="element-eye left-eye column right side<?php if (!$element->hasLeft()) {
+    ?> inactive<?php 
+}?>" data-side="left">
 		<div class="active-form">
 			<a href="#" class="icon-remove-side remove-side">Remove side</a>
 			<table cellspacing="0" class="bleb-assessment">
@@ -159,33 +155,29 @@ $vascularitiesFieldImages = \OEModule\OphCiExamination\models\OphCiExamination_B
 						<!-- Area (Central) -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'left_central_area_id', $centralAreas
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'left_central_area_id', $centralAreas, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 
 						<!-- Area (Maximal) -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'left_max_area_id', $maxAreas
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
-							); ?>
+                            echo $form->dropDownList($element, 'left_max_area_id', $maxAreas, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
+                            ); ?>
 						</td>
 
 						<!-- Height -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'left_height_id', $heights
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
-							); ?>
+                            echo $form->dropDownList($element, 'left_height_id', $heights, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 4)
+                            ); ?>
 						</td>
 
 						<!-- Vascularity -->
 						<td>
 							<?php
-							echo $form->dropDownList($element, 'left_vasc_id', $vascularities
-								, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
-							); ?>
+                            echo $form->dropDownList($element, 'left_vasc_id', $vascularities, array('empty' => '-', 'nowrapper' => true, 'class' => "ui-field-images-dropdown"), false, array('label' => 0, 'field' => 6)
+                            ); ?>
 						</td>
 					</tr>
 				</tbody>

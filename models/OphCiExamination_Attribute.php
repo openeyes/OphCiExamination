@@ -30,126 +30,125 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_Attribute extends \BaseActiveRecordVersioned
 {
-	protected $attribute_options = array();
+    protected $attribute_options = array();
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Attribute the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_Attribute the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_attribute';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_attribute';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('name', 'required'),
-				array('id, name, label', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('name', 'required'),
+                array('id, name, label', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-				'attribute_elements_id' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
-			    'attribute_elements' => array(self::MANY_MANY, 'ElementType', 'ophciexamination_attribute_element(attribute_id,element_type_id)')
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+                'attribute_elements_id' => array(self::HAS_MANY, 'OEModule\OphCiExamination\models\OphCiExamination_AttributeElement', 'attribute_id'),
+                'attribute_elements' => array(self::MANY_MANY, 'ElementType', 'ophciexamination_attribute_element(attribute_id,element_type_id)')
+        );
+    }
 
-	/**
-	 * Fetches all the attributes for an element_type filtered by subspecialty
-	 * Options are stashed in attribute_options property for easy iteration
-	 * @param integer $element_type_id
-	 * @param integer $subspecialty_id
-	 * @param boolean $include_descendents
-	 * @return OphCiExamination_Attribute[]
-	 */
-	public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true)
-	{
-		$criteria = new \CDbCriteria();
-		$criteria->select = 't.*';
-		$criteria->distinct = true;
-		$element_type_ids = array($element_type_id);
-		if ($include_descendents) {
-			$element_type = \ElementType::model()->findByPk($element_type_id);
-			foreach ($element_type->getDescendents() as $descendent) {
-				$element_type_ids[] = $descendent->id;
-			}
-		}
-		$criteria->addInCondition('attribute_element.element_type_id', $element_type_ids);
-		if ($subspecialty_id) {
-			$criteria->addCondition('subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL');
-			$criteria->params[':subspecialty_id'] = $subspecialty_id;
-		} else {
-			$criteria->addCondition('subspecialty_id IS NULL');
-		}
-		$criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id
+    /**
+     * Fetches all the attributes for an element_type filtered by subspecialty
+     * Options are stashed in attribute_options property for easy iteration
+     * @param integer $element_type_id
+     * @param integer $subspecialty_id
+     * @param boolean $include_descendents
+     * @return OphCiExamination_Attribute[]
+     */
+    public function findAllByElementAndSubspecialty($element_type_id, $subspecialty_id = null, $include_descendents = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->distinct = true;
+        $element_type_ids = array($element_type_id);
+        if ($include_descendents) {
+            $element_type = \ElementType::model()->findByPk($element_type_id);
+            foreach ($element_type->getDescendents() as $descendent) {
+                $element_type_ids[] = $descendent->id;
+            }
+        }
+        $criteria->addInCondition('attribute_element.element_type_id', $element_type_ids);
+        if ($subspecialty_id) {
+            $criteria->addCondition('subspecialty_id = :subspecialty_id OR subspecialty_id IS NULL');
+            $criteria->params[':subspecialty_id'] = $subspecialty_id;
+        } else {
+            $criteria->addCondition('subspecialty_id IS NULL');
+        }
+        $criteria->join = 'JOIN ophciexamination_attribute_element attribute_element ON attribute_element.id = t.attribute_element_id
 							JOIN ophciexamination_attribute attribute ON attribute_element.attribute_id = attribute.id';
-		$criteria->order = 'attribute.display_order,attribute_element.attribute_id,t.display_order,t.id';
-		$all_attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
-		$attributes = array();
-		$attribute = null;
-		$attribute_options = array();
-		foreach ($all_attribute_options as $attribute_option) {
-			if (!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
-				if ($attribute) {
-					$attribute->attribute_options = array_values($attribute_options);
-					$attribute_options = array();
-					$attributes[] = $attribute;
-				}
-				$attribute = $attribute_option->attribute_element->attribute;
-			}
-			$attribute_options[] = $attribute_option;
-		}
-		if ($attribute) {
-			$attribute->attribute_options = array_values($attribute_options);
-			$attributes[] = $attribute;
-		}
-		return $attributes;
-	}
+        $criteria->order = 'attribute.display_order,attribute_element.attribute_id,t.display_order,t.id';
+        $all_attribute_options = OphCiExamination_AttributeOption::model()->findAll($criteria);
+        $attributes = array();
+        $attribute = null;
+        $attribute_options = array();
+        foreach ($all_attribute_options as $attribute_option) {
+            if (!$attribute || $attribute->id != $attribute_option->attribute_element->attribute_id) {
+                if ($attribute) {
+                    $attribute->attribute_options = array_values($attribute_options);
+                    $attribute_options = array();
+                    $attributes[] = $attribute;
+                }
+                $attribute = $attribute_option->attribute_element->attribute;
+            }
+            $attribute_options[] = $attribute_option;
+        }
+        if ($attribute) {
+            $attribute->attribute_options = array_values($attribute_options);
+            $attributes[] = $attribute;
+        }
+        return $attributes;
+    }
 
-	public function getAttributeOptions()
-	{
-		return $this->attribute_options;
-	}
+    public function getAttributeOptions()
+    {
+        return $this->attribute_options;
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria= new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('name',$this->name,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria= new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('name', $this->name, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 
-	public function attributeLabels()
-	{
-		return array(
-			'name' => 'Attribute Name',
-			'label' => 'Attribute Label',
-			'element_type.name' => 'Element Mapping',
-			'attribute_elements.name' => 'Element Mapping'
-		);
-	}
-
+    public function attributeLabels()
+    {
+        return array(
+            'name' => 'Attribute Name',
+            'label' => 'Attribute Label',
+            'element_type.name' => 'Element Mapping',
+            'attribute_elements.name' => 'Element Mapping'
+        );
+    }
 }

@@ -35,16 +35,21 @@
 		</thead>
 		<tbody>
 			<?php
-			foreach ($model_list as $i => $model) {?>
+            foreach ($model_list as $i => $model) {
+                ?>
 				<tr data-attr-id="<?php echo $model->id?>" data-attr-name="No Treatment Reason">
 					<td>
 						<a href="<?php echo Yii::app()->createUrl($this->module->getName() . '/admin/update' . Helper::getNSShortname($model), array('id'=> $model->id)) ?>"><?php echo $model->name?></a>
 					</td>
 					<td>
-						<input type="checkbox" class="model_enabled" <?php if ($model->active) { echo "checked"; }?> />
+						<input type="checkbox" class="model_enabled" <?php if ($model->active) {
+    echo "checked";
+}
+                ?> />
 					</td>
 				</tr>
-			<?php }?>
+			<?php 
+            }?>
 		</tbody>
 	</table>
 </div>

@@ -36,72 +36,71 @@ namespace OEModule\OphCiExamination\models;
  */
 class OphCiExamination_ColourVision_Reading extends \BaseActiveRecordVersioned
 {
-	const LEFT = 1;
-	const RIGHT = 0;
+    const LEFT = 1;
+    const RIGHT = 0;
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return OphCiExamination_Dilation_Treatment the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return OphCiExamination_Dilation_Treatment the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'ophciexamination_colourvision_reading';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'ophciexamination_colourvision_reading';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-				array('eye_id, value_id, element_id', 'safe'),
-				array('id, eye_id, value_id, element_id', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+                array('eye_id, value_id, element_id', 'safe'),
+                array('id, eye_id, value_id, element_id', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-			'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision', 'element_id'),
-			'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
-			'value' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Value', 'value_id'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'element' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\Element_OphCiExamination_ColourVision', 'element_id'),
+            'eye' => array(self::BELONGS_TO, 'Eye', 'eye_id'),
+            'value' => array(self::BELONGS_TO, 'OEModule\OphCiExamination\models\OphCiExamination_ColourVision_Value', 'value_id'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new \CDbCriteria;
-		$criteria->compare('id',$this->id,true);
-		return new \CActiveDataProvider(get_class($this), array(
-				'criteria'=>$criteria,
-		));
-	}
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria=new \CDbCriteria;
+        $criteria->compare('id', $this->id, true);
+        return new \CActiveDataProvider(get_class($this), array(
+                'criteria'=>$criteria,
+        ));
+    }
 
-	/**
-	 * Get the method for this reading if it has one
-	 *
-	 * @return OphCiExamination_ColourVision_Method
-	 */
-	public function getMethod()
-	{
-		if ($val = $this->value) {
-			return $val->method;
-		}
-	}
-
+    /**
+     * Get the method for this reading if it has one
+     *
+     * @return OphCiExamination_ColourVision_Method
+     */
+    public function getMethod()
+    {
+        if ($val = $this->value) {
+            return $val->method;
+        }
+    }
 }
