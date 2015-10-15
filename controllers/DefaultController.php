@@ -941,11 +941,8 @@ class DefaultController extends \BaseEventTypeController
     {
         $this->setCurrentSet();
 
-        // Checking if Note values are in the POST and then escaping special character strip, whiling saving in the DB.
-        if (!empty($_POST)) {
-            if (array_key_exists('patientticketing__notes', $_POST)) {
-                $_POST['patientticketing__notes'] = htmlspecialchars(Yii::app()->request->getPost('patientticketing__notes'));
-            }
+        if(($val = Yii::app()->request->getPost('patientticketing__notes', null)) != null){
+            $_POST['patientticketing__notes'] = htmlspecialchars($val);
         }
 
         parent::actionCreate();
