@@ -11,7 +11,7 @@ class m151015_110043_add_new_genders extends CDbMigration
 			$this->insert('gender', array('name' =>$gender));
 		}
 
-    }
+    	}
 
 	public function down()
 	{
