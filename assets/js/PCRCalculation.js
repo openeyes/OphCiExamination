@@ -304,7 +304,7 @@ function calculateORValue( inputValues ){
 
     // multipliers for the attributes and selected values
     OR.age = {'1':1, '2':1.14, '3':1.42, '4':1.58, '5':2.37};
-    OR.gender = {'Male':1.28, 'Female':1};
+    OR.gender = {'Male':1.28, 'Female':1, 'Other':1.14, 'Unknown':1.14};
     OR.glaucoma = {'Y':1.30, 'N':1};
     OR.diabetic = {'Y':1.63, 'N':1};
     OR.fundalview = {'Y':2.46, 'N':1};
