@@ -2027,7 +2027,7 @@ function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic, isGl
 		'</td>'+
 	'</tr>';
 
-	$('.js-diagnoses').append(row);
+	$('.js-diagnoses').html(row);
 	OphCiExamination_RefreshCommonOphDiagnoses();
 	//Adding new element to array doesn't trigger change so do it manually
 	$(":input[name^='diabetic_diagnoses']").trigger('change',  ['select[name="diabetic"]']);
