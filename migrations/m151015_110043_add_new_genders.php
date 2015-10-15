@@ -3,11 +3,12 @@
 class m151015_110043_add_new_genders extends CDbMigration
 {
 	protected $genders = array('Unknown', 'Other');
+
 	public function up()
 	{
 		foreach($this->genders as $gender)
 		{
-			$this->insert('gender', $gender);
+			$this->insert('gender', array('name' =>$gender));
 		}
 
     }
