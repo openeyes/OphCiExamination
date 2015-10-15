@@ -2029,7 +2029,7 @@ function OphCiExamination_AddDiagnosis(disorderId, name, eyeId, isDiabetic, isGl
 
 	$('.js-diagnoses').append(row);
 
-	var div = $("<div class='test'>").html(row);
+	var div = $("<div class='temp'>").html(row);
 	$("body").prepend(div);
 
 
