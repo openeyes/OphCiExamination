@@ -1,3 +1,20 @@
+var timesSelectClicked = 0;
+
+/**
+ * We need this function to trigger select click event in Chrome (select>option click event worked in Firefox, but had issues in Chrome)
+ * @param e
+ */
+function selectClicked(e){
+    if (timesSelectClicked == 0)
+    {
+        timesSelectClicked += 1;
+    }
+    else if (timesSelectClicked == 1)
+    {
+        timesSelectClicked = 0;
+        removeNotKnownAlert($(e.target));
+    }
+}
 /**
  * Maps elements in examination or op not to their respective elements in PCR risk so changes in the
  * examination are reflected in the PCR risk calculation automatically
@@ -234,10 +251,10 @@ function setPcrPupil(ev, pcrEl)
  *
  */
 function removeNotKnownAlert(element){
-    //console.log('#'+$(ev.target).parent().attr('id')+'_nk');
-    var $container = $(element).closest('[id*="ophCiExaminationPCRRisk"]');
 
-    $container.find('#'+$(element).attr('id')+'_nk').hide();
+    var containerdiv = $(element).closest('[id*="ophCiExaminationPCRRisk"]');
+
+    containerdiv.find('#'+$(element).attr('id')+'_nk').hide();
 }
 
 /**
@@ -380,26 +397,35 @@ $(document).ready(function()
         pcrCalculate('right');
     });
 
+    // this is a hack for Chrome and IE
+    $(document.body).on('click keypress', '#glaucoma', function(e){selectClicked(e);});
+
+    // this one works in Firefox
     $('#glaucoma>option').click(function(event){
-        removeNotKnownAlert($(this).parent());
+       removeNotKnownAlert($(this).parent());
     });
 
+    $(document.body).on('click keypress', '#pxf_phako', function(e){selectClicked(e);});
     $('#pxf_phako>option').click(function(event){
         removeNotKnownAlert($(this).parent());
     });
 
+    $(document.body).on('click keypress', '#diabetic', function(e){selectClicked(e);});
     $('#diabetic>option').click(function(event){
         removeNotKnownAlert($(this).parent());
     });
 
+    $(document.body).on('click keypress', '#axial_length', function(e){selectClicked(e);});
     $('#axial_length>option').click(function(event){
         removeNotKnownAlert($(this).parent());
     });
 
+    $(document.body).on('click keypress', '#no_fundal_view', function(e){selectClicked(e);});
     $('#no_fundal_view>option').click(function(event){
         removeNotKnownAlert($(this).parent());
     });
 
+    $(document.body).on('click keypress', '#arb', function(e){selectClicked(e);});
     $('#arb>option').click(function(event){
         removeNotKnownAlert($(this).parent());
     });
