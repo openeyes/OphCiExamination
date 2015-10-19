@@ -267,7 +267,7 @@ $criteria = new CDbCriteria();
 		<div class="large-12 column pcr-risk-data-link">
 			<label>
 				Calculation data derived from
-				<a href="http://www.researchgate.net/publication/5525424_The_Cataract_National_Dataset_electronic_multicentre_audit_of_55_567_operations_Risk_stratification_for_posterior_capsule_rupture_and_vitreous_loss">
+				<a href="http://www.researchgate.net/publication/5525424_The_Cataract_National_Dataset_electronic_multicentre_audit_of_55_567_operations_Risk_stratification_for_posterior_capsule_rupture_and_vitreous_loss" target="_blank">
 					Narendran et al. The Cataract National Dataset electronic multicentre audit of 55,567 operations
 				</a>
 
