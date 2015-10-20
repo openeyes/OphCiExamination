@@ -937,18 +937,14 @@ class DefaultController extends \BaseEventTypeController
         echo $result;
     }
 
-    public function convertHtmlSpecialChars($inputStr){
-
-       if(($val = $inputStr) != null){
-            return htmlspecialchars($val);
-        }
-    }
-
     public function actionCreate()
     {
         $this->setCurrentSet();
 
-        $_POST['patientticketing__notes'] = $this->convertHtmlSpecialChars(Yii::app()->request->getPost('patientticketing__notes', null));
+        if(Yii::app()->request->getPost('patientticketing__notes',null) != null) {
+            $_POST['patientticketing__notes'] = htmlspecialchars(Yii::app()->request->getPost('patientticketing__notes',
+                null));
+        }
 
         parent::actionCreate();
     }
