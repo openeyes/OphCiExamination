@@ -249,7 +249,6 @@ $criteria = new CDbCriteria();
 			<div class="large-2 column" id="pcr-risk-div">
 				<label>
 					PCR Risk <span class="pcr-span"> 6.1 </span> %
-					<span class="pcr-risk-info-icon" id="pcr-risk-info" title="Calculation data derived from Narendran et al. The Cataract National Dataset electronic multicentre audit of 55,567 operations: risk stratification for posterior capsule rupture and vitreous loss. Eye (Lond). 2009 Jan;23(1):31-7."><img src="<?php echo $this->assetPath ?>/img/icon_info.png" style="height:20px" /></span>
 				</label>
 			</div>
 			<div class="large-3 column">
@@ -262,6 +261,15 @@ $criteria = new CDbCriteria();
 							<span> 3  </span></strong> </span> times
 				</label>
 			</div>
+		</div>
+		<div class="large-12 column pcr-risk-data-link">
+			<label>
+				Calculation data derived from
+				<a href="http://www.researchgate.net/publication/5525424_The_Cataract_National_Dataset_electronic_multicentre_audit_of_55_567_operations_Risk_stratification_for_posterior_capsule_rupture_and_vitreous_loss" target="_blank">
+					Narendran et al. The Cataract National Dataset electronic multicentre audit of 55,567 operations
+				</a>
+
+			</label>
 		</div>
 	</div>
 	<?php endif;?>
