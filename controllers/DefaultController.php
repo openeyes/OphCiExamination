@@ -940,7 +940,6 @@ class DefaultController extends \BaseEventTypeController
     public function actionCreate()
     {
         $this->setCurrentSet();
-
         if(Yii::app()->request->getPost('patientticketing__notes',null) != null) {
             $_POST['patientticketing__notes'] = htmlspecialchars(Yii::app()->request->getPost('patientticketing__notes',
                 null));
