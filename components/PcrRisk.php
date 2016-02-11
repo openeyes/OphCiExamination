@@ -256,31 +256,34 @@ class PcrRisk
      */
     public function getAxialLength($patientId, $side)
     {
-        if (Yii::app()->db->schema->getTable('et_ophinbiometry_lenstype', true) === null) {
+        if (Yii::app()->db->schema->getTable('et_ophinbiometry_measurement', true) === null) {
             $axial_length_group = 'N';
         } else {
-            $lenstype = Yii::app()->db->createCommand()
-                ->select('as.*')
+            $axial_length_group = 'N';
+            $biometry_measurement = Yii::app()->db->createCommand()
+                ->select('om.*')
                 ->from('episode as ep')
                 ->join('event as e', 'e.episode_id = ep.id')
-                ->join('et_ophinbiometry_lenstype as', 'as.event_id = e.id')
+                ->join('et_ophinbiometry_measurement as om', 'om.event_id = e.id')
                 ->where('ep.patient_id=:pid and e.deleted=:del', array(':pid' => $patientId, ':del' => 0))
-                ->order('as.last_modified_date DESC')
+                ->order('om.last_modified_date DESC')
                 ->limit(1)
                 ->queryRow();
 
             $axial_length = 0;
 
-            if ($side == 'right') {
-                $axial_length = $lenstype['axial_length_right'];
-            } elseif ($side == 'left') {
-                $axial_length = $lenstype['axial_length_left'];
+            if (($side == 'right') && ($biometry_measurement['eye_id'] == 2 || $biometry_measurement['eye_id'] == 3)) {
+                $axial_length = $biometry_measurement['axial_length_right'];
+            } elseif (($side == 'left') && ($biometry_measurement['eye_id'] == 1|| $biometry_measurement['eye_id'] == 3)) {
+                $axial_length = $biometry_measurement['axial_length_left'];
             }
 
-            if ($axial_length >= 26) {
-                $axial_length_group = 2;
-            } else {
-                $axial_length_group = 1;
+            if($axial_length >0) {
+                if ($axial_length >= 26) {
+                    $axial_length_group = 2;
+                } else {
+                    $axial_length_group = 1;
+                }
             }
         }
 
